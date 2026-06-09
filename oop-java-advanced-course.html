@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Mastery — Java Engineering Course</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#09090f;--surface:#0e0e1a;--card:#13131f;--border:#1e1e30;--border2:#252538;
+  --text:#e8e8f0;--muted:#7070a0;--dim:#3a3a5c;
+  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.12);--amber-border:rgba(245,166,35,0.25);
+  --teal:#2dd4bf;--teal-dim:rgba(45,212,191,0.1);--teal-border:rgba(45,212,191,0.2);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.1);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
+  --green:#4ade80;--green-dim:rgba(74,222,128,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+header{border-bottom:1px solid var(--border);padding:0 48px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;background:rgba(9,9,15,0.92);backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--text)}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--amber),#ff6b35);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#000}
+.header-right{display:flex;align-items:center;gap:24px}
+.progress-pill{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-weight:600}
+.progress-track{width:120px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--teal));border-radius:2px;transition:width .5s ease;width:0%}
+.badge-level{font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:4px;background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-border);text-transform:uppercase}
+.shell{display:flex;min-height:calc(100vh - 58px)}
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--border);padding:28px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sidebar-section-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:0 20px;margin-bottom:8px;margin-top:20px}
+.sidebar-section-label:first-child{margin-top:0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);transition:all .15s;border:none;background:none;width:100%;text-align:left;position:relative}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--amber);background:var(--amber-dim);border-right:2px solid var(--amber)}
+.nav-item.done{color:var(--teal)}
+.nav-item.done::after{content:'✓';font-size:11px;margin-left:auto;color:var(--teal)}
+.nav-num{width:20px;height:20px;border-radius:4px;background:var(--border2);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--dim);flex-shrink:0}
+.nav-item.active .nav-num{background:var(--amber);color:#000}
+.nav-item.done .nav-num{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-border)}
+.nav-tag{margin-left:auto;font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em}
+.nav-tag.adv{background:rgba(248,113,113,0.12);color:var(--red)}
+.main{flex:1;min-width:0;padding:48px 60px 80px}
+.lesson{display:none}
+.lesson.active{display:block;animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.eyebrow-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.eyebrow-sep{color:var(--dim);font-size:12px}
+.eyebrow-topic{font-size:11px;color:var(--muted);letter-spacing:.05em}
+.lesson h2{font-family:'Instrument Serif',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15;margin-bottom:16px;letter-spacing:-.01em}
+.lesson-lead{font-size:1rem;color:var(--muted);max-width:640px;margin-bottom:40px;line-height:1.75;border-left:2px solid var(--border2);padding-left:16px}
+.prose{max-width:780px}
+.prose p{font-size:.95rem;color:#c0c0d8;line-height:1.8;margin-bottom:18px}
+.prose h3{font-family:'Instrument Serif',serif;font-size:1.35rem;font-weight:400;margin:36px 0 14px;color:var(--text)}
+.prose ul,.prose ol{padding-left:22px;margin-bottom:18px}
+.prose li{font-size:.93rem;color:#b0b0cc;margin-bottom:8px;line-height:1.7}
+.prose strong{color:var(--text);font-weight:700}
+.prose code{font-family:'DM Mono',monospace;font-size:.83em;background:var(--border);border:1px solid var(--border2);color:var(--amber);padding:1px 6px;border-radius:4px}
+.code-wrap{margin:24px 0}
+.code-header{display:flex;align-items:center;justify-content:space-between;background:#0d0d18;border:1px solid var(--border);border-bottom:none;padding:10px 18px;border-radius:8px 8px 0 0}
+.code-filename{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.code-filename::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.code-meta{font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+pre{background:#080812;border:1px solid var(--border);border-radius:0 0 8px 8px;padding:22px 24px;overflow-x:auto;font-family:'DM Mono',monospace;font-size:.84rem;line-height:1.9}
+.kw{color:#c084fc}.cl{color:#fbbf24}.fn{color:#34d399}.str{color:#fb923c}.cm{color:#4b5380;font-style:italic}.num{color:#f472b6}.ann{color:#60a5fa}.op{color:#94a3b8}
+.callout{display:flex;gap:14px;padding:18px 20px;border-radius:8px;margin:24px 0;font-size:.92rem;line-height:1.75;max-width:780px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:.93rem;margin-bottom:5px}
+.callout.warn{background:rgba(245,166,35,.07);border:1px solid var(--amber-border)}
+.callout.warn strong{color:var(--amber)}
+.callout.tip{background:var(--teal-dim);border:1px solid var(--teal-border)}
+.callout.tip strong{color:var(--teal)}
+.callout.danger{background:var(--red-dim);border:1px solid rgba(248,113,113,.2)}
+.callout.danger strong{color:var(--red)}
+.callout.info{background:var(--blue-dim);border:1px solid rgba(96,165,250,.2)}
+.callout.info strong{color:var(--blue)}
+.callout.pattern{background:var(--purple-dim);border:1px solid rgba(167,139,250,.2)}
+.callout.pattern strong{color:var(--purple)}
+.callout p{color:#a0a0c0;margin:0}
+.callout p+p{margin-top:8px}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:24px 0}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px;transition:border-color .2s}
+.concept-card:hover{border-color:var(--border2)}
+.concept-card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.concept-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.concept-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.table-wrap{overflow-x:auto;margin:20px 0;max-width:780px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border2);background:var(--surface)}
+td{padding:11px 16px;border-bottom:1px solid var(--border);color:#b0b0cc;vertical-align:top}
+td:first-child{color:var(--text);font-weight:600;font-family:'DM Mono',monospace;font-size:.83rem}
+tr:last-child td{border-bottom:none}
+.quiz-block{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px;margin:36px 0;max-width:780px}
+.quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.quiz-q{font-size:.97rem;font-weight:600;margin-bottom:20px;line-height:1.6}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-opt{background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:12px 16px;cursor:pointer;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:500;color:var(--muted);text-align:left;transition:all .15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--amber);color:var(--text)}
+.quiz-opt.correct{border-color:var(--teal);color:var(--teal);background:var(--teal-dim)}
+.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.quiz-opt:disabled{cursor:default}
+.quiz-feedback{margin-top:16px;padding:12px 16px;border-radius:6px;font-size:.88rem;font-weight:600;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-border)}
+.quiz-feedback.bad{background:var(--red-dim);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+.challenge{background:linear-gradient(135deg,rgba(15,15,28,1),rgba(12,18,28,1));border:1px solid var(--border2);border-radius:10px;padding:28px;margin:32px 0;max-width:780px;position:relative;overflow:hidden}
+.challenge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--teal))}
+.challenge-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.challenge h4{font-size:1rem;font-weight:700;margin-bottom:10px}
+.challenge p{font-size:.9rem;color:#9090b8;line-height:1.75;margin-bottom:10px}
+.challenge ul{padding-left:18px}
+.challenge li{font-size:.88rem;color:#8888b0;margin-bottom:6px;line-height:1.65}
+.challenge code{font-family:'DM Mono',monospace;font-size:.82em;color:var(--teal);background:var(--teal-dim);padding:1px 6px;border-radius:3px}
+.solid-grid{display:flex;flex-direction:column;gap:2px;margin:24px 0;max-width:780px}
+.solid-row{display:flex;gap:0;border:1px solid var(--border);overflow:hidden}
+.solid-row:first-child{border-radius:8px 8px 0 0}
+.solid-row:last-child{border-radius:0 0 8px 8px}
+.solid-letter{width:48px;flex-shrink:0;background:var(--amber-dim);color:var(--amber);font-size:1.5rem;font-weight:800;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--amber-border);font-family:'Instrument Serif',serif}
+.solid-body{padding:14px 18px;flex:1}
+.solid-body h4{font-size:.93rem;font-weight:700;margin-bottom:4px}
+.solid-body p{font-size:.86rem;color:var(--muted);margin:0;line-height:1.6}
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:24px 0}
+.pattern-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;transition:border-color .2s}
+.pattern-card:hover{border-color:var(--purple)}
+.pattern-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
+.pattern-card h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.pattern-card p{font-size:.83rem;color:var(--muted);line-height:1.6}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);max-width:780px}
+.btn{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;padding:11px 22px;border-radius:6px;cursor:pointer;border:none;transition:all .15s;letter-spacing:.03em}
+.btn-next{background:var(--amber);color:#000}
+.btn-next:hover:not(:disabled){background:#f7b93e;transform:translateY(-1px)}
+.btn-prev{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.btn-prev:hover{color:var(--text);border-color:var(--amber)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+@media(max-width:900px){.sidebar{display:none}.main{padding:32px 24px 60px}header{padding:0 20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-mark">J</div>OOP Mastery · Java</div>
+  <div class="header-right">
+    <span class="badge-level">Intermediate → Advanced</span>
+    <div class="progress-pill">
+      <div class="progress-track"><div class="progress-fill" id="pFill"></div></div>
+      <span id="pPct" style="min-width:32px">0%</span>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<nav class="sidebar">
+  <div class="sidebar-section-label">Foundations</div>
+  <button class="nav-item active" onclick="go(0)"><span class="nav-num">1</span>OOP Mental Model</button>
+  <button class="nav-item" onclick="go(1)"><span class="nav-num">2</span>Classes in Depth</button>
+  <button class="nav-item" onclick="go(2)"><span class="nav-num">3</span>Encapsulation</button>
+  <div class="sidebar-section-label">Core Pillars</div>
+  <button class="nav-item" onclick="go(3)"><span class="nav-num">4</span>Inheritance vs Composition</button>
+  <button class="nav-item" onclick="go(4)"><span class="nav-num">5</span>Polymorphism</button>
+  <button class="nav-item" onclick="go(5)"><span class="nav-num">6</span>Abstraction &amp; Interfaces</button>
+  <div class="sidebar-section-label">Advanced</div>
+  <button class="nav-item" onclick="go(6)"><span class="nav-num">7</span>SOLID Principles <span class="nav-tag adv">ADV</span></button>
+  <button class="nav-item" onclick="go(7)"><span class="nav-num">8</span>Design Patterns <span class="nav-tag adv">ADV</span></button>
+  <button class="nav-item" onclick="go(8)"><span class="nav-num">9</span>Generics &amp; Collections <span class="nav-tag adv">ADV</span></button>
+  <button class="nav-item" onclick="go(9)"><span class="nav-num">10</span>Capstone Project <span class="nav-tag adv">ADV</span></button>
+</nav>
+<main class="main">
+
+<!-- LESSON 0 -->
+<div class="lesson active" id="L0">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 1</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Foundations</span></div>
+<h2>The OOP Mental Model</h2>
+<p class="lesson-lead">Before writing code, you need to think like an OOP engineer. This lesson builds the mental framework that everything else plugs into — and corrects the most common beginner misconceptions.</p>
+<div class="prose">
+<p>Most beginners treat OOP as just another syntax. That's the wrong frame. OOP is a <strong>way of modeling reality</strong> in code. The question shifts from "what does my program do?" to "what <em>things</em> exist in my program, and how do they communicate?"</p>
+<h3>The Shift from Procedural Thinking</h3>
+<p>In procedural code, you write functions that operate on external data. In OOP, <strong>data and behavior are bundled into objects</strong>. Objects own their state and expose behaviors — nothing outside can reach in and corrupt their internals.</p>
+</div>
+<div class="table-wrap"><table>
+<tr><th>Procedural</th><th>Object-Oriented</th></tr>
+<tr><td>calculateArea(shape)</td><td>shape.calculateArea()</td></tr>
+<tr><td>Global/shared data passed around</td><td>Objects own their data exclusively</td></tr>
+<tr><td>Logic lives in standalone functions</td><td>Logic lives in methods on responsible classes</td></tr>
+<tr><td>Hard to scale past ~1000 lines</td><td>Scales to millions of lines (Android, Spring, etc.)</td></tr>
+</table></div>
+<div class="callout warn"><span class="callout-icon">⚡</span><div class="callout-body"><strong>Stack vs Heap — Know This Cold</strong><p>Primitives (<code>int</code>, <code>double</code>, <code>boolean</code>) live on the stack — fast, auto-managed, copied on method calls. Objects live on the heap — garbage collected. When you pass an object to a method, Java copies the <em>reference</em>, not the object. This means the method can mutate your object's state. This distinction causes subtle, hard-to-find bugs.</p></div></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">Main.java</span><span class="code-meta">Java 17+</span></div>
+<pre><span class="cm">// Primitives are COPIED into methods — original is unchanged</span>
+<span class="kw">int</span> score <span class="op">=</span> <span class="num">90</span>;
+<span class="fn">doubleIt</span>(score);
+<span class="cl">System</span>.out.<span class="fn">println</span>(score); <span class="cm">// still 90 — the copy was doubled, not this</span>
+
+<span class="cm">// Objects: the REFERENCE is copied — same heap object is mutated</span>
+<span class="kw">int</span>[] arr <span class="op">=</span> {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+<span class="fn">zeroFirst</span>(arr);
+<span class="cl">System</span>.out.<span class="fn">println</span>(arr[<span class="num">0</span>]); <span class="cm">// 0 — same array on the heap was modified</span>
+
+<span class="cm">// null = reference points to nothing. Always guard against it.</span>
+<span class="cl">String</span> s <span class="op">=</span> <span class="kw">null</span>;
+<span class="cm">// s.length(); // NullPointerException at runtime — classic beginner crash</span>
+<span class="kw">if</span> (s <span class="op">!=</span> <span class="kw">null</span>) { <span class="fn">process</span>(s); } <span class="cm">// defensive null-check</span></pre></div>
+
+<div class="concept-grid">
+<div class="concept-card"><div class="concept-card-label" style="color:var(--amber)">Encapsulation</div><h4>Guard your data</h4><p>Private fields, controlled access. No external code can corrupt your object's state.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--teal)">Inheritance</div><h4>Reuse without copy-paste</h4><p>Child classes inherit parent behavior and can extend or override it. Write once, reuse everywhere.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--purple)">Polymorphism</div><h4>One interface, many forms</h4><p>Same method call, different behavior based on actual runtime type. Enables plug-and-play architecture.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--blue)">Abstraction</div><h4>Hide complexity</h4><p>Expose only what callers need. They don't need to understand internals to use your class correctly.</p></div>
+</div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">You pass an <code>int[]</code> array to a method and modify <code>arr[0]</code> inside. Back in the caller, is <code>arr[0]</code> changed?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,true)">Yes — arrays are objects; you passed a reference to the same heap memory</button>
+<button class="quiz-opt" onclick="Q(this,false)">No — Java always copies everything passed to a method</button>
+<button class="quiz-opt" onclick="Q(this,false)">Only if the array is declared static</button>
+</div><div class="quiz-feedback" id="qf0"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" disabled>← Previous</button><button class="btn btn-next" onclick="go(1)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 1 -->
+<div class="lesson" id="L1">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 2</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Foundations</span></div>
+<h2>Classes in Depth</h2>
+<p class="lesson-lead">You know what a class is. Now let's understand constructors, <code>this</code>, static vs instance members, method overloading, <code>equals()</code>/<code>hashCode()</code>, and how to design a class responsibly.</p>
+<div class="prose"><p>A class should represent exactly one concept. Fields store state. Methods define behavior. The constructor establishes a <strong>valid initial state</strong> — the object should be consistent from the moment <code>new</code> returns.</p><h3>Constructor Chaining · static members · this</h3></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">BankAccount.java</span><span class="code-meta">Constructor Chaining · static · equals · hashCode</span></div>
+<pre><span class="kw">public class</span> <span class="cl">BankAccount</span> {
+
+    <span class="cm">// static: shared across ALL instances — counts total created</span>
+    <span class="kw">private static int</span> totalAccounts <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">private static final double</span> INTEREST_RATE <span class="op">=</span> <span class="num">0.035</span>;
+
+    <span class="kw">private final</span> <span class="cl">String</span> accountId;   <span class="cm">// final = set once, never changed</span>
+    <span class="kw">private</span> <span class="cl">String</span> ownerName;
+    <span class="kw">private double</span> balance;
+
+    <span class="cm">// Constructor 1 delegates to Constructor 2 via this(...)</span>
+    <span class="kw">public</span> <span class="fn">BankAccount</span>(<span class="cl">String</span> ownerName) {
+        <span class="kw">this</span>(ownerName, <span class="num">0.0</span>); <span class="cm">// must be FIRST statement</span>
+    }
+
+    <span class="cm">// Constructor 2: all initialization funnels here</span>
+    <span class="kw">public</span> <span class="fn">BankAccount</span>(<span class="cl">String</span> ownerName, <span class="kw">double</span> initialBalance) {
+        <span class="kw">if</span> (initialBalance <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Balance cannot be negative"</span>);
+        <span class="kw">this</span>.ownerName <span class="op">=</span> ownerName;
+        <span class="kw">this</span>.balance   <span class="op">=</span> initialBalance;
+        totalAccounts<span class="op">++</span>;
+        <span class="kw">this</span>.accountId <span class="op">=</span> <span class="str">"ACC-"</span> <span class="op">+</span> totalAccounts;
+    }
+
+    <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&lt;=</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Deposit must be positive"</span>);
+        balance <span class="op">+=</span> amount;
+    }
+
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&gt;</span> balance) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Insufficient funds"</span>);
+        balance <span class="op">-=</span> amount;
+    }
+
+    <span class="kw">public void</span> <span class="fn">applyInterest</span>() { balance <span class="op">+=</span> balance <span class="op">*</span> INTEREST_RATE; }
+
+    <span class="cm">// Static method: no 'this', can't touch instance fields</span>
+    <span class="kw">public static int</span> <span class="fn">getTotalAccounts</span>() { <span class="kw">return</span> totalAccounts; }
+
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getAccountId</span>() { <span class="kw">return</span> accountId; }
+    <span class="kw">public double</span> <span class="fn">getBalance</span>()    { <span class="kw">return</span> balance;   }
+
+    <span class="cm">// equals + hashCode: mandatory pair — required for use in Sets/Maps</span>
+    <span class="ann">@Override</span>
+    <span class="kw">public boolean</span> <span class="fn">equals</span>(<span class="cl">Object</span> o) {
+        <span class="kw">if</span> (<span class="kw">this</span> <span class="op">==</span> o) <span class="kw">return true</span>;
+        <span class="kw">if</span> (!(o <span class="kw">instanceof</span> <span class="cl">BankAccount</span> other)) <span class="kw">return false</span>; <span class="cm">// Java 16 pattern</span>
+        <span class="kw">return</span> accountId.<span class="fn">equals</span>(other.accountId);
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public int</span> <span class="fn">hashCode</span>() { <span class="kw">return</span> <span class="cl">Objects</span>.<span class="fn">hash</span>(accountId); }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cl">String</span>.<span class="fn">format</span>(<span class="str">"[%s] %s — $%.2f"</span>, accountId, ownerName, balance);
+    }
+}</pre></div>
+
+<div class="callout warn"><span class="callout-icon">⚡</span><div class="callout-body"><strong>The equals/hashCode Contract</strong><p>If you override <code>equals()</code>, you MUST also override <code>hashCode()</code>. Objects that are <code>equals()</code> must produce the same hashCode. Violating this silently breaks <code>HashSet</code> and <code>HashMap</code> — two objects that should be "equal" get stored as separate entries. The bug is extremely hard to find at runtime.</p></div></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Design a <code>Product</code> Class for an E-Commerce System</h4>
+<p>Your class must: auto-increment <code>id</code> (final), validate price > 0 and stock ≥ 0 in constructor, implement <code>purchase(int qty)</code> that throws <code>IllegalStateException</code> on insufficient stock, <code>applyDiscount(double pct)</code> that validates 0–100, and override <code>toString()</code>, <code>equals()</code>, <code>hashCode()</code>. Add a static <code>getTotalProducts()</code>. Write a <code>main</code> that creates products and stores them in a <code>HashSet</code> — verifying that two products with the same ID count as one entry.</div></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">A static method inside a class can directly access instance fields of that class. True or false?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">True — static methods can see everything in the class</button>
+<button class="quiz-opt" onclick="Q(this,true)">False — static methods have no <code>this</code> reference; they cannot access instance state directly</button>
+<button class="quiz-opt" onclick="Q(this,false)">True, but only if the instance field is also public</button>
+</div><div class="quiz-feedback" id="qf1"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(0)">← Previous</button><button class="btn btn-next" onclick="go(2)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 2 -->
+<div class="lesson" id="L2">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 3</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Foundations</span></div>
+<h2>Encapsulation Done Right</h2>
+<p class="lesson-lead">Encapsulation isn't just "make fields private." It's designing a class so that it is <em>impossible</em> to put it into an invalid state. Blind getters and setters defeat the purpose entirely.</p>
+<div class="prose"><p>If you add a <code>setBalance(double b)</code> method with no validation, anyone can write <code>account.setBalance(-999999)</code>. You've made the field private but given away full control. That's worse than public.</p><p>The rule: an object should be the <strong>sole guardian of its own consistency</strong>. All state transitions happen through methods that enforce business rules. Outside code tells the object <em>what to do</em>, not <em>how to update its fields</em>.</p></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">PlayerCharacter.java</span><span class="code-meta">Defensive Encapsulation · private levelUp()</span></div>
+<pre><span class="kw">public class</span> <span class="cl">PlayerCharacter</span> {
+    <span class="kw">private</span> <span class="cl">String</span> name;
+    <span class="kw">private int</span> health, maxHealth, level, xp;
+    <span class="kw">private static final int</span> XP_PER_LEVEL <span class="op">=</span> <span class="num">100</span>;
+
+    <span class="kw">public</span> <span class="fn">PlayerCharacter</span>(<span class="cl">String</span> name) {
+        <span class="kw">this</span>.name = name; <span class="kw">this</span>.maxHealth <span class="op">=</span> <span class="num">100</span>;
+        <span class="kw">this</span>.health <span class="op">=</span> maxHealth; <span class="kw">this</span>.level <span class="op">=</span> <span class="num">1</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">takeDamage</span>(<span class="kw">int</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Damage can't be negative"</span>);
+        health <span class="op">=</span> <span class="cl">Math</span>.<span class="fn">max</span>(<span class="num">0</span>, health <span class="op">-</span> amount); <span class="cm">// can't go below 0</span>
+        <span class="kw">if</span> (<span class="fn">isDead</span>()) <span class="cl">System</span>.out.<span class="fn">println</span>(name <span class="op">+</span> <span class="str">" has been defeated!"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">heal</span>(<span class="kw">int</span> amount) {
+        <span class="kw">if</span> (<span class="fn">isDead</span>()) <span class="kw">return</span>; <span class="cm">// dead characters can't heal</span>
+        health <span class="op">=</span> <span class="cl">Math</span>.<span class="fn">min</span>(maxHealth, health <span class="op">+</span> amount); <span class="cm">// can't exceed max</span>
+    }
+
+    <span class="kw">public void</span> <span class="fn">gainXP</span>(<span class="kw">int</span> amount) {
+        xp <span class="op">+=</span> amount;
+        <span class="kw">while</span> (xp <span class="op">&gt;=</span> XP_PER_LEVEL) { xp <span class="op">-=</span> XP_PER_LEVEL; <span class="fn">levelUp</span>(); }
+    }
+
+    <span class="kw">private void</span> <span class="fn">levelUp</span>() { <span class="cm">// PRIVATE — callers don't control this directly</span>
+        level<span class="op">++</span>; maxHealth <span class="op">+=</span> <span class="num">20</span>; health <span class="op">=</span> maxHealth;
+        <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s reached level %d! Max HP: %d%n"</span>, name, level, maxHealth);
+    }
+
+    <span class="kw">public boolean</span> <span class="fn">isDead</span>()    { <span class="kw">return</span> health <span class="op">==</span> <span class="num">0</span>; }
+    <span class="kw">public int</span>     <span class="fn">getHealth</span>() { <span class="kw">return</span> health;    }
+    <span class="kw">public int</span>     <span class="fn">getLevel</span>()  { <span class="kw">return</span> level;     }
+}</pre></div>
+
+<div class="callout danger"><span class="callout-icon">🚫</span><div class="callout-body"><strong>The Anemic Domain Model Anti-Pattern</strong><p>Classes that only have data (getters/setters) with no real behavior are called Anemic Domain Models. All logic ends up in external "service" classes that manipulate them. This is procedural code disguised as OOP. If your class looks like a struct, redesign it so the class itself owns its business logic.</p></div></div>
+
+<div class="prose"><h3>Defensive Copying</h3><p>Even with private fields, you can leak mutable references. If a class stores a <code>List&lt;String&gt;</code> and its getter returns it directly, callers can call <code>.clear()</code> on that list — silently corrupting your object's state from the outside.</p></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">Inventory.java</span><span class="code-meta">Defensive Copy Pattern</span></div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cl">Inventory</span> {
+    <span class="kw">private final</span> <span class="cl">List</span>&lt;<span class="cl">String</span>&gt; items;
+
+    <span class="kw">public</span> <span class="fn">Inventory</span>(<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; initial) {
+        <span class="kw">this</span>.items <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;(initial); <span class="cm">// defensive copy on the way IN</span>
+    }
+
+    <span class="kw">public void</span> <span class="fn">addItem</span>(<span class="cl">String</span> item) { items.<span class="fn">add</span>(item); }
+
+    <span class="cm">// ❌ BAD: leaks internal reference — caller can items.clear()</span>
+    <span class="kw">public</span> <span class="cl">List</span>&lt;<span class="cl">String</span>&gt; <span class="fn">getItemsBAD</span>() { <span class="kw">return</span> items; }
+
+    <span class="cm">// ✅ GOOD: return an unmodifiable view</span>
+    <span class="kw">public</span> <span class="cl">List</span>&lt;<span class="cl">String</span>&gt; <span class="fn">getItems</span>() { <span class="kw">return</span> <span class="cl">Collections</span>.<span class="fn">unmodifiableList</span>(items); }
+}</pre></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Build an Immutable <code>Money</code> Class</h4>
+<p>All fields <code>final</code>. No setters. <code>add(Money other)</code> returns a new Money (same currency required; throw on mismatch). <code>multiply(double factor)</code> returns a new Money. <code>subtract(Money other)</code> throws if result would be negative. Override <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>. This mirrors how Java's <code>BigDecimal</code> and <code>String</code> work — complete immutability.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">Your class has a private <code>List&lt;String&gt; tags</code>. Your getter returns <code>tags</code> directly. A caller does <code>obj.getTags().clear()</code>. What happens?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">Nothing — the field is private so it's protected</button>
+<button class="quiz-opt" onclick="Q(this,true)">The internal list is cleared — encapsulation is broken</button>
+<button class="quiz-opt" onclick="Q(this,false)">A copy of the list is cleared; the original is safe</button>
+</div><div class="quiz-feedback" id="qf2"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(1)">← Previous</button><button class="btn btn-next" onclick="go(3)">Next Lesson →</button></div>
+</div>
+
+
+<!-- LESSON 3 -->
+<div class="lesson" id="L3">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 4</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Core Pillars</span></div>
+<h2>Inheritance vs Composition</h2>
+<p class="lesson-lead">Inheritance is powerful and overused. You need to know not just how it works, but <em>when to reach for it</em> — and when composition is the better tool. This distinction separates junior from senior engineers.</p>
+<div class="prose"><h3>The is-a vs has-a Rule</h3>
+<p>Use inheritance only when the relationship is genuinely <strong>is-a</strong>: a <code>SavingsAccount</code> IS a <code>BankAccount</code>. Use composition for <strong>has-a</strong>: a <code>Car</code> HAS an <code>Engine</code> — don't make <code>Car extends Engine</code>. The principle: <strong>"Favor composition over inheritance."</strong> Inheritance creates tight coupling — if the parent changes, children can silently break.</p></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">accounts/</span><span class="code-meta">Inheritance · super() · @Override · Behavioral Extension</span></div>
+<pre><span class="kw">public class</span> <span class="cl">BankAccount</span> {
+    <span class="kw">protected</span> <span class="cl">String</span> id;
+    <span class="kw">protected double</span> balance;
+
+    <span class="kw">public</span> <span class="fn">BankAccount</span>(<span class="cl">String</span> id, <span class="kw">double</span> balance) {
+        <span class="kw">this</span>.id <span class="op">=</span> id; <span class="kw">this</span>.balance <span class="op">=</span> balance;
+    }
+
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&gt;</span> balance) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Insufficient funds"</span>);
+        balance <span class="op">-=</span> amount;
+    }
+    <span class="kw">public double</span> <span class="fn">getBalance</span>() { <span class="kw">return</span> balance; }
+}
+
+<span class="cm">// Child adds overdraft capability</span>
+<span class="kw">public class</span> <span class="cl">CheckingAccount</span> <span class="kw">extends</span> <span class="cl">BankAccount</span> {
+    <span class="kw">private double</span> overdraftLimit;
+
+    <span class="kw">public</span> <span class="fn">CheckingAccount</span>(<span class="cl">String</span> id, <span class="kw">double</span> balance, <span class="kw">double</span> overdraftLimit) {
+        <span class="kw">super</span>(id, balance); <span class="cm">// MUST call parent constructor first</span>
+        <span class="kw">this</span>.overdraftLimit <span class="op">=</span> overdraftLimit;
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&gt;</span> balance <span class="op">+</span> overdraftLimit)
+            <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Exceeds overdraft limit"</span>);
+        balance <span class="op">-=</span> amount; <span class="cm">// balance goes negative = into overdraft</span>
+    }
+}
+
+<span class="cm">// Child adds interest + monthly withdrawal cap</span>
+<span class="kw">public class</span> <span class="cl">SavingsAccount</span> <span class="kw">extends</span> <span class="cl">BankAccount</span> {
+    <span class="kw">private double</span> interestRate;
+    <span class="kw">private int</span> withdrawalsThisMonth <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">private static final int</span> MAX_WITHDRAWALS <span class="op">=</span> <span class="num">6</span>;
+
+    <span class="kw">public</span> <span class="fn">SavingsAccount</span>(<span class="cl">String</span> id, <span class="kw">double</span> balance, <span class="kw">double</span> rate) {
+        <span class="kw">super</span>(id, balance); <span class="kw">this</span>.interestRate <span class="op">=</span> rate;
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (withdrawalsThisMonth <span class="op">&gt;=</span> MAX_WITHDRAWALS)
+            <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Monthly withdrawal limit reached"</span>);
+        <span class="kw">super</span>.<span class="fn">withdraw</span>(amount); <span class="cm">// reuse parent's balance check — don't duplicate!</span>
+        withdrawalsThisMonth<span class="op">++</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">applyMonthlyInterest</span>() {
+        balance <span class="op">+=</span> balance <span class="op">*</span> interestRate;
+        withdrawalsThisMonth <span class="op">=</span> <span class="num">0</span>;
+    }
+}</pre></div>
+
+<div class="prose"><h3>Composition: When Not to Inherit</h3><p>A <code>Car</code> isn't a specialized <code>Engine</code>. It HAS an engine, HAS a GPS. Compose — don't inherit. Composition is more flexible: you can swap the composed object at runtime, and there's no tight coupling to internal implementation details.</p></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">Car.java</span><span class="code-meta">Composition over Inheritance</span></div>
+<pre><span class="kw">public class</span> <span class="cl">Engine</span> {
+    <span class="kw">private int</span> hp;
+    <span class="kw">public</span> <span class="fn">Engine</span>(<span class="kw">int</span> hp) { <span class="kw">this</span>.hp <span class="op">=</span> hp; }
+    <span class="kw">public void</span> <span class="fn">start</span>() { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Engine started ("</span> <span class="op">+</span> hp <span class="op">+</span> <span class="str">"hp)"</span>); }
+    <span class="kw">public void</span> <span class="fn">stop</span>()  { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Engine stopped"</span>); }
+}
+
+<span class="kw">public class</span> <span class="cl">GPS</span> {
+    <span class="kw">public void</span> <span class="fn">setDestination</span>(<span class="cl">String</span> dest) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Routing to: "</span> <span class="op">+</span> dest);
+    }
+}
+
+<span class="cm">// Car HAS-A engine and HAS-A GPS — not IS-A Engine</span>
+<span class="kw">public class</span> <span class="cl">Car</span> {
+    <span class="kw">private final</span> <span class="cl">String</span> model;
+    <span class="kw">private final</span> <span class="cl">Engine</span> engine; <span class="cm">// composed</span>
+    <span class="kw">private final</span> <span class="cl">GPS</span> gps;      <span class="cm">// composed</span>
+
+    <span class="kw">public</span> <span class="fn">Car</span>(<span class="cl">String</span> model, <span class="kw">int</span> hp) {
+        <span class="kw">this</span>.model  <span class="op">=</span> model;
+        <span class="kw">this</span>.engine <span class="op">=</span> <span class="kw">new</span> <span class="cl">Engine</span>(hp);
+        <span class="kw">this</span>.gps    <span class="op">=</span> <span class="kw">new</span> <span class="cl">GPS</span>();
+    }
+
+    <span class="kw">public void</span> <span class="fn">start</span>()                        { engine.<span class="fn">start</span>();              }
+    <span class="kw">public void</span> <span class="fn">navigateTo</span>(<span class="cl">String</span> destination) { gps.<span class="fn">setDestination</span>(destination); }
+}</pre></div>
+
+<div class="callout warn"><span class="callout-icon">⚡</span><div class="callout-body"><strong>The Fragile Base Class Problem</strong><p>When you inherit from a class, your subclass is tightly coupled to its internal implementation. If the parent changes a method that your <code>super.method()</code> calls, your behavior can silently break without any compile error. This is the "fragile base class problem" and it's a primary reason experienced engineers prefer composition for everything except true is-a relationships.</p></div></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Refactor: Inheritance → Composition + Strategy</h4><p>You're given a poorly-designed hierarchy: <code>Logger extends FileWriter extends BufferedStream</code>. Refactor it: <code>Logger</code> should have-a <code>OutputStrategy</code> (interface). Implement <code>ConsoleOutputStrategy</code> and <code>FileOutputStrategy</code>. Logger accepts the strategy in its constructor and can have it swapped at runtime. Add a <code>CompositeOutputStrategy</code> that writes to multiple strategies simultaneously. This is the Strategy Pattern — preview of Lesson 8.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">When should you choose inheritance over composition?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">Whenever you want to reuse code from another class</button>
+<button class="quiz-opt" onclick="Q(this,true)">When there's a genuine is-a relationship AND the subclass is truly substitutable for the parent without surprising behavior</button>
+<button class="quiz-opt" onclick="Q(this,false)">Always — inheritance has better performance than composition</button>
+</div><div class="quiz-feedback" id="qf3"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(2)">← Previous</button><button class="btn btn-next" onclick="go(4)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 4 -->
+<div class="lesson" id="L4">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 5</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Core Pillars</span></div>
+<h2>Polymorphism in Practice</h2>
+<p class="lesson-lead">Polymorphism is how you write code that works correctly with types you haven't invented yet. It powers plug-and-play architecture, frameworks, and testable systems.</p>
+<div class="prose"><h3>Dynamic Dispatch — How Java Resolves Method Calls</h3><p>When you call a method through a parent-type reference, Java resolves at <em>runtime</em> which overridden version to call based on the actual object type. This is <strong>dynamic dispatch</strong>, implemented via a virtual method table (vtable). The JVM, not the compiler, decides which method body runs.</p></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">PaymentProcessor.java</span><span class="code-meta">Polymorphism · Dynamic Dispatch · instanceof pattern matching</span></div>
+<pre><span class="kw">public abstract class</span> <span class="cl">PaymentMethod</span> {
+    <span class="kw">protected</span> <span class="cl">String</span> ownerName;
+
+    <span class="kw">public abstract boolean</span> <span class="fn">processPayment</span>(<span class="kw">double</span> amount);
+    <span class="kw">public abstract</span> <span class="cl">String</span>  <span class="fn">getPaymentType</span>();
+
+    <span class="kw">protected void</span> <span class="fn">printReceipt</span>(<span class="kw">double</span> amount, <span class="kw">boolean</span> success) {
+        <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"[%s] %s $%.2f — %s%n"</span>,
+            <span class="fn">getPaymentType</span>(), ownerName, amount, success <span class="op">?</span> <span class="str">"APPROVED"</span> <span class="op">:</span> <span class="str">"DECLINED"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">CreditCard</span> <span class="kw">extends</span> <span class="cl">PaymentMethod</span> {
+    <span class="kw">private double</span> creditLimit, debt;
+    <span class="kw">public</span> <span class="fn">CreditCard</span>(<span class="cl">String</span> owner, <span class="kw">double</span> limit) { ownerName <span class="op">=</span> owner; creditLimit <span class="op">=</span> limit; }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public boolean</span> <span class="fn">processPayment</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (debt <span class="op">+</span> amount <span class="op">&gt;</span> creditLimit) { <span class="fn">printReceipt</span>(amount, <span class="kw">false</span>); <span class="kw">return false</span>; }
+        debt <span class="op">+=</span> amount; <span class="fn">printReceipt</span>(amount, <span class="kw">true</span>); <span class="kw">return true</span>;
+    }
+    <span class="kw">public void</span> <span class="fn">payOffDebt</span>(<span class="kw">double</span> amount) { debt <span class="op">=</span> <span class="cl">Math</span>.<span class="fn">max</span>(<span class="num">0</span>, debt <span class="op">-</span> amount); }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getPaymentType</span>() { <span class="kw">return</span> <span class="str">"CREDIT"</span>; }
+}
+
+<span class="kw">public class</span> <span class="cl">DebitCard</span> <span class="kw">extends</span> <span class="cl">PaymentMethod</span> {
+    <span class="kw">private double</span> balance;
+    <span class="kw">public</span> <span class="fn">DebitCard</span>(<span class="cl">String</span> owner, <span class="kw">double</span> balance) { ownerName <span class="op">=</span> owner; <span class="kw">this</span>.balance <span class="op">=</span> balance; }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public boolean</span> <span class="fn">processPayment</span>(<span class="kw">double</span> amount) {
+        <span class="kw">if</span> (amount <span class="op">&gt;</span> balance) { <span class="fn">printReceipt</span>(amount, <span class="kw">false</span>); <span class="kw">return false</span>; }
+        balance <span class="op">-=</span> amount; <span class="fn">printReceipt</span>(amount, <span class="kw">true</span>); <span class="kw">return true</span>;
+    }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getPaymentType</span>() { <span class="kw">return</span> <span class="str">"DEBIT"</span>; }
+}
+
+<span class="cm">// The processor is completely agnostic about which subtype it receives</span>
+<span class="kw">public class</span> <span class="cl">Checkout</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">PaymentMethod</span>[] methods <span class="op">=</span> {
+            <span class="kw">new</span> <span class="cl">CreditCard</span>(<span class="str">"Alex"</span>, <span class="num">2000</span>),
+            <span class="kw">new</span> <span class="cl">DebitCard</span>(<span class="str">"Sam"</span>, <span class="num">150</span>)
+        };
+
+        <span class="kw">for</span> (<span class="cl">PaymentMethod</span> m : methods) {
+            m.<span class="fn">processPayment</span>(<span class="num">200</span>); <span class="cm">// dynamic dispatch — right version runs</span>
+
+            <span class="cm">// Pattern matching instanceof (Java 16+): access subtype-specific methods</span>
+            <span class="kw">if</span> (m <span class="kw">instanceof</span> <span class="cl">CreditCard</span> cc) {
+                cc.<span class="fn">payOffDebt</span>(<span class="num">50</span>); <span class="cm">// cc is already cast — no explicit cast needed</span>
+            }
+        }
+    }
+}</pre></div>
+
+<div class="callout tip"><span class="callout-icon">💡</span><div class="callout-body"><strong>Adding PayPal requires zero changes to Checkout</strong><p>Create <code>class PayPal extends PaymentMethod</code>. Pass it into the array. It works immediately. This is the Open/Closed Principle — code is open for extension, closed for modification. You'll formalize this in the SOLID lesson.</p></div></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Build a Notification System with Runtime Extensibility</h4><p>Abstract class <code>Notification</code> with abstract method <code>send(String message)</code>. Implement <code>EmailNotification</code>, <code>SMSNotification</code>, <code>PushNotification</code>. <code>NotificationService</code> holds a <code>List&lt;Notification&gt;</code> and <code>broadcast(String msg)</code> sends to all. Then add a new <code>SlackNotification</code> — verifying that <code>NotificationService</code> requires zero changes. Add a <code>sendFiltered(String msg, Predicate&lt;Notification&gt; filter)</code> method using lambdas.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">You have <code>Animal a = new Dog()</code>. Which version of <code>makeSound()</code> is called — and when is that decided?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">Animal's version — resolved at compile time based on declared type</button>
+<button class="quiz-opt" onclick="Q(this,true)">Dog's version — resolved at runtime via dynamic dispatch (vtable lookup)</button>
+<button class="quiz-opt" onclick="Q(this,false)">You need an explicit cast first for the right version to run</button>
+</div><div class="quiz-feedback" id="qf4"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(3)">← Previous</button><button class="btn btn-next" onclick="go(5)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 5 -->
+<div class="lesson" id="L5">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 6</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Core Pillars</span></div>
+<h2>Abstraction: Abstract Classes vs Interfaces</h2>
+<p class="lesson-lead">Both define contracts. Knowing which to use — and when to use them together — is a mark of engineering maturity. The distinction is subtle but architecturally critical.</p>
+<div class="table-wrap"><table>
+<tr><th></th><th>Abstract Class</th><th>Interface</th></tr>
+<tr><td>Instance fields</td><td>Yes</td><td>Only static final constants</td></tr>
+<tr><td>Constructor</td><td>Yes</td><td>No</td></tr>
+<tr><td>Concrete methods</td><td>Yes</td><td>Only default/static (Java 8+)</td></tr>
+<tr><td>A class can use how many</td><td>One (extends)</td><td>Many (implements A, B, C)</td></tr>
+<tr><td>Best for</td><td>Shared state + behavior + partial implementation</td><td>Capability contracts (can-do)</td></tr>
+</table></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">media/</span><span class="code-meta">Abstract Class + Multiple Interfaces + Template Method Pattern</span></div>
+<pre><span class="cm">// Interfaces — define capabilities</span>
+<span class="kw">public interface</span> <span class="cl">Playable</span>     { <span class="kw">void</span> <span class="fn">play</span>(); <span class="kw">void</span> <span class="fn">pause</span>(); <span class="kw">void</span> <span class="fn">stop</span>(); }
+<span class="kw">public interface</span> <span class="cl">Downloadable</span> { <span class="kw">void</span> <span class="fn">download</span>(<span class="cl">String</span> path); <span class="kw">long</span> <span class="fn">getSizeBytes</span>(); }
+
+<span class="kw">public interface</span> <span class="cl">Shareable</span> {
+    <span class="cl">String</span> <span class="fn">getContentId</span>();
+    <span class="cm">// Default method: interfaces CAN have implementations since Java 8</span>
+    <span class="kw">default</span> <span class="cl">String</span> <span class="fn">generateShareLink</span>() {
+        <span class="kw">return</span> <span class="str">"https://share.app/"</span> <span class="op">+</span> <span class="fn">getContentId</span>();
+    }
+}
+
+<span class="cm">// Abstract class: shared state + Template Method Pattern</span>
+<span class="kw">public abstract class</span> <span class="cl">MediaContent</span> <span class="kw">implements</span> <span class="cl">Playable</span>, <span class="cl">Shareable</span> {
+    <span class="kw">protected final</span> <span class="cl">String</span> id, title, author;
+    <span class="kw">protected boolean</span> isPlaying <span class="op">=</span> <span class="kw">false</span>;
+
+    <span class="kw">public</span> <span class="fn">MediaContent</span>(<span class="cl">String</span> id, <span class="cl">String</span> title, <span class="cl">String</span> author) {
+        <span class="kw">this</span>.id <span class="op">=</span> id; <span class="kw">this</span>.title <span class="op">=</span> title; <span class="kw">this</span>.author <span class="op">=</span> author;
+    }
+
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getContentId</span>() { <span class="kw">return</span> id; }
+
+    <span class="cm">// Template Method: defines the SKELETON — subclasses fill in onPlay()</span>
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> <span class="fn">play</span>() {
+        <span class="kw">if</span> (!isPlaying) { isPlaying <span class="op">=</span> <span class="kw">true</span>; <span class="fn">onPlay</span>(); } <span class="cm">// hook</span>
+    }
+
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">stop</span>()  { isPlaying <span class="op">=</span> <span class="kw">false</span>; <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"⏹ Stopped"</span>); }
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">pause</span>() { isPlaying <span class="op">=</span> <span class="kw">false</span>; <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"⏸ Paused"</span>);  }
+
+    <span class="kw">protected abstract void</span> <span class="fn">onPlay</span>();           <span class="cm">// subclasses define this</span>
+    <span class="kw">public abstract int</span>     <span class="fn">getDurationSeconds</span>();
+}
+
+<span class="kw">public class</span> <span class="cl">Video</span> <span class="kw">extends</span> <span class="cl">MediaContent</span> <span class="kw">implements</span> <span class="cl">Downloadable</span> {
+    <span class="kw">private int</span> durationSec, resolutionP;
+
+    <span class="kw">public</span> <span class="fn">Video</span>(<span class="cl">String</span> id, <span class="cl">String</span> title, <span class="cl">String</span> author, <span class="kw">int</span> dur, <span class="kw">int</span> res) {
+        <span class="kw">super</span>(id, title, author); durationSec <span class="op">=</span> dur; resolutionP <span class="op">=</span> res;
+    }
+
+    <span class="ann">@Override</span> <span class="kw">protected void</span> <span class="fn">onPlay</span>() {
+        <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"▶ Playing '%s' in %dp%n"</span>, title, resolutionP);
+    }
+    <span class="ann">@Override</span> <span class="kw">public int</span>  <span class="fn">getDurationSeconds</span>()   { <span class="kw">return</span> durationSec; }
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">download</span>(<span class="cl">String</span> path)  { <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Downloading to "</span> <span class="op">+</span> path); }
+    <span class="ann">@Override</span> <span class="kw">public long</span> <span class="fn">getSizeBytes</span>()          { <span class="kw">return</span> (<span class="kw">long</span>) durationSec <span class="op">*</span> resolutionP <span class="op">*</span> <span class="num">1000</span>; }
+}</pre></div>
+
+<div class="callout pattern"><span class="callout-icon">🧩</span><div class="callout-body"><strong>Template Method Pattern — Built into the Abstraction</strong><p><code>play()</code> defines the algorithm skeleton and delegates to the abstract hook <code>onPlay()</code>. Subclasses implement the hook without changing the overall flow or the bookkeeping logic. This is the Template Method design pattern — you'll find it in <code>HttpServlet.doGet()</code>, <code>JUnit</code> test lifecycle, and most major Java frameworks.</p></div></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Design a Swappable Database Connector</h4><p>Interface <code>DatabaseConnection</code>: <code>connect()</code>, <code>disconnect()</code>, <code>executeQuery(String sql)</code>, <code>isConnected()</code>. Abstract class <code>AbstractDatabaseConnection</code> implements shared logic (connection state tracking, query logging, timing). Concrete classes <code>MySQLConnection</code> and <code>PostgreSQLConnection</code>. A <code>DataService</code> depends only on <code>DatabaseConnection</code> — never a concrete class. Switch implementations without touching DataService.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">An interface can contain concrete method bodies using which keyword (Java 8+)?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">concrete</button>
+<button class="quiz-opt" onclick="Q(this,true)">default</button>
+<button class="quiz-opt" onclick="Q(this,false)">override</button>
+<button class="quiz-opt" onclick="Q(this,false)">shared</button>
+</div><div class="quiz-feedback" id="qf5"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(4)">← Previous</button><button class="btn btn-next" onclick="go(6)">Next Lesson →</button></div>
+</div>
+
+
+<!-- LESSON 6 -->
+<div class="lesson" id="L6">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 7</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Advanced</span></div>
+<h2>SOLID Principles</h2>
+<p class="lesson-lead">SOLID is five design principles that make OOP code maintainable, testable, and scalable. Each principle fixes a specific way class design goes wrong in real codebases.</p>
+
+<div class="solid-grid">
+<div class="solid-row"><div class="solid-letter">S</div><div class="solid-body"><h4>Single Responsibility Principle</h4><p>A class should have one — and only one — reason to change. If a class handles data persistence AND business logic, a database schema change forces edits to your business logic file. Split them.</p></div></div>
+<div class="solid-row"><div class="solid-letter">O</div><div class="solid-body"><h4>Open/Closed Principle</h4><p>Open for extension, closed for modification. Add new behaviors by writing new classes, not by editing existing ones. The payment processor in Lesson 5 is a perfect example: add PayPal by extending, not modifying.</p></div></div>
+<div class="solid-row"><div class="solid-letter">L</div><div class="solid-body"><h4>Liskov Substitution Principle</h4><p>A subclass must be fully substitutable for its parent without breaking the program. If code expects a <code>BankAccount</code> and receives a <code>SavingsAccount</code>, everything must work correctly — no surprises, no thrown exceptions that the parent wouldn't throw.</p></div></div>
+<div class="solid-row"><div class="solid-letter">I</div><div class="solid-body"><h4>Interface Segregation Principle</h4><p>Don't force classes to implement methods they don't need. A fat interface with 20 methods forces every implementer to stub out methods they don't use. Split it into small, focused interfaces.</p></div></div>
+<div class="solid-row"><div class="solid-letter">D</div><div class="solid-body"><h4>Dependency Inversion Principle</h4><p>High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces). Your business logic should depend on an <code>OrderRepository</code> interface — not on <code>MySQLDatabase</code> directly.</p></div></div>
+</div>
+
+<div class="code-wrap"><div class="code-header"><span class="code-filename">solid/DependencyInversion.java</span><span class="code-meta">DIP + Constructor Injection + Testability</span></div>
+<pre><span class="cm">// ❌ BAD: high-level class hard-codes a low-level dependency</span>
+<span class="kw">public class</span> <span class="cl">OrderService_BAD</span> {
+    <span class="kw">private</span> <span class="cl">MySQLDatabase</span> db <span class="op">=</span> <span class="kw">new</span> <span class="cl">MySQLDatabase</span>(); <span class="cm">// impossible to swap</span>
+    <span class="kw">public void</span> <span class="fn">saveOrder</span>(<span class="cl">Order</span> o) { db.<span class="fn">insert</span>(o); }  <span class="cm">// untestable without a real DB</span>
+}
+
+<span class="cm">// ✅ GOOD: depend on an abstraction</span>
+<span class="kw">public interface</span> <span class="cl">OrderRepository</span> {
+    <span class="kw">void</span>   <span class="fn">save</span>(<span class="cl">Order</span> order);
+    <span class="cl">Order</span>  <span class="fn">findById</span>(<span class="kw">int</span> id);
+    <span class="kw">void</span>   <span class="fn">delete</span>(<span class="kw">int</span> id);
+    <span class="cl">List</span>&lt;<span class="cl">Order</span>&gt; <span class="fn">findAll</span>();
+}
+
+<span class="kw">public class</span> <span class="cl">OrderService</span> {
+    <span class="kw">private final</span> <span class="cl">OrderRepository</span> repo; <span class="cm">// interface, not concrete class</span>
+
+    <span class="kw">public</span> <span class="fn">OrderService</span>(<span class="cl">OrderRepository</span> repo) { <span class="cm">// INJECTED, not created here</span>
+        <span class="kw">this</span>.repo <span class="op">=</span> repo;
+    }
+
+    <span class="kw">public void</span> <span class="fn">placeOrder</span>(<span class="cl">Order</span> order) {
+        order.<span class="fn">validate</span>();
+        repo.<span class="fn">save</span>(order);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Order placed: "</span> <span class="op">+</span> order);
+    }
+
+    <span class="kw">public</span> <span class="cl">List</span>&lt;<span class="cl">Order</span>&gt; <span class="fn">getAllOrders</span>() { <span class="kw">return</span> repo.<span class="fn">findAll</span>(); }
+}
+
+<span class="cm">// Production: real MySQL implementation</span>
+<span class="kw">public class</span> <span class="cl">MySQLOrderRepository</span> <span class="kw">implements</span> <span class="cl">OrderRepository</span> {
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">save</span>(<span class="cl">Order</span> o)       { <span class="cm">/* MySQL INSERT */</span> }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">Order</span> <span class="fn">findById</span>(<span class="kw">int</span> id)   { <span class="kw">return null</span>; <span class="cm">/* MySQL SELECT */</span> }
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">delete</span>(<span class="kw">int</span> id)       { <span class="cm">/* MySQL DELETE */</span> }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">List</span>&lt;<span class="cl">Order</span>&gt; <span class="fn">findAll</span>()    { <span class="kw">return new</span> <span class="cl">ArrayList</span>&lt;&gt;(); }
+}
+
+<span class="cm">// Tests: fast in-memory implementation — no DB required</span>
+<span class="kw">public class</span> <span class="cl">InMemoryOrderRepository</span> <span class="kw">implements</span> <span class="cl">OrderRepository</span> {
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">Integer</span>, <span class="cl">Order</span>&gt; store <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">save</span>(<span class="cl">Order</span> o)       { store.<span class="fn">put</span>(o.<span class="fn">getId</span>(), o);  }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">Order</span> <span class="fn">findById</span>(<span class="kw">int</span> id)   { <span class="kw">return</span> store.<span class="fn">get</span>(id);     }
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">delete</span>(<span class="kw">int</span> id)       { store.<span class="fn">remove</span>(id);         }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">List</span>&lt;<span class="cl">Order</span>&gt; <span class="fn">findAll</span>()    { <span class="kw">return new</span> <span class="cl">ArrayList</span>&lt;&gt;(store.<span class="fn">values</span>()); }
+}
+
+<span class="cm">// Wiring — swap implementations with zero changes to OrderService</span>
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cm">// Production:</span>
+        <span class="cl">OrderService</span> prod <span class="op">=</span> <span class="kw">new</span> <span class="cl">OrderService</span>(<span class="kw">new</span> <span class="cl">MySQLOrderRepository</span>());
+        <span class="cm">// Tests:</span>
+        <span class="cl">OrderService</span> test <span class="op">=</span> <span class="kw">new</span> <span class="cl">OrderService</span>(<span class="kw">new</span> <span class="cl">InMemoryOrderRepository</span>());
+    }
+}</pre></div>
+
+<div class="callout tip"><span class="callout-icon">🔑</span><div class="callout-body"><strong>Why DIP Makes Testing Easy</strong><p>In a unit test, inject <code>InMemoryOrderRepository</code> instead of a real database. Tests run in milliseconds with no setup. This is the foundation of testable architecture. Frameworks like Spring do this injection automatically — now you understand what they're actually doing under the hood.</p></div></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Audit and Refactor a God Class</h4>
+<p>Start with a <code>UserManager</code> that: validates user input, hashes passwords, saves to database, sends welcome email, and logs everything. Identify every SOLID violation. Refactor into:</p>
+<ul>
+<li><code>UserValidator</code> — validates inputs</li>
+<li><code>PasswordHasher</code> — hashing logic</li>
+<li><code>UserRepository</code> (interface) + <code>InMemoryUserRepository</code></li>
+<li><code>EmailService</code> (interface) + <code>SmtpEmailService</code></li>
+<li><code>UserService</code> — orchestrates, depends only on interfaces via constructor injection</li>
+</ul>
+<p>After refactoring: add a <code>MockEmailService</code> for tests that records sent emails without sending real ones.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">Which scenario violates the Liskov Substitution Principle?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">SavingsAccount extends BankAccount and adds monthly interest calculation</button>
+<button class="quiz-opt" onclick="Q(this,true)">ReadOnlyFile extends File but throws UnsupportedOperationException in write()</button>
+<button class="quiz-opt" onclick="Q(this,false)">Circle extends Shape and implements calculateArea() using π×r²</button>
+</div><div class="quiz-feedback" id="qf6"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(5)">← Previous</button><button class="btn btn-next" onclick="go(7)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 7 -->
+<div class="lesson" id="L7">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 8</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Advanced</span></div>
+<h2>Design Patterns</h2>
+<p class="lesson-lead">Design patterns are proven, named solutions to recurring problems. Knowing them lets you communicate in one word — "use a Builder," "that's Observer" — and avoid reinventing solutions that have been battle-tested for decades.</p>
+
+<div class="pattern-grid">
+<div class="pattern-card"><div class="pattern-type">Creational</div><h4>Builder</h4><p>Construct complex objects step-by-step with many optional parameters. Fluent API. Private constructor.</p></div>
+<div class="pattern-card"><div class="pattern-type">Creational</div><h4>Factory Method</h4><p>Delegate object creation to subclasses or a factory. Hides instantiation complexity behind an interface.</p></div>
+<div class="pattern-card"><div class="pattern-type">Creational</div><h4>Singleton</h4><p>Ensure only one instance exists globally. Used for config managers, thread pools, loggers. Handle with care.</p></div>
+<div class="pattern-card"><div class="pattern-type">Behavioral</div><h4>Strategy</h4><p>Encapsulate a family of algorithms. Make them interchangeable at runtime without changing the context class.</p></div>
+<div class="pattern-card"><div class="pattern-type">Behavioral</div><h4>Observer</h4><p>One-to-many dependency: when one object changes state, all registered dependents are notified automatically.</p></div>
+<div class="pattern-card"><div class="pattern-type">Structural</div><h4>Decorator</h4><p>Wrap an object to add behavior dynamically. More flexible than subclassing — stack decorators like layers.</p></div>
+</div>
+
+<div class="code-wrap"><div class="code-header"><span class="code-filename">patterns/Builder.java</span><span class="code-meta">Builder Pattern — HTTP Request</span></div>
+<pre><span class="cm">// Problem: constructors with 8+ params are unreadable and error-prone.
+// Builder gives a fluent, validated, immutable construction API.</span>
+<span class="kw">public class</span> <span class="cl">HttpRequest</span> {
+    <span class="kw">private final</span> <span class="cl">String</span>             url;
+    <span class="kw">private final</span> <span class="cl">String</span>             method;
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; headers;
+    <span class="kw">private final</span> <span class="cl">String</span>             body;
+    <span class="kw">private final int</span>                 timeoutMs;
+
+    <span class="kw">private</span> <span class="fn">HttpRequest</span>(<span class="cl">Builder</span> b) { <span class="cm">// private — only Builder can create</span>
+        url <span class="op">=</span> b.url; method <span class="op">=</span> b.method;
+        headers <span class="op">=</span> <span class="cl">Collections</span>.<span class="fn">unmodifiableMap</span>(b.headers);
+        body <span class="op">=</span> b.body; timeoutMs <span class="op">=</span> b.timeoutMs;
+    }
+
+    <span class="kw">public static class</span> <span class="cl">Builder</span> {
+        <span class="kw">private final</span> <span class="cl">String</span>             url;       <span class="cm">// required</span>
+        <span class="kw">private</span> <span class="cl">String</span>                    method    <span class="op">=</span> <span class="str">"GET"</span>;
+        <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; headers   <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+        <span class="kw">private</span> <span class="cl">String</span>                    body      <span class="op">=</span> <span class="kw">null</span>;
+        <span class="kw">private int</span>                        timeoutMs <span class="op">=</span> <span class="num">5000</span>;
+
+        <span class="kw">public</span> <span class="fn">Builder</span>(<span class="cl">String</span> url) { <span class="kw">this</span>.url <span class="op">=</span> url; }
+
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">method</span>(<span class="cl">String</span> m)          { method <span class="op">=</span> m; <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">header</span>(<span class="cl">String</span> k, <span class="cl">String</span> v) { headers.<span class="fn">put</span>(k,v); <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">body</span>(<span class="cl">String</span> b)             { body <span class="op">=</span> b; <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">timeout</span>(<span class="kw">int</span> ms)            { timeoutMs <span class="op">=</span> ms; <span class="kw">return this</span>; }
+
+        <span class="kw">public</span> <span class="cl">HttpRequest</span> <span class="fn">build</span>() {
+            <span class="kw">if</span> (url <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> url.<span class="fn">isBlank</span>()) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"URL required"</span>);
+            <span class="kw">return new</span> <span class="cl">HttpRequest</span>(<span class="kw">this</span>);
+        }
+    }
+}
+
+<span class="cm">// Fluent, readable usage — clearly shows what each argument IS</span>
+<span class="cl">HttpRequest</span> req <span class="op">=</span> <span class="kw">new</span> <span class="cl">HttpRequest</span>.<span class="cl">Builder</span>(<span class="str">"https://api.example.com/orders"</span>)
+    .<span class="fn">method</span>(<span class="str">"POST"</span>)
+    .<span class="fn">header</span>(<span class="str">"Authorization"</span>, <span class="str">"Bearer token123"</span>)
+    .<span class="fn">header</span>(<span class="str">"Content-Type"</span>, <span class="str">"application/json"</span>)
+    .<span class="fn">body</span>(<span class="str">"{\"item\":\"book\",\"qty\":2}"</span>)
+    .<span class="fn">timeout</span>(<span class="num">10_000</span>)
+    .<span class="fn">build</span>();</pre></div>
+
+<div class="code-wrap"><div class="code-header"><span class="code-filename">patterns/Observer.java</span><span class="code-meta">Observer Pattern — Stock Price Alerts</span></div>
+<pre><span class="kw">public interface</span> <span class="cl">StockObserver</span> {
+    <span class="kw">void</span> <span class="fn">onPriceChange</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> oldPrice, <span class="kw">double</span> newPrice);
+}
+
+<span class="kw">public class</span> <span class="cl">Stock</span> {
+    <span class="kw">private final</span> <span class="cl">String</span> ticker;
+    <span class="kw">private double</span> price;
+    <span class="kw">private final</span> <span class="cl">List</span>&lt;<span class="cl">StockObserver</span>&gt; observers <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="fn">Stock</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> price) { <span class="kw">this</span>.ticker <span class="op">=</span> ticker; <span class="kw">this</span>.price <span class="op">=</span> price; }
+
+    <span class="kw">public void</span> <span class="fn">subscribe</span>(<span class="cl">StockObserver</span> o)   { observers.<span class="fn">add</span>(o);    }
+    <span class="kw">public void</span> <span class="fn">unsubscribe</span>(<span class="cl">StockObserver</span> o) { observers.<span class="fn">remove</span>(o); }
+
+    <span class="kw">public void</span> <span class="fn">setPrice</span>(<span class="kw">double</span> newPrice) {
+        <span class="kw">double</span> old <span class="op">=</span> price; price <span class="op">=</span> newPrice;
+        observers.<span class="fn">forEach</span>(o <span class="op">-&gt;</span> o.<span class="fn">onPriceChange</span>(ticker, old, newPrice));
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">AlertSystem</span> <span class="kw">implements</span> <span class="cl">StockObserver</span> {
+    <span class="kw">private final double</span> threshold; <span class="cm">// alert if move >= threshold%</span>
+    <span class="kw">public</span> <span class="fn">AlertSystem</span>(<span class="kw">double</span> threshold) { <span class="kw">this</span>.threshold <span class="op">=</span> threshold; }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> <span class="fn">onPriceChange</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> old, <span class="kw">double</span> now) {
+        <span class="kw">double</span> pct <span class="op">=</span> <span class="cl">Math</span>.<span class="fn">abs</span>((now <span class="op">-</span> old) <span class="op">/</span> old <span class="op">*</span> <span class="num">100</span>);
+        <span class="kw">if</span> (pct <span class="op">&gt;=</span> threshold)
+            <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"🚨 %s moved %.1f%% ($%.2f → $%.2f)%n"</span>, ticker, pct, old, now);
+    }
+}
+
+<span class="cm">// Usage — observers added and removed at runtime</span>
+<span class="cl">Stock</span> aapl <span class="op">=</span> <span class="kw">new</span> <span class="cl">Stock</span>(<span class="str">"AAPL"</span>, <span class="num">180.0</span>);
+<span class="cl">AlertSystem</span> alert <span class="op">=</span> <span class="kw">new</span> <span class="cl">AlertSystem</span>(<span class="num">5.0</span>); <span class="cm">// fire on 5%+ moves</span>
+aapl.<span class="fn">subscribe</span>(alert);
+aapl.<span class="fn">setPrice</span>(<span class="num">195.0</span>); <span class="cm">// 🚨 AAPL moved 8.3% ($180.00 → $195.00)</span></pre></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Plugin Architecture using Factory + Strategy</h4>
+<p>Build an image processing pipeline. Each filter (Grayscale, Blur, Sharpen, Resize, Brightness) is a <code>Strategy</code> (interface <code>ImageFilter</code> with <code>apply(Image img)</code>). A <code>FilterFactory</code> takes a string name and returns the right implementation — throwing <code>IllegalArgumentException</code> for unknown names. An <code>ImageProcessor</code> accepts a <code>List&lt;ImageFilter&gt;</code> and applies them in sequence. Registering a new filter requires zero changes to existing code — demonstrating OCP. Bonus: implement a <code>PipelineBuilder</code> using the Builder pattern to construct filter chains fluently.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">The Builder pattern primarily solves which problem?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">Ensuring only one instance of a class exists</button>
+<button class="quiz-opt" onclick="Q(this,false)">Notifying multiple objects when one object's state changes</button>
+<button class="quiz-opt" onclick="Q(this,true)">Constructing complex objects with many optional parameters — avoiding unreadable telescoping constructors</button>
+<button class="quiz-opt" onclick="Q(this,false)">Wrapping an object dynamically to add behavior without subclassing</button>
+</div><div class="quiz-feedback" id="qf7"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← Previous</button><button class="btn btn-next" onclick="go(8)">Next Lesson →</button></div>
+</div>
+
+
+<!-- LESSON 8 -->
+<div class="lesson" id="L8">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 9</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Advanced</span></div>
+<h2>Generics &amp; Collections</h2>
+<p class="lesson-lead">Generics let you write type-safe classes and methods that work with any type. They're the engine behind <code>ArrayList</code>, <code>HashMap</code>, and every Java collection. Understanding them makes everything in the standard library click.</p>
+<div class="prose"><p>Without generics, you'd store everything in <code>List&lt;Object&gt;</code> and cast on every retrieval — error-prone and ugly. Generics give the compiler full type information: <em>"this list holds only Strings"</em> — so bugs surface at compile time, not runtime.</p><h3>Generic Classes with Bounded Type Parameters</h3></div>
+<div class="code-wrap"><div class="code-header"><span class="code-filename">generics/Repository.java</span><span class="code-meta">Generic Classes · &lt;T extends Interface&gt; · Type Safety</span></div>
+<pre><span class="cm">// Everything stored in the repository must have an ID</span>
+<span class="kw">public interface</span> <span class="cl">Identifiable</span> {
+    <span class="kw">int</span> <span class="fn">getId</span>();
+}
+
+<span class="cm">// T extends Identifiable — we can call getId() inside the class</span>
+<span class="kw">public class</span> <span class="cl">GenericRepository</span>&lt;T <span class="kw">extends</span> <span class="cl">Identifiable</span>&gt; {
+
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">Integer</span>, T&gt; store <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+
+    <span class="kw">public void</span>     <span class="fn">save</span>(T entity)  { store.<span class="fn">put</span>(entity.<span class="fn">getId</span>(), entity); }
+    <span class="kw">public</span> T        <span class="fn">findById</span>(<span class="kw">int</span> id) {
+        T result <span class="op">=</span> store.<span class="fn">get</span>(id);
+        <span class="kw">if</span> (result <span class="op">==</span> <span class="kw">null</span>) <span class="kw">throw new</span> <span class="cl">NoSuchElementException</span>(<span class="str">"Not found: "</span> <span class="op">+</span> id);
+        <span class="kw">return</span> result;
+    }
+    <span class="kw">public</span> <span class="cl">List</span>&lt;T&gt;  <span class="fn">findAll</span>()       { <span class="kw">return new</span> <span class="cl">ArrayList</span>&lt;&gt;(store.<span class="fn">values</span>()); }
+    <span class="kw">public void</span>     <span class="fn">delete</span>(<span class="kw">int</span> id)  { store.<span class="fn">remove</span>(id);  }
+    <span class="kw">public int</span>      <span class="fn">count</span>()         { <span class="kw">return</span> store.<span class="fn">size</span>(); }
+
+    <span class="cm">// Generic method — finds first entity matching a predicate</span>
+    <span class="kw">public</span> <span class="cl">Optional</span>&lt;T&gt; <span class="fn">findFirst</span>(<span class="cl">Predicate</span>&lt;T&gt; predicate) {
+        <span class="kw">return</span> store.<span class="fn">values</span>().<span class="fn">stream</span>().<span class="fn">filter</span>(predicate).<span class="fn">findFirst</span>();
+    }
+}
+
+<span class="cm">// Fully type-safe for any Identifiable — no casts, no Object[]</span>
+<span class="cl">GenericRepository</span>&lt;<span class="cl">User</span>&gt;    users    <span class="op">=</span> <span class="kw">new</span> <span class="cl">GenericRepository</span>&lt;&gt;();
+<span class="cl">GenericRepository</span>&lt;<span class="cl">Product</span>&gt; products <span class="op">=</span> <span class="kw">new</span> <span class="cl">GenericRepository</span>&lt;&gt;();
+
+users.<span class="fn">save</span>(<span class="kw">new</span> <span class="cl">User</span>(<span class="num">1</span>, <span class="str">"Alex"</span>));
+<span class="cl">User</span> u <span class="op">=</span> users.<span class="fn">findById</span>(<span class="num">1</span>); <span class="cm">// no cast needed!</span>
+<span class="cm">// users.save(new Product(...)); // COMPILE ERROR — wrong type</span></pre></div>
+
+<div class="code-wrap"><div class="code-header"><span class="code-filename">collections/StreamsDemo.java</span><span class="code-meta">Collections Framework · Stream API · Collectors</span></div>
+<pre><span class="kw">import</span> java.util.*;
+<span class="kw">import</span> java.util.stream.*;
+
+<span class="kw">public class</span> <span class="cl">CollectionsDemo</span> {
+    <span class="kw">record</span> <span class="cl">Employee</span>(<span class="cl">String</span> name, <span class="cl">String</span> dept, <span class="kw">double</span> salary) {}
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; employees <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+            <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Alice"</span>, <span class="str">"Eng"</span>, <span class="num">120_000</span>),
+            <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Bob"</span>,   <span class="str">"Eng"</span>,  <span class="num">95_000</span>),
+            <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Carol"</span>, <span class="str">"HR"</span>,   <span class="num">80_000</span>),
+            <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Dave"</span>,  <span class="str">"Eng"</span>, <span class="num">110_000</span>)
+        );
+
+        <span class="cm">// Filter + map + collect</span>
+        <span class="cl">List</span>&lt;<span class="cl">String</span>&gt; highEarners <span class="op">=</span> employees.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(e <span class="op">-&gt;</span> e.<span class="fn">salary</span>() <span class="op">&gt;</span> <span class="num">100_000</span>)
+            .<span class="fn">map</span>(<span class="cl">Employee</span>::name)
+            .<span class="fn">sorted</span>()
+            .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+        <span class="cm">// [Alice, Dave]</span>
+
+        <span class="cm">// Group by department</span>
+        <span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt;&gt; byDept <span class="op">=</span> employees.<span class="fn">stream</span>()
+            .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(<span class="cl">Employee</span>::dept));
+        <span class="cm">// {Eng: [Alice, Bob, Dave], HR: [Carol]}</span>
+
+        <span class="cm">// Average salary by department</span>
+        <span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; avgSalary <span class="op">=</span> employees.<span class="fn">stream</span>()
+            .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(
+                <span class="cl">Employee</span>::dept,
+                <span class="cl">Collectors</span>.<span class="fn">averagingDouble</span>(<span class="cl">Employee</span>::salary)
+            ));
+        <span class="cm">// {Eng: 108333.33, HR: 80000.0}</span>
+
+        <span class="cm">// Find highest-paid engineer</span>
+        <span class="cl">Optional</span>&lt;<span class="cl">Employee</span>&gt; topEng <span class="op">=</span> employees.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(e <span class="op">-&gt;</span> e.<span class="fn">dept</span>().<span class="fn">equals</span>(<span class="str">"Eng"</span>))
+            .<span class="fn">max</span>(<span class="cl">Comparator</span>.<span class="fn">comparingDouble</span>(<span class="cl">Employee</span>::salary));
+        topEng.<span class="fn">ifPresent</span>(e <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Top: "</span> <span class="op">+</span> e.<span class="fn">name</span>())); <span class="cm">// Alice</span>
+    }
+}</pre></div>
+
+<div class="table-wrap"><table>
+<tr><th>Collection</th><th>When to use</th><th>Key characteristic</th></tr>
+<tr><td>ArrayList</td><td>Indexed access, iteration</td><td>O(1) get, O(n) insert middle</td></tr>
+<tr><td>LinkedList</td><td>Frequent front/back insertions</td><td>O(1) add/remove at ends</td></tr>
+<tr><td>HashMap</td><td>Key-value lookup</td><td>O(1) average get/put</td></tr>
+<tr><td>LinkedHashMap</td><td>Key-value + insertion order</td><td>Predictable iteration order</td></tr>
+<tr><td>TreeMap</td><td>Sorted key-value pairs</td><td>O(log n), keys sorted</td></tr>
+<tr><td>HashSet</td><td>Unique elements, fast lookup</td><td>O(1) contains</td></tr>
+<tr><td>TreeSet</td><td>Sorted unique elements</td><td>O(log n), auto-sorted</td></tr>
+<tr><td>PriorityQueue</td><td>Always need min/max next</td><td>O(log n) poll, O(1) peek</td></tr>
+</table></div>
+
+<div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Build a Type-Safe Generic Event Bus</h4>
+<p>Create <code>EventBus&lt;T&gt;</code> with <code>subscribe(Consumer&lt;T&gt; handler)</code> and <code>publish(T event)</code>. Create <code>UserCreatedEvent</code> and <code>OrderPlacedEvent</code>. Create two separate buses — one per type. Prove at compile time that a handler registered on the user bus cannot receive order events. Then extend it: <code>publish(T event, Predicate&lt;T&gt; filter)</code> that only delivers to handlers whose filter returns true. Use the Stream API internally. Bonus: make it thread-safe using <code>CopyOnWriteArrayList</code> for the observer list.</p></div>
+
+<div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
+<div class="quiz-q">You need to look up values by key millions of times per second. Which collection gives the best average-case performance?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="Q(this,false)">ArrayList — fast indexed access</button>
+<button class="quiz-opt" onclick="Q(this,false)">TreeMap — always sorted</button>
+<button class="quiz-opt" onclick="Q(this,true)">HashMap — O(1) average lookup via hash function</button>
+<button class="quiz-opt" onclick="Q(this,false)">LinkedList — efficient traversal</button>
+</div><div class="quiz-feedback" id="qf8"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(7)">← Previous</button><button class="btn btn-next" onclick="go(9)">Next Lesson →</button></div>
+</div>
+
+<!-- LESSON 9 CAPSTONE -->
+<div class="lesson" id="L9">
+<div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 10</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Capstone Project</span></div>
+<h2>Capstone: Build a Trading Platform</h2>
+<p class="lesson-lead">This multi-class engineering project integrates every concept from the course into a coherent real-world system. Design decisions are yours — there's no single right answer.</p>
+
+<div class="callout info"><span class="callout-icon">📋</span><div class="callout-body"><strong>System Overview</strong><p>You're building the core engine of a stock trading platform. Users open accounts, place buy/sell orders (market, limit, stop-loss), and receive notifications when orders execute. Stock prices change and trigger alerts. An order book matches buyers to sellers.</p></div></div>
+
+<div class="concept-grid">
+<div class="concept-card"><div class="concept-card-label" style="color:var(--amber)">Entities</div><h4>User, Account, Order, Stock</h4><p>Encapsulated, immutable IDs, validation in constructors, equals/hashCode/toString.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--teal)">Hierarchy</div><h4>Order Types</h4><p>Abstract <code>Order</code> → <code>MarketOrder</code>, <code>LimitOrder</code>, <code>StopLossOrder</code>. Each executes differently.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--purple)">Interfaces</div><h4>Capability Contracts</h4><p><code>Executable</code>, <code>Cancellable</code>, <code>Notifiable</code>. Not all order types implement all interfaces.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--blue)">SOLID</div><h4>Services</h4><p><code>OrderService</code>, <code>PriceService</code>, <code>NotificationService</code>. Single responsibility, injected via interface.</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--red)">Patterns</div><h4>Design Patterns Used</h4><p>Builder (Order construction), Observer (price alerts), Factory (order types), Strategy (execution logic).</p></div>
+<div class="concept-card"><div class="concept-card-label" style="color:var(--green)">Generics</div><h4>Type-Safe Collections</h4><p>Generic <code>Repository&lt;T&gt;</code>. <code>PriorityQueue</code> for order book. Stream API throughout.</p></div>
+</div>
+
+<div class="code-wrap"><div class="code-header"><span class="code-filename">trading/Order.java</span><span class="code-meta">Capstone Starter — Core Abstract Class</span></div>
+<pre><span class="kw">public abstract class</span> <span class="cl">Order</span> <span class="kw">implements</span> <span class="cl">Identifiable</span>, <span class="cl">Comparable</span>&lt;<span class="cl">Order</span>&gt; {
+
+    <span class="kw">public enum</span> <span class="cl">Side</span>   { BUY, SELL }
+    <span class="kw">public enum</span> <span class="cl">Status</span> { PENDING, PARTIALLY_FILLED, FILLED, CANCELLED }
+
+    <span class="kw">private static int</span> nextId <span class="op">=</span> <span class="num">1000</span>;
+
+    <span class="kw">private final int</span>    id;
+    <span class="kw">private final</span> <span class="cl">String</span> ticker;
+    <span class="kw">private final</span> <span class="cl">Side</span>   side;
+    <span class="kw">private final int</span>    quantity;
+    <span class="kw">private int</span>          filledQty <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">private</span> <span class="cl">Status</span>       status    <span class="op">=</span> <span class="cl">Status</span>.PENDING;
+    <span class="kw">private final long</span>   createdAt;
+
+    <span class="kw">protected</span> <span class="fn">Order</span>(<span class="cl">String</span> ticker, <span class="cl">Side</span> side, <span class="kw">int</span> quantity) {
+        <span class="kw">if</span> (quantity <span class="op">&lt;=</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Quantity must be positive"</span>);
+        <span class="kw">this</span>.id        <span class="op">=</span> nextId<span class="op">++</span>;
+        <span class="kw">this</span>.ticker    <span class="op">=</span> ticker;
+        <span class="kw">this</span>.side      <span class="op">=</span> side;
+        <span class="kw">this</span>.quantity  <span class="op">=</span> quantity;
+        <span class="kw">this</span>.createdAt <span class="op">=</span> <span class="cl">System</span>.<span class="fn">currentTimeMillis</span>();
+    }
+
+    <span class="cm">// Subclasses define their own execution condition</span>
+    <span class="kw">public abstract boolean</span> <span class="fn">canExecuteAt</span>(<span class="kw">double</span> marketPrice);
+    <span class="kw">public abstract</span> <span class="cl">String</span>  <span class="fn">getOrderType</span>();
+
+    <span class="kw">public void</span> <span class="fn">fill</span>(<span class="kw">int</span> qty) {
+        <span class="kw">if</span> (status <span class="op">==</span> <span class="cl">Status</span>.CANCELLED) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Can't fill cancelled order"</span>);
+        filledQty <span class="op">+=</span> qty;
+        status <span class="op">=</span> (filledQty <span class="op">&gt;=</span> quantity) <span class="op">?</span> <span class="cl">Status</span>.FILLED : <span class="cl">Status</span>.PARTIALLY_FILLED;
+    }
+
+    <span class="kw">public void</span> <span class="fn">cancel</span>() {
+        <span class="kw">if</span> (status <span class="op">==</span> <span class="cl">Status</span>.FILLED) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"Can't cancel filled order"</span>);
+        status <span class="op">=</span> <span class="cl">Status</span>.CANCELLED;
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public int</span> <span class="fn">compareTo</span>(<span class="cl">Order</span> other) { <span class="cm">// FIFO by default — override in subclasses for price priority</span>
+        <span class="kw">return</span> <span class="cl">Long</span>.<span class="fn">compare</span>(<span class="kw">this</span>.createdAt, other.createdAt);
+    }
+
+    <span class="ann">@Override</span> <span class="kw">public int</span>    <span class="fn">getId</span>()         { <span class="kw">return</span> id;        }
+    <span class="kw">public</span> <span class="cl">String</span>           <span class="fn">getTicker</span>()     { <span class="kw">return</span> ticker;    }
+    <span class="kw">public</span> <span class="cl">Side</span>             <span class="fn">getSide</span>()       { <span class="kw">return</span> side;      }
+    <span class="kw">public int</span>              <span class="fn">getQuantity</span>()   { <span class="kw">return</span> quantity;  }
+    <span class="kw">public int</span>              <span class="fn">getFilledQty</span>()  { <span class="kw">return</span> filledQty; }
+    <span class="kw">public</span> <span class="cl">Status</span>           <span class="fn">getStatus</span>()     { <span class="kw">return</span> status;    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cl">String</span>.<span class="fn">format</span>(<span class="str">"[#%d %s %s %dx %s | %s]"</span>,
+            id, <span class="fn">getOrderType</span>(), side, quantity, ticker, status);
+    }
+}
+
+<span class="cm">// ─── Provided implementations ──────────────────────────</span>
+<span class="kw">public class</span> <span class="cl">MarketOrder</span> <span class="kw">extends</span> <span class="cl">Order</span> {
+    <span class="kw">public</span> <span class="fn">MarketOrder</span>(<span class="cl">String</span> ticker, <span class="cl">Side</span> side, <span class="kw">int</span> qty) { <span class="kw">super</span>(ticker, side, qty); }
+    <span class="ann">@Override</span> <span class="kw">public boolean</span> <span class="fn">canExecuteAt</span>(<span class="kw">double</span> p) { <span class="kw">return true</span>; } <span class="cm">// always fills</span>
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span>  <span class="fn">getOrderType</span>()            { <span class="kw">return</span> <span class="str">"MARKET"</span>; }
+}
+
+<span class="kw">public class</span> <span class="cl">LimitOrder</span> <span class="kw">extends</span> <span class="cl">Order</span> {
+    <span class="kw">private final double</span> limitPrice;
+    <span class="kw">public</span> <span class="fn">LimitOrder</span>(<span class="cl">String</span> ticker, <span class="cl">Side</span> side, <span class="kw">int</span> qty, <span class="kw">double</span> limitPrice) {
+        <span class="kw">super</span>(ticker, side, qty); <span class="kw">this</span>.limitPrice <span class="op">=</span> limitPrice;
+    }
+    <span class="ann">@Override</span>
+    <span class="kw">public boolean</span> <span class="fn">canExecuteAt</span>(<span class="kw">double</span> price) {
+        <span class="kw">return</span> <span class="fn">getSide</span>() <span class="op">==</span> <span class="cl">Side</span>.BUY  <span class="op">?</span> price <span class="op">&lt;=</span> limitPrice
+             : <span class="fn">getSide</span>() <span class="op">==</span> <span class="cl">Side</span>.SELL <span class="op">?</span> price <span class="op">&gt;=</span> limitPrice : <span class="kw">false</span>;
+    }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getOrderType</span>() { <span class="kw">return</span> <span class="str">"LIMIT@$"</span> <span class="op">+</span> limitPrice; }
+}
+
+<span class="cm">// ─── YOUR TASK ────────────────────────────────────────────
+// 1. Implement StopLossOrder — executes when price DROPS BELOW trigger
+// 2. Implement OrderBook using PriorityQueue — matches buys to sells
+// 3. Implement a Builder for LimitOrder construction
+// 4. Apply Observer pattern: Stock notifies OrderBook on price changes
+// 5. Build OrderService with injected GenericRepository&lt;Order&gt;</span></pre></div>
+
+<div class="table-wrap"><table>
+<tr><th>Evaluation Criterion</th><th>What to Look For</th></tr>
+<tr><td>Encapsulation</td><td>No public mutable fields; all state changes through validated methods</td></tr>
+<tr><td>Inheritance</td><td>is-a relationships only; super() used correctly; no duplicated logic</td></tr>
+<tr><td>Polymorphism</td><td>Order engine iterates over Order references — works with any subtype added later</td></tr>
+<tr><td>SOLID — SRP</td><td>Each service class has exactly one job; no god classes</td></tr>
+<tr><td>SOLID — OCP</td><td>Adding StopLossOrder requires zero changes to OrderBook/OrderService</td></tr>
+<tr><td>SOLID — DIP</td><td>All services injected via constructor; none create their own dependencies</td></tr>
+<tr><td>Builder Pattern</td><td>LimitOrder.Builder with fluent API and validation in build()</td></tr>
+<tr><td>Observer Pattern</td><td>Stock notifies subscribers; OrderBook subscribes to trigger executions</td></tr>
+<tr><td>Generics + Collections</td><td>GenericRepository&lt;T&gt; used; PriorityQueue for order book; Streams for queries</td></tr>
+</table></div>
+
+<div class="callout tip"><span class="callout-icon">🏁</span><div class="callout-body"><strong>Where to Go from Here</strong><p>With a strong OOP and design-patterns foundation, your next milestones are: <strong>Exception Hierarchies</strong> (custom checked/unchecked exceptions), <strong>Concurrency</strong> (thread-safe objects, locks, <code>synchronized</code>, <code>ExecutorService</code>), <strong>Functional Java</strong> (lambdas, method references, Optional in depth), <strong>Unit Testing with JUnit 5</strong> (your SOLID-compliant code is now fully testable), and <strong>Spring Framework</strong> — which is built entirely on DIP and the patterns you now understand.</p></div></div>
+
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(8)">← Previous</button><button class="btn btn-next" disabled>Course Complete 🎓</button></div>
+</div>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 10;
+const done = new Set([0]);
+let current = 0;
+
+function go(idx) {
+  document.getElementById('L' + current).classList.remove('active');
+  document.querySelectorAll('.nav-item')[current].classList.remove('active');
+  current = idx;
+  done.add(idx);
+  document.getElementById('L' + idx).classList.add('active');
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems[idx].classList.add('active');
+  done.forEach(i => { if (i !== idx) navItems[i].classList.add('done'); });
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pFill').style.width = pct + '%';
+  document.getElementById('pPct').textContent = pct + '%';
+}
+
+const explanations = {
+  0: 'Arrays are reference types — the reference is copied into the method, but it still points to the same heap array. Mutations inside the method affect the original.',
+  1: 'Static methods belong to the class, not any instance. They have no implicit this reference and cannot directly access instance fields.',
+  2: 'private only prevents direct field access from outside. Returning the actual list reference lets callers bypass encapsulation entirely via the list\'s own methods.',
+  3: 'Inheritance is for true is-a relationships where subclasses are completely substitutable for the parent. Code reuse alone is not sufficient justification.',
+  4: 'The JVM uses dynamic dispatch — it looks up the vtable of the actual runtime object (Dog) to find which method body to execute, not the declared type.',
+  5: 'The default keyword (Java 8+) allows interfaces to provide concrete method implementations with a full body — without breaking existing implementors.',
+  6: 'ReadOnlyFile.write() throwing UnsupportedOperationException means it cannot be substituted where a File is expected — code that calls write() will break. Classic LSP violation.',
+  7: 'Builder solves the telescoping constructor anti-pattern — complex object construction with many optional parameters in a readable, validated, step-by-step API.',
+  8: 'HashMap uses a hash function to achieve O(1) average-case get/put. TreeMap is O(log n). ArrayList.contains() is O(n). For millions of lookups, only HashMap scales.',
+};
+
+function Q(btn, correct) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    const isCorrect = b.getAttribute('onclick') && b.getAttribute('onclick').includes('true');
+    if (isCorrect) b.classList.add('correct');
+  });
+  if (!correct) btn.classList.add('wrong');
+  const lessonEl = btn.closest('.lesson');
+  const li = parseInt(lessonEl.id.replace('L', ''));
+  const fb = document.getElementById('qf' + li);
+  fb.className = 'quiz-feedback show ' + (correct ? 'ok' : 'bad');
+  fb.textContent = (correct ? '✓ Correct. ' : '✗ Not quite. ') + (explanations[li] || '');
+}
+
+updateProgress();
+</script>
+</body>
+</html>

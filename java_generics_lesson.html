@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Generics — Core Java Mastery</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-card-hover: #1c2230;
+    --bg-inline: #1a2236;
+    --border: #21293a;
+    --border-accent: #2d4a7a;
+    --blue-bright: #79b8ff;
+    --blue-mid: #58a6ff;
+    --blue-dim: #1f4e8c;
+    --blue-glow: rgba(88, 166, 255, 0.12);
+    --green: #56d364;
+    --green-dim: #1a3d20;
+    --green-bright: #a8f0c0;
+    --red: #f85149;
+    --red-dim: #3d1a1a;
+    --red-bright: #ffa198;
+    --yellow: #e3b341;
+    --yellow-dim: #3d2e0a;
+    --yellow-bright: #f0d080;
+    --purple: #c084fc;
+    --purple-dim: #2a1a4a;
+    --orange: #f0883e;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #484f58;
+    --sidebar-w: 270px;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-header {
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-course-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 6px;
+  }
+
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .sidebar-progress-wrap {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue-dim), var(--blue-mid));
+    border-radius: 2px;
+    width: 0%;
+    transition: width .4s ease;
+  }
+
+  .sidebar-nav { padding: 10px 0; flex: 1; }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 18px 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 18px;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .nav-item:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+  .nav-item.active { border-left-color: var(--blue-mid); color: var(--blue-bright); background: var(--blue-glow); }
+  .nav-item.done { color: var(--green); }
+  .nav-item.done .nav-dot { background: var(--green); }
+
+  .nav-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  .nav-item.active .nav-dot { background: var(--blue-mid); box-shadow: 0 0 6px var(--blue-mid); }
+
+  /* ── MAIN ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 860px;
+    padding: 48px 52px 80px;
+  }
+
+  /* ── SECTIONS ── */
+  .lesson-section {
+    display: none;
+    animation: fadeIn .25s ease;
+  }
+  .lesson-section.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── LESSON HEADER ── */
+  .lesson-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 10px;
+  }
+
+  h1.lesson-title {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+  }
+
+  .lesson-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 620px;
+  }
+
+  .lesson-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .meta-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* ── SECTION HEADERS ── */
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 36px 0 14px;
+    letter-spacing: -.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 20px;
+    background: var(--blue-mid);
+    border-radius: 2px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--blue-bright);
+    margin: 24px 0 10px;
+  }
+
+  p { margin-bottom: 14px; color: var(--text-primary); line-height: 1.75; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: #090d13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 16px 0 20px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .code-filename {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .code-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .tag-bad { background: var(--red-dim); color: var(--red); }
+  .tag-good { background: var(--green-dim); color: var(--green); }
+  .tag-example { background: var(--blue-dim); color: var(--blue-bright); }
+  .tag-output { background: #1a1a2e; color: #8888cc; }
+
+  pre {
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  /* Syntax highlighting */
+  .kw { color: #ff7b72; }         /* keyword: class, public, void, etc */
+  .type { color: #79b8ff; }       /* types: String, Integer, T, etc */
+  .gen { color: #f0c070; }        /* generic params <T>, <E>, etc */
+  .method { color: #d2a8ff; }     /* method names */
+  .str { color: #a5d6ff; }        /* strings */
+  .num { color: #79c0ff; }        /* numbers */
+  .comment { color: #484f58; font-style: italic; }
+  .anno { color: #f0883e; }       /* annotations */
+  .err { color: #f85149; text-decoration: underline wavy var(--red); } /* error highlight */
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-inline);
+    color: var(--blue-bright);
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 18px 0;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .callout-title {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .callout.info { background: #0c1929; border-color: var(--blue-mid); }
+  .callout.info .callout-title { color: var(--blue-mid); }
+  .callout.warning { background: var(--yellow-dim); border-color: var(--yellow); }
+  .callout.warning .callout-title { color: var(--yellow); }
+  .callout.tip { background: var(--green-dim); border-color: var(--green); }
+  .callout.tip .callout-title { color: var(--green); }
+  .callout.danger { background: var(--red-dim); border-color: var(--red); }
+  .callout.danger .callout-title { color: var(--red); }
+  .callout.concept { background: var(--purple-dim); border-color: var(--purple); }
+  .callout.concept .callout-title { color: var(--purple); }
+
+  /* ── ANALOGY CARD ── */
+  .analogy-card {
+    background: linear-gradient(135deg, #0c1929 0%, #12102a 100%);
+    border: 1px solid var(--border-accent);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .analogy-card::before {
+    content: '💡';
+    position: absolute;
+    top: 18px; right: 18px;
+    font-size: 22px;
+    opacity: .5;
+  }
+
+  .analogy-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 8px;
+  }
+
+  .analogy-card p { color: var(--text-secondary); margin-bottom: 0; }
+  .analogy-card strong { color: var(--text-primary); }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 13.5px;
+  }
+
+  .compare-table th {
+    background: var(--bg-card);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--bg-card-hover); }
+
+  .td-bad { color: var(--red); }
+  .td-good { color: var(--green); }
+
+  /* ── QUIZ ── */
+  .quiz-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 28px 0;
+  }
+
+  .quiz-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 12px;
+  }
+
+  .quiz-q {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+
+  .quiz-option {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    transition: all .15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .quiz-option:hover { border-color: var(--blue-dim); color: var(--text-primary); background: var(--bg-inline); }
+  .quiz-option.correct { border-color: var(--green); color: var(--green-bright); background: var(--green-dim); }
+  .quiz-option.wrong { border-color: var(--red); color: var(--red-bright); background: var(--red-dim); }
+
+  .option-letter {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--border);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .quiz-feedback {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 7px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: var(--green-dim); color: var(--green-bright); border: 1px solid var(--green); }
+  .quiz-feedback.wrong-fb { background: var(--red-dim); color: var(--red-bright); border: 1px solid var(--red); }
+
+  /* ── CHALLENGE ── */
+  .challenge-card {
+    background: linear-gradient(135deg, #0f1d12 0%, #0d1117 100%);
+    border: 1px solid #2a4a30;
+    border-radius: 10px;
+    padding: 24px;
+    margin: 28px 0;
+  }
+
+  .challenge-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  .challenge-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .challenge-desc { color: var(--text-secondary); font-size: 14px; margin-bottom: 14px; }
+
+  .challenge-task {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .task-num {
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .reveal-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all .15s;
+    margin-top: 8px;
+    font-family: var(--font-sans);
+  }
+
+  .reveal-btn:hover { border-color: var(--green); color: var(--green); }
+
+  .reveal-content { display: none; margin-top: 12px; }
+  .reveal-content.show { display: block; }
+
+  /* ── CONCEPT MAP ── */
+  .concept-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .concept-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    transition: border-color .2s;
+  }
+
+  .concept-tile:hover { border-color: var(--blue-dim); }
+  .concept-tile-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-mid); margin-bottom: 6px; }
+  .concept-tile-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* ── NAV BUTTONS ── */
+  .lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 52px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-btn:hover { border-color: var(--blue-mid); color: var(--blue-bright); }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .nav-btn.primary { background: var(--blue-dim); border-color: var(--blue-mid); color: var(--blue-bright); font-weight: 500; }
+  .nav-btn.primary:hover { background: #1a3d70; }
+
+  .section-indicator { font-size: 12px; color: var(--text-muted); }
+
+  /* ── TYPE PARAM VISUAL ── */
+  .type-param-demo {
+    background: #090d13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 24px;
+    margin: 18px 0;
+    text-align: center;
+    font-family: var(--font-mono);
+  }
+
+  .tpd-main { font-size: 26px; color: var(--text-primary); margin-bottom: 12px; }
+  .tpd-labels { display: flex; justify-content: center; gap: 40px; font-size: 12px; color: var(--text-secondary); }
+  .tpd-label { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .tpd-arrow { color: var(--text-muted); font-size: 16px; }
+  .tpd-label span:last-child { color: var(--blue-bright); font-weight: 600; }
+
+  .highlight-t { color: var(--yellow); }
+  .highlight-class { color: #ff7b72; }
+  .highlight-name { color: var(--purple); }
+  .highlight-bracket { color: var(--text-muted); }
+
+  /* ── STEP LIST ── */
+  .step-list { margin: 14px 0; }
+
+  .step-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-item:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 26px;
+    height: 26px;
+    background: var(--blue-dim);
+    color: var(--blue-bright);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content { flex: 1; }
+  .step-title { font-weight: 600; color: var(--text-primary); margin-bottom: 3px; font-size: 14px; }
+  .step-desc { color: var(--text-secondary); font-size: 13.5px; }
+
+  /* ── WILDCARD SECTION ── */
+  .wildcard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .wc-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .wc-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .wc-upper h4 { color: var(--blue-bright); }
+  .wc-lower h4 { color: var(--orange); }
+  .wc-unbound h4 { color: var(--purple); }
+  .wc-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+  .wc-syntax { font-family: var(--font-mono); font-size: 13px; background: var(--bg); border: 1px solid var(--border); padding: 6px 10px; border-radius: 5px; color: var(--text-primary); }
+
+  /* progress dots */
+  .progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .pdot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .pdot.active { background: var(--blue-mid); }
+  .pdot.done { background: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-course-tag">Core Java · Phase 2</div>
+    <div class="sidebar-title">Java Generics</div>
+  </div>
+  <div class="sidebar-progress-wrap">
+    <div class="progress-label">
+      <span>Lesson progress</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Sections</div>
+    <a class="nav-item active" data-section="0" onclick="goTo(0)">
+      <span class="nav-dot"></span> The Problem Generics Solve
+    </a>
+    <a class="nav-item" data-section="1" onclick="goTo(1)">
+      <span class="nav-dot"></span> What Is a Generic?
+    </a>
+    <a class="nav-item" data-section="2" onclick="goTo(2)">
+      <span class="nav-dot"></span> Generic Methods
+    </a>
+    <a class="nav-item" data-section="3" onclick="goTo(3)">
+      <span class="nav-dot"></span> Generic Classes
+    </a>
+    <a class="nav-item" data-section="4" onclick="goTo(4)">
+      <span class="nav-dot"></span> Multiple Type Parameters
+    </a>
+    <a class="nav-item" data-section="5" onclick="goTo(5)">
+      <span class="nav-dot"></span> Bounded Type Parameters
+    </a>
+    <a class="nav-item" data-section="6" onclick="goTo(6)">
+      <span class="nav-dot"></span> Wildcards
+    </a>
+    <a class="nav-item" data-section="7" onclick="goTo(7)">
+      <span class="nav-dot"></span> Generics &amp; Collections
+    </a>
+    <a class="nav-item" data-section="8" onclick="goTo(8)">
+      <span class="nav-dot"></span> Common Mistakes
+    </a>
+    <a class="nav-item" data-section="9" onclick="goTo(9)">
+      <span class="nav-dot"></span> Quiz &amp; Challenge
+    </a>
+  </div>
+</nav>
+
+<!-- ── MAIN CONTENT ── -->
+<main id="main">
+
+  <!-- ══════════ SECTION 0: THE PROBLEM ══════════ -->
+  <section class="lesson-section active" id="section-0">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 1 of 10</div>
+    <h1 class="lesson-title">The Problem Generics Solve</h1>
+    <p class="lesson-subtitle">Before learning what generics <em>are</em>, you need to feel the pain they eliminate. This section shows you the mess Java had before generics existed.</p>
+
+    <div class="lesson-meta">
+      <div class="meta-pill"><span class="dot" style="background:var(--blue-mid)"></span> Beginner-friendly</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~8 min read</div>
+      <div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
+    </div>
+
+    <h2>Imagine a Box</h2>
+
+    <div class="analogy-card">
+      <div class="analogy-label">Real-World Analogy</div>
+      <p>Imagine you have a physical box. You put a <strong>glass vase</strong> inside. You hand it to your friend and say "here's a box." Your friend reaches in, assumes it's a ball, squeezes — and the vase shatters.</p>
+      <p style="margin-top:10px">This is exactly what Java without generics was like. The <strong>box</strong> didn't remember what type of thing it held. Mistakes happened at <em>runtime</em>, when it was too late.</p>
+    </div>
+
+    <h2>The Pre-Generics World (Before Java 5)</h2>
+
+    <p>Imagine you want a list that holds Strings. Before generics, you'd use the raw <code>ArrayList</code> — which held <code>Object</code>, meaning <em>anything</em>.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">OldWay.java</span>
+        <span class="code-tag tag-bad">⚠ Without Generics</span>
+      </div>
+      <pre><span class="kw">import</span> java.util.ArrayList;
+
+<span class="kw">public class</span> <span class="type">OldWay</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="type">ArrayList</span> names = <span class="kw">new</span> <span class="type">ArrayList</span>();  <span class="comment">// raw type — no &lt;String&gt;</span>
+
+        names.<span class="method">add</span>(<span class="str">"Alice"</span>);
+        names.<span class="method">add</span>(<span class="str">"Bob"</span>);
+        names.<span class="method">add</span>(<span class="num">42</span>);      <span class="comment">// 😬 This compiles fine — no error!</span>
+
+        <span class="comment">// Now we loop and try to treat everything as a String:</span>
+        <span class="kw">for</span> (<span class="type">Object</span> item : names) {
+            <span class="type">String</span> name = (<span class="type">String</span>) item;  <span class="comment">// cast required every time</span>
+            <span class="type">System</span>.out.<span class="method">println</span>(name.<span class="method">toUpperCase</span>());
+        }
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Console output</span>
+        <span class="code-tag tag-output">Runtime</span>
+      </div>
+      <pre>ALICE
+BOB
+<span style="color:var(--red)">Exception in thread "main" java.lang.ClassCastException:
+  class java.lang.Integer cannot be cast to class java.lang.String</span></pre>
+    </div>
+
+    <p>The program <strong>compiled without errors</strong>. It only crashed when it ran — on the line with the integer. This is a <em>runtime</em> error, the worst kind.</p>
+
+    <div class="callout danger">
+      <div class="callout-title">⚡ Why Runtime Errors Are Worse</div>
+      A <strong>compile-time error</strong> is caught before your program ever runs. A <strong>runtime error</strong> happens in production, when real users are using your app. With the old approach, a bug like this might go unnoticed for months.
+    </div>
+
+    <h2>The Two Core Problems</h2>
+
+    <div class="concept-row">
+      <div class="concept-tile">
+        <div class="concept-tile-label">Problem 1</div>
+        <div class="concept-tile-text">You had to <strong>cast</strong> every value you read out of a collection. Tedious, error-prone, ugly code.</div>
+      </div>
+      <div class="concept-tile">
+        <div class="concept-tile-label">Problem 2</div>
+        <div class="concept-tile-text">The compiler <strong>couldn't protect you</strong>. It happily accepted the wrong type and let you discover the mistake at runtime.</div>
+      </div>
+      <div class="concept-tile">
+        <div class="concept-tile-label">The Solution</div>
+        <div class="concept-tile-text"><strong>Generics</strong> — introduced in Java 5. Type parameters that tell the compiler exactly what's allowed.</div>
+      </div>
+    </div>
+
+    <h2>The Same Code With Generics</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">NewWay.java</span>
+        <span class="code-tag tag-good">✓ With Generics</span>
+      </div>
+      <pre><span class="kw">import</span> java.util.ArrayList;
+
+<span class="kw">public class</span> <span class="type">NewWay</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="type">ArrayList</span><span class="gen">&lt;String&gt;</span> names = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();
+
+        names.<span class="method">add</span>(<span class="str">"Alice"</span>);
+        names.<span class="method">add</span>(<span class="str">"Bob"</span>);
+        <span class="comment">// names.add(42);  ← ❌ COMPILE ERROR: incompatible types</span>
+
+        <span class="kw">for</span> (<span class="type">String</span> name : names) {  <span class="comment">// no cast needed</span>
+            <span class="type">System</span>.out.<span class="method">println</span>(name.<span class="method">toUpperCase</span>());
+        }
+    }
+}</pre>
+    </div>
+
+    <p>Now the compiler knows the list only holds <code>String</code>s. Try to add an integer and it refuses to compile. The error is caught immediately, before you ever run anything.</p>
+
+    <div class="callout tip">
+      <div class="callout-title">✓ The Core Promise of Generics</div>
+      Move errors from <strong>runtime</strong> (your app crashes) to <strong>compile time</strong> (the compiler tells you immediately). Generics make your code <em>type-safe</em>.
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" disabled>← Previous</button>
+      <span class="section-indicator">Section 1 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(1)">What Is a Generic? →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 1: WHAT IS A GENERIC ══════════ -->
+  <section class="lesson-section" id="section-1">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 2 of 10</div>
+    <h1 class="lesson-title">What Is a Generic?</h1>
+    <p class="lesson-subtitle">A generic is a class, method, or interface that works with a <em>type you specify</em> instead of hardcoding a specific type like String or Integer.</p>
+
+    <h2>The Anatomy of a Generic</h2>
+
+    <p>The key symbol is the angle brackets <code>&lt;T&gt;</code>. The <code>T</code> is a <strong>type parameter</strong> — a placeholder for whatever type you choose when you use the class or method.</p>
+
+    <div class="type-param-demo">
+      <div class="tpd-main">
+        <span class="highlight-class">class</span>&nbsp;<span class="highlight-name">Box</span><span class="highlight-bracket">&lt;</span><span class="highlight-t">T</span><span class="highlight-bracket">&gt;</span>&nbsp;{ ... }
+      </div>
+      <div class="tpd-labels">
+        <div class="tpd-label">
+          <span class="tpd-arrow">↑</span>
+          <span>keyword</span>
+        </div>
+        <div class="tpd-label">
+          <span class="tpd-arrow">↑</span>
+          <span>class name</span>
+        </div>
+        <div class="tpd-label">
+          <span class="tpd-arrow">↑</span>
+          <span style="color:var(--yellow)">type parameter</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout concept">
+      <div class="callout-title">📐 What Does T Stand For?</div>
+      <strong>T</strong> is just a convention — it stands for "Type". It's a variable name, but instead of holding a <em>value</em>, it holds a <em>type</em>. You could name it anything (like <code>Banana</code>), but the community uses single uppercase letters:
+      <br><br>
+      <strong>T</strong> = Type &nbsp;·&nbsp; <strong>E</strong> = Element (collections) &nbsp;·&nbsp; <strong>K</strong> = Key &nbsp;·&nbsp; <strong>V</strong> = Value &nbsp;·&nbsp; <strong>N</strong> = Number
+    </div>
+
+    <h2>How It Works Step by Step</h2>
+
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">You write a generic class or method once</div>
+          <div class="step-desc">Using <code>T</code> (or another letter) as a stand-in for any real type.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">When you use it, you fill in the real type</div>
+          <div class="step-desc">e.g. <code>Box&lt;String&gt;</code> or <code>Box&lt;Integer&gt;</code> — T becomes String or Integer everywhere.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">The compiler enforces it</div>
+          <div class="step-desc">From that point on, it checks every operation against the concrete type you provided.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>A Simple Comparison</h2>
+
+    <table class="compare-table">
+      <tr>
+        <th>Without Generics</th>
+        <th>With Generics</th>
+      </tr>
+      <tr>
+        <td class="td-bad">Raw type — holds any Object</td>
+        <td class="td-good">Typed — holds exactly what you declare</td>
+      </tr>
+      <tr>
+        <td class="td-bad">Requires manual cast when reading</td>
+        <td class="td-good">No cast needed — type is already known</td>
+      </tr>
+      <tr>
+        <td class="td-bad">Errors discovered at runtime (crashes)</td>
+        <td class="td-good">Errors caught at compile time (before running)</td>
+      </tr>
+      <tr>
+        <td class="td-bad">One class written per type needed</td>
+        <td class="td-good">One class works for any type</td>
+      </tr>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-title">📝 Type Erasure (For the Curious)</div>
+      Under the hood, Java removes the generic type information when compiling — this is called <strong>type erasure</strong>. At runtime, <code>ArrayList&lt;String&gt;</code> and <code>ArrayList&lt;Integer&gt;</code> are both just <code>ArrayList</code>. Generics are purely a <em>compile-time safety net</em>. You don't need to understand type erasure deeply right now — just know it exists.
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(0)">← The Problem</button>
+      <span class="section-indicator">Section 2 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(2)">Generic Methods →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 2: GENERIC METHODS ══════════ -->
+  <section class="lesson-section" id="section-2">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 3 of 10</div>
+    <h1 class="lesson-title">Generic Methods</h1>
+    <p class="lesson-subtitle">A generic method introduces its own type parameter, independent of any class. It's the simplest place to start writing generics yourself.</p>
+
+    <h2>The Problem: Repeating Code for Each Type</h2>
+
+    <p>Suppose you want a method that prints any array. Without generics, you'd write a separate version for each type:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Repetitive.java</span>
+        <span class="code-tag tag-bad">⚠ Repetitive</span>
+      </div>
+      <pre><span class="kw">void</span> <span class="method">printStringArray</span>(<span class="type">String</span>[] arr) { ... }
+<span class="kw">void</span> <span class="method">printIntegerArray</span>(<span class="type">Integer</span>[] arr) { ... }
+<span class="kw">void</span> <span class="method">printDoubleArray</span>(<span class="type">Double</span>[] arr) { ... }
+<span class="comment">// ... same logic, three times</span></pre>
+    </div>
+
+    <p>With a generic method, you write it once:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">PrintAny.java</span>
+        <span class="code-tag tag-good">✓ Generic Method</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">PrintAny</span> {
+
+    <span class="comment">// &lt;T&gt; before the return type declares the type parameter</span>
+    <span class="kw">public static</span> <span class="gen">&lt;T&gt;</span> <span class="kw">void</span> <span class="method">printArray</span>(<span class="type">T</span>[] array) {
+        <span class="kw">for</span> (<span class="type">T</span> element : array) {
+            <span class="type">System</span>.out.<span class="method">print</span>(element + <span class="str">" "</span>);
+        }
+        <span class="type">System</span>.out.<span class="method">println</span>();
+    }
+
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span>[]  names   = {<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>};
+        <span class="type">Integer</span>[] numbers = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>};
+        <span class="type">Double</span>[]  prices  = {<span class="num">9.99</span>, <span class="num">14.49</span>, <span class="num">3.00</span>};
+
+        <span class="method">printArray</span>(names);    <span class="comment">// T becomes String</span>
+        <span class="method">printArray</span>(numbers);  <span class="comment">// T becomes Integer</span>
+        <span class="method">printArray</span>(prices);   <span class="comment">// T becomes Double</span>
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Output</span>
+        <span class="code-tag tag-output">Console</span>
+      </div>
+      <pre>Alice Bob Carol
+1 2 3 4 5
+9.99 14.49 3.0</pre>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-title">📐 Syntax Breakdown</div>
+      The <code>&lt;T&gt;</code> appears <strong>before the return type</strong> in a generic method. This declares the type parameter for that method.<br><br>
+      <code>public static <strong>&lt;T&gt;</strong> void printArray(<strong>T</strong>[] array)</code><br><br>
+      The <code>&lt;T&gt;</code> on the left says "T is a type parameter". The <code>T</code> on the right uses it.
+    </div>
+
+    <h2>Return Values from Generic Methods</h2>
+
+    <p>Generic methods can also <em>return</em> the type parameter:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Pair.java</span>
+        <span class="code-tag tag-example">Example</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">ArrayUtils</span> {
+
+    <span class="comment">// Returns the first element of any array</span>
+    <span class="kw">public static</span> <span class="gen">&lt;T&gt;</span> <span class="type">T</span> <span class="method">getFirst</span>(<span class="type">T</span>[] array) {
+        <span class="kw">return</span> array[<span class="num">0</span>];
+    }
+
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span>[]  words  = {<span class="str">"hello"</span>, <span class="str">"world"</span>};
+        <span class="type">Integer</span>[] nums   = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};
+
+        <span class="type">String</span>  firstWord = <span class="method">getFirst</span>(words);   <span class="comment">// returns String</span>
+        <span class="type">Integer</span> firstNum  = <span class="method">getFirst</span>(nums);    <span class="comment">// returns Integer</span>
+
+        <span class="type">System</span>.out.<span class="method">println</span>(firstWord);  <span class="comment">// hello</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(firstNum);   <span class="comment">// 10</span>
+    }
+}</pre>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">✓ No Cast Required</div>
+      Notice we assign <code>getFirst(words)</code> directly to a <code>String</code> variable — no cast needed. The compiler knows the return type because it tracked <code>T = String</code>.
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-label">🧠 Quick Check</div>
+      <div class="quiz-q">Where does <code>&lt;T&gt;</code> appear in a generic method declaration?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q1')">
+          <span class="option-letter">A</span> After the method name
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'q1')">
+          <span class="option-letter">B</span> Before the return type
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q1')">
+          <span class="option-letter">C</span> After the parameter list
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q1')">
+          <span class="option-letter">D</span> After the class keyword
+        </button>
+      </div>
+      <div class="quiz-feedback" id="q1-feedback"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(1)">← What Is a Generic?</button>
+      <span class="section-indicator">Section 3 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(3)">Generic Classes →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 3: GENERIC CLASSES ══════════ -->
+  <section class="lesson-section" id="section-3">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 4 of 10</div>
+    <h1 class="lesson-title">Generic Classes</h1>
+    <p class="lesson-subtitle">A generic class defines a blueprint that works for any type. When you create an instance, you lock in the type for that object.</p>
+
+    <h2>Building a Box Class</h2>
+
+    <p>Let's build the classic example — a <code>Box</code> that holds one item of any type:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Box.java</span>
+        <span class="code-tag tag-example">Generic Class</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Box</span><span class="gen">&lt;T&gt;</span> {
+
+    <span class="kw">private</span> <span class="type">T</span> content;   <span class="comment">// T used as a field type</span>
+
+    <span class="kw">public void</span> <span class="method">put</span>(<span class="type">T</span> item) {     <span class="comment">// T used as parameter type</span>
+        <span class="kw">this</span>.content = item;
+    }
+
+    <span class="kw">public</span> <span class="type">T</span> <span class="method">get</span>() {             <span class="comment">// T used as return type</span>
+        <span class="kw">return</span> content;
+    }
+
+    <span class="kw">public boolean</span> <span class="method">isEmpty</span>() {
+        <span class="kw">return</span> content == <span class="kw">null</span>;
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Main.java</span>
+        <span class="code-tag tag-example">Usage</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Main</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// A box that holds Strings</span>
+        <span class="type">Box</span><span class="gen">&lt;String&gt;</span> nameBox = <span class="kw">new</span> <span class="type">Box</span><span class="gen">&lt;&gt;</span>();
+        nameBox.<span class="method">put</span>(<span class="str">"Alice"</span>);
+        <span class="type">String</span> name = nameBox.<span class="method">get</span>();  <span class="comment">// no cast — already a String</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(name);       <span class="comment">// Alice</span>
+
+        <span class="comment">// A box that holds Integers</span>
+        <span class="type">Box</span><span class="gen">&lt;Integer&gt;</span> ageBox = <span class="kw">new</span> <span class="type">Box</span><span class="gen">&lt;&gt;</span>();
+        ageBox.<span class="method">put</span>(<span class="num">30</span>);
+        <span class="type">Integer</span> age = ageBox.<span class="method">get</span>();
+        <span class="type">System</span>.out.<span class="method">println</span>(age);         <span class="comment">// 30</span>
+
+        <span class="comment">// This won't compile — String box can't accept Integer:</span>
+        <span class="comment">// nameBox.put(42);  ← ❌ compile error</span>
+    }
+}</pre>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-title">💡 The Diamond Operator &lt;&gt;</div>
+      On the right side of <code>new Box&lt;&gt;()</code> you see empty angle brackets. This is the <strong>diamond operator</strong> (Java 7+). Java infers the type from the left side, so you don't have to repeat it. <br><br>
+      <code>Box&lt;String&gt; box = new Box<strong>&lt;&gt;</strong>();</code> &nbsp;← Java knows T = String from the left.
+    </div>
+
+    <h2>What Does T "Become"?</h2>
+
+    <p>Each time you create a new instance with a specific type, T is replaced throughout the class. Think of it as a find-and-replace:</p>
+
+    <table class="compare-table">
+      <tr>
+        <th>You write</th>
+        <th>T becomes</th>
+        <th>Effective class looks like</th>
+      </tr>
+      <tr>
+        <td><code>Box&lt;String&gt;</code></td>
+        <td><code>String</code></td>
+        <td>fields and methods use String</td>
+      </tr>
+      <tr>
+        <td><code>Box&lt;Integer&gt;</code></td>
+        <td><code>Integer</code></td>
+        <td>fields and methods use Integer</td>
+      </tr>
+      <tr>
+        <td><code>Box&lt;Double&gt;</code></td>
+        <td><code>Double</code></td>
+        <td>fields and methods use Double</td>
+      </tr>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">⚠ Primitives Not Allowed</div>
+      You <strong>cannot</strong> use primitive types as type parameters: <code>Box&lt;int&gt;</code> ❌<br>
+      Use the wrapper classes instead: <code>Box&lt;Integer&gt;</code> ✓<br><br>
+      Same for all primitives: <code>double</code> → <code>Double</code>, <code>boolean</code> → <code>Boolean</code>, <code>char</code> → <code>Character</code>, etc.
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(2)">← Generic Methods</button>
+      <span class="section-indicator">Section 4 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(4)">Multiple Type Parameters →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 4: MULTIPLE TYPE PARAMS ══════════ -->
+  <section class="lesson-section" id="section-4">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 5 of 10</div>
+    <h1 class="lesson-title">Multiple Type Parameters</h1>
+    <p class="lesson-subtitle">A class or method can declare more than one type parameter. You'll see this constantly in real Java code — <code>Map&lt;K, V&gt;</code> is a classic example.</p>
+
+    <h2>Declaring Multiple Type Params</h2>
+
+    <p>Separate them with a comma inside the angle brackets. The most common names are <code>K</code> (key) and <code>V</code> (value), but any letters work.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Pair.java</span>
+        <span class="code-tag tag-example">Two Type Parameters</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Pair</span><span class="gen">&lt;K, V&gt;</span> {
+
+    <span class="kw">private</span> <span class="type">K</span> key;
+    <span class="kw">private</span> <span class="type">V</span> value;
+
+    <span class="kw">public</span> <span class="type">Pair</span>(<span class="type">K</span> key, <span class="type">V</span> value) {
+        <span class="kw">this</span>.key   = key;
+        <span class="kw">this</span>.value = value;
+    }
+
+    <span class="kw">public</span> <span class="type">K</span> <span class="method">getKey</span>()   { <span class="kw">return</span> key; }
+    <span class="kw">public</span> <span class="type">V</span> <span class="method">getValue</span>() { <span class="kw">return</span> value; }
+
+    <span class="anno">@Override</span>
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">toString</span>() {
+        <span class="kw">return</span> <span class="str">"("</span> + key + <span class="str">", "</span> + value + <span class="str">")"</span>;
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Main.java</span>
+        <span class="code-tag tag-example">Usage</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Main</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// K = String, V = Integer</span>
+        <span class="type">Pair</span><span class="gen">&lt;String, Integer&gt;</span> student = <span class="kw">new</span> <span class="type">Pair</span><span class="gen">&lt;&gt;</span>(<span class="str">"Alice"</span>, <span class="num">95</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(student);             <span class="comment">// (Alice, 95)</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(student.<span class="method">getKey</span>());    <span class="comment">// Alice</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(student.<span class="method">getValue</span>());  <span class="comment">// 95</span>
+
+        <span class="comment">// K = String, V = String</span>
+        <span class="type">Pair</span><span class="gen">&lt;String, String&gt;</span> cityCountry = <span class="kw">new</span> <span class="type">Pair</span><span class="gen">&lt;&gt;</span>(<span class="str">"Paris"</span>, <span class="str">"France"</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(cityCountry);   <span class="comment">// (Paris, France)</span>
+
+        <span class="comment">// K = Integer, V = Boolean</span>
+        <span class="type">Pair</span><span class="gen">&lt;Integer, Boolean&gt;</span> flagged = <span class="kw">new</span> <span class="type">Pair</span><span class="gen">&lt;&gt;</span>(<span class="num">404</span>, <span class="kw">true</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(flagged);   <span class="comment">// (404, true)</span>
+    }
+}</pre>
+    </div>
+
+    <h2>This Is Exactly How Map Works</h2>
+
+    <div class="analogy-card">
+      <div class="analogy-label">Real-World Connection</div>
+      <p>Java's built-in <code>Map&lt;K, V&gt;</code> interface uses exactly this pattern. When you write <code>Map&lt;String, Integer&gt;</code>, you're saying: "Keys are Strings, values are Integers." The K and V in the Map source code are the same concept you just built.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">MapExample.java</span>
+        <span class="code-tag tag-example">Map uses K, V</span>
+      </div>
+      <pre><span class="kw">import</span> java.util.HashMap;
+<span class="kw">import</span> java.util.Map;
+
+<span class="kw">public class</span> <span class="type">MapExample</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// HashMap&lt;K, V&gt; — K=String key, V=Integer value</span>
+        <span class="type">Map</span><span class="gen">&lt;String, Integer&gt;</span> scores = <span class="kw">new</span> <span class="type">HashMap</span><span class="gen">&lt;&gt;</span>();
+        scores.<span class="method">put</span>(<span class="str">"Alice"</span>, <span class="num">90</span>);
+        scores.<span class="method">put</span>(<span class="str">"Bob"</span>,   <span class="num">75</span>);
+
+        <span class="type">Integer</span> aliceScore = scores.<span class="method">get</span>(<span class="str">"Alice"</span>);  <span class="comment">// no cast needed</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(aliceScore);  <span class="comment">// 90</span>
+    }
+}</pre>
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(3)">← Generic Classes</button>
+      <span class="section-indicator">Section 5 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(5)">Bounded Type Parameters →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 5: BOUNDED TYPE PARAMS ══════════ -->
+  <section class="lesson-section" id="section-5">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 6 of 10</div>
+    <h1 class="lesson-title">Bounded Type Parameters</h1>
+    <p class="lesson-subtitle">Sometimes you want to restrict T to a specific family of types. Bounded parameters let you say "T must be a Number" or "T must implement Comparable."</p>
+
+    <h2>The Problem: T Is Too Open</h2>
+
+    <p>Suppose you write a generic method to find the max of two values. With an unrestricted <code>T</code>, you can't compare them — not all objects support comparison:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Broken.java</span>
+        <span class="code-tag tag-bad">⚠ Won't Compile</span>
+      </div>
+      <pre><span class="kw">public static</span> <span class="gen">&lt;T&gt;</span> <span class="type">T</span> <span class="method">max</span>(<span class="type">T</span> a, <span class="type">T</span> b) {
+    <span class="comment">// ❌ ERROR: cannot compare — T might be anything</span>
+    <span class="kw">return</span> (a > b) ? a : b;
+}</pre>
+    </div>
+
+    <h2>Upper Bounded: <code>extends</code></h2>
+
+    <p>Use <code>T extends SomeType</code> to restrict T to that type or any subclass/implementation of it:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">MaxFinder.java</span>
+        <span class="code-tag tag-good">✓ Bounded</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">MaxFinder</span> {
+
+    <span class="comment">// T must implement Comparable&lt;T&gt;</span>
+    <span class="kw">public static</span> <span class="gen">&lt;T <span class="kw">extends</span> Comparable&lt;T&gt;&gt;</span> <span class="type">T</span> <span class="method">max</span>(<span class="type">T</span> a, <span class="type">T</span> b) {
+        <span class="kw">return</span> (a.<span class="method">compareTo</span>(b) > <span class="num">0</span>) ? a : b;
+    }
+
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// Integer implements Comparable — works ✓</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">max</span>(<span class="num">10</span>, <span class="num">20</span>));       <span class="comment">// 20</span>
+
+        <span class="comment">// String implements Comparable — works ✓</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">max</span>(<span class="str">"apple"</span>, <span class="str">"banana"</span>));  <span class="comment">// banana</span>
+
+        <span class="comment">// Double implements Comparable — works ✓</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">max</span>(<span class="num">3.14</span>, <span class="num">2.71</span>));    <span class="comment">// 3.14</span>
+    }
+}</pre>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-title">📐 Why "extends" for Interfaces?</div>
+      In bounded type parameters, <code>extends</code> is used even for interfaces — not <code>implements</code>. This is a Java quirk. <code>T extends Comparable&lt;T&gt;</code> means "T must implement the Comparable interface." Think of it as "T must be a subtype of Comparable."
+    </div>
+
+    <h2>Bounding with a Class</h2>
+
+    <p>You can also bound T to a class hierarchy. This lets you call methods defined on that class:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">NumberStats.java</span>
+        <span class="code-tag tag-example">Class Bound</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">NumberStats</span> {
+
+    <span class="comment">// T must be a Number (Integer, Double, Long, etc. are all Numbers)</span>
+    <span class="kw">public static</span> <span class="gen">&lt;T <span class="kw">extends</span> Number&gt;</span> <span class="kw">double</span> <span class="method">sum</span>(<span class="type">T</span>[] numbers) {
+        <span class="kw">double</span> total = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="type">T</span> n : numbers) {
+            total += n.<span class="method">doubleValue</span>();  <span class="comment">// doubleValue() is on Number</span>
+        }
+        <span class="kw">return</span> total;
+    }
+
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Integer</span>[] ints    = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>};
+        <span class="type">Double</span>[]  doubles = {<span class="num">1.5</span>, <span class="num">2.5</span>, <span class="num">3.0</span>};
+
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">sum</span>(ints));     <span class="comment">// 10.0</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">sum</span>(doubles));  <span class="comment">// 7.0</span>
+
+        <span class="comment">// sum(new String[]{"a","b"});  ← ❌ String is not a Number</span>
+    }
+}</pre>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-label">🧠 Quick Check</div>
+      <div class="quiz-q">What does <code>&lt;T extends Comparable&lt;T&gt;&gt;</code> mean?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q2')">
+          <span class="option-letter">A</span> T must be a subclass of the Comparable class only
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q2')">
+          <span class="option-letter">B</span> T can be any type whatsoever
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'q2')">
+          <span class="option-letter">C</span> T must implement the Comparable interface, enabling comparison
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'q2')">
+          <span class="option-letter">D</span> T must be a primitive type
+        </button>
+      </div>
+      <div class="quiz-feedback" id="q2-feedback"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(4)">← Multiple Type Params</button>
+      <span class="section-indicator">Section 6 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(6)">Wildcards →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 6: WILDCARDS ══════════ -->
+  <section class="lesson-section" id="section-6">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 7 of 10</div>
+    <h1 class="lesson-title">Wildcards</h1>
+    <p class="lesson-subtitle">The wildcard <code>?</code> means "some unknown type." It appears when you're working with generic collections and you need flexibility without binding to a specific T.</p>
+
+    <h2>The Problem Wildcards Solve</h2>
+
+    <div class="analogy-card">
+      <div class="analogy-label">Analogy</div>
+      <p>Imagine a food bank that accepts donations. It doesn't care if you bring canned <strong>soup</strong>, canned <strong>corn</strong>, or canned <strong>beans</strong> — as long as it's canned food. In Java terms: it accepts <code>List&lt;? extends CannedFood&gt;</code>.</p>
+    </div>
+
+    <p>Here's the concrete problem. Suppose you write a method to sum a list of numbers. Intuitively, it should work for <code>List&lt;Integer&gt;</code>, <code>List&lt;Double&gt;</code>, and <code>List&lt;Long&gt;</code>. But in Java, <strong>these are different types</strong>:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Problem.java</span>
+        <span class="code-tag tag-bad">⚠ Too Restrictive</span>
+      </div>
+      <pre><span class="comment">// This only accepts List&lt;Number&gt; — NOT List&lt;Integer&gt;</span>
+<span class="kw">public static double</span> <span class="method">sum</span>(<span class="type">List</span><span class="gen">&lt;Number&gt;</span> list) { ... }
+
+<span class="type">List</span><span class="gen">&lt;Integer&gt;</span> ints = <span class="type">List</span>.<span class="method">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>);
+<span class="method">sum</span>(ints);  <span class="comment">// ❌ COMPILE ERROR — List&lt;Integer&gt; is not a List&lt;Number&gt;</span></pre>
+    </div>
+
+    <p>This surprises beginners. Even though <code>Integer extends Number</code>, <code>List&lt;Integer&gt;</code> does <strong>not</strong> extend <code>List&lt;Number&gt;</code>. This is by design — changing it would break type safety. Wildcards are the solution.</p>
+
+    <div class="wildcard-grid">
+      <div class="wc-card wc-upper">
+        <h4>Upper Bounded Wildcard</h4>
+        <p>Accept any list of Number <em>or a subtype of Number</em> (Integer, Double, Long...)</p>
+        <div class="wc-syntax"><span class="gen">? extends Number</span></div>
+      </div>
+      <div class="wc-card wc-lower">
+        <h4>Lower Bounded Wildcard</h4>
+        <p>Accept any list of Number <em>or a supertype of Number</em> (Object...)</p>
+        <div class="wc-syntax"><span class="gen">? super Integer</span></div>
+      </div>
+      <div class="wc-card wc-unbound" style="grid-column: span 2;">
+        <h4>Unbounded Wildcard</h4>
+        <p>Accept a list of any type — use when you don't care about the type at all (e.g. just printing sizes)</p>
+        <div class="wc-syntax"><span class="gen">?</span></div>
+      </div>
+    </div>
+
+    <h2>Upper Bounded Wildcard in Practice</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">WildcardSum.java</span>
+        <span class="code-tag tag-good">✓ With Wildcard</span>
+      </div>
+      <pre><span class="kw">import</span> java.util.List;
+
+<span class="kw">public class</span> <span class="type">WildcardSum</span> {
+
+    <span class="comment">// ? extends Number = any list whose element type is Number or a subtype</span>
+    <span class="kw">public static double</span> <span class="method">sum</span>(<span class="type">List</span><span class="gen">&lt;? extends Number&gt;</span> list) {
+        <span class="kw">double</span> total = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="type">Number</span> n : list) {
+            total += n.<span class="method">doubleValue</span>();
+        }
+        <span class="kw">return</span> total;
+    }
+
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="type">List</span><span class="gen">&lt;Integer&gt;</span> ints    = <span class="type">List</span>.<span class="method">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>);
+        <span class="type">List</span><span class="gen">&lt;Double&gt;</span>  doubles = <span class="type">List</span>.<span class="method">of</span>(<span class="num">1.5</span>, <span class="num">2.5</span>);
+        <span class="type">List</span><span class="gen">&lt;Long&gt;</span>    longs   = <span class="type">List</span>.<span class="method">of</span>(<span class="num">100L</span>, <span class="num">200L</span>);
+
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">sum</span>(ints));     <span class="comment">// 6.0  ✓</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">sum</span>(doubles));  <span class="comment">// 4.0  ✓</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">sum</span>(longs));    <span class="comment">// 300.0 ✓</span>
+    }
+}</pre>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">✓ PECS: The Rule for Wildcards</div>
+      A common Java guideline:<br><br>
+      <strong>P</strong>roducer <strong>E</strong>xtends, <strong>C</strong>onsumer <strong>S</strong>uper<br><br>
+      If you're <em>reading</em> from a collection (it produces values) → use <code>? extends T</code><br>
+      If you're <em>writing</em> to a collection (it consumes values) → use <code>? super T</code><br><br>
+      Don't stress about PECS now — just know it exists. It becomes natural with experience.
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(5)">← Bounded Params</button>
+      <span class="section-indicator">Section 7 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(7)">Generics &amp; Collections →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 7: GENERICS & COLLECTIONS ══════════ -->
+  <section class="lesson-section" id="section-7">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 8 of 10</div>
+    <h1 class="lesson-title">Generics &amp; Collections</h1>
+    <p class="lesson-subtitle">Everything in the Java Collections Framework uses generics. This is where you'll use generics most in real code.</p>
+
+    <h2>The Collections Framework Is All Generics</h2>
+
+    <p>Every major collection — List, Set, Map, Queue — is a generic class or interface. Once you understand generics, the entire collections API clicks.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">CollectionsDemo.java</span>
+        <span class="code-tag tag-example">Common Collections</span>
+      </div>
+      <pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="type">CollectionsDemo</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// List&lt;E&gt; — ordered, duplicates allowed</span>
+        <span class="type">List</span><span class="gen">&lt;String&gt;</span> fruits = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();
+        fruits.<span class="method">add</span>(<span class="str">"apple"</span>);
+        fruits.<span class="method">add</span>(<span class="str">"banana"</span>);
+        fruits.<span class="method">add</span>(<span class="str">"apple"</span>);   <span class="comment">// duplicates OK</span>
+
+        <span class="comment">// Set&lt;E&gt; — no duplicates</span>
+        <span class="type">Set</span><span class="gen">&lt;String&gt;</span> unique = <span class="kw">new</span> <span class="type">HashSet</span><span class="gen">&lt;&gt;</span>(fruits);
+        <span class="type">System</span>.out.<span class="method">println</span>(unique);  <span class="comment">// [apple, banana]</span>
+
+        <span class="comment">// Map&lt;K, V&gt; — key/value pairs</span>
+        <span class="type">Map</span><span class="gen">&lt;String, Integer&gt;</span> stock = <span class="kw">new</span> <span class="type">HashMap</span><span class="gen">&lt;&gt;</span>();
+        stock.<span class="method">put</span>(<span class="str">"apple"</span>,  <span class="num">50</span>);
+        stock.<span class="method">put</span>(<span class="str">"banana"</span>, <span class="num">30</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(stock.<span class="method">get</span>(<span class="str">"apple"</span>));  <span class="comment">// 50</span>
+
+        <span class="comment">// Queue&lt;E&gt; — FIFO processing</span>
+        <span class="type">Queue</span><span class="gen">&lt;String&gt;</span> tasks = <span class="kw">new</span> <span class="type">LinkedList</span><span class="gen">&lt;&gt;</span>();
+        tasks.<span class="method">offer</span>(<span class="str">"task1"</span>);
+        tasks.<span class="method">offer</span>(<span class="str">"task2"</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(tasks.<span class="method">poll</span>());  <span class="comment">// task1 (first in, first out)</span>
+    }
+}</pre>
+    </div>
+
+    <h2>Reading the Javadoc with Generics Eyes</h2>
+
+    <p>When you look up <code>ArrayList</code> in the Java documentation, you'll see <code>ArrayList&lt;E&gt;</code>. That <code>E</code> is the element type parameter. Every method uses it:</p>
+
+    <table class="compare-table">
+      <tr>
+        <th>Method signature in docs</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td><code>boolean add(E e)</code></td>
+        <td>add an element of type E</td>
+      </tr>
+      <tr>
+        <td><code>E get(int index)</code></td>
+        <td>returns an element of type E</td>
+      </tr>
+      <tr>
+        <td><code>boolean contains(Object o)</code></td>
+        <td>check if element exists (uses Object for historical reasons)</td>
+      </tr>
+      <tr>
+        <td><code>void sort(Comparator&lt;? super E&gt; c)</code></td>
+        <td>sort using a comparator — you'll see this wildcard pattern often</td>
+      </tr>
+    </table>
+
+    <h2>Iterating with Generics</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Iteration.java</span>
+        <span class="code-tag tag-example">All three styles</span>
+      </div>
+      <pre><span class="type">List</span><span class="gen">&lt;String&gt;</span> cities = <span class="type">List</span>.<span class="method">of</span>(<span class="str">"London"</span>, <span class="str">"Tokyo"</span>, <span class="str">"Berlin"</span>);
+
+<span class="comment">// 1. Enhanced for-loop (most common)</span>
+<span class="kw">for</span> (<span class="type">String</span> city : cities) {
+    <span class="type">System</span>.out.<span class="method">println</span>(city);
+}
+
+<span class="comment">// 2. forEach with lambda (modern)</span>
+cities.<span class="method">forEach</span>(city -> <span class="type">System</span>.out.<span class="method">println</span>(city));
+
+<span class="comment">// 3. Iterator (old school, still useful)</span>
+<span class="type">Iterator</span><span class="gen">&lt;String&gt;</span> it = cities.<span class="method">iterator</span>();
+<span class="kw">while</span> (it.<span class="method">hasNext</span>()) {
+    <span class="type">System</span>.out.<span class="method">println</span>(it.<span class="method">next</span>());
+}</pre>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-title">💡 Collections.sort uses Generics too</div>
+      <code>Collections.sort(List&lt;T extends Comparable&lt;? super T&gt;&gt; list)</code> — this looks intimidating but you now know enough to read it: "sort a list where T can be compared to itself or a supertype."
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(6)">← Wildcards</button>
+      <span class="section-indicator">Section 8 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(8)">Common Mistakes →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 8: COMMON MISTAKES ══════════ -->
+  <section class="lesson-section" id="section-8">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 9 of 10</div>
+    <h1 class="lesson-title">Common Mistakes</h1>
+    <p class="lesson-subtitle">Generics trip up beginners in predictable ways. Here are the most common errors you'll encounter and exactly how to fix them.</p>
+
+    <h2>Mistake 1: Using a Primitive as a Type Parameter</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Primitive.java</span>
+        <span class="code-tag tag-bad">❌ Wrong</span>
+      </div>
+      <pre><span class="type">List</span><span class="gen">&lt;<span class="err">int</span>&gt;</span> numbers = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();  <span class="comment">// ❌ int is a primitive</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Primitive.java</span>
+        <span class="code-tag tag-good">✓ Fixed</span>
+      </div>
+      <pre><span class="type">List</span><span class="gen">&lt;Integer&gt;</span> numbers = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();  <span class="comment">// ✓ Integer is the wrapper</span></pre>
+    </div>
+
+    <h2>Mistake 2: Raw Types</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Raw.java</span>
+        <span class="code-tag tag-bad">❌ Raw Type</span>
+      </div>
+      <pre><span class="type">List</span> names = <span class="kw">new</span> <span class="type">ArrayList</span>();  <span class="comment">// ❌ raw type — no type parameter</span>
+names.<span class="method">add</span>(<span class="str">"Alice"</span>);
+names.<span class="method">add</span>(<span class="num">42</span>);  <span class="comment">// compiles — dangerous!</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Raw.java</span>
+        <span class="code-tag tag-good">✓ Fixed</span>
+      </div>
+      <pre><span class="type">List</span><span class="gen">&lt;String&gt;</span> names = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();  <span class="comment">// ✓ always specify the type</span>
+names.<span class="method">add</span>(<span class="str">"Alice"</span>);
+<span class="comment">// names.add(42);  ← ❌ compiler catches it now</span></pre>
+    </div>
+
+    <h2>Mistake 3: Assuming List&lt;Dog&gt; is a List&lt;Animal&gt;</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Subtype.java</span>
+        <span class="code-tag tag-bad">❌ Wrong Assumption</span>
+      </div>
+      <pre><span class="kw">class</span> <span class="type">Animal</span> {}
+<span class="kw">class</span> <span class="type">Dog</span> <span class="kw">extends</span> <span class="type">Animal</span> {}
+
+<span class="type">List</span><span class="gen">&lt;Dog&gt;</span> dogs = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();
+
+<span class="comment">// ❌ Even though Dog extends Animal:</span>
+<span class="type">List</span><span class="gen">&lt;Animal&gt;</span> animals = dogs;  <span class="comment">// COMPILE ERROR</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Subtype.java</span>
+        <span class="code-tag tag-good">✓ Use Wildcard</span>
+      </div>
+      <pre><span class="comment">// Use ? extends Animal if you only need to read from the list</span>
+<span class="type">List</span><span class="gen">&lt;? <span class="kw">extends</span> Animal&gt;</span> animals = dogs;  <span class="comment">// ✓ works</span></pre>
+    </div>
+
+    <h2>Mistake 4: Trying to Create a Generic Array</h2>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Array.java</span>
+        <span class="code-tag tag-bad">❌ Won't Compile</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Container</span><span class="gen">&lt;T&gt;</span> {
+    <span class="kw">private</span> <span class="type">T</span>[] data = <span class="kw">new</span> <span class="type">T</span>[<span class="num">10</span>];  <span class="comment">// ❌ cannot create generic array</span>
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-filename">Array.java</span>
+        <span class="code-tag tag-good">✓ Use ArrayList Instead</span>
+      </div>
+      <pre><span class="kw">public class</span> <span class="type">Container</span><span class="gen">&lt;T&gt;</span> {
+    <span class="kw">private</span> <span class="type">List</span><span class="gen">&lt;T&gt;</span> data = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();  <span class="comment">// ✓ use a List instead</span>
+}</pre>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">⚠ Quick Checklist</div>
+      Before you call a generic "not working" — check these:<br><br>
+      □ &nbsp;Are you using wrapper types (<code>Integer</code>, not <code>int</code>)?<br>
+      □ &nbsp;Did you declare the type parameter on the class/method?<br>
+      □ &nbsp;Are you assuming a parameterized List is a subtype of another?<br>
+      □ &nbsp;Are you trying to instantiate a generic array?
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(7)">← Generics &amp; Collections</button>
+      <span class="section-indicator">Section 9 of 10</span>
+      <button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ SECTION 9: QUIZ & CHALLENGE ══════════ -->
+  <section class="lesson-section" id="section-9">
+    <div class="lesson-eyebrow">Core Java · Generics · Section 10 of 10</div>
+    <h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
+    <p class="lesson-subtitle">Test your understanding and put it into practice.</p>
+
+    <h2>Final Quiz</h2>
+
+    <div class="quiz-card">
+      <div class="quiz-label">Question 1 of 3</div>
+      <div class="quiz-q">Which of these is a valid generic type parameter?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq1')">
+          <span class="option-letter">A</span> <code>List&lt;int&gt;</code>
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fq1')">
+          <span class="option-letter">B</span> <code>List&lt;Integer&gt;</code>
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq1')">
+          <span class="option-letter">C</span> <code>List&lt;integer&gt;</code>
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq1')">
+          <span class="option-letter">D</span> <code>List(Integer)</code>
+        </button>
+      </div>
+      <div class="quiz-feedback" id="fq1-feedback"></div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-label">Question 2 of 3</div>
+      <div class="quiz-q">You write <code>Box&lt;String&gt; b = new Box&lt;&gt;()</code>. What does the <code>&lt;&gt;</code> (diamond) do?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq2')">
+          <span class="option-letter">A</span> Creates a new generic type
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq2')">
+          <span class="option-letter">B</span> Causes a compile error
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fq2')">
+          <span class="option-letter">C</span> Tells the compiler to infer the type from the left side
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq2')">
+          <span class="option-letter">D</span> Creates a raw type
+        </button>
+      </div>
+      <div class="quiz-feedback" id="fq2-feedback"></div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-label">Question 3 of 3</div>
+      <div class="quiz-q">What does <code>T extends Number</code> in a type parameter mean?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq3')">
+          <span class="option-letter">A</span> T must be exactly the Number class
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fq3')">
+          <span class="option-letter">B</span> T must be Number or a subclass of Number
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq3')">
+          <span class="option-letter">C</span> T must be a superclass of Number
+        </button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fq3')">
+          <span class="option-letter">D</span> T can be any type, as long as it's a number in value
+        </button>
+      </div>
+      <div class="quiz-feedback" id="fq3-feedback"></div>
+    </div>
+
+    <h2>Coding Challenges</h2>
+
+    <div class="challenge-card">
+      <div class="challenge-label">🏋 Challenge 1 — Beginner</div>
+      <div class="challenge-title">Generic Stack</div>
+      <div class="challenge-desc">Build a generic <code>Stack&lt;T&gt;</code> class that works like a real stack (last in, first out).</div>
+
+      <div class="challenge-task">
+        <span class="task-num">01</span>
+        Create a <code>Stack&lt;T&gt;</code> class with a private <code>ArrayList&lt;T&gt;</code> as internal storage
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">02</span>
+        Add a <code>push(T item)</code> method that adds to the top
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">03</span>
+        Add a <code>pop()</code> method that removes and returns the top item
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">04</span>
+        Add a <code>peek()</code> method that returns (but doesn't remove) the top item
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">05</span>
+        Test it with <code>Stack&lt;String&gt;</code> and <code>Stack&lt;Integer&gt;</code> in main
+      </div>
+
+      <button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution hint</button>
+      <div class="reveal-content" id="sol1">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Stack.java</span>
+            <span class="code-tag tag-good">Solution</span>
+          </div>
+          <pre><span class="kw">import</span> java.util.ArrayList;
+
+<span class="kw">public class</span> <span class="type">Stack</span><span class="gen">&lt;T&gt;</span> {
+
+    <span class="kw">private</span> <span class="type">ArrayList</span><span class="gen">&lt;T&gt;</span> items = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();
+
+    <span class="kw">public void</span> <span class="method">push</span>(<span class="type">T</span> item) {
+        items.<span class="method">add</span>(item);
+    }
+
+    <span class="kw">public</span> <span class="type">T</span> <span class="method">pop</span>() {
+        <span class="kw">if</span> (items.<span class="method">isEmpty</span>()) <span class="kw">throw new</span> <span class="type">RuntimeException</span>(<span class="str">"Stack is empty"</span>);
+        <span class="kw">return</span> items.<span class="method">remove</span>(items.<span class="method">size</span>() - <span class="num">1</span>);
+    }
+
+    <span class="kw">public</span> <span class="type">T</span> <span class="method">peek</span>() {
+        <span class="kw">if</span> (items.<span class="method">isEmpty</span>()) <span class="kw">throw new</span> <span class="type">RuntimeException</span>(<span class="str">"Stack is empty"</span>);
+        <span class="kw">return</span> items.<span class="method">get</span>(items.<span class="method">size</span>() - <span class="num">1</span>);
+    }
+
+    <span class="kw">public boolean</span> <span class="method">isEmpty</span>() { <span class="kw">return</span> items.<span class="method">isEmpty</span>(); }
+    <span class="kw">public int</span> <span class="method">size</span>()      { <span class="kw">return</span> items.<span class="method">size</span>(); }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="challenge-card">
+      <div class="challenge-label">🏋🏋 Challenge 2 — Intermediate</div>
+      <div class="challenge-title">Generic Utility Methods</div>
+      <div class="challenge-desc">Write a utility class with generic static methods.</div>
+
+      <div class="challenge-task">
+        <span class="task-num">01</span>
+        Write <code>&lt;T&gt; void swap(T[] arr, int i, int j)</code> — swaps two elements in any array
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">02</span>
+        Write <code>&lt;T extends Comparable&lt;T&gt;&gt; T min(List&lt;T&gt; list)</code> — finds the minimum element
+      </div>
+      <div class="challenge-task">
+        <span class="task-num">03</span>
+        Write <code>&lt;T&gt; List&lt;T&gt; repeat(T item, int n)</code> — returns a list with the item repeated n times
+      </div>
+
+      <button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution hint</button>
+      <div class="reveal-content" id="sol2">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">Utils.java</span>
+            <span class="code-tag tag-good">Solution</span>
+          </div>
+          <pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="type">Utils</span> {
+
+    <span class="kw">public static</span> <span class="gen">&lt;T&gt;</span> <span class="kw">void</span> <span class="method">swap</span>(<span class="type">T</span>[] arr, <span class="kw">int</span> i, <span class="kw">int</span> j) {
+        <span class="type">T</span> temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    <span class="kw">public static</span> <span class="gen">&lt;T <span class="kw">extends</span> Comparable&lt;T&gt;&gt;</span> <span class="type">T</span> <span class="method">min</span>(<span class="type">List</span><span class="gen">&lt;T&gt;</span> list) {
+        <span class="type">T</span> result = list.<span class="method">get</span>(<span class="num">0</span>);
+        <span class="kw">for</span> (<span class="type">T</span> item : list) {
+            <span class="kw">if</span> (item.<span class="method">compareTo</span>(result) < <span class="num">0</span>) result = item;
+        }
+        <span class="kw">return</span> result;
+    }
+
+    <span class="kw">public static</span> <span class="gen">&lt;T&gt;</span> <span class="type">List</span><span class="gen">&lt;T&gt;</span> <span class="method">repeat</span>(<span class="type">T</span> item, <span class="kw">int</span> n) {
+        <span class="type">List</span><span class="gen">&lt;T&gt;</span> result = <span class="kw">new</span> <span class="type">ArrayList</span><span class="gen">&lt;&gt;</span>();
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < n; i++) result.<span class="method">add</span>(item);
+        <span class="kw">return</span> result;
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">✓ What You've Learned</div>
+      You now understand: why generics exist · type parameters T/E/K/V · generic methods and classes · multiple type parameters · bounded types with extends · wildcards ? extends / ? super · how collections use generics · common mistakes to avoid. Generics are one of the most important concepts in Java — everything else in the language builds on them.
+    </div>
+
+    <div class="lesson-nav">
+      <button class="nav-btn" onclick="goTo(8)">← Common Mistakes</button>
+      <span class="section-indicator">Section 10 of 10</span>
+      <button class="nav-btn primary" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)" onclick="alert('Lesson complete! Move on to Lambdas & Streams next.')">
+        ✓ Mark Complete
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  let currentSection = 0;
+  const totalSections = 10;
+  const visited = new Set([0]);
+
+  function goTo(n) {
+    document.getElementById('section-' + currentSection).classList.remove('active');
+    document.querySelectorAll('.nav-item').forEach((el, i) => {
+      el.classList.remove('active');
+      if (visited.has(i) && i !== n) el.classList.add('done');
+    });
+
+    currentSection = n;
+    visited.add(n);
+
+    document.getElementById('section-' + n).classList.add('active');
+    document.querySelectorAll('.nav-item')[n].classList.add('active');
+    document.querySelectorAll('.nav-item')[n].classList.remove('done');
+
+    // scroll top
+    document.getElementById('main').scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // update progress
+    const pct = Math.round((visited.size / totalSections) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  const quizAnswers = {
+    'q1':  { correct: 'Before the return type', explanation: 'In a generic method, the type parameter declaration <code>&lt;T&gt;</code> goes <strong>before the return type</strong>. Example: <code>public static &lt;T&gt; void print(T[] arr)</code>' },
+    'q2':  { correct: 'C', explanation: '<code>T extends Comparable&lt;T&gt;</code> means T must <strong>implement the Comparable interface</strong>, which gives us access to the <code>compareTo()</code> method for comparisons.' },
+    'fq1': { correct: 'B', explanation: '<code>List&lt;Integer&gt;</code> is correct. Generic type parameters must be <strong>reference types</strong> (classes/interfaces), not primitives. <code>int</code> is a primitive — use its wrapper <code>Integer</code> instead.' },
+    'fq2': { correct: 'C', explanation: 'The diamond operator <code>&lt;&gt;</code> enables <strong>type inference</strong> — the compiler reads the type from the left side of the declaration so you don\'t have to repeat it.' },
+    'fq3': { correct: 'B', explanation: '<code>T extends Number</code> means T must be <strong>Number or any subclass</strong> of Number (Integer, Double, Long, Float, etc.). It\'s an upper bound.' },
+  };
+
+  function checkQuiz(btn, isCorrect, qId) {
+    const container = btn.closest('.quiz-card');
+    const options = container.querySelectorAll('.quiz-option');
+    options.forEach(o => o.style.pointerEvents = 'none');
+
+    const feedback = document.getElementById(qId + '-feedback');
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      feedback.className = 'quiz-feedback show correct-fb';
+      feedback.innerHTML = '✓ Correct! ' + (quizAnswers[qId]?.explanation || '');
+    } else {
+      btn.classList.add('wrong');
+      feedback.className = 'quiz-feedback show wrong-fb';
+      feedback.innerHTML = '✗ Not quite. ' + (quizAnswers[qId]?.explanation || 'Review the section above.');
+      // highlight correct one
+      options.forEach(o => {
+        if (o !== btn && o.querySelector('.option-letter')?.textContent === 'B' && (qId === 'q1' || qId === 'fq1' || qId === 'fq2' || qId === 'fq3')) {
+          // handled by explanation
+        }
+      });
+    }
+  }
+
+  function toggleReveal(id) {
+    const el = document.getElementById(id);
+    const btn = el.previousElementSibling;
+    if (el.classList.contains('show')) {
+      el.classList.remove('show');
+      btn.textContent = 'Show solution hint';
+    } else {
+      el.classList.add('show');
+      btn.textContent = 'Hide solution';
+    }
+  }
+
+  // nav item click handler
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.addEventListener('click', () => goTo(i));
+  });
+</script>
+</body>
+</html>

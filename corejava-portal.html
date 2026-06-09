@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Java — Rounding Out Your Skills</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#111318;--surface:#181b22;--card:#1e2128;--border:#272c38;--border2:#323848;
+  --text:#e4e8f0;--body:#8e97b0;--muted:#525c78;--dim:#2a3045;
+  --p1:#7c5cbf;--p2:#3db5e8;
+  --grad:linear-gradient(135deg,#7c5cbf,#3db5e8);
+  --grad-dim:rgba(124,92,191,0.10);--grad-border:rgba(124,92,191,0.22);
+  --green:#4ec98a;--green-dim:rgba(78,201,138,0.10);--green-border:rgba(78,201,138,0.22);
+  --yellow:#e8c84e;--yellow-dim:rgba(232,200,78,0.10);--yellow-border:rgba(232,200,78,0.22);
+  --red:#e8634e;--red-dim:rgba(232,99,78,0.10);--red-border:rgba(232,99,78,0.22);
+  --orange:#e8974e;--blue:#4e8ce8;--blue-dim:rgba(78,140,232,0.10);
+  /* Module accent colors */
+  --m0:#a78bfa;--m0d:rgba(167,139,250,0.10);--m0b:rgba(167,139,250,0.22);
+  --m1:#34d399;--m1d:rgba(52,211,153,0.10);--m1b:rgba(52,211,153,0.22);
+  --m2:#f59e0b;--m2d:rgba(245,158,11,0.10);--m2b:rgba(245,158,11,0.22);
+  --m3:#60a5fa;--m3d:rgba(96,165,250,0.10);--m3b:rgba(96,165,250,0.22);
+  --m4:#f87171;--m4d:rgba(248,113,113,0.10);--m4b:rgba(248,113,113,0.22);
+  --m5:#c084fc;--m5d:rgba(192,132,252,0.10);--m5b:rgba(192,132,252,0.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 44px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;backdrop-filter:blur(10px)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff}
+.logo-text{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+.logo-text em{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal}
+.hdr-right{display:flex;align-items:center;gap:20px}
+.back-btn{font-size:12px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--border2);padding:5px 14px;border-radius:5px;cursor:pointer;font-family:'Inter',sans-serif;display:none}
+.back-btn:hover{color:var(--text);border-color:var(--p1)}
+.overall-prog{display:flex;align-items:center;gap:10px}
+.op-track{width:120px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.op-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s ease;width:0%}
+.op-pct{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;min-width:30px}
+.op-pct{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ── VIEWS ── */
+#homeView,#moduleView{min-height:calc(100vh - 56px)}
+#moduleView{display:none}
+
+/* ── HOME ── */
+.home-hero{padding:56px 44px 40px;max-width:1200px;margin:0 auto}
+.home-hero h1{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.15;letter-spacing:-.03em;margin-bottom:14px}
+.home-hero h1 em{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal}
+.home-hero p{font-size:.97rem;color:var(--body);max-width:580px;line-height:1.8;margin-bottom:32px}
+.prereq-bar{display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--card);border:1px solid var(--border);border-radius:7px;max-width:580px;font-size:.87rem;color:var(--muted)}
+.prereq-bar strong{color:var(--text);font-weight:600}
+.prereq-bar::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 44px 60px;max-width:1200px;margin:0 auto}
+.module-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.module-card:hover{transform:translateY(-2px);border-color:var(--border2)}
+.module-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.mc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.mc-icon{font-size:22px;line-height:1}
+.mc-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.mc-title{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
+.mc-desc{font-size:.87rem;color:var(--body);line-height:1.65;margin-bottom:16px}
+.mc-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.mc-topic{font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 8px;border-radius:4px;background:var(--dim);color:var(--muted)}
+.mc-footer{display:flex;align-items:center;justify-content:space-between}
+.mc-lessons{font-size:12px;color:var(--muted)}
+.mc-prog-track{width:80px;height:3px;background:var(--border2);border-radius:2px;overflow:hidden}
+.mc-prog-fill{height:100%;border-radius:2px;width:0%;transition:width .4s}
+.mc-start{font-size:12px;font-weight:600;padding:6px 14px;border-radius:5px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+
+/* ── MODULE VIEW ── */
+.mod-shell{display:flex;min-height:calc(100vh - 56px)}
+.mod-sidebar{width:248px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.mod-sb-header{padding:16px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.mod-sb-icon{font-size:16px}
+.mod-sb-title{font-size:13px;font-weight:700;color:var(--text)}
+.mod-sb-prog{font-family:'JetBrains Mono',monospace;font-size:10px;margin-left:auto}
+.nav-btn{display:flex;align-items:center;gap:8px;padding:8px 14px;width:100%;border:none;background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--muted);text-align:left;transition:all .1s}
+.nav-btn:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-btn.active{color:#fff;font-weight:600}
+.nav-btn.done{color:var(--green)}
+.nav-btn.done::after{content:'✓';margin-left:auto;font-size:10px;color:var(--green)}
+.nav-num{width:19px;height:19px;border-radius:4px;font-size:10px;font-weight:700;background:var(--border2);color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.nav-btn.active .nav-num{color:#fff}
+.mod-main{flex:1;min-width:0;padding:44px 56px 80px}
+
+/* ── LESSON ── */
+.lesson{display:none}
+.lesson.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.lesson-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ey-mod{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em}
+.ey-dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+.ey-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.lesson h2{font-size:clamp(1.5rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px;letter-spacing:-.02em}
+.lesson h2 em{font-style:normal}
+.lesson-intro{font-size:.93rem;color:var(--body);max-width:640px;line-height:1.8;margin-bottom:36px;padding-left:14px;border-left:2px solid}
+
+/* ── PROSE ── */
+.prose{max-width:740px}
+.prose p{font-size:.92rem;color:var(--body);line-height:1.85;margin-bottom:16px}
+.prose h3{font-size:.97rem;font-weight:700;color:var(--text);margin:28px 0 10px;letter-spacing:-.01em}
+.prose ul,.prose ol{padding-left:20px;margin-bottom:16px}
+.prose li{font-size:.9rem;color:var(--body);margin-bottom:7px;line-height:1.75}
+.prose strong{color:var(--text);font-weight:600}
+.prose code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--border);color:var(--orange);padding:1px 6px;border-radius:3px}
+
+/* ── CODE ── */
+.code-wrap{margin:18px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.code-hdr{background:#0d0f14;display:flex;align-items:center;justify-content:space-between;padding:8px 16px}
+.code-fname{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.code-fname::before{content:'';width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.code-tag{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+pre{background:#080a0f;padding:20px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.83rem;line-height:2;margin:0}
+.kw{color:#c084fc}.cl{color:#fbbf24}.fn{color:#34d399}.str{color:#fb923c}
+.num{color:#f472b6}.cm{color:#3a4a5c;font-style:italic}.ann{color:#60a5fa}
+.op{color:#64748b}.bl{color:#38bdf8}
+
+/* ── CALLOUT ── */
+.callout{display:flex;gap:13px;padding:14px 16px;border-radius:7px;margin:18px 0;font-size:.9rem;line-height:1.75;max-width:740px}
+.callout-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:.87rem;margin-bottom:3px;font-family:'JetBrains Mono',monospace}
+.callout-body p{color:var(--muted);margin:0;font-size:.86rem}
+.callout.tip{background:var(--blue-dim);border:1px solid rgba(96,165,250,.22)}
+.callout.tip strong{color:var(--blue)}
+.callout.warn{background:var(--yellow-dim);border:1px solid var(--yellow-border)}
+.callout.warn strong{color:var(--yellow)}
+.callout.good{background:var(--green-dim);border:1px solid var(--green-border)}
+.callout.good strong{color:var(--green)}
+.callout.danger{background:var(--red-dim);border:1px solid var(--red-border)}
+.callout.danger strong{color:var(--red)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin:14px 0;max-width:740px}
+table{width:100%;border-collapse:collapse;font-size:.87rem}
+th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border2);background:var(--surface)}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--body);vertical-align:top}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text);font-weight:500}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--grad-dim)}
+
+/* ── QUIZ ── */
+.quiz{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin:28px 0;max-width:740px}
+.quiz-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:11px}
+.quiz-q{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:16px;line-height:1.55}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--surface);border:1px solid var(--border2);border-radius:5px;padding:10px 14px;cursor:pointer;font-family:'Inter',sans-serif;font-size:.87rem;color:var(--muted);text-align:left;transition:all .12s}
+.quiz-opt:hover:not(:disabled){color:var(--text);background:var(--grad-dim)}
+.quiz-opt.correct{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{margin-top:12px;padding:10px 14px;border-radius:5px;font-size:.86rem;font-weight:600;font-family:'JetBrains Mono',monospace;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+.quiz-fb.bad{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+
+/* ── CHALLENGE ── */
+.challenge{border-radius:8px;padding:20px 22px;margin:22px 0;max-width:740px;position:relative;overflow:hidden}
+.challenge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.ch-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.challenge h4{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.challenge p{font-size:.88rem;color:var(--body);line-height:1.75;margin-bottom:8px}
+.challenge ul{padding-left:16px}
+.challenge li{font-size:.86rem;color:var(--body);margin-bottom:5px;line-height:1.65}
+.challenge code{font-family:'JetBrains Mono',monospace;font-size:.82em}
+
+/* ── NAV ── */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:50px;padding-top:22px;border-top:1px solid var(--border);max-width:740px}
+.btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;padding:9px 20px;border-radius:5px;cursor:pointer;border:none;transition:all .15s;letter-spacing:.02em}
+.btn-prev{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.btn-prev:hover{color:var(--text)}
+.btn-next{color:#fff}
+.btn-next:hover:not(:disabled){filter:brightness(1.12);transform:translateY(-1px)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+@media(max-width:860px){.mod-sidebar{display:none}.mod-main{padding:28px 20px 60px}header{padding:0 16px}.module-grid,.home-hero{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">CJ</div>
+    <span class="logo-text"><em>Core Java</em> — Rounding Out Your Skills</span>
+  </div>
+  <div class="hdr-right">
+    <button class="back-btn" id="backBtn" onclick="showHome()">← All Modules</button>
+    <div class="overall-prog">
+      <div class="op-track"><div class="op-fill" id="opFill"></div></div>
+      <span class="op-pct" id="opPct">0%</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════ HOME ══════════════════════ -->
+<div id="homeView">
+<div class="home-hero">
+  <h1>Six things that make you a<br><em>real Java developer</em></h1>
+  <p>You know Java syntax. You can write classes, loops, and methods. This portal covers the six topics that separate someone who knows Java from someone who <em>works</em> in Java — the things every professional codebase uses daily.</p>
+  <div class="prereq-bar"><strong>Prerequisite:</strong>&nbsp;Java beginner course complete — variables, OOP, collections, exceptions, file I/O</div>
+</div>
+
+<div class="module-grid">
+
+  <div class="module-card" id="card0" onclick="openModule(0)" style="--mc:var(--m0)">
+    <div class="mc-head">
+      <span class="mc-icon">🧩</span>
+      <span class="mc-badge" style="background:var(--m0d);color:var(--m0);border:1px solid var(--m0b)">Module 1</span>
+    </div>
+    <div class="mc-title">Generics</div>
+    <div class="mc-desc">Write type-safe classes and methods that work with any type. Understand how ArrayList&lt;T&gt;, HashMap&lt;K,V&gt; and all Java collections actually work under the hood.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">type parameters</span><span class="mc-topic">bounded types</span><span class="mc-topic">wildcards</span><span class="mc-topic">generic methods</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">5 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp0" style="background:var(--m0)"></div></div>
+      <button class="mc-start" style="background:var(--m0);color:#fff">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card1" onclick="openModule(1)" style="--mc:var(--m1)">
+    <div class="mc-head">
+      <span class="mc-icon">⚡</span>
+      <span class="mc-badge" style="background:var(--m1d);color:var(--m1);border:1px solid var(--m1b)">Module 2</span>
+    </div>
+    <div class="mc-title">Lambdas &amp; Streams</div>
+    <div class="mc-desc">The modern Java way to process collections. Write filter, map, and collect operations that replace verbose loops with expressive one-liners used in every professional codebase.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">lambda syntax</span><span class="mc-topic">functional interfaces</span><span class="mc-topic">Stream API</span><span class="mc-topic">collectors</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">6 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp1" style="background:var(--m1)"></div></div>
+      <button class="mc-start" style="background:var(--m1);color:#000">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card2" onclick="openModule(2)" style="--mc:var(--m2)">
+    <div class="mc-head">
+      <span class="mc-icon">🏷️</span>
+      <span class="mc-badge" style="background:var(--m2d);color:var(--m2);border:1px solid var(--m2b)">Module 3</span>
+    </div>
+    <div class="mc-title">Enums &amp; Records</div>
+    <div class="mc-desc">Cleaner, safer data types. Enums replace error-prone String constants. Records eliminate boilerplate data classes. Both are used constantly in modern Java codebases.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">enum methods</span><span class="mc-topic">enum with fields</span><span class="mc-topic">records</span><span class="mc-topic">pattern matching</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">4 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp2" style="background:var(--m2)"></div></div>
+      <button class="mc-start" style="background:var(--m2);color:#000">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card3" onclick="openModule(3)" style="--mc:var(--m3)">
+    <div class="mc-head">
+      <span class="mc-icon">🛡️</span>
+      <span class="mc-badge" style="background:var(--m3d);color:var(--m3);border:1px solid var(--m3b)">Module 4</span>
+    </div>
+    <div class="mc-title">Optional</div>
+    <div class="mc-desc">Eliminate NullPointerExceptions by design. Optional forces you to handle the "value might not exist" case explicitly, making your code's intent clear and your APIs safer.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">Optional.of / empty</span><span class="mc-topic">map & flatMap</span><span class="mc-topic">orElse patterns</span><span class="mc-topic">null design</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">4 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp3" style="background:var(--m3)"></div></div>
+      <button class="mc-start" style="background:var(--m3);color:#fff">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card4" onclick="openModule(4)" style="--mc:var(--m4)">
+    <div class="mc-head">
+      <span class="mc-icon">🧵</span>
+      <span class="mc-badge" style="background:var(--m4d);color:var(--m4);border:1px solid var(--m4b)">Module 5</span>
+    </div>
+    <div class="mc-title">Concurrency Basics</div>
+    <div class="mc-desc">Make your programs do multiple things at once. Understand threads, the risks of shared state, and how ExecutorService makes writing safe concurrent code manageable.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">Thread & Runnable</span><span class="mc-topic">race conditions</span><span class="mc-topic">synchronized</span><span class="mc-topic">ExecutorService</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">5 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp4" style="background:var(--m4)"></div></div>
+      <button class="mc-start" style="background:var(--m4);color:#fff">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card5" onclick="openModule(5)" style="--mc:var(--m5)">
+    <div class="mc-head">
+      <span class="mc-icon">🏗️</span>
+      <span class="mc-badge" style="background:var(--m5d);color:var(--m5);border:1px solid var(--m5b)">Module 6</span>
+    </div>
+    <div class="mc-title">Design Patterns</div>
+    <div class="mc-desc">Proven solutions to recurring design problems. Factory, Singleton, and Builder are the three patterns that appear in nearly every Java codebase — including Spring Boot.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">Factory Method</span><span class="mc-topic">Singleton</span><span class="mc-topic">Builder</span><span class="mc-topic">when to use each</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">4 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp5" style="background:var(--m5)"></div></div>
+      <button class="mc-start" style="background:var(--m5);color:#fff">Start →</button>
+    </div>
+  </div>
+
+</div>
+</div><!-- /homeView -->
+
+<!-- ══════════════════════ MODULE VIEW ══════════════════════ -->
+<div id="moduleView">
+  <div class="mod-shell">
+    <nav class="mod-sidebar" id="modSidebar">
+      <div class="mod-sb-header">
+        <span class="mod-sb-icon" id="sbIcon"></span>
+        <span class="mod-sb-title" id="sbTitle"></span>
+        <span class="mod-sb-prog" id="sbProg"></span>
+      </div>
+      <div id="navList"></div>
+    </nav>
+    <main class="mod-main" id="modMain"></main>
+  </div>
+</div>
+
+<script>
+// ══════════════════ MODULE DATA ══════════════════
+
+const MODULES = [
+
+// ─────────────────────────── MODULE 0: GENERICS ───────────────────────────
+{
+  id:0, icon:'🧩', title:'Generics', accent:'var(--m0)', accentD:'var(--m0d)', accentB:'var(--m0b)',
+  lessons:[
+    {
+      title:'Why Generics Exist',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 5</span></div>
+<h2>Why <em style="color:var(--m0)">Generics</em> Exist</h2>
+<p class="lesson-intro" style="border-color:var(--m0)">Before generics, every Java collection stored <code>Object</code> — meaning you could accidentally mix types and only find out at runtime. Generics moved type errors to compile time, where they belong.</p>
+<div class="prose">
+<p>Imagine you have a box that can hold anything. You put an apple in, then reach in expecting an apple — but someone else put a banana in. That's what Java collections were like before generics. Everything went in as <code>Object</code> and had to be cast back out.</p>
+</div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname" style="--dot-color:var(--m0)">PreGenerics.java</span><span class="code-tag">Java before generics — the old way</span></div>
+<pre><span class="cm">// Before generics (Java 1.4 and earlier)</span>
+<span class="cl">ArrayList</span> names <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>();
+names.<span class="fn">add</span>(<span class="str">"Alice"</span>);
+names.<span class="fn">add</span>(<span class="num">42</span>);         <span class="cm">// compiles fine! Any Object accepted</span>
+names.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">Task</span>()); <span class="cm">// still fine — but now it's a mess</span>
+
+<span class="cl">String</span> name <span class="op">=</span> (<span class="cl">String</span>) names.<span class="fn">get</span>(<span class="num">0</span>); <span class="cm">// cast required</span>
+<span class="cl">String</span> oops <span class="op">=</span> (<span class="cl">String</span>) names.<span class="fn">get</span>(<span class="num">1</span>); <span class="cm">// ClassCastException at RUNTIME</span>
+
+<span class="cm">// With generics (Java 5+)</span>
+<span class="cl">ArrayList</span>&lt;<span class="cl">String</span>&gt; names2 <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+names2.<span class="fn">add</span>(<span class="str">"Alice"</span>);
+names2.<span class="fn">add</span>(<span class="num">42</span>);   <span class="cm">// COMPILE ERROR — caught immediately</span>
+
+<span class="cl">String</span> s <span class="op">=</span> names2.<span class="fn">get</span>(<span class="num">0</span>); <span class="cm">// no cast needed — compiler guarantees type</span></pre></div>
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>generics = compile-time safety</strong><p>The entire point of generics is to catch type mismatches at compile time rather than at runtime. A compile error is infinitely better than a ClassCastException crashing a production server at 2am.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
+<div class="quiz-q">What is the main benefit of <code>ArrayList&lt;String&gt;</code> over a plain <code>ArrayList</code>?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">It runs faster because strings are smaller than objects</button>
+<button class="quiz-opt" onclick="Q(this,true)">The compiler enforces that only Strings can be added — type errors are caught before the program runs</button>
+<button class="quiz-opt" onclick="Q(this,false)">It automatically sorts the strings alphabetically</button>
+</div><div class="quiz-fb" id="qf_0_0"></div></div>`
+    },
+    {
+      title:'Writing Generic Classes',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 5</span></div>
+<h2>Writing <em style="color:var(--m0)">Generic Classes</em></h2>
+<p class="lesson-intro" style="border-color:var(--m0)">You use generic classes every day. Now learn to write them. A generic class is a blueprint that works with any type — the caller decides what type <code>T</code> is when they instantiate it.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Box.java</span><span class="code-tag">A generic class — the simplest example</span></div>
+<pre><span class="cm">// T is a type parameter — a placeholder for a real type
+// Convention: T=Type, E=Element, K=Key, V=Value, N=Number</span>
+<span class="kw">public class</span> <span class="cl">Box</span>&lt;T&gt; {
+
+    <span class="kw">private</span> T contents;
+
+    <span class="kw">public</span> <span class="fn">Box</span>(T contents) {
+        <span class="kw">this</span>.contents <span class="op">=</span> contents;
+    }
+
+    <span class="kw">public</span> T <span class="fn">get</span>()             { <span class="kw">return</span> contents; }
+    <span class="kw">public void</span> <span class="fn">set</span>(T contents) { <span class="kw">this</span>.contents <span class="op">=</span> contents; }
+
+    <span class="kw">public boolean</span> <span class="fn">isEmpty</span>() { <span class="kw">return</span> contents <span class="op">==</span> <span class="kw">null</span>; }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Box["</span> <span class="op">+</span> contents <span class="op">+</span> <span class="str">"]"</span>;
+    }
+}
+
+<span class="cm">// Usage — T is resolved at the call site</span>
+<span class="cl">Box</span>&lt;<span class="cl">String</span>&gt;  strBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="str">"Hello"</span>);
+<span class="cl">Box</span>&lt;<span class="cl">Integer</span>&gt; intBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="num">42</span>);
+<span class="cl">Box</span>&lt;<span class="cl">Task</span>&gt;    taskBox <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Write tests"</span>));
+
+<span class="cl">String</span>  s <span class="op">=</span> strBox.<span class="fn">get</span>();   <span class="cm">// returns String — no cast</span>
+<span class="cl">Integer</span> n <span class="op">=</span> intBox.<span class="fn">get</span>();   <span class="cm">// returns Integer — no cast</span>
+
+strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm">// COMPILE ERROR — Box&lt;String&gt; only accepts Strings</span></pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Pair.java</span><span class="code-tag">Multiple type parameters</span></div>
+<pre><span class="cm">// Two independent type parameters</span>
+<span class="kw">public class</span> <span class="cl">Pair</span>&lt;A, B&gt; {
+    <span class="kw">private final</span> A first;
+    <span class="kw">private final</span> B second;
+
+    <span class="kw">public</span> <span class="fn">Pair</span>(A first, B second) {
+        <span class="kw">this</span>.first  <span class="op">=</span> first;
+        <span class="kw">this</span>.second <span class="op">=</span> second;
+    }
+
+    <span class="kw">public</span> A <span class="fn">getFirst</span>()  { <span class="kw">return</span> first;  }
+    <span class="kw">public</span> B <span class="fn">getSecond</span>() { <span class="kw">return</span> second; }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"("</span> <span class="op">+</span> first <span class="op">+</span> <span class="str">", "</span> <span class="op">+</span> second <span class="op">+</span> <span class="str">")"</span>;
+    }
+}
+
+<span class="cm">// A function that returns a name + score</span>
+<span class="cl">Pair</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; result <span class="op">=</span> <span class="kw">new</span> <span class="cl">Pair</span>&lt;&gt;(<span class="str">"Alice"</span>, <span class="num">95</span>);
+<span class="cl">System</span>.out.<span class="fn">println</span>(result.<span class="fn">getFirst</span>() <span class="op">+</span> <span class="str">": "</span> <span class="op">+</span> result.<span class="fn">getSecond</span>()); <span class="cm">// Alice: 95</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
+<div class="quiz-q">You declare <code>Box&lt;Integer&gt; box = new Box&lt;&gt;(10)</code>. What does <code>box.get()</code> return — and do you need to cast it?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">An Object — you must cast it to Integer</button>
+<button class="quiz-opt" onclick="Q(this,true)">An Integer — no cast needed because T was resolved to Integer at declaration</button>
+<button class="quiz-opt" onclick="Q(this,false)">A primitive int — generics auto-unbox everything</button>
+</div><div class="quiz-fb" id="qf_0_1"></div></div>`
+    },
+    {
+      title:'Bounded Type Parameters',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 5</span></div>
+<h2>Bounded <em style="color:var(--m0)">Type Parameters</em></h2>
+<p class="lesson-intro" style="border-color:var(--m0)">Sometimes you need T to be a specific kind of thing — not just any type. Bounded type parameters let you constrain what T can be, which also unlocks methods on that type inside your generic class.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">NumberBox.java</span><span class="code-tag">Upper bound — T must be a Number or subclass</span></div>
+<pre><span class="cm">// &lt;T extends Number&gt; means T can be Integer, Double, Float, Long, etc.
+// Inside the class, we can call Number methods on T</span>
+<span class="kw">public class</span> <span class="cl">NumberBox</span>&lt;T <span class="kw">extends</span> <span class="cl">Number</span>&gt; {
+
+    <span class="kw">private</span> T value;
+
+    <span class="kw">public</span> <span class="fn">NumberBox</span>(T value) { <span class="kw">this</span>.value <span class="op">=</span> value; }
+
+    <span class="cm">// We can call .doubleValue() because T is guaranteed to be a Number</span>
+    <span class="kw">public double</span> <span class="fn">doubleValue</span>() { <span class="kw">return</span> value.<span class="fn">doubleValue</span>(); }
+    <span class="kw">public boolean</span> <span class="fn">isPositive</span>() { <span class="kw">return</span> value.<span class="fn">doubleValue</span>() <span class="op">&gt;</span> <span class="num">0</span>; }
+}
+
+<span class="cl">NumberBox</span>&lt;<span class="cl">Integer</span>&gt; i <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span>&lt;&gt;(<span class="num">42</span>);
+<span class="cl">NumberBox</span>&lt;<span class="cl">Double</span>&gt;  d <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span>&lt;&gt;(<span class="num">3.14</span>);
+<span class="cm">// NumberBox&lt;String&gt; s = new NumberBox&lt;&gt;("hello"); // COMPILE ERROR</span>
+
+<span class="cm">// Multiple bounds — T must extend Comparable AND implement Serializable</span>
+<span class="kw">public class</span> <span class="cl">SortedBox</span>&lt;T <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;T&gt; <span class="op">&amp;</span> <span class="cl">Serializable</span>&gt; { <span class="cm">/*...*/</span> }</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Repository.java</span><span class="code-tag">Practical bounded generic — reusable data store</span></div>
+<pre><span class="cm">// T must have an getId() method — enforced via interface bound</span>
+<span class="kw">public interface</span> <span class="cl">Identifiable</span> {
+    <span class="kw">int</span> <span class="fn">getId</span>();
+}
+
+<span class="kw">public class</span> <span class="cl">Repository</span>&lt;T <span class="kw">extends</span> <span class="cl">Identifiable</span>&gt; {
+
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">Integer</span>, T&gt; store <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+
+    <span class="kw">public void</span> <span class="fn">save</span>(T entity) {
+        store.<span class="fn">put</span>(entity.<span class="fn">getId</span>(), entity); <span class="cm">// getId() available because T extends Identifiable</span>
+    }
+
+    <span class="kw">public</span> T <span class="fn">findById</span>(<span class="kw">int</span> id)      { <span class="kw">return</span> store.<span class="fn">get</span>(id); }
+    <span class="kw">public</span> <span class="cl">List</span>&lt;T&gt; <span class="fn">findAll</span>()        { <span class="kw">return new</span> <span class="cl">ArrayList</span>&lt;&gt;(store.<span class="fn">values</span>()); }
+    <span class="kw">public void</span> <span class="fn">delete</span>(<span class="kw">int</span> id)       { store.<span class="fn">remove</span>(id); }
+    <span class="kw">public int</span> <span class="fn">count</span>()               { <span class="kw">return</span> store.<span class="fn">size</span>(); }
+}
+
+<span class="cm">// Works with ANY class implementing Identifiable</span>
+<span class="cl">Repository</span>&lt;<span class="cl">Task</span>&gt;    tasks    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();
+<span class="cl">Repository</span>&lt;<span class="cl">User</span>&gt;    users    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();
+<span class="cl">Repository</span>&lt;<span class="cl">Product</span>&gt; products <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
+<div class="quiz-q">You declare <code>class MathUtil&lt;T extends Number&gt;</code>. Can you call <code>T.doubleValue()</code> inside the class?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,true)">Yes — because the bound guarantees T is a Number, and Number has doubleValue()</button>
+<button class="quiz-opt" onclick="Q(this,false)">No — T is erased at runtime so no methods can be called on it</button>
+<button class="quiz-opt" onclick="Q(this,false)">Only if you cast T to Number first</button>
+</div><div class="quiz-fb" id="qf_0_2"></div></div>`
+    },
+    {
+      title:'Generic Methods & Wildcards',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 5</span></div>
+<h2>Generic Methods <em style="color:var(--m0)">&amp; Wildcards</em></h2>
+<p class="lesson-intro" style="border-color:var(--m0)">Generic methods let you add type-safe flexibility to any method, not just generic classes. Wildcards (<code>?</code>) handle the trickier case: accepting a collection of any type.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">GenericMethods.java</span><span class="code-tag">Generic static methods</span></div>
+<pre><span class="kw">public class</span> <span class="cl">Utils</span> {
+
+    <span class="cm">// The &lt;T&gt; before the return type declares this as a generic method</span>
+    <span class="kw">public static</span> &lt;T&gt; <span class="cl">List</span>&lt;T&gt; <span class="fn">repeat</span>(T item, <span class="kw">int</span> times) {
+        <span class="cl">List</span>&lt;T&gt; list <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> times; i<span class="op">++</span>) list.<span class="fn">add</span>(item);
+        <span class="kw">return</span> list;
+    }
+
+    <span class="cm">// T must be Comparable so we can use compareTo</span>
+    <span class="kw">public static</span> &lt;T <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;T&gt;&gt; T <span class="fn">max</span>(T a, T b) {
+        <span class="kw">return</span> a.<span class="fn">compareTo</span>(b) <span class="op">&gt;=</span> <span class="num">0</span> ? a : b;
+    }
+
+    <span class="kw">public static</span> &lt;T&gt; <span class="kw">void</span> <span class="fn">swap</span>(T[] arr, <span class="kw">int</span> i, <span class="kw">int</span> j) {
+        T temp  <span class="op">=</span> arr[i];
+        arr[i]  <span class="op">=</span> arr[j];
+        arr[j]  <span class="op">=</span> temp;
+    }
+}
+
+<span class="cm">// Type inferred automatically from arguments</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt;  words   <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="str">"hello"</span>, <span class="num">3</span>);   <span class="cm">// ["hello","hello","hello"]</span>
+<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; numbers <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="num">42</span>, <span class="num">5</span>);        <span class="cm">// [42,42,42,42,42]</span>
+<span class="cl">String</span>        bigger  <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">max</span>(<span class="str">"apple"</span>, <span class="str">"banana"</span>); <span class="cm">// "banana"</span></pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Wildcards.java</span><span class="code-tag">? extends T · ? super T · unbounded ?</span></div>
+<pre><span class="cm">// Problem: List&lt;Integer&gt; is NOT a subtype of List&lt;Number&gt; in Java!
+// This is where wildcards come in.</span>
+
+<span class="cm">// Upper-bounded wildcard: accept a List of Number or any subtype</span>
+<span class="kw">public static double</span> <span class="fn">sumList</span>(<span class="cl">List</span>&lt;? <span class="kw">extends</span> <span class="cl">Number</span>&gt; list) {
+    <span class="kw">double</span> total <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="cl">Number</span> n : list) total <span class="op">+=</span> n.<span class="fn">doubleValue</span>();
+    <span class="kw">return</span> total;
+}
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Integer</span>&gt;());  <span class="cm">// ✓</span>
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Double</span>&gt;());   <span class="cm">// ✓</span>
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Number</span>&gt;());   <span class="cm">// ✓</span>
+
+<span class="cm">// Lower-bounded wildcard: accept a List of Number or any supertype
+// Use this when you need to ADD elements to the list</span>
+<span class="kw">public static void</span> <span class="fn">addNumbers</span>(<span class="cl">List</span>&lt;? <span class="kw">super</span> <span class="cl">Integer</span>&gt; list) {
+    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">1</span>; i <span class="op">&lt;=</span> <span class="num">5</span>; i<span class="op">++</span>) list.<span class="fn">add</span>(i);
+}
+<span class="cm">// Unbounded: accepts any List regardless of type (read-only operations)</span>
+<span class="kw">public static void</span> <span class="fn">printList</span>(<span class="cl">List</span>&lt;?&gt; list) {
+    list.<span class="fn">forEach</span>(<span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>);
+}</pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>the PECS rule</strong><p>Producer Extends, Consumer Super. If a collection <em>produces</em> values you read: use <code>? extends T</code>. If it <em>consumes</em> values you add: use <code>? super T</code>. If both: use a concrete type parameter <code>T</code>.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
+<div class="quiz-q">A method needs to accept a <code>List</code> of integers, doubles, or any other numbers and sum them. Which parameter type is correct?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>List&lt;Number&gt;</code> — Number is the parent of all number types</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>List&lt;? extends Number&gt;</code> — accepts List of Number or any subtype including Integer and Double</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>List&lt;?&gt;</code> — fully unbounded, accepts anything</button>
+</div><div class="quiz-fb" id="qf_0_3"></div></div>`
+    },
+    {
+      title:'Generics in Practice',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 5 of 5</span></div>
+<h2>Generics <em style="color:var(--m0)">in Practice</em></h2>
+<p class="lesson-intro" style="border-color:var(--m0)">Put it all together. Here's how generics appear in real-world Java code — from utility classes to event systems to result types.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Result.java</span><span class="code-tag">Generic Result type — operations that can fail</span></div>
+<pre><span class="cm">// A Result&lt;T&gt; holds either a success value or an error message
+// This pattern avoids exceptions for expected failures</span>
+<span class="kw">public class</span> <span class="cl">Result</span>&lt;T&gt; {
+
+    <span class="kw">private final</span> T       value;
+    <span class="kw">private final</span> <span class="cl">String</span> error;
+    <span class="kw">private final boolean</span> success;
+
+    <span class="kw">private</span> <span class="fn">Result</span>(T value, <span class="cl">String</span> error, <span class="kw">boolean</span> success) {
+        <span class="kw">this</span>.value <span class="op">=</span> value; <span class="kw">this</span>.error <span class="op">=</span> error; <span class="kw">this</span>.success <span class="op">=</span> success;
+    }
+
+    <span class="kw">public static</span> &lt;T&gt; <span class="cl">Result</span>&lt;T&gt; <span class="fn">success</span>(T value) {
+        <span class="kw">return new</span> <span class="cl">Result</span>&lt;&gt;(value, <span class="kw">null</span>, <span class="kw">true</span>);
+    }
+    <span class="kw">public static</span> &lt;T&gt; <span class="cl">Result</span>&lt;T&gt; <span class="fn">failure</span>(<span class="cl">String</span> error) {
+        <span class="kw">return new</span> <span class="cl">Result</span>&lt;&gt;(<span class="kw">null</span>, error, <span class="kw">false</span>);
+    }
+
+    <span class="kw">public boolean</span> <span class="fn">isSuccess</span>() { <span class="kw">return</span> success; }
+    <span class="kw">public</span> T       <span class="fn">getValue</span>()  { <span class="kw">return</span> value;   }
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getError</span>()   { <span class="kw">return</span> error;   }
+}
+
+<span class="cm">// Usage — much cleaner than try/catch for expected failures</span>
+<span class="kw">public</span> <span class="cl">Result</span>&lt;<span class="cl">User</span>&gt; <span class="fn">findUser</span>(<span class="kw">int</span> id) {
+    <span class="cl">User</span> user <span class="op">=</span> db.<span class="fn">query</span>(id);
+    <span class="kw">if</span> (user <span class="op">==</span> <span class="kw">null</span>) <span class="kw">return</span> <span class="cl">Result</span>.<span class="fn">failure</span>(<span class="str">"User not found: "</span> <span class="op">+</span> id);
+    <span class="kw">return</span> <span class="cl">Result</span>.<span class="fn">success</span>(user);
+}
+
+<span class="cl">Result</span>&lt;<span class="cl">User</span>&gt; r <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>);
+<span class="kw">if</span> (r.<span class="fn">isSuccess</span>()) { <span class="fn">display</span>(r.<span class="fn">getValue</span>()); }
+<span class="kw">else</span>                { <span class="fn">showError</span>(r.<span class="fn">getError</span>()); }</pre></div>
+<div class="challenge" style="background:var(--m0d);border-color:var(--m0b)">
+<div class="ch-lbl" style="color:var(--m0)">Module Challenge</div>
+<h4>Build a Generic Stack</h4>
+<p>Implement a <code>Stack&lt;T&gt;</code> class using an <code>ArrayList&lt;T&gt;</code> internally:</p>
+<ul>
+<li><code>push(T item)</code> — add to top</li>
+<li><code>pop()</code> — remove and return top item; throw <code>EmptyStackException</code> if empty</li>
+<li><code>peek()</code> — return top without removing; throw if empty</li>
+<li><code>isEmpty()</code>, <code>size()</code></li>
+</ul>
+<p>Then write a generic static method <code>reverse(List&lt;T&gt; list)</code> that uses your Stack to reverse any list in-place. Test with <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code>.</p>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
+<div class="quiz-q">Type erasure means that at runtime, <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code> are both just <code>List</code>. What is the implication?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Generic code is slower than raw Object code at runtime</button>
+<button class="quiz-opt" onclick="Q(this,true)">You cannot use <code>instanceof</code> to check a generic type at runtime — e.g. <code>x instanceof List&lt;String&gt;</code> is a compile error</button>
+<button class="quiz-opt" onclick="Q(this,false)">Generic types can only hold reference types, not primitives — and this is why</button>
+</div><div class="quiz-fb" id="qf_0_4"></div></div>`
+    }
+  ]
+},
+
+// ─────────────────────────── MODULE 1: LAMBDAS & STREAMS ───────────────────────────
+{
+  id:1, icon:'⚡', title:'Lambdas & Streams', accent:'var(--m1)', accentD:'var(--m1d)', accentB:'var(--m1b)',
+  lessons:[
+    {
+      title:'Lambda Syntax',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 6</span></div>
+<h2>Lambda <em style="color:var(--m1)">Syntax</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">A lambda is a short, anonymous function. Instead of creating a whole class to implement one method, you write the logic inline. They transformed how Java code looks — almost every modern Java file uses them.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">LambdaSyntax.java</span><span class="code-tag">The evolution of anonymous code</span></div>
+<pre><span class="cm">// OLD WAY: anonymous inner class (before Java 8)</span>
+<span class="cl">Runnable</span> r1 <span class="op">=</span> <span class="kw">new</span> <span class="cl">Runnable</span>() {
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello!"</span>);
+    }
+};
+
+<span class="cm">// LAMBDA: same thing, 1 line</span>
+<span class="cl">Runnable</span> r2 <span class="op">=</span> () <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello!"</span>);
+
+<span class="cm">// ─── Lambda syntax variations ─────────────────────────────</span>
+<span class="cm">// No parameters</span>
+<span class="cl">Runnable</span> noParams <span class="op">=</span> () <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi"</span>);
+
+<span class="cm">// One parameter — parentheses optional</span>
+<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; greet <span class="op">=</span> name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name);
+
+<span class="cm">// Two parameters</span>
+<span class="cl">Comparator</span>&lt;<span class="cl">Integer</span>&gt; compare <span class="op">=</span> (a, b) <span class="op">-&gt;</span> a <span class="op">-</span> b;
+
+<span class="cm">// With explicit types (usually inferred)</span>
+<span class="cl">Comparator</span>&lt;<span class="cl">String</span>&gt; byLength <span class="op">=</span> (<span class="cl">String</span> a, <span class="cl">String</span> b) <span class="op">-&gt;</span> a.<span class="fn">length</span>() <span class="op">-</span> b.<span class="fn">length</span>();
+
+<span class="cm">// Multi-line: use curly braces and explicit return</span>
+<span class="cl">Function</span>&lt;<span class="cl">Integer</span>, <span class="cl">String</span>&gt; describe <span class="op">=</span> n <span class="op">-&gt;</span> {
+    <span class="kw">if</span> (n <span class="op">&gt;</span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"positive"</span>;
+    <span class="kw">if</span> (n <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"negative"</span>;
+    <span class="kw">return</span> <span class="str">"zero"</span>;
+};
+
+<span class="cm">// Method reference — even shorter when the lambda just calls a method</span>
+<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; print <span class="op">=</span> <span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>; <span class="cm">// same as s -> System.out.println(s)</span>
+<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; len <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;  <span class="cm">// same as s -> s.length()</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">Which lambda correctly represents a function that takes a String and returns its length as an int?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>() -> s.length()</code></button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>s -> s.length()</code> — or equivalently <code>String::length</code></button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>(String s) -> { s.length() }</code></button>
+</div><div class="quiz-fb" id="qf_1_0"></div></div>`
+    },
+    {
+      title:'Functional Interfaces',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 6</span></div>
+<h2>Functional <em style="color:var(--m1)">Interfaces</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">A lambda needs something to be assigned to — a type. That type is always a functional interface: an interface with exactly one abstract method. Java provides the most common ones in <code>java.util.function</code>.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">FunctionalInterfaces.java</span><span class="code-tag">The four most important functional interfaces</span></div>
+<pre><span class="kw">import</span> java.util.function.*;
+
+<span class="cm">// ── Predicate&lt;T&gt;: takes T, returns boolean ──────────────────</span>
+<span class="cl">Predicate</span>&lt;<span class="cl">String</span>&gt; isLong <span class="op">=</span> s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">5</span>;
+<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEven <span class="op">=</span> n <span class="op">-&gt;</span> n <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>;
+
+isLong.<span class="fn">test</span>(<span class="str">"Hello"</span>);         <span class="cm">// false</span>
+isLong.<span class="fn">test</span>(<span class="str">"Hello World"</span>);   <span class="cm">// true</span>
+
+<span class="cm">// Predicates can be combined</span>
+<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEvenAndPositive <span class="op">=</span> isEven.<span class="fn">and</span>(n <span class="op">-&gt;</span> n <span class="op">&gt;</span> <span class="num">0</span>);
+<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEvenOrNegative  <span class="op">=</span> isEven.<span class="fn">or</span>(n <span class="op">-&gt;</span> n <span class="op">&lt;</span> <span class="num">0</span>);
+
+<span class="cm">// ── Function&lt;T, R&gt;: takes T, returns R ──────────────────────</span>
+<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; strToLen  <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;
+<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">String</span>&gt;  toUpper   <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>;
+
+<span class="cm">// Chain functions with andThen</span>
+<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">String</span>&gt; trim_upper <span class="op">=</span> (<span class="cl">String</span><span class="op">::</span><span class="fn">trim</span>).<span class="fn">andThen</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>);
+trim_upper.<span class="fn">apply</span>(<span class="str">"  hello  "</span>); <span class="cm">// "HELLO"</span>
+
+<span class="cm">// ── Consumer&lt;T&gt;: takes T, returns nothing ──────────────────</span>
+<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; log <span class="op">=</span> msg <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"[LOG] "</span> <span class="op">+</span> msg);
+log.<span class="fn">accept</span>(<span class="str">"Task added"</span>); <span class="cm">// [LOG] Task added</span>
+
+<span class="cm">// ── Supplier&lt;T&gt;: takes nothing, returns T ──────────────────</span>
+<span class="cl">Supplier</span>&lt;<span class="cl">String</span>&gt; greeting  <span class="op">=</span> () <span class="op">-&gt;</span> <span class="str">"Hello, World!"</span>;
+<span class="cl">Supplier</span>&lt;<span class="cl">Task</span>&gt;   newTask   <span class="op">=</span> () <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Default"</span>);
+greeting.<span class="fn">get</span>(); <span class="cm">// "Hello, World!" — called lazily</span>
+
+<span class="cm">// ── BiFunction, BiPredicate, BiConsumer — two inputs ───────</span>
+<span class="cl">BiFunction</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>, <span class="cl">String</span>&gt; repeat <span class="op">=</span>
+    (s, n) <span class="op">-&gt;</span> s.<span class="fn">repeat</span>(n);   <span class="cm">// Java 11+</span>
+repeat.<span class="fn">apply</span>(<span class="str">"ha"</span>, <span class="num">3</span>); <span class="cm">// "hahaha"</span></pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>your own functional interfaces</strong><p>Any interface with exactly one abstract method is a functional interface. Mark it with <code>@FunctionalInterface</code> to get a compile error if you accidentally add a second method. You use your own lambdas and the built-in types interchangeably.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">A method needs to take a <code>String</code> and return a <code>Boolean</code>. Which functional interface is the right type?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>Consumer&lt;String&gt;</code> — consumes a String</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>Supplier&lt;Boolean&gt;</code> — supplies a Boolean</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>Predicate&lt;String&gt;</code> (or <code>Function&lt;String, Boolean&gt;</code>) — takes a String, returns a boolean</button>
+</div><div class="quiz-fb" id="qf_1_1"></div></div>`
+    },
+    {
+      title:'Introduction to Streams',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 6</span></div>
+<h2>Introduction to <em style="color:var(--m1)">Streams</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">A Stream is a pipeline of operations on a sequence of elements. It replaces verbose for-loops with declarative, chainable operations that clearly express intent. This is the most used feature of modern Java.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Streams.java</span><span class="code-tag">Stream operations — filter, map, collect, forEach</span></div>
+<pre><span class="kw">import</span> java.util.stream.*;
+
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; names <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Anna"</span>, <span class="str">"Dave"</span>);
+
+<span class="cm">// forEach: do something with each element (terminal)</span>
+names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>);
+
+<span class="cm">// filter: keep only elements matching a condition (intermediate)</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; aNames <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+<span class="cm">// ["Alice", "Anna"]</span>
+
+<span class="cm">// map: transform each element to something else (intermediate)</span>
+<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; lengths <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>)
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+<span class="cm">// [5, 3, 7, 4, 4]</span>
+
+<span class="cm">// Chain operations — find names starting with A, uppercase them, sorted</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; result <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
+    .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>)
+    .<span class="fn">sorted</span>()
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+<span class="cm">// ["ALICE", "ANNA"]</span>
+
+<span class="cm">// count, min, max, sum — numeric reductions</span>
+<span class="kw">long</span>  count  <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">4</span>).<span class="fn">count</span>();     <span class="cm">// 2</span>
+<span class="kw">int</span>   total  <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">mapToInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>).<span class="fn">sum</span>();           <span class="cm">// 23</span>
+<span class="kw">double</span> avg   <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">mapToInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>).<span class="fn">average</span>().<span class="fn">orElse</span>(<span class="num">0</span>);
+
+<span class="cm">// anyMatch, allMatch, noneMatch — predicate checks</span>
+<span class="kw">boolean</span> hasLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">anyMatch</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">6</span>); <span class="cm">// true (Charlie)</span>
+<span class="kw">boolean</span> allLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">allMatch</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">2</span>); <span class="cm">// true</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>streams are lazy and one-use</strong><p>Intermediate operations (filter, map, sorted) don't execute until a terminal operation (collect, forEach, count) is called. Also: once a stream is consumed by a terminal operation it's done — you can't reuse it. Create a new stream from the source collection if you need another pass.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">In a stream pipeline with <code>.filter().map().collect()</code>, which operations are "intermediate" and which is "terminal"?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">All three are terminal — each one returns a result</button>
+<button class="quiz-opt" onclick="Q(this,true)">filter and map are intermediate (lazy, return a Stream); collect is terminal (triggers execution and produces a result)</button>
+<button class="quiz-opt" onclick="Q(this,false)">filter is terminal; map and collect are intermediate</button>
+</div><div class="quiz-fb" id="qf_1_2"></div></div>`
+    },
+    {
+      title:'Collectors & Grouping',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 6</span></div>
+<h2>Collectors <em style="color:var(--m1)">&amp; Grouping</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">Collectors determine what you get at the end of a stream pipeline. Beyond just collecting to a list, you can group, partition, join strings, count by category, and build maps — all without a single loop.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Collectors.java</span><span class="code-tag">groupingBy · partitioningBy · joining · toMap</span></div>
+<pre><span class="kw">record</span> <span class="cl">Employee</span>(<span class="cl">String</span> name, <span class="cl">String</span> dept, <span class="kw">double</span> salary) {}
+
+<span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; staff <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+    <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Alice"</span>, <span class="str">"Eng"</span>, <span class="num">120_000</span>),
+    <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Bob"</span>,   <span class="str">"Eng"</span>,  <span class="num">95_000</span>),
+    <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Carol"</span>, <span class="str">"HR"</span>,   <span class="num">80_000</span>),
+    <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Dave"</span>,  <span class="str">"Eng"</span>, <span class="num">110_000</span>),
+    <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Eve"</span>,   <span class="str">"HR"</span>,   <span class="num">90_000</span>)
+);
+
+<span class="cm">// Group by department → Map&lt;String, List&lt;Employee&gt;&gt;</span>
+<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt;&gt; byDept <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>));
+<span class="cm">// {Eng: [Alice, Bob, Dave], HR: [Carol, Eve]}</span>
+
+<span class="cm">// Count per department</span>
+<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Long</span>&gt; countByDept <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(
+        <span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>, <span class="cl">Collectors</span>.<span class="fn">counting</span>()
+    ));
+<span class="cm">// {Eng: 3, HR: 2}</span>
+
+<span class="cm">// Average salary per department</span>
+<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; avgByDept <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(
+        <span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>, <span class="cl">Collectors</span>.<span class="fn">averagingDouble</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>)
+    ));
+
+<span class="cm">// partitioningBy: splits into true/false groups</span>
+<span class="cl">Map</span>&lt;<span class="cl">Boolean</span>, <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt;&gt; highEarners <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">partitioningBy</span>(e <span class="op">-&gt;</span> e.<span class="fn">salary</span>() <span class="op">&gt;</span> <span class="num">100_000</span>));
+<span class="cm">// {true: [Alice, Dave], false: [Bob, Carol, Eve]}</span>
+
+<span class="cm">// joining: concatenate strings</span>
+<span class="cl">String</span> nameList <span class="op">=</span> staff.<span class="fn">stream</span>()
+    .<span class="fn">map</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">name</span>)
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">joining</span>(<span class="str">", "</span>, <span class="str">"["</span>, <span class="str">"]"</span>));
+<span class="cm">// "[Alice, Bob, Carol, Dave, Eve]"</span>
+
+<span class="cm">// toMap: collect into a Map</span>
+<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; salaryMap <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toMap</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">name</span>, <span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>));</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">You have a list of tasks and want a <code>Map&lt;String, List&lt;Task&gt;&gt;</code> where the key is the priority ("HIGH", "MEDIUM", "LOW"). Which collector do you use?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>Collectors.toMap(Task::getPriority, task -> task)</code></button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>Collectors.groupingBy(Task::getPriority)</code></button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>Collectors.partitioningBy(Task::getPriority)</code></button>
+</div><div class="quiz-fb" id="qf_1_3"></div></div>`
+    },
+    {
+      title:'flatMap, reduce, & More',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 5 of 6</span></div>
+<h2>flatMap, reduce <em style="color:var(--m1)">&amp; More</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">Beyond the basics: flatMap flattens nested collections, reduce folds a stream into a single value, and sorted/distinct handle ordering and uniqueness.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">AdvancedStreams.java</span><span class="code-tag">flatMap · reduce · distinct · sorted · peek</span></div>
+<pre><span class="cm">// flatMap: flatten a stream of collections into one stream</span>
+<span class="cl">List</span>&lt;<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt;&gt; nested <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+    <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>),
+    <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">4</span>, <span class="num">5</span>),
+    <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">6</span>)
+);
+<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; flat <span class="op">=</span> nested.<span class="fn">stream</span>()
+    .<span class="fn">flatMap</span>(<span class="cl">List</span><span class="op">::</span><span class="fn">stream</span>)   <span class="cm">// each inner List becomes individual elements</span>
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+<span class="cm">// [1, 2, 3, 4, 5, 6]</span>
+
+<span class="cm">// Real use: get all tags across all blog posts</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; allTags <span class="op">=</span> posts.<span class="fn">stream</span>()
+    .<span class="fn">flatMap</span>(post <span class="op">-&gt;</span> post.<span class="fn">getTags</span>().<span class="fn">stream</span>())
+    .<span class="fn">distinct</span>()              <span class="cm">// remove duplicates</span>
+    .<span class="fn">sorted</span>()
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+
+<span class="cm">// reduce: fold the stream into a single value</span>
+<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; nums <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>);
+<span class="kw">int</span> sum     <span class="op">=</span> nums.<span class="fn">stream</span>().<span class="fn">reduce</span>(<span class="num">0</span>, Integer<span class="op">::</span><span class="fn">sum</span>);         <span class="cm">// 15</span>
+<span class="kw">int</span> product <span class="op">=</span> nums.<span class="fn">stream</span>().<span class="fn">reduce</span>(<span class="num">1</span>, (a, b) <span class="op">-&gt;</span> a <span class="op">*</span> b);    <span class="cm">// 120</span>
+
+<span class="cm">// sorted with custom Comparator</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; sortedByLen <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">sorted</span>(<span class="cl">Comparator</span>.<span class="fn">comparingInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>)
+                       .<span class="fn">thenComparing</span>(<span class="cl">Comparator</span>.<span class="fn">naturalOrder</span>()))
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+
+<span class="cm">// peek: inspect elements mid-pipeline (great for debugging)</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; debug <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">4</span>)
+    .<span class="fn">peek</span>(n <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"After filter: "</span> <span class="op">+</span> n))
+    .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>)
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">You have a <code>List&lt;Order&gt;</code> where each Order has a <code>List&lt;Item&gt; getItems()</code>. How do you get a single flat list of all items across all orders?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>orders.stream().map(Order::getItems).collect(toList())</code></button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>orders.stream().flatMap(o -> o.getItems().stream()).collect(toList())</code></button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>orders.stream().forEach(o -> o.getItems()).collect(toList())</code></button>
+</div><div class="quiz-fb" id="qf_1_4"></div></div>`
+    },
+    {
+      title:'Streams in Practice',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 6 of 6</span></div>
+<h2>Streams <em style="color:var(--m1)">in Practice</em></h2>
+<p class="lesson-intro" style="border-color:var(--m1)">Real-world stream patterns. This lesson shows the kinds of pipelines that appear regularly in production Java code.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">StreamPatterns.java</span><span class="code-tag">Common real-world patterns</span></div>
+<pre><span class="cm">// ── 1. Find the top 3 highest-paid employees ───────────────</span>
+<span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; top3 <span class="op">=</span> staff.<span class="fn">stream</span>()
+    .<span class="fn">sorted</span>(<span class="cl">Comparator</span>.<span class="fn">comparingDouble</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>).<span class="fn">reversed</span>())
+    .<span class="fn">limit</span>(<span class="num">3</span>)
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
+
+<span class="cm">// ── 2. Check if any task is overdue ────────────────────────</span>
+<span class="kw">boolean</span> hasOverdue <span class="op">=</span> tasks.<span class="fn">stream</span>()
+    .<span class="fn">anyMatch</span>(t <span class="op">-&gt;</span> t.<span class="fn">getDueDate</span>().<span class="fn">isBefore</span>(<span class="cl">LocalDate</span>.<span class="fn">now</span>()) <span class="op">&amp;&amp;</span> !t.<span class="fn">isCompleted</span>());
+
+<span class="cm">// ── 3. Convert list to map: id → object ────────────────────</span>
+<span class="cl">Map</span>&lt;<span class="cl">Integer</span>, <span class="cl">Task</span>&gt; taskById <span class="op">=</span> tasks.<span class="fn">stream</span>()
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toMap</span>(<span class="cl">Task</span><span class="op">::</span><span class="fn">getId</span>, t <span class="op">-&gt;</span> t));
+
+<span class="cm">// ── 4. Calculate statistics ────────────────────────────────</span>
+<span class="cl">IntSummaryStatistics</span> stats <span class="op">=</span> employees.<span class="fn">stream</span>()
+    .<span class="fn">mapToInt</span>(e <span class="op">-&gt;</span> (<span class="kw">int</span>) e.<span class="fn">salary</span>())
+    .<span class="fn">summaryStatistics</span>();
+<span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"Min: %d, Max: %d, Avg: %.0f%n"</span>,
+    stats.<span class="fn">getMin</span>(), stats.<span class="fn">getMax</span>(), stats.<span class="fn">getAverage</span>());
+
+<span class="cm">// ── 5. Build a summary string ──────────────────────────────</span>
+<span class="cl">String</span> summary <span class="op">=</span> tasks.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(<span class="cl">Task</span><span class="op">::</span><span class="fn">isCompleted</span>)
+    .<span class="fn">map</span>(t <span class="op">-&gt;</span> <span class="str">"✓ "</span> <span class="op">+</span> t.<span class="fn">getTitle</span>())
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">joining</span>(<span class="str">"\n"</span>));</pre></div>
+<div class="challenge" style="background:var(--m1d);border-color:var(--m1b)">
+<div class="ch-lbl" style="color:var(--m1)">Module Challenge</div>
+<h4>Rewrite your Task Manager using Streams</h4>
+<p>Take your existing Task Manager and rewrite these methods to use streams instead of for-loops:</p>
+<ul>
+<li><code>filterByPriority(String p)</code> → use <code>.filter()</code></li>
+<li><code>getCompletionStats()</code> → use <code>.collect(partitioningBy(...))</code> to split completed/pending</li>
+<li><code>findTaskByTitle(String keyword)</code> → use <code>.filter()</code> + <code>.findFirst()</code></li>
+<li><code>getSortedByPriority()</code> → use <code>.sorted()</code> with a <code>Comparator</code></li>
+<li><code>getTaskSummary()</code> → use <code>.map()</code> + <code>Collectors.joining()</code></li>
+</ul>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
+<div class="quiz-q">You call <code>stream.filter().map()</code> and nothing prints. Why?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">filter() and map() are broken — you need to call stream() again between them</button>
+<button class="quiz-opt" onclick="Q(this,true)">filter() and map() are lazy intermediate operations — nothing executes until a terminal operation like collect() or forEach() is called</button>
+<button class="quiz-opt" onclick="Q(this,false)">The stream is empty — filter always removes everything</button>
+</div><div class="quiz-fb" id="qf_1_5"></div></div>`
+    }
+  ]
+},
+// ─────────────────────────── MODULE 2: ENUMS & RECORDS ───────────────────────────
+{
+  id:2, icon:'🏷️', title:'Enums & Records', accent:'var(--m2)', accentD:'var(--m2d)', accentB:'var(--m2b)',
+  lessons:[
+    {
+      title:'Enums — Beyond String Constants',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 4</span></div>
+<h2>Enums — Beyond <em style="color:var(--m2)">String Constants</em></h2>
+<p class="lesson-intro" style="border-color:var(--m2)">Using strings for fixed choices like <code>"HIGH"</code>, <code>"LOW"</code> is fragile — a typo compiles fine and only breaks at runtime. Enums give those choices a proper type, with compile-time checking and IDE autocomplete.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Priority.java</span><span class="code-tag">Basic enum · with fields · with methods</span></div>
+<pre><span class="cm">// ── Basic enum ─────────────────────────────────────────────</span>
+<span class="kw">public enum</span> <span class="cl">Priority</span> { HIGH, MEDIUM, LOW }
+
+<span class="cm">// Usage</span>
+<span class="cl">Priority</span> p <span class="op">=</span> <span class="cl">Priority</span>.HIGH;
+<span class="kw">if</span> (p <span class="op">==</span> <span class="cl">Priority</span>.HIGH) <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Urgent!"</span>);
+
+<span class="cm">// switch on an enum (exhaustive check in newer Java)</span>
+<span class="kw">switch</span> (p) {
+    <span class="kw">case</span> HIGH   <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do now"</span>);
+    <span class="kw">case</span> MEDIUM <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do soon"</span>);
+    <span class="kw">case</span> LOW    <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"When time allows"</span>);
+}
+
+<span class="cm">// ── Enum with fields and methods ───────────────────────────</span>
+<span class="kw">public enum</span> <span class="cl">Priority</span> {
+
+    HIGH  (<span class="num">3</span>, <span class="str">"🔴"</span>),
+    MEDIUM(<span class="num">2</span>, <span class="str">"🟡"</span>),
+    LOW   (<span class="num">1</span>, <span class="str">"🟢"</span>);
+
+    <span class="kw">private final int</span>    level;
+    <span class="kw">private final</span> <span class="cl">String</span> icon;
+
+    <span class="cm">// Enum constructor — always private</span>
+    <span class="fn">Priority</span>(<span class="kw">int</span> level, <span class="cl">String</span> icon) {
+        <span class="kw">this</span>.level <span class="op">=</span> level;
+        <span class="kw">this</span>.icon  <span class="op">=</span> icon;
+    }
+
+    <span class="kw">public int</span>    <span class="fn">getLevel</span>() { <span class="kw">return</span> level; }
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getIcon</span>()  { <span class="kw">return</span> icon;  }
+
+    <span class="kw">public boolean</span> <span class="fn">isHigherThan</span>(<span class="cl">Priority</span> other) {
+        <span class="kw">return this</span>.level <span class="op">&gt;</span> other.level;
+    }
+}
+
+<span class="cl">Priority</span>.HIGH.<span class="fn">getIcon</span>();                         <span class="cm">// "🔴"</span>
+<span class="cl">Priority</span>.HIGH.<span class="fn">isHigherThan</span>(<span class="cl">Priority</span>.LOW);        <span class="cm">// true</span>
+<span class="cl">Priority</span>.<span class="fn">valueOf</span>(<span class="str">"HIGH"</span>);                         <span class="cm">// Priority.HIGH</span>
+<span class="cl">Priority</span>.<span class="fn">values</span>();                                 <span class="cm">// [HIGH, MEDIUM, LOW]</span>
+<span class="cl">Priority</span>.HIGH.<span class="fn">name</span>();                              <span class="cm">// "HIGH" (String)</span>
+<span class="cl">Priority</span>.HIGH.<span class="fn">ordinal</span>();                           <span class="cm">// 0 (index)</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m2)">Quick Check</div>
+<div class="quiz-q">What happens if someone calls <code>Priority.valueOf("URGENT")</code> and "URGENT" isn't a defined constant?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">It returns null</button>
+<button class="quiz-opt" onclick="Q(this,true)">It throws <code>IllegalArgumentException</code> at runtime — safer than a typo silently going undetected</button>
+<button class="quiz-opt" onclick="Q(this,false)">It won't compile — the compiler checks all string values</button>
+</div><div class="quiz-fb" id="qf_2_0"></div></div>`
+    },
+    {
+      title:'EnumMap, EnumSet & Patterns',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 4</span></div>
+<h2>EnumMap, EnumSet <em style="color:var(--m2)">&amp; Patterns</em></h2>
+<p class="lesson-intro" style="border-color:var(--m2)">EnumMap and EnumSet are highly optimised collections specifically for enum keys. And abstract methods on enums let each constant implement its own behaviour.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">EnumCollections.java</span><span class="code-tag">EnumMap · EnumSet · abstract enum methods</span></div>
+<pre><span class="cm">// EnumMap — faster than HashMap when keys are enum values</span>
+<span class="cl">EnumMap</span>&lt;<span class="cl">Priority</span>, <span class="cl">List</span>&lt;<span class="cl">Task</span>&gt;&gt; tasksByPriority <span class="op">=</span>
+    <span class="kw">new</span> <span class="cl">EnumMap</span>&lt;&gt;(<span class="cl">Priority</span>.<span class="kw">class</span>);
+
+tasksByPriority.<span class="fn">put</span>(<span class="cl">Priority</span>.HIGH,   highTasks);
+tasksByPriority.<span class="fn">put</span>(<span class="cl">Priority</span>.MEDIUM, medTasks);
+
+<span class="cm">// EnumSet — compact, fast set of enum constants</span>
+<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; urgent  <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">of</span>(<span class="cl">Priority</span>.HIGH);
+<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; nonUrgent <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">complementOf</span>(urgent); <span class="cm">// {MEDIUM, LOW}</span>
+<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; all      <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">allOf</span>(<span class="cl">Priority</span>.<span class="kw">class</span>);
+
+<span class="cm">// Abstract method per constant — Strategy Pattern via enum</span>
+<span class="kw">public enum</span> <span class="cl">Operation</span> {
+    ADD {
+        <span class="ann">@Override</span>
+        <span class="kw">public double</span> <span class="fn">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x <span class="op">+</span> y; }
+    },
+    SUBTRACT {
+        <span class="ann">@Override</span>
+        <span class="kw">public double</span> <span class="fn">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x <span class="op">-</span> y; }
+    },
+    MULTIPLY {
+        <span class="ann">@Override</span>
+        <span class="kw">public double</span> <span class="fn">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x <span class="op">*</span> y; }
+    };
+
+    <span class="kw">public abstract double</span> <span class="fn">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y);
+}
+
+<span class="cm">// Each constant knows how to apply itself — no if/else needed</span>
+<span class="kw">for</span> (<span class="cl">Operation</span> op : <span class="cl">Operation</span>.<span class="fn">values</span>()) {
+    <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%.1f %s %.1f = %.1f%n"</span>, x, op, y, op.<span class="fn">apply</span>(x, y));
+}</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m2)">Quick Check</div>
+<div class="quiz-q">Why use <code>EnumMap&lt;Priority, List&lt;Task&gt;&gt;</code> instead of <code>HashMap&lt;Priority, List&lt;Task&gt;&gt;</code>?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">EnumMap supports more key types than HashMap</button>
+<button class="quiz-opt" onclick="Q(this,true)">EnumMap uses a compact array internally — it's faster and uses less memory when keys are enum constants</button>
+<button class="quiz-opt" onclick="Q(this,false)">EnumMap automatically sorts by the enum's ordinal value</button>
+</div><div class="quiz-fb" id="qf_2_1"></div></div>`
+    },
+    {
+      title:'Records',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 4</span></div>
+<h2><em style="color:var(--m2)">Records</em></h2>
+<p class="lesson-intro" style="border-color:var(--m2)">Records (Java 16+) are immutable data classes that eliminate boilerplate. One line replaces a constructor, getters, equals, hashCode, and toString. They're perfect for data transfer objects, value types, and anywhere you model a simple data structure.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Records.java</span><span class="code-tag">Records vs classes · compact constructor · custom methods</span></div>
+<pre><span class="cm">// Old way: a simple data class with all the boilerplate</span>
+<span class="kw">public class</span> <span class="cl">Point_OLD</span> {
+    <span class="kw">private final double</span> x, y;
+    <span class="kw">public</span> <span class="fn">Point_OLD</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">this</span>.x<span class="op">=</span>x; <span class="kw">this</span>.y<span class="op">=</span>y; }
+    <span class="kw">public double</span> <span class="fn">x</span>() { <span class="kw">return</span> x; }
+    <span class="kw">public double</span> <span class="fn">y</span>() { <span class="kw">return</span> y; }
+    <span class="ann">@Override</span> <span class="kw">public boolean</span> <span class="fn">equals</span>(<span class="cl">Object</span> o) { <span class="cm">/* 8 lines */</span> }
+    <span class="ann">@Override</span> <span class="kw">public int</span>     <span class="fn">hashCode</span>()        { <span class="cm">/* ... */</span> }
+    <span class="ann">@Override</span> <span class="kw">public</span> <span class="cl">String</span>  <span class="fn">toString</span>()        { <span class="cm">/* ... */</span> }
+}
+
+<span class="cm">// Record: same thing in one line</span>
+<span class="kw">public record</span> <span class="cl">Point</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) {}
+
+<span class="cm">// You get for free: canonical constructor, x(), y(), equals(), hashCode(), toString()</span>
+<span class="cl">Point</span> p <span class="op">=</span> <span class="kw">new</span> <span class="cl">Point</span>(<span class="num">3.0</span>, <span class="num">4.0</span>);
+p.<span class="fn">x</span>();     <span class="cm">// 3.0 — accessor, not getX()</span>
+p.<span class="fn">y</span>();     <span class="cm">// 4.0</span>
+p;          <span class="cm">// Point[x=3.0, y=4.0]</span>
+
+<span class="cm">// Records are IMMUTABLE — no setters, fields are final</span>
+<span class="cm">// p.x = 5.0; // won't compile</span>
+
+<span class="cm">// Compact constructor — validate without repeating field assignment</span>
+<span class="kw">public record</span> <span class="cl">Money</span>(<span class="kw">double</span> amount, <span class="cl">String</span> currency) {
+    <span class="fn">Money</span> {  <span class="cm">// compact constructor — no parameter list</span>
+        <span class="kw">if</span> (amount <span class="op">&lt;</span> <span class="num">0</span>)    <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Amount can't be negative"</span>);
+        <span class="kw">if</span> (currency <span class="op">==</span> <span class="kw">null</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Currency required"</span>);
+        currency <span class="op">=</span> currency.<span class="fn">toUpperCase</span>(); <span class="cm">// normalise before storing</span>
+    }
+
+    <span class="cm">// Records can have custom methods</span>
+    <span class="kw">public</span> <span class="cl">Money</span> <span class="fn">add</span>(<span class="cl">Money</span> other) {
+        <span class="kw">if</span> (!<span class="kw">this</span>.currency.<span class="fn">equals</span>(other.currency))
+            <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Currency mismatch"</span>);
+        <span class="kw">return new</span> <span class="cl">Money</span>(<span class="kw">this</span>.amount <span class="op">+</span> other.amount, currency);
+    }
+
+    <span class="kw">public</span> <span class="cl">Money</span> <span class="fn">multiply</span>(<span class="kw">double</span> factor) {
+        <span class="kw">return new</span> <span class="cl">Money</span>(<span class="kw">this</span>.amount <span class="op">*</span> factor, currency);
+    }
+}
+
+<span class="cl">Money</span> price <span class="op">=</span> <span class="kw">new</span> <span class="cl">Money</span>(<span class="num">10.00</span>, <span class="str">"usd"</span>);  <span class="cm">// stored as "USD"</span>
+<span class="cl">Money</span> tax   <span class="op">=</span> price.<span class="fn">multiply</span>(<span class="num">0.08</span>);
+<span class="cl">Money</span> total <span class="op">=</span> price.<span class="fn">add</span>(tax);           <span class="cm">// Money[amount=10.8, currency=USD]</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m2)">Quick Check</div>
+<div class="quiz-q">You have <code>record Point(double x, double y) {}</code>. What does <code>new Point(1,2).equals(new Point(1,2))</code> return?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">false — they are two different objects in memory</button>
+<button class="quiz-opt" onclick="Q(this,true)">true — records generate equals() based on field values, not object identity</button>
+<button class="quiz-opt" onclick="Q(this,false)">It throws an exception because records are immutable</button>
+</div><div class="quiz-fb" id="qf_2_2"></div></div>`
+    },
+    {
+      title:'Sealed Classes & Pattern Matching',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 4</span></div>
+<h2>Sealed Classes <em style="color:var(--m2)">&amp; Pattern Matching</em></h2>
+<p class="lesson-intro" style="border-color:var(--m2)">Sealed classes (Java 17+) restrict which classes can extend them — giving you an exhaustive, compiler-checked set of subtypes. Combined with pattern matching instanceof, they're one of the most elegant features in modern Java.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Shape.java</span><span class="code-tag">Sealed classes · pattern matching switch</span></div>
+<pre><span class="cm">// sealed: only these specific classes may extend Shape</span>
+<span class="kw">public sealed</span> <span class="kw">interface</span> <span class="cl">Shape</span>
+    <span class="kw">permits</span> <span class="cl">Circle</span>, <span class="cl">Rectangle</span>, <span class="cl">Triangle</span> {}
+
+<span class="kw">public record</span> <span class="cl">Circle</span>   (<span class="kw">double</span> radius)              <span class="kw">implements</span> <span class="cl">Shape</span> {}
+<span class="kw">public record</span> <span class="cl">Rectangle</span>(<span class="kw">double</span> width, <span class="kw">double</span> height) <span class="kw">implements</span> <span class="cl">Shape</span> {}
+<span class="kw">public record</span> <span class="cl">Triangle</span> (<span class="kw">double</span> base, <span class="kw">double</span> height)  <span class="kw">implements</span> <span class="cl">Shape</span> {}
+
+<span class="cm">// Pattern matching switch — compiler knows these are exhaustive</span>
+<span class="kw">public static double</span> <span class="fn">area</span>(<span class="cl">Shape</span> shape) {
+    <span class="kw">return switch</span> (shape) {
+        <span class="kw">case</span> <span class="cl">Circle</span>    c <span class="op">-&gt;</span> <span class="cl">Math</span>.PI <span class="op">*</span> c.<span class="fn">radius</span>() <span class="op">*</span> c.<span class="fn">radius</span>();
+        <span class="kw">case</span> <span class="cl">Rectangle</span> r <span class="op">-&gt;</span> r.<span class="fn">width</span>() <span class="op">*</span> r.<span class="fn">height</span>();
+        <span class="kw">case</span> <span class="cl">Triangle</span>  t <span class="op">-&gt;</span> <span class="num">0.5</span> <span class="op">*</span> t.<span class="fn">base</span>() <span class="op">*</span> t.<span class="fn">height</span>();
+        <span class="cm">// No default needed — the compiler knows all cases are covered!</span>
+    };
+}
+
+<span class="cm">// If you add a new Shape subtype, all switches fail to compile
+// until you handle the new case. Zero runtime surprises.</span>
+<span class="kw">var</span> shapes <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+    <span class="kw">new</span> <span class="cl">Circle</span>(<span class="num">5</span>), <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="num">4</span>, <span class="num">6</span>), <span class="kw">new</span> <span class="cl">Triangle</span>(<span class="num">3</span>, <span class="num">8</span>)
+);
+shapes.<span class="fn">forEach</span>(s <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s area: %.2f%n"</span>, s, <span class="fn">area</span>(s)));</pre></div>
+<div class="challenge" style="background:var(--m2d);border-color:var(--m2b)">
+<div class="ch-lbl" style="color:var(--m2)">Module Challenge</div>
+<h4>Upgrade the Task Manager</h4>
+<ul>
+<li>Replace the <code>String priority</code> field in Task with a <code>Priority</code> enum that has a level (int) and an emoji icon (String)</li>
+<li>Replace the <code>String status</code> with a <code>Status</code> enum: PENDING, IN_PROGRESS, COMPLETED, CANCELLED</li>
+<li>Create a <code>TaskSummary</code> record with fields: totalCount, completedCount, pendingCount, completionPct</li>
+<li>Write a <code>getSummary(List&lt;Task&gt; tasks)</code> method that returns a TaskSummary using streams</li>
+<li>Use a pattern matching switch on Priority to print different messages for each level</li>
+</ul>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m2)">Quick Check</div>
+<div class="quiz-q">With a sealed interface, if you add a new permitted subtype but forget to handle it in a pattern matching switch, what happens?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The default case catches it silently at runtime</button>
+<button class="quiz-opt" onclick="Q(this,true)">The code won't compile — the compiler requires every sealed subtype to be handled</button>
+<button class="quiz-opt" onclick="Q(this,false)">An exception is thrown when that case is first encountered at runtime</button>
+</div><div class="quiz-fb" id="qf_2_3"></div></div>`
+    }
+  ]
+},
+
+// ─────────────────────────── MODULE 3: OPTIONAL ───────────────────────────
+{
+  id:3, icon:'🛡️', title:'Optional', accent:'var(--m3)', accentD:'var(--m3d)', accentB:'var(--m3b)',
+  lessons:[
+    {
+      title:'The Null Problem',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m3)">Optional</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 4</span></div>
+<h2>The <em style="color:var(--m3)">Null Problem</em></h2>
+<p class="lesson-intro" style="border-color:var(--m3)">NullPointerException is the most common Java exception in production systems. It happens because null is used for two different things: "I haven't set this yet" and "this value doesn't exist." Optional separates those cases cleanly.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">NullProblems.java</span><span class="code-tag">Why null is ambiguous — and Optional fixes it</span></div>
+<pre><span class="cm">// The problem: what does null mean here?</span>
+<span class="kw">public</span> <span class="cl">User</span> <span class="fn">findUserById</span>(<span class="kw">int</span> id) {
+    <span class="cm">// Returns null if not found — but the caller doesn't know that!
+    // They might just call: String name = findUserById(42).getName();
+    // → NullPointerException if user doesn't exist</span>
+    <span class="kw">return</span> db.<span class="fn">query</span>(id);
+}
+
+<span class="cm">// Defensive null-checking: callers must know to check</span>
+<span class="cl">User</span> user <span class="op">=</span> <span class="fn">findUserById</span>(<span class="num">42</span>);
+<span class="kw">if</span> (user <span class="op">!=</span> <span class="kw">null</span>) {
+    <span class="cl">Address</span> addr <span class="op">=</span> user.<span class="fn">getAddress</span>();
+    <span class="kw">if</span> (addr <span class="op">!=</span> <span class="kw">null</span>) {
+        <span class="cl">String</span> city <span class="op">=</span> addr.<span class="fn">getCity</span>();
+        <span class="kw">if</span> (city <span class="op">!=</span> <span class="kw">null</span>) {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(city); <span class="cm">// Finally.</span>
+        }
+    }
+}
+
+<span class="cm">// With Optional: the method signature declares it may not exist</span>
+<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">User</span>&gt; <span class="fn">findUserById</span>(<span class="kw">int</span> id) {
+    <span class="cl">User</span> user <span class="op">=</span> db.<span class="fn">query</span>(id);
+    <span class="kw">return</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(user); <span class="cm">// wraps null or a value</span>
+}
+<span class="cm">// Now the caller CANNOT forget to handle the absent case —
+// they get an Optional, not a User, so they must deal with it.</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
+<div class="quiz-q">A method returns <code>Optional&lt;User&gt;</code> instead of <code>User</code>. What does this communicate to callers?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The method might throw an exception instead of returning a user</button>
+<button class="quiz-opt" onclick="Q(this,true)">The user might not exist — the caller must explicitly handle both the present and absent cases</button>
+<button class="quiz-opt" onclick="Q(this,false)">The user is wrapped for security reasons and must be unwrapped</button>
+</div><div class="quiz-fb" id="qf_3_0"></div></div>`
+    },
+    {
+      title:'Creating & Unwrapping Optionals',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m3)">Optional</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 4</span></div>
+<h2>Creating <em style="color:var(--m3)">&amp; Unwrapping</em> Optionals</h2>
+<p class="lesson-intro" style="border-color:var(--m3)">Three ways to create Optionals. Many ways to safely get the value out — each expressing a different intent about what to do when it's absent.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalUsage.java</span><span class="code-tag">Creating · checking · extracting safely</span></div>
+<pre><span class="cm">// ── Creating Optionals ──────────────────────────────────────</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; present <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>);   <span class="cm">// throws NPE if null passed</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; empty   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">empty</span>();        <span class="cm">// explicitly absent</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; maybe   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(val); <span class="cm">// null → empty, else present</span>
+
+<span class="cm">// ── Checking ────────────────────────────────────────────────</span>
+present.<span class="fn">isPresent</span>();  <span class="cm">// true</span>
+empty.<span class="fn">isEmpty</span>();     <span class="cm">// true (Java 11+)</span>
+
+<span class="cm">// ── Extracting the value — choose the right method ──────────</span>
+
+<span class="cm">// get() — only use when you are CERTAIN it's present (use sparingly)</span>
+<span class="cl">String</span> val1 <span class="op">=</span> present.<span class="fn">get</span>(); <span class="cm">// "Alice" — throws NoSuchElementException if empty</span>
+
+<span class="cm">// orElse — provide a default value</span>
+<span class="cl">String</span> val2 <span class="op">=</span> empty.<span class="fn">orElse</span>(<span class="str">"Unknown"</span>);            <span class="cm">// "Unknown"</span>
+
+<span class="cm">// orElseGet — default from a Supplier (lazy — only called if empty)</span>
+<span class="cl">String</span> val3 <span class="op">=</span> empty.<span class="fn">orElseGet</span>(() <span class="op">-&gt;</span> <span class="fn">loadDefault</span>()); <span class="cm">// called lazily</span>
+
+<span class="cm">// orElseThrow — throw a specific exception if absent</span>
+<span class="cl">String</span> val4 <span class="op">=</span> maybe.<span class="fn">orElseThrow</span>(() <span class="op">-&gt;</span>
+    <span class="kw">new</span> <span class="cl">UserNotFoundException</span>(<span class="str">"User not found"</span>));
+
+<span class="cm">// ifPresent — run code only if a value exists</span>
+present.<span class="fn">ifPresent</span>(name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Found: "</span> <span class="op">+</span> name));
+
+<span class="cm">// ifPresentOrElse — run one of two branches</span>
+maybe.<span class="fn">ifPresentOrElse</span>(
+    name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name),
+    ()   <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Anonymous user"</span>)
+);</pre></div>
+<div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>don't use Optional like nullable — don't use it as a field type</strong><p>Optional is designed for method return types to signal "this might not exist." Don't store Optionals in class fields, use them as method parameters, or put them in collections. Those uses break serialization and violate the intent. For fields, use null with good documentation.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
+<div class="quiz-q">You have an <code>Optional&lt;Config&gt;</code> and want to load a default config if it's absent, but loading is expensive. Which method avoids unnecessary loading?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>orElse(loadDefaultConfig())</code> — the default is ready</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>orElseGet(() -> loadDefaultConfig())</code> — the Supplier is only called if the Optional is empty</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>ifPresent(c -> use(c))</code> — this handles the absent case too</button>
+</div><div class="quiz-fb" id="qf_3_1"></div></div>`
+    },
+    {
+      title:'Chaining Optionals',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m3)">Optional</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 4</span></div>
+<h2>Chaining <em style="color:var(--m3)">Optionals</em></h2>
+<p class="lesson-intro" style="border-color:var(--m3)">The real power of Optional is chaining — transforming and filtering the value without ever breaking the chain to check for null. This replaces deeply nested null-checks with a clean pipeline.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalChaining.java</span><span class="code-tag">map · flatMap · filter · or</span></div>
+<pre><span class="cm">// map: transform the value if present</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; upper <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"alice"</span>)
+    .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>);   <span class="cm">// Optional["ALICE"]</span>
+
+<span class="cl">Optional</span>&lt;<span class="cl">Integer</span>&gt; len <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"hello"</span>)
+    .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>);          <span class="cm">// Optional[5]</span>
+
+<span class="cm">// filter: keep only if a condition is met</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; longName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>)
+    .<span class="fn">filter</span>(s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">3</span>); <span class="cm">// Optional["Alice"]</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; shortName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Bo"</span>)
+    .<span class="fn">filter</span>(s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">3</span>); <span class="cm">// Optional.empty</span>
+
+<span class="cm">// flatMap: use when the mapping function also returns an Optional
+// (avoids Optional&lt;Optional&lt;T&gt;&gt;)</span>
+<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; city <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>)            <span class="cm">// Optional&lt;User&gt;</span>
+    .<span class="fn">flatMap</span>(<span class="cl">User</span><span class="op">::</span><span class="fn">getAddress</span>)                    <span class="cm">// Optional&lt;Address&gt;</span>
+    .<span class="fn">flatMap</span>(<span class="cl">Address</span><span class="op">::</span><span class="fn">getCity</span>);                   <span class="cm">// Optional&lt;String&gt;</span>
+<span class="cm">// vs. the null-check version — same logic, way cleaner</span>
+
+<span class="cm">// Real example: parse an int from a String that might be null</span>
+<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">Integer</span>&gt; <span class="fn">parseId</span>(<span class="cl">String</span> input) {
+    <span class="kw">return</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(input)
+        .<span class="fn">filter</span>(s <span class="op">-&gt;</span> !s.<span class="fn">isBlank</span>())
+        .<span class="fn">map</span>(s <span class="op">-&gt;</span> { <span class="kw">try</span> { <span class="kw">return</span> <span class="cl">Integer</span>.<span class="fn">parseInt</span>(s); } <span class="kw">catch</span> (<span class="cl">NumberFormatException</span> e) { <span class="kw">return null</span>; } })
+        .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n <span class="op">&gt;</span> <span class="num">0</span>);
+}</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
+<div class="quiz-q">You have <code>Optional&lt;User&gt;</code> and <code>User.getAddress()</code> returns <code>Optional&lt;Address&gt;</code>. Which chaining method avoids getting <code>Optional&lt;Optional&lt;Address&gt;&gt;</code>?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>map(User::getAddress)</code></button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>flatMap(User::getAddress)</code> — flattens the nested Optional automatically</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>filter(User::getAddress)</code></button>
+</div><div class="quiz-fb" id="qf_3_2"></div></div>`
+    },
+    {
+      title:'Optional Best Practices',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m3)">Optional</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 4</span></div>
+<h2>Optional <em style="color:var(--m3)">Best Practices</em></h2>
+<p class="lesson-intro" style="border-color:var(--m3)">Optional can be misused. These rules separate the correct patterns from the anti-patterns — and show how Optional integrates with streams.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalPatterns.java</span><span class="code-tag">DO and DON'T — real-world patterns</span></div>
+<pre><span class="cm">// ✅ DO: return Optional from methods that might have no result</span>
+<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">Task</span>&gt; <span class="fn">findById</span>(<span class="kw">int</span> id) {
+    <span class="kw">return</span> tasks.<span class="fn">stream</span>().<span class="fn">filter</span>(t <span class="op">-&gt;</span> t.<span class="fn">getId</span>() <span class="op">==</span> id).<span class="fn">findFirst</span>();
+}
+
+<span class="cm">// ✅ DO: use Optional with streams — stream() on Optional (Java 9+)</span>
+<span class="cl">List</span>&lt;<span class="cl">Optional</span>&lt;<span class="cl">User</span>&gt;&gt; maybeUsers <span class="op">=</span> ids.<span class="fn">stream</span>().<span class="fn">map</span>(<span class="kw">this</span><span class="op">::</span><span class="fn">findById</span>).<span class="fn">toList</span>();
+<span class="cl">List</span>&lt;<span class="cl">User</span>&gt; users <span class="op">=</span> maybeUsers.<span class="fn">stream</span>()
+    .<span class="fn">flatMap</span>(<span class="cl">Optional</span><span class="op">::</span><span class="fn">stream</span>)   <span class="cm">// unwraps present values, discards empties</span>
+    .<span class="fn">toList</span>();
+
+<span class="cm">// ✅ DO: provide context-appropriate defaults</span>
+<span class="cl">String</span> displayName <span class="op">=</span> <span class="fn">findUser</span>(id)
+    .<span class="fn">map</span>(<span class="cl">User</span><span class="op">::</span><span class="fn">getName</span>)
+    .<span class="fn">orElse</span>(<span class="str">"Guest"</span>);
+
+<span class="cm">// ❌ DON'T: use Optional as a method parameter (use overloading instead)</span>
+<span class="kw">void</span> <span class="fn">process</span>(<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; name) {} <span class="cm">// bad — callers can pass null to Optional</span>
+<span class="kw">void</span> <span class="fn">process</span>(<span class="cl">String</span> name) {}            <span class="cm">// good</span>
+<span class="kw">void</span> <span class="fn">process</span>()             {}            <span class="cm">// good — overload for the absent case</span>
+
+<span class="cm">// ❌ DON'T: check isPresent() + get() — that's just a verbose null check</span>
+<span class="kw">if</span> (opt.<span class="fn">isPresent</span>()) { use(opt.<span class="fn">get</span>()); }   <span class="cm">// bad</span>
+opt.<span class="fn">ifPresent</span>(<span class="kw">this</span><span class="op">::</span><span class="fn">use</span>);                  <span class="cm">// good</span>
+
+<span class="cm">// ❌ DON'T: store Optional in fields or collections</span>
+<span class="kw">private</span> <span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; name; <span class="cm">// bad — breaks serialization</span>
+<span class="kw">private</span> <span class="cl">String</span> name;           <span class="cm">// good — null is fine for fields</span></pre></div>
+<div class="challenge" style="background:var(--m3d);border-color:var(--m3b)">
+<div class="ch-lbl" style="color:var(--m3)">Module Challenge</div>
+<h4>Null-safe Task Lookup Service</h4>
+<p>Write a <code>TaskLookupService</code> that wraps a <code>List&lt;Task&gt;</code>:</p>
+<ul>
+<li><code>findById(int id)</code> → <code>Optional&lt;Task&gt;</code></li>
+<li><code>findByTitle(String title)</code> → <code>Optional&lt;Task&gt;</code> (case-insensitive)</li>
+<li><code>getFirstHighPriority()</code> → <code>Optional&lt;Task&gt;</code></li>
+<li><code>getCompletedCount()</code> → int (use stream + Optional)</li>
+<li>A method that takes a list of IDs and returns only the tasks that were found (use <code>flatMap(Optional::stream)</code>)</li>
+</ul>
+<p>Never use <code>.get()</code> without first checking <code>.isPresent()</code> — use the functional API throughout.</p>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
+<div class="quiz-q">You have <code>List&lt;Optional&lt;User&gt;&gt;</code> and want only the present users as a <code>List&lt;User&gt;</code>. Which is the cleanest approach?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Loop through, check isPresent(), add to a new list manually</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>list.stream().flatMap(Optional::stream).toList()</code></button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>list.stream().filter(Optional::isPresent).map(Optional::get).toList()</code></button>
+</div><div class="quiz-fb" id="qf_3_3"></div></div>`
+    }
+  ]
+},
+// ─────────────────────────── MODULE 4: CONCURRENCY ───────────────────────────
+{
+  id:4, icon:'🧵', title:'Concurrency Basics', accent:'var(--m4)', accentD:'var(--m4d)', accentB:'var(--m4b)',
+  lessons:[
+    {
+      title:'Threads & Runnable',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 5</span></div>
+<h2>Threads <em style="color:var(--m4)">&amp; Runnable</em></h2>
+<p class="lesson-intro" style="border-color:var(--m4)">A thread is an independent path of execution. Your Java program starts with one thread (main). You can create more to do multiple things simultaneously — downloading a file while updating a UI, processing requests in parallel.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Threads.java</span><span class="code-tag">Creating threads — 3 approaches</span></div>
+<pre><span class="cm">// ── Approach 1: Extend Thread ──────────────────────────────</span>
+<span class="kw">class</span> <span class="cl">PrintThread</span> <span class="kw">extends</span> <span class="cl">Thread</span> {
+    <span class="kw">private final</span> <span class="cl">String</span> message;
+    <span class="cl">PrintThread</span>(<span class="cl">String</span> msg) { <span class="kw">this</span>.message <span class="op">=</span> msg; }
+    <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">run</span>() {
+        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">5</span>; i<span class="op">++</span>)
+            <span class="cl">System</span>.out.<span class="fn">println</span>(message <span class="op">+</span> <span class="str">" - "</span> <span class="op">+</span> i);
+    }
+}
+<span class="kw">new</span> <span class="cl">PrintThread</span>(<span class="str">"Hello"</span>).<span class="fn">start</span>(); <span class="cm">// start(), NOT run()!</span>
+
+<span class="cm">// ── Approach 2: Implement Runnable (preferred — no extends lock) ─</span>
+<span class="cl">Runnable</span> task <span class="op">=</span> () <span class="op">-&gt;</span> {
+    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">5</span>; i<span class="op">++</span>)
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="cl">Thread</span>.<span class="fn">currentThread</span>().<span class="fn">getName</span>() <span class="op">+</span> <span class="str">": "</span> <span class="op">+</span> i);
+};
+<span class="kw">new</span> <span class="cl">Thread</span>(task, <span class="str">"Worker-1"</span>).<span class="fn">start</span>();
+<span class="kw">new</span> <span class="cl">Thread</span>(task, <span class="str">"Worker-2"</span>).<span class="fn">start</span>(); <span class="cm">// both run SIMULTANEOUSLY</span>
+
+<span class="cm">// ── Thread lifecycle methods ───────────────────────────────</span>
+<span class="cl">Thread</span> t <span class="op">=</span> <span class="kw">new</span> <span class="cl">Thread</span>(task);
+t.<span class="fn">start</span>();          <span class="cm">// launch — returns immediately</span>
+t.<span class="fn">join</span>();            <span class="cm">// wait for this thread to finish</span>
+t.<span class="fn">join</span>(<span class="num">5000</span>);        <span class="cm">// wait at most 5 seconds</span>
+t.<span class="fn">isAlive</span>();         <span class="cm">// is it still running?</span>
+t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by default</span>
+<span class="cl">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>); <span class="cm">// pause the CURRENT thread 1 second</span></pre></div>
+<div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>call start(), not run()</strong><p>Calling <code>thread.run()</code> directly executes the code on the CURRENT thread — no new thread is created. You must call <code>thread.start()</code> to spawn a new thread. This is one of the most common threading mistakes.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
+<div class="quiz-q">You create two threads that both print numbers 0-4. Can you predict the exact order of printed output?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Yes — threads run in the order they were started</button>
+<button class="quiz-opt" onclick="Q(this,true)">No — the OS scheduler decides which thread runs when; the output is non-deterministic and varies each run</button>
+<button class="quiz-opt" onclick="Q(this,false)">Yes — start() blocks until the thread finishes before returning</button>
+</div><div class="quiz-fb" id="qf_4_0"></div></div>`
+    },
+    {
+      title:'Race Conditions & Shared State',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 5</span></div>
+<h2>Race Conditions <em style="color:var(--m4)">&amp; Shared State</em></h2>
+<p class="lesson-intro" style="border-color:var(--m4)">The hardest part of concurrency isn't making things run in parallel — it's making them share data safely. When two threads read and write the same variable simultaneously, you get race conditions: unpredictable, intermittent bugs that are nearly impossible to reproduce.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">RaceCondition.java</span><span class="code-tag">The classic counter bug — and the fix</span></div>
+<pre><span class="cm">// BROKEN: two threads both increment a shared counter</span>
+<span class="kw">public class</span> <span class="cl">Counter</span> {
+    <span class="kw">private int</span> count <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">public void</span> <span class="fn">increment</span>() { count<span class="op">++</span>; } <span class="cm">// NOT atomic! 3 operations: read, add 1, write</span>
+    <span class="kw">public int</span>  <span class="fn">getCount</span>()  { <span class="kw">return</span> count; }
+}
+
+<span class="cm">// Thread A reads count=5, Thread B reads count=5 at the same time
+// Thread A writes 6, Thread B writes 6 — we expected 7, we got 6
+// This is a race condition. It's invisible in single-threaded testing.</span>
+
+<span class="cm">// FIX 1: synchronized keyword — only one thread at a time</span>
+<span class="kw">public class</span> <span class="cl">SafeCounter</span> {
+    <span class="kw">private int</span> count <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">public synchronized void</span> <span class="fn">increment</span>() { count<span class="op">++</span>; } <span class="cm">// locked to one thread</span>
+    <span class="kw">public synchronized int</span>  <span class="fn">getCount</span>()  { <span class="kw">return</span> count; }
+}
+
+<span class="cm">// FIX 2: AtomicInteger — lock-free, faster than synchronized for single values</span>
+<span class="kw">import</span> java.util.concurrent.atomic.*;
+
+<span class="kw">public class</span> <span class="cl">AtomicCounter</span> {
+    <span class="kw">private final</span> <span class="cl">AtomicInteger</span> count <span class="op">=</span> <span class="kw">new</span> <span class="cl">AtomicInteger</span>(<span class="num">0</span>);
+    <span class="kw">public void</span> <span class="fn">increment</span>() { count.<span class="fn">incrementAndGet</span>(); } <span class="cm">// atomic!</span>
+    <span class="kw">public int</span>  <span class="fn">getCount</span>()  { <span class="kw">return</span> count.<span class="fn">get</span>(); }
+}
+
+<span class="cm">// FIX 3: avoid shared mutable state entirely (the best fix)</span>
+<span class="cm">// Give each thread its own data, combine results at the end</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>the volatile keyword</strong><p><code>volatile</code> ensures changes to a variable are immediately visible to all threads (prevents CPU cache issues). Use it for simple flags like <code>volatile boolean running = true</code>. It does NOT make compound operations like <code>count++</code> atomic — for that you need <code>synchronized</code> or <code>AtomicInteger</code>.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
+<div class="quiz-q">Two threads both run <code>count++</code> on a shared non-synchronized counter 1000 times each. What is the final count likely to be?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Always exactly 2000 — each increment adds 1</button>
+<button class="quiz-opt" onclick="Q(this,true)">Less than 2000 — some increments are lost to race conditions where both threads read the same value before either writes back</button>
+<button class="quiz-opt" onclick="Q(this,false)">More than 2000 — threads can accidentally count the same increment twice</button>
+</div><div class="quiz-fb" id="qf_4_1"></div></div>`
+    },
+    {
+      title:'synchronized & Locks',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 5</span></div>
+<h2>synchronized <em style="color:var(--m4)">&amp; Locks</em></h2>
+<p class="lesson-intro" style="border-color:var(--m4)">Synchronization ensures only one thread executes a block at a time. Java has two mechanisms: the built-in <code>synchronized</code> keyword and the more flexible <code>ReentrantLock</code>.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Synchronization.java</span><span class="code-tag">synchronized blocks · ReentrantLock · deadlock</span></div>
+<pre><span class="cm">// synchronized method — locks on 'this'</span>
+<span class="kw">public synchronized void</span> <span class="fn">transfer</span>(<span class="cl">Account</span> from, <span class="cl">Account</span> to, <span class="kw">double</span> amount) {
+    from.<span class="fn">withdraw</span>(amount);
+    to.<span class="fn">deposit</span>(amount);
+}
+
+<span class="cm">// synchronized block — locks on a specific object, finer-grained</span>
+<span class="kw">private final</span> <span class="cl">Object</span> lock <span class="op">=</span> <span class="kw">new</span> <span class="cl">Object</span>();
+
+<span class="kw">public void</span> <span class="fn">updateCache</span>(<span class="cl">String</span> key, <span class="cl">String</span> value) {
+    <span class="kw">synchronized</span> (lock) {         <span class="cm">// only the critical section is locked</span>
+        cache.<span class="fn">put</span>(key, value);    <span class="cm">// other code can run concurrently</span>
+    }
+}
+
+<span class="cm">// ReentrantLock — explicit lock, more flexible</span>
+<span class="kw">import</span> java.util.concurrent.locks.*;
+
+<span class="kw">private final</span> <span class="cl">ReentrantLock</span> lock <span class="op">=</span> <span class="kw">new</span> <span class="cl">ReentrantLock</span>();
+
+<span class="kw">public void</span> <span class="fn">safeUpdate</span>() {
+    lock.<span class="fn">lock</span>();
+    <span class="kw">try</span> {
+        <span class="cm">// critical section</span>
+    } <span class="kw">finally</span> {
+        lock.<span class="fn">unlock</span>(); <span class="cm">// ALWAYS unlock in finally — even if exception thrown</span>
+    }
+}
+
+<span class="cm">// Thread-safe collections — use these instead of ArrayList/HashMap</span>
+<span class="cl">List</span>&lt;<span class="cl">String</span>&gt;       safeList <span class="op">=</span> <span class="kw">new</span> <span class="cl">CopyOnWriteArrayList</span>&lt;&gt;();
+<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; safeMap <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span>&lt;&gt;();</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
+<div class="quiz-q">Why must <code>lock.unlock()</code> always be called in a <code>finally</code> block when using <code>ReentrantLock</code>?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">finally runs faster than regular code</button>
+<button class="quiz-opt" onclick="Q(this,true)">If the critical section throws an exception, the lock must still be released — otherwise no other thread can ever acquire it (deadlock)</button>
+<button class="quiz-opt" onclick="Q(this,false)">ReentrantLock requires a matching unlock() call or it auto-extends the lock</button>
+</div><div class="quiz-fb" id="qf_4_2"></div></div>`
+    },
+    {
+      title:'ExecutorService & Thread Pools',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 5</span></div>
+<h2>ExecutorService <em style="color:var(--m4)">&amp; Thread Pools</em></h2>
+<p class="lesson-intro" style="border-color:var(--m4)">Creating a new Thread for every task is expensive. Thread pools reuse a fixed set of threads. <code>ExecutorService</code> is the professional way to run concurrent work — it's what real applications use.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Executors.java</span><span class="code-tag">Thread pools · Callable · Future · CompletableFuture</span></div>
+<pre><span class="kw">import</span> java.util.concurrent.*;
+
+<span class="cm">// Fixed thread pool — reuses 4 threads for all submitted tasks</span>
+<span class="cl">ExecutorService</span> pool <span class="op">=</span> <span class="cl">Executors</span>.<span class="fn">newFixedThreadPool</span>(<span class="num">4</span>);
+
+<span class="cm">// Submit a Runnable (fire-and-forget)</span>
+pool.<span class="fn">submit</span>(() <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Task running in thread pool"</span>));
+
+<span class="cm">// Submit a Callable — like Runnable but returns a value</span>
+<span class="cl">Callable</span>&lt;<span class="cl">Integer</span>&gt; computation <span class="op">=</span> () <span class="op">-&gt;</span> {
+    <span class="cl">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
+    <span class="kw">return</span> <span class="num">42</span>;
+};
+<span class="cl">Future</span>&lt;<span class="cl">Integer</span>&gt; future <span class="op">=</span> pool.<span class="fn">submit</span>(computation);
+
+<span class="cm">// Do other work while computation runs in the pool...</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Doing other work"</span>);
+
+<span class="kw">int</span> result <span class="op">=</span> future.<span class="fn">get</span>(); <span class="cm">// blocks until result is ready</span>
+<span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Result: "</span> <span class="op">+</span> result); <span class="cm">// 42</span>
+
+<span class="cm">// Always shutdown the pool when done</span>
+pool.<span class="fn">shutdown</span>();
+pool.<span class="fn">awaitTermination</span>(<span class="num">10</span>, <span class="cl">TimeUnit</span>.SECONDS);
+
+<span class="cm">// ── CompletableFuture — modern, non-blocking (Java 8+) ─────</span>
+<span class="cl">CompletableFuture</span>.<span class="fn">supplyAsync</span>(() <span class="op">-&gt;</span> <span class="fn">fetchData</span>(<span class="str">"url"</span>))
+    .<span class="fn">thenApply</span>(data   <span class="op">-&gt;</span> <span class="fn">parseJson</span>(data))
+    .<span class="fn">thenAccept</span>(parsed <span class="op">-&gt;</span> <span class="fn">displayResult</span>(parsed))
+    .<span class="fn">exceptionally</span>(ex  <span class="op">-&gt;</span> { <span class="fn">logError</span>(ex); <span class="kw">return null</span>; });
+<span class="cm">// Entire chain runs asynchronously — main thread never blocks!</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
+<div class="quiz-q">What is the advantage of <code>ExecutorService</code> with a fixed thread pool over creating <code>new Thread()</code> for every task?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">ExecutorService threads run faster than regular threads</button>
+<button class="quiz-opt" onclick="Q(this,true)">Thread creation is expensive — a pool reuses a fixed set, preventing resource exhaustion and reducing overhead on high-volume workloads</button>
+<button class="quiz-opt" onclick="Q(this,false)">ExecutorService automatically handles all synchronization</button>
+</div><div class="quiz-fb" id="qf_4_3"></div></div>`
+    },
+    {
+      title:'Concurrency Best Practices',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 5 of 5</span></div>
+<h2>Concurrency <em style="color:var(--m4)">Best Practices</em></h2>
+<p class="lesson-intro" style="border-color:var(--m4)">Concurrency is the hardest topic in Java. These patterns and rules prevent the most common bugs — deadlocks, race conditions, and memory visibility issues.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">BestPractices.java</span><span class="code-tag">Immutability · thread confinement · concurrent collections</span></div>
+<pre><span class="cm">// ✅ Best practice 1: prefer immutability
+// Immutable objects are inherently thread-safe — no state to corrupt</span>
+<span class="kw">public final class</span> <span class="cl">ImmutableConfig</span> {
+    <span class="kw">private final</span> <span class="cl">String</span>  host;
+    <span class="kw">private final int</span>     port;
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; settings;
+
+    <span class="kw">public</span> <span class="fn">ImmutableConfig</span>(<span class="cl">String</span> host, <span class="kw">int</span> port, <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; settings) {
+        <span class="kw">this</span>.host     <span class="op">=</span> host; <span class="kw">this</span>.port <span class="op">=</span> port;
+        <span class="kw">this</span>.settings <span class="op">=</span> <span class="cl">Map</span>.<span class="fn">copyOf</span>(settings); <span class="cm">// defensive copy — unmodifiable</span>
+    }
+    <span class="cm">// No setters. Multiple threads can read this safely — always.</span>
+}
+
+<span class="cm">// ✅ Best practice 2: use concurrent collections
+// Never use ArrayList or HashMap in multi-threaded code</span>
+<span class="cl">ConcurrentHashMap</span>&lt;<span class="cl">String</span>,<span class="cl">Integer</span>&gt; map <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span>&lt;&gt;();
+map.<span class="fn">computeIfAbsent</span>(<span class="str">"key"</span>, k <span class="op">-&gt;</span> <span class="num">1</span>);     <span class="cm">// atomic: check + put in one step</span>
+map.<span class="fn">merge</span>(<span class="str">"key"</span>, <span class="num">1</span>, <span class="cl">Integer</span><span class="op">::</span><span class="fn">sum</span>);       <span class="cm">// atomic increment</span>
+
+<span class="cm">// ✅ Best practice 3: minimize lock scope</span>
+<span class="cm">// Don't hold a lock longer than necessary</span>
+<span class="kw">public void</span> <span class="fn">processAndSave</span>(<span class="cl">Data</span> data) {
+    <span class="cl">Data</span> processed <span class="op">=</span> <span class="fn">heavyProcessing</span>(data); <span class="cm">// outside the lock</span>
+    <span class="kw">synchronized</span> (<span class="kw">this</span>) {
+        store.<span class="fn">save</span>(processed);               <span class="cm">// only the write is locked</span>
+    }
+}
+
+<span class="cm">// ⚠️ Deadlock — two threads each hold a lock the other needs
+// Always acquire locks in the same order to prevent deadlock</span></pre></div>
+<div class="challenge" style="background:var(--m4d);border-color:var(--m4b)">
+<div class="ch-lbl" style="color:var(--m4)">Module Challenge</div>
+<h4>Thread-safe Task Queue</h4>
+<p>Build a <code>TaskQueue</code> that multiple threads can use safely:</p>
+<ul>
+<li>Uses a <code>LinkedBlockingQueue&lt;Task&gt;</code> internally</li>
+<li><code>addTask(Task t)</code> — adds to queue (producer)</li>
+<li><code>processNext()</code> — takes and "processes" the next task (consumer), blocks if empty</li>
+<li>Create 2 producer threads that each add 5 tasks</li>
+<li>Create 3 consumer threads that process tasks as they arrive</li>
+<li>Use an <code>AtomicInteger</code> to count total processed tasks</li>
+<li>Use <code>ExecutorService</code> for both producers and consumers</li>
+</ul>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
+<div class="quiz-q">Why are immutable objects inherently thread-safe?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The JVM assigns them a dedicated thread automatically</button>
+<button class="quiz-opt" onclick="Q(this,true)">Their state never changes after construction — there is nothing to synchronize because no writes ever happen</button>
+<button class="quiz-opt" onclick="Q(this,false)">Immutable objects are stored in a special read-only memory region</button>
+</div><div class="quiz-fb" id="qf_4_4"></div></div>`
+    }
+  ]
+},
+
+// ─────────────────────────── MODULE 5: DESIGN PATTERNS ───────────────────────────
+{
+  id:5, icon:'🏗️', title:'Design Patterns', accent:'var(--m5)', accentD:'var(--m5d)', accentB:'var(--m5b)',
+  lessons:[
+    {
+      title:'What Are Design Patterns?',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m5)">Design Patterns</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 4</span></div>
+<h2>What Are <em style="color:var(--m5)">Design Patterns?</em></h2>
+<p class="lesson-intro" style="border-color:var(--m5)">Design patterns are named, proven solutions to recurring design problems. They're not code you copy-paste — they're blueprints you apply. Knowing three core patterns makes you immediately useful on a professional team.</p>
+<div class="prose">
+<p>The concept comes from a 1994 book called <em>Design Patterns</em> by four authors (the "Gang of Four"). They catalogued 23 patterns across three categories. In practice, a handful appear in almost every Java codebase you'll work in.</p>
+<h3>Three categories</h3>
+<ul>
+<li><strong>Creational</strong> — how objects are created (Factory, Singleton, Builder)</li>
+<li><strong>Structural</strong> — how objects are composed (Decorator, Adapter, Composite)</li>
+<li><strong>Behavioral</strong> — how objects communicate (Observer, Strategy, Command)</li>
+</ul>
+<h3>Why learn them?</h3>
+<ul>
+<li><strong>Common vocabulary</strong> — say "use a Factory" and every developer on the team knows exactly what you mean</li>
+<li><strong>Proven solutions</strong> — battle-tested for decades across millions of codebases</li>
+<li><strong>They're everywhere</strong> — Spring, JDBC, Swing, the Java standard library — all use these patterns. Understanding them makes frameworks less mysterious.</li>
+</ul>
+</div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>don't force patterns onto problems</strong><p>The goal is knowing patterns well enough to recognise when they fit — not using them everywhere. Over-engineering with patterns you don't need is a common junior mistake. Apply them when the problem they solve actually exists in your code.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m5)">Quick Check</div>
+<div class="quiz-q">A teammate says "I used the Factory pattern for this." Without seeing the code, you know it's about...</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">How objects communicate with each other</button>
+<button class="quiz-opt" onclick="Q(this,true)">How objects are created — specifically, abstracting away the instantiation logic behind a method or class</button>
+<button class="quiz-opt" onclick="Q(this,false)">How an object's internal structure is organised</button>
+</div><div class="quiz-fb" id="qf_5_0"></div></div>`
+    },
+    {
+      title:'Factory Method Pattern',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m5)">Design Patterns</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 4</span></div>
+<h2>Factory <em style="color:var(--m5)">Method Pattern</em></h2>
+<p class="lesson-intro" style="border-color:var(--m5)">Factory hides the details of object creation behind a method. Callers ask for a "thing" and receive it — they don't need to know which class was instantiated or how it was configured. This decouples creation from use.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">NotificationFactory.java</span><span class="code-tag">Factory Method — create objects without specifying class</span></div>
+<pre><span class="cm">// Without Factory: caller must know every subclass and its constructor</span>
+<span class="cl">Notification</span> n;
+<span class="kw">if</span>      (type.<span class="fn">equals</span>(<span class="str">"email"</span>)) n <span class="op">=</span> <span class="kw">new</span> <span class="cl">EmailNotification</span>(email, smtp);
+<span class="kw">else if</span> (type.<span class="fn">equals</span>(<span class="str">"sms"</span>))   n <span class="op">=</span> <span class="kw">new</span> <span class="cl">SmsNotification</span>(phone, apiKey);
+<span class="kw">else if</span> (type.<span class="fn">equals</span>(<span class="str">"push"</span>))  n <span class="op">=</span> <span class="kw">new</span> <span class="cl">PushNotification</span>(deviceId, cert);
+<span class="cm">// Adding a new type means changing every place this code appears</span>
+
+<span class="cm">// ── With Factory: creation logic in one place ──────────────</span>
+<span class="kw">public interface</span> <span class="cl">Notification</span> {
+    <span class="kw">void</span> <span class="fn">send</span>(<span class="cl">String</span> message);
+    <span class="kw">boolean</span> <span class="fn">isDelivered</span>();
+}
+
+<span class="kw">public class</span> <span class="cl">NotificationFactory</span> {
+
+    <span class="kw">public static</span> <span class="cl">Notification</span> <span class="fn">create</span>(<span class="cl">String</span> type, <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; config) {
+        <span class="kw">return switch</span> (type.<span class="fn">toLowerCase</span>()) {
+            <span class="kw">case</span> <span class="str">"email"</span> <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">EmailNotification</span>(config.<span class="fn">get</span>(<span class="str">"address"</span>));
+            <span class="kw">case</span> <span class="str">"sms"</span>   <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">SmsNotification</span>(config.<span class="fn">get</span>(<span class="str">"phone"</span>));
+            <span class="kw">case</span> <span class="str">"push"</span>  <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">PushNotification</span>(config.<span class="fn">get</span>(<span class="str">"deviceId"</span>));
+            <span class="kw">default</span>      <span class="op">-&gt;</span> <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Unknown type: "</span> <span class="op">+</span> type);
+        };
+    }
+}
+
+<span class="cm">// Caller just asks for what they need</span>
+<span class="cl">Notification</span> n <span class="op">=</span> <span class="cl">NotificationFactory</span>.<span class="fn">create</span>(<span class="str">"email"</span>, config);
+n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>);
+<span class="cm">// Doesn't know or care that it's an EmailNotification</span>
+
+<span class="cm">// Adding SlackNotification: update the factory, nothing else changes</span></pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m5)">Quick Check</div>
+<div class="quiz-q">You add a new <code>SlackNotification</code> type. Using the Factory pattern, what is the minimum code change required?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Update every place in the codebase that creates notifications</button>
+<button class="quiz-opt" onclick="Q(this,true)">Add one new case to the Factory method — all callers get the new type automatically</button>
+<button class="quiz-opt" onclick="Q(this,false)">Create a new Factory class for the new type</button>
+</div><div class="quiz-fb" id="qf_5_1"></div></div>`
+    },
+    {
+      title:'Singleton & Builder Patterns',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m5)">Design Patterns</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 4</span></div>
+<h2>Singleton <em style="color:var(--m5)">&amp; Builder</em> Patterns</h2>
+<p class="lesson-intro" style="border-color:var(--m5)">Singleton ensures exactly one instance exists. Builder constructs complex objects step by step, replacing telescoping constructors with readable, validated construction.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Singleton.java</span><span class="code-tag">Thread-safe Singleton — enum approach (best)</span></div>
+<pre><span class="cm">// ── Singleton via enum — simplest, thread-safe, serialization-safe</span>
+<span class="kw">public enum</span> <span class="cl">AppConfig</span> {
+    INSTANCE;   <span class="cm">// JVM guarantees exactly one instance</span>
+
+    <span class="kw">private final</span> <span class="cl">String</span> dbUrl;
+    <span class="kw">private final int</span>    maxConnections;
+
+    <span class="fn">AppConfig</span>() {
+        dbUrl          <span class="op">=</span> <span class="cl">System</span>.<span class="fn">getenv</span>(<span class="str">"DB_URL"</span>);
+        maxConnections <span class="op">=</span> <span class="num">10</span>;
+    }
+
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getDbUrl</span>()         { <span class="kw">return</span> dbUrl;          }
+    <span class="kw">public int</span>    <span class="fn">getMaxConnections</span>() { <span class="kw">return</span> maxConnections; }
+}
+
+<span class="cm">// Usage — always the same instance</span>
+<span class="cl">String</span> url <span class="op">=</span> <span class="cl">AppConfig</span>.INSTANCE.<span class="fn">getDbUrl</span>();</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Builder.java</span><span class="code-tag">Builder Pattern — readable complex construction</span></div>
+<pre><span class="cm">// Problem: a constructor with 6+ params is unreadable and error-prone
+// new HttpRequest("https://...", "POST", headers, body, 5000, true) ← what's true?</span>
+
+<span class="kw">public class</span> <span class="cl">HttpRequest</span> {
+    <span class="kw">private final</span> <span class="cl">String</span>             url;
+    <span class="kw">private final</span> <span class="cl">String</span>             method;
+    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; headers;
+    <span class="kw">private final</span> <span class="cl">String</span>             body;
+    <span class="kw">private final int</span>                timeoutMs;
+
+    <span class="kw">private</span> <span class="fn">HttpRequest</span>(<span class="cl">Builder</span> b) {
+        url <span class="op">=</span> b.url; method <span class="op">=</span> b.method;
+        headers <span class="op">=</span> <span class="cl">Collections</span>.<span class="fn">unmodifiableMap</span>(b.headers);
+        body <span class="op">=</span> b.body; timeoutMs <span class="op">=</span> b.timeoutMs;
+    }
+
+    <span class="kw">public static class</span> <span class="cl">Builder</span> {
+        <span class="kw">private final</span> <span class="cl">String</span>             url;
+        <span class="kw">private</span> <span class="cl">String</span>                    method    <span class="op">=</span> <span class="str">"GET"</span>;
+        <span class="kw">private</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt;        headers   <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+        <span class="kw">private</span> <span class="cl">String</span>                    body      <span class="op">=</span> <span class="kw">null</span>;
+        <span class="kw">private int</span>                        timeoutMs <span class="op">=</span> <span class="num">5000</span>;
+
+        <span class="kw">public</span> <span class="fn">Builder</span>(<span class="cl">String</span> url) { <span class="kw">this</span>.url <span class="op">=</span> url; }
+
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">method</span>(<span class="cl">String</span> m)           { method    <span class="op">=</span> m;  <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">header</span>(<span class="cl">String</span> k, <span class="cl">String</span> v)  { headers.<span class="fn">put</span>(k,v); <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">body</span>(<span class="cl">String</span> b)              { body      <span class="op">=</span> b;  <span class="kw">return this</span>; }
+        <span class="kw">public</span> <span class="cl">Builder</span> <span class="fn">timeout</span>(<span class="kw">int</span> ms)             { timeoutMs <span class="op">=</span> ms; <span class="kw">return this</span>; }
+
+        <span class="kw">public</span> <span class="cl">HttpRequest</span> <span class="fn">build</span>() {
+            <span class="kw">if</span> (url <span class="op">==</span> <span class="kw">null</span>) <span class="kw">throw new</span> <span class="cl">IllegalStateException</span>(<span class="str">"URL required"</span>);
+            <span class="kw">return new</span> <span class="cl">HttpRequest</span>(<span class="kw">this</span>);
+        }
+    }
+}
+
+<span class="cm">// Fluent, self-documenting construction</span>
+<span class="cl">HttpRequest</span> req <span class="op">=</span> <span class="kw">new</span> <span class="cl">HttpRequest</span>.<span class="cl">Builder</span>(<span class="str">"https://api.example.com/tasks"</span>)
+    .<span class="fn">method</span>(<span class="str">"POST"</span>)
+    .<span class="fn">header</span>(<span class="str">"Authorization"</span>, <span class="str">"Bearer token"</span>)
+    .<span class="fn">body</span>(<span class="str">"{\"title\":\"Buy groceries\"}"</span>)
+    .<span class="fn">timeout</span>(<span class="num">10_000</span>)
+    .<span class="fn">build</span>();</pre></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m5)">Quick Check</div>
+<div class="quiz-q">The Builder pattern is primarily solving which problem?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Ensuring only one instance of a class exists</button>
+<button class="quiz-opt" onclick="Q(this,true)">Making complex object construction readable and validated — especially when a class has many optional parameters</button>
+<button class="quiz-opt" onclick="Q(this,false)">Hiding which subclass is being instantiated from the caller</button>
+</div><div class="quiz-fb" id="qf_5_2"></div></div>`
+    },
+    {
+      title:'Patterns in the Wild',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m5)">Design Patterns</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 4</span></div>
+<h2>Patterns <em style="color:var(--m5)">in the Wild</em></h2>
+<p class="lesson-intro" style="border-color:var(--m5)">You've seen three patterns in isolation. Now see where they appear in real Java libraries and frameworks — because recognising them in other people's code is just as valuable as writing them yourself.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">PatternsInJava.java</span><span class="code-tag">Where you'll see these patterns in real code</span></div>
+<pre><span class="cm">// ── Factory — in the Java standard library ──────────────────</span>
+<span class="cm">// Calendar.getInstance() — returns a GregorianCalendar or BuddhistCalendar</span>
+<span class="cm">// depending on the locale. You don't know or care which.</span>
+<span class="cl">Calendar</span> cal <span class="op">=</span> <span class="cl">Calendar</span>.<span class="fn">getInstance</span>();
+
+<span class="cm">// NumberFormat.getInstance() — locale-specific formatter</span>
+<span class="cl">NumberFormat</span> fmt <span class="op">=</span> <span class="cl">NumberFormat</span>.<span class="fn">getCurrencyInstance</span>(<span class="cl">Locale</span>.US);
+
+<span class="cm">// ── Singleton — in real frameworks ─────────────────────────</span>
+<span class="cm">// Spring's @Component beans are singletons by default.
+// LoggerFactory.getLogger() returns the same logger for the same name.</span>
+<span class="cl">Logger</span> log <span class="op">=</span> <span class="cl">LoggerFactory</span>.<span class="fn">getLogger</span>(<span class="cl">MyService</span>.<span class="kw">class</span>); <span class="cm">// same instance every call</span>
+
+<span class="cm">// ── Builder — in real APIs ──────────────────────────────────</span>
+<span class="cm">// Java 8's Stream.Builder</span>
+<span class="cl">Stream</span>&lt;<span class="cl">String</span>&gt; stream <span class="op">=</span> <span class="cl">Stream</span>.&lt;<span class="cl">String</span>&gt;<span class="fn">builder</span>()
+    .<span class="fn">add</span>(<span class="str">"one"</span>).<span class="fn">add</span>(<span class="str">"two"</span>).<span class="fn">add</span>(<span class="str">"three"</span>).<span class="fn">build</span>();
+
+<span class="cm">// StringBuilder — the original Java Builder</span>
+<span class="cl">String</span> result <span class="op">=</span> <span class="kw">new</span> <span class="cl">StringBuilder</span>()
+    .<span class="fn">append</span>(<span class="str">"Hello"</span>).<span class="fn">append</span>(<span class="str">", "</span>).<span class="fn">append</span>(<span class="str">"World"</span>).<span class="fn">toString</span>();
+
+<span class="cm">// HttpClient (Java 11+)</span>
+<span class="cl">HttpClient</span> client <span class="op">=</span> <span class="cl">HttpClient</span>.<span class="fn">newBuilder</span>()
+    .<span class="fn">version</span>(<span class="cl">HttpClient</span>.<span class="cl">Version</span>.HTTP_2)
+    .<span class="fn">connectTimeout</span>(<span class="cl">Duration</span>.<span class="fn">ofSeconds</span>(<span class="num">10</span>))
+    .<span class="fn">build</span>();</pre></div>
+<div class="challenge" style="background:var(--m5d);border-color:var(--m5b)">
+<div class="ch-lbl" style="color:var(--m5)">Module Challenge — and Portal Capstone</div>
+<h4>Refactor the Task Manager with all 6 modules</h4>
+<p>This is the capstone challenge for the entire portal. Apply what you've learned across all modules:</p>
+<ul>
+<li><strong>Generics</strong> — create a generic <code>Repository&lt;T extends Identifiable&gt;</code> that TaskManager uses</li>
+<li><strong>Streams</strong> — rewrite all filtering, searching, and reporting methods using the Stream API</li>
+<li><strong>Enums</strong> — replace String priority/status fields with proper enums that have fields and methods</li>
+<li><strong>Records</strong> — create a <code>TaskSummary</code> record for statistics output</li>
+<li><strong>Optional</strong> — all find methods return <code>Optional&lt;Task&gt;</code>; never return null</li>
+<li><strong>Concurrency</strong> — make TaskManager thread-safe using <code>CopyOnWriteArrayList</code> and demonstrate two threads adding/reading tasks simultaneously</li>
+<li><strong>Factory</strong> — create a <code>TaskFactory</code> that creates tasks from a config map</li>
+<li><strong>Builder</strong> — create a <code>Task.Builder</code> for constructing tasks with many optional fields</li>
+</ul>
+</div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m5)">Quick Check</div>
+<div class="quiz-q">Looking at <code>HttpClient.newBuilder().timeout(10).build()</code>, which pattern are you using?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Factory — because newBuilder() creates a new object</button>
+<button class="quiz-opt" onclick="Q(this,true)">Builder — a fluent API that constructs a complex immutable object step by step, with build() at the end</button>
+<button class="quiz-opt" onclick="Q(this,false)">Singleton — because there's only one HttpClient</button>
+</div><div class="quiz-fb" id="qf_5_3"></div></div>`
+    }
+  ]
+}
+
+]; // end MODULES array
+
+// ══════════════════ ENGINE ══════════════════
+
+const state = {
+  module: null,
+  lesson: 0,
+  done: {},   // { moduleId: Set<lessonIdx> }
+  visited: {} // { moduleId: Set<lessonIdx> }
+};
+
+MODULES.forEach(m => {
+  state.done[m.id]    = new Set();
+  state.visited[m.id] = new Set();
+});
+
+// ── Quiz explanations ──
+const EXPL = {
+  '0_0': 'Type safety is the whole point — the compiler rejects the wrong type at compile time, not at runtime when a ClassCastException crashes your program.',
+  '0_1': 'T is resolved to Integer when you declare Box<Integer>. The compiler knows get() returns Integer, so no cast is needed — that\'s exactly the benefit.',
+  '0_2': 'The bound <T extends Number> gives the compiler enough information to allow Number methods inside the class. Without the bound, T could be anything and no methods would be available.',
+  '0_3': 'List<Number> only accepts exactly Number, not Integer or Double. The wildcard ? extends Number accepts all Number subtypes — that\'s what makes it work for summing.',
+  '0_4': 'Type erasure means generic type info is removed at runtime. You can\'t use instanceof to check a parameterized type, but this doesn\'t affect performance — the JVM just sees raw types.',
+  '1_0': 'A lambda taking one parameter uses the form param -> expression. String::length is a method reference that means s -> s.length() — same thing, shorter form.',
+  '1_1': 'Predicate<T> is the functional interface for things that take a T and return boolean. Function<String, Boolean> also works, but Predicate is the semantic choice for boolean checks.',
+  '1_2': 'filter() and map() return Streams — they declare operations but don\'t execute them. Execution only happens when collect(), forEach(), count(), or another terminal operation is called.',
+  '1_3': 'groupingBy() groups elements by a key function, producing a Map<K, List<V>>. partitioningBy() only splits into true/false. toMap() needs explicit key and value functions.',
+  '1_4': 'map(Order::getItems) would return Stream<List<Item>> — a stream of lists. flatMap() flattens that into Stream<Item> by treating each inner list as a source of individual elements.',
+  '1_5': 'Streams are lazy — intermediate operations build up a pipeline description but don\'t run until a terminal operation triggers execution. This is intentional: it enables optimisations and short-circuiting.',
+  '2_0': 'valueOf() throws IllegalArgumentException for unknown names. This is actually better than returning null — it\'s a loud, fast failure instead of a silent bug that surfaces later.',
+  '2_1': 'EnumMap stores values in an array indexed by the enum ordinal — no hashing overhead, minimal memory. It\'s a specialisation of Map that exploits the fact that enum constants are a fixed, small set.',
+  '2_2': 'Records generate equals() based on field values by identity. Two records with the same field values are equal — perfect for data classes.',
+  '2_3': 'Sealed classes give the compiler a complete picture of all possible subtypes. Pattern matching switch can verify exhaustiveness — if you forget a case, the code won\'t compile.',
+  '3_0': 'Optional<T> in a return type is a contract: "this value might not exist." It forces callers to decide what to do in the absent case — they can\'t accidentally use null as if it were a value.',
+  '3_1': 'orElse() always evaluates its argument, even when the Optional is present — so loadDefaultConfig() would be called unnecessarily. orElseGet() uses a Supplier that is only invoked when the Optional is empty.',
+  '3_2': 'map() would turn Optional<User> into Optional<Optional<Address>>. flatMap() unwraps the inner Optional automatically, keeping the result as Optional<Address>.',
+  '3_3': 'flatMap(Optional::stream) is the idiomatic one-liner. Each Optional becomes a stream of 0 or 1 elements — flatMap merges them. The filter+get approach is verbose and uses get() unsafely.',
+  '4_0': 'The OS thread scheduler decides which thread gets CPU time and when. Thread interleaving is non-deterministic — that\'s what makes concurrency bugs so hard to reproduce and fix.',
+  '4_1': 'count++ is three operations: read, add 1, write back. Two threads can both read the same value before either writes, so both write the same incremented value — losing one increment per collision.',
+  '4_2': 'If the critical section throws, execution jumps to the catch/finally block. Without finally, the lock is never released and every subsequent thread waiting for it will wait forever — a deadlock.',
+  '4_3': 'Thread creation allocates OS resources and takes milliseconds. A pool creates threads once and reuses them. Under load, unlimited thread creation exhausts memory and OS thread limits.',
+  '4_4': 'No writes ever happen to an immutable object\'s state. Without writes, there is nothing to synchronize. Multiple threads can read the same object simultaneously with zero synchronization overhead.',
+  '5_0': 'Creational patterns are about object creation. Factory specifically abstracts the instantiation — callers get objects without knowing which concrete class was used or how it was configured.',
+  '5_1': 'The Factory centralises all creation logic. Adding a new type means one change in one place. Callers don\'t change because they interact only with the interface, not the concrete class.',
+  '5_2': 'Builder is about constructing complex objects step by step with named, readable method calls. It shines when a class has many parameters, especially optional ones.',
+  '5_3': 'The fluent API with chained setter-like methods and a build() at the end is the Builder pattern\'s signature. newBuilder() is a factory method, but the pattern being applied is Builder.',
+};
+
+function Q(btn, correct) {
+  const quiz  = btn.closest('.quiz');
+  const modId = state.module;
+  const lesId = state.lesson;
+  const key   = modId + '_' + lesId;
+
+  quiz.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.onclick && b.onclick.toString().includes('true')) b.classList.add('correct');
+  });
+  if (!correct) btn.classList.add('wrong');
+
+  const fb = document.getElementById('qf_' + key);
+  if (fb) {
+    fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'bad');
+    fb.textContent = (correct ? '✓  ' : '✗  ') + (EXPL[key] || '');
+  }
+
+  if (correct) {
+    state.done[modId].add(lesId);
+    updateProgress();
+  }
+}
+
+// ── Navigation ──
+function openModule(idx) {
+  state.module = idx;
+  state.lesson = 0;
+  state.visited[idx].add(0);
+  document.getElementById('homeView').style.display  = 'none';
+  document.getElementById('moduleView').style.display = 'block';
+  document.getElementById('backBtn').style.display    = 'inline-block';
+
+  const mod = MODULES[idx];
+
+  // Style sidebar
+  document.getElementById('sbIcon').textContent  = mod.icon;
+  document.getElementById('sbTitle').textContent = mod.title;
+
+  // Build nav
+  const nav = document.getElementById('navList');
+  nav.innerHTML = mod.lessons.map((l, i) => `
+    <button class="nav-btn ${i===0?'active':''}" id="nb_${idx}_${i}" onclick="goLesson(${i})">
+      <span class="nav-num" id="nn_${idx}_${i}" style="background:${i===0?mod.accent:'var(--border2)'}">
+        ${i+1}
+      </span>
+      ${l.title}
+    </button>`).join('');
+
+  renderLesson(idx, 0);
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goLesson(lesIdx) {
+  const mod = MODULES[state.module];
+  const old = state.lesson;
+
+  // deactivate old
+  const oldBtn = document.getElementById('nb_' + state.module + '_' + old);
+  if (oldBtn) {
+    oldBtn.classList.remove('active');
+    const doneSet = state.done[state.module];
+    if (doneSet.has(old)) oldBtn.classList.add('done');
+    document.getElementById('nn_' + state.module + '_' + old).style.background =
+      doneSet.has(old) ? 'var(--green-dim)' : 'var(--border2)';
+  }
+
+  state.lesson = lesIdx;
+  state.visited[state.module].add(lesIdx);
+
+  const newBtn = document.getElementById('nb_' + state.module + '_' + lesIdx);
+  if (newBtn) {
+    newBtn.classList.remove('done');
+    newBtn.classList.add('active');
+    document.getElementById('nn_' + state.module + '_' + lesIdx).style.background = mod.accent;
+  }
+
+  renderLesson(state.module, lesIdx);
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderLesson(modIdx, lesIdx) {
+  const mod = MODULES[modIdx];
+  const les = mod.lessons[lesIdx];
+  const main = document.getElementById('modMain');
+  main.innerHTML = les.html + buildLessonNav(modIdx, lesIdx);
+
+  // Sidebar progress
+  const pct = Math.round((state.visited[modIdx].size / mod.lessons.length) * 100);
+  document.getElementById('sbProg').textContent = pct + '%';
+  document.getElementById('sbProg').style.cssText = 'background:' + mod.accent +
+    ';-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:700';
+}
+
+function buildLessonNav(modIdx, lesIdx) {
+  const mod = MODULES[modIdx];
+  const isFirst = lesIdx === 0;
+  const isLast  = lesIdx === mod.lessons.length - 1;
+  const isLastMod = modIdx === MODULES.length - 1;
+
+  const prevBtn = isFirst
+    ? `<button class="btn btn-prev" disabled>← prev</button>`
+    : `<button class="btn btn-prev" onclick="goLesson(${lesIdx-1})">← prev</button>`;
+
+  let nextBtn;
+  if (isLast && isLastMod) {
+    nextBtn = `<button class="btn btn-next" style="background:${mod.accent}" disabled>Portal Complete ✓</button>`;
+  } else if (isLast) {
+    nextBtn = `<button class="btn btn-next" style="background:${mod.accent}" onclick="showHome()">All Modules →</button>`;
+  } else {
+    nextBtn = `<button class="btn btn-next" style="background:${mod.accent}" onclick="goLesson(${lesIdx+1})">next →</button>`;
+  }
+
+  return `<div class="lesson-nav" style="max-width:740px">${prevBtn}${nextBtn}</div>`;
+}
+
+function showHome() {
+  state.module = null;
+  document.getElementById('homeView').style.display   = 'block';
+  document.getElementById('moduleView').style.display = 'none';
+  document.getElementById('backBtn').style.display    = 'none';
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Progress ──
+function updateProgress() {
+  // Overall: count all visited lessons
+  let total   = MODULES.reduce((s,m) => s + m.lessons.length, 0);
+  let visited = MODULES.reduce((s,m) => s + state.visited[m.id].size, 0);
+  const pct = Math.round((visited / total) * 100);
+  document.getElementById('opFill').style.width = pct + '%';
+  document.getElementById('opPct').textContent  = pct + '%';
+
+  // Per-module cards
+  MODULES.forEach(m => {
+    const fill = document.getElementById('mp' + m.id);
+    if (fill) {
+      const mp = Math.round((state.visited[m.id].size / m.lessons.length) * 100);
+      fill.style.width = mp + '%';
+    }
+    const card = document.getElementById('card' + m.id);
+    if (card) {
+      if (state.visited[m.id].size > 0) {
+        card.style.borderColor = m.accent ? 'rgba(124,92,191,0.35)' : '';
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

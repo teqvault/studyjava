@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before You Code — Java Pre-Course</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f6;
+  --surface: #ffffff;
+  --border: #ede9e0;
+  --border2: #ddd8cc;
+  --text: #1c1a16;
+  --body: #4a4640;
+  --muted: #8a8278;
+  --dim: #c8c2b8;
+  --ink: #0f0e0b;
+  --accent: #2d6a4f;
+  --accent-dim: rgba(45,106,79,0.08);
+  --accent-border: rgba(45,106,79,0.2);
+  --accent-light: #f0f7f4;
+  --warm: #c45c1a;
+  --warm-dim: rgba(196,92,26,0.08);
+  --warm-border: rgba(196,92,26,0.2);
+  --blue: #1a5fa8;
+  --blue-dim: rgba(26,95,168,0.07);
+  --blue-border: rgba(26,95,168,0.18);
+  --red: #b83232;
+  --red-dim: rgba(184,50,50,0.07);
+  --red-border: rgba(184,50,50,0.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 var(--border)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:32px;height:32px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Fraunces',serif;font-size:17px;font-weight:500;font-style:italic}
+.logo-text{font-size:14px;font-weight:500;color:var(--text)}
+.logo-text span{color:var(--accent)}
+.hdr-right{display:flex;align-items:center;gap:20px}
+.prog-wrap{display:flex;align-items:center;gap:10px}
+.prog-track{width:120px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),#52b788);border-radius:3px;transition:width .5s ease;width:0%}
+.prog-pct{font-size:12px;color:var(--accent);font-weight:600;min-width:32px}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+
+/* LAYOUT */
+.shell{display:flex;min-height:calc(100vh - 60px)}
+
+/* SIDEBAR */
+.sidebar{width:248px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:22px 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sb-section{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);padding:0 18px;margin:20px 0 6px}
+.sb-section:first-child{margin-top:0}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:9px 18px;width:100%;border:none;background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:var(--muted);text-align:left;transition:all .12s;line-height:1.3}
+.nav-btn:hover{color:var(--text);background:var(--accent-dim)}
+.nav-btn.active{color:var(--accent);background:var(--accent-dim);border-right:3px solid var(--accent);font-weight:600}
+.nav-btn.done{color:var(--accent)}
+.nav-btn.done::after{content:'✓';margin-left:auto;font-size:11px;color:var(--accent)}
+.nav-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-btn.active .nav-num{background:var(--accent);color:#fff}
+.nav-btn.done .nav-num{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+
+/* MAIN */
+.main{flex:1;min-width:0;padding:52px 64px 88px}
+
+/* LESSON */
+.lesson{display:none}
+.lesson.active{display:block;animation:fadeUp .28s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ey-num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.ey-dot{width:3px;height:3px;background:var(--dim);border-radius:50%}
+.ey-cat{font-size:11px;color:var(--muted);font-weight:500}
+.lesson h2{font-family:'Fraunces',serif;font-size:clamp(1.9rem,3vw,2.7rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:16px;letter-spacing:-.01em}
+.lesson h2 em{color:var(--accent);font-style:italic}
+.lesson-intro{font-size:.97rem;color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:40px;padding-left:16px;border-left:3px solid var(--accent)}
+
+/* PROSE */
+.prose{max-width:720px}
+.prose p{font-size:.94rem;color:var(--body);line-height:1.85;margin-bottom:18px}
+.prose h3{font-family:'Fraunces',serif;font-size:1.22rem;font-weight:500;color:var(--ink);margin:32px 0 12px}
+.prose ul,.prose ol{padding-left:22px;margin-bottom:18px}
+.prose li{font-size:.92rem;color:var(--body);margin-bottom:8px;line-height:1.75}
+.prose strong{color:var(--ink);font-weight:600}
+.prose code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--border);color:var(--warm);padding:1px 6px;border-radius:3px}
+
+/* ANALOGY CARD */
+.analogy{background:var(--accent-light);border:1px solid var(--accent-border);border-radius:10px;padding:22px 24px;margin:22px 0;max-width:720px;display:flex;gap:16px}
+.analogy-ico{font-size:26px;flex-shrink:0;line-height:1}
+.analogy-body h4{font-family:'Fraunces',serif;font-size:1rem;font-weight:500;color:var(--accent);margin-bottom:6px}
+.analogy-body p{font-size:.9rem;color:#2d4a3e;line-height:1.75;margin:0}
+
+/* PLAIN ENGLISH BLOCK */
+.plain-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:18px 0;max-width:720px;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:2;color:var(--body)}
+.plain-block .eng{color:var(--muted);font-style:italic;display:block}
+.plain-block .code{color:var(--ink);display:block;padding-left:20px;border-left:2px solid var(--accent)}
+.plain-block .arrow{color:var(--accent);font-weight:700}
+
+/* CALLOUT */
+.callout{display:flex;gap:14px;padding:16px 18px;border-radius:8px;margin:20px 0;font-size:.91rem;line-height:1.75;max-width:720px}
+.callout-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:.89rem;margin-bottom:4px;font-weight:600}
+.callout-body p{color:var(--body);margin:0;font-size:.87rem}
+.callout.tip{background:var(--blue-dim);border:1px solid var(--blue-border)}
+.callout.tip strong{color:var(--blue)}
+.callout.warn{background:var(--warm-dim);border:1px solid var(--warm-border)}
+.callout.warn strong{color:var(--warm)}
+.callout.good{background:var(--accent-dim);border:1px solid var(--accent-border)}
+.callout.good strong{color:var(--accent)}
+
+/* CONCEPT TABLE */
+.concept-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;max-width:720px}
+.concept-cell{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.concept-cell-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.concept-cell h4{font-size:.93rem;font-weight:600;color:var(--ink);margin-bottom:5px}
+.concept-cell p{font-size:.83rem;color:var(--muted);line-height:1.6;margin:0}
+
+/* INTERACTIVE */
+.interactive-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;margin:22px 0;max-width:720px}
+.ib-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+
+/* QUIZ */
+.quiz{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;margin:32px 0;max-width:720px}
+.quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.quiz-q{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:18px;line-height:1.55}
+.quiz-opts{display:flex;flex-direction:column;gap:9px}
+.quiz-opt{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:11px 15px;cursor:pointer;font-family:'Inter',sans-serif;font-size:.89rem;font-weight:500;color:var(--muted);text-align:left;transition:all .12s}
+.quiz-opt:hover:not(:disabled){border-color:var(--accent);color:var(--text);background:var(--accent-light)}
+.quiz-opt.correct{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{margin-top:14px;padding:11px 15px;border-radius:6px;font-size:.87rem;font-weight:600;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+.quiz-fb.bad{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+
+/* LESSON NAV */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:56px;padding-top:24px;border-top:1px solid var(--border);max-width:720px}
+.btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:7px;cursor:pointer;border:none;transition:all .15s}
+.btn-next{background:var(--accent);color:#fff}
+.btn-next:hover:not(:disabled){background:#1f4f3a;transform:translateY(-1px)}
+.btn-prev{background:var(--surface);color:var(--muted);border:1px solid var(--border2)}
+.btn-prev:hover{color:var(--text);border-color:var(--accent)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* BRIDGE BLOCK */
+.bridge{background:#0f0e0b;border-radius:10px;padding:22px 24px;margin:20px 0;max-width:720px;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:2}
+.br-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5a6a5a;margin-bottom:12px}
+.br-eng{color:#4a5a4a;display:block}
+.br-java{color:#e2e8e2;display:block;padding-left:20px;border-left:2px solid #2d6a4f}
+.br-kw{color:#c084fc}
+.br-cl{color:#fbbf24}
+.br-fn{color:#4ade80}
+.br-str{color:#fb923c}
+.br-cm{color:#3d4d3d;font-style:italic}
+.br-num{color:#f472b6}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+@media(max-width:860px){.sidebar{display:none}.main{padding:28px 20px 60px}header{padding:0 16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">B</div>
+    <span class="logo-text">Before You <span>Code</span></span>
+  </div>
+  <div class="hdr-right">
+    <span class="badge">Pre-course · No syntax required</span>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+      <span class="prog-pct" id="pPct">0%</span>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<nav class="sidebar">
+  <div class="sb-section">The big ideas</div>
+  <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What a program is</button>
+  <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Storing information</button>
+  <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Making decisions</button>
+  <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Repeating things</button>
+  <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Named instructions</button>
+  <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>How a computer reads code</button>
+  <div class="sb-section">The bridge</div>
+  <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>From English to Java</button>
+  <button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>You're ready</button>
+</nav>
+<main class="main">
+
+<!-- L0: What a program is -->
+<div class="lesson active" id="L0">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 1</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>What a program <em>actually is</em></h2>
+<p class="lesson-intro">Before writing a single line of code, let's make sure you understand what a program is. Not in a technical way — in a human way. Everything else builds from this.</p>
+
+<div class="prose">
+<p>A program is just a list of instructions that a computer follows, one at a time, in order. That's it. There's no magic. The computer does exactly what you tell it to do — no more, no less. If something goes wrong, it's because the instructions were wrong, not because the computer made a mistake.</p>
+<p>You already write programs every day — you just call them recipes, directions, or checklists.</p>
+</div>
+
+<div class="analogy">
+<span class="analogy-ico">🍳</span>
+<div class="analogy-body">
+<h4>A recipe is a program</h4>
+<p>A recipe tells you: get two eggs, crack them into a bowl, add salt, whisk, pour into a hot pan, wait 2 minutes, flip. The instructions are in order. Each step depends on the previous one. If you skip step 3, the output (the omelette) is wrong. A computer program works exactly the same way.</p>
+</div>
+</div>
+
+<div class="prose">
+<h3>The four things every program does</h3>
+<p>No matter how complex — a video game, a banking app, a social network — every program boils down to just four kinds of actions:</p>
+</div>
+
+<div class="concept-row">
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Input</div><h4>Take something in</h4><p>Read from a keyboard, a file, a sensor, the internet. Something enters the program.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Process</div><h4>Do something with it</h4><p>Calculate, compare, transform, sort. This is the logic — the brain of the program.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Store</div><h4>Remember it</h4><p>Keep values in memory while the program runs, or save them to a file for later.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Output</div><h4>Show the result</h4><p>Print to a screen, write to a file, send over a network. Something leaves the program.</p></div>
+</div>
+
+<div class="prose">
+<p>Your Java Task Manager from the beginner course does all four: it <strong>reads</strong> your keyboard input, <strong>processes</strong> tasks (add, delete, complete), <strong>stores</strong> them in a file, and <strong>outputs</strong> a list to the screen.</p>
+<h3>The computer is very literal</h3>
+<p>This is the most important mindset shift for new programmers. Computers do <em>exactly</em> what you say — they don't infer what you meant, they don't fill in gaps, and they don't use common sense. If you tell it to do something impossible or contradictory, it crashes and tells you why.</p>
+<p>This feels frustrating at first. Eventually it becomes one of your favourite things about programming — the computer is perfectly honest. If it's wrong, the instructions are wrong.</p>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>there is no magic</strong><p>When a program seems to "know" something or "decide" something on its own, it's because a programmer wrote instructions that covered that case. The computer never surprises itself. Neither will you — you write the instructions, you know what they do.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">A user types their name into an app and it appears on screen personalised. Which two of the four actions are happening?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Process and Store</button>
+<button class="quiz-opt" onclick="Q(this,true)">Input (keyboard) and Output (screen display)</button>
+<button class="quiz-opt" onclick="Q(this,false)">Store and Process</button>
+</div><div class="quiz-fb" id="qf0"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" disabled>← back</button><button class="btn btn-next" onclick="go(1)">next →</button></div>
+</div>
+
+<!-- L1: Variables -->
+<div class="lesson" id="L1">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 2</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>Storing <em>information</em></h2>
+<p class="lesson-intro">Programs need to remember things while they run. A variable is a named box in memory that holds a piece of information. You give the box a name, put something in it, and refer to it by name whenever you need it.</p>
+
+<div class="analogy">
+<span class="analogy-ico">📦</span>
+<div class="analogy-body">
+<h4>Variables are labelled boxes</h4>
+<p>Imagine a shelf of cardboard boxes. You write "player's score" on one box and put the number 0 in it. Every time the player earns points, you open that box and increase the number. The box exists in memory for as long as the program runs. Other parts of the program can look inside it whenever they need the score.</p>
+</div>
+</div>
+
+<div class="prose">
+<h3>A variable has three parts</h3>
+<ul>
+<li><strong>A name</strong> — how you refer to it. <code>playerScore</code>, <code>userName</code>, <code>isLoggedIn</code></li>
+<li><strong>A type</strong> — what kind of thing is in the box. A whole number? Text? True/false?</li>
+<li><strong>A value</strong> — the actual thing currently in the box. Can change over time.</li>
+</ul>
+<h3>Types of information</h3>
+<p>In real life you naturally know the difference between a number and a person's name. Computers need you to be explicit about this. Java has a few basic types:</p>
+</div>
+
+<div class="concept-row">
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Whole numbers</div><h4>Age, score, count</h4><p>25, 0, -7, 1000000. No decimal point. Called <code>int</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Decimal numbers</div><h4>Price, temperature</h4><p>14.99, 3.14, -0.5. Has a decimal point. Called <code>double</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Text</div><h4>Names, messages</h4><p>"Alice", "Hello!", "task-001". Any sequence of characters. Called <code>String</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--muted)">True or false</div><h4>On/off, yes/no</h4><p>Only two possible values: true or false. Called <code>boolean</code> in Java.</p></div>
+</div>
+
+<div class="interactive-box">
+<div class="ib-label">Try it — name these variables</div>
+<p style="font-size:.89rem;color:var(--body);margin-bottom:16px">For each piece of information below, which type fits best?</p>
+<div id="typeQuiz" style="display:flex;flex-direction:column;gap:10px"></div>
+</div>
+
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>the box changes, the name stays</strong><p>A variable's <em>name</em> never changes — <code>playerScore</code> is always <code>playerScore</code>. But the <em>value</em> inside it can change as many times as you want. That's why it's called a <em>vari</em>able — its value varies.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">You're building a quiz app. The user has answered 7 out of 10 questions correctly. Which variable holds their score most accurately?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">A text variable containing "seven"</button>
+<button class="quiz-opt" onclick="Q(this,true)">A whole number variable containing 7</button>
+<button class="quiz-opt" onclick="Q(this,false)">A true/false variable set to true</button>
+</div><div class="quiz-fb" id="qf1"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(0)">← back</button><button class="btn btn-next" onclick="go(2)">next →</button></div>
+</div>
+
+<!-- L2: Conditions -->
+<div class="lesson" id="L2">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 3</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>Making <em>decisions</em></h2>
+<p class="lesson-intro">A program that does the same thing every time isn't very useful. Conditions let your program ask a question and do different things depending on the answer. This is where logic lives.</p>
+
+<div class="analogy">
+<span class="analogy-ico">🚦</span>
+<div class="analogy-body">
+<h4>A condition is a fork in the road</h4>
+<p>When you approach traffic lights: <em>if</em> the light is green, drive forward. <em>Otherwise</em>, stop. The light's colour is the condition. "Drive" or "stop" are the two possible actions. The program checks the condition and chooses the right path. Every second of every day, computers are doing millions of these.</p>
+</div>
+</div>
+
+<div class="prose">
+<h3>The IF / OTHERWISE pattern</h3>
+<p>In plain English, a condition looks like this:</p>
+</div>
+
+<div class="plain-block">
+<span class="eng">IF [something is true]</span>
+<span class="code">  do this thing</span>
+<span class="eng">OTHERWISE</span>
+<span class="code">  do this other thing instead</span>
+</div>
+
+<div class="prose"><p>You can also chain multiple conditions:</p></div>
+
+<div class="plain-block">
+<span class="eng">IF the score is 90 or above</span>
+<span class="code">  grade = "A"</span>
+<span class="eng">OTHERWISE IF the score is 80 or above</span>
+<span class="code">  grade = "B"</span>
+<span class="eng">OTHERWISE IF the score is 70 or above</span>
+<span class="code">  grade = "C"</span>
+<span class="eng">OTHERWISE</span>
+<span class="code">  grade = "F"</span>
+</div>
+
+<div class="prose">
+<h3>Combining conditions</h3>
+<p>You can combine multiple conditions with <strong>AND</strong> or <strong>OR</strong>:</p>
+<ul>
+<li><strong>AND</strong> — both must be true. "If it's raining AND I have an umbrella → go outside"</li>
+<li><strong>OR</strong> — at least one must be true. "If it's Saturday OR Sunday → sleep in"</li>
+<li><strong>NOT</strong> — flips it. "If NOT raining → no umbrella needed"</li>
+</ul>
+</div>
+
+<!-- interactive condition builder -->
+<div class="interactive-box">
+<div class="ib-label">Try it — condition builder</div>
+<p style="font-size:.89rem;color:var(--body);margin-bottom:14px">A cinema has different ticket prices. Drag the sliders and see which condition fires:</p>
+<div style="display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;gap:12px">
+    <label style="font-size:13px;color:var(--muted);min-width:60px">Age</label>
+    <input type="range" min="1" max="80" value="25" id="ageSlider" style="flex:1" oninput="updateTicket()">
+    <span id="ageVal" style="font-size:13px;font-weight:600;color:var(--ink);min-width:28px;text-align:right">25</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <label style="font-size:13px;color:var(--muted);min-width:60px">Day</label>
+    <select id="daySelect" onchange="updateTicket()" style="flex:1;font-family:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border2);border-radius:6px;background:var(--bg);color:var(--text)">
+      <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+      <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+    </select>
+  </div>
+  <div id="ticketResult" style="background:var(--accent-light);border:1px solid var(--accent-border);border-radius:7px;padding:14px 16px;font-size:.9rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace"></div>
+</div>
+</div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">A website checks: <em>"IF the user is logged in AND has a premium account → show full video."</em> A user is logged in but has a free account. What happens?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The full video is shown — they're logged in, so the first part is true</button>
+<button class="quiz-opt" onclick="Q(this,true)">The full video is NOT shown — AND requires both conditions to be true, and "premium account" is false</button>
+<button class="quiz-opt" onclick="Q(this,false)">An error occurs because the conditions conflict</button>
+</div><div class="quiz-fb" id="qf2"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(1)">← back</button><button class="btn btn-next" onclick="go(3)">next →</button></div>
+</div>
+
+<!-- L3: Loops -->
+<div class="lesson" id="L3">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 4</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>Repeating <em>things</em></h2>
+<p class="lesson-intro">What if you need to do something a hundred times? Or an unknown number of times? Writing the same instructions over and over would be ridiculous. Loops let you repeat a block of instructions automatically.</p>
+
+<div class="analogy">
+<span class="analogy-ico">🔁</span>
+<div class="analogy-body">
+<h4>Loops are like a "repeat until done" instruction</h4>
+<p>When you wash dishes, you don't write out: "wash plate 1, wash plate 2, wash plate 3...". You think: <em>keep washing plates until the pile is empty</em>. That's a loop. Check the condition (is there still a dirty plate?). If yes, wash one more. If no, stop.</p>
+</div>
+</div>
+
+<div class="prose"><h3>Two kinds of loops</h3>
+<p>Almost every loop you ever write fits into one of two patterns:</p></div>
+
+<div class="concept-row">
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Count loops</div><h4>"Do this 10 times"</h4><p>You know in advance how many times to repeat. Print all 30 students. Send 5 reminder emails.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Condition loops</div><h4>"Keep going until..."</h4><p>You don't know how many repetitions. Keep asking for a password until it's correct. Keep reading lines until the file ends.</p></div>
+</div>
+
+<div class="plain-block">
+<span class="eng">Count loop — do this a specific number of times:</span>
+<span class="code">  REPEAT 10 times:</span>
+<span class="code">    print "Hello!"</span>
+<span class="eng"> </span>
+<span class="eng">Condition loop — keep going while something is true:</span>
+<span class="code">  WHILE there are still tasks in the list:</span>
+<span class="code">    take the first task</span>
+<span class="code">    do the task</span>
+<span class="code">    remove it from the list</span>
+</div>
+
+<div class="prose">
+<h3>The danger: infinite loops</h3>
+<p>A loop that never stops is called an <strong>infinite loop</strong>. It happens when the condition you're checking can never become false. The program runs forever (or until your computer runs out of memory). This is a real mistake beginners make often. The fix: always make sure something changes inside the loop that will eventually make the condition false.</p>
+</div>
+
+<div class="interactive-box">
+<div class="ib-label">Visualise a loop</div>
+<p style="font-size:.89rem;color:var(--body);margin-bottom:14px">Watch a count loop run step by step. How many times?</p>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+  <input type="range" min="1" max="8" value="4" id="loopCount" style="flex:1" oninput="resetLoop()">
+  <span id="loopCountVal" style="font-size:13px;font-weight:600;min-width:50px;color:var(--ink)">4 times</span>
+</div>
+<div id="loopViz" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
+<div style="display:flex;gap:10px">
+  <button onclick="stepLoop()" id="stepBtn" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer">Step →</button>
+  <button onclick="resetLoop()" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--surface);color:var(--muted);border:1px solid var(--border2);border-radius:6px;cursor:pointer">Reset</button>
+</div>
+<div id="loopMsg" style="margin-top:12px;font-size:.87rem;color:var(--muted);font-family:'JetBrains Mono',monospace"></div>
+</div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">You're writing a program to find the first even number in a list. You don't know where in the list it is. Which loop type fits?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">A count loop — repeat exactly as many times as there are items in the list</button>
+<button class="quiz-opt" onclick="Q(this,true)">A condition loop — keep checking items until you find an even one, then stop</button>
+<button class="quiz-opt" onclick="Q(this,false)">No loop needed — check all items simultaneously</button>
+</div><div class="quiz-fb" id="qf3"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(2)">← back</button><button class="btn btn-next" onclick="go(4)">next →</button></div>
+</div>
+
+<!-- L4: Functions -->
+<div class="lesson" id="L4">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 5</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>Named <em>instructions</em></h2>
+<p class="lesson-intro">What if you need to do the same set of steps in multiple places? You don't copy-paste them. You give that set of steps a name, and call it by name whenever you need it. This is a function — or in Java, a method.</p>
+
+<div class="analogy">
+<span class="analogy-ico">📋</span>
+<div class="analogy-body">
+<h4>Functions are like named recipes on a card</h4>
+<p>A chef doesn't rewrite the recipe for béchamel sauce every time they need it. They write it on a card called "make béchamel", and whenever a dish needs it, they follow that card. If the recipe ever changes, they update one card and every dish that uses it gets the update automatically. Functions work the same way.</p>
+</div>
+</div>
+
+<div class="prose">
+<h3>Functions can take inputs and give back outputs</h3>
+<p>The most useful functions accept information (called <strong>parameters</strong>) and hand back a result (called a <strong>return value</strong>). Think of it like a vending machine: you put money in and press a button (inputs), and a snack comes out (output).</p>
+</div>
+
+<div class="plain-block">
+<span class="eng">A function with no inputs, no output:</span>
+<span class="code">  FUNCTION greetEveryone:</span>
+<span class="code">    print "Hello, everyone!"</span>
+<span class="eng"> </span>
+<span class="eng">A function with an input:</span>
+<span class="code">  FUNCTION greet(personName):</span>
+<span class="code">    print "Hello, " + personName + "!"</span>
+<span class="eng"> </span>
+<span class="eng">A function with an input AND an output:</span>
+<span class="code">  FUNCTION double(number):</span>
+<span class="code">    RETURN number × 2</span>
+<span class="eng"> </span>
+<span class="eng">Calling it:</span>
+<span class="code">  result = double(5)   ← result is now 10</span>
+<span class="code">  result = double(21)  ← result is now 42</span>
+</div>
+
+<div class="prose">
+<h3>Why bother with functions?</h3>
+<ul>
+<li><strong>Write once, use many times</strong> — call the same function from anywhere</li>
+<li><strong>Easy to fix</strong> — change the function in one place, fixed everywhere</li>
+<li><strong>Easier to understand</strong> — a program made of well-named functions reads like plain English</li>
+<li><strong>Easier to test</strong> — you can test each function independently</li>
+</ul>
+</div>
+
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>programs are made of functions calling functions</strong><p>A real program isn't one giant list of instructions. It's dozens or hundreds of small, named, focused functions that call each other. Each function does one thing. Together they do everything. This idea — breaking big problems into small named pieces — is the most important skill in programming.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">You have a function called <code>calculateTax(price)</code> that you use in 40 places. The tax rate changes from 8% to 10%. How many places do you need to update?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">40 places — one for each use of the function</button>
+<button class="quiz-opt" onclick="Q(this,true)">1 place — inside the function definition itself. All 40 callers automatically get the update.</button>
+<button class="quiz-opt" onclick="Q(this,false)">0 places — functions update automatically when the rate changes</button>
+</div><div class="quiz-fb" id="qf4"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(3)">← back</button><button class="btn btn-next" onclick="go(5)">next →</button></div>
+</div>
+
+
+<!-- L5: How a computer reads code -->
+<div class="lesson" id="L5">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 6</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
+<h2>How a computer <em>reads code</em></h2>
+<p class="lesson-intro">Understanding the order in which your instructions run — called the flow of execution — will save you hours of confusion when your program does something unexpected.</p>
+
+<div class="prose">
+<h3>Top to bottom, left to right</h3>
+<p>By default, a computer reads your code exactly like you read this sentence: top to bottom, one line at a time, left to right. It starts at the first instruction, finishes it completely, then moves to the next. It doesn't jump ahead, skip around, or multitask.</p>
+<p>This means the order of your instructions matters enormously. Swapping two lines can completely change what the program does — or break it entirely.</p>
+</div>
+
+<div class="interactive-box">
+<div class="ib-label">Trace the execution order</div>
+<p style="font-size:.89rem;color:var(--body);margin-bottom:16px">Click each step to see the computer execute it in order. Notice how the variable's value changes over time.</p>
+<div id="traceSteps" style="display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:.84rem"></div>
+<div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+  <button onclick="nextTrace()" id="traceBtn" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer">Execute next line →</button>
+  <button onclick="resetTrace()" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--surface);color:var(--muted);border:1px solid var(--border2);border-radius:6px;cursor:pointer">Reset</button>
+  <span id="memBox" style="font-size:.82rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-left:8px"></span>
+</div>
+</div>
+
+<div class="prose">
+<h3>Three things that change the flow</h3>
+<p>Three structures break the "just go top to bottom" rule:</p>
+<ul>
+<li><strong>Conditions</strong> — jump to a different set of instructions depending on a check</li>
+<li><strong>Loops</strong> — go back up and repeat a section of instructions</li>
+<li><strong>Function calls</strong> — jump to another named set of instructions, finish them, then come back</li>
+</ul>
+<p>You already know all three of these. Now you know how they fit into the computer's reading order.</p>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>when debugging, become the computer</strong><p>The most reliable debugging technique is to mentally (or literally, with a piece of paper) trace through your code line by line, tracking what each variable contains at each step. Most bugs become obvious within a few lines. Professional developers do this constantly.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">You have these two instructions:<br><code>score = score + 10</code><br><code>score = 0</code><br>What is <code>score</code> at the end if it started at 5?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">15 — the +10 is the last meaningful action</button>
+<button class="quiz-opt" onclick="Q(this,true)">0 — the computer runs top to bottom; adding 10 first gives 15, then setting to 0 overwrites it</button>
+<button class="quiz-opt" onclick="Q(this,false)">5 — variables can't be changed twice</button>
+</div><div class="quiz-fb" id="qf5"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(4)">← back</button><button class="btn btn-next" onclick="go(6)">next →</button></div>
+</div>
+
+<!-- L6: Bridge to Java -->
+<div class="lesson" id="L6">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 7</span><span class="ey-dot"></span><span class="ey-cat">The bridge</span></div>
+<h2>From English <em>to Java</em></h2>
+<p class="lesson-intro">You now understand every concept Java uses. This lesson is nothing new — it just shows you how the ideas you already know look when written in Java's particular notation.</p>
+
+<div class="prose"><p>Every language has its own spelling for the same concepts. Java's spelling can look intimidating at first — but the ideas underneath are what you just learned. Read the English version, then look at the Java version. They say the same thing.</p></div>
+
+<div class="bridge">
+<div class="br-label">Storing information → Java variables</div>
+<span class="br-eng">// A whole-number box labelled "score" containing 0</span>
+<span class="br-java"><span class="br-kw">int</span> score = <span class="br-num">0</span>;</span>
+<span class="br-eng"> </span>
+<span class="br-eng">// A text box labelled "name" containing "Alex"</span>
+<span class="br-java"><span class="br-cl">String</span> name = <span class="br-str">"Alex"</span>;</span>
+<span class="br-eng"> </span>
+<span class="br-eng">// A true/false box labelled "isLoggedIn" set to true</span>
+<span class="br-java"><span class="br-kw">boolean</span> isLoggedIn = <span class="br-kw">true</span>;</span>
+</div>
+
+<div class="bridge">
+<div class="br-label">Making decisions → if/else</div>
+<span class="br-eng">// IF the score is 90 or above → grade = "A"</span>
+<span class="br-java"><span class="br-kw">if</span> (score >= <span class="br-num">90</span>) {</span>
+<span class="br-java">    grade = <span class="br-str">"A"</span>;</span>
+<span class="br-java">} <span class="br-kw">else if</span> (score >= <span class="br-num">80</span>) {</span>
+<span class="br-java">    grade = <span class="br-str">"B"</span>;</span>
+<span class="br-java">} <span class="br-kw">else</span> {</span>
+<span class="br-java">    grade = <span class="br-str">"F"</span>;</span>
+<span class="br-java">}</span>
+</div>
+
+<div class="bridge">
+<div class="br-label">Repeating things → loops</div>
+<span class="br-eng">// Count loop: repeat exactly 5 times</span>
+<span class="br-java"><span class="br-kw">for</span> (<span class="br-kw">int</span> i = <span class="br-num">1</span>; i <= <span class="br-num">5</span>; i++) {</span>
+<span class="br-java">    <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello!"</span>);</span>
+<span class="br-java">}</span>
+<span class="br-eng"> </span>
+<span class="br-eng">// Condition loop: keep going while score is above 0</span>
+<span class="br-java"><span class="br-kw">while</span> (score > <span class="br-num">0</span>) {</span>
+<span class="br-java">    score = score - <span class="br-num">10</span>;</span>
+<span class="br-java">}</span>
+</div>
+
+<div class="bridge">
+<div class="br-label">Named instructions → methods</div>
+<span class="br-eng">// FUNCTION greet(personName): print "Hello, " + name</span>
+<span class="br-java"><span class="br-kw">public static void</span> <span class="br-fn">greet</span>(<span class="br-cl">String</span> personName) {</span>
+<span class="br-java">    <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello, "</span> + personName + <span class="br-str">"!"</span>);</span>
+<span class="br-java">}</span>
+<span class="br-eng"> </span>
+<span class="br-eng">// FUNCTION double(number): RETURN number × 2</span>
+<span class="br-java"><span class="br-kw">public static int</span> <span class="br-fn">double</span>(<span class="br-kw">int</span> number) {</span>
+<span class="br-java">    <span class="br-kw">return</span> number * <span class="br-num">2</span>;</span>
+<span class="br-java">}</span>
+</div>
+
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>the extra syntax will make sense soon</strong><p>You'll notice words like <code>public static void</code> in the Java versions. Don't worry about those yet — the beginner course explains each one carefully when you need it. For now, just notice that the core logic — the variable, the condition, the loop, the function — is exactly what you already learned.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Check your understanding</div>
+<div class="quiz-q">In Java you see: <code>while (livesRemaining > 0) {</code>. Without knowing Java syntax, what does this mean in plain English?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Set livesRemaining to greater than 0</button>
+<button class="quiz-opt" onclick="Q(this,true)">Keep repeating the instructions inside the curly braces for as long as livesRemaining is above zero</button>
+<button class="quiz-opt" onclick="Q(this,false)">Define a variable called livesRemaining</button>
+</div><div class="quiz-fb" id="qf6"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(5)">← back</button><button class="btn btn-next" onclick="go(7)">next →</button></div>
+</div>
+
+<!-- L7: You're ready -->
+<div class="lesson" id="L7">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 8</span><span class="ey-dot"></span><span class="ey-cat">The bridge</span></div>
+<h2>You're <em>ready</em></h2>
+<p class="lesson-intro">You came in knowing nothing about programming. You leave this pre-course with the mental models every programmer uses. The beginner course will give those models their Java clothing — but the ideas are already yours.</p>
+
+<div class="prose">
+<h3>What you now understand</h3>
+</div>
+
+<div class="concept-row">
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Programs</div><h4>A list of instructions</h4><p>Computers follow them in order, literally. Input → Process → Store → Output.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Variables</div><h4>Labelled boxes in memory</h4><p>Hold information that can change. Have a type (number, text, true/false).</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Conditions</div><h4>Decision forks</h4><p>IF this → do that. ELSE → do something different. AND / OR for combining.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Loops</div><h4>Repeat instructions</h4><p>Count loops for a known number of times. Condition loops for "until done".</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Functions</div><h4>Named instructions</h4><p>Write once, call anywhere. Take inputs, give back outputs. Break big problems into small pieces.</p></div>
+<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Execution flow</div><h4>Top to bottom</h4><p>Order matters. Conditions, loops, and function calls are the only things that change the flow.</p></div>
+</div>
+
+<div class="prose">
+<h3>A word of encouragement</h3>
+<p>Learning to program feels uncomfortable at first — not because you're not smart enough, but because it's a genuinely new way of thinking. Your brain is building new pathways. The discomfort you feel when something doesn't work isn't failure; it's learning happening.</p>
+<p>Every professional developer you've ever heard of started exactly where you are right now. Every single one of them hit bugs they couldn't understand, wrote code that didn't work, and felt confused at 2am. What made them developers was that they kept going anyway.</p>
+<p>The beginner course starts with exactly what you'd expect after this: Java's syntax for variables, printing output, and the structure of a program. You already understand what all of it means. Now you're just learning how Java spells it.</p>
+</div>
+
+<div class="callout good"><span class="callout-ico">🎯</span><div class="callout-body"><strong>what to do when you get stuck</strong><p>Read the error message — Java tells you exactly what went wrong and on which line. Trace through your code manually like a computer, line by line. Search the exact error message in quotes. Ask a question explaining what you expected to happen and what happened instead. These four steps solve 95% of beginner problems.</p></div></div>
+
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← back</button><button class="btn btn-next" disabled>Start the Java course →</button></div>
+</div>
+
+</main>
+</div>
+<script>
+const TOTAL = 8;
+const done = new Set([0]);
+let current = 0;
+
+function go(idx) {
+  document.getElementById('L'+current).classList.remove('active');
+  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+  current = idx;
+  done.add(idx);
+  document.getElementById('L'+idx).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  btns[idx].classList.add('active');
+  done.forEach(i => { if(i!==idx) btns[i].classList.add('done'); });
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress() {
+  const pct = Math.round((done.size/TOTAL)*100);
+  document.getElementById('pFill').style.width = pct+'%';
+  document.getElementById('pPct').textContent = pct+'%';
+}
+
+const expl = {
+  0:'The keyboard input is taken in (Input), and then displayed personalised on screen (Output). Processing would be calculating something; storing would be saving to memory or a file.',
+  1:'A score of 7 out of 10 is a whole number. A whole-number variable (int in Java) holds it precisely. Text like "seven" works but is hard to do maths with — you can\'t add 3 to "seven".',
+  2:'AND means both conditions must be true simultaneously. Being logged in satisfies the first condition, but not having a premium account makes the second condition false. AND fails if either side is false.',
+  3:'You don\'t know where the first even number is, so you can\'t set a fixed count. A condition loop — keep checking until you find it — is exactly right. Stop as soon as you do.',
+  4:'Functions centralise logic in one place. Change the function once and all 40 callers get the updated behaviour automatically. This is one of the most powerful ideas in programming.',
+  5:'Top to bottom: the program first adds 10 (score becomes 15), then sets score to 0. The second instruction overwrites the first. Order matters — swap them and you get 10 instead.',
+  6:'while means "keep going while this condition is true". livesRemaining > 0 is the condition. So: repeat everything inside the braces for as long as livesRemaining is greater than zero.',
+};
+
+function Q(btn, correct) {
+  const block = btn.closest('.quiz');
+  block.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+  });
+  if(!correct) btn.classList.add('wrong');
+  const li = parseInt(btn.closest('.lesson').id.replace('L',''));
+  const fb = document.getElementById('qf'+li);
+  fb.className = 'quiz-fb show '+(correct?'ok':'bad');
+  fb.textContent = (correct?'✓  ':'✗  ')+(expl[li]||'');
+}
+
+// Type quiz (L1)
+const typeItems = [
+  {label:'A player\'s age', answer:'Whole number (int)', opts:['Whole number (int)','Decimal (double)','Text (String)','True/false (boolean)']},
+  {label:'The price of an item ($12.99)', answer:'Decimal (double)', opts:['Whole number (int)','Decimal (double)','Text (String)','True/false (boolean)']},
+  {label:'A user\'s email address', answer:'Text (String)', opts:['Whole number (int)','Decimal (double)','Text (String)','True/false (boolean)']},
+  {label:'Whether a checkbox is ticked', answer:'True/false (boolean)', opts:['Whole number (int)','Decimal (double)','True/false (boolean)','Text (String)']},
+];
+let typeAnswered = {};
+function buildTypeQuiz() {
+  const el = document.getElementById('typeQuiz');
+  if(!el) return;
+  el.innerHTML = typeItems.map((item,i) => `
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:14px 16px">
+      <div style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:10px">${item.label}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${item.opts.map(o=>`<button onclick="checkType(${i},this,'${o}')" style="font-family:'Inter',sans-serif;font-size:12px;padding:5px 12px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer">${o}</button>`).join('')}
+      </div>
+      <div id="tqfb${i}" style="font-size:.82rem;margin-top:8px;display:none"></div>
+    </div>
+  `).join('');
+}
+function checkType(i, btn, choice) {
+  if(typeAnswered[i]) return;
+  typeAnswered[i] = true;
+  const item = typeItems[i];
+  const correct = choice === item.answer;
+  btn.style.background = correct ? 'var(--accent-dim)' : 'var(--red-dim)';
+  btn.style.borderColor = correct ? 'var(--accent-border)' : 'var(--red-border)';
+  btn.style.color = correct ? 'var(--accent)' : 'var(--red)';
+  const fb = document.getElementById('tqfb'+i);
+  fb.style.display = 'block';
+  fb.style.color = correct ? 'var(--accent)' : 'var(--red)';
+  fb.textContent = correct ? '✓ Correct!' : '✗ The best fit is: '+item.answer;
+  // disable all buttons for this question
+  btn.closest('.flex-wrap, div').querySelectorAll('button').forEach(b=>b.disabled=true);
+}
+buildTypeQuiz();
+
+// Ticket calculator (L2)
+function updateTicket() {
+  const age = parseInt(document.getElementById('ageSlider').value);
+  const day = document.getElementById('daySelect').value;
+  document.getElementById('ageVal').textContent = age;
+  let price, rule;
+  if(age < 12)       { price=8.00;  rule='Under 12'; }
+  else if(age <= 17) { price=10.00; rule='Age 12–17'; }
+  else if(age >= 65) { price=9.00;  rule='Age 65+'; }
+  else               { price=14.00; rule='Adult (18–64)'; }
+  const isTuesday = day === 'Tuesday';
+  if(isTuesday) { price = Math.max(0, price - 3); }
+  const res = document.getElementById('ticketResult');
+  res.textContent = `IF age ${age<12?'< 12':age<=17?'<= 17':age>=65?'>= 65':'18-64'} → ${rule} price $${price+(isTuesday?3:0).toFixed(2)}${isTuesday?' − $3.00 Tuesday discount → ':'  → '}Final: $${price.toFixed(2)}`;
+}
+updateTicket();
+
+// Loop visualizer (L3)
+let loopStep = 0;
+function resetLoop() {
+  loopStep = 0;
+  const n = parseInt(document.getElementById('loopCount').value);
+  document.getElementById('loopCountVal').textContent = n+' times';
+  const viz = document.getElementById('loopViz');
+  viz.innerHTML = Array.from({length:n},(_,i)=>`<div id="lbox${i}" style="width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--dim)">${i+1}</div>`).join('');
+  document.getElementById('loopMsg').textContent = `Loop ready. ${n} iterations to go.`;
+  document.getElementById('stepBtn').disabled = false;
+}
+function stepLoop() {
+  const n = parseInt(document.getElementById('loopCount').value);
+  if(loopStep >= n) return;
+  const box = document.getElementById('lbox'+loopStep);
+  if(box) { box.style.background='var(--accent)'; box.style.color='#fff'; box.style.borderColor='var(--accent)'; }
+  loopStep++;
+  const remaining = n - loopStep;
+  if(remaining > 0) {
+    document.getElementById('loopMsg').textContent = `Executed iteration ${loopStep}. ${remaining} more to go.`;
+  } else {
+    document.getElementById('loopMsg').textContent = `All ${n} iterations complete. Loop exits.`;
+    document.getElementById('stepBtn').disabled = true;
+  }
+}
+resetLoop();
+
+// Trace execution (L5)
+const traceData = [
+  {line:'score = 0', desc:'Create a box called "score", put 0 in it', mem:{score:0}},
+  {line:'bonus = 10', desc:'Create a box called "bonus", put 10 in it', mem:{score:0,bonus:10}},
+  {line:'score = score + bonus', desc:'Open the score box (0), add the bonus box (10), put 10 back in score', mem:{score:10,bonus:10}},
+  {line:'bonus = 5', desc:'Update the bonus box to 5', mem:{score:10,bonus:5}},
+  {line:'score = score + bonus', desc:'Open score (10), add bonus (5), put 15 in score', mem:{score:15,bonus:5}},
+  {line:'// Done!', desc:'Program ends. Final score is 15.', mem:{score:15,bonus:5}},
+];
+let traceIdx = 0;
+function buildTrace() {
+  document.getElementById('traceSteps').innerHTML = traceData.map((t,i)=>`
+    <div id="tr${i}" style="display:flex;gap:10px;padding:8px 10px;border-radius:5px;opacity:${i===0?1:.35};transition:all .25s">
+      <span style="color:var(--dim);min-width:20px;font-size:.82rem">${i+1}</span>
+      <span style="color:var(--ink)">${t.line}</span>
+    </div>`).join('');
+  renderMemory({});
+}
+function renderMemory(mem) {
+  const keys = Object.keys(mem);
+  document.getElementById('memBox').textContent = keys.length ? 'Memory: '+keys.map(k=>`${k}=${mem[k]}`).join(', ') : '';
+}
+function nextTrace() {
+  if(traceIdx>=traceData.length) return;
+  const t = traceData[traceIdx];
+  const el = document.getElementById('tr'+traceIdx);
+  el.style.opacity = '1';
+  el.style.background = 'var(--accent-dim)';
+  el.style.borderLeft = '3px solid var(--accent)';
+  if(traceIdx>0) {
+    const prev = document.getElementById('tr'+(traceIdx-1));
+    prev.style.background = 'transparent';
+    prev.style.borderLeft = 'none';
+    prev.style.opacity = '0.7';
+  }
+  renderMemory(t.mem);
+  traceIdx++;
+  if(traceIdx>=traceData.length) document.getElementById('traceBtn').disabled=true;
+}
+function resetTrace() {
+  traceIdx=0;
+  buildTrace();
+  document.getElementById('traceBtn').disabled=false;
+}
+buildTrace();
+
+updateProgress();
+</script>
+</body>
+</html>

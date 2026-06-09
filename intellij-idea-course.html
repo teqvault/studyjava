@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntelliJ IDEA — Complete Setup & Mastery Course</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#1e1f22;--surface:#2b2d30;--panel:#1e1f22;--card:#2b2d30;
+  --border:#3c3f41;--border2:#4e5157;
+  --text:#dfe1e5;--body:#abb2bf;--muted:#6e7480;--dim:#3c3f41;
+  --ij:#4d8ccd;--ij-dim:rgba(77,140,205,0.12);--ij-border:rgba(77,140,205,0.28);
+  --ij-light:rgba(77,140,205,0.06);
+  --green:#5fad6e;--green-dim:rgba(95,173,110,0.1);--green-border:rgba(95,173,110,0.25);
+  --yellow:#e0ac47;--yellow-dim:rgba(224,172,71,0.1);--yellow-border:rgba(224,172,71,0.25);
+  --red:#e06c75;--red-dim:rgba(224,108,117,0.1);--red-border:rgba(224,108,117,0.25);
+  --purple:#c678dd;--orange:#d19a66;
+  --kbd-bg:#3c3f41;--kbd-border:#555;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* HEADER — mimics IntelliJ toolbar */
+header{background:#3c3f41;border-bottom:1px solid #2b2d30;padding:0 0 0 0;height:56px;display:flex;align-items:stretch;position:sticky;top:0;z-index:100}
+.hdr-logo{display:flex;align-items:center;gap:10px;padding:0 20px;border-right:1px solid var(--border)}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,#FF318C,#FF7B00,#FFD200,#00B2FF);border-radius:5px;flex-shrink:0}
+.logo-text{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text)}
+.hdr-tabs{display:flex;align-items:stretch;flex:1;overflow:hidden}
+.hdr-tab{display:flex;align-items:center;padding:0 18px;font-size:12px;color:var(--muted);border-right:1px solid var(--border);cursor:default;white-space:nowrap}
+.hdr-tab.active-tab{color:var(--text);background:var(--bg)}
+.hdr-right{display:flex;align-items:center;gap:16px;padding:0 20px;margin-left:auto;border-left:1px solid var(--border)}
+.prog-track{width:110px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--ij),#6ab0f5);border-radius:2px;transition:width .5s ease;width:0%}
+.prog-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ij);font-weight:700;min-width:30px}
+
+/* LAYOUT */
+.shell{display:flex;min-height:calc(100vh - 56px)}
+
+/* SIDEBAR — mimics IntelliJ project panel */
+.sidebar{width:252px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sb-panel-header{background:#3c3f41;border-bottom:1px solid var(--border);padding:8px 12px;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.sb-panel-header::before{content:'';width:3px;height:12px;background:var(--ij);border-radius:2px}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:14px 14px 5px;display:flex;align-items:center;gap:6px}
+.sb-section::before{content:'▾';font-size:9px;color:var(--muted)}
+.nav-btn{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 24px;width:100%;border:none;background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--muted);text-align:left;transition:all .1s;line-height:1.4}
+.nav-btn:hover{color:var(--text);background:rgba(77,140,205,0.08)}
+.nav-btn.active{color:#fff;background:var(--ij);font-weight:600}
+.nav-btn.done{color:var(--green)}
+.nav-btn.done::after{content:'✓';margin-left:auto;font-size:10px;color:var(--green)}
+.nav-ico{font-size:13px;flex-shrink:0}
+
+/* MAIN */
+.main{flex:1;min-width:0;padding:44px 56px 80px}
+
+/* LESSON */
+.lesson{display:none}
+.lesson.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lesson-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ey-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--ij);letter-spacing:.06em}
+.ey-dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+.ey-cat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.lesson h2{font-family:'Inter',sans-serif;font-size:clamp(1.55rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px;letter-spacing:-.02em}
+.lesson h2 em{color:var(--ij);font-style:normal}
+.lesson-intro{font-size:.93rem;color:var(--muted);max-width:640px;line-height:1.8;margin-bottom:36px;padding-left:14px;border-left:2px solid var(--ij)}
+
+/* PROSE */
+.prose{max-width:740px}
+.prose p{font-size:.92rem;color:var(--body);line-height:1.85;margin-bottom:16px}
+.prose h3{font-family:'Inter',sans-serif;font-size:.97rem;font-weight:700;color:var(--text);margin:28px 0 10px;letter-spacing:-.01em}
+.prose ul,.prose ol{padding-left:20px;margin-bottom:16px}
+.prose li{font-size:.9rem;color:var(--body);margin-bottom:7px;line-height:1.75}
+.prose strong{color:var(--text);font-weight:600}
+.prose code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--border);color:var(--orange);padding:1px 6px;border-radius:3px}
+
+/* KEYBOARD SHORTCUT */
+kbd{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;background:var(--kbd-bg);color:var(--text);border:1px solid var(--kbd-border);border-bottom:2px solid var(--kbd-border);border-radius:4px;padding:2px 7px;white-space:nowrap;margin:0 1px}
+
+/* SHORTCUT TABLE */
+.shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;max-width:740px}
+@media(max-width:700px){.shortcut-grid{grid-template-columns:1fr}}
+.shortcut-row{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.shortcut-desc{font-size:.87rem;color:var(--body)}
+.shortcut-keys{display:flex;gap:4px;align-items:center;flex-shrink:0}
+
+/* PANEL MOCKUP */
+.panel-mock{background:#1e1f22;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:18px 0;max-width:740px}
+.panel-mock-header{background:#2b2d30;border-bottom:1px solid var(--border);padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.panel-mock-header::before{content:'';width:8px;height:8px;background:var(--ij);border-radius:50%}
+.panel-mock-body{padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:2}
+.pm-dir{color:var(--ij)}
+.pm-file{color:var(--text)}
+.pm-selected{background:rgba(77,140,205,0.18);display:inline-block;width:100%;margin:0 -18px;padding:0 18px}
+.pm-kw{color:var(--purple)}
+.pm-cl{color:var(--yellow)}
+.pm-fn{color:var(--ij)}
+.pm-str{color:var(--green)}
+.pm-cm{color:var(--muted);font-style:italic}
+.pm-num{color:var(--orange)}
+.pm-ann{color:var(--yellow)}
+
+/* STEP LIST */
+.steps{display:flex;flex-direction:column;gap:0;margin:18px 0;max-width:740px}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--ij);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:.91rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.step-body p{font-size:.86rem;color:var(--body);line-height:1.65;margin:0}
+.step-body code{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--orange)}
+
+/* CALLOUT */
+.callout{display:flex;gap:13px;padding:14px 16px;border-radius:7px;margin:18px 0;font-size:.9rem;line-height:1.75;max-width:740px}
+.callout-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:.88rem;margin-bottom:3px;font-family:'JetBrains Mono',monospace}
+.callout-body p{color:var(--muted);margin:0;font-size:.86rem}
+.callout.tip{background:var(--ij-dim);border:1px solid var(--ij-border)}
+.callout.tip strong{color:var(--ij)}
+.callout.warn{background:var(--yellow-dim);border:1px solid var(--yellow-border)}
+.callout.warn strong{color:var(--yellow)}
+.callout.good{background:var(--green-dim);border:1px solid var(--green-border)}
+.callout.good strong{color:var(--green)}
+.callout.danger{background:var(--red-dim);border:1px solid var(--red-border)}
+.callout.danger strong{color:var(--red)}
+
+/* TABLE */
+.tbl{width:100%;max-width:740px;border-collapse:collapse;margin:14px 0;font-size:.87rem}
+.tbl th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border2);background:var(--surface)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--body);vertical-align:top}
+.tbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ij);font-weight:500}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--ij-light)}
+
+/* QUIZ */
+.quiz{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin:28px 0;max-width:740px}
+.quiz-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ij);margin-bottom:11px}
+.quiz-q{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:16px;line-height:1.55}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--surface);border:1px solid var(--border2);border-radius:5px;padding:10px 14px;cursor:pointer;font-family:'Inter',sans-serif;font-size:.87rem;color:var(--muted);text-align:left;transition:all .12s}
+.quiz-opt:hover:not(:disabled){border-color:var(--ij);color:var(--text);background:var(--ij-light)}
+.quiz-opt.correct{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{margin-top:12px;padding:10px 14px;border-radius:5px;font-size:.86rem;font-weight:600;font-family:'JetBrains Mono',monospace;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+.quiz-fb.bad{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+
+/* CHALLENGE */
+.challenge{background:var(--ij-light);border:1px solid var(--ij-border);border-radius:8px;padding:20px 22px;margin:24px 0;max-width:740px;position:relative;overflow:hidden}
+.challenge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ij)}
+.ch-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ij);margin-bottom:10px}
+.challenge h4{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.challenge p{font-size:.88rem;color:var(--body);line-height:1.75;margin-bottom:8px}
+.challenge ul{padding-left:16px}
+.challenge li{font-size:.86rem;color:var(--body);margin-bottom:5px;line-height:1.65}
+.challenge code{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--ij)}
+
+/* NAV */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:50px;padding-top:22px;border-top:1px solid var(--border);max-width:740px}
+.btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;padding:9px 20px;border-radius:5px;cursor:pointer;border:none;transition:all .15s;letter-spacing:.02em}
+.btn-next{background:var(--ij);color:#fff}
+.btn-next:hover:not(:disabled){background:#3d7abf;transform:translateY(-1px)}
+.btn-prev{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.btn-prev:hover{color:var(--text);border-color:var(--ij)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* INTERACTIVE SHORTCUT TRAINER */
+.shortcut-trainer{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;margin:18px 0;max-width:740px}
+.st-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ij);margin-bottom:14px}
+.st-card{background:#1e1f22;border-radius:7px;padding:18px;text-align:center;margin-bottom:14px}
+.st-action{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.st-hint{font-size:.83rem;color:var(--muted);margin-bottom:14px}
+.st-opts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.st-opt{font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:8px 14px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--body);cursor:pointer;transition:all .12s}
+.st-opt:hover:not(:disabled){border-color:var(--ij);color:var(--text)}
+.st-opt.correct{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.st-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.st-progress{font-size:.83rem;color:var(--muted);text-align:center}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+@media(max-width:860px){.sidebar{display:none}.main{padding:28px 20px 60px}header{padding:0 10px}.hdr-tabs{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-logo">
+    <div class="logo-mark"></div>
+    <span class="logo-text">IntelliJ IDEA</span>
+  </div>
+  <div class="hdr-tabs">
+    <div class="hdr-tab active-tab">📋 Course</div>
+    <div class="hdr-tab">⌨️ Shortcuts</div>
+    <div class="hdr-tab">🐛 Debugger</div>
+  </div>
+  <div class="hdr-right">
+    <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+    <span class="prog-pct" id="pPct">0%</span>
+  </div>
+</header>
+
+<div class="shell">
+<nav class="sidebar">
+  <div class="sb-panel-header">Course Navigation</div>
+  <div class="sb-section">Installation</div>
+  <button class="nav-btn active" onclick="go(0)"><span class="nav-ico">📦</span>JDK & IntelliJ Install</button>
+  <button class="nav-btn" onclick="go(1)"><span class="nav-ico">🆕</span>First Project</button>
+  <button class="nav-btn" onclick="go(2)"><span class="nav-ico">🗂️</span>The Interface</button>
+  <div class="sb-section">Editing</div>
+  <button class="nav-btn" onclick="go(3)"><span class="nav-ico">⌨️</span>Essential Shortcuts</button>
+  <button class="nav-btn" onclick="go(4)"><span class="nav-ico">✨</span>Code Completion</button>
+  <button class="nav-btn" onclick="go(5)"><span class="nav-ico">🔧</span>Refactoring Tools</button>
+  <div class="sb-section">Running & Debugging</div>
+  <button class="nav-btn" onclick="go(6)"><span class="nav-ico">▶️</span>Run Configurations</button>
+  <button class="nav-btn" onclick="go(7)"><span class="nav-ico">🐛</span>The Debugger</button>
+  <div class="sb-section">Real-World</div>
+  <button class="nav-btn" onclick="go(8)"><span class="nav-ico">🔗</span>Git Integration</button>
+  <button class="nav-btn" onclick="go(9)"><span class="nav-ico">⚙️</span>Settings & Plugins</button>
+  <button class="nav-btn" onclick="go(10)"><span class="nav-ico">🏆</span>Capstone Workflow</button>
+</nav>
+
+<main class="main">
+
+<!-- L0: Install -->
+<div class="lesson active" id="L0">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 1</span><span class="ey-dot"></span><span class="ey-cat">Installation</span></div>
+<h2>JDK <em>&</em> IntelliJ Install</h2>
+<p class="lesson-intro">Before you write a single line of Java in IntelliJ, two things need to be on your machine: the JDK (which runs Java) and IntelliJ IDEA itself. This lesson gets both installed cleanly.</p>
+
+<div class="prose"><h3>Step 1 — Install the JDK</h3>
+<p>The Java Development Kit (JDK) is what actually compiles and runs your Java code. IntelliJ is just the editor — it needs the JDK to do its job. The recommended version for learning is <strong>JDK 21</strong> (the current long-term support release).</p></div>
+
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Download JDK 21</h4><p>Go to <strong>adoptium.net</strong> (Eclipse Temurin). Click "Latest LTS release" — this gives you JDK 21. Download the installer for your OS (Windows .msi, macOS .pkg, Linux .deb/.rpm).</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Run the installer</h4><p>On Windows and macOS: double-click the installer and follow defaults. On Linux: <code>sudo apt install temurin-21-jdk</code> (after adding the Adoptium repo) or use your package manager.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Verify the install</h4><p>Open a terminal and run: <code>java -version</code>. You should see <code>openjdk version "21..."</code>. Also run <code>javac -version</code> — this confirms the compiler is installed.</p></div></div>
+</div>
+
+<div class="prose"><h3>Step 2 — Install IntelliJ IDEA</h3></div>
+
+<div class="steps">
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Download IntelliJ IDEA Community</h4><p>Go to <strong>jetbrains.com/idea/download</strong>. Choose <strong>Community Edition</strong> — it's free, open-source, and has everything you need for Java development. The Ultimate edition (paid) adds web frameworks and databases, but you don't need it yet.</p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Install it</h4><p><strong>Windows:</strong> Run the .exe installer. Check "Add to PATH" and "Create Desktop Shortcut". <strong>macOS:</strong> Drag the .app to Applications. <strong>Linux:</strong> Extract the tar.gz to <code>/opt/</code>, then run <code>bin/idea.sh</code>. Or install via the JetBrains Toolbox App (recommended — handles updates automatically).</p></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-body"><h4>First launch</h4><p>On first launch IntelliJ asks about UI theme and settings import. Choose <strong>Darcula</strong> (dark) or <strong>Light</strong>. Skip the import — start fresh. You'll end up at the Welcome Screen.</p></div></div>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>JetBrains Toolbox is worth it</strong><p>The free JetBrains Toolbox app manages all JetBrains tools in one place. It handles updates automatically, lets you install/uninstall versions, and keeps your configuration across reinstalls. Download it from jetbrains.com/toolbox-app.</p></div></div>
+
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>IntelliJ can manage the JDK for you</strong><p>If the JDK verification failed above, don't worry. IntelliJ can download and configure a JDK itself when you create your first project. In the new project wizard, click "Add SDK" → "Download JDK" and select version 21.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">What is the difference between the JDK and IntelliJ IDEA?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">They are the same thing — IntelliJ IS Java</button>
+<button class="quiz-opt" onclick="Q(this,true)">The JDK compiles and runs Java code; IntelliJ is the editor that uses the JDK to do its job</button>
+<button class="quiz-opt" onclick="Q(this,false)">IntelliJ is free; the JDK costs money</button>
+</div><div class="quiz-fb" id="qf0"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" disabled>← prev</button><button class="btn btn-next" onclick="go(1)">next →</button></div>
+</div>
+
+<!-- L1: First Project -->
+<div class="lesson" id="L1">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 2</span><span class="ey-dot"></span><span class="ey-cat">Installation</span></div>
+<h2>Your <em>First Project</em></h2>
+<p class="lesson-intro">IntelliJ organises work into projects. A project is a folder with all your Java files, plus configuration telling IntelliJ how to build and run them. Creating one correctly takes two minutes.</p>
+
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open the Welcome Screen</h4><p>Launch IntelliJ. The Welcome Screen shows recent projects and a big "New Project" button. If you already have a project open, go to <strong>File → New Project</strong>.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>New Project settings</h4><p>Select <strong>New Project</strong> from the left sidebar. Set: Name = <code>HelloWorld</code>, Location = wherever you keep code, Language = <strong>Java</strong>, Build system = <strong>IntelliJ</strong> (simplest for now), JDK = your JDK 21. Leave "Add sample code" checked for your first project.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Understand the project structure</h4><p>IntelliJ creates this layout: <code>HelloWorld/</code> contains <code>src/</code> (your Java source files) and <code>HelloWorld.iml</code> (IntelliJ module config — don't edit this manually).</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Run the sample code</h4><p>IntelliJ creates a <code>Main.java</code> with a Hello World. Click the green ▶ button in the gutter next to <code>main</code>, or press <kbd>Shift</kbd><kbd>F10</kbd>. The output appears in the Run panel at the bottom.</p></div></div>
+</div>
+
+<div class="panel-mock">
+<div class="panel-mock-header">Project structure — HelloWorld</div>
+<div class="panel-mock-body">
+<span class="pm-dir">📁 HelloWorld</span>
+<span style="display:block;padding-left:16px"><span class="pm-dir">📁 src</span></span>
+<span style="display:block;padding-left:32px"><span class="pm-selected"><span class="pm-file">☕ Main.java</span></span></span>
+<span style="display:block;padding-left:16px"><span class="pm-file">📄 HelloWorld.iml</span></span>
+<span style="display:block;padding-left:16px"><span class="pm-dir">📁 .idea</span> <span class="pm-cm">← IntelliJ config, ignore</span></span>
+</div>
+</div>
+
+<div class="prose"><h3>Opening your existing Task Manager project</h3>
+<p>If you already have a Java project from the beginner course, you don't need to create a new one. Just go to <strong>File → Open</strong> and navigate to the folder containing your <code>.java</code> files. IntelliJ will import it and you'll need to set the JDK: <strong>File → Project Structure → Project → SDK</strong> — select your JDK 21.</p></div>
+
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>src is the only folder you edit</strong><p>Everything you write goes inside <code>src/</code>. The <code>.idea/</code> folder and <code>.iml</code> files are IntelliJ's internal configuration — never edit them by hand. If you're using Git, add <code>.idea/</code> to your <code>.gitignore</code> (except <code>.idea/vcs.xml</code> if you want to share VCS settings).</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You open IntelliJ and your <code>Main.java</code> file shows red underlines everywhere even though the code looks right. What's the most likely cause?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The file has syntax errors that need fixing</button>
+<button class="quiz-opt" onclick="Q(this,true)">The project SDK (JDK) isn't configured — go to File → Project Structure → Project → SDK</button>
+<button class="quiz-opt" onclick="Q(this,false)">IntelliJ Community Edition doesn't support Java</button>
+</div><div class="quiz-fb" id="qf1"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(0)">← prev</button><button class="btn btn-next" onclick="go(2)">next →</button></div>
+</div>
+
+<!-- L2: The Interface -->
+<div class="lesson" id="L2">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 3</span><span class="ey-dot"></span><span class="ey-cat">Installation</span></div>
+<h2>The <em>Interface</em></h2>
+<p class="lesson-intro">IntelliJ has a lot of panels. Knowing what each one is for — and how to summon the ones you need — means you never waste time hunting around the UI.</p>
+
+<div class="panel-mock">
+<div class="panel-mock-header">IntelliJ IDEA layout — key panels</div>
+<div class="panel-mock-body" style="line-height:1.7;font-size:.8rem">
+<span style="color:var(--ij);display:block">┌─ Menu Bar (File / Edit / View / Run / ...) ──────────────────────┐</span>
+<span style="color:var(--muted);display:block">├─ Toolbar (run/debug buttons, VCS actions) ───────────────────────┤</span>
+<span style="color:var(--text);display:block">│  ┌─ Project Panel ─┐  ┌──── Editor ──────────────────────┐      │</span>
+<span style="color:var(--text);display:block">│  │ 📁 src          │  │  1  public class Main {          │      │</span>
+<span style="color:var(--text);display:block">│  │   ☕ Main.java  │  │  2    public static void main... │      │</span>
+<span style="color:var(--ij);display:block">│  │   ☕ Task.java  │  │  3      System.out.println(...)  │ ←gutter</span>
+<span style="color:var(--text);display:block">│  └────────────────┘  └──────────────────────────────────┘      │</span>
+<span style="color:var(--muted);display:block">├─ ─────────────────────────────────────────────────────────────── ┤</span>
+<span style="color:var(--yellow);display:block">│  Run / Debug / Terminal / Problems / Git panels (bottom)         │</span>
+<span style="color:var(--text);display:block">└──────────────────────────────────────────────────────────────────┘</span>
+</div>
+</div>
+
+<div class="prose"><h3>The panels you'll use constantly</h3></div>
+
+<table class="tbl">
+<tr><th>Panel</th><th>What it's for</th><th>How to open</th></tr>
+<tr><td>Project</td><td>File tree — navigate between classes</td><td><kbd>Alt</kbd><kbd>1</kbd> or click the 📁 icon on the left</td></tr>
+<tr><td>Editor</td><td>Where you write code — always visible</td><td>Double-click any file in Project panel</td></tr>
+<tr><td>Run</td><td>Program output (System.out.println)</td><td><kbd>Alt</kbd><kbd>4</kbd> or run your program</td></tr>
+<tr><td>Debug</td><td>Breakpoints, variable inspection</td><td><kbd>Alt</kbd><kbd>5</kbd> or run in debug mode</td></tr>
+<tr><td>Terminal</td><td>Built-in terminal — run git commands</td><td><kbd>Alt</kbd><kbd>F12</kbd></td></tr>
+<tr><td>Problems</td><td>All errors and warnings in the project</td><td><kbd>Alt</kbd><kbd>6</kbd></td></tr>
+<tr><td>Git</td><td>Commit, push, branch, history</td><td><kbd>Alt</kbd><kbd>9</kbd></td></tr>
+<tr><td>Structure</td><td>Methods and fields in the current class</td><td><kbd>Alt</kbd><kbd>7</kbd></td></tr>
+</table>
+
+<div class="prose"><h3>The gutter</h3>
+<p>The gutter is the thin strip to the left of your code — where line numbers live. It does a lot: green ▶ run buttons appear next to <code>main</code> methods, red dots mark breakpoints, green/red change indicators from Git appear, and yellow lightbulbs signal available quick-fixes. You'll interact with it constantly.</p>
+<h3>The status bar</h3>
+<p>The very bottom of the window. Shows current line/column, encoding, branch name, background task progress, and the current inspection profile. If IntelliJ is doing something slow (indexing, building) it shows progress here.</p></div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>double-tap Shift to find anything</strong><p>The single most powerful shortcut in IntelliJ: press <kbd>Shift</kbd> twice to open "Search Everywhere". Type any file name, class name, method, setting, or action. It finds everything. If you can't remember a shortcut, just Search Everywhere for the action name.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">Your program ran and printed output, but the Run panel closed. How do you reopen it?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Re-run the program — the panel only shows while it's running</button>
+<button class="quiz-opt" onclick="Q(this,true)"><kbd>Alt</kbd><kbd>4</kbd> reopens the Run panel, which keeps the last output</button>
+<button class="quiz-opt" onclick="Q(this,false)">Click File → Show Output</button>
+</div><div class="quiz-fb" id="qf2"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(1)">← prev</button><button class="btn btn-next" onclick="go(3)">next →</button></div>
+</div>
+
+
+<!-- L3: Shortcuts -->
+<div class="lesson" id="L3">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 4</span><span class="ey-dot"></span><span class="ey-cat">Editing</span></div>
+<h2>Essential <em>Shortcuts</em></h2>
+<p class="lesson-intro">Learning shortcuts is the single biggest productivity multiplier in IntelliJ. Developers who use the keyboard instead of the mouse write code measurably faster. These are the ones you'll use every single day.</p>
+
+<div class="prose"><h3>Navigation shortcuts</h3></div>
+<div class="shortcut-grid">
+<div class="shortcut-row"><span class="shortcut-desc">Search everywhere (files, classes, actions)</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>Shift</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Find a file by name</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>N</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Go to a class by name</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>N</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Go to a method / field in current file</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>F12</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Jump to declaration of a symbol</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>B</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Go back to previous location</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>←</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Find usages of a method/variable</span><span class="shortcut-keys"><kbd>Alt</kbd><kbd>F7</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Recent files switcher</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>E</kbd></span></div>
+</div>
+
+<div class="prose"><h3>Editing shortcuts</h3></div>
+<div class="shortcut-grid">
+<div class="shortcut-row"><span class="shortcut-desc">Show quick-fix / intention actions</span><span class="shortcut-keys"><kbd>Alt</kbd><kbd>Enter</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Auto-format the current file</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>L</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Duplicate current line</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>D</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Delete current line</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Y</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Move line up / down</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>Alt</kbd><kbd>↑/↓</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Comment / uncomment line</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>/</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Expand / collapse code block</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>+/-</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Multi-cursor: add cursor below</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Alt</kbd><kbd>↓</kbd></span></div>
+</div>
+
+<div class="prose"><h3>Run & refactor shortcuts</h3></div>
+<div class="shortcut-grid">
+<div class="shortcut-row"><span class="shortcut-desc">Run the program</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>F10</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Debug the program</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>F9</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Rename (variable, method, class)</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>F6</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Extract variable</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>V</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Extract method</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>M</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Generate code (constructor, getters…)</span><span class="shortcut-keys"><kbd>Alt</kbd><kbd>Insert</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Optimise imports (remove unused)</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>O</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Toggle breakpoint</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>F8</kbd></span></div>
+</div>
+
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>macOS uses ⌘ instead of Ctrl</strong><p>On macOS, every shortcut that uses <kbd>Ctrl</kbd> on Windows/Linux uses <kbd>⌘ Cmd</kbd> instead. So <kbd>Ctrl</kbd><kbd>B</kbd> becomes <kbd>⌘</kbd><kbd>B</kbd>. The exception: <kbd>Alt</kbd> stays as <kbd>⌥ Option</kbd>. IntelliJ shows OS-correct shortcuts in all its menus.</p></div></div>
+
+<!-- Shortcut trainer -->
+<div class="shortcut-trainer">
+<div class="st-label">Shortcut trainer — test yourself</div>
+<div class="st-card">
+  <div class="st-action" id="stAction">Loading...</div>
+  <div class="st-hint" id="stHint"></div>
+  <div class="st-opts" id="stOpts"></div>
+</div>
+<div class="st-progress" id="stProg"></div>
+</div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You want to find all places in your codebase where the <code>addTask()</code> method is called. Which shortcut do you use while your cursor is on the method name?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><kbd>Ctrl</kbd><kbd>B</kbd> — go to declaration</button>
+<button class="quiz-opt" onclick="Q(this,true)"><kbd>Alt</kbd><kbd>F7</kbd> — find all usages</button>
+<button class="quiz-opt" onclick="Q(this,false)"><kbd>Ctrl</kbd><kbd>F</kbd> — text search</button>
+</div><div class="quiz-fb" id="qf3"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(2)">← prev</button><button class="btn btn-next" onclick="go(4)">next →</button></div>
+</div>
+
+<!-- L4: Code Completion -->
+<div class="lesson" id="L4">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 5</span><span class="ey-dot"></span><span class="ey-cat">Editing</span></div>
+<h2>Code <em>Completion</em></h2>
+<p class="lesson-intro">IntelliJ's code completion is one of the best in any IDE. It knows Java's entire standard library, your own classes, and it suggests completions as you type — often finishing entire statements for you.</p>
+
+<div class="prose"><h3>Basic completion</h3>
+<p>As you type, IntelliJ shows a dropdown of completions automatically. Press <kbd>Enter</kbd> or <kbd>Tab</kbd> to accept the highlighted suggestion. <kbd>Tab</kbd> replaces the word under the cursor; <kbd>Enter</kbd> inserts without replacing.</p>
+<p>If the dropdown closed, press <kbd>Ctrl</kbd><kbd>Space</kbd> to bring it back.</p>
+<h3>Live templates — type a shortcut, get a block</h3>
+<p>Live templates expand abbreviations into full code blocks. These will save you enormous amounts of typing:</p></div>
+
+<table class="tbl">
+<tr><th>Type this</th><th>Then press Tab</th><th>Get this</th></tr>
+<tr><td>sout</td><td><kbd>Tab</kbd></td><td><code>System.out.println()</code></td></tr>
+<tr><td>soutv</td><td><kbd>Tab</kbd></td><td><code>System.out.println("variableName = " + variableName)</code></td></tr>
+<tr><td>fori</td><td><kbd>Tab</kbd></td><td>A complete <code>for (int i = 0; i &lt; ; i++)</code> loop</td></tr>
+<tr><td>iter</td><td><kbd>Tab</kbd></td><td>A complete for-each loop</td></tr>
+<tr><td>psvm</td><td><kbd>Tab</kbd></td><td><code>public static void main(String[] args) {}</code></td></tr>
+<tr><td>ifn</td><td><kbd>Tab</kbd></td><td><code>if (var == null) {}</code></td></tr>
+<tr><td>inn</td><td><kbd>Tab</kbd></td><td><code>if (var != null) {}</code></td></tr>
+<tr><td>try</td><td><kbd>Tab</kbd></td><td>Complete try-catch block</td></tr>
+</table>
+
+<div class="prose"><h3>Postfix completion — type after the expression</h3>
+<p>Postfix completions let you type a suffix after an expression and IntelliJ wraps it for you. Much faster than going back to the start of a line:</p></div>
+
+<table class="tbl">
+<tr><th>Type</th><th>Result</th></tr>
+<tr><td><code>tasks.for</code> + Tab</td><td>Wraps in a for-each loop over <code>tasks</code></td></tr>
+<tr><td><code>condition.if</code> + Tab</td><td>Wraps in an <code>if (condition) {}</code> block</td></tr>
+<tr><td><code>value.var</code> + Tab</td><td>Introduces a variable: <code>var x = value</code></td></tr>
+<tr><td><code>expr.not</code> + Tab</td><td>Wraps in negation: <code>!expr</code></td></tr>
+<tr><td><code>list.size.sout</code> + Tab</td><td><code>System.out.println(list.size())</code></td></tr>
+</table>
+
+<div class="prose"><h3>Generate code with Alt+Insert</h3>
+<p>Place your cursor inside a class and press <kbd>Alt</kbd><kbd>Insert</kbd>. IntelliJ shows a menu to generate: Constructor, Getter, Setter, equals/hashCode, toString, overridden methods. This writes boilerplate you'd otherwise type by hand — and gets it right every time.</p></div>
+
+<div class="panel-mock">
+<div class="panel-mock-header">Generate menu — Alt+Insert inside a class</div>
+<div class="panel-mock-body">
+<span class="pm-cm">// Cursor inside BankAccount class → Alt+Insert →</span>
+<span class="pm-file" style="display:block;margin-top:8px">  Constructor...</span>
+<span class="pm-file" style="display:block">  Getter</span>
+<span class="pm-file" style="display:block">  Setter</span>
+<span class="pm-file" style="display:block">  Getter and Setter</span>
+<span class="pm-file" style="display:block">  equals() and hashCode()</span>
+<span class="pm-selected" style="display:block"><span class="pm-file">  toString()</span></span>
+<span class="pm-file" style="display:block">  Override Methods...</span>
+</div>
+</div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You type <code>sout</code> inside a method body and press Tab. What happens?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">IntelliJ searches for a class called "sout"</button>
+<button class="quiz-opt" onclick="Q(this,true)">The live template expands to <code>System.out.println();</code> with the cursor inside the parentheses</button>
+<button class="quiz-opt" onclick="Q(this,false)">Nothing — live templates only work in the class body, not method bodies</button>
+</div><div class="quiz-fb" id="qf4"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(3)">← prev</button><button class="btn btn-next" onclick="go(5)">next →</button></div>
+</div>
+
+<!-- L5: Refactoring -->
+<div class="lesson" id="L5">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 6</span><span class="ey-dot"></span><span class="ey-cat">Editing</span></div>
+<h2>Refactoring <em>Tools</em></h2>
+<p class="lesson-intro">Refactoring means restructuring code without changing what it does — cleaning it up, making it clearer, or reorganising it safely. IntelliJ's refactoring tools do it automatically across your entire project.</p>
+
+<div class="prose"><h3>Rename — the most used refactoring</h3>
+<p>Press <kbd>Shift</kbd><kbd>F6</kbd> on any variable, method, class, or field. IntelliJ renames it everywhere in the entire project simultaneously — including all usages, string references, and comments. It also checks for naming conflicts and warns you.</p>
+<p>Never do a manual find-and-replace for renaming. One missed occurrence silently breaks your code. Always use Rename refactoring.</p>
+<h3>Extract Variable — <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>V</kbd></h3>
+<p>Select any expression and press the shortcut. IntelliJ creates a new local variable holding that expression and replaces it (and any duplicates) throughout the method. Turns messy nested expressions into readable named variables.</p></div>
+
+<div class="panel-mock">
+<div class="panel-mock-header">Extract Variable — before and after</div>
+<div class="panel-mock-body">
+<span class="pm-cm">// Before: hard to read nested expression</span>
+<span style="display:block"><span class="pm-fn">System</span>.out.<span class="pm-fn">println</span>(<span class="pm-str">"Tax: $"</span> + (price * <span class="pm-num">0.08</span> * (1 - discountPct / <span class="pm-num">100.0</span>)));</span>
+<span class="pm-cm" style="display:block;margin-top:10px">// After Ctrl+Alt+V on the tax expression:</span>
+<span class="pm-kw">double</span> <span class="pm-file">taxAmount</span> = price * <span class="pm-num">0.08</span> * (<span class="pm-num">1</span> - discountPct / <span class="pm-num">100.0</span>);
+<span style="display:block"><span class="pm-fn">System</span>.out.<span class="pm-fn">println</span>(<span class="pm-str">"Tax: $"</span> + <span class="pm-file">taxAmount</span>);</span>
+</div>
+</div>
+
+<div class="prose"><h3>Extract Method — <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>M</kbd></h3>
+<p>Select a block of code and press the shortcut. IntelliJ creates a new method with the right parameters and return type, moves the code into it, and replaces the original block with a method call. This is how you break up long methods into smaller, named ones.</p>
+<h3>Inline — the opposite of extract</h3>
+<p>On a variable or method, press <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> to inline it — replace every usage with the actual value/code and remove the variable or method. Useful when a variable is only used once and the name doesn't add clarity.</p>
+<h3>Change Signature</h3>
+<p>Right-click a method → Refactor → Change Signature (or <kbd>Ctrl</kbd><kbd>F6</kbd>). Add, remove, or rename parameters and IntelliJ updates every call site across the project.</p></div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Alt+Enter is your best friend</strong><p>Whenever IntelliJ shows a yellow lightbulb or a red underline, press <kbd>Alt</kbd><kbd>Enter</kbd>. It shows every available quick-fix and intention action for the problem at your cursor — import a missing class, flip a condition, convert a loop to streams, add a null check, implement interface methods. IntelliJ almost always knows what you probably want.</p></div></div>
+
+<div class="challenge"><div class="ch-label">Try it</div><h4>Refactor your Task Manager</h4>
+<p>Open your Task Manager project and try each of these:</p>
+<ul>
+<li>Rename <code>addTask</code> to <code>createTask</code> using <kbd>Shift</kbd><kbd>F6</kbd> — verify every call site updated</li>
+<li>Find a long expression in your code and extract it to a named variable with <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>V</kbd></li>
+<li>Select a block of 5+ lines and extract it to a method with <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>M</kbd></li>
+<li>Press <kbd>Alt</kbd><kbd>Insert</kbd> inside the Task class and generate a <code>toString()</code> method</li>
+</ul></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You want to rename the field <code>taskList</code> to <code>tasks</code> across your entire project. What's the right approach?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Use Ctrl+H (Find and Replace) to replace all occurrences</button>
+<button class="quiz-opt" onclick="Q(this,true)">Place cursor on the field, press Shift+F6, type the new name — IntelliJ renames it everywhere safely</button>
+<button class="quiz-opt" onclick="Q(this,false)">Manually change each occurrence to avoid breaking anything</button>
+</div><div class="quiz-fb" id="qf5"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(4)">← prev</button><button class="btn btn-next" onclick="go(6)">next →</button></div>
+</div>
+
+
+<!-- L6: Run Configurations -->
+<div class="lesson" id="L6">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 7</span><span class="ey-dot"></span><span class="ey-cat">Running & Debugging</span></div>
+<h2>Run <em>Configurations</em></h2>
+<p class="lesson-intro">A Run Configuration tells IntelliJ exactly how to start your program: which class to run, what arguments to pass, which environment variables to set. Understanding them means you can run your program any way you need.</p>
+
+<div class="prose"><h3>The simplest way to run</h3>
+<p>Click the green ▶ in the gutter next to your <code>main</code> method, or press <kbd>Shift</kbd><kbd>F10</kbd>. IntelliJ automatically creates a run configuration the first time and reuses it after that. The current run configuration is shown in the toolbar dropdown at the top right.</p>
+<h3>Creating a custom run configuration</h3>
+<p>Go to <strong>Run → Edit Configurations</strong> (or click the dropdown in the toolbar and choose "Edit Configurations"). Click <strong>+</strong> → <strong>Application</strong>.</p></div>
+
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Name</h4><p>Give it a descriptive name like "Task Manager - Run" or "Task Manager - with test file"</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Main class</h4><p>Click the folder icon and choose your main class (the one with <code>public static void main</code>). Or type the fully-qualified name: <code>com.example.Main</code></p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Program arguments</h4><p>If your <code>main(String[] args)</code> reads from <code>args</code>, put those arguments here. Example: <code>--verbose debug</code></p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Environment variables</h4><p>Add key=value pairs here instead of hardcoding secrets in your source. Example: <code>DB_PASSWORD=secret123</code> (never put secrets in code!)</p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Working directory</h4><p>The directory your program runs from — affects where relative file paths resolve. Usually the project root or module root.</p></div></div>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>multiple configurations for one project</strong><p>You can have several run configurations for the same project. A "Normal run", a "Debug run with verbose logging", and a "Run with test data" are all useful to have. Switch between them from the toolbar dropdown. Press <kbd>Shift</kbd><kbd>Alt</kbd><kbd>F10</kbd> to pick from a list.</p></div></div>
+
+<div class="prose"><h3>Reading input from a file instead of typing it</h3>
+<p>If your program reads from <code>System.in</code> (keyboard) and you're tired of typing the same input every test run, redirect from a file: in Run Configurations → Redirect input from → browse to a <code>test-input.txt</code> file. Every run reads from that file automatically. Huge timesaver for interactive programs.</p></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">Your Task Manager reads from <code>System.in</code> and you want to test the same sequence of commands repeatedly without retyping them. What's the best IntelliJ approach?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Hardcode test input strings in your Java code temporarily</button>
+<button class="quiz-opt" onclick="Q(this,true)">Create a text file with the test commands and use "Redirect input from" in the Run Configuration</button>
+<button class="quiz-opt" onclick="Q(this,false)">Create a second Main class with the test data</button>
+</div><div class="quiz-fb" id="qf6"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(5)">← prev</button><button class="btn btn-next" onclick="go(7)">next →</button></div>
+</div>
+
+<!-- L7: Debugger -->
+<div class="lesson" id="L7">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 8</span><span class="ey-dot"></span><span class="ey-cat">Running & Debugging</span></div>
+<h2>The <em>Debugger</em></h2>
+<p class="lesson-intro">The debugger is the most powerful tool for understanding what your code is actually doing. Instead of guessing, you pause the program at any line and inspect the exact value of every variable. This lesson will change how you fix bugs forever.</p>
+
+<div class="prose"><h3>Breakpoints</h3>
+<p>A breakpoint pauses the program when execution reaches that line. Click in the gutter to the left of a line number — a red dot appears. Run the program with <kbd>Shift</kbd><kbd>F9</kbd> (Debug, not Run). The program stops at your breakpoint and the Debug panel opens.</p></div>
+
+<div class="panel-mock">
+<div class="panel-mock-header">Debugger — program paused at a breakpoint</div>
+<div class="panel-mock-body">
+<span class="pm-cm">// Program paused here (highlighted in blue)</span>
+<span style="background:rgba(77,140,205,0.25);display:block;padding:2px 0"><span class="pm-kw">for</span> (<span class="pm-cl">Task</span> task : tasks) {  <span class="pm-cm">← execution stopped here</span></span>
+<span style="display:block">    task.<span class="pm-fn">complete</span>();</span>
+<span style="display:block">}</span>
+<span class="pm-cm" style="display:block;margin-top:12px">// Variables panel shows:</span>
+<span style="display:block"><span class="pm-file">tasks</span> = <span class="pm-str">ArrayList</span>[3] <span class="pm-cm">▶ click to expand</span></span>
+<span style="display:block;padding-left:16px"><span class="pm-file">[0]</span> = Task{id=1, title="Buy groceries", completed=<span class="pm-kw">false</span>}</span>
+<span style="display:block;padding-left:16px"><span class="pm-file">[1]</span> = Task{id=2, title="Walk the dog", completed=<span class="pm-kw">false</span>}</span>
+<span style="display:block;padding-left:16px"><span class="pm-file">[2]</span> = Task{id=3, title="Do laundry", completed=<span class="pm-kw">true</span>}</span>
+</div>
+</div>
+
+<div class="prose"><h3>Stepping through code</h3></div>
+<div class="shortcut-grid">
+<div class="shortcut-row"><span class="shortcut-desc">Step Over — run next line, don't go into methods</span><span class="shortcut-keys"><kbd>F8</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Step Into — follow the call into a method</span><span class="shortcut-keys"><kbd>F7</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Step Out — finish current method, return to caller</span><span class="shortcut-keys"><kbd>Shift</kbd><kbd>F8</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Resume — continue until next breakpoint</span><span class="shortcut-keys"><kbd>F9</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Evaluate expression at current point</span><span class="shortcut-keys"><kbd>Alt</kbd><kbd>F8</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Run to cursor (no breakpoint needed)</span><span class="shortcut-keys"><kbd>Alt</kbd><kbd>F9</kbd></span></div>
+</div>
+
+<div class="prose"><h3>Watches and Evaluate</h3>
+<p>In the Debug panel, you can add <strong>Watches</strong> — expressions that IntelliJ evaluates and displays continuously as you step through code. Right-click any variable in the Variables panel → "Add to Watches". Or press <kbd>Alt</kbd><kbd>F8</kbd> to open Evaluate Expression and type any valid Java expression to see its value immediately — you can even call methods.</p>
+<h3>Conditional breakpoints</h3>
+<p>Right-click a breakpoint dot → Condition. Enter a boolean expression. The program only pauses when that condition is true. Essential for breakpoints inside loops — instead of hitting it 1000 times, only break when <code>i == 500</code> or <code>task.getId() == 3</code>.</p></div>
+
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>stop using System.out.println for debugging</strong><p>Beginners scatter <code>println</code> statements everywhere to trace execution. The debugger does everything println does — and more. It shows every variable simultaneously, lets you step line by line, and doesn't require recompiling after each guess. Once you learn the debugger you'll never go back to printf debugging.</p></div></div>
+
+<div class="challenge"><div class="ch-label">Try it</div><h4>Debug your Task Manager</h4>
+<ul>
+<li>Set a breakpoint at the start of your <code>addTask()</code> method</li>
+<li>Run in Debug mode and trigger an add operation</li>
+<li>When the program pauses, inspect the <code>tasks</code> list in the Variables panel</li>
+<li>Use F8 to step through the method line by line — watch variables update in real time</li>
+<li>Set a conditional breakpoint that only triggers when <code>title.length() > 10</code></li>
+</ul></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You're debugging a loop that runs 500 times and the bug only appears around iteration 400. What's the most efficient approach?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Press F8 through all 400 iterations manually</button>
+<button class="quiz-opt" onclick="Q(this,true)">Set a conditional breakpoint with condition <code>i >= 398</code> so the program only pauses near the problem</button>
+<button class="quiz-opt" onclick="Q(this,false)">Add <code>if (i == 400) System.out.println("debug")</code> and recompile</button>
+</div><div class="quiz-fb" id="qf7"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← prev</button><button class="btn btn-next" onclick="go(8)">next →</button></div>
+</div>
+
+
+<!-- L8: Git Integration -->
+<div class="lesson" id="L8">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 9</span><span class="ey-dot"></span><span class="ey-cat">Real-World</span></div>
+<h2>Git <em>Integration</em></h2>
+<p class="lesson-intro">IntelliJ has first-class Git support built in. You can stage, commit, push, pull, branch, and resolve merge conflicts without leaving the IDE. The terminal is still there when you need it, but the GUI is often faster.</p>
+
+<div class="prose"><h3>Enable VCS for your project</h3>
+<p>If your project doesn't have Git yet: <strong>Git → Initialize Repository</strong>. If you're cloning from GitHub: <strong>File → New → Project from Version Control</strong> and paste the URL.</p>
+<h3>The Git panel</h3>
+<p>Press <kbd>Alt</kbd><kbd>9</kbd> to open the Git panel. It shows three tabs: <strong>Local Changes</strong> (modified/untracked files), <strong>Log</strong> (full commit history with graph), and <strong>Console</strong> (raw git output).</p>
+<h3>Committing</h3>
+<p>Press <kbd>Ctrl</kbd><kbd>K</kbd> to open the Commit dialog. All changed files are listed — check the ones you want to include (staging). Write a commit message. Click Commit (or Commit and Push to do both at once).</p></div>
+
+<div class="shortcut-grid">
+<div class="shortcut-row"><span class="shortcut-desc">Open Commit dialog</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>K</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Push to remote</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>K</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Pull from remote</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>T</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Create/switch branch</span><span class="shortcut-keys">Click branch name in bottom bar</span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Show diff for a file</span><span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>D</kbd></span></div>
+<div class="shortcut-row"><span class="shortcut-desc">Annotate (git blame)</span><span class="shortcut-keys">Right-click gutter → Annotate</span></div>
+</div>
+
+<div class="prose"><h3>Resolving merge conflicts in IntelliJ</h3>
+<p>When a pull causes a conflict, IntelliJ highlights the conflicting files in red. Click <strong>Resolve</strong> in the notification, or open the file and click the purple "Merge" banner at the top. IntelliJ shows a three-panel diff: your version on the left, the incoming version on the right, and the merged result in the centre. Click the arrows (→ or ←) to accept each change.</p></div>
+
+<div class="panel-mock">
+<div class="panel-mock-header">IntelliJ merge conflict tool — 3 panels</div>
+<div class="panel-mock-body" style="font-size:.78rem;line-height:1.7">
+<span style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px">
+  <span>
+    <span class="pm-cm" style="display:block">← YOUR version</span>
+    <span class="pm-file" style="color:var(--green)">+ tasks.add(task);</span>
+    <span class="pm-file" style="color:var(--green)">+ saveToFile();</span>
+  </span>
+  <span style="color:var(--muted);font-size:10px;padding-top:14px">⟷</span>
+  <span>
+    <span class="pm-cm" style="display:block">INCOMING version →</span>
+    <span class="pm-file" style="color:var(--red)">+ tasks.add(task);</span>
+    <span class="pm-file" style="color:var(--red)">+ System.out.println("Added");</span>
+  </span>
+</span>
+<span class="pm-cm" style="display:block;margin-top:8px">↓ RESULT (you build this by clicking arrows)</span>
+<span class="pm-file" style="color:var(--text)">  tasks.add(task);</span>
+<span class="pm-file" style="color:var(--text)">  saveToFile();</span>
+<span class="pm-file" style="color:var(--text)">  System.out.println("Added");</span>
+</div>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>gutter change markers</strong><p>Modified lines show a blue bar in the gutter. New lines show a green bar. Click any marker to see a popup with the diff and options to revert just that chunk. You never have to open a full diff view for small changes.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You want to commit only 2 of the 5 files you've changed. How do you do this in IntelliJ's Commit dialog?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">You can't — IntelliJ always commits all changed files at once</button>
+<button class="quiz-opt" onclick="Q(this,true)">In the Commit dialog (Ctrl+K), uncheck the 3 files you don't want — only checked files are committed</button>
+<button class="quiz-opt" onclick="Q(this,false)">Move the other 3 files to a different folder temporarily</button>
+</div><div class="quiz-fb" id="qf8"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(7)">← prev</button><button class="btn btn-next" onclick="go(9)">next →</button></div>
+</div>
+
+<!-- L9: Settings & Plugins -->
+<div class="lesson" id="L9">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 10</span><span class="ey-dot"></span><span class="ey-cat">Real-World</span></div>
+<h2>Settings <em>&</em> Plugins</h2>
+<p class="lesson-intro">IntelliJ is highly configurable. The right settings and a few key plugins make it significantly more comfortable to work in. These are the ones that experienced Java developers actually use.</p>
+
+<div class="prose"><h3>Key settings to configure first</h3>
+<p>Open Settings with <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>S</kbd> (macOS: <kbd>⌘</kbd><kbd>,</kbd>).</p></div>
+
+<table class="tbl">
+<tr><th>Setting location</th><th>What to change</th></tr>
+<tr><td>Editor → General → Auto Import</td><td>Turn on "Add unambiguous imports on the fly" and "Optimize imports on the fly" — IntelliJ adds and removes imports automatically as you type</td></tr>
+<tr><td>Editor → Code Style → Java</td><td>Set tab size and indent to 4. Set the right margin (column guide) to 120 or 150. This shows a vertical line at that column so lines don't get too long.</td></tr>
+<tr><td>Editor → Inspections</td><td>These control what IntelliJ warns about. The defaults are good — learn to read the warnings rather than disabling them.</td></tr>
+<tr><td>Keymap</td><td>If you use VS Code or Eclipse, you can switch to their keymap. Or leave on IntelliJ's default (recommended — most tutorials use it).</td></tr>
+<tr><td>Appearance & Behavior → Appearance → Theme</td><td>Darcula (dark) or IntelliJ Light. Many developers use the <strong>One Dark Vivid</strong> plugin theme.</td></tr>
+<tr><td>Build, Execution → Compiler</td><td>Turn on "Build project automatically" if you want IntelliJ to compile as you type. Combined with "compiler.automake.allow.when.app.running" it recompiles in the background.</td></tr>
+</table>
+
+<div class="prose"><h3>Plugins worth installing</h3>
+<p>Open <strong>Settings → Plugins → Marketplace</strong> to search and install.</p></div>
+
+<table class="tbl">
+<tr><th>Plugin</th><th>What it does</th></tr>
+<tr><td>.ignore</td><td>Helps create and manage .gitignore files with templates for every project type</td></tr>
+<tr><td>Rainbow Brackets</td><td>Colours matching bracket pairs — makes nested code much easier to read</td></tr>
+<tr><td>String Manipulation</td><td>Lots of string operations (camelCase, snake_case, sort lines, escape/unescape) via right-click menu</td></tr>
+<tr><td>SonarLint</td><td>Runs code quality and security analysis as you type — teaches you to write better Java</td></tr>
+<tr><td>Lombok</td><td>Required if you use the Lombok library — generates getters/setters/constructors at compile time</td></tr>
+<tr><td>GitToolBox</td><td>Shows inline git blame annotations next to each line as you read code</td></tr>
+</table>
+
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>don't install too many plugins</strong><p>Each plugin slows IntelliJ's startup and indexing slightly. Start with a few essentials. If IntelliJ feels slow, go to <strong>Help → Diagnostic Tools → Activity Monitor</strong> to see which plugins are consuming CPU. Disable ones you don't actively use.</p></div></div>
+
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">IntelliJ is showing a red underline under every class you reference, saying "Cannot resolve symbol." What setting should you check first?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Editor → Inspections — disable the unresolved symbol inspection</button>
+<button class="quiz-opt" onclick="Q(this,true)">File → Project Structure → Project → SDK — make sure a valid JDK is selected</button>
+<button class="quiz-opt" onclick="Q(this,false)">Settings → Plugins — reinstall all plugins</button>
+</div><div class="quiz-fb" id="qf9"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(8)">← prev</button><button class="btn btn-next" onclick="go(10)">next →</button></div>
+</div>
+
+<!-- L10: Capstone Workflow -->
+<div class="lesson" id="L10">
+<div class="lesson-eyebrow"><span class="ey-num">Lesson 11</span><span class="ey-dot"></span><span class="ey-cat">Real-World</span></div>
+<h2>Capstone: <em>Pro Workflow</em></h2>
+<p class="lesson-intro">Pull everything together into the workflow professional Java developers actually use. This is what a productive day in IntelliJ looks like — using the keyboard, the debugger, and Git without breaking flow.</p>
+
+<div class="prose"><h3>The complete feature workflow</h3>
+<p>Here's the sequence a senior developer follows when building a new feature. By the end of this course, this should feel natural to you:</p></div>
+
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Pull latest changes</h4><p><kbd>Ctrl</kbd><kbd>T</kbd> to pull. Check the Git Log panel to see what changed. Switch to a new branch from the branch picker in the bottom status bar.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Navigate to the right code</h4><p>Double-tap <kbd>Shift</kbd> to search for the class or method you need. Press <kbd>Ctrl</kbd><kbd>B</kbd> to jump to declarations. Use <kbd>Ctrl</kbd><kbd>E</kbd> to switch between recently opened files.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Write code with completion</h4><p>Use live templates (<code>sout</code>, <code>fori</code>, <code>iter</code>). Let IntelliJ auto-complete method names. Press <kbd>Alt</kbd><kbd>Enter</kbd> on any warning to see quick-fixes. Press <kbd>Alt</kbd><kbd>Insert</kbd> to generate boilerplate.</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Format as you go</h4><p><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>L</kbd> to format any time. <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>O</kbd> to clean up imports. The code stays readable throughout — not just before commits.</p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Debug when something's wrong</h4><p>Set a breakpoint at the suspect code. Press <kbd>Shift</kbd><kbd>F9</kbd>. Step through with F8/F7. Watch variables in the Debug panel. Don't guess — verify.</p></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-body"><h4>Refactor to clean up</h4><p>Once it works: <kbd>Shift</kbd><kbd>F6</kbd> to rename anything unclear. <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>M</kbd> to extract long methods. <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>V</kbd> to name complex expressions. Make it readable.</p></div></div>
+<div class="step"><div class="step-num">7</div><div class="step-body"><h4>Commit with a good message</h4><p><kbd>Ctrl</kbd><kbd>K</kbd>. Stage only the relevant files. Write a clear message: what changed and why. Commit. Then <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>K</kbd> to push.</p></div></div>
+</div>
+
+<div class="callout good"><span class="callout-ico">🎯</span><div class="callout-body"><strong>the shortcuts to learn first</strong><p>If you learn nothing else from this course, learn these seven: <kbd>Shift</kbd><kbd>Shift</kbd> (find anything), <kbd>Alt</kbd><kbd>Enter</kbd> (quick-fix), <kbd>Ctrl</kbd><kbd>B</kbd> (go to definition), <kbd>Shift</kbd><kbd>F6</kbd> (rename), <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>L</kbd> (format), <kbd>Shift</kbd><kbd>F9</kbd> (debug), <kbd>Ctrl</kbd><kbd>K</kbd> (commit). Those seven will make you dramatically faster within a week.</p></div></div>
+
+<div class="challenge"><div class="ch-label">Final Challenge</div>
+<h4>A full feature cycle in IntelliJ</h4>
+<p>Using only IntelliJ (no terminal except the built-in one), complete this workflow with your Task Manager:</p>
+<ul>
+<li>Create a new branch called <code>feature/task-statistics</code> from the Git panel</li>
+<li>Add a <code>getStatistics()</code> method that returns total tasks, completed count, and completion percentage — use <kbd>Alt</kbd><kbd>Insert</kbd> to help generate the structure</li>
+<li>Set a breakpoint inside the method and run in debug mode — verify the values are correct by inspecting variables</li>
+<li>Rename the method to <code>getSummary()</code> using <kbd>Shift</kbd><kbd>F6</kbd></li>
+<li>Format the file with <kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>L</kbd></li>
+<li>Commit with a meaningful message using <kbd>Ctrl</kbd><kbd>K</kbd></li>
+<li>Push to GitHub using <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>K</kbd></li>
+</ul>
+</div>
+
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(9)">← prev</button><button class="btn btn-next" disabled>Course complete ✓</button></div>
+</div>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 11;
+const done = new Set([0]);
+let current = 0;
+
+function go(idx) {
+  document.getElementById('L'+current).classList.remove('active');
+  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+  current = idx;
+  done.add(idx);
+  document.getElementById('L'+idx).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  btns[idx].classList.add('active');
+  done.forEach(i => { if(i!==idx) btns[i].classList.add('done'); });
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress() {
+  const pct = Math.round((done.size/TOTAL)*100);
+  document.getElementById('pFill').style.width = pct+'%';
+  document.getElementById('pPct').textContent = pct+'%';
+}
+
+const expl = {
+  0:'IntelliJ is the editor — a very smart text editor with tooling built in. The JDK is the Java compiler and runtime. IntelliJ uses the JDK to compile your code and run it.',
+  1:'Red underlines everywhere usually means IntelliJ cannot find the Java SDK to resolve class names against. File → Project Structure → Project → SDK — select your JDK 21 installation.',
+  2:'Alt+4 opens the Run panel, which keeps the last run\'s output even after the program finishes. The panel doesn\'t disappear when the program ends.',
+  3:'Alt+F7 (Find Usages) shows every place a symbol is used in the project. Ctrl+B jumps to the declaration. Ctrl+F is plain text search — doesn\'t understand code structure.',
+  4:'sout is a live template — IntelliJ expands it to System.out.println() when you press Tab. The cursor lands inside the parentheses ready to type. This alone saves minutes per day.',
+  5:'Rename refactoring (Shift+F6) updates every usage across the entire project atomically. Find/Replace is a blunt instrument — it matches text patterns, not code symbols, and can rename things it shouldn\'t.',
+  6:'Redirecting stdin from a file in the Run Configuration means every run automatically feeds the same input. Much faster than retyping the same test sequence manually.',
+  7:'A conditional breakpoint with condition i >= 398 lets the program run at full speed until it\'s near the bug. Manually pressing F8 hundreds of times is exhausting and error-prone.',
+  8:'The Commit dialog (Ctrl+K) shows all changed files with checkboxes. Only checked files are staged and committed. This is equivalent to git add for specific files.',
+  9:'Unresolved symbol errors almost always mean the project SDK isn\'t set. File → Project Structure → Project → SDK. Disabling inspections would just hide the real problem.',
+};
+
+function Q(btn, correct) {
+  const block = btn.closest('.quiz');
+  block.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+  });
+  if(!correct) btn.classList.add('wrong');
+  const li = parseInt(btn.closest('.lesson').id.replace('L',''));
+  const fb = document.getElementById('qf'+li);
+  fb.className = 'quiz-fb show '+(correct?'ok':'bad');
+  fb.textContent = (correct?'✓  ':'✗  ')+(expl[li]||'');
+}
+
+// Shortcut Trainer
+const stData = [
+  {action:'Go to any class by name', opts:['Ctrl+N','Ctrl+B','Ctrl+F12','Alt+F7'], answer:'Ctrl+N'},
+  {action:'Jump to declaration of a method', opts:['Ctrl+B','Ctrl+N','Alt+F7','Ctrl+E'], answer:'Ctrl+B'},
+  {action:'Show quick-fix / intention actions', opts:['Alt+Enter','Ctrl+Space','Shift+F6','Alt+Insert'], answer:'Alt+Enter'},
+  {action:'Rename a variable across the project', opts:['Shift+F6','Ctrl+H','Ctrl+R','Alt+F7'], answer:'Shift+F6'},
+  {action:'Format the current file', opts:['Ctrl+Alt+L','Ctrl+Alt+O','Ctrl+Alt+F','Shift+Alt+L'], answer:'Ctrl+Alt+L'},
+  {action:'Extract selected code to a new method', opts:['Ctrl+Alt+M','Ctrl+Alt+V','Ctrl+Alt+N','Shift+F6'], answer:'Ctrl+Alt+M'},
+  {action:'Open the Commit dialog', opts:['Ctrl+K','Ctrl+Shift+K','Ctrl+T','Alt+9'], answer:'Ctrl+K'},
+  {action:'Open the built-in terminal', opts:['Alt+F12','Alt+4','Alt+9','Ctrl+F12'], answer:'Alt+F12'},
+  {action:'Find all usages of a method', opts:['Alt+F7','Ctrl+B','Ctrl+F','Ctrl+Shift+F'], answer:'Alt+F7'},
+  {action:'Run the program', opts:['Shift+F10','Shift+F9','F9','Ctrl+F5'], answer:'Shift+F10'},
+];
+let stIdx = 0;
+let stScore = 0;
+let stAnswered = false;
+
+function renderST() {
+  if(stIdx >= stData.length) {
+    document.querySelector('.st-card').innerHTML = `<div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">Done! ${stScore}/${stData.length} correct</div><div style="font-size:.88rem;color:var(--muted)">Refresh the trainer to try again.</div>`;
+    document.getElementById('stProg').textContent = `Final score: ${stScore} / ${stData.length}`;
+    return;
+  }
+  const q = stData[stIdx];
+  document.getElementById('stAction').textContent = q.action;
+  document.getElementById('stHint').textContent = '';
+  document.getElementById('stProg').textContent = `Question ${stIdx+1} of ${stData.length} · Score: ${stScore}`;
+  const opts = document.getElementById('stOpts');
+  opts.innerHTML = q.opts.map(o=>`<button class="st-opt" onclick="checkST(this,'${o}')">${o}</button>`).join('');
+  stAnswered = false;
+}
+
+function checkST(btn, choice) {
+  if(stAnswered) return;
+  stAnswered = true;
+  const q = stData[stIdx];
+  const correct = choice === q.answer;
+  if(correct) { btn.classList.add('correct'); stScore++; }
+  else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.st-opt').forEach(b => {
+      if(b.textContent === q.answer) b.classList.add('correct');
+    });
+  }
+  document.getElementById('stHint').textContent = correct ? '✓ Correct!' : `✗ It was ${q.answer}`;
+  document.querySelectorAll('.st-opt').forEach(b=>b.disabled=true);
+  setTimeout(()=>{ stIdx++; renderST(); }, 1200);
+}
+
+renderST();
+updateProgress();
+</script>
+</body>
+</html>

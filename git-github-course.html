@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git & GitHub — Complete Course</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f0e;
+  --surface: #131614;
+  --card: #181a19;
+  --border: #232623;
+  --border2: #2c302c;
+  --text: #e2e8e2;
+  --body: #9daa9d;
+  --muted: #5a685a;
+  --dim: #333a33;
+  --git: #f05033;
+  --git-dim: rgba(240,80,51,0.1);
+  --git-border: rgba(240,80,51,0.22);
+  --git-light: rgba(240,80,51,0.06);
+  --green: #4caf71;
+  --green-dim: rgba(76,175,113,0.1);
+  --green-border: rgba(76,175,113,0.22);
+  --blue: #4d9fef;
+  --blue-dim: rgba(77,159,239,0.1);
+  --blue-border: rgba(77,159,239,0.22);
+  --yellow: #e5b94b;
+  --yellow-dim: rgba(229,185,75,0.1);
+  --yellow-border: rgba(229,185,75,0.22);
+  --red: #e05a5a;
+  --red-dim: rgba(224,90,90,0.1);
+  --red-border: rgba(224,90,90,0.22);
+  --purple: #a07de8;
+  --purple-dim: rgba(160,125,232,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:30px;height:30px;background:var(--git);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#fff}
+.logo-text{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;color:var(--text)}
+.logo-text em{color:var(--git);font-style:normal}
+.header-right{display:flex;align-items:center;gap:20px}
+.prog-wrap{display:flex;align-items:center;gap:10px}
+.prog-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.prog-track{width:130px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--git),var(--yellow));border-radius:2px;transition:width .5s ease;width:0%}
+.prog-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--git);min-width:32px;font-weight:700}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;background:var(--git-dim);color:var(--git);border:1px solid var(--git-border);letter-spacing:.04em}
+
+/* LAYOUT */
+.shell{display:flex;min-height:calc(100vh - 58px)}
+
+/* SIDEBAR */
+.sidebar{width:256px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sb-section{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 18px;margin:20px 0 6px}
+.sb-section:first-child{margin-top:0}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:8px 18px;width:100%;border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;color:var(--muted);text-align:left;transition:all .12s}
+.nav-btn:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-btn.active{color:var(--git);background:var(--git-dim);border-right:2px solid var(--git);font-weight:500}
+.nav-btn.done{color:var(--green)}
+.nav-btn.done::after{content:'✓';margin-left:auto;font-size:11px;color:var(--green)}
+.nav-num{width:20px;height:20px;border-radius:4px;font-size:10px;font-weight:700;background:var(--border2);color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.nav-btn.active .nav-num{background:var(--git);color:#fff}
+.nav-btn.done .nav-num{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+
+/* MAIN */
+.main{flex:1;min-width:0;padding:48px 60px 80px}
+
+/* LESSON */
+.lesson{display:none}
+.lesson.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.eyebrow-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--git);letter-spacing:.06em}
+.eyebrow-dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+.eyebrow-cat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.lesson h2{font-family:'JetBrains Mono',monospace;font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px;letter-spacing:-.02em}
+.lesson h2 em{color:var(--git);font-style:normal}
+.lesson-intro{font-size:.95rem;color:var(--body);max-width:640px;line-height:1.8;margin-bottom:36px;padding-left:14px;border-left:2px solid var(--git)}
+
+/* PROSE */
+.prose{max-width:760px}
+.prose p{font-size:.93rem;color:var(--body);line-height:1.85;margin-bottom:16px}
+.prose h3{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:var(--text);margin:30px 0 12px;letter-spacing:-.01em}
+.prose ul,.prose ol{padding-left:20px;margin-bottom:16px}
+.prose li{font-size:.91rem;color:var(--body);margin-bottom:7px;line-height:1.75}
+.prose strong{color:var(--text);font-weight:600}
+.prose code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--border);color:var(--git);padding:1px 6px;border-radius:3px;font-weight:500}
+
+/* TERMINAL BLOCK */
+.term-wrap{margin:20px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.term-top{background:#0a0c0b;display:flex;align-items:center;justify-content:space-between;padding:9px 16px}
+.term-dots{display:flex;gap:6px}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#ff5f57}
+.term-dot.y{background:#febc2e}
+.term-dot.g{background:#28c840}
+.term-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.term-pre{background:#060807;padding:20px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.83rem;line-height:2;margin:0}
+.prompt{color:var(--git);font-weight:700}
+.cmd{color:#e2e8e2}
+.out{color:var(--body)}
+.out-g{color:var(--green)}
+.out-y{color:var(--yellow)}
+.out-r{color:var(--red)}
+.out-b{color:var(--blue)}
+.cmt{color:var(--muted);font-style:italic}
+.branch{color:var(--purple)}
+
+/* CALLOUT */
+.callout{display:flex;gap:14px;padding:15px 18px;border-radius:7px;margin:20px 0;font-size:.91rem;line-height:1.75;max-width:760px}
+.callout-ico{font-size:17px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:.88rem;margin-bottom:4px;font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
+.callout-body p{color:#6a7a6a;margin:0;font-size:.87rem}
+.callout.tip{background:var(--blue-dim);border:1px solid var(--blue-border)}
+.callout.tip strong{color:var(--blue)}
+.callout.warn{background:var(--yellow-dim);border:1px solid var(--yellow-border)}
+.callout.warn strong{color:var(--yellow)}
+.callout.good{background:var(--green-dim);border:1px solid var(--green-border)}
+.callout.good strong{color:var(--green)}
+.callout.danger{background:var(--red-dim);border:1px solid var(--red-border)}
+.callout.danger strong{color:var(--red)}
+
+/* COMMAND REFERENCE TABLE */
+.cmd-table{width:100%;max-width:760px;border-collapse:collapse;margin:16px 0;font-size:.87rem}
+.cmd-table th{text-align:left;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border2);background:var(--surface)}
+.cmd-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.cmd-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--git);font-weight:500;white-space:nowrap}
+.cmd-table td:last-child{color:var(--body)}
+.cmd-table tr:last-child td{border-bottom:none}
+.cmd-table tr:hover td{background:rgba(240,80,51,.04)}
+
+/* QUIZ */
+.quiz{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:24px;margin:32px 0;max-width:760px}
+.quiz-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--git);margin-bottom:12px}
+.quiz-q{font-size:.94rem;font-weight:600;color:var(--text);margin-bottom:18px;line-height:1.55}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--surface);border:1px solid var(--border2);border-radius:5px;padding:10px 14px;cursor:pointer;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--muted);text-align:left;transition:all .12s}
+.quiz-opt:hover:not(:disabled){border-color:var(--git);color:var(--text);background:var(--git-light)}
+.quiz-opt.correct{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{margin-top:14px;padding:10px 14px;border-radius:5px;font-size:.87rem;font-weight:600;font-family:'JetBrains Mono',monospace;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+.quiz-fb.bad{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+
+/* CHALLENGE */
+.challenge{background:var(--git-light);border:1px solid var(--git-border);border-radius:9px;padding:22px;margin:28px 0;max-width:760px;position:relative;overflow:hidden}
+.challenge::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--git)}
+.ch-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--git);margin-bottom:10px}
+.challenge h4{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.challenge p{font-size:.89rem;color:var(--body);line-height:1.75;margin-bottom:8px}
+.challenge ul{padding-left:16px}
+.challenge li{font-size:.87rem;color:var(--body);margin-bottom:5px;line-height:1.65}
+.challenge code{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--git)}
+
+/* STEP LIST */
+.steps{display:flex;flex-direction:column;gap:0;margin:20px 0;max-width:760px}
+.step{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--git);color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.step-body p{font-size:.86rem;color:var(--body);line-height:1.65;margin:0}
+.step-body code{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--git)}
+
+/* NAV BUTTONS */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:24px;border-top:1px solid var(--border);max-width:760px}
+.btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:10px 20px;border-radius:5px;cursor:pointer;border:none;transition:all .15s;letter-spacing:.03em}
+.btn-next{background:var(--git);color:#fff}
+.btn-next:hover:not(:disabled){background:#d44020;transform:translateY(-1px)}
+.btn-prev{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.btn-prev:hover{color:var(--text);border-color:var(--git)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* INLINE DIFF */
+.diff{background:#060807;border:1px solid var(--border);border-radius:7px;padding:16px 20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;margin:16px 0;max-width:760px;overflow-x:auto}
+.diff-add{color:var(--green);display:block}
+.diff-del{color:var(--red);display:block}
+.diff-ctx{color:var(--muted);display:block}
+.diff-hunk{color:var(--blue);display:block;margin:6px 0}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+@media(max-width:860px){.sidebar{display:none}.main{padding:28px 20px 60px}header{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">git</div>
+    <span class="logo-text"><em>Git</em> & GitHub — Complete Course</span>
+  </div>
+  <div class="header-right">
+    <span class="badge">Beginner → Team-Ready</span>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+      <span class="prog-pct" id="pPct">0%</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+<nav class="sidebar">
+  <div class="sb-section">Foundations</div>
+  <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What is Git?</button>
+  <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Installation & Setup</button>
+  <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Your First Repo</button>
+  <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Staging & Committing</button>
+  <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Viewing History</button>
+  <div class="sb-section">Branching</div>
+  <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Branches</button>
+  <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Merging</button>
+  <button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>Merge Conflicts</button>
+  <div class="sb-section">GitHub</div>
+  <button class="nav-btn" onclick="go(8)"><span class="nav-num">9</span>Push & Pull</button>
+  <button class="nav-btn" onclick="go(9)"><span class="nav-num">10</span>Pull Requests</button>
+  <button class="nav-btn" onclick="go(10)"><span class="nav-num">11</span>Forking & Open Source</button>
+  <div class="sb-section">Real-World</div>
+  <button class="nav-btn" onclick="go(11)"><span class="nav-num">12</span>Git Workflows</button>
+  <button class="nav-btn" onclick="go(12)"><span class="nav-num">13</span>Undoing Mistakes</button>
+  <button class="nav-btn" onclick="go(13)"><span class="nav-num">14</span>.gitignore & Best Practices</button>
+  <button class="nav-btn" onclick="go(14)"><span class="nav-num">15</span>Capstone Project</button>
+</nav>
+
+<main class="main">
+
+<!-- L0: What is Git? -->
+<div class="lesson active" id="L0">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 1</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>What is <em>Git</em>?</h2>
+<p class="lesson-intro">Git is a version control system — it tracks every change you make to your code, lets you travel back in time, and lets multiple people work on the same project without overwriting each other. It's the single most important tool in a developer's workflow.</p>
+<div class="prose">
+<p>Imagine writing a 500-line Java program over two weeks. On day 14 you introduce a bug. Without Git, you have no way to know what changed or when. With Git, you can see exactly which line you changed on which day, compare old and new versions, and restore any previous state in seconds.</p>
+<p>Git was created in 2005 by Linus Torvalds — the same person who created Linux — specifically to manage the Linux kernel codebase, which thousands of developers contribute to simultaneously. Today it's used by virtually every software team on the planet.</p>
+<h3>Git vs. GitHub — not the same thing</h3>
+<p>This is the most common beginner confusion:</p>
+</div>
+<table class="cmd-table">
+<tr><th>Git</th><th>GitHub</th></tr>
+<tr><td>git</td><td>github.com</td></tr>
+<tr><td>Software on your computer</td><td>A website that hosts Git repos online</td></tr>
+<tr><td>Tracks changes locally</td><td>Shares your code with the world/team</td></tr>
+<tr><td>Works completely offline</td><td>Requires an internet connection</td></tr>
+<tr><td>Free, open-source</td><td>Free tier + paid plans</td></tr>
+</table>
+<div class="prose"><p>Think of Git as the engine and GitHub as the garage where you park and share your car. You could use Git without GitHub — but GitHub is where collaboration happens.</p>
+<h3>Why every developer uses Git</h3>
+<ul>
+<li><strong>Safety net</strong> — you can always undo any mistake</li>
+<li><strong>History</strong> — every change is logged with who, what, and when</li>
+<li><strong>Collaboration</strong> — multiple developers edit the same code without conflicts</li>
+<li><strong>Branching</strong> — work on new features without touching working code</li>
+<li><strong>Deployment</strong> — many hosting services deploy directly from a Git repo</li>
+</ul>
+</div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>employers expect this</strong><p>Every professional developer job listing mentions Git. Not knowing it is a dealbreaker for team roles. By the end of this course, Git will feel as natural as saving a file.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">A colleague says "push your changes to GitHub." What does that mean?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Install Git on your computer</button>
+<button class="quiz-opt" onclick="Q(this,true)">Upload your locally tracked changes to the remote repository on github.com</button>
+<button class="quiz-opt" onclick="Q(this,false)">Create a new branch</button>
+</div><div class="quiz-fb" id="qf0"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" disabled>← prev</button><button class="btn btn-next" onclick="go(1)">next →</button></div>
+</div>
+
+<!-- L1: Installation -->
+<div class="lesson" id="L1">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 2</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>Installation <em>&</em> Setup</h2>
+<p class="lesson-intro">Install Git on your machine and tell it who you are. Every commit you make will be signed with your name and email — this is how teams know who changed what.</p>
+<div class="prose"><h3>Install Git</h3></div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>macOS</h4><p>Install Homebrew first (brew.sh), then run: <code>brew install git</code>. Alternatively, install Xcode Command Line Tools: <code>xcode-select --install</code></p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Windows</h4><p>Download Git for Windows from <strong>git-scm.com</strong>. During install, select "Git from the command line and also from 3rd-party software". This also installs Git Bash — a terminal that works like Linux.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Linux (Ubuntu/Debian)</h4><p><code>sudo apt-get update && sudo apt-get install git</code></p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Verify the install</h4><p>Open your terminal and run <code>git --version</code>. You should see something like <code>git version 2.42.0</code>.</p></div></div>
+</div>
+<div class="prose"><h3>Configure your identity</h3><p>Before your first commit, tell Git who you are. This information is embedded in every commit you create:</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal</span></div>
+<pre class="term-pre"><span class="cmt"># Set your name and email — use the same email as your GitHub account</span>
+<span class="prompt">$</span> <span class="cmd">git config --global user.name "Alex Johnson"</span>
+<span class="prompt">$</span> <span class="cmd">git config --global user.email "alex@example.com"</span>
+
+<span class="cmt"># Set VS Code (or any editor) as Git's default editor</span>
+<span class="prompt">$</span> <span class="cmd">git config --global core.editor "code --wait"</span>
+
+<span class="cmt"># Make 'main' the default branch name (modern standard)</span>
+<span class="prompt">$</span> <span class="cmd">git config --global init.defaultBranch main</span>
+
+<span class="cmt"># Verify your settings</span>
+<span class="prompt">$</span> <span class="cmd">git config --list</span>
+<span class="out">user.name=Alex Johnson</span>
+<span class="out">user.email=alex@example.com</span>
+<span class="out">core.editor=code --wait</span>
+<span class="out">init.defaultBranch=main</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>--global applies everywhere</strong><p>The <code>--global</code> flag saves these settings for all repos on your machine. If you work on a specific project that needs different credentials (e.g. a work vs. personal project), run the same commands inside that folder without <code>--global</code>.</p></div></div>
+<div class="prose"><h3>Create a GitHub account</h3><p>Go to <strong>github.com</strong> and sign up with the same email you used above. Choose a professional username — you'll be putting this on your resume.</p></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">Why does Git need your name and email before you start committing?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">To verify your identity and require a password for each commit</button>
+<button class="quiz-opt" onclick="Q(this,true)">Every commit is tagged with author info so teammates can see who made which change</button>
+<button class="quiz-opt" onclick="Q(this,false)">To sync with GitHub automatically</button>
+</div><div class="quiz-fb" id="qf1"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(0)">← prev</button><button class="btn btn-next" onclick="go(2)">next →</button></div>
+</div>
+
+<!-- L2: First Repo -->
+<div class="lesson" id="L2">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 3</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>Your First <em>Repo</em></h2>
+<p class="lesson-intro">A repository (repo) is a folder that Git is tracking. You create one with a single command — and from that moment, Git watches every change inside it. Let's make your first one.</p>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — creating a repo from scratch</span></div>
+<pre class="term-pre"><span class="cmt"># Create a new folder and navigate into it</span>
+<span class="prompt">$</span> <span class="cmd">mkdir my-java-project</span>
+<span class="prompt">$</span> <span class="cmd">cd my-java-project</span>
+
+<span class="cmt"># Initialize Git — this creates a hidden .git folder</span>
+<span class="prompt">$</span> <span class="cmd">git init</span>
+<span class="out-g">Initialized empty Git repository in /Users/alex/my-java-project/.git/</span>
+
+<span class="cmt"># Check the current state of your repo</span>
+<span class="prompt">$</span> <span class="cmd">git status</span>
+<span class="out">On branch main</span>
+<span class="out-y">No commits yet</span>
+<span class="out">nothing to commit (create/copy files and use "git add" to track)</span></pre></div>
+<div class="prose"><h3>What just happened?</h3><p>Running <code>git init</code> created a hidden folder called <code>.git</code> inside your project. This is Git's database — it stores your entire history, configuration, and everything Git needs. You should never edit files inside <code>.git</code> manually.</p>
+<h3>Anatomy of git status</h3><p><code>git status</code> is your most-used command. It tells you exactly where you stand: which files have changed, which are staged, and what's ready to commit. Get into the habit of running it constantly.</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — adding files and checking status</span></div>
+<pre class="term-pre"><span class="cmt"># Create a file</span>
+<span class="prompt">$</span> <span class="cmd">echo "public class Main {}" > Main.java</span>
+
+<span class="cmt"># Check status again — Git sees the new file</span>
+<span class="prompt">$</span> <span class="cmd">git status</span>
+<span class="out">On branch main</span>
+<span class="out">No commits yet</span>
+<span class="out"></span>
+<span class="out-r">Untracked files:</span>
+<span class="out-r">  (use "git add &lt;file&gt;" to include in what will be committed)</span>
+<span class="out-r">        Main.java</span>
+<span class="out"></span>
+<span class="out">nothing added to commit but untracked files present</span></pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>untracked vs. tracked</strong><p>New files are "untracked" — Git sees them but isn't recording their changes yet. You have to explicitly tell Git to start tracking a file with <code>git add</code>. This two-step design (add, then commit) gives you precise control over what goes into each commit.</p></div></div>
+<div class="challenge"><div class="ch-label">Your Turn</div><h4>Initialize your Task Manager repo</h4>
+<p>Take the Task Manager project from the Java beginner course:</p>
+<ul><li>Navigate to the project folder in your terminal</li><li>Run <code>git init</code></li><li>Run <code>git status</code> and read every line of the output</li><li>What files does Git see? Are they tracked or untracked?</li></ul></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">What does <code>git init</code> actually do to your folder?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Uploads the folder to GitHub</button>
+<button class="quiz-opt" onclick="Q(this,false)">Makes a backup copy of all files</button>
+<button class="quiz-opt" onclick="Q(this,true)">Creates a hidden <code>.git</code> folder that stores Git's database for tracking changes</button>
+</div><div class="quiz-fb" id="qf2"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(1)">← prev</button><button class="btn btn-next" onclick="go(3)">next →</button></div>
+</div>
+
+
+<!-- L3: Staging & Committing -->
+<div class="lesson" id="L3">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 4</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>Staging <em>&</em> Committing</h2>
+<p class="lesson-intro">A commit is a saved snapshot of your project. Before committing, you stage changes — choosing exactly what goes into that snapshot. This two-step system is Git's most important concept.</p>
+<div class="prose"><h3>The three areas of Git</h3><p>Every file in a Git project lives in one of three places:</p></div>
+<table class="cmd-table">
+<tr><th>Area</th><th>What it is</th><th>How to move here</th></tr>
+<tr><td>Working directory</td><td>Your actual files on disk — where you edit</td><td>(files start here)</td></tr>
+<tr><td>Staging area (index)</td><td>A draft of your next commit — curated changes</td><td>git add &lt;file&gt;</td></tr>
+<tr><td>Repository (.git)</td><td>Permanent history — committed snapshots</td><td>git commit</td></tr>
+</table>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — the full add/commit workflow</span></div>
+<pre class="term-pre"><span class="cmt"># See what changed</span>
+<span class="prompt">$</span> <span class="cmd">git status</span>
+<span class="out-r">Untracked files: Main.java, Task.java</span>
+
+<span class="cmt"># Stage a specific file</span>
+<span class="prompt">$</span> <span class="cmd">git add Main.java</span>
+
+<span class="cmt"># Stage all changes in the current folder</span>
+<span class="prompt">$</span> <span class="cmd">git add .</span>
+
+<span class="cmt"># See what's staged (green = staged, red = unstaged)</span>
+<span class="prompt">$</span> <span class="cmd">git status</span>
+<span class="out">Changes to be committed:</span>
+<span class="out-g">        new file:   Main.java</span>
+<span class="out-g">        new file:   Task.java</span>
+
+<span class="cmt"># Commit with a message describing WHAT and WHY</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Add initial Task Manager files"</span>
+<span class="out-g">[main (root-commit) a3f2c91] Add initial Task Manager files</span>
+<span class="out"> 2 files changed, 47 insertions(+)</span>
+<span class="out"> create mode 100644 Main.java</span>
+<span class="out"> create mode 100644 Task.java</span>
+
+<span class="cmt"># Unstage a file before committing (doesn't delete the change)</span>
+<span class="prompt">$</span> <span class="cmd">git restore --staged Task.java</span>
+
+<span class="cmt"># See WHAT changed in a file (diff of working dir vs staged)</span>
+<span class="prompt">$</span> <span class="cmd">git diff</span>
+<span class="cmt"># See diff of staged vs last commit</span>
+<span class="prompt">$</span> <span class="cmd">git diff --staged</span></pre></div>
+<div class="prose"><h3>Writing good commit messages</h3><p>A commit message is a note to your future self and your teammates. Bad messages like <code>"fix stuff"</code> or <code>"wip"</code> are useless in a log. Good messages follow this pattern:</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Good vs. bad commit messages</span></div>
+<pre class="term-pre"><span class="out-r">❌  git commit -m "fix"</span>
+<span class="out-r">❌  git commit -m "changes"</span>
+<span class="out-r">❌  git commit -m "asdfgh"</span>
+<span class="out-r">❌  git commit -m "WIP dont push"</span>
+
+<span class="out-g">✓  git commit -m "Add input validation to TaskManager.addTask()"</span>
+<span class="out-g">✓  git commit -m "Fix NPE when task file doesn't exist on first run"</span>
+<span class="out-g">✓  git commit -m "Rename completeTask() to markComplete() for clarity"</span>
+<span class="out-g">✓  git commit -m "Remove debug print statements before release"</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>commit often, commit small</strong><p>The biggest beginner mistake is coding for 4 hours then doing one massive commit. Commit every time you complete a small, logical unit of work. Small commits are easier to understand, easier to revert, and tell a clear story in the log.</p></div></div>
+<div class="challenge"><div class="ch-label">Your Turn</div><h4>Make your first 3 commits</h4>
+<p>In your Task Manager project:</p>
+<ul>
+<li>Stage and commit the <code>Task.java</code> file alone with message <code>"Add Task model class"</code></li>
+<li>Stage and commit <code>TaskManager.java</code> with message <code>"Add TaskManager with file persistence"</code></li>
+<li>Add a <code>README.md</code> file with a title and short description, then commit it</li>
+<li>Run <code>git log</code> to see your three commits</li>
+</ul></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You've edited 3 files but only want to commit 1 of them right now. What do you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Run <code>git commit -m "msg"</code> — Git automatically commits all changed files</button>
+<button class="quiz-opt" onclick="Q(this,true)">Run <code>git add specific-file.java</code> to stage only that one file, then commit</button>
+<button class="quiz-opt" onclick="Q(this,false)">Delete the other two files temporarily, commit, then restore them</button>
+</div><div class="quiz-fb" id="qf3"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(2)">← prev</button><button class="btn btn-next" onclick="go(4)">next →</button></div>
+</div>
+
+<!-- L4: Viewing History -->
+<div class="lesson" id="L4">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 5</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>Viewing <em>History</em></h2>
+<p class="lesson-intro">Git keeps every version of your project forever. Knowing how to read the history — and navigate it — turns Git from a backup tool into a time machine.</p>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — exploring your commit history</span></div>
+<pre class="term-pre"><span class="cmt"># Full log — each commit on multiple lines</span>
+<span class="prompt">$</span> <span class="cmd">git log</span>
+<span class="out-y">commit a3f2c91b7e4d8f3a2c1b9e7f5d4a3b2c1d9e7f5</span>
+<span class="out">Author: Alex Johnson &lt;alex@example.com&gt;</span>
+<span class="out">Date:   Mon Jan 15 14:32:00 2024</span>
+<span class="out"></span>
+<span class="out">    Add input validation to TaskManager.addTask()</span>
+<span class="out"></span>
+<span class="out-y">commit b2e1d9f8c7a6b5e4d3c2b1a9f8e7d6c5b4a3f2</span>
+<span class="out">Author: Alex Johnson &lt;alex@example.com&gt;</span>
+<span class="out">Date:   Mon Jan 15 11:15:00 2024</span>
+<span class="out"></span>
+<span class="out">    Add TaskManager with file persistence</span>
+
+<span class="cmt"># Compact one-line log</span>
+<span class="prompt">$</span> <span class="cmd">git log --oneline</span>
+<span class="out-y">a3f2c91</span> <span class="out">Add input validation to TaskManager.addTask()</span>
+<span class="out-y">b2e1d9f</span> <span class="out">Add TaskManager with file persistence</span>
+<span class="out-y">c1d9e7f</span> <span class="out">Add Task model class</span>
+<span class="out-y">d4a3b2c</span> <span class="out">Initial commit — add README</span>
+
+<span class="cmt"># Visual branch graph (very useful with branches!)</span>
+<span class="prompt">$</span> <span class="cmd">git log --oneline --graph --all</span>
+<span class="out-g">*</span> <span class="out-y">a3f2c91</span> <span class="out">Add input validation</span>
+<span class="out-g">*</span> <span class="out-y">b2e1d9f</span> <span class="out">Add TaskManager</span>
+<span class="out-g">*</span> <span class="out-y">c1d9e7f</span> <span class="out">Add Task model</span>
+<span class="out-g">*</span> <span class="out-y">d4a3b2c</span> <span class="out">Initial commit</span>
+
+<span class="cmt"># See exactly what changed in a specific commit</span>
+<span class="prompt">$</span> <span class="cmd">git show a3f2c91</span>
+<span class="out-b">diff --git a/TaskManager.java b/TaskManager.java</span>
+<span class="out-b">--- a/TaskManager.java</span>
+<span class="out-b">+++ b/TaskManager.java</span>
+<span class="out-r">-    public void addTask(String title) {</span>
+<span class="out-r">-        tasks.add(new Task(title, "MEDIUM"));</span>
+<span class="out-g">+    public void addTask(String title, String priority) {</span>
+<span class="out-g">+        if (title.isBlank()) { System.out.println("Empty title."); return; }</span>
+<span class="out-g">+        tasks.add(new Task(title.trim(), priority));</span>
+
+<span class="cmt"># See who changed which line in a file (blame!)</span>
+<span class="prompt">$</span> <span class="cmd">git blame TaskManager.java</span>
+<span class="out-y">a3f2c91</span> <span class="out">(Alex  Jan 15) public void addTask(String title, String priority) {</span>
+<span class="out-y">b2e1d9f</span> <span class="out">(Alex  Jan 15) private ArrayList&lt;Task&gt; tasks = new ArrayList&lt;&gt;();</span></pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>commit hashes</strong><p>That long hex string like <code>a3f2c91b7e4d...</code> is a unique ID for every commit — called a SHA hash. You never need to type the full thing; the first 7 characters are enough for Git to identify it. In commands like <code>git show</code> or <code>git revert</code> you just use the short form.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You want to see a compact one-line summary of your last 10 commits. Which command is best?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>git status</code></button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>git log --oneline</code></button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>git diff</code></button>
+</div><div class="quiz-fb" id="qf4"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(3)">← prev</button><button class="btn btn-next" onclick="go(5)">next →</button></div>
+</div>
+
+<!-- L5: Branches -->
+<div class="lesson" id="L5">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 6</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Branching</span></div>
+<h2><em>Branches</em></h2>
+<p class="lesson-intro">Branches are Git's killer feature. A branch is an independent line of development — you can work on a new feature in complete isolation, and your working code on <code>main</code> is never touched until you're ready.</p>
+<div class="prose"><p>Think of branches like parallel universes. On <code>main</code>, your task manager works perfectly. You create a branch called <code>feature/due-dates</code> and start adding due date functionality. If it breaks things, no problem — <code>main</code> is completely unaffected. When it's ready, you merge it back.</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — working with branches</span></div>
+<pre class="term-pre"><span class="cmt"># See all branches (* marks your current branch)</span>
+<span class="prompt">$</span> <span class="cmd">git branch</span>
+<span class="out-g">* main</span>
+
+<span class="cmt"># Create a new branch</span>
+<span class="prompt">$</span> <span class="cmd">git branch feature/due-dates</span>
+
+<span class="cmt"># Switch to it</span>
+<span class="prompt">$</span> <span class="cmd">git checkout feature/due-dates</span>
+<span class="out">Switched to branch 'feature/due-dates'</span>
+
+<span class="cmt"># Better: create AND switch in one command (modern syntax)</span>
+<span class="prompt">$</span> <span class="cmd">git switch -c feature/search</span>
+<span class="out">Switched to a new branch 'feature/search'</span>
+
+<span class="cmt"># Now make changes and commit — only on this branch</span>
+<span class="prompt">$</span> <span class="cmd">git add .</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Add searchTasks() method with case-insensitive matching"</span>
+<span class="out-g">[feature/search 7f3a1b2] Add searchTasks() method</span>
+
+<span class="cmt"># Switch back to main — your changes are NOT here</span>
+<span class="prompt">$</span> <span class="cmd">git switch main</span>
+<span class="out">Switched to branch 'main'</span>
+
+<span class="cmt"># See all branches including remote</span>
+<span class="prompt">$</span> <span class="cmd">git branch -a</span>
+<span class="out-g">* main</span>
+<span class="out">  feature/due-dates</span>
+<span class="out">  feature/search</span>
+
+<span class="cmt"># Delete a branch (after merging)</span>
+<span class="prompt">$</span> <span class="cmd">git branch -d feature/search</span>
+<span class="out">Deleted branch feature/search (was 7f3a1b2).</span></pre></div>
+
+<!-- INTERACTIVE BRANCH VISUALIZER -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:24px;margin:24px 0;max-width:760px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--git);margin-bottom:16px">Interactive: branch visualizer</div>
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+  <button onclick="branchViz('commit')" style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 14px;background:var(--surface);border:1px solid var(--border2);color:var(--body);border-radius:4px;cursor:pointer">+ commit on main</button>
+  <button onclick="branchViz('branch')" style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 14px;background:var(--surface);border:1px solid var(--border2);color:var(--body);border-radius:4px;cursor:pointer">⑂ new branch</button>
+  <button onclick="branchViz('branchcommit')" style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 14px;background:var(--surface);border:1px solid var(--border2);color:var(--body);border-radius:4px;cursor:pointer">+ commit on branch</button>
+  <button onclick="branchViz('reset')" style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 14px;background:var(--surface);border:1px solid var(--border2);color:var(--body);border-radius:4px;cursor:pointer">↺ reset</button>
+</div>
+<svg id="branchSvg" width="100%" viewBox="0 0 700 120" style="overflow:visible"></svg>
+<div id="branchMsg" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px">Click the buttons to see how branches work</div>
+</div>
+
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>branch naming conventions</strong><p>Use slashes to organise branches: <code>feature/add-search</code>, <code>bugfix/null-pointer</code>, <code>hotfix/login-crash</code>, <code>release/v1.2.0</code>. Hyphens, not spaces. All lowercase. This is the standard on professional teams.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You're on <code>main</code> and run <code>git switch -c bugfix/login</code>. Where are you now?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Still on <code>main</code> — you need a second command to switch</button>
+<button class="quiz-opt" onclick="Q(this,true)">On a new branch called <code>bugfix/login</code>, branched off the current state of <code>main</code></button>
+<button class="quiz-opt" onclick="Q(this,false)">On an empty branch with no commit history</button>
+</div><div class="quiz-fb" id="qf5"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(4)">← prev</button><button class="btn btn-next" onclick="go(6)">next →</button></div>
+</div>
+
+
+<!-- L6: Merging -->
+<div class="lesson" id="L6">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 7</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Branching</span></div>
+<h2><em>Merging</em></h2>
+<p class="lesson-intro">Merging brings a branch's changes back into another branch. It's how your feature work eventually lands in <code>main</code>. There are two kinds — and knowing the difference matters.</p>
+<div class="prose"><h3>Fast-forward merge</h3><p>When <code>main</code> hasn't changed since you branched off, Git can simply move the pointer forward. No new commit is created — it's the cleanest kind of merge.</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — merging a branch</span></div>
+<pre class="term-pre"><span class="cmt"># You're on main. You want to bring in feature/search.</span>
+<span class="prompt">$</span> <span class="cmd">git switch main</span>
+
+<span class="prompt">$</span> <span class="cmd">git merge feature/search</span>
+<span class="out">Updating b2e1d9f..7f3a1b2</span>
+<span class="out-g">Fast-forward</span>
+<span class="out"> TaskManager.java | 12 <span class="out-g">++++++++++++</span></span>
+<span class="out"> 1 file changed, 12 insertions(+)</span>
+
+<span class="cmt"># After a clean merge, delete the branch</span>
+<span class="prompt">$</span> <span class="cmd">git branch -d feature/search</span>
+<span class="out">Deleted branch feature/search.</span>
+
+<span class="cmt"># A merge commit (when both branches have diverged)</span>
+<span class="prompt">$</span> <span class="cmd">git merge feature/due-dates</span>
+<span class="out">Merge made by the 'ort' strategy.</span>
+<span class="out"> Task.java        |  8 <span class="out-g">++++++++</span></span>
+<span class="out"> TaskManager.java |  6 <span class="out-g">++++++</span></span>
+<span class="out"> 2 files changed, 14 insertions(+)</span>
+
+<span class="cmt"># See the merge commit in log</span>
+<span class="prompt">$</span> <span class="cmd">git log --oneline --graph</span>
+<span class="out-g">*</span>   <span class="out-y">c9f1a2b</span> <span class="out">Merge branch 'feature/due-dates' into main</span>
+<span class="out-g">|\ </span>
+<span class="out-g">| *</span> <span class="out-y">8e4d3c2</span> <span class="out">Add overdue task filtering</span>
+<span class="out-g">| *</span> <span class="out-y">7a1b9f8</span> <span class="out">Add dueDate field to Task class</span>
+<span class="out-g">* |</span> <span class="out-y">6b2c4d1</span> <span class="out">Fix file loading on empty repo</span>
+<span class="out-g">|/</span>
+<span class="out-g">*</span>  <span class="out-y">a3f2c91</span> <span class="out">Add input validation</span></pre></div>
+<div class="prose"><h3>Rebase — a cleaner alternative</h3><p>Rebase replays your branch commits on top of the latest <code>main</code>, creating a perfectly linear history. It's preferred for feature branches before merging.</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — rebase before merging</span></div>
+<pre class="term-pre"><span class="cmt"># On your feature branch, rebase onto latest main</span>
+<span class="prompt">$</span> <span class="cmd">git switch feature/stats</span>
+<span class="prompt">$</span> <span class="cmd">git rebase main</span>
+<span class="out-g">Successfully rebased and updated refs/heads/feature/stats.</span>
+
+<span class="cmt"># Now merge — it'll be a clean fast-forward</span>
+<span class="prompt">$</span> <span class="cmd">git switch main</span>
+<span class="prompt">$</span> <span class="cmd">git merge feature/stats</span>
+<span class="out-g">Fast-forward</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>never rebase shared branches</strong><p>Only rebase branches that <em>you alone</em> are working on. Rebasing rewrites commit history — if someone else has based work on your branch, rebasing destroys their ability to sync. The rule: <strong>never rebase main</strong>. Rebase feature branches before merging them in.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">What is a fast-forward merge?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">A merge that skips conflict resolution automatically</button>
+<button class="quiz-opt" onclick="Q(this,true)">A merge where <code>main</code> hasn't diverged, so Git just moves the pointer forward — no merge commit needed</button>
+<button class="quiz-opt" onclick="Q(this,false)">Merging without creating any commits on the feature branch</button>
+</div><div class="quiz-fb" id="qf6"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(5)">← prev</button><button class="btn btn-next" onclick="go(7)">next →</button></div>
+</div>
+
+<!-- L7: Merge Conflicts -->
+<div class="lesson" id="L7">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 8</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Branching</span></div>
+<h2>Merge <em>Conflicts</em></h2>
+<p class="lesson-intro">A conflict happens when two branches both changed the same line of code. Git doesn't know which version to keep — it asks you to decide. Conflicts sound scary; they're actually straightforward once you've seen one.</p>
+<div class="prose"><p>Git marks conflicts directly inside the affected file with special markers. You open the file, pick the correct version (or combine them), remove the markers, and commit.</p></div>
+<div class="diff">
+<span class="diff-hunk">@@ TaskManager.java — conflict markers @@</span>
+<span class="diff-ctx"> public void addTask(String title, String priority) {</span>
+<span class="diff-ctx">     if (title.isBlank()) return;</span>
+<span class="diff-add">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD  ← your current branch (main)</span>
+<span class="diff-add">+    tasks.add(new Task(title.trim(), priority));</span>
+<span class="diff-ctx">+    System.out.println("Task added: " + title);</span>
+<span class="diff-del">=======  ← separator</span>
+<span class="diff-del">-    Task t = new Task(title.trim(), priority);</span>
+<span class="diff-del">-    tasks.add(t);</span>
+<span class="diff-del">-    saveToFile();</span>
+<span class="diff-add">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/autosave  ← the branch you're merging in</span>
+<span class="diff-ctx"> }</span>
+</div>
+<div class="prose"><h3>Resolving the conflict</h3></div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open the file in your editor</h4><p>VS Code and IntelliJ both highlight conflict markers and offer "Accept Current / Accept Incoming / Accept Both" buttons — much easier than editing manually.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Choose what to keep</h4><p>Delete the conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) and write the final version you want. Often you combine both sides.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Stage the resolved file</h4><p><code>git add TaskManager.java</code></p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Commit the merge</h4><p><code>git commit -m "Merge feature/autosave — keep save call and print"</code></p></div></div>
+</div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — conflict workflow</span></div>
+<pre class="term-pre"><span class="prompt">$</span> <span class="cmd">git merge feature/autosave</span>
+<span class="out-r">CONFLICT (content): Merge conflict in TaskManager.java</span>
+<span class="out-r">Automatic merge failed; fix conflicts and then commit the result.</span>
+
+<span class="cmt"># See which files have conflicts</span>
+<span class="prompt">$</span> <span class="cmd">git status</span>
+<span class="out-r">both modified:   TaskManager.java</span>
+
+<span class="cmt"># ... edit the file, resolve the conflict ...</span>
+
+<span class="prompt">$</span> <span class="cmd">git add TaskManager.java</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Merge feature/autosave — combine save and print"</span>
+<span class="out-g">[main d3a2b1c] Merge feature/autosave</span>
+
+<span class="cmt"># Abort a merge if things go wrong (returns to pre-merge state)</span>
+<span class="prompt">$</span> <span class="cmd">git merge --abort</span></pre></div>
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>conflicts are normal</strong><p>Every developer encounters conflicts. A team working on the same codebase will hit them regularly. Handling them calmly and correctly is a core professional skill — not a sign that something went wrong.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">After resolving a merge conflict in a file, what must you do next?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Run <code>git merge --resolve</code></button>
+<button class="quiz-opt" onclick="Q(this,true)">Stage the resolved file with <code>git add</code>, then commit to complete the merge</button>
+<button class="quiz-opt" onclick="Q(this,false)">Delete the branch that caused the conflict</button>
+</div><div class="quiz-fb" id="qf7"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← prev</button><button class="btn btn-next" onclick="go(8)">next →</button></div>
+</div>
+
+
+<!-- L8: Push & Pull -->
+<div class="lesson" id="L8">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 9</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">GitHub</span></div>
+<h2>Push <em>&</em> Pull</h2>
+<p class="lesson-intro">So far everything has been local. Now we connect your repo to GitHub — the moment your code becomes shareable, collaborative, and backed up in the cloud.</p>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create a repo on GitHub</h4><p>Go to github.com → click the <strong>+</strong> button → New repository. Name it <code>task-manager</code>. Leave it empty — don't add a README (you already have one locally).</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Connect your local repo to GitHub</h4><p>GitHub will show you the commands. The key one is: <code>git remote add origin https://github.com/yourusername/task-manager.git</code></p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Push your commits</h4><p><code>git push -u origin main</code> — the <code>-u</code> links your local <code>main</code> to the remote <code>main</code> so future pushes are just <code>git push</code>.</p></div></div>
+</div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — connecting to GitHub and syncing</span></div>
+<pre class="term-pre"><span class="cmt"># Add GitHub as the "origin" remote</span>
+<span class="prompt">$</span> <span class="cmd">git remote add origin https://github.com/alexj/task-manager.git</span>
+
+<span class="cmt"># First push: -u sets upstream tracking</span>
+<span class="prompt">$</span> <span class="cmd">git push -u origin main</span>
+<span class="out">Enumerating objects: 9, done.</span>
+<span class="out-g">To https://github.com/alexj/task-manager.git</span>
+<span class="out-g"> * [new branch]      main -> main</span>
+<span class="out-g">Branch 'main' set up to track remote branch 'main' from 'origin'.</span>
+
+<span class="cmt"># After that, just:</span>
+<span class="prompt">$</span> <span class="cmd">git push</span>
+
+<span class="cmt"># Push a feature branch to GitHub</span>
+<span class="prompt">$</span> <span class="cmd">git push -u origin feature/due-dates</span>
+
+<span class="cmt"># Pull = fetch + merge. Gets latest changes from GitHub.</span>
+<span class="prompt">$</span> <span class="cmd">git pull</span>
+<span class="out">remote: Enumerating objects: 3, done.</span>
+<span class="out-g">Updating a3f2c91..9d1e4b7</span>
+<span class="out">Fast-forward</span>
+<span class="out"> README.md | 5 <span class="out-g">+++++</span></span>
+
+<span class="cmt"># Clone an existing repo to your machine</span>
+<span class="prompt">$</span> <span class="cmd">git clone https://github.com/alexj/task-manager.git</span>
+<span class="out">Cloning into 'task-manager'...</span>
+<span class="out-g">done.</span>
+
+<span class="cmt"># See your remotes</span>
+<span class="prompt">$</span> <span class="cmd">git remote -v</span>
+<span class="out">origin  https://github.com/alexj/task-manager.git (fetch)</span>
+<span class="out">origin  https://github.com/alexj/task-manager.git (push)</span></pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>always pull before you push</strong><p>If a teammate pushed while you were working, your push will be rejected. Always run <code>git pull</code> first to get their changes, resolve any conflicts, then push. Making this a habit prevents 90% of collaboration headaches.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">Your push is rejected with "Updates were rejected because the remote contains work that you do not have locally." What should you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Use <code>git push --force</code> to override the remote</button>
+<button class="quiz-opt" onclick="Q(this,true)">Run <code>git pull</code> first to get the remote changes, then push again</button>
+<button class="quiz-opt" onclick="Q(this,false)">Delete the remote repo and create a new one</button>
+</div><div class="quiz-fb" id="qf8"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(7)">← prev</button><button class="btn btn-next" onclick="go(9)">next →</button></div>
+</div>
+
+<!-- L9: Pull Requests -->
+<div class="lesson" id="L9">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 10</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">GitHub</span></div>
+<h2>Pull <em>Requests</em></h2>
+<p class="lesson-intro">A Pull Request (PR) is a GitHub feature for proposing changes. You push a branch, open a PR, and teammates review your code before it merges into <code>main</code>. It's the core of professional team collaboration.</p>
+<div class="prose"><p>Pull Requests are how code review works on every professional team. Even solo developers use them to keep a clean history and have a chance to review their own work before merging. When you apply for a job, interviewers will look at your GitHub PRs.</p>
+<h3>The Pull Request workflow</h3></div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create a branch and make your commits</h4><p><code>git switch -c feature/sort-tasks</code> → write code → <code>git add . && git commit -m "..."</code></p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Push the branch to GitHub</h4><p><code>git push -u origin feature/sort-tasks</code></p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Open a Pull Request on GitHub</h4><p>GitHub shows a banner "Compare & pull request." Click it. Write a title and description explaining what you changed and why. Assign reviewers if working in a team.</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Code review</h4><p>Reviewers leave comments on specific lines. You address feedback by pushing new commits to the same branch — the PR updates automatically.</p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Merge the PR</h4><p>Once approved, click "Merge pull request" on GitHub. Then clean up: <code>git switch main && git pull && git branch -d feature/sort-tasks</code></p></div></div>
+</div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>write good PR descriptions</strong><p>A good PR description explains: what this change does, why it was needed, and how to test it. Include screenshots for UI changes. This becomes searchable history — six months later, someone (including you) will search "why was this changed?" and your PR description is the answer.</p></div></div>
+<div class="challenge"><div class="ch-label">Your Turn</div><h4>Open your first real PR</h4>
+<ul>
+<li>Add any small improvement to your Task Manager (sorting, search, statistics)</li>
+<li>Create a branch, commit your changes, push to GitHub</li>
+<li>Open a Pull Request — write a title and at least 2 sentences describing what you built</li>
+<li>Merge it yourself — then pull the merged changes locally</li>
+</ul></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">A reviewer leaves a comment on your PR requesting a change. How do you address it?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Close the PR and open a new one</button>
+<button class="quiz-opt" onclick="Q(this,false)">Edit the original commit directly</button>
+<button class="quiz-opt" onclick="Q(this,true)">Make the fix in your local branch, commit, and push — the PR updates automatically</button>
+</div><div class="quiz-fb" id="qf9"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(8)">← prev</button><button class="btn btn-next" onclick="go(10)">next →</button></div>
+</div>
+
+<!-- L10: Forking -->
+<div class="lesson" id="L10">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 11</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">GitHub</span></div>
+<h2>Forking <em>&</em> Open Source</h2>
+<p class="lesson-intro">Forking lets you copy someone else's public repository to your account so you can modify it freely — even without permission from the owner. It's how all open-source contribution works.</p>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Fork the repo</h4><p>On any public GitHub repo, click the <strong>Fork</strong> button. GitHub creates a copy at <code>github.com/your-username/repo-name</code>. You own this copy.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Clone your fork</h4><p><code>git clone https://github.com/your-username/repo-name.git</code></p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Add the original as "upstream"</h4><p><code>git remote add upstream https://github.com/original-owner/repo-name.git</code><br>This lets you pull in updates from the original repo later.</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Make your changes on a branch</h4><p>Never commit directly to <code>main</code> in a fork. Create a branch, make your changes, push to your fork.</p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Open a PR to the original repo</h4><p>GitHub lets you open a PR from your fork's branch to the original repo's <code>main</code>. The maintainer reviews and merges — or asks for changes.</p></div></div>
+</div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — keeping your fork in sync</span></div>
+<pre class="term-pre"><span class="cmt"># Fetch updates from the original repo</span>
+<span class="prompt">$</span> <span class="cmd">git fetch upstream</span>
+<span class="out-g">From https://github.com/original/repo</span>
+<span class="out"> * [new branch]      main -> upstream/main</span>
+
+<span class="cmt"># Merge upstream changes into your local main</span>
+<span class="prompt">$</span> <span class="cmd">git switch main</span>
+<span class="prompt">$</span> <span class="cmd">git merge upstream/main</span>
+<span class="out-g">Fast-forward</span>
+
+<span class="cmt"># Push the updated main to your fork</span>
+<span class="prompt">$</span> <span class="cmd">git push</span></pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>contributing to open source is resume gold</strong><p>Your first open-source contribution doesn't have to be fixing a complex bug. Fix a typo in documentation. Improve an error message. Add a missing example to a README. Maintainers appreciate all of it, and every merged PR is a public reference that you can work on real code with other developers.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You've forked a repo and want to get the latest changes the original maintainer merged. What do you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Delete your fork and fork again</button>
+<button class="quiz-opt" onclick="Q(this,true)">Fetch from the <code>upstream</code> remote, then merge into your local <code>main</code></button>
+<button class="quiz-opt" onclick="Q(this,false)">Run <code>git pull origin main</code> — that automatically syncs with the original</button>
+</div><div class="quiz-fb" id="qf10"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(9)">← prev</button><button class="btn btn-next" onclick="go(11)">next →</button></div>
+</div>
+
+
+<!-- L11: Workflows -->
+<div class="lesson" id="L11">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 12</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Real-World</span></div>
+<h2>Git <em>Workflows</em></h2>
+<p class="lesson-intro">A workflow is a team agreement about how to use branches. Different teams use different workflows — knowing the common ones means you can join a new team and be productive from day one.</p>
+<div class="prose"><h3>GitHub Flow — simple, widely used</h3><p>Used by most small-to-medium teams and open-source projects. The rule: <code>main</code> is always deployable. All work happens on feature branches.</p></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">GitHub Flow in practice</span></div>
+<pre class="term-pre"><span class="out-g">main</span>  <span class="out">──●──────────────────────────────────●──</span>
+<span class="out">          \                            /</span>
+<span class="out-b">feature</span>   <span class="out">──●──●──●  (PR review)  merge</span>
+
+<span class="cmt"># 1. Branch off main</span>
+<span class="prompt">$</span> <span class="cmd">git switch -c feature/sort-tasks</span>
+
+<span class="cmt"># 2. Work and commit</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Add sort by priority"</span>
+<span class="prompt">$</span> <span class="cmd">git commit -m "Add sort by due date"</span>
+
+<span class="cmt"># 3. Push and open PR</span>
+<span class="prompt">$</span> <span class="cmd">git push -u origin feature/sort-tasks</span>
+
+<span class="cmt"># 4. PR reviewed, approved, merged → delete branch</span>
+<span class="prompt">$</span> <span class="cmd">git switch main && git pull && git branch -d feature/sort-tasks</span></pre></div>
+<div class="prose"><h3>Git Flow — for versioned releases</h3><p>Used by larger teams shipping versioned software. More complex but gives structure for hotfixes and releases.</p></div>
+<table class="cmd-table">
+<tr><th>Branch</th><th>Purpose</th><th>Merges into</th></tr>
+<tr><td>main</td><td>Production releases only — tagged v1.0, v1.1...</td><td>—</td></tr>
+<tr><td>develop</td><td>Integration branch — all features merge here</td><td>main (at release)</td></tr>
+<tr><td>feature/x</td><td>Individual features</td><td>develop</td></tr>
+<tr><td>release/x.y</td><td>Final stabilisation before release</td><td>main + develop</td></tr>
+<tr><td>hotfix/x</td><td>Urgent production fix</td><td>main + develop</td></tr>
+</table>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>start with GitHub Flow</strong><p>As a junior developer joining a team, you'll be told which workflow to use. For your own projects, GitHub Flow is almost always the right choice — it's simple, and simple means fewer mistakes.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">In GitHub Flow, what is the golden rule about the <code>main</code> branch?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Nobody should ever push to main directly — only senior developers can</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>main</code> is always in a deployable state — every merge must be reviewed and passing tests</button>
+<button class="quiz-opt" onclick="Q(this,false)">Main should be deleted after every release and recreated</button>
+</div><div class="quiz-fb" id="qf11"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(10)">← prev</button><button class="btn btn-next" onclick="go(12)">next →</button></div>
+</div>
+
+<!-- L12: Undoing -->
+<div class="lesson" id="L12">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 13</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Real-World</span></div>
+<h2>Undoing <em>Mistakes</em></h2>
+<p class="lesson-intro">Git's best feature is being able to undo anything. Committed a bug? Deleted the wrong file? Pushed to the wrong branch? There's a Git command for each scenario — and none of them require panic.</p>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Terminal — every undo scenario</span></div>
+<pre class="term-pre"><span class="cmt">── BEFORE STAGING ─────────────────────────────</span>
+<span class="cmt"># Discard changes to a file (back to last commit)</span>
+<span class="prompt">$</span> <span class="cmd">git restore Main.java</span>
+
+<span class="cmt"># Discard ALL unstaged changes</span>
+<span class="prompt">$</span> <span class="cmd">git restore .</span>
+
+<span class="cmt">── AFTER STAGING ──────────────────────────────</span>
+<span class="cmt"># Unstage a file (keeps your edits)</span>
+<span class="prompt">$</span> <span class="cmd">git restore --staged Main.java</span>
+
+<span class="cmt">── AFTER COMMITTING (local only) ──────────────</span>
+<span class="cmt"># Undo last commit — keep changes staged</span>
+<span class="prompt">$</span> <span class="cmd">git reset --soft HEAD~1</span>
+
+<span class="cmt"># Undo last commit — keep changes unstaged</span>
+<span class="prompt">$</span> <span class="cmd">git reset HEAD~1</span>
+
+<span class="cmt"># Fix a typo in the last commit message (before push)</span>
+<span class="prompt">$</span> <span class="cmd">git commit --amend -m "Correct message here"</span>
+
+<span class="cmt"># Add a forgotten file to the last commit</span>
+<span class="prompt">$</span> <span class="cmd">git add ForgottenFile.java</span>
+<span class="prompt">$</span> <span class="cmd">git commit --amend --no-edit</span>
+
+<span class="cmt">── AFTER PUSHING (safest undo) ────────────────</span>
+<span class="cmt"># Revert creates a NEW commit that undoes a bad one</span>
+<span class="cmt"># (safe because it doesn't rewrite history)</span>
+<span class="prompt">$</span> <span class="cmd">git revert a3f2c91</span>
+<span class="out-g">[main 8b1d4e2] Revert "Add broken feature"</span>
+
+<span class="cmt"># Temporarily stash work-in-progress</span>
+<span class="prompt">$</span> <span class="cmd">git stash</span>
+<span class="out">Saved working directory and index state WIP on main</span>
+<span class="cmt"># ... do something else ... then restore:</span>
+<span class="prompt">$</span> <span class="cmd">git stash pop</span>
+
+<span class="cmt"># Last resort: restore a specific file from a commit</span>
+<span class="prompt">$</span> <span class="cmd">git checkout a3f2c91 -- Task.java</span></pre></div>
+<div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>never force-push to shared branches</strong><p><code>git push --force</code> rewrites remote history. If anyone else has pulled the branch, their repo is now out of sync. Force pushing to <code>main</code> on a team is one of the fastest ways to cause chaos. The safe alternative is always <code>git revert</code>.</p></div></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You pushed a commit to <code>main</code> that introduced a bug. What's the safest way to undo it?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)"><code>git reset HEAD~1</code> then force push</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>git revert &lt;commit-hash&gt;</code> — creates a new commit that undoes the bad one without rewriting history</button>
+<button class="quiz-opt" onclick="Q(this,false)">Delete the remote repo and push a fresh copy</button>
+</div><div class="quiz-fb" id="qf12"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(11)">← prev</button><button class="btn btn-next" onclick="go(13)">next →</button></div>
+</div>
+
+<!-- L13: .gitignore -->
+<div class="lesson" id="L13">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 14</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Real-World</span></div>
+<h2>.gitignore <em>&</em> Best Practices</h2>
+<p class="lesson-intro">Not everything belongs in your repo. Build artifacts, secrets, IDE files, and operating system files should be excluded. The <code>.gitignore</code> file tells Git exactly what to ignore.</p>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">.gitignore — Java project example</span></div>
+<pre class="term-pre"><span class="cmt"># .gitignore file — place in your project root</span>
+
+<span class="cmt"># Compiled Java bytecode — never commit .class files</span>
+<span class="out-r">*.class</span>
+<span class="out-r">*.jar</span>
+<span class="out-r">target/</span>
+<span class="out-r">build/</span>
+<span class="out-r">out/</span>
+
+<span class="cmt"># IDE files — other developers use their own settings</span>
+<span class="out-r">.idea/</span>
+<span class="out-r">*.iml</span>
+<span class="out-r">.vscode/</span>
+<span class="out-r">*.eclipse</span>
+
+<span class="cmt"># Operating system files</span>
+<span class="out-r">.DS_Store</span>
+<span class="out-r">Thumbs.db</span>
+
+<span class="cmt"># NEVER commit secrets or credentials</span>
+<span class="out-r">*.env</span>
+<span class="out-r">config/secrets.properties</span>
+<span class="out-r">application-prod.properties</span></pre></div>
+<div class="prose"><h3>Best practices every developer follows</h3></div>
+<table class="cmd-table">
+<tr><th>Practice</th><th>Why</th></tr>
+<tr><td>Commit early and often</td><td>Small commits are easier to understand, review, and revert</td></tr>
+<tr><td>Never commit secrets</td><td>GitHub repos are public by default; leaked API keys get abused within minutes</td></tr>
+<tr><td>Write meaningful commit messages</td><td>Your team (and future you) will read these at 11pm debugging a production issue</td></tr>
+<tr><td>Keep main always working</td><td>If you break main, you block everyone. Use branches.</td></tr>
+<tr><td>Pull before you push</td><td>Prevents rejected pushes and reduces conflicts</td></tr>
+<tr><td>Delete merged branches</td><td>Keeps the branch list clean and focused</td></tr>
+<tr><td>Add .gitignore at project start</td><td>Adding it later means cleaning up already-committed junk</td></tr>
+<tr><td>Review your diff before committing</td><td>Catch debug prints, TODO comments, accidental changes</td></tr>
+</table>
+<div class="callout danger"><span class="callout-ico">🔐</span><div class="callout-body"><strong>never commit passwords or API keys</strong><p>Secrets committed to GitHub are permanently exposed — even if you delete the file later, the history still contains them. If you accidentally commit a secret, you must rotate it (generate a new one) immediately. Use environment variables or a <code>.env</code> file that's in your <code>.gitignore</code>.</p></div></div>
+<div class="challenge"><div class="ch-label">Your Turn</div><h4>Add a proper .gitignore</h4>
+<ul>
+<li>Go to <strong>gitignore.io</strong> (or github.com/github/gitignore) and generate a <code>.gitignore</code> for Java + your IDE</li>
+<li>Add it to your Task Manager project</li>
+<li>Run <code>git status</code> — notice how .class files and IDE folders are now hidden</li>
+<li>Commit the .gitignore: <code>"Add .gitignore for Java and IntelliJ"</code></li>
+</ul></div>
+<div class="quiz"><div class="quiz-label">Quick Check</div>
+<div class="quiz-q">You accidentally committed your <code>config/secrets.properties</code> file containing database passwords. What must you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Add it to .gitignore and commit again — this removes it from history</button>
+<button class="quiz-opt" onclick="Q(this,false)">Delete the file and push — the secret is no longer visible</button>
+<button class="quiz-opt" onclick="Q(this,true)">Rotate (regenerate) the credentials immediately — then remove the file from history and update .gitignore</button>
+</div><div class="quiz-fb" id="qf13"></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(12)">← prev</button><button class="btn btn-next" onclick="go(14)">next →</button></div>
+</div>
+
+<!-- L14: Capstone -->
+<div class="lesson" id="L14">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 15</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Capstone</span></div>
+<h2>Capstone: <em>Real Repo</em></h2>
+<p class="lesson-intro">Put everything together. You're going to take your Java Task Manager, give it a professional Git history, publish it to GitHub with a full README, and go through a complete feature-branch-and-PR workflow.</p>
+<div class="callout tip"><span class="callout-ico">🎯</span><div class="callout-body"><strong>what you're building</strong><p>A GitHub repository that any developer — or interviewer — could clone, understand, and contribute to. Clean commits. Good messages. Meaningful branches. A real README. This is what professional repos look like.</p></div></div>
+<div class="prose"><h3>Part 1: clean up your history</h3></div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Initialize the repo (if not done)</h4><p><code>git init</code> in your Task Manager folder. Add a <code>.gitignore</code> for Java.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Make atomic commits</h4><p>Stage and commit each logical piece separately: the Task model, the TaskManager class, the file I/O, the README. Each commit should have a meaningful message.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Push to GitHub</h4><p>Create a repo on GitHub, add remote, push. Your project is now live.</p></div></div>
+</div>
+<div class="prose"><h3>Part 2: feature branch workflow</h3></div>
+<div class="steps">
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Create a feature branch</h4><p>Pick any improvement: sort by priority, search tasks, statistics report, or due date support. Branch: <code>git switch -c feature/your-feature</code></p></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><h4>Implement and commit</h4><p>Make at least 2 commits on the branch, each representing a logical step.</p></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-body"><h4>Open a Pull Request</h4><p>Push the branch, open a PR. Write a description: what it does, why you built it, how to test it.</p></div></div>
+<div class="step"><div class="step-num">7</div><div class="step-body"><h4>Merge and clean up</h4><p>Merge the PR. Pull locally. Delete the feature branch. Push the deletion.</p></div></div>
+</div>
+<div class="prose"><h3>Part 3: the README</h3><p>A good README is the first thing anyone sees. Write one that includes:</p>
+<ul>
+<li>Project title and one-sentence description</li>
+<li>How to build and run it (<code>javac *.java && java Main</code>)</li>
+<li>List of features</li>
+<li>Example output / screenshot</li>
+<li>What you'd build next</li>
+</ul></div>
+<div class="term-wrap"><div class="term-top"><div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div><span class="term-title">Final git log — what a clean history looks like</span></div>
+<pre class="term-pre"><span class="prompt">$</span> <span class="cmd">git log --oneline</span>
+<span class="out-y">f1a2b3c</span> <span class="out">Merge pull request #3: Add task search</span>
+<span class="out-y">e9d8c7b</span> <span class="out">Add case-insensitive keyword matching to searchTasks()</span>
+<span class="out-y">d6e5f4a</span> <span class="out">Add searchTasks() method stub with tests</span>
+<span class="out-y">c3b2a1f</span> <span class="out">Merge pull request #2: Add task sorting</span>
+<span class="out-y">b9a8f7e</span> <span class="out">Sort by due date using Comparator.comparing()</span>
+<span class="out-y">a7b6c5d</span> <span class="out">Add sort by priority — HIGH first</span>
+<span class="out-y">9e8d7c6</span> <span class="out">Merge pull request #1: Add file persistence</span>
+<span class="out-y">8f7e6d5</span> <span class="out">Add loadFromFile() with CSV parsing</span>
+<span class="out-y">7a6b5c4</span> <span class="out">Add saveToFile() using PrintWriter</span>
+<span class="out-y">6c5b4a3</span> <span class="out">Add TaskManager class with in-memory operations</span>
+<span class="out-y">5b4a3f2</span> <span class="out">Add Task model with CSV serialization</span>
+<span class="out-y">4a3b2c1</span> <span class="out">Add .gitignore for Java and IntelliJ</span>
+<span class="out-y">3f2e1d0</span> <span class="out">Add README with build instructions and feature list</span></pre></div>
+<div class="callout good"><span class="callout-ico">🎉</span><div class="callout-body"><strong>what comes next</strong><p>You now know every Git concept a junior developer needs on day one. Next on your roadmap: <strong>Maven/Gradle</strong> (managing dependencies and builds — your pom.xml goes in the repo), then <strong>JUnit 5</strong> (test files live in the repo too), then <strong>Spring Boot</strong> (the whole project lives in GitHub with CI/CD running your tests automatically on every PR).</p></div></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(13)">← prev</button><button class="btn btn-next" disabled>Course complete ✓</button></div>
+</div>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 15;
+const done = new Set([0]);
+let current = 0;
+
+function go(idx) {
+  document.getElementById('L' + current).classList.remove('active');
+  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+  current = idx;
+  done.add(idx);
+  document.getElementById('L' + idx).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  btns[idx].classList.add('active');
+  done.forEach(i => { if (i !== idx) btns[i].classList.add('done'); });
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pFill').style.width = pct + '%';
+  document.getElementById('pPct').textContent = pct + '%';
+}
+
+const explanations = {
+  0: 'GitHub is a website that hosts Git repositories — Git itself is the local version control software on your machine. Pushing means uploading local commits to the remote repo on GitHub.',
+  1: 'Every commit is permanently tagged with author name and email, so in a shared codebase anyone can run git blame or git log to see who changed what and when.',
+  2: 'git init creates a hidden .git directory in your folder — this is Git\'s entire database: history, config, staging area. Without it, Git doesn\'t track the folder at all.',
+  3: 'The staging area lets you choose exactly which changes go into each commit. git add specific-file.java stages just that file, leaving the others untouched.',
+  4: 'git log --oneline shows each commit as one compact line: short hash + message. Perfect for quickly scanning recent history.',
+  5: 'git switch -c creates the branch AND immediately moves you to it in one command. You start on the new branch with the full history of wherever you branched from.',
+  6: 'Fast-forward means main\'s tip was a direct ancestor of the feature branch — no divergent commits — so Git simply advances the main pointer forward. Clean and simple.',
+  7: 'After resolving the conflict markers manually, you must stage the file with git add, then run git commit. Git is waiting for you to signal that the conflict is resolved.',
+  8: 'git push is rejected when the remote has commits your local branch doesn\'t have. Pull first to merge those commits, then push your work.',
+  9: 'PRs update automatically when you push new commits to the same branch. You never need to close and reopen a PR to address review feedback.',
+  10: 'You add the original repo as a remote called "upstream", then git fetch upstream to download their commits, and merge upstream/main into your local main.',
+  11: 'The core rule of GitHub Flow is that main is always deployable — every commit on main should be in a working state, deployable to production at any time.',
+  12: 'git revert is the only safe undo for pushed commits — it creates a new commit that undoes the bad one, preserving history. Reset + force push rewrites history and breaks teammates.',
+  13: 'Secrets in Git history are permanently exposed — deleting the file doesn\'t remove it from old commits. You must rotate credentials AND scrub history using git filter-branch or BFG Repo Cleaner.'
+};
+
+function Q(btn, correct) {
+  const block = btn.closest('.quiz');
+  block.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+  });
+  if (!correct) btn.classList.add('wrong');
+  const li = parseInt(btn.closest('.lesson').id.replace('L', ''));
+  const fb = document.getElementById('qf' + li);
+  fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'bad');
+  fb.textContent = (correct ? '✓  ' : '✗  ') + (explanations[li] || '');
+}
+
+// Branch visualizer
+let bvState = { commits: [0,1,2], branchAt: null, branchCommits: [] };
+function branchViz(action) {
+  const s = bvState;
+  if (action === 'reset') { s.commits=[0,1,2]; s.branchAt=null; s.branchCommits=[]; }
+  else if (action === 'commit') { if (!s.branchAt) s.commits.push(s.commits.length); }
+  else if (action === 'branch') { if (!s.branchAt) { s.branchAt = s.commits.length-1; } }
+  else if (action === 'branchcommit') { if (s.branchAt !== null) s.branchCommits.push(s.branchCommits.length); }
+  renderBranch();
+}
+function renderBranch() {
+  const s = bvState;
+  const svg = document.getElementById('branchSvg');
+  const cx = (i) => 40 + i * 60;
+  let html = '';
+  // main line
+  for (let i = 0; i < s.commits.length - 1; i++) {
+    html += `<line x1="${cx(i)+14}" y1="40" x2="${cx(i+1)-14}" y2="40" stroke="#f05033" stroke-width="2"/>`;
+  }
+  // main commits
+  for (let i = 0; i < s.commits.length; i++) {
+    const isHead = i === s.commits.length - 1 && s.branchAt === null;
+    html += `<circle cx="${cx(i)}" cy="40" r="13" fill="${isHead?'#f05033':'#231a17'}" stroke="#f05033" stroke-width="2"/>`;
+    html += `<text x="${cx(i)}" y="45" text-anchor="middle" fill="${isHead?'#fff':'#f05033'}" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700">C${i+1}</text>`;
+  }
+  // branch
+  if (s.branchAt !== null) {
+    const bx = cx(s.branchAt);
+    const startx = bx + 14;
+    const by = 85;
+    // connect line from branch point
+    if (s.branchCommits.length > 0) {
+      html += `<line x1="${startx}" y1="53" x2="${cx(s.branchAt + 1) - 14}" y2="72" stroke="#a07de8" stroke-width="2"/>`;
+      for (let i = 0; i < s.branchCommits.length - 1; i++) {
+        html += `<line x1="${cx(s.branchAt+1+i)+14}" y1="${by}" x2="${cx(s.branchAt+2+i)-14}" y2="${by}" stroke="#a07de8" stroke-width="2"/>`;
+      }
+      for (let i = 0; i < s.branchCommits.length; i++) {
+        const bcx = cx(s.branchAt + 1 + i);
+        const isHead = i === s.branchCommits.length - 1;
+        html += `<circle cx="${bcx}" cy="${by}" r="13" fill="${isHead?'#a07de8':'#1a1628'}" stroke="#a07de8" stroke-width="2"/>`;
+        html += `<text x="${bcx}" y="${by+5}" text-anchor="middle" fill="${isHead?'#fff':'#a07de8'}" font-family="JetBrains Mono,monospace" font-size="10" font-weight="700">B${i+1}</text>`;
+      }
+    } else {
+      html += `<line x1="${startx}" y1="53" x2="${startx+20}" y2="75" stroke="#a07de8" stroke-width="2" stroke-dasharray="4 3"/>`;
+    }
+    // labels
+    html += `<text x="10" y="44" fill="#f05033" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700">main</text>`;
+    html += `<text x="10" y="${by+4}" fill="#a07de8" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700">branch</text>`;
+  } else {
+    html += `<text x="10" y="44" fill="#f05033" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700">main</text>`;
+  }
+  svg.innerHTML = html;
+  const msgs = {commit:'Added a commit on main',branch:'Created a new branch from current HEAD',branchcommit:'Added a commit on the feature branch — main is untouched',reset:'Reset to start'};
+  const lastAction = event ? event.target.textContent : '';
+  const msg = s.branchAt !== null && s.branchCommits.length === 0 ? 'Branch created — now try "commit on branch"' :
+    s.branchAt !== null ? `Feature branch has ${s.branchCommits.length} commit(s). Main has ${s.commits.length} commits. They can be merged.` :
+    `main has ${s.commits.length} commit(s). Try creating a branch!`;
+  document.getElementById('branchMsg').textContent = msg;
+}
+renderBranch();
+updateProgress();
+</script>
+</body>
+</html>

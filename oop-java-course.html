@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP with Java — A Course for Young Programmers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1830;
+    --card: #221f38;
+    --accent1: #ff6b6b;
+    --accent2: #ffd166;
+    --accent3: #06d6a0;
+    --accent4: #118ab2;
+    --accent5: #c77dff;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --code-bg: #13111f;
+    --border: #2e2b4a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a0533 0%, #0a1628 50%, #001a12 100%);
+    padding: 60px 40px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(199,125,255,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 30%, rgba(6,214,160,0.12) 0%, transparent 50%);
+  }
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--accent5), var(--accent3));
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    background: linear-gradient(135deg, #fff 30%, var(--accent5) 70%, var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  header p {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .header-stars {
+    font-size: 1.6rem;
+    letter-spacing: 6px;
+    opacity: 0.7;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--surface);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-label { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent5), var(--accent3));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-pct { font-size: 13px; font-weight: 800; color: var(--accent3); }
+
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 270px;
+    flex-shrink: 0;
+    padding: 30px 20px;
+    position: sticky;
+    top: 53px;
+    height: calc(100vh - 53px);
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-left: 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-item:hover { background: var(--card); color: var(--text); }
+  .nav-item.active { background: var(--card); color: var(--text); border-left: 3px solid var(--accent5); }
+  .nav-item .nav-icon { font-size: 18px; flex-shrink: 0; }
+  .nav-item .nav-check { margin-left: auto; font-size: 14px; color: var(--accent3); }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    padding: 40px 50px;
+    min-width: 0;
+  }
+
+  /* LESSON SECTION */
+  .lesson { display: none; animation: fadeIn 0.4s ease; }
+  .lesson.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .lesson-header {
+    margin-bottom: 36px;
+  }
+  .lesson-num {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent5);
+    margin-bottom: 8px;
+  }
+  .lesson h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .lesson-intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 680px;
+    border-left: 3px solid var(--accent5);
+    padding-left: 16px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+  .card-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card p, .card li { font-size: 0.97rem; color: #d4d4e8; margin-bottom: 10px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { margin-bottom: 6px; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout-emoji { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+  .callout-body { font-size: 0.95rem; }
+  .callout-body strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+  .callout.tip { background: rgba(6,214,160,0.1); border: 1px solid rgba(6,214,160,0.25); }
+  .callout.tip .callout-body strong { color: var(--accent3); }
+  .callout.warn { background: rgba(255,209,102,0.1); border: 1px solid rgba(255,209,102,0.25); }
+  .callout.warn .callout-body strong { color: var(--accent2); }
+  .callout.fun { background: rgba(199,125,255,0.1); border: 1px solid rgba(199,125,255,0.25); }
+  .callout.fun .callout-body strong { color: var(--accent5); }
+  .callout.info { background: rgba(17,138,178,0.12); border: 1px solid rgba(17,138,178,0.3); }
+  .callout.info .callout-body strong { color: #5bc4e8; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 18px 0;
+    overflow: hidden;
+  }
+  .code-header {
+    background: #1c1929;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-lang {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .code-dots span:nth-child(1) { background: #ff5f56; }
+  .code-dots span:nth-child(2) { background: #ffbd2e; }
+  .code-dots span:nth-child(3) { background: #27c93f; }
+  pre {
+    padding: 20px 22px;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  /* Syntax colors */
+  .kw { color: #c77dff; font-weight: 500; }
+  .cl { color: #ffd166; }
+  .fn { color: #06d6a0; }
+  .str { color: #ff9f6b; }
+  .cm { color: #5a5880; font-style: italic; }
+  .num { color: #ff6b9d; }
+  .var { color: #e8e8f0; }
+
+  /* QUIZ */
+  .quiz-block {
+    background: linear-gradient(135deg, #1a1830, #1e1535);
+    border: 1px solid var(--accent5);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 28px 0;
+  }
+  .quiz-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--accent5);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .quiz-q { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-option {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: left;
+    color: var(--text);
+  }
+  .quiz-option:hover { border-color: var(--accent5); background: rgba(199,125,255,0.08); }
+  .quiz-option.correct { border-color: var(--accent3); background: rgba(6,214,160,0.12); color: var(--accent3); }
+  .quiz-option.wrong { border-color: var(--accent1); background: rgba(255,107,107,0.1); color: var(--accent1); }
+  .quiz-feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(6,214,160,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+  .quiz-feedback.bad { background: rgba(255,107,107,0.1); color: var(--accent1); border: 1px solid var(--accent1); }
+
+  /* ANALOGY BOXES */
+  .analogy {
+    background: linear-gradient(135deg, rgba(255,209,102,0.08), rgba(255,107,107,0.06));
+    border: 1px solid rgba(255,209,102,0.2);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 20px 0;
+  }
+  .analogy-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .analogy p { font-size: 0.97rem; color: #ddd; }
+
+  /* CHALLENGE BOX */
+  .challenge {
+    background: linear-gradient(135deg, rgba(17,138,178,0.12), rgba(6,214,160,0.08));
+    border: 1px solid rgba(17,138,178,0.3);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .challenge-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5bc4e8;
+    margin-bottom: 8px;
+  }
+  .challenge h4 { font-size: 1.05rem; margin-bottom: 10px; }
+  .challenge p, .challenge li { font-size: 0.95rem; color: #ccc; }
+
+  /* NAV BUTTONS */
+  .lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-next {
+    background: linear-gradient(135deg, var(--accent5), var(--accent4));
+    color: white;
+  }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(199,125,255,0.3); }
+  .btn-prev {
+    background: var(--card);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-prev:hover { color: var(--text); border-color: var(--accent5); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 28px 0;
+  }
+  .section-divider span { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 16px 0; }
+  th { background: var(--surface); color: var(--accent5); font-weight: 800; padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--border); }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: #d4d4e8; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { background: rgba(6,214,160,0.15); color: var(--accent3); }
+  .badge-purple { background: rgba(199,125,255,0.15); color: var(--accent5); }
+  .badge-yellow { background: rgba(255,209,102,0.15); color: var(--accent2); }
+  .badge-red { background: rgba(255,107,107,0.15); color: var(--accent1); }
+
+  /* PILLAR CARDS (for 4 pillars) */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .pillar-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .pillar-card:hover { transform: translateY(-4px); }
+  .pillar-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .pillar-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; margin-bottom: 8px; }
+  .pillar-card p { font-size: 0.88rem; color: var(--muted); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px; }
+    .progress-bar-wrap { padding: 10px 20px; }
+    header { padding: 40px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Beginner Friendly · Java</div>
+  <h1>Object-Oriented Programming<br>with Java</h1>
+  <p>A fun, friendly, and hands-on course for young programmers — no experience needed! 🚀</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🌟</span> Intro to OOP
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">🏗️</span> Classes &amp; Objects
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">🔒</span> Encapsulation
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">👪</span> Inheritance
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🎭</span> Polymorphism
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">🧩</span> Abstraction
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">🔧</span> Constructors
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🧲</span> Interfaces
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🏆</span> Final Project
+    </a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ===================== LESSON 0 ===================== -->
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>🌟 Welcome to Object-Oriented Programming!</h2>
+        <p class="lesson-intro">Let's find out what OOP is, why it's super important, and why Java is such a great language to learn it with.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 What Even Is Programming?</div>
+        <p>Imagine you want to teach a robot to make a sandwich. You'd have to give it <strong>step-by-step instructions</strong>: get bread, spread peanut butter, put them together. That's basically what programming is — giving a computer precise instructions so it can do something useful.</p>
+        <p>But as the tasks get bigger (imagine a robot that runs an entire restaurant!), those instructions get very messy and hard to manage. That's where <strong>Object-Oriented Programming</strong> saves the day! 🦸</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think about <strong>LEGO bricks</strong>. Each brick is a self-contained piece. You can snap them together, take them apart, reuse them, and build enormous things! OOP works the same way — you build your program out of small, self-contained pieces called <strong>objects</strong>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 What Is OOP? (Object-Oriented Programming)</div>
+        <p>OOP is a way of writing programs where you organize your code around <strong>objects</strong>. An object is like a mini-robot that:</p>
+        <ul>
+          <li>Knows certain things (its <strong>data/attributes</strong>) — like a dog knows its name and breed</li>
+          <li>Can do certain things (its <strong>methods/behaviors</strong>) — like a dog can bark, sit, or fetch</li>
+        </ul>
+        <p>Instead of writing one giant list of instructions, you build a bunch of smart objects that work together. This makes your code:</p>
+        <ul>
+          <li>✅ Easier to understand</li>
+          <li>✅ Easier to fix when something breaks</li>
+          <li>✅ Easier to reuse in other projects</li>
+        </ul>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">🔒</div>
+          <h4>Encapsulation</h4>
+          <p>Hiding private details, showing only what's needed</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">👪</div>
+          <h4>Inheritance</h4>
+          <p>Children inherit traits from parents</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🎭</div>
+          <h4>Polymorphism</h4>
+          <p>One action, many different forms</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🧩</div>
+          <h4>Abstraction</h4>
+          <p>Show the big picture, hide the complexity</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">☕ Why Java?</div>
+        <p>Java is one of the most popular programming languages in the world! Here's why it's perfect for learning OOP:</p>
+        <ul>
+          <li><strong>Pure OOP</strong> — Java was built from the ground up with OOP in mind</li>
+          <li><strong>Used everywhere</strong> — Android apps, banking software, NASA, Minecraft (originally!) all use Java</li>
+          <li><strong>Great error messages</strong> — Java tells you clearly when you make a mistake</li>
+          <li><strong>Free!</strong> — You can download and use Java for free</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Your Very First Program</span>
+        </div>
+        <pre><span class="cm">// This is your first Java program!</span>
+<span class="cm">// Don't worry about every word yet — just read it like a story.</span>
+
+<span class="kw">public class</span> <span class="cl">HelloWorld</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// This line prints a message to the screen</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello! I am learning Java OOP! 🚀"</span>);
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"This is going to be awesome!"</span>);
+
+    }
+
+}</pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">💡</div>
+        <div class="callout-body">
+          <strong>How to run Java code</strong>
+          You can try Java instantly at <strong>replit.com</strong> or <strong>jdoodle.com</strong> — no installation needed! Just type your code and hit Run.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which of the following is NOT one of the four pillars of OOP?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Encapsulation</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Inheritance</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Compilation</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Polymorphism</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 1 ===================== -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>🏗️ Classes and Objects</h2>
+        <p class="lesson-intro">A class is the <em>blueprint</em>. An object is the <em>real thing</em> built from that blueprint. Let's build some objects!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Imagine a <strong>cookie cutter</strong>. The cutter is the <strong>class</strong> — it's the template. Every cookie you stamp out is an <strong>object</strong>. All cookies have the same shape (from the same class), but you can decorate each one differently (each object has its own values)!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 What is a Class?</div>
+        <p>A class is a <strong>blueprint</strong> that describes what an object will look like and what it can do. A class contains:</p>
+        <ul>
+          <li><strong>Fields (attributes)</strong> — the data the object holds (like a dog's name, age, breed)</li>
+          <li><strong>Methods (behaviors)</strong> — the actions the object can perform (like a dog can bark)</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Creating a Class</span>
+        </div>
+        <pre><span class="cm">// We're creating a blueprint for a Dog</span>
+<span class="kw">public class</span> <span class="cl">Dog</span> {
+
+    <span class="cm">// FIELDS — these are the "facts" about a dog</span>
+    <span class="cl">String</span> <span class="var">name</span>;
+    <span class="cl">String</span> <span class="var">breed</span>;
+    <span class="kw">int</span> <span class="var">age</span>;
+
+    <span class="cm">// METHOD — this is something a dog can DO</span>
+    <span class="kw">void</span> <span class="fn">bark</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" says: Woof! Woof! 🐕"</span>);
+    }
+
+    <span class="kw">void</span> <span class="fn">introduce</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi! I'm "</span> + <span class="var">name</span> +
+            <span class="str">", a "</span> + <span class="var">age</span> + <span class="str">"-year-old "</span> + <span class="var">breed</span> + <span class="str">"!"</span>);
+    }
+
+}</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🐾 What is an Object?</div>
+        <p>An object is a <strong>real instance</strong> of a class. You use the keyword <code>new</code> to create one. Once you create an object, you can set its data and call its methods.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Creating Objects from the Dog Class</span>
+        </div>
+        <pre><span class="kw">public class</span> <span class="cl">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// Create a Dog object called "myDog"</span>
+        <span class="cl">Dog</span> <span class="var">myDog</span> = <span class="kw">new</span> <span class="cl">Dog</span>();
+        <span class="var">myDog</span>.<span class="var">name</span>  = <span class="str">"Buddy"</span>;
+        <span class="var">myDog</span>.<span class="var">breed</span> = <span class="str">"Golden Retriever"</span>;
+        <span class="var">myDog</span>.<span class="var">age</span>   = <span class="num">3</span>;
+
+        <span class="cm">// Create ANOTHER Dog object — same blueprint, different dog!</span>
+        <span class="cl">Dog</span> <span class="var">friendsDog</span> = <span class="kw">new</span> <span class="cl">Dog</span>();
+        <span class="var">friendsDog</span>.<span class="var">name</span>  = <span class="str">"Luna"</span>;
+        <span class="var">friendsDog</span>.<span class="var">breed</span> = <span class="str">"Poodle"</span>;
+        <span class="var">friendsDog</span>.<span class="var">age</span>   = <span class="num">5</span>;
+
+        <span class="cm">// Call their methods!</span>
+        <span class="var">myDog</span>.<span class="fn">introduce</span>();    <span class="cm">// Hi! I'm Buddy, a 3-year-old Golden Retriever!</span>
+        <span class="var">myDog</span>.<span class="fn">bark</span>();          <span class="cm">// Buddy says: Woof! Woof! 🐕</span>
+
+        <span class="var">friendsDog</span>.<span class="fn">introduce</span>();  <span class="cm">// Hi! I'm Luna, a 5-year-old Poodle!</span>
+        <span class="var">friendsDog</span>.<span class="fn">bark</span>();       <span class="cm">// Luna says: Woof! Woof! 🐕</span>
+
+    }
+}</pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔑</div>
+        <div class="callout-body">
+          <strong>Key Rule: Class vs Object</strong>
+          A class is a blueprint (written once). Objects are built FROM that blueprint (you can make as many as you want!). One Dog class → unlimited dog objects!
+        </div>
+      </div>
+
+      <div class="section-divider"><span>Follow-Along Challenge</span></div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Build a Video Game Character Class</h4>
+        <p>Create a class called <code>GameCharacter</code> with these fields:</p>
+        <ul>
+          <li><code>String name</code></li>
+          <li><code>int health</code></li>
+          <li><code>int level</code></li>
+          <li><code>String weapon</code></li>
+        </ul>
+        <p style="margin-top:10px">Add a method <code>showStats()</code> that prints all the character's info. Then create 2 different character objects!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You use the _____ keyword to create a new object from a class in Java.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">create</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">new</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">object</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">make</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 2 ===================== -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>🔒 Encapsulation — Keep Your Secrets Safe!</h2>
+        <p class="lesson-intro">Encapsulation means bundling data and methods together, and controlling who can access or change that data. It's like putting your stuff in a locked box.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think of an <strong>ATM machine</strong>. You can deposit money, check your balance, and withdraw cash — those are the things the ATM <em>lets you do</em>. But you have NO idea (and no access to) how it works internally. All those complicated bank connections and security systems are hidden from you. That's encapsulation!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Access Modifiers</div>
+        <p>Java uses keywords called <strong>access modifiers</strong> to control who can see and change data:</p>
+        <table>
+          <tr><th>Modifier</th><th>Who can access it?</th></tr>
+          <tr><td><span class="badge badge-green">public</span></td><td>Anyone, from anywhere</td></tr>
+          <tr><td><span class="badge badge-red">private</span></td><td>Only code INSIDE this class</td></tr>
+          <tr><td><span class="badge badge-yellow">protected</span></td><td>This class + subclasses</td></tr>
+        </table>
+        <p style="margin-top:12px">The golden rule: make fields <code>private</code> and provide <code>public</code> methods to access them safely.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Encapsulation with Getters &amp; Setters</span>
+        </div>
+        <pre><span class="kw">public class</span> <span class="cl">BankAccount</span> {
+
+    <span class="cm">// Private — no one outside can touch this directly!</span>
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">ownerName</span>;
+    <span class="kw">private</span> <span class="kw">double</span> <span class="var">balance</span>;
+
+    <span class="cm">// GETTER — lets people READ the balance</span>
+    <span class="kw">public double</span> <span class="fn">getBalance</span>() {
+        <span class="kw">return</span> <span class="var">balance</span>;
+    }
+
+    <span class="cm">// SETTER — lets people ADD money, but with a safety check!</span>
+    <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> <span class="var">amount</span>) {
+        <span class="kw">if</span> (<span class="var">amount</span> > <span class="num">0</span>) {
+            <span class="var">balance</span> += <span class="var">amount</span>;
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"✅ Deposited $"</span> + <span class="var">amount</span>);
+        } <span class="kw">else</span> {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"❌ Invalid amount! Can't deposit negative money."</span>);
+        }
+    }
+
+    <span class="kw">public void</span> <span class="fn">withdraw</span>(<span class="kw">double</span> <span class="var">amount</span>) {
+        <span class="kw">if</span> (<span class="var">amount</span> > <span class="var">balance</span>) {
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"❌ Not enough money!"</span>);
+        } <span class="kw">else</span> {
+            <span class="var">balance</span> -= <span class="var">amount</span>;
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"💸 Withdrew $"</span> + <span class="var">amount</span>);
+        }
+    }
+
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getOwnerName</span>() { <span class="kw">return</span> <span class="var">ownerName</span>; }
+    <span class="kw">public void</span> <span class="fn">setOwnerName</span>(<span class="cl">String</span> <span class="var">name</span>) { <span class="var">ownerName</span> = <span class="var">name</span>; }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">BankAccount</span> <span class="var">myAccount</span> = <span class="kw">new</span> <span class="cl">BankAccount</span>();
+        <span class="var">myAccount</span>.<span class="fn">setOwnerName</span>(<span class="str">"Alex"</span>);
+        <span class="var">myAccount</span>.<span class="fn">deposit</span>(<span class="num">100.0</span>);   <span class="cm">// ✅ Deposited $100.0</span>
+        <span class="var">myAccount</span>.<span class="fn">deposit</span>(-<span class="num">50.0</span>);  <span class="cm">// ❌ Invalid amount!</span>
+        <span class="var">myAccount</span>.<span class="fn">withdraw</span>(<span class="num">30.0</span>);  <span class="cm">// 💸 Withdrew $30.0</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Balance: $"</span> + <span class="var">myAccount</span>.<span class="fn">getBalance</span>()); <span class="cm">// Balance: $70.0</span>
+    }
+}</pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🎯</div>
+        <div class="callout-body">
+          <strong>Why is this so useful?</strong>
+          Without encapsulation, someone could write <code>myAccount.balance = -9999999</code> and break everything! With private + setters, you control how data changes. You add protection rules!
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Build a Student Grade Book</h4>
+        <p>Create a <code>Student</code> class with private fields: <code>name</code>, <code>grade</code> (a number 0–100). Write:</p>
+        <ul>
+          <li>A getter <code>getGrade()</code></li>
+          <li>A setter <code>setGrade(int g)</code> that only allows 0–100</li>
+          <li>A method <code>getLetterGrade()</code> that returns "A", "B", "C", "D", or "F"</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which access modifier makes a field only accessible inside its own class?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">public</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">private</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">protected</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">hidden</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 3 ===================== -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>👪 Inheritance — Pass It Down!</h2>
+        <p class="lesson-intro">Inheritance lets a new class reuse and build upon the code of an existing class, just like you inherit traits from your parents!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think about <strong>animals</strong>. All animals eat and breathe. But a dog also barks and fetches. A cat also meows and purrs. So "Dog" and "Cat" <em>inherit</em> the basic animal traits and then add their own special ones. In Java, we say Dog and Cat <strong>extend</strong> Animal!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🌳 The extends Keyword</div>
+        <p>When a class <strong>extends</strong> another class, it becomes its "child" or "subclass". The original class is called the "parent" or "superclass". The child automatically gets all the parent's fields and methods!</p>
+        <ul>
+          <li><strong>Superclass</strong> (parent) = the general blueprint</li>
+          <li><strong>Subclass</strong> (child) = a more specific blueprint</li>
+          <li>The keyword <code>super</code> lets the child talk to the parent</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Inheritance with Animals</span>
+        </div>
+        <pre><span class="cm">// PARENT CLASS (Superclass)</span>
+<span class="kw">public class</span> <span class="cl">Animal</span> {
+    <span class="kw">protected</span> <span class="cl">String</span> <span class="var">name</span>;
+    <span class="kw">protected</span> <span class="kw">int</span> <span class="var">age</span>;
+
+    <span class="kw">public void</span> <span class="fn">eat</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is eating. 🍖"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">sleep</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is sleeping. 💤"</span>);
+    }
+}
+
+<span class="cm">// CHILD CLASS (Subclass) — Dog inherits from Animal</span>
+<span class="kw">public class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">breed</span>;
+
+    <span class="cm">// Dog's OWN special method</span>
+    <span class="kw">public void</span> <span class="fn">bark</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" says: WOOF WOOF! 🐕"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">fetch</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is fetching the ball! 🎾"</span>);
+    }
+}
+
+<span class="cm">// ANOTHER CHILD CLASS — Cat also inherits from Animal</span>
+<span class="kw">public class</span> <span class="cl">Cat</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+
+    <span class="kw">public void</span> <span class="fn">meow</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" says: Meow~ 😺"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">purr</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is purring... purrr 🐱"</span>);
+    }
+}
+
+<span class="cm">// Using it all together!</span>
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cl">Dog</span> <span class="var">dog</span> = <span class="kw">new</span> <span class="cl">Dog</span>();
+        <span class="var">dog</span>.<span class="var">name</span> = <span class="str">"Rex"</span>;
+        <span class="var">dog</span>.<span class="fn">eat</span>();    <span class="cm">// Inherited from Animal! Rex is eating. 🍖</span>
+        <span class="var">dog</span>.<span class="fn">bark</span>();   <span class="cm">// Dog's own method. Rex says: WOOF WOOF! 🐕</span>
+        <span class="var">dog</span>.<span class="fn">fetch</span>();  <span class="cm">// Dog's own method. Rex is fetching the ball! 🎾</span>
+
+        <span class="cl">Cat</span> <span class="var">cat</span> = <span class="kw">new</span> <span class="cl">Cat</span>();
+        <span class="var">cat</span>.<span class="var">name</span> = <span class="str">"Whiskers"</span>;
+        <span class="var">cat</span>.<span class="fn">sleep</span>();  <span class="cm">// Inherited from Animal! Whiskers is sleeping. 💤</span>
+        <span class="var">cat</span>.<span class="fn">meow</span>();   <span class="cm">// Cat's own method.</span>
+    }
+}</pre>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>Java only allows ONE parent class</strong>
+          In Java, a child class can only extend ONE parent. You can't write <code>class Dog extends Animal, Pet</code>. (But we can get around this with interfaces — coming up in Lesson 8!)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔄 Method Overriding</div>
+        <p>What if a child class wants to do the same thing as the parent, but <em>differently</em>? It can <strong>override</strong> the parent's method! You use the annotation <code>@Override</code> to make it clear.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Method Overriding</span>
+        </div>
+        <pre><span class="kw">public class</span> <span class="cl">Animal</span> {
+    <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Some generic animal sound..."</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    <span class="cm">// Override means "replace the parent's version"</span>
+    @Override
+    <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Woof woof! 🐕"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Cat</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    @Override
+    <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Meow meow! 😺"</span>);
+    }
+}</pre>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Build a Video Game with Inheritance</h4>
+        <p>Create a <code>Character</code> parent class with fields: <code>name</code>, <code>health</code>, <code>level</code>, and a method <code>attack()</code>. Then create two subclasses: <code>Warrior</code> (uses a sword ⚔️) and <code>Mage</code> (uses magic ✨). Override <code>attack()</code> in each to print a different message!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which keyword is used to make one class inherit from another in Java?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">inherits</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">super</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">extends</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">implements</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 4 ===================== -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🎭 Polymorphism — Many Forms!</h2>
+        <p class="lesson-intro">Polymorphism means "many forms." The same method name can behave differently depending on which object calls it. It's one of OOP's superpowers!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think about the word <strong>"speak"</strong>. If you tell a human to speak, they talk. If you tell a dog to speak, it barks. If you tell a parrot to speak, it squawks. Same command — totally different results! That's polymorphism.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎪 Two Types of Polymorphism</div>
+        <table>
+          <tr><th>Type</th><th>When it happens</th><th>Also called</th></tr>
+          <tr><td><span class="badge badge-purple">Compile-time</span></td><td>Method overloading — same name, different parameters</td><td>Static polymorphism</td></tr>
+          <tr><td><span class="badge badge-green">Runtime</span></td><td>Method overriding — child replaces parent method</td><td>Dynamic polymorphism</td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Polymorphism in Action</span>
+        </div>
+        <pre><span class="cm">// Same method name, different behavior per object!</span>
+<span class="kw">public class</span> <span class="cl">Animal</span> {
+    <span class="kw">protected</span> <span class="cl">String</span> <span class="var">name</span>;
+    <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"..."</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">": WOOF! 🐕"</span>);
+    }
+}
+<span class="kw">class</span> <span class="cl">Cat</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">": Meow! 😺"</span>);
+    }
+}
+<span class="kw">class</span> <span class="cl">Duck</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">": Quack! 🦆"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// An ARRAY of Animals — but some are Dogs, Cats, Ducks!</span>
+        <span class="cl">Animal</span>[] <span class="var">animals</span> = <span class="kw">new</span> <span class="cl">Animal</span>[<span class="num">3</span>];
+
+        <span class="cl">Dog</span> <span class="var">d</span> = <span class="kw">new</span> <span class="cl">Dog</span>(); <span class="var">d</span>.<span class="var">name</span> = <span class="str">"Rex"</span>;
+        <span class="cl">Cat</span> <span class="var">c</span> = <span class="kw">new</span> <span class="cl">Cat</span>(); <span class="var">c</span>.<span class="var">name</span> = <span class="str">"Luna"</span>;
+        <span class="cl">Duck</span> <span class="var">k</span> = <span class="kw">new</span> <span class="cl">Duck</span>(); <span class="var">k</span>.<span class="var">name</span> = <span class="str">"Donald"</span>;
+
+        <span class="var">animals</span>[<span class="num">0</span>] = <span class="var">d</span>;
+        <span class="var">animals</span>[<span class="num">1</span>] = <span class="var">c</span>;
+        <span class="var">animals</span>[<span class="num">2</span>] = <span class="var">k</span>;
+
+        <span class="cm">// One loop — each animal makes ITS OWN sound! 🎉</span>
+        <span class="kw">for</span> (<span class="cl">Animal</span> <span class="var">a</span> : <span class="var">animals</span>) {
+            <span class="var">a</span>.<span class="fn">makeSound</span>();
+        }
+        <span class="cm">// Output:</span>
+        <span class="cm">// Rex: WOOF! 🐕</span>
+        <span class="cm">// Luna: Meow! 😺</span>
+        <span class="cm">// Donald: Quack! 🦆</span>
+    }
+}</pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">✨</div>
+        <div class="callout-body">
+          <strong>Why is this powerful?</strong>
+          You can write ONE loop that works for ALL animals — even animal types you haven't invented yet! When you add a <code>Cow</code> class with its own <code>makeSound()</code>, the loop automatically handles it. No changes needed!
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Method Overloading (Compile-Time Polymorphism)</span>
+        </div>
+        <pre><span class="cm">// Same method name, different parameters = overloading!</span>
+<span class="kw">public class</span> <span class="cl">Calculator</span> {
+
+    <span class="cm">// Add two integers</span>
+    <span class="kw">public int</span> <span class="fn">add</span>(<span class="kw">int</span> <span class="var">a</span>, <span class="kw">int</span> <span class="var">b</span>) {
+        <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span>;
+    }
+
+    <span class="cm">// Add three integers (same name!)</span>
+    <span class="kw">public int</span> <span class="fn">add</span>(<span class="kw">int</span> <span class="var">a</span>, <span class="kw">int</span> <span class="var">b</span>, <span class="kw">int</span> <span class="var">c</span>) {
+        <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span> + <span class="var">c</span>;
+    }
+
+    <span class="cm">// Add two doubles (same name!)</span>
+    <span class="kw">public double</span> <span class="fn">add</span>(<span class="kw">double</span> <span class="var">a</span>, <span class="kw">double</span> <span class="var">b</span>) {
+        <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span>;
+    }
+}
+<span class="cm">// Java figures out WHICH version to call automatically!</span></pre>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Create a Shape Drawing App</h4>
+        <p>Create a <code>Shape</code> class with a method <code>draw()</code>. Create 3 subclasses: <code>Circle</code>, <code>Square</code>, and <code>Triangle</code>. Each overrides <code>draw()</code> to print something like "Drawing a circle ⭕". Then store them all in a <code>Shape[]</code> array and loop through, calling <code>draw()</code> on each!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What does "polymorphism" literally mean?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Many classes</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Many forms</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Many objects</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Many parents</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 5 ===================== -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>🧩 Abstraction — Show the Big Picture!</h2>
+        <p class="lesson-intro">Abstraction means hiding complex details and showing only the essential features. It helps you focus on WHAT something does instead of HOW it does it.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>When you drive a car (or watch someone drive), you press the <strong>gas pedal</strong> to go faster. You don't need to know how the engine, fuel injectors, and crankshaft all work together internally. The car abstracts all that complexity away and gives you a simple interface: steering wheel, gas, brake. That's abstraction!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔵 Abstract Classes</div>
+        <p>An <strong>abstract class</strong> is a class that can't be used to create objects directly — it's just a template! It can have abstract methods (no body) that subclasses <strong>must</strong> implement.</p>
+        <ul>
+          <li>Use keyword <code>abstract</code> before <code>class</code></li>
+          <li>Abstract methods have no body — just a declaration</li>
+          <li>Subclasses MUST provide implementations for all abstract methods</li>
+          <li>You can still have regular methods in abstract classes</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Abstract Classes</span>
+        </div>
+        <pre><span class="cm">// Abstract class — can't be used to create an object directly!</span>
+<span class="kw">public abstract class</span> <span class="cl">Vehicle</span> {
+
+    <span class="kw">protected</span> <span class="cl">String</span> <span class="var">brand</span>;
+    <span class="kw">protected</span> <span class="kw">int</span> <span class="var">speed</span>;
+
+    <span class="cm">// Abstract method — subclasses MUST implement this</span>
+    <span class="kw">public abstract void</span> <span class="fn">move</span>();
+    <span class="kw">public abstract void</span> <span class="fn">fuelUp</span>();
+
+    <span class="cm">// Regular method — already complete!</span>
+    <span class="kw">public void</span> <span class="fn">showInfo</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Brand: "</span> + <span class="var">brand</span> + <span class="str">" | Speed: "</span> + <span class="var">speed</span> + <span class="str">"km/h"</span>);
+    }
+}
+
+<span class="cm">// Car implements the abstract methods</span>
+<span class="kw">public class</span> <span class="cl">Car</span> <span class="kw">extends</span> <span class="cl">Vehicle</span> {
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">move</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">brand</span> + <span class="str">" car is driving on the road! 🚗"</span>);
+    }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">fuelUp</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Filling up with gasoline ⛽"</span>);
+    }
+}
+
+<span class="cm">// Boat implements the abstract methods differently</span>
+<span class="kw">public class</span> <span class="cl">Boat</span> <span class="kw">extends</span> <span class="cl">Vehicle</span> {
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">move</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">brand</span> + <span class="str">" boat is sailing on water! ⛵"</span>);
+    }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">fuelUp</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Filling up with marine diesel 🛢️"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Car</span> <span class="var">car</span> = <span class="kw">new</span> <span class="cl">Car</span>();
+        <span class="var">car</span>.<span class="var">brand</span> = <span class="str">"Toyota"</span>;
+        <span class="var">car</span>.<span class="var">speed</span> = <span class="num">120</span>;
+        <span class="var">car</span>.<span class="fn">showInfo</span>();  <span class="cm">// Brand: Toyota | Speed: 120km/h</span>
+        <span class="var">car</span>.<span class="fn">move</span>();      <span class="cm">// Toyota car is driving on the road! 🚗</span>
+        <span class="var">car</span>.<span class="fn">fuelUp</span>();    <span class="cm">// Filling up with gasoline ⛽</span>
+    }
+}</pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-emoji">📌</div>
+        <div class="callout-body">
+          <strong>Abstract vs Regular Class</strong>
+          You CANNOT do: <code>Vehicle v = new Vehicle();</code> — Java will give you an error! Abstract classes are templates only. You CAN do: <code>Vehicle v = new Car();</code> — using a Car object stored as a Vehicle type.
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Build an Abstract Phone System</h4>
+        <p>Create an abstract class <code>Phone</code> with fields <code>brand</code> and <code>model</code>, and abstract methods <code>call(String number)</code> and <code>chargeBattery()</code>. Then create two classes: <code>Smartphone</code> and <code>FlipPhone</code>. Each implements the methods differently!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Can you create an object directly from an abstract class?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Yes, always</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">No, never</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Only if it has methods</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Only in Java 17+</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 6 ===================== -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>🔧 Constructors — The Birth of an Object!</h2>
+        <p class="lesson-intro">A constructor is a special method that runs automatically when you create an object. It's how you "set up" an object with its starting data right from birth!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>When a baby is born, they already have some things set: a name, a birth date, eye color. The constructor is like the "birth certificate" — it's filled out the moment the object is created, giving it its starting values right away!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📦 What Is a Constructor?</div>
+        <ul>
+          <li>It has the <strong>same name as the class</strong></li>
+          <li>It has <strong>no return type</strong> (not even void)</li>
+          <li>It runs <strong>automatically</strong> when you write <code>new ClassName()</code></li>
+          <li>You can have <strong>multiple constructors</strong> with different parameters (overloading!)</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Constructors</span>
+        </div>
+        <pre><span class="kw">public class</span> <span class="cl">Student</span> {
+
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">name</span>;
+    <span class="kw">private</span> <span class="kw">int</span> <span class="var">grade</span>;
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">school</span>;
+
+    <span class="cm">// Constructor #1 — no parameters (default)</span>
+    <span class="kw">public</span> <span class="fn">Student</span>() {
+        <span class="var">name</span>   = <span class="str">"Unknown"</span>;
+        <span class="var">grade</span>  = <span class="num">0</span>;
+        <span class="var">school</span> = <span class="str">"Unknown School"</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"A new student was created (no info)!"</span>);
+    }
+
+    <span class="cm">// Constructor #2 — provide name and grade</span>
+    <span class="kw">public</span> <span class="fn">Student</span>(<span class="cl">String</span> <span class="var">studentName</span>, <span class="kw">int</span> <span class="var">studentGrade</span>) {
+        <span class="var">name</span>  = <span class="var">studentName</span>;
+        <span class="var">grade</span> = <span class="var">studentGrade</span>;
+        <span class="var">school</span> = <span class="str">"Default School"</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Student created: "</span> + <span class="var">name</span>);
+    }
+
+    <span class="cm">// Constructor #3 — full details</span>
+    <span class="kw">public</span> <span class="fn">Student</span>(<span class="cl">String</span> <span class="var">studentName</span>, <span class="kw">int</span> <span class="var">studentGrade</span>, <span class="cl">String</span> <span class="var">schoolName</span>) {
+        <span class="var">name</span>   = <span class="var">studentName</span>;
+        <span class="var">grade</span>  = <span class="var">studentGrade</span>;
+        <span class="var">school</span> = <span class="var">schoolName</span>;
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Student created: "</span> + <span class="var">name</span> + <span class="str">" at "</span> + <span class="var">school</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">introduce</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi! I'm "</span> + <span class="var">name</span> +
+            <span class="str">", Grade "</span> + <span class="var">grade</span> + <span class="str">" at "</span> + <span class="var">school</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// Uses Constructor #1</span>
+        <span class="cl">Student</span> <span class="var">s1</span> = <span class="kw">new</span> <span class="cl">Student</span>();
+        <span class="var">s1</span>.<span class="fn">introduce</span>();
+
+        <span class="cm">// Uses Constructor #2</span>
+        <span class="cl">Student</span> <span class="var">s2</span> = <span class="kw">new</span> <span class="cl">Student</span>(<span class="str">"Alex"</span>, <span class="num">7</span>);
+        <span class="var">s2</span>.<span class="fn">introduce</span>();
+
+        <span class="cm">// Uses Constructor #3</span>
+        <span class="cl">Student</span> <span class="var">s3</span> = <span class="kw">new</span> <span class="cl">Student</span>(<span class="str">"Maria"</span>, <span class="num">8</span>, <span class="str">"Oakwood Academy"</span>);
+        <span class="var">s3</span>.<span class="fn">introduce</span>();
+    }
+}</pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔑</div>
+        <div class="callout-body">
+          <strong>The <code>this</code> keyword</strong>
+          Inside a constructor (or method), <code>this</code> refers to the current object. If your parameter has the same name as a field, use <code>this.name = name</code> to be clear — "this object's name = the parameter called name."
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Using 'this' keyword</span>
+        </div>
+        <pre><span class="kw">public class</span> <span class="cl">Pizza</span> {
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">size</span>;
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">topping</span>;
+
+    <span class="cm">// "this.size" = the field, "size" = the parameter</span>
+    <span class="kw">public</span> <span class="fn">Pizza</span>(<span class="cl">String</span> <span class="var">size</span>, <span class="cl">String</span> <span class="var">topping</span>) {
+        <span class="kw">this</span>.<span class="var">size</span>    = <span class="var">size</span>;
+        <span class="kw">this</span>.<span class="var">topping</span> = <span class="var">topping</span>;
+    }
+
+    <span class="kw">public void</span> <span class="fn">describe</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"A "</span> + <span class="var">size</span> + <span class="str">" pizza with "</span> + <span class="var">topping</span> + <span class="str">"! 🍕"</span>);
+    }
+}</pre>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Build a Book Library System</h4>
+        <p>Create a <code>Book</code> class with a constructor that takes <code>title</code>, <code>author</code>, and <code>pages</code>. Add a second constructor that only takes <code>title</code> and <code>author</code> (default pages = 100). Add a method <code>describe()</code>. Create 3 book objects using different constructors!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What is special about a constructor's name?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It must start with lowercase</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It must match the class name exactly</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It must start with "init"</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It can be any name</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 7 ===================== -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>🧲 Interfaces — Signing a Contract!</h2>
+        <p class="lesson-intro">An interface is like a contract that a class agrees to follow. It lists the methods a class MUST have, without saying how to do them. This solves the "one parent only" limitation!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think about a <strong>USB port</strong>. Any device that has a USB connector agrees to the "USB contract" — specific size, specific pins. A phone, a keyboard, a mouse — they're all totally different, but they all follow the same USB interface. In Java, classes that <code>implement</code> an interface agree to provide certain methods.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Interface vs Abstract Class</div>
+        <table>
+          <tr><th></th><th>Interface</th><th>Abstract Class</th></tr>
+          <tr><td>Can have fields?</td><td>Only constants</td><td>Yes</td></tr>
+          <tr><td>Methods with body?</td><td>Default methods only</td><td>Yes</td></tr>
+          <tr><td>A class can use how many?</td><td>Multiple!</td><td>Only one</td></tr>
+          <tr><td>Keyword</td><td><code>implements</code></td><td><code>extends</code></td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Interfaces in Action</span>
+        </div>
+        <pre><span class="cm">// An interface — defines a "contract"</span>
+<span class="kw">public interface</span> <span class="cl">Swimmable</span> {
+    <span class="kw">void</span> <span class="fn">swim</span>();  <span class="cm">// Any class that implements this MUST have swim()</span>
+}
+
+<span class="kw">public interface</span> <span class="cl">Flyable</span> {
+    <span class="kw">void</span> <span class="fn">fly</span>();
+}
+
+<span class="kw">public interface</span> <span class="cl">Talkable</span> {
+    <span class="kw">void</span> <span class="fn">talk</span>();
+}
+
+<span class="cm">// Duck can swim AND fly — implements TWO interfaces!</span>
+<span class="kw">public class</span> <span class="cl">Duck</span> <span class="kw">implements</span> <span class="cl">Swimmable</span>, <span class="cl">Flyable</span> {
+
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">name</span>;
+
+    <span class="kw">public</span> <span class="fn">Duck</span>(<span class="cl">String</span> <span class="var">name</span>) { <span class="kw">this</span>.<span class="var">name</span> = <span class="var">name</span>; }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">swim</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is swimming! 🏊"</span>);
+    }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">fly</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is flying! 🦆"</span>);
+    }
+}
+
+<span class="cm">// Parrot can fly AND talk!</span>
+<span class="kw">public class</span> <span class="cl">Parrot</span> <span class="kw">implements</span> <span class="cl">Flyable</span>, <span class="cl">Talkable</span> {
+
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">name</span>;
+    <span class="kw">public</span> <span class="fn">Parrot</span>(<span class="cl">String</span> <span class="var">name</span>) { <span class="kw">this</span>.<span class="var">name</span> = <span class="var">name</span>; }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">fly</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">" is flying! 🦜"</span>);
+    }
+
+    @Override
+    <span class="kw">public void</span> <span class="fn">talk</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="var">name</span> + <span class="str">": Polly wants a cracker! 🦜"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cl">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">Duck</span> <span class="var">duck</span> = <span class="kw">new</span> <span class="cl">Duck</span>(<span class="str">"Donald"</span>);
+        <span class="var">duck</span>.<span class="fn">swim</span>();  <span class="cm">// Donald is swimming! 🏊</span>
+        <span class="var">duck</span>.<span class="fn">fly</span>();   <span class="cm">// Donald is flying! 🦆</span>
+
+        <span class="cl">Parrot</span> <span class="var">parrot</span> = <span class="kw">new</span> <span class="cl">Parrot</span>(<span class="str">"Polly"</span>);
+        <span class="var">parrot</span>.<span class="fn">fly</span>();  <span class="cm">// Polly is flying! 🦜</span>
+        <span class="var">parrot</span>.<span class="fn">talk</span>(); <span class="cm">// Polly: Polly wants a cracker! 🦜</span>
+    }
+}</pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🎯</div>
+        <div class="callout-body">
+          <strong>Superpower: Multiple Interfaces!</strong>
+          A class can only <code>extend</code> ONE parent class. But it can <code>implement</code> as many interfaces as you want! This gives Java flexibility without the complications of multiple inheritance.
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Try It Yourself!</div>
+        <h4>Design a Superhero System</h4>
+        <p>Create interfaces: <code>Flyable</code>, <code>SuperStrong</code>, <code>Invisible</code>. Then create superheroes: <code>Superman</code> (Flyable + SuperStrong), <code>Invisible Woman</code> (Invisible + SuperStrong), <code>Iron Man</code> (Flyable only, but flies with a suit!). Make each implement the interfaces their way!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which keyword does a class use when it wants to use an interface?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">extends</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">inherits</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">implements</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">uses</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ===================== LESSON 8 — FINAL PROJECT ===================== -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9 — Final Project! 🏆</div>
+        <h2>🏆 Build a Zoo Management System!</h2>
+        <p class="lesson-intro">Bring EVERYTHING you've learned together! You'll build a complete Zoo app using all 4 pillars of OOP plus constructors and interfaces.</p>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🎉</div>
+        <div class="callout-body">
+          <strong>You've come so far!</strong>
+          You've learned Classes & Objects, Encapsulation, Inheritance, Polymorphism, Abstraction, Constructors, and Interfaces. Now let's use them ALL together to build something amazing!
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Project Plan</div>
+        <ul>
+          <li>🧩 <strong>Abstract class</strong>: <code>Animal</code> with abstract methods <code>makeSound()</code> and <code>feed()</code></li>
+          <li>🧲 <strong>Interfaces</strong>: <code>Swimmable</code>, <code>Flyable</code>, <code>Trainable</code></li>
+          <li>👪 <strong>Subclasses</strong>: <code>Lion</code>, <code>Penguin</code>, <code>Eagle</code>, <code>Dolphin</code></li>
+          <li>🔒 <strong>Encapsulation</strong>: Private fields with getters/setters</li>
+          <li>🔧 <strong>Constructors</strong>: Each animal built with name + age</li>
+          <li>🎭 <strong>Polymorphism</strong>: One loop that calls <code>makeSound()</code> on all animals</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Java — Zoo Management System (Complete!)</span>
+        </div>
+        <pre><span class="cm">// ============================================</span>
+<span class="cm">// INTERFACES</span>
+<span class="cm">// ============================================</span>
+<span class="kw">interface</span> <span class="cl">Swimmable</span> {
+    <span class="kw">void</span> <span class="fn">swim</span>();
+}
+<span class="kw">interface</span> <span class="cl">Flyable</span> {
+    <span class="kw">void</span> <span class="fn">fly</span>();
+}
+<span class="kw">interface</span> <span class="cl">Trainable</span> {
+    <span class="kw">void</span> <span class="fn">performTrick</span>(<span class="cl">String</span> <span class="var">trick</span>);
+}
+
+<span class="cm">// ============================================</span>
+<span class="cm">// ABSTRACT CLASS — the base for all animals</span>
+<span class="cm">// ============================================</span>
+<span class="kw">abstract class</span> <span class="cl">Animal</span> {
+    <span class="kw">private</span> <span class="cl">String</span> <span class="var">name</span>;
+    <span class="kw">private</span> <span class="kw">int</span> <span class="var">age</span>;
+    <span class="kw">private</span> <span class="kw">double</span> <span class="var">weight</span>;
+
+    <span class="cm">// Constructor</span>
+    <span class="kw">public</span> <span class="fn">Animal</span>(<span class="cl">String</span> <span class="var">name</span>, <span class="kw">int</span> <span class="var">age</span>, <span class="kw">double</span> <span class="var">weight</span>) {
+        <span class="kw">this</span>.<span class="var">name</span>   = <span class="var">name</span>;
+        <span class="kw">this</span>.<span class="var">age</span>    = <span class="var">age</span>;
+        <span class="kw">this</span>.<span class="var">weight</span> = <span class="var">weight</span>;
+    }
+
+    <span class="cm">// Getters (Encapsulation!)</span>
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getName</span>()   { <span class="kw">return</span> <span class="var">name</span>;   }
+    <span class="kw">public int</span>    <span class="fn">getAge</span>()    { <span class="kw">return</span> <span class="var">age</span>;    }
+    <span class="kw">public double</span> <span class="fn">getWeight</span>() { <span class="kw">return</span> <span class="var">weight</span>; }
+
+    <span class="cm">// Regular method — shared by all animals</span>
+    <span class="kw">public void</span> <span class="fn">displayInfo</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"🦮 Name: "</span> + <span class="var">name</span> +
+            <span class="str">" | Age: "</span> + <span class="var">age</span> + <span class="str">"yrs | Weight: "</span> + <span class="var">weight</span> + <span class="str">"kg"</span>);
+    }
+
+    <span class="cm">// Abstract methods — each subclass defines these!</span>
+    <span class="kw">public abstract void</span> <span class="fn">makeSound</span>();
+    <span class="kw">public abstract void</span> <span class="fn">feed</span>();
+}
+
+<span class="cm">// ============================================</span>
+<span class="cm">// SUBCLASSES</span>
+<span class="cm">// ============================================</span>
+<span class="kw">class</span> <span class="cl">Lion</span> <span class="kw">extends</span> <span class="cl">Animal</span> <span class="kw">implements</span> <span class="cl">Trainable</span> {
+    <span class="kw">public</span> <span class="fn">Lion</span>(<span class="cl">String</span> <span class="var">n</span>, <span class="kw">int</span> <span class="var">a</span>, <span class="kw">double</span> <span class="var">w</span>) { <span class="kw">super</span>(<span class="var">n</span>, <span class="var">a</span>, <span class="var">w</span>); }
+
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">": ROAARRR! 🦁"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">feed</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" gets 10kg of fresh meat. 🥩"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">performTrick</span>(<span class="cl">String</span> <span class="var">trick</span>) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" performs: "</span> + <span class="var">trick</span> + <span class="str">" 🎪"</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Penguin</span> <span class="kw">extends</span> <span class="cl">Animal</span> <span class="kw">implements</span> <span class="cl">Swimmable</span>, <span class="cl">Trainable</span> {
+    <span class="kw">public</span> <span class="fn">Penguin</span>(<span class="cl">String</span> <span class="var">n</span>, <span class="kw">int</span> <span class="var">a</span>, <span class="kw">double</span> <span class="var">w</span>) { <span class="kw">super</span>(<span class="var">n</span>, <span class="var">a</span>, <span class="var">w</span>); }
+
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">": Squawk squawk! 🐧"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">feed</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" gets a bucket of fish! 🐟"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">swim</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" dives and swims gracefully! 🏊"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">performTrick</span>(<span class="cl">String</span> <span class="var">trick</span>) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" waddles and does: "</span> + <span class="var">trick</span>);
+    }
+}
+
+<span class="kw">class</span> <span class="cl">Eagle</span> <span class="kw">extends</span> <span class="cl">Animal</span> <span class="kw">implements</span> <span class="cl">Flyable</span> {
+    <span class="kw">public</span> <span class="fn">Eagle</span>(<span class="cl">String</span> <span class="var">n</span>, <span class="kw">int</span> <span class="var">a</span>, <span class="kw">double</span> <span class="var">w</span>) { <span class="kw">super</span>(<span class="var">n</span>, <span class="var">a</span>, <span class="var">w</span>); }
+
+    @Override <span class="kw">public void</span> <span class="fn">makeSound</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">": Screech! 🦅"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">feed</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" catches a fish from the pond! 🐠"</span>);
+    }
+    @Override <span class="kw">public void</span> <span class="fn">fly</span>() {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="fn">getName</span>() + <span class="str">" soars high above the clouds! ☁️"</span>);
+    }
+}
+
+<span class="cm">// ============================================</span>
+<span class="cm">// MAIN — the Zoo opens!</span>
+<span class="cm">// ============================================</span>
+<span class="kw">public class</span> <span class="cl">Zoo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+
+        <span class="cm">// Create our animals using constructors</span>
+        <span class="cl">Animal</span>[] <span class="var">animals</span> = {
+            <span class="kw">new</span> <span class="cl">Lion</span>(<span class="str">"Simba"</span>, <span class="num">5</span>, <span class="num">190.0</span>),
+            <span class="kw">new</span> <span class="cl">Penguin</span>(<span class="str">"Pingu"</span>, <span class="num">3</span>, <span class="num">5.0</span>),
+            <span class="kw">new</span> <span class="cl">Eagle</span>(<span class="str">"Baldy"</span>, <span class="num">7</span>, <span class="num">6.5</span>)
+        };
+
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"=== 🦁 Welcome to OOP Zoo! 🦁 ==="</span>);
+
+        <span class="cm">// Polymorphism — one loop, each animal acts differently!</span>
+        <span class="kw">for</span> (<span class="cl">Animal</span> <span class="var">a</span> : <span class="var">animals</span>) {
+            <span class="var">a</span>.<span class="fn">displayInfo</span>();
+            <span class="var">a</span>.<span class="fn">makeSound</span>();
+            <span class="var">a</span>.<span class="fn">feed</span>();
+            <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"---"</span>);
+        }
+
+        <span class="cm">// Use interfaces specifically</span>
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== 🎪 Special Shows ==="</span>);
+        <span class="cl">Penguin</span> <span class="var">p</span> = (<span class="cl">Penguin</span>) <span class="var">animals</span>[<span class="num">1</span>];
+        <span class="var">p</span>.<span class="fn">swim</span>();
+        <span class="var">p</span>.<span class="fn">performTrick</span>(<span class="str">"slide on ice"</span>);
+
+        <span class="cl">Eagle</span> <span class="var">e</span> = (<span class="cl">Eagle</span>) <span class="var">animals</span>[<span class="num">2</span>];
+        <span class="var">e</span>.<span class="fn">fly</span>();
+    }
+}</pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🏆</div>
+        <div class="callout-body">
+          <strong>Congratulations! Look what you used:</strong>
+          ✅ Abstract class (Animal) · ✅ Interfaces (Swimmable, Flyable, Trainable) · ✅ Inheritance (extends Animal) · ✅ Polymorphism (one loop, many sounds) · ✅ Encapsulation (private + getters) · ✅ Constructors (name, age, weight) · ✅ Method Overriding (@Override)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚀 What to Build Next?</div>
+        <p>Now that you know OOP, here are awesome projects to try:</p>
+        <ul>
+          <li>🎮 A text-based RPG game with Warriors, Mages, and Rogues</li>
+          <li>🏦 A bank system with Checking and Savings accounts</li>
+          <li>🛒 A simple shopping cart with Products and Discounts</li>
+          <li>🏫 A school management system with Students and Teachers</li>
+          <li>🚀 A space exploration game with Planets and Spaceships</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Quiz!</div>
+        <div class="quiz-q">Which OOP concept means "hiding complexity and showing only what's needed"?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Polymorphism</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Inheritance</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Encapsulation</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Abstraction</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const totalLessons = 9;
+  const completed = new Set();
+  let currentLesson = 0;
+
+  function showLesson(idx) {
+    document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('lesson-' + idx).classList.add('active');
+    document.querySelectorAll('.nav-item')[idx].classList.add('active');
+    currentLesson = idx;
+    completed.add(idx);
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const pct = Math.round((completed.size / totalLessons) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+    // Update checkmarks
+    document.querySelectorAll('.nav-item').forEach((n, i) => {
+      let check = n.querySelector('.nav-check');
+      if (completed.has(i)) {
+        if (!check) {
+          check = document.createElement('span');
+          check.className = 'nav-check';
+          check.textContent = '✓';
+          n.appendChild(check);
+        }
+      }
+    });
+  }
+
+  function checkQuiz(btn, isCorrect) {
+    const block = btn.closest('.quiz-block');
+    const options = block.querySelectorAll('.quiz-option');
+    const lessonEl = btn.closest('.lesson');
+    const lessonId = lessonEl.id.split('-')[1];
+    const feedback = document.getElementById('qfeedback-' + lessonId);
+
+    options.forEach(o => o.disabled = true);
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      feedback.textContent = '🎉 Correct! Great job!';
+      feedback.className = 'quiz-feedback show ok';
+    } else {
+      btn.classList.add('wrong');
+      feedback.textContent = '❌ Not quite — check the lesson notes and try to find the right answer!';
+      feedback.className = 'quiz-feedback show bad';
+      // Highlight correct
+      options.forEach(o => {
+        if (o.onclick.toString().includes('true')) o.classList.add('correct');
+      });
+    }
+  }
+
+  // Mark first lesson as visited
+  completed.add(0);
+  updateProgress();
+</script>
+
+</body>
+</html>

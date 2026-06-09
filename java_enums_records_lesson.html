@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enums & Records — Core Java Mastery</title>
+<style>
+  :root {
+    --bg:#0d1117;--bg-card:#161b22;--bg-card-hover:#1c2230;--bg-inline:#1a2236;
+    --border:#21293a;--border-accent:#2d4a7a;
+    --blue-bright:#79b8ff;--blue-mid:#58a6ff;--blue-dim:#1f4e8c;--blue-glow:rgba(88,166,255,.12);
+    --green:#56d364;--green-dim:#1a3d20;--green-bright:#a8f0c0;
+    --red:#f85149;--red-dim:#3d1a1a;--red-bright:#ffa198;
+    --yellow:#e3b341;--yellow-dim:#3d2e0a;--yellow-bright:#f0d080;
+    --purple:#c084fc;--purple-dim:#2a1a4a;
+    --orange:#f0883e;--orange-dim:#2e1a0a;
+    --teal:#39d0d8;--teal-dim:#0d2d30;
+    --text-primary:#e6edf3;--text-secondary:#8b949e;--text-muted:#484f58;
+    --sidebar-w:270px;
+    --font-mono:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+    --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-sans);font-size:15px;line-height:1.7;display:flex;min-height:100vh}
+  #sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-card);border-right:1px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar-header{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
+  .sidebar-course-tag{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+  .sidebar-title{font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.4}
+  .sidebar-progress-wrap{padding:12px 18px;border-bottom:1px solid var(--border)}
+  .progress-label{font-size:11px;color:var(--text-secondary);margin-bottom:6px;display:flex;justify-content:space-between}
+  .progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--orange-dim),var(--orange));border-radius:2px;width:0%;transition:width .4s ease}
+  .sidebar-nav{padding:10px 0;flex:1}
+  .nav-section-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);padding:10px 18px 4px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:7px 18px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;font-size:13px;color:var(--text-secondary)}
+  .nav-item:hover{background:var(--bg-card-hover);color:var(--text-primary)}
+  .nav-item.active{border-left-color:var(--orange);color:var(--orange);background:var(--orange-dim)}
+  .nav-item.done{color:var(--green)}.nav-item.done .nav-dot{background:var(--green)}
+  .nav-dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex-shrink:0;transition:background .2s}
+  .nav-item.active .nav-dot{background:var(--orange);box-shadow:0 0 6px var(--orange)}
+  #main{margin-left:var(--sidebar-w);flex:1;max-width:860px;padding:48px 52px 80px}
+  .lesson-section{display:none;animation:fadeIn .25s ease}.lesson-section.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .lesson-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+  h1.lesson-title{font-size:34px;font-weight:700;line-height:1.2;letter-spacing:-.02em;color:var(--text-primary);margin-bottom:14px}
+  .lesson-subtitle{font-size:16px;color:var(--text-secondary);line-height:1.6;margin-bottom:32px;max-width:620px}
+  .lesson-meta{display:flex;gap:20px;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border)}
+  .meta-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);background:var(--bg-card);border:1px solid var(--border);padding:4px 12px;border-radius:20px}
+  .meta-pill .dot{width:6px;height:6px;border-radius:50%}
+  h2{font-size:22px;font-weight:600;color:var(--text-primary);margin:36px 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  h2::before{content:'';display:block;width:3px;height:20px;background:var(--orange);border-radius:2px}
+  h3{font-size:16px;font-weight:600;color:var(--orange);margin:24px 0 10px}
+  p{margin-bottom:14px;color:var(--text-primary);line-height:1.75}
+  .code-block{background:#090d13;border:1px solid var(--border);border-radius:8px;margin:16px 0 20px;overflow:hidden}
+  .code-header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
+  .code-filename{font-family:var(--font-mono);font-size:12px;color:var(--text-secondary)}
+  .code-tag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+  .tag-bad{background:var(--red-dim);color:var(--red)}.tag-good{background:var(--green-dim);color:var(--green)}
+  .tag-example{background:var(--blue-dim);color:var(--blue-bright)}.tag-output{background:#1a1a2e;color:#8888cc}
+  pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13.5px;line-height:1.65}
+  .kw{color:#ff7b72}.type{color:#79b8ff}.gen{color:#f0c070}.method{color:#d2a8ff}
+  .str{color:#a5d6ff}.num{color:#79c0ff}.comment{color:#484f58;font-style:italic}
+  .anno{color:#f0883e}.enum-const{color:#f0c070;font-weight:600}
+  code{font-family:var(--font-mono);font-size:13px;background:var(--bg-inline);color:var(--orange);padding:2px 7px;border-radius:4px;border:1px solid var(--border)}
+  .callout{border-radius:8px;padding:16px 18px;margin:18px 0;border-left:3px solid;font-size:14px;line-height:1.7}
+  .callout-title{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .callout.info{background:#0c1929;border-color:var(--blue-mid)}.callout.info .callout-title{color:var(--blue-mid)}
+  .callout.warning{background:var(--yellow-dim);border-color:var(--yellow)}.callout.warning .callout-title{color:var(--yellow)}
+  .callout.tip{background:var(--green-dim);border-color:var(--green)}.callout.tip .callout-title{color:var(--green)}
+  .callout.concept{background:var(--purple-dim);border-color:var(--purple)}.callout.concept .callout-title{color:var(--purple)}
+  .callout.orange{background:var(--orange-dim);border-color:var(--orange)}.callout.orange .callout-title{color:var(--orange)}
+  .analogy-card{background:linear-gradient(135deg,#0c1929 0%,#12102a 100%);border:1px solid var(--border-accent);border-radius:10px;padding:22px 24px;margin:20px 0;position:relative;overflow:hidden}
+  .analogy-card::before{content:'💡';position:absolute;top:18px;right:18px;font-size:22px;opacity:.5}
+  .analogy-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
+  .analogy-card p{color:var(--text-secondary);margin-bottom:0}.analogy-card strong{color:var(--text-primary)}
+  .concept-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+  .concept-tile{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;transition:border-color .2s}
+  .concept-tile:hover{border-color:var(--orange)}
+  .concept-tile-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+  .concept-tile-text{font-size:13px;color:var(--text-secondary);line-height:1.5}
+  .compare-table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:13.5px}
+  .compare-table th{background:var(--bg-card);padding:10px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);border-bottom:1px solid var(--border)}
+  .compare-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-primary);vertical-align:top}
+  .compare-table tr:last-child td{border-bottom:none}.compare-table tr:hover td{background:var(--bg-card-hover)}
+  .td-bad{color:var(--red)}.td-good{color:var(--green)}
+  .quiz-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:24px;margin:28px 0}
+  .quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
+  .quiz-q{font-size:15px;font-weight:500;color:var(--text-primary);margin-bottom:16px;line-height:1.5}
+  .quiz-options{display:flex;flex-direction:column;gap:8px}
+  .quiz-option{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 14px;cursor:pointer;font-size:13.5px;color:var(--text-secondary);transition:all .15s;display:flex;align-items:flex-start;gap:10px;text-align:left}
+  .quiz-option:hover{border-color:var(--orange);color:var(--text-primary);background:var(--orange-dim)}
+  .quiz-option.correct{border-color:var(--green);color:var(--green-bright);background:var(--green-dim)}
+  .quiz-option.wrong{border-color:var(--red);color:var(--red-bright);background:var(--red-dim)}
+  .option-letter{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:1px 6px;border-radius:3px;background:var(--border);flex-shrink:0;margin-top:1px}
+  .quiz-feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:7px;font-size:13.5px;line-height:1.6}
+  .quiz-feedback.show{display:block}
+  .quiz-feedback.correct-fb{background:var(--green-dim);color:var(--green-bright);border:1px solid var(--green)}
+  .quiz-feedback.wrong-fb{background:var(--red-dim);color:var(--red-bright);border:1px solid var(--red)}
+  .challenge-card{background:linear-gradient(135deg,#0f1d12 0%,#0d1117 100%);border:1px solid #2a4a30;border-radius:10px;padding:24px;margin:28px 0}
+  .challenge-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+  .challenge-title{font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:10px}
+  .challenge-desc{color:var(--text-secondary);font-size:14px;margin-bottom:14px}
+  .challenge-task{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px 14px;font-size:13.5px;color:var(--text-primary);margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+  .task-num{color:var(--green);font-family:var(--font-mono);font-size:12px;font-weight:600;flex-shrink:0;margin-top:2px}
+  .reveal-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);font-size:12px;padding:6px 14px;border-radius:5px;cursor:pointer;transition:all .15s;margin-top:8px;font-family:var(--font-sans)}
+  .reveal-btn:hover{border-color:var(--green);color:var(--green)}
+  .reveal-content{display:none;margin-top:12px}.reveal-content.show{display:block}
+  .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:28px;border-top:1px solid var(--border)}
+  .nav-btn{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:10px 20px;border-radius:7px;cursor:pointer;font-size:13px;font-family:var(--font-sans);transition:all .15s}
+  .nav-btn:hover{border-color:var(--orange);color:var(--orange)}
+  .nav-btn:disabled{opacity:.3;cursor:not-allowed}
+  .nav-btn.primary{background:var(--orange-dim);border-color:var(--orange);color:var(--orange);font-weight:500}
+  .nav-btn.primary:hover{background:#3d2510}
+  .section-indicator{font-size:12px;color:var(--text-muted)}
+  .step-list{margin:14px 0}
+  .step-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .step-item:last-child{border-bottom:none}
+  .step-num{width:26px;height:26px;background:var(--orange-dim);color:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
+  .step-content{flex:1}
+  .step-title{font-weight:600;color:var(--text-primary);margin-bottom:3px;font-size:14px}
+  .step-desc{color:var(--text-secondary);font-size:13.5px}
+  /* RECORD ANATOMY */
+  .record-anatomy{background:#090d13;border:1px solid var(--border);border-radius:10px;padding:28px 24px;margin:20px 0;text-align:center}
+  .ra-expr{font-family:var(--font-mono);font-size:22px;letter-spacing:.02em;margin-bottom:20px;line-height:1.5}
+  .ra-kw{color:#ff7b72}.ra-name{color:#d2a8ff}.ra-comp{color:#f0883e}.ra-types{color:#79b8ff}.ra-params{color:#e6edf3}
+  .ra-labels{display:flex;justify-content:center;gap:32px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap}
+  .ra-lbl{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .ra-lbl span:last-child{font-weight:600}
+  /* ENUM MEMBER TABLE */
+  .enum-member-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+  .em-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+  .em-card h4{font-family:var(--font-mono);font-size:13px;color:var(--orange);margin-bottom:4px}
+  .em-card p{font-size:13px;color:var(--text-secondary);margin-bottom:0}
+  /* BEFORE/AFTER */
+  .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+  .before-after-section { margin: 20px 0; }
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-course-tag">Core Java · Phase 2</div>
+    <div class="sidebar-title">Enums &amp; Records</div>
+  </div>
+  <div class="sidebar-progress-wrap">
+    <div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Enums</div>
+    <a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> What Is an Enum?</a>
+    <a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> Enum Methods &amp; Fields</a>
+    <a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Enums in switch</a>
+    <a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Enum with Constructor</a>
+    <a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> Enum Built-in Methods</a>
+    <div class="nav-section-label">Records</div>
+    <a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> What Is a Record?</a>
+    <a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Records in Practice</a>
+    <a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Customising Records</a>
+    <div class="nav-section-label">Finish</div>
+    <a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Enum vs Record vs Class</a>
+    <a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ══ S0: WHAT IS AN ENUM ══ -->
+<section class="lesson-section active" id="section-0">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 1 of 10</div>
+  <h1 class="lesson-title">What Is an Enum?</h1>
+  <p class="lesson-subtitle">An enum is a type with a fixed set of named constants. It replaces "magic numbers" and loose strings with something the compiler can verify.</p>
+  <div class="lesson-meta">
+    <div class="meta-pill"><span class="dot" style="background:var(--orange)"></span> Beginner-friendly</div>
+    <div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~8 min read</div>
+    <div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
+  </div>
+
+  <h2>The Problem Enums Solve</h2>
+  <p>Imagine you're writing code for the days of the week. Without enums, you might use integers or strings:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">BadDays.java</span><span class="code-tag tag-bad">⚠ Using Strings/Ints</span></div>
+    <pre><span class="comment">// Using integers — what does "3" mean?</span>
+<span class="kw">int</span> today = <span class="num">3</span>;
+<span class="kw">if</span> (today == <span class="num">8</span>) {  <span class="comment">// ← compiles fine. "8" is not a valid day!</span>
+    <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Holiday!"</span>);
+}
+
+<span class="comment">// Using Strings — typos go undetected</span>
+<span class="type">String</span> day = <span class="str">"TUSDAY"</span>;  <span class="comment">// ← typo! compiles fine.</span>
+<span class="kw">if</span> (day.<span class="method">equals</span>(<span class="str">"TUESDAY"</span>)) { ... }  <span class="comment">// never true</span></pre>
+  </div>
+
+  <p>Both compile without error. The mistakes only surface at runtime — or not at all, causing silent incorrect behaviour.</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">GoodDays.java</span><span class="code-tag tag-good">✓ Using an Enum</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">Day</span> {
+    <span class="enum-const">MONDAY</span>, <span class="enum-const">TUESDAY</span>, <span class="enum-const">WEDNESDAY</span>,
+    <span class="enum-const">THURSDAY</span>, <span class="enum-const">FRIDAY</span>, <span class="enum-const">SATURDAY</span>, <span class="enum-const">SUNDAY</span>
+}
+
+<span class="type">Day</span> today = <span class="type">Day</span>.<span class="enum-const">MONDAY</span>;
+
+<span class="comment">// today = Day.TUSDAY;  ← ❌ compile error — doesn't exist</span>
+<span class="comment">// today = 8;           ← ❌ compile error — wrong type</span>
+
+<span class="kw">if</span> (today == <span class="type">Day</span>.<span class="enum-const">MONDAY</span>) {
+    <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Start of the week!"</span>);
+}</pre>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">✓ Enums Are a Class</div>
+    Despite the <code>enum</code> keyword, Java enums are full classes under the hood. They can have fields, methods, and constructors. They also implicitly extend <code>java.lang.Enum</code> and cannot be subclassed.
+  </div>
+
+  <h2>Basic Syntax</h2>
+  <div class="concept-row">
+    <div class="concept-tile"><div class="concept-tile-label">Declaration</div><div class="concept-tile-text">Use <code>enum</code> keyword. Constants are UPPER_SNAKE_CASE by convention.</div></div>
+    <div class="concept-tile"><div class="concept-tile-label">Usage</div><div class="concept-tile-text"><code>EnumName.CONSTANT</code> — the enum type plus the constant name.</div></div>
+    <div class="concept-tile"><div class="concept-tile-label">Comparison</div><div class="concept-tile-text">Use <code>==</code> to compare enum values — they're singletons, so reference equality is safe.</div></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" disabled>← Previous</button>
+    <span class="section-indicator">Section 1 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(1)">Enum Methods &amp; Fields →</button>
+  </div>
+</section>
+
+<!-- ══ S1: ENUM METHODS & FIELDS ══ -->
+<section class="lesson-section" id="section-1">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 2 of 10</div>
+  <h1 class="lesson-title">Enum Methods &amp; Fields</h1>
+  <p class="lesson-subtitle">Enums aren't just named constants. Each constant is an instance of the enum class, and the class can carry data and behaviour.</p>
+
+  <h2>Enums Can Have Fields and Methods</h2>
+  <p>A common real-world use: an enum for planets, each carrying its mass and radius, with a method to compute surface gravity.</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Planet.java</span><span class="code-tag tag-example">Enum with Fields</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">Planet</span> {
+
+    <span class="comment">// Each constant calls the constructor with (mass, radius)</span>
+    <span class="enum-const">MERCURY</span>(<span class="num">3.303e+23</span>, <span class="num">2.4397e6</span>),
+    <span class="enum-const">VENUS</span>  (<span class="num">4.869e+24</span>, <span class="num">6.0518e6</span>),
+    <span class="enum-const">EARTH</span>  (<span class="num">5.976e+24</span>, <span class="num">6.37814e6</span>),
+    <span class="enum-const">MARS</span>   (<span class="num">6.421e+23</span>, <span class="num">3.3972e6</span>);
+
+    <span class="kw">private final double</span> mass;    <span class="comment">// in kilograms</span>
+    <span class="kw">private final double</span> radius;  <span class="comment">// in metres</span>
+
+    <span class="comment">// Private constructor (always private in enums)</span>
+    <span class="type">Planet</span>(<span class="kw">double</span> mass, <span class="kw">double</span> radius) {
+        <span class="kw">this</span>.mass   = mass;
+        <span class="kw">this</span>.radius = radius;
+    }
+
+    <span class="kw">static final double</span> G = <span class="num">6.67300E-11</span>;
+
+    <span class="kw">public double</span> <span class="method">surfaceGravity</span>() {
+        <span class="kw">return</span> G * mass / (radius * radius);
+    }
+
+    <span class="kw">public double</span> <span class="method">surfaceWeight</span>(<span class="kw">double</span> otherMass) {
+        <span class="kw">return</span> otherMass * <span class="method">surfaceGravity</span>();
+    }
+}
+
+<span class="comment">// Usage:</span>
+<span class="kw">double</span> earthWeight = <span class="num">75.0</span>;
+<span class="kw">double</span> mass        = earthWeight / <span class="type">Planet</span>.<span class="enum-const">EARTH</span>.<span class="method">surfaceGravity</span>();
+
+<span class="kw">for</span> (<span class="type">Planet</span> p : <span class="type">Planet</span>.<span class="method">values</span>()) {
+    <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"Weight on %s: %.2f%n"</span>, p, p.<span class="method">surfaceWeight</span>(mass));
+}</pre>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">📐 Enum Constructor is Always Private</div>
+    You never write <code>new Planet(...)</code> — the constants are created automatically when the class loads. The constructor syntax appears inside the constant list, not in your calling code. If you omit <code>private</code>, Java treats it as private anyway.
+  </div>
+
+  <h2>Abstract Methods on Enums</h2>
+  <p>Each constant can provide its own implementation of an abstract method — essentially giving every constant different behaviour:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Operation.java</span><span class="code-tag tag-example">Per-Constant Behaviour</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">Operation</span> {
+    <span class="enum-const">PLUS</span>(<span class="str">"+"</span>) {
+        <span class="kw">public double</span> <span class="method">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x + y; }
+    },
+    <span class="enum-const">MINUS</span>(<span class="str">"-"</span>) {
+        <span class="kw">public double</span> <span class="method">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x - y; }
+    },
+    <span class="enum-const">TIMES</span>(<span class="str">"*"</span>) {
+        <span class="kw">public double</span> <span class="method">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">return</span> x * y; }
+    };
+
+    <span class="kw">private final</span> <span class="type">String</span> symbol;
+    <span class="type">Operation</span>(<span class="type">String</span> symbol) { <span class="kw">this</span>.symbol = symbol; }
+
+    <span class="kw">public abstract double</span> <span class="method">apply</span>(<span class="kw">double</span> x, <span class="kw">double</span> y);
+
+    <span class="anno">@Override</span>
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">toString</span>() { <span class="kw">return</span> symbol; }
+}
+
+<span class="comment">// Usage:</span>
+<span class="kw">double</span> x = <span class="num">4</span>, y = <span class="num">2</span>;
+<span class="kw">for</span> (<span class="type">Operation</span> op : <span class="type">Operation</span>.<span class="method">values</span>()) {
+    <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%.0f %s %.0f = %.0f%n"</span>, x, op, y, op.<span class="method">apply</span>(x, y));
+}
+<span class="comment">// 4 + 2 = 6</span>
+<span class="comment">// 4 - 2 = 2</span>
+<span class="comment">// 4 * 2 = 8</span></pre>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(0)">← What Is an Enum?</button>
+    <span class="section-indicator">Section 2 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(2)">Enums in switch →</button>
+  </div>
+</section>
+
+<!-- ══ S2: ENUMS IN SWITCH ══ -->
+<section class="lesson-section" id="section-2">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 3 of 10</div>
+  <h1 class="lesson-title">Enums in <code>switch</code></h1>
+  <p class="lesson-subtitle">Enums and switch expressions are a natural pair. The compiler can warn you if you miss a constant — making your code exhaustive and safe.</p>
+
+  <h2>Classic switch Statement</h2>
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">SwitchEnum.java</span><span class="code-tag tag-example">switch + enum</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">Season</span> { <span class="enum-const">SPRING</span>, <span class="enum-const">SUMMER</span>, <span class="enum-const">AUTUMN</span>, <span class="enum-const">WINTER</span> }
+
+<span class="type">Season</span> s = <span class="type">Season</span>.<span class="enum-const">SUMMER</span>;
+
+<span class="kw">switch</span> (s) {
+    <span class="kw">case</span> <span class="enum-const">SPRING</span>:
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Flowers bloom"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="enum-const">SUMMER</span>:
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"It's hot!"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="enum-const">AUTUMN</span>:
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Leaves fall"</span>); <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="enum-const">WINTER</span>:
+        <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Snow falls"</span>); <span class="kw">break</span>;
+}
+<span class="comment">// It's hot!</span></pre>
+  </div>
+
+  <h2>Modern switch Expression (Java 14+)</h2>
+  <p>The newer arrow-syntax switch is cleaner — no <code>break</code>, no fall-through, and it can return a value:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">SwitchExpression.java</span><span class="code-tag tag-good">✓ Modern switch Expression</span></div>
+    <pre><span class="type">Season</span> season = <span class="type">Season</span>.<span class="enum-const">AUTUMN</span>;
+
+<span class="type">String</span> description = <span class="kw">switch</span> (season) {
+    <span class="kw">case</span> <span class="enum-const">SPRING</span> -> <span class="str">"Flowers bloom"</span>;
+    <span class="kw">case</span> <span class="enum-const">SUMMER</span> -> <span class="str">"It's hot!"</span>;
+    <span class="kw">case</span> <span class="enum-const">AUTUMN</span> -> <span class="str">"Leaves fall"</span>;
+    <span class="kw">case</span> <span class="enum-const">WINTER</span> -> <span class="str">"Snow falls"</span>;
+};  <span class="comment">// No default needed — compiler knows all Season values are covered</span>
+
+<span class="type">System</span>.out.<span class="method">println</span>(description);  <span class="comment">// Leaves fall</span></pre>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">✓ Exhaustiveness Checking</div>
+    When you switch on an enum with the modern expression syntax and cover all constants, you don't need a <code>default</code>. Better still — if you add a new constant to the enum later, the compiler will tell you every switch that doesn't handle it yet.
+  </div>
+
+  <h2>Real-World Example: HTTP Status</h2>
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">HttpStatus.java</span><span class="code-tag tag-example">Practical Enum + switch</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">HttpStatus</span> {
+    <span class="enum-const">OK</span>(<span class="num">200</span>), <span class="enum-const">NOT_FOUND</span>(<span class="num">404</span>), <span class="enum-const">SERVER_ERROR</span>(<span class="num">500</span>), <span class="enum-const">UNAUTHORIZED</span>(<span class="num">401</span>);
+
+    <span class="kw">private final int</span> code;
+    <span class="type">HttpStatus</span>(<span class="kw">int</span> code) { <span class="kw">this</span>.code = code; }
+    <span class="kw">public int</span> <span class="method">getCode</span>() { <span class="kw">return</span> code; }
+}
+
+<span class="kw">public static</span> <span class="type">String</span> <span class="method">handle</span>(<span class="type">HttpStatus</span> status) {
+    <span class="kw">return switch</span> (status) {
+        <span class="kw">case</span> <span class="enum-const">OK</span>          -> <span class="str">"Request successful"</span>;
+        <span class="kw">case</span> <span class="enum-const">NOT_FOUND</span>    -> <span class="str">"Resource not found"</span>;
+        <span class="kw">case</span> <span class="enum-const">UNAUTHORIZED</span> -> <span class="str">"Please log in"</span>;
+        <span class="kw">case</span> <span class="enum-const">SERVER_ERROR</span>  -> <span class="str">"Something went wrong on our end"</span>;
+    };
+}
+
+<span class="type">System</span>.out.<span class="method">println</span>(<span class="method">handle</span>(<span class="type">HttpStatus</span>.<span class="enum-const">NOT_FOUND</span>));  <span class="comment">// Resource not found</span></pre>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-label">🧠 Quick Check</div>
+    <div class="quiz-q">When switching on an enum with the modern arrow syntax and all constants are covered, do you need a <code>default</code> case?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> Yes, always — default is required</button>
+      <button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">B</span> No — the compiler considers the switch exhaustive</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">C</span> Only if there are more than 4 constants</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> Only with the old switch statement, not expressions</button>
+    </div>
+    <div class="quiz-feedback" id="q1-feedback"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(1)">← Enum Methods &amp; Fields</button>
+    <span class="section-indicator">Section 3 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(3)">Enum with Constructor →</button>
+  </div>
+</section>
+
+<!-- ══ S3: ENUM WITH CONSTRUCTOR ══ -->
+<section class="lesson-section" id="section-3">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 4 of 10</div>
+  <h1 class="lesson-title">Enum with Constructor</h1>
+  <p class="lesson-subtitle">Adding a constructor to an enum lets each constant carry associated data — turning a simple label into a rich type.</p>
+
+  <h2>The Pattern</h2>
+  <div class="step-list">
+    <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-title">Declare fields</div><div class="step-desc">Usually <code>private final</code> — enum state shouldn't change.</div></div></div>
+    <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-title">Write a constructor</div><div class="step-desc">Always private (or package-private, which Java treats the same). Takes the field values.</div></div></div>
+    <div class="step-item"><div class="step-num">3</div><div class="step-content"><div class="step-title">Pass values in the constant list</div><div class="step-desc">Each constant calls the constructor: <code>CONSTANT(arg1, arg2)</code>.</div></div></div>
+    <div class="step-item"><div class="step-num">4</div><div class="step-content"><div class="step-title">Add getters</div><div class="step-desc">Expose the data with regular getter methods.</div></div></div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">CoffeeSize.java</span><span class="code-tag tag-example">Enum with Constructor</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">CoffeeSize</span> {
+
+    <span class="enum-const">SMALL</span> (<span class="str">"Small"</span>,   <span class="num">8</span>,   <span class="num">2.50</span>),
+    <span class="enum-const">MEDIUM</span>(<span class="str">"Medium"</span>, <span class="num">12</span>,  <span class="num">3.25</span>),
+    <span class="enum-const">LARGE</span> (<span class="str">"Large"</span>,  <span class="num">16</span>,  <span class="num">4.00</span>),
+    <span class="enum-const">VENTI</span> (<span class="str">"Venti"</span>,  <span class="num">20</span>,  <span class="num">4.75</span>);
+
+    <span class="kw">private final</span> <span class="type">String</span> label;
+    <span class="kw">private final int</span>    ounces;
+    <span class="kw">private final double</span> price;
+
+    <span class="type">CoffeeSize</span>(<span class="type">String</span> label, <span class="kw">int</span> ounces, <span class="kw">double</span> price) {
+        <span class="kw">this</span>.label  = label;
+        <span class="kw">this</span>.ounces = ounces;
+        <span class="kw">this</span>.price  = price;
+    }
+
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">getLabel</span>()  { <span class="kw">return</span> label;  }
+    <span class="kw">public int</span>    <span class="method">getOunces</span>() { <span class="kw">return</span> ounces; }
+    <span class="kw">public double</span> <span class="method">getPrice</span>()  { <span class="kw">return</span> price;  }
+}
+
+<span class="comment">// Usage:</span>
+<span class="type">CoffeeSize</span> order = <span class="type">CoffeeSize</span>.<span class="enum-const">LARGE</span>;
+<span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%s (%d oz) — $%.2f%n"</span>,
+    order.<span class="method">getLabel</span>(), order.<span class="method">getOunces</span>(), order.<span class="method">getPrice</span>());
+<span class="comment">// Large (16 oz) — $4.00</span>
+
+<span class="comment">// Loop all sizes:</span>
+<span class="kw">for</span> (<span class="type">CoffeeSize</span> size : <span class="type">CoffeeSize</span>.<span class="method">values</span>()) {
+    <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%-8s %2d oz  $%.2f%n"</span>,
+        size.<span class="method">getLabel</span>(), size.<span class="method">getOunces</span>(), size.<span class="method">getPrice</span>());
+}</pre>
+  </div>
+
+  <div class="callout orange">
+    <div class="callout-title">🔑 Key Point</div>
+    Each enum constant is effectively a <strong>singleton instance</strong> of the enum class, created with the arguments you specify. There is exactly one <code>CoffeeSize.LARGE</code> in the JVM — forever. That's why <code>==</code> comparison is safe for enums.
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(2)">← Enums in switch</button>
+    <span class="section-indicator">Section 4 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(4)">Enum Built-in Methods →</button>
+  </div>
+</section>
+
+<!-- ══ S4: ENUM BUILT-IN METHODS ══ -->
+<section class="lesson-section" id="section-4">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 5 of 10</div>
+  <h1 class="lesson-title">Enum Built-in Methods</h1>
+  <p class="lesson-subtitle">Every enum automatically inherits a set of useful methods from <code>java.lang.Enum</code>. You don't write them — they're always there.</p>
+
+  <div class="enum-member-grid">
+    <div class="em-card"><h4>name()</h4><p>Returns the constant's name as declared — exact string, e.g. <code>"MONDAY"</code></p></div>
+    <div class="em-card"><h4>ordinal()</h4><p>Returns the zero-based position in the declaration order. MONDAY=0, TUESDAY=1, etc.</p></div>
+    <div class="em-card"><h4>values()</h4><p>Static method — returns an array of all constants in declaration order.</p></div>
+    <div class="em-card"><h4>valueOf(String)</h4><p>Static method — returns the constant with that name. Throws if not found.</p></div>
+    <div class="em-card"><h4>toString()</h4><p>By default returns <code>name()</code>. Can be overridden for custom output.</p></div>
+    <div class="em-card"><h4>compareTo()</h4><p>Compares by ordinal. Lets you sort enums naturally.</p></div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">EnumMethods.java</span><span class="code-tag tag-example">All Built-in Methods</span></div>
+    <pre><span class="kw">public enum</span> <span class="type">Direction</span> { <span class="enum-const">NORTH</span>, <span class="enum-const">EAST</span>, <span class="enum-const">SOUTH</span>, <span class="enum-const">WEST</span> }
+
+<span class="type">Direction</span> d = <span class="type">Direction</span>.<span class="enum-const">EAST</span>;
+
+<span class="type">System</span>.out.<span class="method">println</span>(d.<span class="method">name</span>());      <span class="comment">// EAST</span>
+<span class="type">System</span>.out.<span class="method">println</span>(d.<span class="method">ordinal</span>());   <span class="comment">// 1  (NORTH=0, EAST=1, SOUTH=2, WEST=3)</span>
+<span class="type">System</span>.out.<span class="method">println</span>(d.<span class="method">toString</span>()); <span class="comment">// EAST</span>
+
+<span class="comment">// All values</span>
+<span class="kw">for</span> (<span class="type">Direction</span> dir : <span class="type">Direction</span>.<span class="method">values</span>()) {
+    <span class="type">System</span>.out.<span class="method">println</span>(dir.<span class="method">ordinal</span>() + <span class="str">": "</span> + dir);
+}
+
+<span class="comment">// From a String</span>
+<span class="type">Direction</span> parsed = <span class="type">Direction</span>.<span class="method">valueOf</span>(<span class="str">"NORTH"</span>);  <span class="comment">// Direction.NORTH</span>
+<span class="comment">// Direction.valueOf("NORTHWEST");  ← ❌ IllegalArgumentException</span>
+
+<span class="comment">// EnumSet and EnumMap — optimised collections for enums</span>
+<span class="kw">import</span> java.util.*;
+<span class="type">EnumSet</span>&lt;<span class="type">Direction</span>&gt; cardinals = <span class="type">EnumSet</span>.<span class="method">of</span>(<span class="type">Direction</span>.<span class="enum-const">NORTH</span>, <span class="type">Direction</span>.<span class="enum-const">SOUTH</span>);
+<span class="type">System</span>.out.<span class="method">println</span>(cardinals);  <span class="comment">// [NORTH, SOUTH]</span></pre>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠ Avoid Relying on ordinal()</div>
+    Don't store or use <code>ordinal()</code> values in databases or files. If you reorder or insert constants, the ordinals shift and your stored data becomes wrong. If you need a stable integer ID, give the enum a field — like the <code>HttpStatus(code)</code> example earlier.
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(3)">← Enum with Constructor</button>
+    <span class="section-indicator">Section 5 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(5)">What Is a Record? →</button>
+  </div>
+</section>
+
+<!-- ══ S5: WHAT IS A RECORD ══ -->
+<section class="lesson-section" id="section-5">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 6 of 10</div>
+  <h1 class="lesson-title">What Is a Record?</h1>
+  <p class="lesson-subtitle">Records, introduced in Java 16, are a concise way to create immutable data carrier classes — without the boilerplate of a normal class.</p>
+
+  <h2>The Boilerplate Problem</h2>
+  <p>A standard Java class for holding a point (x, y) requires a lot of ceremony:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">PointClass.java</span><span class="code-tag tag-bad">⚠ 30 lines for 2 fields</span></div>
+    <pre><span class="kw">public class</span> <span class="type">Point</span> {
+    <span class="kw">private final int</span> x;
+    <span class="kw">private final int</span> y;
+
+    <span class="kw">public</span> <span class="type">Point</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) {
+        <span class="kw">this</span>.x = x;
+        <span class="kw">this</span>.y = y;
+    }
+
+    <span class="kw">public int</span> <span class="method">x</span>() { <span class="kw">return</span> x; }
+    <span class="kw">public int</span> <span class="method">y</span>() { <span class="kw">return</span> y; }
+
+    <span class="anno">@Override</span>
+    <span class="kw">public boolean</span> <span class="method">equals</span>(<span class="type">Object</span> o) { <span class="comment">/* ... 10 lines */</span> }
+
+    <span class="anno">@Override</span>
+    <span class="kw">public int</span> <span class="method">hashCode</span>() { <span class="comment">/* ... */</span> }
+
+    <span class="anno">@Override</span>
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">toString</span>() { <span class="kw">return</span> <span class="str">"Point["</span> + x + <span class="str">", "</span> + y + <span class="str">"]"</span>; }
+}</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">PointRecord.java</span><span class="code-tag tag-good">✓ Record — 1 line</span></div>
+    <pre><span class="kw">public record</span> <span class="type">Point</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) {}</pre>
+  </div>
+
+  <p>That single line automatically gives you: a constructor, getters (<code>x()</code> and <code>y()</code>), <code>equals()</code>, <code>hashCode()</code>, and <code>toString()</code>.</p>
+
+  <h2>Record Anatomy</h2>
+  <div class="record-anatomy">
+    <div class="ra-expr">
+      <span class="ra-kw">public record</span> <span class="ra-name">Person</span>(<span class="ra-types">String</span> <span class="ra-params">name</span>, <span class="ra-types">int</span> <span class="ra-params">age</span>) {}
+    </div>
+    <div class="ra-labels">
+      <div class="ra-lbl"><span>↑</span><span style="color:#ff7b72">keyword</span></div>
+      <div class="ra-lbl"><span>↑</span><span style="color:#d2a8ff">record name</span></div>
+      <div class="ra-lbl"><span>↑</span><span style="color:#f0883e">component list</span></div>
+      <div class="ra-lbl"><span>↑</span><span style="color:#79b8ff">type</span></div>
+      <div class="ra-lbl"><span>↑</span><span style="color:#e6edf3">name</span></div>
+    </div>
+  </div>
+
+  <h2>What Gets Generated Automatically</h2>
+  <table class="compare-table">
+    <tr><th>Generated automatically</th><th>Equivalent manual code</th></tr>
+    <tr><td class="td-good">Canonical constructor</td><td><code>public Person(String name, int age)</code></td></tr>
+    <tr><td class="td-good">Accessor methods</td><td><code>public String name()</code>, <code>public int age()</code></td></tr>
+    <tr><td class="td-good"><code>equals()</code></td><td>compares all components by value</td></tr>
+    <tr><td class="td-good"><code>hashCode()</code></td><td>based on all components</td></tr>
+    <tr><td class="td-good"><code>toString()</code></td><td><code>Person[name=Alice, age=30]</code></td></tr>
+  </table>
+
+  <div class="callout concept">
+    <div class="callout-title">📐 Records Are Immutable</div>
+    Record fields are implicitly <code>private final</code>. There are no setters — once created, a record's state cannot change. If you need a modified copy, create a new record instance. This immutability makes records safe to share across threads and store in collections.
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(4)">← Enum Built-in Methods</button>
+    <span class="section-indicator">Section 6 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(6)">Records in Practice →</button>
+  </div>
+</section>
+
+<!-- ══ S6: RECORDS IN PRACTICE ══ -->
+<section class="lesson-section" id="section-6">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 7 of 10</div>
+  <h1 class="lesson-title">Records in Practice</h1>
+  <p class="lesson-subtitle">Records shine as data carriers — method return types, stream elements, map entries, and API response objects.</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">RecordUsage.java</span><span class="code-tag tag-example">Creating &amp; Using Records</span></div>
+    <pre><span class="kw">public record</span> <span class="type">Person</span>(<span class="type">String</span> name, <span class="kw">int</span> age) {}
+<span class="kw">public record</span> <span class="type">Address</span>(<span class="type">String</span> street, <span class="type">String</span> city) {}
+
+<span class="kw">public class</span> <span class="type">Main</span> {
+    <span class="kw">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] args) {
+
+        <span class="comment">// Create — canonical constructor</span>
+        <span class="type">Person</span> alice = <span class="kw">new</span> <span class="type">Person</span>(<span class="str">"Alice"</span>, <span class="num">30</span>);
+        <span class="type">Person</span> bob   = <span class="kw">new</span> <span class="type">Person</span>(<span class="str">"Bob"</span>,   <span class="num">25</span>);
+
+        <span class="comment">// Access via generated accessor methods (not getX — just x())</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(alice.<span class="method">name</span>());  <span class="comment">// Alice</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(alice.<span class="method">age</span>());   <span class="comment">// 30</span>
+
+        <span class="comment">// toString — already useful</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(alice);  <span class="comment">// Person[name=Alice, age=30]</span>
+
+        <span class="comment">// equals — value-based</span>
+        <span class="type">Person</span> aliceCopy = <span class="kw">new</span> <span class="type">Person</span>(<span class="str">"Alice"</span>, <span class="num">30</span>);
+        <span class="type">System</span>.out.<span class="method">println</span>(alice.<span class="method">equals</span>(aliceCopy));  <span class="comment">// true</span>
+        <span class="type">System</span>.out.<span class="method">println</span>(alice == aliceCopy);         <span class="comment">// false (different objects)</span>
+
+        <span class="comment">// Records work great in collections and streams</span>
+        <span class="type">List</span>&lt;<span class="type">Person</span>&gt; people = <span class="type">List</span>.<span class="method">of</span>(alice, bob,
+            <span class="kw">new</span> <span class="type">Person</span>(<span class="str">"Carol"</span>, <span class="num">35</span>));
+
+        people.<span class="method">stream</span>()
+              .<span class="method">filter</span>(p -> p.<span class="method">age</span>() >= <span class="num">30</span>)
+              .<span class="method">map</span>(<span class="type">Person</span>::<span class="method">name</span>)
+              .<span class="method">forEach</span>(<span class="type">System</span>.out::<span class="method">println</span>);
+        <span class="comment">// Alice</span>
+        <span class="comment">// Carol</span>
+    }
+}</pre>
+  </div>
+
+  <h2>Records as Method Return Types</h2>
+  <p>Instead of returning parallel values awkwardly, wrap them in a record:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Stats.java</span><span class="code-tag tag-example">Record as Return Type</span></div>
+    <pre><span class="kw">public record</span> <span class="type">Stats</span>(<span class="kw">double</span> min, <span class="kw">double</span> max, <span class="kw">double</span> average) {}
+
+<span class="kw">public static</span> <span class="type">Stats</span> <span class="method">compute</span>(<span class="type">List</span>&lt;<span class="type">Integer</span>&gt; nums) {
+    <span class="kw">return new</span> <span class="type">Stats</span>(
+        nums.<span class="method">stream</span>().<span class="method">mapToInt</span>(<span class="type">Integer</span>::<span class="method">intValue</span>).<span class="method">min</span>().<span class="method">orElse</span>(<span class="num">0</span>),
+        nums.<span class="method">stream</span>().<span class="method">mapToInt</span>(<span class="type">Integer</span>::<span class="method">intValue</span>).<span class="method">max</span>().<span class="method">orElse</span>(<span class="num">0</span>),
+        nums.<span class="method">stream</span>().<span class="method">mapToInt</span>(<span class="type">Integer</span>::<span class="method">intValue</span>).<span class="method">average</span>().<span class="method">orElse</span>(<span class="num">0</span>)
+    );
+}
+
+<span class="type">Stats</span> s = <span class="method">compute</span>(<span class="type">List</span>.<span class="method">of</span>(<span class="num">4</span>, <span class="num">8</span>, <span class="num">15</span>, <span class="num">16</span>, <span class="num">23</span>));
+<span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"min=%.0f max=%.0f avg=%.1f%n"</span>, s.<span class="method">min</span>(), s.<span class="method">max</span>(), s.<span class="method">average</span>());
+<span class="comment">// min=4 max=23 avg=13.2</span></pre>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">✓ Perfect for DTOs</div>
+    Records are ideal for <strong>Data Transfer Objects</strong> — the objects you use to move data between layers of an application (e.g. deserialising JSON from an API, carrying query results). In Spring Boot, you'll see records used constantly for request/response bodies.
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(5)">← What Is a Record?</button>
+    <span class="section-indicator">Section 7 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(7)">Customising Records →</button>
+  </div>
+</section>
+
+<!-- ══ S7: CUSTOMISING RECORDS ══ -->
+<section class="lesson-section" id="section-7">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 8 of 10</div>
+  <h1 class="lesson-title">Customising Records</h1>
+  <p class="lesson-subtitle">Records aren't completely rigid. You can add validation, custom constructors, additional methods, and implement interfaces.</p>
+
+  <h2>Compact Constructors — Built-in Validation</h2>
+  <p>A compact constructor runs before the canonical one. Use it for validation without repeating the assignment code:</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Range.java</span><span class="code-tag tag-example">Compact Constructor</span></div>
+    <pre><span class="kw">public record</span> <span class="type">Range</span>(<span class="kw">int</span> min, <span class="kw">int</span> max) {
+
+    <span class="comment">// Compact constructor — no parameter list, fields auto-assigned after</span>
+    <span class="type">Range</span> {
+        <span class="kw">if</span> (min > max) {
+            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(
+                <span class="str">"min ("</span> + min + <span class="str">") must be <= max ("</span> + max + <span class="str">")"</span>);
+        }
+    }
+}
+
+<span class="kw">var</span> r1 = <span class="kw">new</span> <span class="type">Range</span>(<span class="num">1</span>, <span class="num">10</span>);  <span class="comment">// ✓ Range[min=1, max=10]</span>
+<span class="kw">var</span> r2 = <span class="kw">new</span> <span class="type">Range</span>(<span class="num">10</span>, <span class="num">1</span>);  <span class="comment">// ❌ IllegalArgumentException</span></pre>
+  </div>
+
+  <h2>Adding Methods to a Record</h2>
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">MoneyRecord.java</span><span class="code-tag tag-example">Record with Methods</span></div>
+    <pre><span class="kw">public record</span> <span class="type">Money</span>(<span class="kw">double</span> amount, <span class="type">String</span> currency) {
+
+    <span class="comment">// Compact constructor — normalise currency code</span>
+    <span class="type">Money</span> {
+        <span class="kw">if</span> (amount < <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Amount cannot be negative"</span>);
+        currency = currency.<span class="method">toUpperCase</span>();  <span class="comment">// normalise before assignment</span>
+    }
+
+    <span class="comment">// Additional instance methods</span>
+    <span class="kw">public</span> <span class="type">Money</span> <span class="method">add</span>(<span class="type">Money</span> other) {
+        <span class="kw">if</span> (!currency.<span class="method">equals</span>(other.currency))
+            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Currency mismatch"</span>);
+        <span class="kw">return new</span> <span class="type">Money</span>(amount + other.amount, currency);
+    }
+
+    <span class="kw">public boolean</span> <span class="method">isZero</span>() { <span class="kw">return</span> amount == <span class="num">0</span>; }
+
+    <span class="anno">@Override</span>
+    <span class="kw">public</span> <span class="type">String</span> <span class="method">toString</span>() {
+        <span class="kw">return</span> <span class="type">String</span>.<span class="method">format</span>(<span class="str">"%.2f %s"</span>, amount, currency);
+    }
+}
+
+<span class="type">Money</span> a = <span class="kw">new</span> <span class="type">Money</span>(<span class="num">10.00</span>, <span class="str">"usd"</span>);  <span class="comment">// currency → "USD"</span>
+<span class="type">Money</span> b = <span class="kw">new</span> <span class="type">Money</span>(<span class="num">5.50</span>, <span class="str">"USD"</span>);
+<span class="type">System</span>.out.<span class="method">println</span>(a.<span class="method">add</span>(b));  <span class="comment">// 15.50 USD</span></pre>
+  </div>
+
+  <h2>Records Can Implement Interfaces</h2>
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Shape.java</span><span class="code-tag tag-example">Record implements Interface</span></div>
+    <pre><span class="kw">public interface</span> <span class="type">Shape</span> {
+    <span class="kw">double</span> <span class="method">area</span>();
+}
+
+<span class="kw">public record</span> <span class="type">Circle</span>(<span class="kw">double</span> radius) <span class="kw">implements</span> <span class="type">Shape</span> {
+    <span class="kw">public double</span> <span class="method">area</span>() { <span class="kw">return</span> <span class="type">Math</span>.PI * radius * radius; }
+}
+
+<span class="kw">public record</span> <span class="type">Rectangle</span>(<span class="kw">double</span> width, <span class="kw">double</span> height) <span class="kw">implements</span> <span class="type">Shape</span> {
+    <span class="kw">public double</span> <span class="method">area</span>() { <span class="kw">return</span> width * height; }
+}
+
+<span class="type">List</span>&lt;<span class="type">Shape</span>&gt; shapes = <span class="type">List</span>.<span class="method">of</span>(<span class="kw">new</span> <span class="type">Circle</span>(<span class="num">5</span>), <span class="kw">new</span> <span class="type">Rectangle</span>(<span class="num">4</span>, <span class="num">6</span>));
+shapes.<span class="method">forEach</span>(s -> <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%.2f%n"</span>, s.<span class="method">area</span>()));
+<span class="comment">// 78.54</span>
+<span class="comment">// 24.00</span></pre>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠ What Records Cannot Do</div>
+    Records <strong>cannot</strong>:<br>
+    • Extend another class (they implicitly extend <code>java.lang.Record</code>)<br>
+    • Have non-static mutable fields declared outside the component list<br>
+    • Be subclassed (they're implicitly <code>final</code>)
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(6)">← Records in Practice</button>
+    <span class="section-indicator">Section 8 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(8)">Enum vs Record vs Class →</button>
+  </div>
+</section>
+
+<!-- ══ S8: COMPARISON ══ -->
+<section class="lesson-section" id="section-8">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 9 of 10</div>
+  <h1 class="lesson-title">Enum vs Record vs Class</h1>
+  <p class="lesson-subtitle">All three are ways to define a type. Picking the right one is a design decision — here's the decision framework.</p>
+
+  <table class="compare-table">
+    <tr>
+      <th></th><th>Enum</th><th>Record</th><th>Class</th>
+    </tr>
+    <tr>
+      <td><strong>Purpose</strong></td>
+      <td>Fixed set of named constants</td>
+      <td>Immutable data carrier</td>
+      <td>Mutable or complex behaviour</td>
+    </tr>
+    <tr>
+      <td><strong>Instances</strong></td>
+      <td>Compiler-defined, finite</td>
+      <td>Created with <code>new</code>, unlimited</td>
+      <td>Created with <code>new</code>, unlimited</td>
+    </tr>
+    <tr>
+      <td><strong>Mutable?</strong></td>
+      <td>No</td>
+      <td>No (fields are final)</td>
+      <td>Yes (by default)</td>
+    </tr>
+    <tr>
+      <td><strong>equals()</strong></td>
+      <td>Identity (<code>==</code> safe)</td>
+      <td>Value-based (auto-generated)</td>
+      <td>Identity unless overridden</td>
+    </tr>
+    <tr>
+      <td><strong>Inheritance</strong></td>
+      <td>Cannot extend or be extended</td>
+      <td>Implements interfaces; cannot be subclassed</td>
+      <td>Full inheritance</td>
+    </tr>
+    <tr>
+      <td><strong>Boilerplate</strong></td>
+      <td>Low for constants</td>
+      <td>Minimal — auto-generates constructor, accessors, equals, hashCode, toString</td>
+      <td>High — write everything manually</td>
+    </tr>
+    <tr>
+      <td><strong>Use when</strong></td>
+      <td>The type has a fixed, known set of values</td>
+      <td>You need a data holder — DTO, return type, stream element</td>
+      <td>You need mutability, inheritance, or complex behaviour</td>
+    </tr>
+  </table>
+
+  <h2>Decision Guide</h2>
+  <div class="analogy-card">
+    <div class="analogy-label">Quick Rule</div>
+    <p>Ask: <strong>"Is the set of possible values fixed at compile time?"</strong><br>
+    Yes → <strong>Enum</strong> (days, seasons, HTTP verbs, directions).<br><br>
+    No → <strong>"Is this just data I need to pass around, with no mutation?"</strong><br>
+    Yes → <strong>Record</strong> (a user from a DB query, a coordinate, a stats result).<br><br>
+    No → <strong>Class</strong> (a bank account that changes balance, a connection that manages state).</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-filename">Decision.java</span><span class="code-tag tag-example">Right Tool for the Job</span></div>
+    <pre><span class="comment">// Enum — fixed set of HTTP methods</span>
+<span class="kw">enum</span> <span class="type">HttpMethod</span> { <span class="enum-const">GET</span>, <span class="enum-const">POST</span>, <span class="enum-const">PUT</span>, <span class="enum-const">DELETE</span>, <span class="enum-const">PATCH</span> }
+
+<span class="comment">// Record — immutable HTTP response data</span>
+<span class="kw">record</span> <span class="type">HttpResponse</span>(<span class="type">HttpStatus</span> status, <span class="type">String</span> body) {}
+
+<span class="comment">// Class — HTTP connection with mutable state</span>
+<span class="kw">class</span> <span class="type">HttpClient</span> {
+    <span class="kw">private</span> <span class="type">String</span> baseUrl;
+    <span class="kw">private int</span> timeout;
+
+    <span class="kw">public void</span> <span class="method">setTimeout</span>(<span class="kw">int</span> t) { <span class="kw">this</span>.timeout = t; }  <span class="comment">// mutable</span>
+    <span class="kw">public</span> <span class="type">HttpResponse</span> <span class="method">get</span>(<span class="type">String</span> path) { <span class="comment">/* ... */</span> <span class="kw">return null</span>; }
+}</pre>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(7)">← Customising Records</button>
+    <span class="section-indicator">Section 9 of 10</span>
+    <button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
+  </div>
+</section>
+
+<!-- ══ S9: QUIZ & CHALLENGE ══ -->
+<section class="lesson-section" id="section-9">
+  <div class="lesson-eyebrow">Core Java · Enums &amp; Records · Section 10 of 10</div>
+  <h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
+  <p class="lesson-subtitle">Test your understanding of enums and records.</p>
+
+  <h2>Final Quiz</h2>
+
+  <div class="quiz-card">
+    <div class="quiz-label">Question 1 of 3</div>
+    <div class="quiz-q">Which statement about enum constructors is true?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> They must be public</button>
+      <button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">B</span> They are always private — you cannot call them with <code>new</code></button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">C</span> Enums cannot have constructors</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> They can be protected</button>
+    </div>
+    <div class="quiz-feedback" id="fq1-feedback"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-label">Question 2 of 3</div>
+    <div class="quiz-q">What does <code>record Point(int x, int y) {}</code> automatically provide?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">A</span> Only a constructor</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">B</span> A constructor and getters only</button>
+      <button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">C</span> Constructor, accessors, equals(), hashCode(), and toString()</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> A mutable JavaBean with setters</button>
+    </div>
+    <div class="quiz-feedback" id="fq2-feedback"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-label">Question 3 of 3</div>
+    <div class="quiz-q">You need to represent the four card suits (HEARTS, DIAMONDS, CLUBS, SPADES) in a card game. Which type should you use?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">A</span> Enum — it's a fixed, known set of named values</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> Record — because suits carry data</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">C</span> Class — for full flexibility</button>
+      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> String constants in an interface</button>
+    </div>
+    <div class="quiz-feedback" id="fq3-feedback"></div>
+  </div>
+
+  <h2>Coding Challenges</h2>
+
+  <div class="challenge-card">
+    <div class="challenge-label">🏋 Challenge 1 — Enum</div>
+    <div class="challenge-title">Traffic Light System</div>
+    <div class="challenge-desc">Model a traffic light with an enum.</div>
+    <div class="challenge-task"><span class="task-num">01</span>Create a <code>TrafficLight</code> enum with <code>RED</code>, <code>AMBER</code>, <code>GREEN</code></div>
+    <div class="challenge-task"><span class="task-num">02</span>Each constant carries a duration in seconds (RED=30, AMBER=5, GREEN=25)</div>
+    <div class="challenge-task"><span class="task-num">03</span>Add a <code>next()</code> method that returns the next light in the cycle</div>
+    <div class="challenge-task"><span class="task-num">04</span>Print the full cycle three times using a loop</div>
+    <button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
+    <div class="reveal-content" id="sol1">
+      <div class="code-block">
+        <div class="code-header"><span class="code-filename">TrafficLight.java</span><span class="code-tag tag-good">Solution</span></div>
+        <pre><span class="kw">public enum</span> <span class="type">TrafficLight</span> {
+    <span class="enum-const">RED</span>(<span class="num">30</span>), <span class="enum-const">AMBER</span>(<span class="num">5</span>), <span class="enum-const">GREEN</span>(<span class="num">25</span>);
+
+    <span class="kw">private final int</span> durationSeconds;
+    <span class="type">TrafficLight</span>(<span class="kw">int</span> d) { <span class="kw">this</span>.durationSeconds = d; }
+    <span class="kw">public int</span> <span class="method">getDuration</span>() { <span class="kw">return</span> durationSeconds; }
+
+    <span class="kw">public</span> <span class="type">TrafficLight</span> <span class="method">next</span>() {
+        <span class="type">TrafficLight</span>[] vals = <span class="type">TrafficLight</span>.<span class="method">values</span>();
+        <span class="kw">return</span> vals[(<span class="kw">this</span>.<span class="method">ordinal</span>() + <span class="num">1</span>) % vals.length];
+    }
+}
+
+<span class="comment">// Main</span>
+<span class="type">TrafficLight</span> light = <span class="type">TrafficLight</span>.<span class="enum-const">RED</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">9</span>; i++) {
+    <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%s (%ds)%n"</span>, light, light.<span class="method">getDuration</span>());
+    light = light.<span class="method">next</span>();
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="challenge-card">
+    <div class="challenge-label">🏋🏋 Challenge 2 — Record</div>
+    <div class="challenge-title">Product Catalogue</div>
+    <div class="challenge-desc">Model a simple product catalogue using records and streams.</div>
+    <div class="challenge-task"><span class="task-num">01</span>Create a <code>Product</code> record with <code>name</code>, <code>category</code>, and <code>price</code></div>
+    <div class="challenge-task"><span class="task-num">02</span>Add validation: price must be &gt; 0</div>
+    <div class="challenge-task"><span class="task-num">03</span>Create a list of at least 6 products across 2+ categories</div>
+    <div class="challenge-task"><span class="task-num">04</span>Use streams to find the most expensive product in each category (hint: <code>groupingBy</code> + <code>maxBy</code>)</div>
+    <button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution</button>
+    <div class="reveal-content" id="sol2">
+      <div class="code-block">
+        <div class="code-header"><span class="code-filename">Product.java</span><span class="code-tag tag-good">Solution</span></div>
+        <pre><span class="kw">public record</span> <span class="type">Product</span>(<span class="type">String</span> name, <span class="type">String</span> category, <span class="kw">double</span> price) {
+    <span class="type">Product</span> { <span class="kw">if</span> (price <= <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Price must be > 0"</span>); }
+}
+
+<span class="type">List</span>&lt;<span class="type">Product</span>&gt; catalogue = <span class="type">List</span>.<span class="method">of</span>(
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Laptop"</span>,  <span class="str">"Electronics"</span>, <span class="num">999.99</span>),
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Mouse"</span>,   <span class="str">"Electronics"</span>,  <span class="num">29.99</span>),
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Keyboard"</span>,<span class="str">"Electronics"</span>,  <span class="num">79.99</span>),
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Desk"</span>,    <span class="str">"Furniture"</span>,   <span class="num">349.00</span>),
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Chair"</span>,   <span class="str">"Furniture"</span>,   <span class="num">199.00</span>),
+    <span class="kw">new</span> <span class="type">Product</span>(<span class="str">"Lamp"</span>,    <span class="str">"Furniture"</span>,    <span class="num">49.00</span>)
+);
+
+catalogue.<span class="method">stream</span>()
+    .<span class="method">collect</span>(<span class="type">Collectors</span>.<span class="method">groupingBy</span>(
+        <span class="type">Product</span>::<span class="method">category</span>,
+        <span class="type">Collectors</span>.<span class="method">maxBy</span>(<span class="type">Comparator</span>.<span class="method">comparingDouble</span>(<span class="type">Product</span>::<span class="method">price</span>))
+    ))
+    .<span class="method">forEach</span>((cat, p) ->
+        p.<span class="method">ifPresent</span>(prod -> <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%s: %s (%.2f)%n"</span>,
+            cat, prod.<span class="method">name</span>(), prod.<span class="method">price</span>())));
+<span class="comment">// Electronics: Laptop (999.99)</span>
+<span class="comment">// Furniture: Desk (349.00)</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">✓ What You've Learned</div>
+    Enums: replacing magic strings/ints · fields and methods on constants · per-constant behaviour · switch expressions · built-in methods (values, valueOf, ordinal, name). Records: eliminating boilerplate · auto-generated constructor, accessors, equals, hashCode, toString · compact constructors for validation · adding methods · implementing interfaces. Decision framework: enum vs record vs class.
+  </div>
+
+  <div class="lesson-nav">
+    <button class="nav-btn" onclick="goTo(8)">← Enum vs Record vs Class</button>
+    <span class="section-indicator">Section 10 of 10</span>
+    <button class="nav-btn primary" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)" onclick="alert('Lesson complete! Next: Concurrency Basics.')">✓ Mark Complete</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+  let cur=0;const total=10;const visited=new Set([0]);
+  function goTo(n){
+    document.getElementById('section-'+cur).classList.remove('active');
+    document.querySelectorAll('.nav-item').forEach((el,i)=>{
+      el.classList.remove('active');
+      if(visited.has(i)&&i!==n)el.classList.add('done');
+      else el.classList.remove('done');
+    });
+    cur=n;visited.add(n);
+    document.getElementById('section-'+n).classList.add('active');
+    document.querySelectorAll('.nav-item')[n].classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    const pct=Math.round((visited.size/total)*100);
+    document.getElementById('progress-fill').style.width=pct+'%';
+    document.getElementById('progress-pct').textContent=pct+'%';
+  }
+  const exp={
+    q1:'When all enum constants are covered in a switch expression using arrow syntax, the compiler considers it <strong>exhaustive</strong> — no default needed. This is one of the key advantages of switching on enums.',
+    fq1:'Enum constructors are <strong>always private</strong> (or effectively private). You never call them with <code>new</code> — the constants are instantiated automatically when the class loads.',
+    fq2:'A record automatically generates all five: <strong>canonical constructor, accessor methods (name(), age()), equals(), hashCode(), and toString()</strong>. You write none of this code.',
+    fq3:'Card suits are a perfect enum use case — there are exactly four, they\'re fixed at compile time, and they have names that should be type-safe. Using an enum prevents invalid suit values entirely.',
+  };
+  function checkQuiz(btn,ok,qId){
+    btn.closest('.quiz-card').querySelectorAll('.quiz-option').forEach(o=>o.style.pointerEvents='none');
+    const fb=document.getElementById(qId+'-feedback');
+    btn.classList.add(ok?'correct':'wrong');
+    fb.className='quiz-feedback show '+(ok?'correct-fb':'wrong-fb');
+    fb.innerHTML=(ok?'✓ Correct! ':'✗ Not quite. ')+(exp[qId]||'');
+  }
+  function toggleReveal(id){
+    const el=document.getElementById(id),btn=el.previousElementSibling;
+    btn.textContent=el.classList.toggle('show')?'Hide solution':'Show solution';
+  }
+  document.querySelectorAll('.nav-item').forEach((el,i)=>el.addEventListener('click',()=>goTo(i)));
+</script>
+</body>
+</html>
