@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3E051 Study Guide — TeqVault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #080D1A;
+    --slate: #0F1620;
+    --card: #131C2B;
+    --border: #1C2A3A;
+    --border-bright: #243347;
+    --cyan: #00C8F0;
+    --cyan-dim: rgba(0,200,240,0.10);
+    --green: #28E87A;
+    --green-dim: rgba(40,232,122,0.10);
+    --amber: #F0A800;
+    --amber-dim: rgba(240,168,0,0.10);
+    --red: #F04A6A;
+    --red-dim: rgba(240,74,106,0.10);
+    --purple: #9D6EFF;
+    --purple-dim: rgba(157,110,255,0.10);
+    --white: #E4EDF8;
+    --muted: #7A8FA8;
+    --sidebar-w: 270px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── TOPBAR ─────────────────────────── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: 52px; display: flex; align-items: center; gap: 12px;
+    padding: 0 20px;
+    background: rgba(8,13,26,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--white); text-decoration: none;
+  }
+  .topbar-logo span { color: var(--cyan); }
+  .topbar-sep { color: var(--border-bright); }
+  .topbar-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.5px;
+  }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .score-pill {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--green); background: var(--green-dim);
+    border: 1px solid rgba(40,232,122,0.25);
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .menu-btn {
+    display: none; background: none; border: 1px solid var(--border);
+    color: var(--white); padding: 5px 9px; border-radius: 5px; cursor: pointer;
+  }
+
+  /* ── LAYOUT ─────────────────────────── */
+  .layout { display: flex; margin-top: 52px; }
+
+  /* ── SIDEBAR ─────────────────────────── */
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    position: fixed; top: 52px; bottom: 0; left: 0;
+    background: var(--slate); border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 16px 0;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .sb-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--muted); padding: 10px 16px 4px;
+  }
+  .sb-link {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 16px; font-size: 12px; color: var(--muted);
+    cursor: pointer; border-left: 2px solid transparent;
+    transition: all 0.12s; text-decoration: none;
+  }
+  .sb-link:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+  .sb-link.active { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); }
+  .sb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .sb-link.active .sb-dot { background: var(--cyan); box-shadow: 0 0 5px var(--cyan); }
+  .sb-count {
+    margin-left: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 3px;
+  }
+
+  /* ── MAIN ─────────────────────────────── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1; max-width: 900px;
+    padding: 40px 40px 120px;
+  }
+
+  /* ── CATEGORY SECTIONS ────────────────── */
+  .category { display: none; }
+  .category.active { display: block; }
+
+  /* ── HERO ─────────────────────────────── */
+  .hero {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 40px; margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--cyan), var(--green), var(--purple));
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--cyan); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 34px; font-weight: 700; letter-spacing: -1px;
+    margin-bottom: 12px; line-height: 1.1;
+  }
+  .hero h1 em { font-style: normal; color: var(--cyan); }
+  .hero p { color: var(--muted); font-size: 14px; max-width: 540px; }
+  .hero-stats {
+    display: flex; gap: 28px; margin-top: 28px;
+    padding-top: 24px; border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .hs-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px; font-weight: 700;
+  }
+  .hs-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── CATEGORY HEADER ──────────────────── */
+  .cat-header { margin-bottom: 24px; }
+  .cat-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .cat-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+  }
+  .cat-ref {
+    font-size: 12px; color: var(--muted); margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cat-ref span { color: var(--amber); }
+
+  /* ── Q&A CARDS ────────────────────────── */
+  .qa-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .qa-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .qa-card:hover { border-color: var(--border-bright); }
+
+  .qa-question {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px; cursor: pointer;
+    user-select: none;
+  }
+  .qa-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    padding: 2px 7px; border-radius: 3px;
+    flex-shrink: 0; margin-top: 2px; min-width: 36px; text-align: center;
+  }
+  .qa-q-text { font-size: 14px; color: var(--white); flex: 1; line-height: 1.5; }
+  .qa-chevron {
+    font-size: 11px; color: var(--muted); flex-shrink: 0;
+    margin-top: 3px; transition: transform 0.2s;
+  }
+  .qa-card.open .qa-chevron { transform: rotate(90deg); }
+
+  .qa-answer {
+    display: none;
+    padding: 0 16px 16px 52px;
+    border-top: 1px solid var(--border);
+  }
+  .qa-card.open .qa-answer { display: block; }
+  .qa-answer-inner {
+    padding-top: 12px; font-size: 13px; color: #9BAFC4; line-height: 1.7;
+  }
+  .qa-answer-inner strong { color: var(--white); font-weight: 600; }
+  .qa-answer-inner .ref {
+    display: inline-block; margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--amber); background: var(--amber-dim);
+    border: 1px solid rgba(240,168,0,0.2);
+    padding: 2px 8px; border-radius: 3px; letter-spacing: 0.5px;
+  }
+
+  /* answer type color codes */
+  .qa-card[data-type="safety"] .qa-num { color: var(--red); background: var(--red-dim); }
+  .qa-card[data-type="grounding"] .qa-num { color: var(--green); background: var(--green-dim); }
+  .qa-card[data-type="lighting"] .qa-num { color: var(--amber); background: var(--amber-dim); }
+  .qa-card[data-type="code"] .qa-num { color: var(--cyan); background: var(--cyan-dim); }
+  .qa-card[data-type="distribution"] .qa-num { color: var(--purple); background: var(--purple-dim); }
+
+  /* ── FILTER BAR ───────────────────────── */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    padding: 5px 12px; border-radius: 5px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); transition: all 0.12s;
+  }
+  .filter-btn:hover { color: var(--white); border-color: var(--border-bright); }
+  .filter-btn.active { color: var(--navy); }
+  .filter-btn[data-f="all"].active { background: var(--white); border-color: var(--white); }
+  .filter-btn[data-f="safety"].active { background: var(--red); border-color: var(--red); }
+  .filter-btn[data-f="grounding"].active { background: var(--green); border-color: var(--green); }
+  .filter-btn[data-f="lighting"].active { background: var(--amber); border-color: var(--amber); }
+  .filter-btn[data-f="code"].active { background: var(--cyan); border-color: var(--cyan); }
+  .filter-btn[data-f="distribution"].active { background: var(--purple); border-color: var(--purple); }
+
+  /* ── PROGRESS BAR ─────────────────────── */
+  .prog-wrap { margin-bottom: 28px; }
+  .prog-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); margin-bottom: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .prog-track { height: 3px; background: var(--border); border-radius: 3px; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--green)); border-radius: 3px; transition: width 0.3s; }
+
+  /* ── SECTION DIVIDER ──────────────────── */
+  .section-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 28px 0 16px;
+  }
+  .section-divider-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 600; color: var(--white);
+    white-space: nowrap;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── NAV BUTTONS ──────────────────────── */
+  .cat-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .nav-btn {
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600;
+    padding: 10px 20px; border-radius: 7px; cursor: pointer;
+    transition: all 0.12s; border: none;
+  }
+  .nav-btn.prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .nav-btn.prev:hover { color: var(--white); border-color: var(--border-bright); }
+  .nav-btn.next { background: var(--cyan); color: var(--navy); }
+  .nav-btn.next:hover { background: #22D8FF; }
+
+  /* ── CALLOUT ──────────────────────────── */
+  .callout {
+    border-radius: 7px; padding: 14px 16px; margin: 16px 0;
+    border-left: 3px solid; font-size: 13px;
+  }
+  .callout.tip { background: var(--cyan-dim); border-color: var(--cyan); color: #A8D8E8; }
+  .callout.warn { background: var(--amber-dim); border-color: var(--amber); color: #D4AA60; }
+  .callout strong { color: var(--white); }
+
+  /* ── MOBILE ───────────────────────────── */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; z-index: 150; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 16px 80px; }
+    .menu-btn { display: block; }
+    .hero h1 { font-size: 24px; }
+    .hero-stats { gap: 16px; }
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="topbar-logo" href="https://teqvault.study">Teq<span>Vault</span></a>
+  <span class="topbar-sep">·</span>
+  <span class="topbar-title">3E051 Study Guide</span>
+  <div class="topbar-right">
+    <span class="score-pill" id="scorePill">0 / 200 reviewed</span>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-section-label">Navigation</div>
+  <a class="sb-link active" onclick="go('overview')" id="nav-overview">
+    <span class="sb-dot"></span> Overview <span class="sb-count">—</span>
+  </a>
+
+  <div class="sb-section-label" style="margin-top:8px;">Reference Documents</div>
+  <a class="sb-link" onclick="go('safety')" id="nav-safety">
+    <span class="sb-dot"></span> Electrical Safety <span class="sb-count">35</span>
+  </a>
+  <a class="sb-link" onclick="go('grounding')" id="nav-grounding">
+    <span class="sb-dot"></span> Grounding Systems <span class="sb-count">30</span>
+  </a>
+  <a class="sb-link" onclick="go('nec')" id="nav-nec">
+    <span class="sb-dot"></span> NEC / NFPA 70 <span class="sb-count">35</span>
+  </a>
+  <a class="sb-link" onclick="go('interior')" id="nav-interior">
+    <span class="sb-dot"></span> Interior Electrical <span class="sb-count">25</span>
+  </a>
+  <a class="sb-link" onclick="go('lighting')" id="nav-lighting">
+    <span class="sb-dot"></span> Lighting Systems <span class="sb-count">25</span>
+  </a>
+  <a class="sb-link" onclick="go('distribution')" id="nav-distribution">
+    <span class="sb-dot"></span> Exterior Distribution <span class="sb-count">25</span>
+  </a>
+  <a class="sb-link" onclick="go('fire')" id="nav-fire">
+    <span class="sb-dot"></span> Fire Protection <span class="sb-count">25</span>
+  </a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="category active" id="cat-overview">
+  <div class="hero">
+    <div class="hero-eyebrow">// 3E051 · electrical systems journeyman</div>
+    <h1>WAPS Study Guide<br><em>200 Questions</em></h1>
+    <p>Comprehensive question bank drawn from all WAPS reference documents. Covers UFC standards, NFPA 70, AFMAN requirements, and core electrical theory tested on the SKT/PFE.</p>
+    <div class="hero-stats">
+      <div><div class="hs-val" style="color:var(--cyan)">200</div><div class="hs-label">Total Questions</div></div>
+      <div><div class="hs-val" style="color:var(--green)">7</div><div class="hs-label">Reference Areas</div></div>
+      <div><div class="hs-val" style="color:var(--amber)">8</div><div class="hs-label">Source Documents</div></div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>How to use this guide:</strong> Click any question to reveal the answer. Use the sidebar to jump between reference areas. Questions are color-coded by topic. Track your review progress with the counter at the top.
+  </div>
+
+  <div class="section-divider">
+    <span class="section-divider-label">Source Documents</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question">
+        <span class="qa-num">DOC</span>
+        <span class="qa-q-text">What does UFC 3-560-01 cover, and what is the voltage threshold between low and high voltage as defined in this document?</span>
+        <span class="qa-chevron">▶</span>
+      </div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-560-01 provides <strong>electrical safety requirements for electrical workers</strong>. For the purposes of this UFC, <strong>low voltage is defined as 1,000 volts or less</strong>. Voltages higher than 1,000 volts are referred to as high voltage. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question">
+        <span class="qa-num">DOC</span>
+        <span class="qa-q-text">What is the primary purpose of UFC 3-520-01?</span>
+        <span class="qa-chevron">▶</span>
+      </div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 provides <strong>guidance for the design of interior electrical systems</strong> for DoD-owned facilities. It applies to planning, design, construction, sustainment, restoration, and modernization of facilities. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question">
+        <span class="qa-num">DOC</span>
+        <span class="qa-q-text">What does AFMAN 32-1065 govern, and who are the primary workers it applies to?</span>
+        <span class="qa-chevron">▶</span>
+      </div>
+      <div class="qa-answer"><div class="qa-answer-inner">AFMAN 32-1065 governs <strong>grounding systems on Air Force installations</strong>, including equipment grounding, lightning protection, and static protection systems. Workers maintaining, repairing, modifying, and testing grounding systems must be familiar with its requirements. Workers must complete DAC course 4E-F37 645-F21 (formerly AMMO-47) or an OJT program. <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question">
+        <span class="qa-num">DOC</span>
+        <span class="qa-q-text">Which UFC governs exterior electrical power distribution, and which UFC governs interior electrical systems?</span>
+        <span class="qa-chevron">▶</span>
+      </div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-550-01</strong> governs exterior electrical power distribution. <strong>UFC 3-520-01</strong> governs interior electrical systems. UFC 3-520-01 explicitly states "Refer to UFC 3-550-01 for exterior electrical systems." <span class="ref">UFC 3-520-01 / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question">
+        <span class="qa-num">DOC</span>
+        <span class="qa-q-text">What does UFC 3-530-01 govern?</span>
+        <span class="qa-chevron">▶</span>
+      </div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 provides requirements for the <strong>design of interior and exterior lighting systems and controls</strong> for DoD facilities. It is based on the Illuminating Engineering Society (IES) Lighting Library and addresses general lighting requirements for all DoD facility types. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <span></span>
+    <button class="nav-btn next" onclick="go('safety')">Start: Electrical Safety →</button>
+  </div>
+</div>
+
+<!-- ═══ ELECTRICAL SAFETY (UFC 3-560-01) ═══ -->
+<div class="category" id="cat-safety">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference document</div>
+    <div class="cat-title">Electrical Safety</div>
+    <div class="cat-ref">UFC 3-560-01 · Chapters 1 through 5, 7, 9, and Appendices C and J</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-label"><span>Section Progress</span><span id="safety-prog-text">0 / 35</span></div>
+    <div class="prog-track"><div class="prog-fill" id="safety-prog" style="width:0%"></div></div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Fundamentals of Electrical Shock</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-01</span><span class="qa-q-text">What causes electrical shock, and what determines the current path through the body?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Electric shock results from establishing an electric current path within the human body. Current flows because there is a <strong>potential gradient (voltage difference) between an energized object and the grounded worker</strong>. The current path determines which tissues and organs are damaged. Pathways are divided into three groups: <strong>touch potential, step potential, and touch/step potential</strong>. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-02</span><span class="qa-q-text">What is the equipotential zone, and why is it significant for electrical worker safety?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>equipotential zone is the safe area with no potential gradient</strong>. A worker standing in an equipotential zone faces no shock risk because there is no voltage difference between points they may contact. Grounding and bonding techniques are used to create equipotential zones around work areas. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-03</span><span class="qa-q-text">At what current level does 60-Hz AC current typically cause ventricular fibrillation, and what level causes "let-go" threshold?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>let-go threshold</strong> (inability to release grasp) typically occurs around <strong>6–9 mA for women and 9–16 mA for men</strong>. <strong>Ventricular fibrillation</strong> can occur at approximately <strong>100–300 mA</strong>, which is often fatal. Even very small currents (1 mA) can be perceived; above 5 mA is considered dangerous. <span class="ref">UFC 3-560-01, Table 1-1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-04</span><span class="qa-q-text">What is an arc flash, what causes it, and at what distance can a high-energy arc be fatal?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>arc flash</strong> results from the passage of electric current through air when air fails as an insulator but serves as a conducting medium. It is caused by a <strong>major short circuit or ground fault</strong>. An <strong>arc blast</strong> is the explosive event that accompanies an arc flash. High energy arcs can be fatal even at distances of <strong>10 feet (3.05 m)</strong>. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-05</span><span class="qa-q-text">What is mishap prevention, and who bears responsibility for it under UFC 3-560-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Mishap prevention is <strong>a basic responsibility of every worker</strong>. UFC 3-560-01 emphasizes that safety is not just supervisory — each individual worker is accountable for identifying hazards and following established safety procedures before beginning electrical work. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Lockout/Tagout (LOTO)</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-06</span><span class="qa-q-text">What is the correct sequence for a Lockout/Tagout procedure?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The LOTO sequence per UFC 3-560-01 (Appendix J) is: <strong>(1) Notify affected employees; (2) Identify all energy sources; (3) Shut down equipment; (4) Isolate all energy sources; (5) Apply lockout/tagout devices; (6) Release or restrain stored energy; (7) Verify isolation by testing</strong>. Each authorized worker applies their own personal lock. <span class="ref">UFC 3-560-01, App. J / Table J-1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-07</span><span class="qa-q-text">What is the difference between a lockout device and a tagout device, and when is each used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>lockout device</strong> physically prevents operation of an energy-isolating device using a lock. A <strong>tagout device</strong> is a warning tag attached to an energy-isolating device that prohibits operation. Lockout is preferred whenever equipment can be locked out. Tagout is used when equipment cannot be locked out, but provides a lesser degree of protection. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-08</span><span class="qa-q-text">What is a Safe Clearance Form (Switching Order) and who issues it?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A Safe Clearance Form (also called a Switching Order) is an <strong>approved authorization document that controls switching operations on electrical systems</strong>. It is issued and approved by the responsible authority before any switching or work begins on energized or de-energized systems. No switching may be performed without this form being properly completed and approved. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-09</span><span class="qa-q-text">What are the low-voltage and high-voltage LOTO precaution levels in UFC 3-560-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Low-voltage (1,000V and below):</strong> De-energize, lock out, and test before work. Verify absence of voltage with a meter. <strong>High-voltage (above 1,000V):</strong> Additional requirements including grounds must be applied, switching orders required, approach distance rules enforced. Both levels require testing to verify de-energized state before work begins. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-10</span><span class="qa-q-text">What is a Job Hazard Analysis (JHA) / Job Safety Analysis (JSA) and when must it be performed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>JHA/JSA is a systematic analysis of a task to identify all potential hazards and establish safe procedures for each step</strong>. It must be performed before beginning electrical work, particularly for non-routine tasks, energized work, or high-voltage work. The JHA identifies all energy sources, required PPE, and emergency procedures before work begins. <span class="ref">UFC 3-560-01, Ch. 2</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Personal Protective Equipment (PPE)</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-11</span><span class="qa-q-text">What does an arc flash suit protect against, and what does "FR" stand for?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>arc flash suit</strong> is designed to protect the worker's body from the radiant heat and energy of an arc flash. <strong>FR stands for Fire Resistant</strong>. Arc flash PPE is rated in calories per square centimeter (cal/cm²) based on incident energy calculations. The suit's arc rating must meet or exceed the calculated incident energy of the work task. <span class="ref">UFC 3-560-01 / NFPA 70E</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-12</span><span class="qa-q-text">What is incident energy, and how does it relate to PPE selection?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Incident energy</strong> is the amount of thermal energy impressed on a surface during an arc flash event, measured in <strong>cal/cm²</strong>. It is calculated based on system voltage, available fault current, and working distance. PPE must have an arc rating equal to or greater than the calculated incident energy at the work location to provide adequate protection. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-13</span><span class="qa-q-text">What information must appear on an arc flash warning label on electrical equipment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A typical arc flash warning label must include: <strong>Nominal system voltage, arc flash boundary, available incident energy and working distance, required PPE (minimum arc rating in cal/cm²), and glove class</strong>. Labels must be applied to all electrical equipment where an arc flash hazard exists and must be visible to workers before work begins. <span class="ref">UFC 3-560-01, Figure 1-3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-14</span><span class="qa-q-text">What are insulating tools used for in electrical work, and what categories of insulating devices exist?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Insulating tools (hot sticks, rubber gloves, insulating sleeves) are used to <strong>maintain a safe barrier between the worker and energized conductors</strong>. UFC 3-560-01 defines insulating device categories based on voltage rating. Tools must be rated for the voltage level being worked and must be tested at regular intervals. Damaged or cracked insulating tools must be removed from service immediately. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-15</span><span class="qa-q-text">What is the best way to avoid electrical hazards according to safety doctrine?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The best way to avoid electrical hazards is to <strong>create an environment where all electrical power has been removed (de-energized state)</strong> before performing work. Energized work should only be performed when de-energizing creates a greater hazard or is infeasible due to continuous process requirements, and must be justified in writing. <span class="ref">UFC 3-560-01 / NFPA 70E</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Overhead Line Work & Approach Distances</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-16</span><span class="qa-q-text">What overhead line voltage threshold defines the work zone covered under UFC 3-560-01 overhead line rules?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-560-01 covers overhead line work at <strong>69 kV (nominal) or less</strong>. Specific provisions apply for lines ≤35 kV based on hot stick distance (more or less than 8 feet). Work on overhead lines above 69 kV requires additional precautions and typically specialized procedures. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-17</span><span class="qa-q-text">What is the approach distance rule for qualified employees working on AC overhead lines, and why does it exist?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Qualified employees must maintain minimum approach distances based on voltage level (per UFC 3-560-01 tables). These distances account for <strong>unexpected system energization, flashover distances, and movement of conductors</strong>. Approach distances increase with system voltage. Unqualified persons must maintain even greater distances. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-18</span><span class="qa-q-text">What are the grounding requirements for aerial lift trucks (bucket trucks) before elevated electrical work?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Aerial lift trucks must be <strong>properly grounded before beginning work</strong>. Procedures differ for insulated versus uninsulated aerial lift trucks. The vehicle must be grounded to prevent step-potential hazards. Workers must verify the grounding before entering the bucket. Rescue procedures from an aerial lift must also be established before work begins. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-19</span><span class="qa-q-text">What is temporary grounding of lines, and when is it required?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Temporary grounds are <strong>grounding cables applied to de-energized conductors to protect workers from inadvertent energization or induced voltages</strong>. They are required when working on de-energized overhead or underground lines. Grounds must be applied before any work begins and removed after work is complete and workers are clear. Ground cables must meet fault current capability requirements. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-20</span><span class="qa-q-text">What fall protection requirements apply to pole climbing, and what are pole climber gaffs?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Workers climbing poles must use <strong>approved fall protection systems</strong>. <strong>Gaffs</strong> are the sharp climbing spurs on pole climbers. In-use check of gaffs is required before each climb — they must be sharp, properly adjusted, and free of damage. A damaged gaff can slip from the pole, causing a fall. UFC 3-560-01 includes inspection criteria for gaffs. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-21</span><span class="qa-q-text">What is step potential, and why is it dangerous near a downed energized conductor?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Step potential</strong> is the voltage difference between two points on the ground surface separated by one step (approx. 1 meter). Near a downed energized conductor, current radiates outward through the soil. A person walking in this zone completes a circuit — current enters one foot at higher potential and exits the other at lower potential. The safest escape is a <strong>shuffle walk or bunny hop</strong> to minimize foot-to-foot voltage difference. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-22</span><span class="qa-q-text">What does the Electrical Task Risk Assessment Checklist (Table B-1 in UFC 3-560-01) accomplish?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The Electrical Task Risk Assessment Checklist is a <strong>pre-job planning tool</strong> that systematically identifies hazards associated with specific electrical tasks. It guides workers and supervisors through evaluating energy sources, required PPE, tools needed, emergency procedures, and personnel qualifications before beginning work. Completing it is mandatory for many electrical tasks. <span class="ref">UFC 3-560-01, App. B, Table B-1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-23</span><span class="qa-q-text">What is the procedure for entering an electrical manhole or vault?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Manhole/vault entry requires: <strong>(1) Atmospheric testing for oxygen deficiency, toxic gases, and explosive atmospheres before entry; (2) Continuous ventilation; (3) Standby person outside; (4) Rescue equipment nearby; (5) Communications established; (6) Electrical hazards identified and controlled; (7) Entry permit completed</strong>. UFC 3-560-01 Appendix H contains a sample SOP for manhole/vault entry. <span class="ref">UFC 3-560-01, App. H</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-24</span><span class="qa-q-text">What are the working space requirements around electrical equipment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Electrical equipment requires <strong>minimum working clearances</strong> to allow safe operation and maintenance. Requirements increase with voltage level. Three conditions define working space based on what is opposite the exposed live parts. A clear working space must be maintained — storage in front of panels is prohibited. UFC 3-560-01 addresses accessibility and working space for electrical equipment maintenance. <span class="ref">UFC 3-560-01, Ch. 13</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-25</span><span class="qa-q-text">What is the shore-to-ship electrical connection procedure, and what safety precautions are required before a ship docks?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Shore-to-ship power involves providing electrical power from a shore facility to a vessel. Before the ship docks: <strong>the shore power system must be de-energized, cables inspected, connectors verified, and the circuit confirmed de-energized before connecting</strong>. Low-voltage terminations and protective circuit breakers must be verified. The ship transfers back to its own generators following a specific procedure to prevent paralleling. <span class="ref">UFC 3-560-01, Ch. 13</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-26</span><span class="qa-q-text">What is the purpose of an Appendix C reference in UFC 3-560-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-560-01 Appendix C contains reference material supporting the safety requirements in the main body. Appendix C (as referenced in the WAPS catalog) typically covers <strong>supplemental safety procedures, tables, and technical reference data</strong> supporting the core electrical worker safety requirements. Always verify the specific appendix content in the current edition. <span class="ref">UFC 3-560-01, App. C</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-27</span><span class="qa-q-text">What are touch potential hazards, and how do they differ from step potential?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Touch potential</strong> is the voltage between an energized object a person is touching and the ground beneath their feet. <strong>Step potential</strong> is the voltage between two ground contact points (the two feet). Touch potential is often more dangerous because the hand-to-foot current path passes through the heart and vital organs. Both are mitigated by equipotential bonding and proper grounding. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-28</span><span class="qa-q-text">What energized work is prohibited under UFC 3-560-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-560-01 Appendix I contains a <strong>Sample SOP for Prohibited Energized Work Activities</strong>. Generally, energized electrical work is prohibited unless: (1) de-energizing creates a greater hazard, or (2) it is infeasible due to equipment design or operational requirements. All energized work must be justified in writing, use appropriate PPE, and follow established safe work practices. <span class="ref">UFC 3-560-01, App. I</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-29</span><span class="qa-q-text">What is the approved method for energized overhead line work at or below 35 kV?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Approved methods for energized overhead line work at ≤35 kV depend on hot stick distance: <strong>when hot stick distance is more than 8 feet</strong>, rubber glove or hot stick methods may be used. <strong>When distance is less than 8 feet</strong>, additional restrictions apply. All methods require proper PPE, qualified personnel, safe clearance authorization, and maintaining minimum approach distances. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-30</span><span class="qa-q-text">What safety documentation must be available before beginning an electrical job?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Before beginning any electrical job, the following must be identified and available: <strong>(1) Job Hazard Analysis/JSA; (2) Safe Clearance Form (if applicable); (3) Applicable safety standards and procedures; (4) Emergency response plan; (5) Required PPE; (6) Verification of personnel qualifications</strong>. UFC 3-560-01 states that all safety requirements must be identified and available before beginning the job. <span class="ref">UFC 3-560-01, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-31</span><span class="qa-q-text">What is ground potential gradient, and why does it create hazardous zones around energized equipment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Ground potential gradient</strong> is the voltage drop across the earth's surface as current dissipates from a fault point. The gradient is steepest close to the fault and diminishes with distance. This creates concentric voltage zones around the fault — a person bridging two zones experiences step potential. Figure 1-1 of UFC 3-560-01 illustrates this gradient and the safe equipotential zone. <span class="ref">UFC 3-560-01, Figure 1-1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-32</span><span class="qa-q-text">What training is required for workers who maintain, repair, or test electrical systems under UFC 3-560-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Workers must be <strong>qualified electrical workers</strong> who have completed appropriate training for their voltage level. Qualification includes both classroom and on-the-job training covering electrical hazards, LOTO, PPE, approach distances, and emergency procedures. A qualified person is one who has demonstrated skills and knowledge related to the construction and operation of electrical equipment and has been trained to avoid electrical hazards. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-33</span><span class="qa-q-text">What are the maximum fault current capability requirements for grounding cables?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Temporary grounding cables must be sized to carry the <strong>maximum available fault current</strong> for the system to which they are applied, for the time it takes the protective device to clear the fault. If undersized grounding cables are used and a fault occurs, the cables can fail explosively, creating a severe hazard. UFC 3-560-01 includes tables for maximum fault current capability. <span class="ref">UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-34</span><span class="qa-q-text">What is the procedure for opening or splicing de-energized conductors?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Before opening or splicing de-energized conductors: <strong>(1) Verify conductor is de-energized using approved test equipment; (2) Apply temporary grounds on both sides of the work area; (3) Verify grounds are properly installed; (4) Maintain clearance documentation</strong>. Conductors must remain grounded throughout the work. If the conductor was previously energized at high voltage, treat it as energized until tested and grounded. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+    <div class="qa-card" data-type="safety" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">S-35</span><span class="qa-q-text">What is the rescue procedure from an aerial lift (bucket truck), and why must it be established before work begins?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A rescue plan from a bucket truck must be established before work begins because a worker may become incapacitated by electrical contact. The plan must include: <strong>a trained rescue person on the ground, emergency lowering equipment, first aid/CPR-qualified personnel, and emergency contact numbers</strong>. If a worker contacts an energized conductor, the boom may not be able to be lowered normally. <span class="ref">UFC 3-560-01, Ch. 10</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('overview')">← Overview</button>
+    <button class="nav-btn next" onclick="go('grounding')">Grounding Systems →</button>
+  </div>
+</div>
+
+<!-- ═══ GROUNDING (AFMAN 32-1065 / DAFI 32-1001) ═══ -->
+<div class="category" id="cat-grounding">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference documents</div>
+    <div class="cat-title">Grounding Systems</div>
+    <div class="cat-ref">AFMAN 32-1065 (Ch. 3–18 + Attach. 3) · DAFI 32-1001 (Ch. 2, 4, 6)</div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-01</span><span class="qa-q-text">What is the minimum size for existing bonding conductors per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The minimum size for existing bonding conductors is <strong>AWG No. 8</strong>. In areas of high use or subject to physical damage, repairs must use wire no smaller than <strong>AWG No. 6 copper</strong>. Static grounds for portable or movable equipment must be braided cable for added flexibility. <span class="ref">AFMAN 32-1065, Para. 11.1.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-02</span><span class="qa-q-text">What is the maximum resistance allowed for static grounds per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Static grounds must be <strong>10,000 ohms to ground or less</strong>. Static electricity creates extremely small currents (on the magnitude of milliamps), so even this large resistance is small enough to bleed off static charges. A standard acceptable resistance for most grounding systems is 25 ohms or less. <span class="ref">AFMAN 32-1065, Para. 11.1.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-03</span><span class="qa-q-text">Why does the Air Force prohibit stainless steel ground rods?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The Air Force prohibits stainless steel ground rods because of their potential for <strong>galvanic corrosion issues and inadequate long-term conductivity</strong>. Standard acceptable materials include copper-clad steel and galvanized steel rods. The choice of rod material must be compatible with soil conditions and adjacent metallic structures. <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-04</span><span class="qa-q-text">When must you NOT bond around insulation flanges on an underground water pipe?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Do NOT bond around insulation flanges when a <strong>metal underground water pipe (uncoated) is in direct contact with the earth for 10 feet (3.05 meters) or more AND the flanges are installed for cathodic protection</strong>. Bonding around cathodic protection flanges defeats their corrosion protection purpose. <span class="ref">AFMAN 32-1065, Para. A2.2.1.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-05</span><span class="qa-q-text">What corrosion problem can occur when copper grounding systems are bonded to ferrous underground structures?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Because copper is <strong>cathodic to all common construction materials</strong>, bonding underground ferrous structures (steel pipes) to copper grounding systems creates <strong>galvanic corrosion</strong>. Corrosion current concentrates at voids (holidays) in pipe coatings, causing accelerated corrosion. A common solution is to use <strong>galvanized steel rather than copper ground rods</strong> near coated steel pipelines. <span class="ref">AFMAN 32-1065, Para. A2.4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-06</span><span class="qa-q-text">What is an electrolytic cell (Kirkcell) and how does it function in a grounding system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>electrolytic cell (Kirkcell)</strong> consists of multiple pairs of stainless steel plates in a potassium hydroxide electrolyte with an oil film on top to prevent evaporation. It acts as an <strong>electrochemical switch</strong> — blocking low DC voltages in the cathodic protection range, but instantly shunting AC or higher DC voltages to ground. This allows cathodic protection to work while still providing a path for fault currents. <span class="ref">AFMAN 32-1065, Para. A2.4.4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-07</span><span class="qa-q-text">What is a two-anode grounding cell and what is its nominal resistance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The nominal resistance of a <strong>two-anode grounding cell is 0.4 ohms</strong>. For lower resistance, a <strong>four cross-connected zinc anode cell provides 0.2 ohms</strong>. These cells provide a low-impedance AC fault path while blocking the low DC voltage corrosion currents that would otherwise interfere with cathodic protection systems. <span class="ref">AFMAN 32-1065, Para. A2.4.3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-08</span><span class="qa-q-text">What are the grounding electrode system requirements for an Air Force facility, and what types of electrodes are permitted?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">All permitted electrode types must be <strong>bonded together to form the grounding electrode system</strong>. Permitted types include: (1) Metal underground water pipe in contact with earth for 10+ feet; (2) Metal frame of a building that is effectively grounded; (3) <strong>Concrete-encased electrode</strong> — at least 20 feet of steel reinforcing bars encased in at least 2 inches of concrete near the bottom of a foundation. All available electrodes must be used and bonded together. <span class="ref">AFMAN 32-1065, Para. A2.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-09</span><span class="qa-q-text">What minimum thickness of metal framework qualifies a structure's frame to be used as an air terminal and main conductor for a lightning protection system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The metal framework of a structure may be used as an air terminal and main conductor of a lightning protection system if it is equal to or greater than <strong>3/16 inch (0.188 inch / 4.8 mm) in thickness</strong> and is electrically continuous, either inherently or by bonding. <span class="ref">AFMAN 32-1065, Para. 14.4.4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-10</span><span class="qa-q-text">Why is brazing to metal bodies not allowed for new construction in lightning protection bonding?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Brazing to metal bodies is not allowed for new construction because of the <strong>possibility of a cold weld with inadequate strength</strong>. Bolted connections to aluminum bodies and for bonding purposes are acceptable. Connections to air terminals are an exception to the no-brazing rule, but they must be tight and in good repair. <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-11</span><span class="qa-q-text">What is the acceptable ground loop conductor resistance per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>ground loop conductor resistance greater than 25 ohms is acceptable</strong> even if it exceeds this value, per the specific context of ground loop conductors. However, for most grounding electrodes the standard target is 25 ohms or less. The authority having jurisdiction may specify lower resistance for special applications. <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-12</span><span class="qa-q-text">What grounding documents must be maintained for facilities housing explosives?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For facilities housing explosives (permanent or temporary), grounding testing requirements are found in <strong>AFMAN 91-201, Explosive Safety Standards</strong>. AFMAN 32-1065 Attachment 5 contains the <strong>Maintenance Self-Check for Explosives Facilities</strong>. Workers must complete AMMO-47 or AMMO-48 training before working on grounding at explosive facilities. <span class="ref">AFMAN 32-1065, Attach. 5</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-13</span><span class="qa-q-text">What is the testing requirement frequency for lightning protection systems per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">AFMAN 32-1065 Table 1 contains the <strong>Scheduled Maintenance Requirements</strong> for grounding systems. Lightning protection systems require periodic testing including visual inspection and resistance checks. Exact frequency depends on facility type. Explosives facilities have more stringent requirements. All test results must be documented and retained. <span class="ref">AFMAN 32-1065, Table 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-14</span><span class="qa-q-text">What references govern basic bonding requirements for lightning protection per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Basic bonding requirements for lightning protection are referenced to <strong>NFPA 780</strong>. AFMAN 32-1065 Attachment 3 contains basic bonding requirements, and Attachment 4 covers lightning protection systems. The facility grounding system must comply with UFC 3-520-01, UFC 3-550-01, UFC 3-575-01, and UFC 3-580-01. <span class="ref">AFMAN 32-1065, Attach. 3 & 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-15</span><span class="qa-q-text">What is cathodic protection, and when does it conflict with electrical grounding requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Cathodic protection</strong> is an electrochemical technique to prevent corrosion of buried metallic structures by making them the cathode of an electrochemical cell. It conflicts with electrical grounding when bonding copper grounding systems to protected pipelines would short-circuit the protective current. Solutions include galvanized steel rods, isolation flanges, and electrolytic cells that pass AC fault current while blocking cathodic protection DC current. <span class="ref">AFMAN 32-1065, Para. A2.4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-16</span><span class="qa-q-text">Who is responsible for maintaining lightning and grounding systems on an Air Force installation?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>Base Civil Engineer (BCE)</strong> is responsible for maintaining lightning and grounding systems identified in AFMAN 32-1065 Table 1. This includes exterior electrical distribution grounds, substation grounds, and lightning protection systems. AFSEC and IG personnel assist with determining equivalency of protection systems. <span class="ref">AFMAN 32-1065 / DAFI 32-1001</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-17</span><span class="qa-q-text">What is the concrete-encased electrode (Ufer ground) minimum specification?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A concrete-encased electrode (Ufer ground) must consist of at least <strong>20 feet (6.1 meters) of one or more steel reinforcing bars</strong>, located within and near the bottom of a concrete foundation or footing in direct contact with the earth, and encased by at least <strong>2 inches (51 mm) of concrete</strong>. This type of electrode provides excellent low-resistance grounding due to the large surface area contact with soil. <span class="ref">AFMAN 32-1065, Para. A2.2.1.3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-18</span><span class="qa-q-text">What items on a facility's perimeter greater than 300 feet require special grounding consideration per AF guidance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For AF facilities with perimeters larger than 300 feet, <strong>LPS inspection certificate by UL or another third-party</strong> organization is required. Additionally, metallic fences must be grounded or bonded to the grounding electrode system, and metallic access doors/doorframes must be bonded to ground. <span class="ref">AFMAN 32-1065 / DOD Lightning Protection guidance</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-19</span><span class="qa-q-text">What are the DAFI 32-1001 chapters covered in 3E051 WAPS study, and what do they address?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Chapters 2, 4, and 6 of DAFI 32-1001 are covered. DAFI 32-1001 is the <strong>Civil Engineer Operations instruction</strong> governing how Civil Engineer squadrons operate and manage facilities. Chapter 2 covers organization and responsibilities, Chapter 4 covers maintenance management, and Chapter 6 covers operations policies applicable to electrical systems maintenance. <span class="ref">DAFI 32-1001, Ch. 2, 4, 6</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-20</span><span class="qa-q-text">What are the visual inspection requirements for grounding systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Visual inspections of grounding systems must check for: <strong>physical damage to conductors, loose or corroded connections, damaged or missing hardware, evidence of deterioration, and proper bonding at all connection points</strong>. Inspections are documented on maintenance records. Frequency is per AFMAN 32-1065 Table 1. Any deficiencies found must be corrected and documented. <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-21</span><span class="qa-q-text">What does the distribution map show in the electric shop, and what is the abnormal conditions listing?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>distribution map</strong> shows the physical location of distribution system components throughout the base. The <strong>abnormal conditions listing</strong> informs electric shop personnel of unique conditions on the distribution system — such as jumpered protective devices, de-energized sections, or equipment in maintenance status. Both documents are essential tools for safe system operation. <span class="ref">3E051 CDC / Distribution Operations</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-22</span><span class="qa-q-text">What type of conductor support construction should be used in high moisture environments for distribution systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In <strong>high moisture environments</strong>, distribution system conductor supports should use <strong>suspension-type construction</strong>. Moisture degrades standard pin-type insulators faster than suspension types. The insulator choice must also be appropriate for the voltage level — <strong>strain insulators are used on low-voltage or neutral conductors</strong> in appropriate configurations. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-23</span><span class="qa-q-text">What training course is required for workers before they can perform grounding system maintenance at explosives facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Workers must complete <strong>DAC course number 4E-F37 645-F21 (formerly AMMO-47) or AMMO-48</strong> before maintaining grounding systems at explosive facilities. If the OJT path is selected, the trainee must be instructed by a worker who completed AMMO-47 or AMMO-48 within the last <strong>three years</strong>. Training milestones must be tracked and documented. <span class="ref">AFMAN 32-1065, Para. 4.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-24</span><span class="qa-q-text">What is ECM (Extended Coverage Method) in lightning protection, and what are the two configurations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">ECM is a lightning protection design method. The two configurations are: <strong>ECM with center conductor and air terminals</strong> (Figure 3 in AFMAN 32-1065) and <strong>ECM without center conductor and air terminals</strong> (Figure 4). The configuration chosen depends on the facility type, height, and hazard level. Both require proper bonding to the building grounding electrode system. <span class="ref">AFMAN 32-1065, Figures 3 & 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-25</span><span class="qa-q-text">What must happen when a bonding conductor repair is made in a high-use area?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">When making bonding conductor repairs in high-use areas or areas subject to physical damage, repairs must be made with wire <strong>no smaller than AWG No. 6 copper</strong>. The larger wire provides additional mechanical strength to withstand physical abuse. All repair connections must be properly made and documented. <span class="ref">AFMAN 32-1065, Para. 11.1.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-26</span><span class="qa-q-text">What are example sketch test points used for in a grounding system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Test points are established locations in a grounding and lightning protection system where <strong>resistance measurements can be taken consistently over time</strong>. AFMAN 32-1065 Figure 10.1 shows an example sketch of test points (typical). Consistent use of the same test points allows trending of resistance values to detect system degradation before it becomes a safety hazard. <span class="ref">AFMAN 32-1065, Figure 10.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-27</span><span class="qa-q-text">What qualifications must personnel have to sign off on grounding system work as supervisors or inspectors?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Workers maintaining, repairing, modifying, and testing grounding systems must be <strong>thoroughly familiar with test equipment operation, lightning protection, grounding and bonding theory, practices, referenced codes, standards, and specific requirements</strong> in AFMAN 32-1065. Electrical superintendent oversight is required for OJT programs, with the superintendent certifying training milestones. <span class="ref">AFMAN 32-1065, Para. 4.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-28</span><span class="qa-q-text">What is the purpose of bonding above-ground metallic utility lines to structural grounds?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Above-ground metallic utility lines must be bonded to structural grounds to <strong>prevent lightning-induced surges from entering the facility through utility lines</strong>. Without proper bonding, a lightning strike on or near a utility line can introduce dangerous potentials into the building, damaging equipment and endangering personnel. This bonding is required at explosive facilities per AFMAN 91-201. <span class="ref">AFMAN 32-1065 / AFMAN 91-201</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-29</span><span class="qa-q-text">What UFC documents govern the grounding and bonding systems that BCE must maintain per AFMAN 32-1065?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">BCE must maintain grounding and bonding systems in accordance with: <strong>UFC 3-520-01</strong> (Interior Electrical Systems), <strong>UFC 3-550-01</strong> (Exterior Electrical Power Distribution), <strong>UFC 3-575-01</strong> (Lightning and Static Electricity Protection Systems), and <strong>UFC 3-580-01</strong> (Telecommunications Building Cabling Systems Planning and Design). <span class="ref">AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">G-30</span><span class="qa-q-text">What is the AFMAN 32-1065 requirement for a ground ring electrode for Class II explosives storage?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>ground ring electrode must be sized to Class II material requirements</strong> as specified in AFMAN 32-1065 Attachment 4.1.15. The ground ring encircles the structure and must meet specific resistance requirements. It must be bonded to all metallic components of the lightning protection system and the building grounding electrode system. <span class="ref">AFMAN 32-1065, A4.1.15</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('safety')">← Electrical Safety</button>
+    <button class="nav-btn next" onclick="go('nec')">NEC / NFPA 70 →</button>
+  </div>
+</div>
+
+<!-- ═══ NEC / NFPA 70 ═══ -->
+<div class="category" id="cat-nec">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference document</div>
+    <div class="cat-title">NEC / NFPA 70 (2024 Edition)</div>
+    <div class="cat-ref">Selected articles per WAPS reference list — Articles 210, 230, 235, 240, 330, 358, 360, 404, 406.1–406.8, Ch. 4</div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-01</span><span class="qa-q-text">What does NEC stand for and what is its purpose?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC stands for <strong>National Electrical Code</strong>. Its purpose is to establish <strong>minimum requirements for the safe installation of electrical wiring and equipment</strong>. Chapters 1–4 cover general electrical installations. Chapters 5–7 cover special equipment and locations. Chapter 8 covers communication systems. Chapter 9 contains tables. <span class="ref">NFPA 70 / NEC</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-02</span><span class="qa-q-text">What is the difference between a mandatory rule and a permissive rule in the NEC?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>mandatory rule</strong> identifies actions that are specifically required or prohibited and uses the word "shall" or "shall not." A mandatory rule can have exceptions listed below it. A <strong>permissive rule</strong> identifies actions that are allowed but not required, using the word "shall be permitted." These are options available to the installer but not requirements. <span class="ref">NFPA 70, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-03</span><span class="qa-q-text">What does NEC Article 210 govern, and what are branch circuits?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 210 governs <strong>branch circuits</strong>. A branch circuit is the circuit conductors between the final overcurrent device protecting the circuit and the outlets. Article 210 covers requirements for branch circuit ratings, required outlets, and AFCI/GFCI protection requirements. <span class="ref">NFPA 70, Art. 210</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-04</span><span class="qa-q-text">What does NEC Article 230 cover, and what is a service entrance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 230 covers <strong>services</strong> — the conductors and equipment that deliver energy from the utility to the wiring system of the premises. The <strong>service entrance</strong> is the point where utility power enters a building. Service voltage is defined as the voltage at the facility service entrance location. Article 230 governs service conductor sizing, clearances, disconnects, and protection requirements. <span class="ref">NFPA 70, Art. 230</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-05</span><span class="qa-q-text">What does NEC Article 240 cover, and what is the purpose of overcurrent protection?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 240 covers <strong>overcurrent protection</strong>. Overcurrent protection devices (fuses and circuit breakers) protect conductors and equipment from damage due to excessive current. <strong>A fuse and circuit breaker are similar in that both are used to protect from overcurrent</strong>. The standard states Army Civil Works projects don't need to meet Article 240.2(A)(4) when using mission-critical MCCBs without commercial replacements. <span class="ref">NFPA 70, Art. 240</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-06</span><span class="qa-q-text">What does a GFCI protect against, and where are GFCIs required?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>Ground Fault Circuit Interrupter (GFCI)</strong> protects against <strong>contact between an ungrounded conductor and the grounding path (ground fault)</strong> by detecting current imbalance as small as 4–6 mA. GFCIs are required in <strong>wet locations such as kitchens, bathrooms, garages, outdoor receptacles, and near pools</strong>. UFC 3-520-01 requires GFCIs at specific DoD facility locations. <span class="ref">NFPA 70, Art. 210 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-07</span><span class="qa-q-text">What is an AFCI, and where is it required under the NEC?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>Arc Fault Circuit Interrupter (AFCI)</strong> is a device that provides protection from the effects of arc faults by recognizing the unique current waveform of an arc and de-energizing the circuit when an arc fault is detected. AFCIs are required in <strong>dwelling unit bedrooms and other living areas</strong>. They protect against both parallel and series arc faults that can ignite fires within wiring. <span class="ref">NFPA 70, Art. 210</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-08</span><span class="qa-q-text">What is NEC Article 330 (Metal-Clad Cable), and what are its parts per the WAPS reference list?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 330 covers <strong>Metal-Clad (MC) Cable</strong>. The WAPS list includes parts I and II of Article 330. MC cable is a factory assembly of insulated conductors enclosed in a metallic sheath of interlocking tape or a smooth or corrugated tube. The metal sheath serves as the equipment grounding conductor path. Part I covers general provisions; Part II covers installation requirements. <span class="ref">NFPA 70, Art. 330</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-09</span><span class="qa-q-text">What is NEC Article 358, and what does it cover (Articles 358.24 through 358.60)?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 358 covers <strong>Electrical Metallic Tubing (EMT)</strong>, a thin-wall metallic raceway. The WAPS reference covers part II (358.24 through 358.60), which includes: bends (358.24–358.26), supports (358.30), joints (358.42), bends — how made (358.24), and installation/construction specifications. EMT cannot be used where subject to physical damage or in certain wet locations. <span class="ref">NFPA 70, Art. 358 Part II</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-10</span><span class="qa-q-text">What does NEC Article 360 cover, and what are its two parts per the WAPS reference?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 360 covers <strong>Flexible Metallic Tubing (FMT)</strong>. The WAPS reference includes parts I and II. FMT is a raceway that is circular in cross section, flexible, metallic, and liquidtight. Part I covers general provisions including definitions and scope. Part II covers installation requirements including permitted uses, size, and securing/supporting requirements. <span class="ref">NFPA 70, Art. 360</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-11</span><span class="qa-q-text">What does NEC Article 404 cover, and what are key requirements for switches?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Article 404 covers <strong>switches</strong>. Key requirements include: switches must be accessible, switches controlling lighting must be at the point of entrance into the space, single-pole switches must open the ungrounded conductor, and switches must be marked for their rating. A <strong>disconnect switch</strong> is specifically designed to disconnect electrical power from a circuit or equipment. <span class="ref">NFPA 70, Art. 404</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-12</span><span class="qa-q-text">What does NEC Article 406 (Articles 406.1–406.8) govern, and what are the requirements for receptacles?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC Articles 406.1–406.8 cover <strong>receptacles, cord connectors, and attachment plugs</strong>. Requirements include: receptacles must be of the grounding type, receptacles in wet locations must be weatherproof, GFCI protection as required, and receptacles must be installed at accessible locations. A <strong>bonding conductor or jumper</strong> is an insulated conductor used to electrically connect two metal parts to ensure continuity. <span class="ref">NFPA 70, Art. 406</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-13</span><span class="qa-q-text">What is a short circuit per NEC, and how does it differ from a ground fault?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>short circuit</strong> is an abnormal condition of relatively low impedance, whether made accidentally or intentionally, between two points of different potential (typically line-to-line or line-to-neutral). A <strong>ground fault</strong> is contact between an ungrounded conductor and the grounding path (line-to-ground). Both are types of overcurrent conditions but their protective device responses differ. <span class="ref">NFPA 70, Art. 100 definitions</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-14</span><span class="qa-q-text">What is a surge protector (SPD) per the NEC, and when are they required at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>Surge Protective Device (SPD)</strong> is composed of any combination of linear or nonlinear circuit elements to limit surge voltages on equipment. Per UFC 3-520-01 (implementing NEC requirements), SPDs must be provided for <strong>sensitive or critical electronic equipment as required by the activity or equipment manufacturer</strong>. SPDs protect against transient overvoltages from lightning, switching, or utility events. <span class="ref">NFPA 70 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-15</span><span class="qa-q-text">What NEC requirements govern host nation facilities outside the United States?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Facilities located outside the US must comply with <strong>applicable host nation standards in addition to NFPA 70 requirements</strong>. Host nation voltage and frequency as defined in UFC 3-510-01 generally applies. Different wiring and grounding conventions usually apply in other host nations, but the design principles of UFC 3-520-01 should still be followed. <span class="ref">UFC 3-520-01 / NFPA 70</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-16</span><span class="qa-q-text">What is the NEC standard for general purpose convenience outlet specification at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 (implementing NEC) requires general purpose convenience outlets to be <strong>specification grade, 20 A, 120 V, duplex</strong>. Wiring devices and faceplate colors must match and be consistent with interior wall types and colors. Outlet boxes must not be placed back-to-back; a minimum of <strong>12 inches (300 mm) separation</strong> between outlet boxes is required. <span class="ref">UFC 3-520-01 / NFPA 70</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-17</span><span class="qa-q-text">What NEC chapter covers hazardous locations, and what must be shown on drawings for such locations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC <strong>Chapters 5–7</strong> cover special equipment, special conditions, and special locations including hazardous locations. For hazardous locations, the plans must <strong>show the boundaries of hazardous locations and identify the type of hazard</strong> (Class I – flammable gases, Class II – combustible dust, Class III – ignitible fibers). Equipment in hazardous locations must be specifically approved for the class and division/zone. <span class="ref">NFPA 70, Chs. 5–7 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-18</span><span class="qa-q-text">What is a molded-case circuit breaker (MCCB) and when may Army Civil Works projects deviate from Art. 240.2(A)(4)?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>MCCB (Molded-Case Circuit Breaker)</strong> is a factory-assembled device with circuit-opening contacts enclosed in a molded insulating housing. Army Civil Works projects may deviate from NEC Article 240.2(A)(4) when <strong>all three conditions are met: (1) the MCCB is considered mission critical, (2) a new replacement is not commercially available, and (3) equipment is used in commercial and industrial applications</strong>. <span class="ref">UFC 3-501-01 / NFPA 70, Art. 240</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-19</span><span class="qa-q-text">What NEC article governs meter sockets, and what specification applies to housing unit meter sockets at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 specifies that upon Activity request, housing unit installations are limited to <strong>meter sockets only</strong>. Sockets must be <strong>single phase, four terminal, ring-less with a manual bypass device and polycarbonate blank</strong>. This aligns with NEC Article 230 service requirements and ensures safe utility metering. <span class="ref">UFC 3-520-01 / NFPA 70, Art. 230</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-20</span><span class="qa-q-text">What is the NEC required torque standard for electrical connections?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Connections must be made using the torque values recommended by the <strong>International Electrical Testing Association (NETA) ATS</strong> (Acceptance Testing Specifications) or the manufacturer's torque specifications. The date of installation must be recorded. Loose connections cause resistance heating, arcing, and potential fires — proper torque is a critical installation requirement. <span class="ref">UFC 3-520-01 / NETA ATS</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-21</span><span class="qa-q-text">What is a split receptacle and where are they used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>split receptacle</strong> is a duplex receptacle where the two outlets are on separate circuits (the tab connecting them is broken). They are used where one outlet of a duplex receptacle is controlled by a <strong>separate manual or automatic switching device</strong> while the other remains always hot. Locations for split receptacles must be identified on plans. <span class="ref">UFC 3-520-01 / NFPA 70</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-22</span><span class="qa-q-text">What is the wiring harness requirement for systems furniture per UFC 3-520-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Systems furniture is pre-wired to a wiring harness. Unless specified otherwise, select a standard wiring harness that meets one of these configurations: <strong>5-wire harness consisting of 3 circuit conductors and 1 oversized neutral</strong> (among other configurations). The electrical designer, architect, and interior designer must coordinate during the design process when systems furniture is utilized. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-23</span><span class="qa-q-text">What does NEC Article 235 cover per the WAPS reference list?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC Article 235 (Part IV per WAPS) covers <strong>branch circuit, feeder, and service voltage limitations</strong>. It establishes the maximum voltage levels permitted for specific applications, including nominal voltages for lighting circuits and equipment. This article works with ANSI C84.1 (Electric Power Systems and Equipment—Voltage Ratings 60 Hz) to establish system voltage standards. <span class="ref">NFPA 70, Art. 235</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-24</span><span class="qa-q-text">What is the ANSI C84.1 voltage standard, and why is it referenced in UFC documents?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>ANSI C84.1</strong> (Electric Power Systems and Equipment — Voltage Ratings 60 Hz) establishes nominal voltage ratings and ranges for AC power systems at 60 Hz. It defines preferred voltage levels, service voltages, and utilization voltages. UFC documents reference it to ensure DoD electrical systems maintain proper voltage levels for equipment compatibility and to define service voltage at the facility entrance. <span class="ref">ANSI C84.1 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-25</span><span class="qa-q-text">What are the NEC Chapter 7 requirements for emergency and standby systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC Chapter 7 covers <strong>special conditions</strong> including emergency systems (Article 700), legally required standby systems (Article 701), and optional standby systems (Article 702). Emergency systems must operate automatically on loss of normal power. At DoD facilities: exit and emergency lighting must comply with UFC 3-530-01, and generators must comply with UFC 3-540-01. <span class="ref">NFPA 70, Ch. 7 / UFC 3-501-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-26</span><span class="qa-q-text">What NEC provisions govern Sensitive Compartmented Information Facilities (SCIFs)?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For <strong>Sensitive Compartmented Information Facilities (SCIFs)</strong>, all electrical systems must comply with <strong>UFC 4-010-05</strong> in addition to standard NEC requirements. SCIFs require special shielding and HEMP (High-Altitude Electromagnetic Pulse) protection. HEMP shielded systems must comply with MIL-STD-188-125-1A and MIL-HDBK-423. <span class="ref">UFC 3-501-01 / UFC 4-010-05</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-27</span><span class="qa-q-text">What is the NEC fire alarm system requirement, and which UFC governs it?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Fire alarm systems must comply with <strong>UFC 3-600-01</strong> at DoD facilities. NEC Article 760 covers fire alarm systems wiring and equipment requirements. Fire alarm circuits have specific wiring methods, power supply requirements, and notification appliance circuit rules. <span class="ref">UFC 3-501-01 / NFPA 70, Art. 760</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-28</span><span class="qa-q-text">What is the NEC definition of a grounding electrode conductor?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>Grounding Electrode Conductor</strong> is the conductor used to connect the grounding electrode to the equipment grounding conductor, the service equipment enclosure, or the grounded conductor at the service. It establishes the reference to earth (ground) for the electrical system. Its sizing is based on the size of the service entrance conductors. <span class="ref">NFPA 70, Art. 100 / 250</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-29</span><span class="qa-q-text">What NEC article governs stationary battery installations at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Stationary battery installations must comply with <strong>UFC 3-520-05</strong> (Stationary Battery Areas) at DoD facilities, which implements NEC requirements. Valve-regulated lead-acid batteries are covered by <strong>AFPAM 32-1186</strong>. Battery rooms require special ventilation, hydrogen detection, acid containment, and eyewash facilities. <span class="ref">UFC 3-520-05 / NEC Art. 480</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-30</span><span class="qa-q-text">What does the NEC say about renewable energy systems at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Renewable energy systems (solar photovoltaic, wind, etc.) must comply with relevant NEC articles (690 for solar PV, 694 for wind) and UFC requirements. UFC 3-501-01 includes provisions for renewable energy system design at DoD facilities. The Energy Policy Act requirements and applicable UFC energy standards also govern renewable installations. <span class="ref">UFC 3-501-01 / NFPA 70, Art. 690</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-31</span><span class="qa-q-text">What are the NEC Chapter 8 communication system requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">NEC Chapter 8 covers <strong>communication systems</strong> including telephone and telegraph systems (Article 800), radio and TV equipment (Article 810), community antenna TV and radio distribution (Article 820), and network-powered broadband communications (Article 830). Chapter 8 is largely independent of Chapters 1–7 and contains its own installation rules for low-energy systems. <span class="ref">NFPA 70, Ch. 8</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-32</span><span class="qa-q-text">What is the difference between service voltage and utilization voltage per NEC/ANSI C84.1?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Service voltage</strong> is the voltage at the facility service entrance location (where the utility delivers power). <strong>Utilization voltage</strong> is the voltage at the terminals of the load equipment. Utilization voltage is typically lower than service voltage due to voltage drop in the facility wiring. ANSI C84.1 defines acceptable ranges for both. <span class="ref">ANSI C84.1 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-33</span><span class="qa-q-text">What does the NEC NEC say about product safety signs and labels (ANSI Z535.4)?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>ANSI Z535.4-2007</strong> (Product Safety Signs and Labels) is referenced in UFC electrical documents to standardize the format of safety warnings, including arc flash labels on electrical equipment. ANSI Z535 defines signal words (DANGER, WARNING, CAUTION), color coding, and layout requirements for safety labels to ensure consistent, internationally recognized hazard communication. <span class="ref">UFC 3-520-01 / ANSI Z535.4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-34</span><span class="qa-q-text">What is IEEE C57.110 and when is it relevant to DoD electrical work?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>IEEE C57.110</strong> is the IEEE Recommended Practice for Establishing Transformer Capability When Supplying Nonsinusoidal Load Currents. It is relevant when DoD facilities have significant nonlinear loads (computers, variable frequency drives, UPS systems) that produce harmonic currents. Harmonic currents can overheat transformer windings, and IEEE C57.110 provides guidance on derating transformers under these conditions. <span class="ref">UFC 3-520-01 / IEEE C57.110</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">N-35</span><span class="qa-q-text">What modernization requirements does UFC 3-520-01 impose on existing facilities for NEC compliance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 states that <strong>modernization of electrical systems within existing facilities solely for the purpose of meeting UFC design criteria is NOT required</strong>. However, <strong>upgrades or modifications of existing facilities must apply the design criteria in the UFC</strong>, but this does not mean the entire facility must be modernized solely because of a minor modification to part of the facility. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('grounding')">← Grounding</button>
+    <button class="nav-btn next" onclick="go('interior')">Interior Electrical →</button>
+  </div>
+</div>
+
+<!-- ═══ INTERIOR ELECTRICAL (UFC 3-520-01) ═══ -->
+<div class="category" id="cat-interior">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference document</div>
+    <div class="cat-title">Interior Electrical Systems</div>
+    <div class="cat-ref">UFC 3-520-01 · Except Appendices</div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-01</span><span class="qa-q-text">What does UFC 3-520-01 apply to, and what project delivery methods does it cover?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 applies to <strong>planning, design, construction, sustainment, restoration, and modernization of DoD-owned facilities</strong>. It applies to all methods of project delivery and all levels of construction as defined by UFC 1-200-01. This includes design-bid-build, design-build, and all other contract delivery methods. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-02</span><span class="qa-q-text">What are the three raceway types commonly specified in UFC 3-520-01 for DoD interior wiring?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Common raceway types in DoD interior wiring include: <strong>(1) Electrical Metallic Tubing (EMT, Art. 358)</strong> — thin-wall, cannot be threaded; <strong>(2) Rigid Metal Conduit (RMC, Art. 344)</strong> — heaviest wall, fully threaded; <strong>(3) Intermediate Metal Conduit (IMC, Art. 342)</strong> — between EMT and RMC in weight. Selection depends on environment, protection level required, and location. <span class="ref">UFC 3-520-01 / NFPA 70</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-03</span><span class="qa-q-text">What is the purpose of transformer capability ratings per IEEE C57.110 in DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">IEEE C57.110 ensures transformers supplying nonlinear loads (computers, VFDs, UPS) are properly <strong>derated to account for harmonic currents</strong>. Without derating, harmonic currents cause excess heating in windings and can cause premature transformer failure. The k-factor rating system is used to specify transformers capable of supplying nonsinusoidal loads. <span class="ref">UFC 3-520-01 / IEEE C57.110</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-04</span><span class="qa-q-text">When must the electrical designer coordinate with the architect and interior designer regarding systems furniture?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Coordination must occur <strong>during the design process</strong>, not at completion. Systems furniture is typically specified and ordered when construction is nearing completion — if coordination has not occurred earlier in design, field interface problems will result. The three parties must coordinate to ensure outlet locations, circuit capacity, and furniture power requirements align. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-05</span><span class="qa-q-text">What are wiring devices and their requirements per UFC 3-520-01 regarding color and placement?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Wiring devices and faceplate colors must <strong>match and be consistent with the interior wall types and colors</strong>. Use grounding-type wiring devices. Outlet boxes <strong>must not be placed back-to-back</strong>. A minimum of <strong>12 inches (300 mm) of separation</strong> between outlet boxes is required to maintain acoustic and fire separation integrity of walls. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-06</span><span class="qa-q-text">What are the DoD requirements for data systems wiring in facilities per UFC 3-520-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Data systems at DoD facilities must comply with <strong>UFC 3-580-01</strong> (Telecommunications Building Cabling Systems). UFC 3-520-01 requires proper coordination between electrical power and telecommunications wiring to prevent interference. Separate conduit systems are required for power and data in many applications, and SCIF facilities have additional shielding requirements. <span class="ref">UFC 3-520-01 / UFC 3-580-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-07</span><span class="qa-q-text">What UFC governs DoD generators, and what does it require?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-540-01</strong> governs generator installations at DoD facilities. Generators provide emergency and standby power. Requirements include fuel storage, cooling, exhaust systems, transfer switch coordination, load calculations, and automatic starting systems. UFC 3-540-04N covers diesel electric generating plants specifically for Navy applications. <span class="ref">UFC 3-501-01 / UFC 3-540-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-08</span><span class="qa-q-text">What does "wiring and connections for supplemental grounding systems" refer to in UFC 3-520-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Supplemental grounding systems are additional grounding provisions beyond the standard grounding electrode system, used for <strong>sensitive electronic equipment, signal reference grids, and equipment requiring low-impedance grounding paths</strong>. UFC 3-520-01 includes wiring and connection requirements for these systems, which must still comply with NEC and not create ground loops that cause interference. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-09</span><span class="qa-q-text">What are the UFC 3-520-01 requirements for raceway and wiring in general building construction?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-520-01 requires raceway and wiring to comply with NEC requirements. For DoD construction, raceways must be sized for future expansion, proper conduit fill must be maintained per NEC tables, wire pulling lubricant must not damage insulation, and all conductors must be properly identified. Connections must meet NETA ATS torque requirements. <span class="ref">UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-10</span><span class="qa-q-text">What UFC governs foreign voltages and frequencies at DoD installations outside the US?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-510-01</strong> (Foreign Voltages and Frequencies Guide) governs electrical system design at DoD facilities outside the US where host nation power is used. It provides conversion and compatibility guidance. Different wiring and grounding conventions apply; however, design principles from UFC 3-520-01 should still be followed even when using different voltages or frequencies. <span class="ref">UFC 3-510-01 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-11</span><span class="qa-q-text">What is the reference for 400 Hz electrical distribution at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-555-01N</strong> covers <strong>400 Hertz Medium Voltage Conversion/Distribution and Low Voltage Utilization Systems</strong>. This is primarily a Navy standard for aircraft support power (most military aircraft use 400 Hz power). MIL-HDBK-1028/6A also covers Aircraft Fixed Point Utility Systems for airfield applications. <span class="ref">UFC 3-555-01N / MIL-HDBK-1028/6A</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-12</span><span class="qa-q-text">What governing criteria document ties together all electrical UFCs and explains how they relate to each other?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-501-01</strong> (Electrical Engineering) provides the <strong>governing criteria for electrical systems</strong>, explains the delineation between the different electrical-related UFCs, and refers to each specific UFC for detailed requirements. It is the master document that references UFC 3-520-01 for interior, UFC 3-530-01 for lighting, UFC 3-540-01 for generators, and UFC 3-550-01 for exterior distribution. <span class="ref">UFC 3-501-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-13</span><span class="qa-q-text">What is the NAVSEA OP-5 reference and when does it apply to DoD electrical work?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>NAVSEA OP-5</strong> (Ammunition and Explosives Safety Ashore) establishes safety requirements for ammunition and explosives handling and storage, including electrical requirements for such facilities. It is referenced in both UFC 3-520-01 and UFC 3-560-01 when electrical work involves ammunition storage areas or explosive handling facilities. <span class="ref">UFC 3-520-01 / UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-14</span><span class="qa-q-text">What are the three responsible organizations for administration of the UFC system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The three organizations responsible for administering the UFC system are: <strong>(1) U.S. Army Corps of Engineers (USACE/HQUSACE); (2) Naval Facilities Engineering Command (NAVFAC); (3) Air Force Civil Engineer Center (AFCEC)</strong>. Defense agencies contact the preparing service for document interpretation and improvements. UFC documents cover all DoD components. <span class="ref">UFC 3-530-01 / UFC system</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-15</span><span class="qa-q-text">What are the requirements for MIL-HDBK-1190 in relation to DoD facility planning and design?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>MIL-HDBK-1190</strong> (Facility Planning and Design Guide) provides overarching guidance for DoD facility planning and design. Electrical systems must be designed as part of the overall facility design. It is referenced by UFC 3-520-01 as a planning document that establishes the framework within which individual UFC requirements for electrical systems are implemented. <span class="ref">MIL-HDBK-1190 / UFC 3-520-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-16</span><span class="qa-q-text">What are the UFC requirements for photovoltaic test results in luminaire specifications?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Luminaire photometric files used in lighting calculations must be derived from <strong>ANSI/IES LM-79 test results</strong>. LM-79 is the standard test method for measuring the photometric and electrical characteristics of solid-state (LED) lighting products. This ensures that calculations are based on verified performance data rather than unverified manufacturer claims. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-17</span><span class="qa-q-text">What is the IEEE C2 (National Electrical Safety Code) and how does it relate to UFC documents?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>IEEE C2</strong> (National Electrical Safety Code, NESC) governs electric supply and communications utility systems, including overhead lines, underground lines, and supply stations. It is referenced in UFC 3-520-01 for utility-side requirements. While the NEC governs building wiring, the NESC governs the utility distribution system — both apply at the service entrance boundary. <span class="ref">UFC 3-520-01 / IEEE C2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-18</span><span class="qa-q-text">What is the LLF (Light Loss Factor) for a typical office with LED luminaires and what does it account for?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>typical LLF is 0.81</strong> for an office with LED luminaires rated L80 at 60,000 hours over a 25-year life cycle. LLF accounts for: <strong>LED lumen depreciation, luminaire dirt depreciation, room surface dirt depreciation, and other factors</strong> that reduce actual light output over time. LLF varies based on environment, application, and building life cycle. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-19</span><span class="qa-q-text">What is the L80 rating for LED luminaires and why is it significant?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>L80</strong> means the LED product retains at least <strong>80% of its initial light output</strong> at the rated number of hours. An L80 at 60,000 hours means the luminaire will still produce 80% of initial lumens after 60,000 operating hours. This is the standard threshold for LED luminaire longevity rating at DoD facilities. Lower output (L70) is less stringent. <span class="ref">UFC 3-530-01 / IES TM-21</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-20</span><span class="qa-q-text">What are the requirements for luminaire luminance to prevent direct glare in occupied spaces?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In regularly occupied spaces, luminaires must have a luminance of less than <strong>650 cd/ft² (7,000 cd/m²) between 45 and 90 degrees from nadir</strong> to prevent direct glare. Exceptions include high and low bay luminaires in industrial applications, luminaires aimed at walls, and indirect luminaires. A narrow-lens LED product may exceed this limit and require a dimmer. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-21</span><span class="qa-q-text">What specific UFC covers lightning and static electricity protection systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-575-01</strong> (Lightning and Static Electricity Protection Systems) covers the design and installation of lightning protection systems for DoD facilities. It is implemented alongside NFPA 780 (Standard for the Installation of Lightning Protection Systems) and is referenced by both AFMAN 32-1065 and UFC 3-520-01 for lightning protection design requirements. <span class="ref">UFC 3-575-01 / AFMAN 32-1065</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-22</span><span class="qa-q-text">What are ANSI/IES LM-79 tests used for, and what do they measure?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">ANSI/IES LM-79 is the <strong>standard test method for measuring photometric and electrical characteristics of solid-state lighting products</strong>. It measures: total luminous flux (lumens), luminous intensity distribution, electrical power, power factor, and correlated color temperature. Manufacturers must conduct LM-79 testing by accredited laboratories. Results are used in photometric files for lighting calculations. <span class="ref">UFC 3-530-01 / ANSI/IES LM-79</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-23</span><span class="qa-q-text">What is the difference between horizontal and vertical illuminance measurements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Horizontal illuminance</strong> is the amount of light falling on a horizontal surface — measured on desks, work surfaces, or floors. <strong>Vertical illuminance</strong> is the amount of light falling on a vertical surface such as whiteboards, signs, walls, and peoples' faces. Vertical illuminance on faces is important for identification at entries and security checkpoints, as specified in UFC 3-530-01. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-24</span><span class="qa-q-text">What is "illuminance" and in what units is it measured per UFC 3-530-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Illuminance</strong> is the amount of light falling on a surface. It is measured in <strong>lux (metric) or footcandles (imperial)</strong>. Traditionally, illuminance was the basis of lighting design. However, modern IES standards require consideration of additional factors including luminance, contrast, and glare because humans "see" brightness, not lighting levels. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="code" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">I-25</span><span class="qa-q-text">What reference governs fiber optic and telecommunications cabling systems at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-580-01</strong> (Telecommunications Building Cabling Systems Planning and Design) governs data, voice, and telecommunications cabling at DoD facilities. It is referenced by AFMAN 32-1065 for grounding of telecommunications systems and by UFC 3-520-01 for power and data system coordination. Telecommunications cabling must maintain separation from power wiring to prevent interference. <span class="ref">UFC 3-580-01 / UFC 3-520-01</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('nec')">← NEC / NFPA 70</button>
+    <button class="nav-btn next" onclick="go('lighting')">Lighting Systems →</button>
+  </div>
+</div>
+
+<!-- ═══ LIGHTING (UFC 3-530-01) ═══ -->
+<div class="category" id="cat-lighting">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference document</div>
+    <div class="cat-title">Interior & Exterior Lighting</div>
+    <div class="cat-ref">UFC 3-530-01 · Ch. 2, 3 (para. 3-6 through 3-8.4.3), 4, and Appendices C and F (F-2 terms)</div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-01</span><span class="qa-q-text">What is the minimum footcandle requirement for an Access Control Point (ACP) approach zone per UFC 3-530-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The approach zone at an Access Control Point requires a <strong>minimum of 1 footcandle (fc)</strong>. The Access Control Zone (canopy area) requires a minimum of <strong>10 footcandles</strong>. Security lighting levels must be verified during commissioning. Photocell failures that leave lights on 24/7 must be corrected — this is both an energy waste and a security concern. <span class="ref">UFC 3-530-01, Sect. 7</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-02</span><span class="qa-q-text">What does the UFC 3-530-01 requirement for "no uplight (U0 rating)" mean, and where does it apply?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>U0 rating</strong> means the luminaire produces <strong>zero upward light output</strong>. UFC 3-530-01 requires fully shielded luminaires mounted in the horizontal plane to reduce glare, particularly at security and access control locations. Tilted roadway luminaires violate this requirement because they produce upward light that creates glare to drivers and security personnel. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-03</span><span class="qa-q-text">What is physical security lighting, and what are the three types of protective lighting?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Physical security lighting provides <strong>nighttime visibility for security operations and access control</strong>. The three types of protective lighting are: <strong>(1) Continuous lighting</strong> — fixed luminaires that provide consistent illumination; <strong>(2) Standby lighting</strong> — activated when motion or intrusion is detected; <strong>(3) Movable/portable lighting</strong> — temporary or repositionable fixtures. Security lighting must ensure personnel can be identified. <span class="ref">UFC 3-530-01, Sect. 7</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-04</span><span class="qa-q-text">What is correlated color temperature (CCT) and what does 4100K indicate about a light source?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Correlated Color Temperature (CCT)</strong> is a measure of the color appearance of a light source, expressed in Kelvin (K). <strong>4100K</strong> is a cool white appearance — neutral white that renders colors accurately. Lower CCT (2700–3000K) = warm/yellow light; higher CCT (5000K+) = cool/blue-white light. At night, sources with more blue light become more effective in nighttime vision (Purkinje effect). <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-05</span><span class="qa-q-text">What lighting control strategies are required for DoD facilities under UFC 3-530-01 for energy compliance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 requires lighting controls including: <strong>occupancy sensors, daylight harvesting/dimming, time scheduling, and demand response controls</strong>. These meet ASHRAE 189.1 requirements for high-performance buildings. Control strategies must be implemented for energy savings while maintaining required light levels. Most TLEDs (tube LED replacements) are not controls-ready without additional hardware. <span class="ref">UFC 3-530-01, Sect. 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-06</span><span class="qa-q-text">What is the NEMA field angle classification system used for exterior luminaires?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>NEMA field angle classification</strong> system (types 1–7) classifies the beam spread of luminaires from narrow (type 1) to very wide (type 7). This applies to floodlights and other directional exterior luminaires. UFC 3-530-01 Table 5-3 provides the NEMA field angle classifications for selecting appropriate beam spread for specific exterior applications. <span class="ref">UFC 3-530-01, Table 5-3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-07</span><span class="qa-q-text">What is the exterior luminaire cutoff classification system and its types per UFC 3-530-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The exterior luminaire cutoff classification system defines how much light a luminaire emits above the horizontal plane: <strong>Full Cutoff</strong> (0% above 90°), <strong>Cutoff</strong> (limited above 90°), <strong>Semi-Cutoff</strong>, and <strong>Non-Cutoff</strong> (no restrictions). DoD facilities generally require full cutoff or cutoff luminaires to prevent light pollution, glare, and security compromise. <span class="ref">UFC 3-530-01, Table 5-2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-08</span><span class="qa-q-text">What is a troffer retrofit and how long does it typically take?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>troffer retrofit</strong> converts an existing fluorescent recessed troffer to LED using a luminaire conversion kit. Skilled installers can convert a troffer to a luminaire conversion kit in approximately <strong>10 minutes</strong>. Retrofit options include tube LED (TLED) replacements, LED retrofit kits, and complete luminaire replacements. UFC 3-530-01 highlights lamp source retrofit guidance for energy improvements. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-09</span><span class="qa-q-text">What is the relationship between IES lighting standards and UFC 3-530-01 requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 is based on the <strong>Illuminating Engineering Society (IES) Lighting Library</strong> and current recommended practices. The UFC meets the current IES standard of practice and addresses general lighting requirements for DoD facilities. Where UFC 3-530-01 doesn't include a specific facility type, designers should refer to the <strong>IES Lighting Handbook</strong>. The UFC established the baseline; IES provides the technical depth. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-10</span><span class="qa-q-text">What does "level tuning" mean in the context of LED lighting controls at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Level tuning</strong> is a commissioning technique where LED luminaires are dimmed to the exact light level required for the space — reducing energy consumption without sacrificing visual comfort. Since LED systems are initially designed with headroom, they can often be dimmed 10–20% while still meeting IES recommended illuminance levels. This is referenced in UFC 3-530-01 control strategies. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-11</span><span class="qa-q-text">What is the Purkinje effect and why does it matter for nighttime security lighting selection?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>Purkinje effect</strong> is the shift in the eye's peak sensitivity toward the blue end of the spectrum at low light levels (scotopic vision). This means at night, <strong>sources with more blue light become more effective in nighttime vision</strong>. For security lighting, this suggests higher CCT (cooler) light sources may provide better visibility at lower illuminance levels than warm sources — relevant to perimeter security lighting design. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-12</span><span class="qa-q-text">What does ASHRAE 189.1 require relative to lighting at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">ASHRAE 189.1 (Standard for the Design of High-Performance Green Buildings) sets energy efficiency requirements including <strong>lighting power density (LPD) limits, mandatory lighting controls, and daylighting requirements</strong>. UFC 3-530-01 references ASHRAE 189.1 for its control requirements. DoD facilities must meet these energy performance standards as part of sustainability mandates. <span class="ref">UFC 3-530-01 / ASHRAE 189.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-13</span><span class="qa-q-text">What is "nadir" in lighting terminology, and why does the 45–90 degree zone matter?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Nadir</strong> is the point directly below the luminaire (straight down, 0°). The <strong>45–90 degree zone from nadir</strong> is the angular range where a luminaire is typically visible to seated occupants. Luminance exceeding 650 cd/ft² in this zone causes direct glare. A narrow 2-inch LED lens may produce excessive luminance in this zone, requiring a dimmer per UFC 3-530-01. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-14</span><span class="qa-q-text">What is the lighting control requirement for parking facility lighting per UFC 3-530-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 includes an economic analysis of parking lighting in its appendix. Parking lighting controls must include <strong>photocell controls for dusk-to-dawn operation</strong> and where permitted, occupancy/motion sensing for reduced-level operation when areas are unoccupied. Security considerations may override energy-saving controls in high-security areas. <span class="ref">UFC 3-530-01, App. D</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-15</span><span class="qa-q-text">What are the high-pressure sodium lamp characteristics per the UFC 3-530-01 lumen effectiveness multiplier table?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 Table 2-1 provides <strong>lumen effectiveness multipliers versus high pressure sodium (HPS)</strong> for various light sources. HPS has historically been the reference standard for outdoor lighting efficiency. Modern LED sources typically exceed HPS efficiency significantly. The table is used to compare the photopic vs scotopic effectiveness of different sources for specific applications. <span class="ref">UFC 3-530-01, Table 2-1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-16</span><span class="qa-q-text">What is direct glare vs. indirect glare in lighting systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Direct glare</strong> comes from the luminaire itself within the normal field of view. It is prevented by luminaires with luminance below 650 cd/ft² at 45–90° or cutoff luminaires. <strong>Indirect glare</strong> (veiling reflections) comes from luminaire reflections on tasks or computer screens. Semi-indirect lighting minimizes indirect glare. UFC 3-530-01 Figure 2-4 illustrates how semi-indirect lighting reduces veiling reflections. <span class="ref">UFC 3-530-01, Figs. 2-1 through 2-4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-17</span><span class="qa-q-text">How does light reflect off surfaces and why does surface reflectance affect lighting design?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Light is reflected off surfaces</strong> — walls, ceilings, and floors all contribute to the overall illuminance of a space. High-reflectance surfaces (white walls, light ceilings) bounce light back into the space, improving efficiency. Room Cavity Ratio calculations account for room geometry and surface reflectances. UFC 3-530-01 requires designers to consider surface reflectances when calculating illumination levels. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-18</span><span class="qa-q-text">What is the lighting priority principle in UFC 3-530-01 for ensuring lighting quality?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 states that <strong>lighting quality is the priority</strong>. Designers must apply requirements to ensure the priority of lighting quality is achieved — this includes controlling direct glare (luminance below 650 cd/ft² at 45–90°), providing appropriate illuminance levels, managing contrast ratios, and considering color rendering. Quantity (lux/footcandles) alone is insufficient. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-19</span><span class="qa-q-text">What are the UFC requirements for lighting at pedestrian paths and boundary fences for security?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Pedestrian paths leading to main gates must be lighted. Boundary fences must have adequate illumination so there is <strong>sufficient contrast between a possible intruder and the fence/background</strong>. Dark fences with inadequate lighting create security vulnerabilities. UFC 3-530-01 Section 7 covers Security Lighting Applications and establishes minimum footcandle levels for perimeter security. <span class="ref">UFC 3-530-01, Sect. 7</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-20</span><span class="qa-q-text">What does UFC 3-530-01 require regarding the number of luminaires per pole in the Response Zone vs. Access Control Zone?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In security lighting design, the number of luminaires per pole transitions based on the zone: the <strong>Access Control Zone</strong> (high-security, closest to gate) requires the most luminaires per pole (such as 4 per pole for 4100K LED). As the area transitions to the <strong>Response Zone</strong>, the quantity transitions from four luminaires per pole to two luminaires per pole, reflecting reduced illuminance requirements. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-21</span><span class="qa-q-text">What is photometric uniformity and why is it required for security lighting?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Photometric uniformity</strong> is the ratio of maximum to minimum illuminance across a lit area (uniformity ratio). Security lighting requires adequate uniformity to prevent dark spots where intruders could hide. UFC 3-530-01 requires lighting levels and uniformity to be verified through calculations and commissioning. Poorly retrofitted systems may not maintain the original uniformity. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-22</span><span class="qa-q-text">What are the physiological effects of light covered in UFC 3-530-01 Appendix B?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 Appendix B covers <strong>physiological issues</strong> related to lighting including: circadian rhythm effects of light spectrum on human health, visual performance factors, flicker effects from poor power quality, and the effects of color temperature on alertness. Modern lighting design must consider non-visual biological effects in addition to photometric requirements. <span class="ref">UFC 3-530-01, App. B</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-23</span><span class="qa-q-text">What is a photocell and what failure mode requires correction at DoD facilities?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>photocell</strong> is a light-sensitive device that automatically turns outdoor lights on at dusk and off at dawn. A common failure mode is a <strong>failed photocell that keeps lights on 24/7</strong>. This wastes energy and can reduce lamp life. UFC 3-530-01 implies photocells must be maintained in working order; canopy luminaires illuminated during the day indicate photocell failure requiring replacement. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-24</span><span class="qa-q-text">What semi-recessed luminaires are used in canopy applications, and what light distribution limitation do they have?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Semi-recessed LED luminaires mounted under canopies provide <strong>downward-directed light only</strong> and provide very little light on the underside of the canopy. This can leave the underside of canopy structures dark, creating blind spots. For security applications, the number and placement of semi-recessed luminaires must ensure adequate illumination on vertical surfaces including the canopy underside. <span class="ref">UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">L-25</span><span class="qa-q-text">What is luminaire light output distribution (Type I through V) and when is Type II used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Luminaire distribution types (IES Types I–V) classify the lateral light distribution pattern: <strong>Type I</strong> — narrow, single roadway; <strong>Type II</strong> — roadway/walkway mounting, moderate spread; <strong>Type III</strong> — roadway, wider spread; <strong>Type IV</strong> — wide distribution for wider roadways; <strong>Type V</strong> — symmetric circular distribution for parking areas. Type II is commonly used for pedestrian walkways and access roads. <span class="ref">UFC 3-530-01, Table 5-1</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('interior')">← Interior Electrical</button>
+    <button class="nav-btn next" onclick="go('distribution')">Exterior Distribution →</button>
+  </div>
+</div>
+
+<!-- ═══ DISTRIBUTION (UFC 3-550-01 / UFC 3-535-01) ═══ -->
+<div class="category" id="cat-distribution">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference documents</div>
+    <div class="cat-title">Exterior Electrical Power Distribution</div>
+    <div class="cat-ref">UFC 3-550-01 · UFC 3-535-01 (Ch. 2, 3 para. 3.7–3.11, 5, 6, 9, 10, 13)</div>
+  </div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-01</span><span class="qa-q-text">What does UFC 3-550-01 govern, and what chapters are covered in the WAPS reference?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-550-01 governs <strong>exterior electrical power distribution</strong> for DoD facilities. The WAPS reference includes <strong>Chapters 3 (paragraphs 3-1 through 3-2.5.3), 4, 5, 6, and Appendix I</strong>. It covers distribution system design, overhead and underground construction, substations, and power quality for exterior distribution systems. <span class="ref">UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-02</span><span class="qa-q-text">What is the purpose of UFC 3-535-01, and what are the key chapters covered in WAPS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-535-01 covers <strong>interior and exterior airfield lighting systems</strong>. WAPS includes Chapters 2, 3 (paragraph 3.7 through 3.11), 5, 6, 9, 10, and 13. It provides requirements for runway lighting, taxiway lighting, PAPI systems, and other airfield visual aids. Airfield lighting is safety-critical and must comply with FAA and DoD standards simultaneously. <span class="ref">UFC 3-535-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-03</span><span class="qa-q-text">What is the purpose of a distribution substation on an Air Force base, and what equipment does it contain?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>distribution substation</strong> steps down utility high voltage (typically 4–35 kV) to distribution voltage (4–15 kV) for the base distribution system. Key equipment includes: <strong>power transformers, voltage regulators, switching equipment (circuit switchers, oil circuit reclosers), protective relays, metering, and bus structures</strong>. Substations require security fencing, oil containment, and safety clearances. <span class="ref">UFC 3-550-01 / 3E051 CDC</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-04</span><span class="qa-q-text">What is voltage regulation on a distribution system, and how is it maintained?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Voltage regulation</strong> is the maintenance of system voltage within acceptable limits (typically ±5% of nominal per ANSI C84.1) as load varies. It is maintained through: <strong>voltage regulators, tap-changing transformers, capacitor banks, and system design with adequate conductor sizing</strong>. Poor voltage regulation causes equipment failures, motor overheating, and lighting flicker. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-05</span><span class="qa-q-text">What circuit configurations are used in Air Force base distribution systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Air Force base distribution systems typically use: <strong>(1) Radial configuration</strong> — simple, economical, but single point of failure; <strong>(2) Loop (ring) configuration</strong> — allows power restoration from alternate direction; <strong>(3) Network configuration</strong> — multiple sources, highest reliability for critical facilities. Military installations prioritize reliability and use loop or network configurations for mission-critical areas. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-06</span><span class="qa-q-text">What is an oil circuit recloser (OCR) and how does it function in a distribution system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">An <strong>Oil Circuit Recloser (OCR)</strong> is a self-contained protective device that senses overcurrent, interrupts the circuit, and automatically recloses after a preset time. It is programmed to reclose a set number of times (typically 3) before locking out. Most faults (tree branches, animal contacts) are temporary — reclosing restores power automatically. If the fault is permanent, the recloser locks out. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-07</span><span class="qa-q-text">What are the key chapters covered in UFC 3-550-07 per the WAPS reference list?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-550-07 covers chapters <strong>1 through 5, 7, 9, and Appendices C and J</strong> per WAPS. UFC 3-550-07 deals with specific aspects of <strong>electrical power distribution</strong> for DoD facilities. Chapters cover design requirements, equipment specifications, and installation standards for distribution systems. <span class="ref">UFC 3-550-07</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-08</span><span class="qa-q-text">What is the purpose of underground electrical distribution, and what are the advantages over overhead systems?</span><span class="qa-pursuit"><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Underground distribution provides: <strong>(1) Protection from weather and wind damage; (2) Improved aesthetics on base; (3) Reduced vulnerability to sabotage and attack; (4) Elimination of tree-trimming requirements; (5) Reduced outage frequency</strong>. Disadvantages include higher initial cost, harder fault location, and higher repair costs. DoD installations prefer underground distribution for security and reliability. <span class="ref">UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-09</span><span class="qa-q-text">What is an airfield series circuit for lighting, and what current level does it typically use?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Airfield lighting systems use <strong>series (constant current) circuits</strong> where all lights are connected in series and a constant current regulator (CCR) maintains constant current regardless of load changes. Standard airfield lighting current levels are <strong>6.6 amperes or 20 amperes</strong>. When one fixture fails in a series circuit, it opens only that fixture (via a series isolation transformer) while the rest remain lit. <span class="ref">UFC 3-535-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-10</span><span class="qa-q-text">What is a Constant Current Regulator (CCR) and what is its function in airfield lighting?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>Constant Current Regulator (CCR)</strong> maintains a constant current output regardless of changes in load impedance. For airfield lighting, the CCR holds current at the design value (typically 6.6A) whether all fixtures or only some are operating. CCRs provide multiple brightness settings by changing the current level (lower current = lower brightness) to allow pilots to select appropriate runway light intensity. <span class="ref">UFC 3-535-01 / 3E051 CDC</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-11</span><span class="qa-q-text">What are series isolation transformers in airfield lighting, and why are they required?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Series isolation transformers</strong> are installed at each individual airfield light fixture. They provide galvanic isolation between the series circuit and the lamp. When a lamp fails (open circuit), the isolation transformer secondary opens, preventing the entire circuit from going dark. This ensures a single lamp failure does not interrupt the entire airfield lighting circuit — critical for flight safety. <span class="ref">UFC 3-535-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-12</span><span class="qa-q-text">What are PAPI lights (Precision Approach Path Indicator), and how do they function?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>PAPI (Precision Approach Path Indicator)</strong> is a visual aid that provides pilots with glidepath guidance on final approach. It consists of four light units that appear white or red depending on the aircraft's position relative to the correct glidepath. Two white and two red = on glidepath. All white = too high. All red = too low/dangerously low. PAPIs are covered in UFC 3-535-01. <span class="ref">UFC 3-535-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-13</span><span class="qa-q-text">What does UFC 3-601-02 cover, and what chapters are in the WAPS reference?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-601-02 covers <strong>Operation and Maintenance of Fire Protection Systems</strong>. The WAPS reference includes <strong>Chapters 1 and 2</strong> only. It provides guidance on maintaining fire suppression, fire detection, and fire alarm systems. Electrical systems staff coordinate with fire protection engineers on the electrical aspects of fire suppression and alarm systems. <span class="ref">UFC 3-601-02, Ch. 1 & 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-14</span><span class="qa-q-text">What is a pad-mounted transformer and where is it typically used in DoD underground distribution?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>pad-mounted transformer</strong> is a transformer housed in a tamper-resistant enclosure mounted on a concrete pad at grade level, used in underground distribution systems. It steps down medium voltage (4–15 kV) to utilization voltage (480/277V or 208/120V) at the service point. DoD installations prefer pad-mounts over pole-mounted units for aesthetics and security in underground distribution systems. <span class="ref">UFC 3-550-01 / 3E051 CDC</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-15</span><span class="qa-q-text">What is power factor, and why is it important for distribution system design?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Power factor (PF)</strong> is the ratio of real power (watts) to apparent power (volt-amperes). A PF of 1.0 (unity) is ideal. Low power factor (caused by inductive loads like motors) increases current for the same useful power output, increasing distribution losses and requiring larger conductors and transformers. DoD distribution systems require power factor correction capacitor banks to maintain acceptable power factor. <span class="ref">UFC 3-550-01 / 3E051 CDC</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-16</span><span class="qa-q-text">What is a sectionalizer in a distribution system, and how does it differ from a recloser?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>sectionalizer</strong> counts overcurrent pulses and opens after a preset number of operations of an upstream recloser while the circuit is de-energized. Unlike a recloser, a sectionalizer does NOT interrupt fault current — it operates only when the circuit is de-energized by the upstream device. It is used to isolate faulted sections automatically, restoring unfaulted sections faster. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-17</span><span class="qa-q-text">What is the purpose of Appendix I in UFC 3-550-01 per the WAPS reference?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-550-01 Appendix I provides supplemental technical reference for exterior electrical power distribution. WAPS specifies only Chapter 3 (paragraphs 3-1 through 3-2.5.3), Chapter 4, Chapter 5, Chapter 6, and Appendix I. Appendix I typically contains tables, calculations, and detailed technical data supporting the design chapters — study the content based on the current published edition. <span class="ref">UFC 3-550-01, App. I</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-18</span><span class="qa-q-text">What is the function of a fused cutout (fuse cutout) on overhead distribution systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>fused cutout</strong> (dropout fuse) is an overcurrent protective device used on distribution transformers and lateral taps. When the fuse blows, the fuse element drops to the open position (visible indicator of blown fuse). This allows linemen to identify blown fuses visually without hot stick probing. Fused cutouts also serve as disconnect devices for transformer maintenance. <span class="ref">3E051 CDC / UFC 3-550-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-19</span><span class="qa-q-text">What is demand response, and how does it apply to DoD base distribution systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Demand response</strong> is the ability to reduce or shift electrical load in response to grid signals or high-price periods. DoD installations participate in demand response to reduce energy costs and support grid stability. This requires smart meter infrastructure, automated load control systems, and identification of interruptible loads. Demand response capability is built into UFC lighting and electrical design standards. <span class="ref">UFC 3-501-01 / UFC 3-530-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-20</span><span class="qa-q-text">What are the airfield lighting brightness settings controlled by pilots, and what terminology is used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Airfield lighting brightness is controlled in <strong>steps</strong> by adjusting CCR output current. Standard settings include: <strong>Step 1 (lowest)</strong> through <strong>Step 5 (highest)</strong> brightness. Pilots request lighting changes via CTAF (Common Traffic Advisory Frequency) radio. Some airfields allow Pilot Controlled Lighting (PCL) where pilots click their radio to activate/change lights without ATC. <span class="ref">UFC 3-535-01 / FAA Advisory Circulars</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-21</span><span class="qa-q-text">What type of insulator is used on low-voltage or neutral conductors in suspension construction?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">On distribution systems using suspension construction, <strong>strain insulators</strong> are used on low-voltage or neutral conductors. For energized phase conductors at distribution voltages, suspension (disk) insulators are used in strings. The choice of insulator type depends on voltage level, mechanical loading (tension vs. support), and environmental conditions including high moisture areas. <span class="ref">3E051 CDC Vol. 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-22</span><span class="qa-q-text">What is the purpose of Appendix F (F-2 terms) in UFC 3-530-01?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 Appendix F contains <strong>F-2 terms</strong> — the glossary of lighting terms referenced in the WAPS catalog. Understanding standard lighting terminology (luminance, illuminance, candela, efficacy, CRI, CCT, LPD) is essential for reading and applying UFC 3-530-01. The F-2 terms section provides authoritative definitions for all technical terms used in the lighting standard. <span class="ref">UFC 3-530-01, App. F</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-23</span><span class="qa-q-text">What is luminous efficacy, and which lamp types have the highest efficacy?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Luminous efficacy</strong> is the ratio of light output (lumens) to electrical power input (watts), expressed in lumens per watt (lm/W). Higher efficacy = more efficient light source. <strong>Modern LED luminaires</strong> have the highest efficacy at 100–200+ lm/W. Historical comparison: incandescent ~15 lm/W, fluorescent ~80–100 lm/W, HPS ~90–140 lm/W, metal halide ~70–115 lm/W. <span class="ref">UFC 3-530-01, Table 5-4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-24</span><span class="qa-q-text">What are the UFC 3-535-01 requirements for airfield lighting taxiway systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Taxiway lighting per UFC 3-535-01 includes: <strong>blue edge lights</strong> delineating taxiway edges, <strong>green centerline lights</strong> on complex taxiways, <strong>yellow hold short line lights</strong> at runway-taxiway intersections, and <strong>omnidirectional lights</strong> with isolation transformers in series circuits. Taxiway lighting operates on separate CCR circuits from runway lighting and can be independently controlled. <span class="ref">UFC 3-535-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">D-25</span><span class="qa-q-text">What is the significance of Appendix C in UFC 3-530-01 per the WAPS reference?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-530-01 Appendix C (referenced in WAPS) contains <strong>technical reference data</strong> supporting the lighting design requirements in the main document. Appendix C typically includes design tools, calculation methods, or reference tables. Combined with Appendix F (F-2 terms), these appendices provide the technical foundation for applying UFC 3-530-01 requirements in design and evaluation. <span class="ref">UFC 3-530-01, App. C</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('lighting')">← Lighting</button>
+    <button class="nav-btn next" onclick="go('fire')">Fire Protection →</button>
+  </div>
+</div>
+
+<!-- ═══ FIRE PROTECTION / UFC 3-601-02 ═══ -->
+<div class="category" id="cat-fire">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// reference document</div>
+    <div class="cat-title">Fire Protection Systems O&M</div>
+    <div class="cat-ref">UFC 3-601-02 · Only Chapters 1 and 2</div>
+  </div>
+
+  <div class="callout warn"><strong>Scope note:</strong> For 3E051 WAPS, only Chapters 1 and 2 of UFC 3-601-02 are covered. These cover the purpose, scope, and fundamental operation/maintenance principles for fire protection systems.</div>
+
+  <div class="qa-list">
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-01</span><span class="qa-q-text">What is the purpose and scope of UFC 3-601-02, and what systems does it cover?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">UFC 3-601-02 provides guidance on the <strong>operation and maintenance of fire protection systems</strong> at DoD facilities. Systems covered include: fire sprinkler suppression systems, standpipe systems, fire alarm and detection systems, halon/clean agent suppression systems, foam suppression systems, and water supply systems. Electrical workers maintain the electrical components of these life-safety systems. <span class="ref">UFC 3-601-02, Ch. 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-02</span><span class="qa-q-text">What are the electrical worker's responsibilities in maintaining fire alarm systems per UFC 3-601-02?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Electrical workers are responsible for: <strong>maintaining fire alarm panel power (primary and battery backup), wiring integrity, conduit systems serving fire alarm devices, testing circuit continuity, coordination with fire protection engineers for testing, and ensuring emergency lighting and exit signs function</strong>. All fire alarm electrical work must comply with NEC Article 760 and UFC 3-600-01. <span class="ref">UFC 3-601-02, Ch. 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-03</span><span class="qa-q-text">What is the relationship between UFC 3-601-02 and UFC 3-600-01 for fire protection at DoD?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>UFC 3-600-01</strong> covers the <strong>design of fire protection systems</strong> for DoD facilities. <strong>UFC 3-601-02</strong> covers the <strong>operation and maintenance</strong> of those same systems. Together they form the complete fire protection standard. UFC 3-501-01 references UFC 3-600-01 for fire alarm design requirements. The electrical worker primarily works from 3-601-02 for O&M activities. <span class="ref">UFC 3-601-02 / UFC 3-600-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-04</span><span class="qa-q-text">What fire protection system coordination is required between Electrical and Fire Protection shops on an Air Force base?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Electrical and Fire Protection shops must coordinate on: <strong>fire alarm panel power maintenance, conduit and wiring maintenance, testing and inspection scheduling, trouble alarm response, and any modifications to electrical systems that could affect fire detection</strong>. DAFI 32-1001 governs the coordination of BCE shop responsibilities. AFMAN 32-1065 requires 3E051 to assist Water/Fuels with fire suppression and backflow prevention systems. <span class="ref">UFC 3-601-02 / DAFI 32-1001</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-05</span><span class="qa-q-text">What emergency power requirements exist for fire alarm and suppression systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Fire alarm and suppression control panels must have: <strong>primary AC power and a dedicated secondary (battery backup) power source</strong> capable of maintaining the system in standby for at least 24 hours, followed by 5 minutes of alarm operation (per NFPA 72). Emergency generators must be available for suppression pump power. The electrical system must be designed so fire protection systems remain operable during utility power failures. <span class="ref">UFC 3-601-02 / NFPA 72</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-06</span><span class="qa-q-text">What is the 3E051's role in supporting Water and Fuels Systems Maintenance (WFSM) per CFETP 3E0X1?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Per CFETP 3E0X1, the 3E051 must <strong>assist Water and Fuels Systems Maintenance (WFSM) with fire suppression and backflow prevention systems</strong>. This includes electrical power to pump houses, control panels for suppression systems, motor controls for fire pumps, and the electrical interfaces of backflow prevention heating systems. This cross-functional responsibility is a documented duty in the AFSC. <span class="ref">CFETP 3E0X1, B1.1.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-07</span><span class="qa-q-text">What is required before testing or working on fire suppression system electrical components?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Before working on fire suppression system electrical components: <strong>(1) Notify the Fire Department and base control center; (2) Coordinate impairment procedures; (3) Apply LOTO per UFC 3-560-01; (4) Take precautions to prevent accidental system discharge during work; (5) Establish fire watch if required; (6) Restore and test system upon completion</strong>. Suppression system impairments must be documented and tracked. <span class="ref">UFC 3-601-02 / UFC 3-560-01</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-08</span><span class="qa-q-text">What does the CFETP 3E0X1 say about journeyman (5-level) training completion requirements for 3E051?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For 5-level upgrade, 3E051 journeymen must: <strong>(1) Complete 5-level CDCs; (2) Complete all paper-based AFQTPs and web-based courses for all core and diamond tasks on myLearning; (3) Complete supervisor certification of duty position requirements; (4) Complete minimum 12 months OJT before award of the 5-level (nine months for some cases)</strong>. Must complete CE 5-Level Core Concepts DL course before beginning CDCs. <span class="ref">CFETP 3E0X1, B2.2 / C2.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-09</span><span class="qa-q-text">What in-residence courses are recommended (though not required) for 3E051 journeyman development?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Desirable in-residence courses per CFETP 3E0X1: <strong>(1) J3AZR3E051 04AC (21 days) — CE Advanced Electrical Troubleshooting, Sheppard AFB; (2) J3AZR3E051 07AD (23 days) — Electrical Distribution System Maintenance, Sheppard AFB; (3) J3AZR3E051 05AC (9 days) — Airfield Lighting Systems, Sheppard AFB</strong>. These courses are strongly encouraged but not mandatory for 5-level upgrade. <span class="ref">CFETP 3E0X1, C2.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-10</span><span class="qa-q-text">What are the core competencies and duty positions for a 3E051 Journeyman per CFETP 3E0X1?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A 3E051 journeyman may be assigned as <strong>team leader or shift supervisor</strong>. Core competencies include: <strong>installing, maintaining, and repairing low and high voltage interior and exterior electrical systems and components</strong>. This includes distribution systems, substations, interior wiring, airfield lighting, grounding systems, and fire protection electrical interfaces. Journeymen must also possess AFSC 3E031 qualification as prerequisite. <span class="ref">CFETP 3E0X1, B2.2 / B1.1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-11</span><span class="qa-q-text">What is the WAPS reference for the 3E051 Transcript (002) — which lessons does it cover?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Per the WAPS reference list, the 3E051 Transcript (002) covers <strong>only lessons 1, 2, and 3</strong>. This is an internally-managed document (not publicly available). Lessons likely cover fundamental electrical theory and job knowledge specific to the CDC curriculum. For WAPS study purposes, focus on the three lessons specified and cross-reference with the CDC volumes. <span class="ref">3E051 Transcript (002), Lessons 1–3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-12</span><span class="qa-q-text">What is the CE 5-Level Core Concepts course and when must it be completed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>CE 5-Level Core Concepts Course</strong> is a mandatory Distance Learning (DL) product located on myLearning. It must be completed <strong>before beginning CDC/DL course work</strong> for the 5-level upgrade. It covers core Civil Engineer concepts applicable across all CE AFSCs. Completion is mandatory per CFETP 3E0X1 paragraph B2.2.2. <span class="ref">CFETP 3E0X1, B2.2.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-13</span><span class="qa-q-text">What is the myLearning requirement for core (5-star) and diamond tasks?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Trainees must complete <strong>100% of 5-level core (5★) and diamond (♦) tasks</strong> by completing all paper-based AFQTPs (Air Force Qualification Training Packages) and their associated web-based courses on myLearning. Core tasks are mandatory minimum qualification requirements. Diamond tasks represent additional proficiency above core requirements. Supervisor certifies completion and duty position requirements. <span class="ref">CFETP 3E0X1, C2.2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-14</span><span class="qa-q-text">What does the 3E051 experience requirement state must be demonstrated for AFSC award?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For award of AFSC 3E051, personnel must have: <strong>qualification in and possession of AFSC 3E031 (3-level)</strong> and <strong>experience in installing, maintaining, and repairing low and high voltage interior and exterior electrical systems and components</strong>. The 12-month minimum OJT requirement must be met (9 months in some circumstances) before 5-level award. <span class="ref">CFETP 3E0X1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-15</span><span class="qa-q-text">What are the safety documentation requirements for explosive-area electrical work unique to the Air Force?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For explosive-area electrical work, beyond standard LOTO requirements, personnel need: <strong>(1) Completed AMMO-47 or AMMO-48 training; (2) Explosive safety officer coordination; (3) Facility-specific permits and clearances; (4) Compliance with AFMAN 91-201 (Explosive Safety Standards); (5) Grounding resistance testing per AFMAN 32-1065 Attachment 5 (Maintenance Self-Check for Explosives Facilities)</strong>. <span class="ref">AFMAN 32-1065 / AFMAN 91-201</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('distribution')">← Exterior Distribution</button>
+    <button class="nav-btn next" onclick="go('overview')" style="background:var(--green); color:var(--navy);">↺ Back to Overview</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+  const categories = ['overview','safety','grounding','nec','interior','lighting','distribution','fire'];
+  const reviewed = new Set();
+  let total = 0;
+
+  function go(id) {
+    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+    const cat = document.getElementById('cat-' + id);
+    if (cat) cat.classList.add('active');
+    const nav = document.getElementById('nav-' + id);
+    if (nav) nav.classList.add('active');
+    window.scrollTo(0,0);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function toggleCard(card) {
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (!wasOpen && !reviewed.has(card)) {
+      reviewed.add(card);
+      updateScore();
+    }
+  }
+
+  function updateScore() {
+    total = document.querySelectorAll('.qa-card').length;
+    document.getElementById('scorePill').textContent = reviewed.size + ' / ' + total + ' reviewed';
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  window.addEventListener('load', () => {
+    total = document.querySelectorAll('.qa-card').length;
+    document.getElementById('scorePill').textContent = '0 / ' + total + ' reviewed';
+  });
+</script>
+</body>
+</html>
