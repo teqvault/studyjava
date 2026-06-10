@@ -3,74 +3,847 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java Arrays & ArrayLists</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/oop-java-course.css">
-<script src="../scripts/main.js" defer></script>
+<title>Java Arrays & ArrayLists — Game Dev Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/arrays-course.css">
 </head>
 <body>
 
 <header>
-  <div class="header-badge">Intermediate · Java</div>
-  <h1>Java Arrays & ArrayLists</h1>
-  <p>Game Dev Focused — From Fixed Inventories to Dynamic Loot Systems</p>
+  <div class="logo">
+    <div class="logo-icon">📦</div>
+    <div class="logo-text"><span>Arrays & ArrayLists</span> · Java</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span class="hdr-badge">Intermediate</span>
+    <div class="prog-wrap">
+      <span class="prog-label">Progress</span>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      <span class="prog-pct" id="progPct">1/7</span>
+    </div>
+  </div>
 </header>
 
-<div class="layout">
+<div class="shell">
   <nav class="sidebar">
-    <div class="sidebar-title">Course Lessons</div>
-    <a class="nav-item active" onclick="go(0, 7)" href="#">1. Arrays vs ArrayLists</a>
-    <a class="nav-item" onclick="go(1, 7)" href="#">2. Arrays Deep Dive</a>
-    <a class="nav-item" onclick="go(2, 7)" href="#">3. ArrayLists Unleashed</a>
-    <a class="nav-item" onclick="go(3, 7)" href="#">4. Common Operations</a>
-    <a class="nav-item" onclick="go(4, 7)" href="#">5. 2D & Jagged Arrays</a>
-    <a class="nav-item" onclick="go(5, 7)" href="#">6. Performance</a>
-    <a class="nav-item" onclick="go(6, 7)" href="#">7. Capstone</a>
+    <div class="sb-hdr">
+      <span class="sb-title">Lessons</span>
+      <span class="sb-count" id="sbCount">1 / 7</span>
+    </div>
+    <div class="nav-list">
+      <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>Arrays vs ArrayLists</button>
+      <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Arrays Deep Dive</button>
+      <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>ArrayLists Unleashed</button>
+      <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Common Operations</button>
+      <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>2D & Jagged Arrays</button>
+      <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Performance & Memory</button>
+      <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Capstone</button>
+    </div>
+    <div class="sb-footer">
+      <strong>🎮 RPG Dev Focused</strong>
+      Inventories, loot, tile maps & more
+    </div>
   </nav>
 
   <main class="main">
+
+    <!-- ═══════════════════ LESSON 1 ═══════════════════ -->
     <div class="lesson active" id="L0">
-      <h2>1. Arrays vs ArrayLists</h2>
-      <p><strong>Mental Model:</strong> ARRAY = Fixed locker row; ARRAYLIST = Expanding backpack.</p>
-      <h3>Quick Decision Guide</h3>
-      <table>
-        <tr><th>Scenario</th><th>Use</th><th>Why</th></tr>
-        <tr><td>Known max size</td><td>Array</td><td>Zero overhead</td></tr>
-        <tr><td>Unknown size</td><td>ArrayList</td><td>Auto-resize</td></tr>
-      </table>
+      <div class="eyebrow"><span class="ey-tag">Module 1</span><span class="ey-num">The Fundamental Choice</span></div>
+      <h2 class="lesson-title">Arrays vs ArrayLists — <em>When to Use Which</em></h2>
+      <p class="lesson-intro"><strong>ARRAY = Fixed locker row</strong> — rent 20 slots, use 20 or waste them. <strong>ARRAYLIST = Expanding backpack</strong> — magically grows as you stuff items in. Pick the right one and your code gets faster and cleaner.</p>
+
+      <div class="prose">
+        <h3>The Mental Model</h3>
+        <div class="decision-grid">
+          <div class="dec-card">
+            <div class="dec-hdr" style="background:rgba(96,165,250,.07);border-bottom-color:rgba(96,165,250,.15)">
+              <span class="dec-icon">🗄️</span>
+              <div><div class="dec-name" style="color:var(--accent4)">Array</div><div class="dec-sub">int[], String[], Item[]</div></div>
+            </div>
+            <div class="dec-body">
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">Fixed size at creation</span></div>
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">Fastest — zero overhead</span></div>
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">Works with primitives: <code>int[]</code></span></div>
+              <div class="dec-row"><span class="dec-ico-s">❌</span><span class="dec-txt">Can't add/remove elements</span></div>
+              <div class="dec-row"><span class="dec-ico-s">❌</span><span class="dec-txt">No built-in search/sort methods</span></div>
+            </div>
+          </div>
+          <div class="dec-card">
+            <div class="dec-hdr" style="background:rgba(52,211,153,.07);border-bottom-color:rgba(52,211,153,.15)">
+              <span class="dec-icon">🎒</span>
+              <div><div class="dec-name" style="color:var(--accent2)">ArrayList</div><div class="dec-sub">ArrayList&lt;String&gt;, List&lt;Item&gt;</div></div>
+            </div>
+            <div class="dec-body">
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">Grows/shrinks dynamically</span></div>
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">add(), remove(), contains()</span></div>
+              <div class="dec-row"><span class="dec-ico-s">✅</span><span class="dec-txt">Works great with streams</span></div>
+              <div class="dec-row"><span class="dec-ico-s">❌</span><span class="dec-txt">Objects only (no primitives)</span></div>
+              <div class="dec-row"><span class="dec-ico-s">❌</span><span class="dec-txt">~6x memory overhead vs int[]</span></div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Quick Decision Guide</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Scenario</th><th>Use</th><th>Why</th></tr>
+            <tr><td>Known max size (inventory slots, tile map)</td><td>Array</td><td>Zero overhead, cache-friendly</td></tr>
+            <tr><td>Unknown/growing size (loot drops, particles)</td><td>ArrayList</td><td>Auto-resize, convenient methods</td></tr>
+            <tr><td>High-frequency add/remove (bullets, particles)</td><td>Array + pooling</td><td>No allocation pressure</td></tr>
+            <tr><td>Need contains(), indexOf(), remove(Object)</td><td>ArrayList</td><td>Built-in search/remove</td></tr>
+            <tr><td>Primitive types in hot path (int[], float[])</td><td>Array</td><td>No boxing/unboxing overhead</td></tr>
+          </table>
+        </div>
+
+        <h3>Side-by-Side: Player Inventory</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>InventoryComparison.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// ARRAY — Fixed 20 slots (classic RPG style)</span>
+<span class="typ">String</span>[] arrayInv = <span class="kw">new</span> <span class="typ">String</span>[<span class="num">20</span>];
+arrayInv[<span class="num">0</span>] = <span class="str">"Iron Sword"</span>;
+arrayInv[<span class="num">1</span>] = <span class="str">"Health Potion"</span>;
+<span class="cm">// arrayInv[20] = "Shield"; // 💥 ArrayIndexOutOfBoundsException!</span>
+
+<span class="cm">// ARRAYLIST — Grows as needed (modern RPG)</span>
+<span class="typ">ArrayList</span>&lt;<span class="typ">String</span>&gt; listInv = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+listInv.add(<span class="str">"Iron Sword"</span>);
+listInv.add(<span class="str">"Health Potion"</span>);
+listInv.add(<span class="str">"Shield"</span>);        <span class="cm">// Auto-expands!</span>
+listInv.add(<span class="num">0</span>, <span class="str">"Wooden Bow"</span>); <span class="cm">// Insert at front, shifts others right</span></pre>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">You're building a particle system that spawns and destroys thousands of particles per second. Which should you use?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">ArrayList&lt;Particle&gt;</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">Array with object pooling pattern</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">LinkedList&lt;Particle&gt;</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">It doesn't matter, they're equivalent</button>
+          </div>
+          <div class="quiz-fb">High-frequency add/remove creates garbage collection pressure. An array-backed object pool reuses particle objects instead of creating/destroying them every frame — critical for smooth 60fps gameplay.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <span class="nav-indicator">1 of 7</span>
+        <button class="btn btn-next" onclick="go(1)">Arrays Deep Dive →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 2 ═══════════════════ -->
     <div class="lesson" id="L1">
-      <h2>2. Arrays Deep Dive</h2>
-      <p>Example: Tile Map</p>
-      <pre><code>int[][] dungeonFloor = {{1,1,1}, {1,0,1}, {1,1,1}};</code></pre>
+      <div class="eyebrow"><span class="ey-tag">Module 2</span><span class="ey-num">Fixed-Size Power</span></div>
+      <h2 class="lesson-title">Arrays Deep Dive — <em>Fixed-Size Power</em></h2>
+      <p class="lesson-intro">Arrays are the bedrock of Java. Contiguous memory, zero overhead, and direct index access make them the fastest collection in the language. Every tile map, frame buffer, and hot-path data structure starts here.</p>
+
+      <div class="prose">
+        <h3>Declaration Patterns</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ArrayDeclaration.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// 1. Declare + allocate (all null/0/false by default)</span>
+<span class="typ">Item</span>[] equipment = <span class="kw">new</span> <span class="typ">Item</span>[<span class="num">5</span>];          <span class="cm">// 5 null references</span>
+<span class="kw">int</span>[] stats = <span class="kw">new</span> <span class="kw">int</span>[<span class="num">6</span>];                <span class="cm">// {0,0,0,0,0,0} STR,DEX,INT,WIS,CON,CHA</span>
+<span class="kw">boolean</span>[] flags = <span class="kw">new</span> <span class="kw">boolean</span>[<span class="num">32</span>];       <span class="cm">// 32 false flags</span>
+
+<span class="cm">// 2. Declare + initialize inline</span>
+<span class="typ">String</span>[] classes = {<span class="str">"Warrior"</span>, <span class="str">"Mage"</span>, <span class="str">"Rogue"</span>, <span class="str">"Cleric"</span>};
+<span class="kw">int</span>[] dmgPerLevel = {<span class="num">5</span>, <span class="num">10</span>, <span class="num">15</span>, <span class="num">20</span>, <span class="num">25</span>, <span class="num">30</span>};
+<span class="kw">float</span>[] knockback = {<span class="num">0.5f</span>, <span class="num">1.0f</span>, <span class="num">1.5f</span>, <span class="num">2.0f</span>};
+
+<span class="cm">// 3. Anonymous array (pass directly to a method)</span>
+spawnEnemies(<span class="kw">new</span> <span class="typ">String</span>[]{<span class="str">"Goblin"</span>, <span class="str">"Orc"</span>, <span class="str">"Troll"</span>});</pre>
+        </div>
+
+        <h3>🎮 Example 1: Tile Map (2D Array)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>TileMap.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// Legend: 0=Grass, 1=Wall, 2=Water, 3=Chest, 4=Enemy</span>
+<span class="kw">int</span>[][] dungeonFloor = {
+    {<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>},
+    {<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">3</span>,<span class="num">0</span>,<span class="num">1</span>},
+    {<span class="num">1</span>,<span class="num">0</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">0</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">1</span>},
+    {<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">4</span>,<span class="num">1</span>},
+    {<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>}
+};
+
+<span class="kw">final</span> <span class="typ">String</span>[] TILES = {<span class="str">"🟢"</span>,<span class="str">"🧱"</span>,<span class="str">"🌊"</span>,<span class="str">"📦"</span>,<span class="str">"👹"</span>};
+
+<span class="kw">void</span> <span class="fn">renderMap</span>(<span class="kw">int</span>[][] map, <span class="kw">int</span> playerX, <span class="kw">int</span> playerY) {
+    <span class="kw">for</span> (<span class="kw">int</span> y = <span class="num">0</span>; y &lt; map.length; y++) {
+        <span class="kw">for</span> (<span class="kw">int</span> x = <span class="num">0</span>; x &lt; map[y].length; x++) {
+            <span class="kw">if</span> (x == playerX && y == playerY)
+                <span class="typ">System</span>.out.print(<span class="str">"🧍 "</span>);
+            <span class="kw">else</span>
+                <span class="typ">System</span>.out.print(TILES[map[y][x]] + <span class="str">" "</span>);
+        }
+        <span class="typ">System</span>.out.println();
+    }
+}
+<span class="cm">// 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱
+// 🧱 🟢 🟢 🟢 🌊 🟢 🟢 📦 🟢 🧱
+// 🧱 🟢 🧱 🟢 🌊 🟢 🧱 🟢 🟢 🧱
+// 🧱 🟢 🟢 🟢 🟢 🟢 🟢 🟢 👹 🧱
+// 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱 🧱</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Stat Growth Table</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>StatTable.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// [Level][STR, DEX, INT, HP, MP]</span>
+<span class="kw">int</span>[][] growthTable = {
+    {  <span class="num">10</span>,  <span class="num">8</span>,  <span class="num">6</span>, <span class="num">100</span>, <span class="num">20</span>}, <span class="cm">// Level 1</span>
+    {  <span class="num">12</span>,  <span class="num">9</span>,  <span class="num">7</span>, <span class="num">120</span>, <span class="num">25</span>}, <span class="cm">// Level 2</span>
+    {  <span class="num">14</span>, <span class="num">10</span>,  <span class="num">8</span>, <span class="num">145</span>, <span class="num">30</span>}, <span class="cm">// Level 3</span>
+    {  <span class="num">17</span>, <span class="num">12</span>, <span class="num">10</span>, <span class="num">175</span>, <span class="num">40</span>}, <span class="cm">// Level 4</span>
+    {  <span class="num">20</span>, <span class="num">14</span>, <span class="num">12</span>, <span class="num">210</span>, <span class="num">50</span>}  <span class="cm">// Level 5</span>
+};
+
+<span class="kw">void</span> <span class="fn">printStatBlock</span>(<span class="kw">int</span> level) {
+    <span class="kw">int</span>[] stats = growthTable[level - <span class="num">1</span>];
+    <span class="typ">String</span>[] names = {<span class="str">"STR"</span>,<span class="str">"DEX"</span>,<span class="str">"INT"</span>,<span class="str">"HP "</span>,<span class="str">"MP "</span>};
+    <span class="typ">System</span>.out.println(<span class="str">"=== LEVEL "</span> + level + <span class="str">" BASE STATS ==="</span>);
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; stats.length; i++)
+        <span class="typ">System</span>.out.println(names[i] + <span class="str">": "</span> + stats[i]);
+}</pre>
+        </div>
+
+        <h3>⚡ Array Utilities (java.util.Arrays)</h3>
+        <div class="method-grid">
+          <div class="method-row"><span class="mr-code">Arrays.sort(scores)</span><span class="mr-desc">Sort array in-place — ascending order</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.binarySearch(arr, val)</span><span class="mr-desc">Search sorted array — returns index or negative</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.copyOf(arr, newLen)</span><span class="mr-desc">Copy first N elements into new array</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.copyOfRange(arr, i, j)</span><span class="mr-desc">Copy slice from index i to j-1</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.fill(arr, value)</span><span class="mr-desc">Set all elements to a value — great for reset</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.toString(arr)</span><span class="mr-desc">Print-friendly string: "[1, 2, 3]"</span></div>
+          <div class="method-row"><span class="mr-code">Arrays.equals(a, b)</span><span class="mr-desc">Content comparison (not reference!)</span></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">What happens if you try to access <code>myArray[myArray.length]</code>?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Returns null</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Returns 0</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">Throws ArrayIndexOutOfBoundsException</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Returns the last element</button>
+          </div>
+          <div class="quiz-fb">Arrays are 0-indexed. If length is 5, valid indices are 0-4. Accessing index 5 (length) throws <code>ArrayIndexOutOfBoundsException</code> — one of the most common Java bugs. The last element is always at <code>arr[arr.length - 1]</code>.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(0)">← Arrays vs ArrayLists</button>
+        <span class="nav-indicator">2 of 7</span>
+        <button class="btn btn-next" onclick="go(2)">ArrayLists Unleashed →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 3 ═══════════════════ -->
     <div class="lesson" id="L2">
-      <h2>3. ArrayLists Unleashed</h2>
-      <p>Dynamic collections for Quest logs and Particle systems.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 3</span><span class="ey-num">Dynamic Collections</span></div>
+      <h2 class="lesson-title">ArrayLists Unleashed — <em>Dynamic Collections</em></h2>
+      <p class="lesson-intro">When your data grows and shrinks — quest logs, active enemies, inventory with no fixed cap — <code>ArrayList</code> is your tool. It wraps an array internally, automatically resizing by 1.5x when full.</p>
+
+      <div class="prose">
+        <h3>Creation Patterns</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ArrayListCreation.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// 1. Empty, default initial capacity (10)</span>
+<span class="typ">ArrayList</span>&lt;<span class="typ">String</span>&gt; loot = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+
+<span class="cm">// 2. With initial capacity (avoids early resizes)</span>
+<span class="typ">ArrayList</span>&lt;<span class="cl">Particle</span>&gt; particles = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;(<span class="num">500</span>);
+
+<span class="cm">// 3. From an existing collection</span>
+<span class="kw">var</span> items = <span class="typ">List</span>.of(<span class="str">"Sword"</span>, <span class="str">"Shield"</span>, <span class="str">"Potion"</span>);
+<span class="typ">ArrayList</span>&lt;<span class="typ">String</span>&gt; inv = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;(items);
+
+<span class="cm">// 4. Diamond operator (Java 7+) — type inferred from left side</span>
+<span class="typ">ArrayList</span>&lt;<span class="cl">Quest</span>&gt; questLog = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();</pre>
+        </div>
+
+        <h3>Core Methods</h3>
+        <div class="method-grid">
+          <div class="method-row"><span class="mr-code">list.add(item)</span><span class="mr-desc">Append to end</span></div>
+          <div class="method-row"><span class="mr-code">list.add(index, item)</span><span class="mr-desc">Insert at index, shifts everything right</span></div>
+          <div class="method-row"><span class="mr-code">list.get(index)</span><span class="mr-desc">Get element at index (like arr[i])</span></div>
+          <div class="method-row"><span class="mr-code">list.set(index, item)</span><span class="mr-desc">Replace element at index</span></div>
+          <div class="method-row"><span class="mr-code">list.remove(index)</span><span class="mr-desc">Remove by index, shifts everything left</span></div>
+          <div class="method-row"><span class="mr-code">list.remove(Object)</span><span class="mr-desc">Remove by value (uses .equals())</span></div>
+          <div class="method-row"><span class="mr-code">list.contains(item)</span><span class="mr-desc">Returns true/false — linear search O(n)</span></div>
+          <div class="method-row"><span class="mr-code">list.size()</span><span class="mr-desc">Current number of elements (not capacity)</span></div>
+          <div class="method-row"><span class="mr-code">list.clear()</span><span class="mr-desc">Remove all elements, keep capacity</span></div>
+          <div class="method-row"><span class="mr-code">list.isEmpty()</span><span class="mr-desc">Returns true if size() == 0</span></div>
+        </div>
+
+        <h3>🎮 Example 1: Quest Log System</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>QuestLog.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">record</span> <span class="cl">Quest</span>(<span class="typ">String</span> id, <span class="typ">String</span> title, <span class="kw">boolean</span> completed, <span class="kw">int</span> xpReward) {}
+
+<span class="typ">ArrayList</span>&lt;<span class="cl">Quest</span>&gt; questLog = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+
+<span class="kw">void</span> <span class="fn">addQuest</span>(<span class="typ">String</span> id, <span class="typ">String</span> title, <span class="kw">int</span> xp) {
+    questLog.add(<span class="kw">new</span> <span class="cl">Quest</span>(id, title, <span class="kw">false</span>, xp));
+    <span class="typ">System</span>.out.println(<span class="str">"📜 New Quest: "</span> + title);
+}
+
+<span class="kw">void</span> <span class="fn">completeQuest</span>(<span class="typ">String</span> id) {
+    <span class="kw">for</span> (<span class="cl">Quest</span> q : questLog) {
+        <span class="kw">if</span> (q.id().equals(id) && !q.completed()) {
+            <span class="kw">int</span> idx = questLog.indexOf(q);
+            questLog.set(idx, <span class="kw">new</span> <span class="cl">Quest</span>(q.id(), q.title(), <span class="kw">true</span>, q.xpReward()));
+            <span class="typ">System</span>.out.println(<span class="str">"✅ Completed: "</span> + q.title() + <span class="str">" (+"</span> + q.xpReward() + <span class="str">" XP)"</span>);
+            <span class="kw">return</span>;
+        }
+    }
+}
+
+<span class="kw">void</span> <span class="fn">showActiveQuests</span>() {
+    <span class="typ">System</span>.out.println(<span class="str">"📋 ACTIVE QUESTS:"</span>);
+    <span class="kw">for</span> (<span class="cl">Quest</span> q : questLog)
+        <span class="kw">if</span> (!q.completed())
+            <span class="typ">System</span>.out.println(<span class="str">"  □ "</span> + q.title() + <span class="str">" ["</span> + q.xpReward() + <span class="str">" XP]"</span>);
+}
+
+<span class="cm">// Usage:</span>
+addQuest(<span class="str">"q1"</span>, <span class="str">"Kill 10 Rats"</span>, <span class="num">100</span>);
+addQuest(<span class="str">"q2"</span>, <span class="str">"Find Lost Amulet"</span>, <span class="num">250</span>);
+addQuest(<span class="str">"q3"</span>, <span class="str">"Defeat Goblin Chief"</span>, <span class="num">500</span>);
+completeQuest(<span class="str">"q1"</span>);
+showActiveQuests();</pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-ico">⚠️</span>
+          <div class="callout-body"><strong>SAFE BACKWARD REMOVAL</strong><p>When removing items from a list while iterating, always iterate <strong>backwards</strong>: <code>for (int i = list.size()-1; i &gt;= 0; i--)</code>. Forward removal shifts indices and causes skipped elements or exceptions.</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">What is the difference between <code>list.remove(2)</code> and <code>list.remove("sword")</code>?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">There's no difference — both remove by index</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">remove(int) removes by index; remove(Object) removes by value</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Both throw an exception if the item isn't found</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">remove(String) is not a valid method</button>
+          </div>
+          <div class="quiz-fb"><code>remove(int index)</code> removes the element at that position. <code>remove(Object o)</code> searches for the first occurrence using <code>.equals()</code> and removes it. For <code>ArrayList&lt;Integer&gt;</code>, use <code>remove(Integer.valueOf(2))</code> to remove the value 2, not index 2.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(1)">← Arrays Deep Dive</button>
+        <span class="nav-indicator">3 of 7</span>
+        <button class="btn btn-next" onclick="go(3)">Common Operations →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 4 ═══════════════════ -->
     <div class="lesson" id="L3">
-      <h2>4. Common Operations</h2>
-      <p>Search, Sort, and Transform collections.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 4</span><span class="ey-num">Search, Sort & Transform</span></div>
+      <h2 class="lesson-title">Common Operations — <em>Search, Sort & Transform</em></h2>
+      <p class="lesson-intro">The real power of collections comes from operating on them. Sort a leaderboard in one line, filter loot by rarity with streams, convert a grid into an adjacency list for pathfinding — this is where game data comes alive.</p>
+
+      <div class="prose">
+        <h3>🎮 Example 1: Leaderboard Sorting</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>Leaderboard.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">record</span> <span class="cl">PlayerScore</span>(<span class="typ">String</span> name, <span class="kw">int</span> score, <span class="kw">int</span> level, <span class="typ">String</span> class_) {}
+
+<span class="typ">ArrayList</span>&lt;<span class="cl">PlayerScore</span>&gt; leaderboard = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;(<span class="typ">List</span>.of(
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"Arcane"</span>,     <span class="num">98750</span>, <span class="num">45</span>, <span class="str">"Mage"</span>),
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"BladeMaster"</span>, <span class="num">87650</span>, <span class="num">42</span>, <span class="str">"Warrior"</span>),
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"ShadowStep"</span>,  <span class="num">87650</span>, <span class="num">40</span>, <span class="str">"Rogue"</span>),
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"HolyLight"</span>,   <span class="num">75300</span>, <span class="num">38</span>, <span class="str">"Cleric"</span>)
+));
+
+<span class="cm">// Multi-key sort: score desc → level desc → name asc</span>
+leaderboard.sort(<span class="typ">Comparator</span>
+    .comparingInt((<span class="cl">PlayerScore</span> p) -> -p.score())
+    .thenComparingInt(p -> -p.level())
+    .thenComparing(<span class="cl">PlayerScore</span>::name)
+);
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; leaderboard.size(); i++) {
+    <span class="cl">PlayerScore</span> p = leaderboard.get(i);
+    <span class="typ">String</span> medal = <span class="kw">switch</span>(i) {<span class="kw">case</span> <span class="num">0</span>-><span class="str">"🥇"</span>;<span class="kw">case</span> <span class="num">1</span>-><span class="str">"🥈"</span>;<span class="kw">case</span> <span class="num">2</span>-><span class="str">"🥉"</span>;<span class="kw">default</span>-><span class="str">"  "</span>;};
+    <span class="typ">System</span>.out.printf(<span class="str">"%s #%-2d %-15s %,7d XP | Lv%-2d | %s%n"</span>,
+        medal, i+<span class="num">1</span>, p.name(), p.score(), p.level(), p.class_());
+}
+<span class="cm">// 🥇 #1  Arcane           98,750 XP | Lv45 | Mage
+// 🥈 #2  BladeMaster      87,650 XP | Lv42 | Warrior
+// 🥉 #3  ShadowStep       87,650 XP | Lv40 | Rogue</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Loot Filter with Streams (Java 8+)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>LootFilter.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">record</span> <span class="cl">Item</span>(<span class="typ">String</span> name, <span class="typ">String</span> type, <span class="kw">int</span> rarity, <span class="kw">int</span> value) {}
+<span class="cm">// rarity: 0=Common, 1=Uncommon, 2=Rare, 3=Epic, 4=Legendary</span>
+
+<span class="typ">ArrayList</span>&lt;<span class="cl">Item</span>&gt; allLoot = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;(<span class="typ">List</span>.of(
+    <span class="kw">new</span> <span class="cl">Item</span>(<span class="str">"Rusty Sword"</span>,  <span class="str">"Weapon"</span>,     <span class="num">0</span>,     <span class="num">10</span>),
+    <span class="kw">new</span> <span class="cl">Item</span>(<span class="str">"Health Potion"</span>,<span class="str">"Consumable"</span>, <span class="num">0</span>,     <span class="num">25</span>),
+    <span class="kw">new</span> <span class="cl">Item</span>(<span class="str">"Flame Blade"</span>,   <span class="str">"Weapon"</span>,     <span class="num">3</span>,   <span class="num">5000</span>),
+    <span class="kw">new</span> <span class="cl">Item</span>(<span class="str">"Dragon Scale"</span>,  <span class="str">"Material"</span>,   <span class="num">4</span>, <span class="num">50000</span>)
+));
+
+<span class="cm">// Filter: Only Rare+ weapons worth over 1000 gold</span>
+<span class="typ">List</span>&lt;<span class="cl">Item</span>&gt; valuableWeapons = allLoot.stream()
+    .filter(i -> i.type().equals(<span class="str">"Weapon"</span>))
+    .filter(i -> i.rarity() >= <span class="num">2</span>)
+    .filter(i -> i.value() > <span class="num">1000</span>)
+    .sorted(<span class="typ">Comparator</span>.comparingInt(<span class="cl">Item</span>::value).reversed())
+    .toList();
+
+<span class="kw">for</span> (<span class="cl">Item</span> i : valuableWeapons) {
+    <span class="typ">String</span>[] icons = {<span class="str">"⚪"</span>, <span class="str">"🟢"</span>, <span class="str">"🔵"</span>, <span class="str">"🟣"</span>, <span class="str">"🟠"</span>};
+    <span class="typ">System</span>.out.println(<span class="str">"  "</span> + icons[i.rarity()] + <span class="str">" "</span> + i.name() + <span class="str">" — "</span> + i.value() + <span class="str">"g"</span>);
+}
+<span class="cm">// 🟣 Flame Blade — 5000g</span></pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-ico">💡</span>
+          <div class="callout-body"><strong>STREAMS ARE PIPELINES</strong><p>Streams don't modify the original list. Each <code>.filter()</code> creates a new stream, and <code>.toList()</code> collects the final result. Chain as many operations as you need — it reads like plain English.</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">You're sorting enemies by HP descending so the strongest attacks first. Which Comparator is correct?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Comparator.comparingInt(Enemy::hp)</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">Comparator.comparingInt(Enemy::hp).reversed()</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Comparator.comparingInt(e -> e.hp())</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Collections.sort(enemies)</button>
+          </div>
+          <div class="quiz-fb"><code>Comparator.comparingInt(Enemy::hp)</code> sorts ascending (lowest HP first). Adding <code>.reversed()</code> flips it to descending (highest HP first). The third option would also work but also sorts ascending.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(2)">← ArrayLists Unleashed</button>
+        <span class="nav-indicator">4 of 7</span>
+        <button class="btn btn-next" onclick="go(4)">2D & Jagged Arrays →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 5 ═══════════════════ -->
     <div class="lesson" id="L4">
-      <h2>5. 2D & Jagged Arrays</h2>
-      <p>Grids, Matrices, and Uneven Data structures.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 5</span><span class="ey-num">Grids & Uneven Data</span></div>
+      <h2 class="lesson-title">2D & Jagged Arrays — <em>Grids & Uneven Data</em></h2>
+      <p class="lesson-intro">2D arrays power every tile map, dungeon floor, and pixel buffer in game dev. Jagged arrays — where each row has a different length — are perfect for skill trees, dialog trees, and non-uniform data structures.</p>
+
+      <div class="prose">
+        <div class="compare-grid">
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="color:var(--accent4)">Rectangular 2D</div>
+            <div class="cmp-body">
+              <p>All rows same length</p>
+              <p><code>int[5][10]</code> — 5 rows, 10 cols</p>
+              <p>Tile maps, images, game boards</p>
+            </div>
+          </div>
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="color:var(--accent2)">Jagged Arrays</div>
+            <div class="cmp-body">
+              <p>Each row can differ in length</p>
+              <p><code>int[][]</code> with varying rows</p>
+              <p>Skill trees, dialog trees, loot tables</p>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎮 Example 1: Skill Tree (Jagged Array)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>SkillTree.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// Each tier has different number of skills!</span>
+<span class="typ">String</span>[][] skillTree = {
+    {<span class="str">"Slash"</span>},                            <span class="cm">// Tier 1: 1 skill</span>
+    {<span class="str">"Power Strike"</span>, <span class="str">"Cleave"</span>},           <span class="cm">// Tier 2: 2 skills</span>
+    {<span class="str">"Whirlwind"</span>, <span class="str">"Execute"</span>, <span class="str">"Rend"</span>},    <span class="cm">// Tier 3: 3 skills</span>
+    {<span class="str">"Bladestorm"</span>, <span class="str">"Annihilate"</span>}         <span class="cm">// Tier 4: 2 skills</span>
+};
+
+<span class="kw">for</span> (<span class="kw">int</span> tier = <span class="num">0</span>; tier &lt; skillTree.length; tier++) {
+    <span class="typ">System</span>.out.print(<span class="str">"Tier "</span> + (tier+<span class="num">1</span>) + <span class="str">": "</span>);
+    <span class="kw">for</span> (<span class="kw">int</span> s = <span class="num">0</span>; s &lt; skillTree[tier].length; s++) {
+        <span class="typ">System</span>.out.print(<span class="str">"["</span> + skillTree[tier][s] + <span class="str">"] "</span>);
+    }
+    <span class="typ">System</span>.out.println(<span class="str">"  (Requires "</span> + (tier * <span class="num">5</span>) + <span class="str">" SP)"</span>);
+}
+<span class="cm">// Tier 1: [Slash]  (Requires 0 SP)
+// Tier 2: [Power Strike] [Cleave]  (Requires 5 SP)
+// Tier 3: [Whirlwind] [Execute] [Rend]  (Requires 10 SP)</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Dialog Tree (NPC Conversation)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>DialogTree.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">record</span> <span class="cl">DialogNode</span>(<span class="typ">String</span> npcText, <span class="typ">String</span>[] playerOptions, <span class="kw">int</span>[] nextNodes) {}
+
+<span class="cl">DialogNode</span>[] dialog = {
+    <span class="cm">// Node 0: Greeting</span>
+    <span class="kw">new</span> <span class="cl">DialogNode</span>(
+        <span class="str">"Ah, an adventurer! Need supplies?"</span>,
+        <span class="kw">new</span> <span class="typ">String</span>[]{<span class="str">"Buy"</span>, <span class="str">"Sell"</span>, <span class="str">"Rumors"</span>, <span class="str">"Goodbye"</span>},
+        <span class="kw">new</span> <span class="kw">int</span>[]{<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, -<span class="num">1</span>}
+    ),
+    <span class="cm">// Node 1: Shop</span>
+    <span class="kw">new</span> <span class="cl">DialogNode</span>(
+        <span class="str">"Take a look at my wares!"</span>,
+        <span class="kw">new</span> <span class="typ">String</span>[]{<span class="str">"Back"</span>},
+        <span class="kw">new</span> <span class="kw">int</span>[]{<span class="num">0</span>}
+    ),
+    <span class="cm">// Node 2: Rumors — leads to quest hook (node 4)</span>
+    <span class="kw">new</span> <span class="cl">DialogNode</span>(
+        <span class="str">"Heard goblins in the north cave..."</span>,
+        <span class="kw">new</span> <span class="typ">String</span>[]{<span class="str">"Tell me more"</span>, <span class="str">"Back"</span>},
+        <span class="kw">new</span> <span class="kw">int</span>[]{<span class="num">4</span>, <span class="num">0</span>}
+    )
+};
+
+<span class="kw">void</span> <span class="fn">runDialog</span>() {
+    <span class="kw">int</span> current = <span class="num">0</span>;
+    <span class="kw">while</span> (current != -<span class="num">1</span>) {
+        <span class="cl">DialogNode</span> node = dialog[current];
+        <span class="typ">System</span>.out.println(<span class="str">"\n💬 "</span> + node.npcText());
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; node.playerOptions().length; i++)
+            <span class="typ">System</span>.out.println(<span class="str">"  ["</span> + (i+<span class="num">1</span>) + <span class="str">"] "</span> + node.playerOptions()[i]);
+        <span class="kw">if</span> (node.playerOptions().length == <span class="num">0</span>) <span class="kw">break</span>;
+        <span class="kw">int</span> choice = getInput(<span class="num">1</span>, node.playerOptions().length) - <span class="num">1</span>;
+        current = node.nextNodes()[choice];
+    }
+}</pre>
+        </div>
+
+        <div class="challenge med">
+          <div class="ch-tag">🟡 Medium Challenge</div>
+          <h4>Dungeon Room Map</h4>
+          <p>Create a jagged array representing dungeon floors where each floor has a different number of rooms:</p>
+          <ul>
+            <li>Floor 1: 3 rooms ("Entrance", "Hall", "Armory")</li>
+            <li>Floor 2: 4 rooms ("Barracks", "Kitchen", "Library", "Vault")</li>
+            <li>Floor 3: 2 rooms ("Boss Chamber", "Escape Tunnel")</li>
+            <li>Print each floor and its rooms with nested loops</li>
+            <li>Bonus: mark the last room on each floor as the "boss room"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(3)">← Common Operations</button>
+        <span class="nav-indicator">5 of 7</span>
+        <button class="btn btn-next" onclick="go(5)">Performance & Memory →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 6 ═══════════════════ -->
     <div class="lesson" id="L5">
-      <h2>6. Performance & Memory</h2>
-      <p>Under the hood: Object pooling and memory layout.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 6</span><span class="ey-num">Under the Hood</span></div>
+      <h2 class="lesson-title">Performance & Memory — <em>Under the Hood</em></h2>
+      <p class="lesson-intro">Understanding memory layout is what separates a 30fps game from a 60fps one. Arrays and ArrayLists have vastly different memory costs — and in game loops that run thousands of times per second, that difference matters enormously.</p>
+
+      <div class="prose">
+        <h3>Memory Layout Comparison</h3>
+        <div class="mem-diag">
+          <div class="mem-title">int[5] — 4 bytes × 5 = 20 bytes, contiguous</div>
+          <div class="mem-row">
+            <span class="mem-label">Array int[5]</span>
+            <div class="mem-cells">
+              <div class="mem-cell mc-arr">42</div>
+              <div class="mem-cell mc-arr">18</div>
+              <div class="mem-cell mc-arr">7</div>
+              <div class="mem-cell mc-arr">99</div>
+              <div class="mem-cell mc-arr">3</div>
+            </div>
+            <span class="mem-note" style="color:var(--accent4)">← contiguous, CPU cache loves this</span>
+          </div>
+          <div style="height:1px;background:var(--border);margin:14px 0"></div>
+          <div class="mem-title">ArrayList&lt;Integer&gt; — each Integer is a 16-byte heap object</div>
+          <div class="mem-row">
+            <span class="mem-label">ArrayList refs</span>
+            <div class="mem-cells">
+              <div class="mem-cell mc-al" style="font-size:9px">→obj</div>
+              <div class="mem-cell mc-al" style="font-size:9px">→obj</div>
+              <div class="mem-cell mc-al" style="font-size:9px">→obj</div>
+              <div class="mem-cell mc-al" style="font-size:9px">→obj</div>
+              <div class="mem-cell mc-al" style="font-size:9px">→obj</div>
+              <div class="mem-cell mc-null">—</div>
+              <div class="mem-cell mc-null">—</div>
+              <div class="mem-cell mc-null">—</div>
+              <div class="mem-cell mc-null">—</div>
+              <div class="mem-cell mc-null">—</div>
+            </div>
+            <span class="mem-note">← 5 used, 5 spare slots (default 10 capacity)</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:12px"><code>int[1000]</code> = 4,000 bytes. <code>ArrayList&lt;Integer&gt;(1000)</code> ≈ 24,000+ bytes (6× overhead from boxing)</p>
+        </div>
+
+        <h3>🎮 Object Pooling Pattern (Critical for Games)</h3>
+        <div class="ex-label">🎮 Game Dev Pattern</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ObjectPool.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">class</span> <span class="cl">Pool</span>&lt;<span class="typ">T</span>&gt; {
+    <span class="kw">private final</span> <span class="typ">ArrayList</span>&lt;<span class="typ">T</span>&gt; available = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+    <span class="kw">private final</span> <span class="typ">ArrayList</span>&lt;<span class="typ">T</span>&gt; active    = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+    <span class="kw">private final</span> <span class="typ">Supplier</span>&lt;<span class="typ">T</span>&gt; factory;
+    
+    <span class="fn">Pool</span>(<span class="typ">Supplier</span>&lt;<span class="typ">T</span>&gt; factory, <span class="kw">int</span> prewarm) {
+        <span class="kw">this</span>.factory = factory;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; prewarm; i++) available.add(factory.get());
+    }
+    
+    <span class="typ">T</span> <span class="fn">acquire</span>() {
+        <span class="typ">T</span> e = available.isEmpty() 
+            ? factory.get()  <span class="cm">// Create new only if needed</span>
+            : available.remove(available.size() - <span class="num">1</span>); <span class="cm">// Reuse!</span>
+        active.add(e);
+        <span class="kw">return</span> e;
+    }
+    
+    <span class="kw">void</span> <span class="fn">release</span>(<span class="typ">T</span> e) {
+        active.remove(e);  <span class="cm">// Remove from active</span>
+        <span class="cm">// e.reset() — reset state here</span>
+        available.add(e);  <span class="cm">// Return to pool</span>
+    }
+}
+
+<span class="cm">// Usage in game loop — ZERO allocation after warmup!</span>
+<span class="cl">Pool</span>&lt;<span class="cl">Bullet</span>&gt; bullets = <span class="kw">new</span> <span class="cl">Pool</span>&lt;&gt;(<span class="cl">Bullet</span>::new, <span class="num">200</span>);
+<span class="cl">Pool</span>&lt;<span class="cl">Enemy</span>&gt;  enemies = <span class="kw">new</span> <span class="cl">Pool</span>&lt;&gt;(<span class="cl">Goblin</span>::new, <span class="num">50</span>);
+
+<span class="kw">void</span> <span class="fn">spawnBullet</span>(<span class="kw">float</span> x, <span class="kw">float</span> y, <span class="kw">float</span> dir) {
+    <span class="cl">Bullet</span> b = bullets.acquire();
+    b.init(x, y, dir);
+}</pre>
+        </div>
+
+        <div class="callout good">
+          <span class="callout-ico">⚡</span>
+          <div class="callout-body"><strong>PERFORMANCE RULES OF THUMB</strong><p>Use <code>int[]</code> / <code>float[]</code> for hot-path data (particle positions, vertex data). Pre-size ArrayLists with expected capacity. Object pools eliminate GC pauses. Profile before optimizing — measure, don't guess.</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">Why is <code>int[]</code> faster than <code>ArrayList&lt;Integer&gt;</code> for a hot loop?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">ArrayList uses more method calls</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">int[] stores values directly; ArrayList boxes each int into an Integer heap object</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">ArrayList sorts automatically</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">There is no difference in modern Java</button>
+          </div>
+          <div class="quiz-fb">Auto-boxing converts each <code>int</code> to an <code>Integer</code> object on the heap (16+ bytes each). An <code>int[1000]</code> is 4KB of contiguous memory the CPU cache can devour. <code>ArrayList&lt;Integer&gt;</code> with 1000 elements is 24KB+ scattered on the heap.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(4)">← 2D & Jagged Arrays</button>
+        <span class="nav-indicator">6 of 7</span>
+        <button class="btn btn-next" onclick="go(6)">Capstone →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 7 ═══════════════════ -->
     <div class="lesson" id="L6">
-      <h2>7. Capstone</h2>
-      <p>RPG Inventory Manager: Combining all concepts.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 7</span><span class="ey-num">Capstone Project</span></div>
+      <h2 class="lesson-title">Capstone — <em>RPG Inventory Manager</em></h2>
+      <p class="lesson-intro">The ultimate test. Build a full inventory system combining arrays, ArrayLists, enums, records, sorting, and streams — exactly how a real game's item system works. Equipment slots, rarity tiers, stacking, and value queries all in one.</p>
+
+      <div class="prose">
+        <h3>System Architecture</h3>
+        <div class="concept-grid">
+          <div class="concept-card"><div class="cc-icon">📦</div><div class="cc-title">Item record</div><div class="cc-desc">id, name, Rarity enum, Slot enum, value, stats Map, maxStack</div></div>
+          <div class="concept-card"><div class="cc-icon">🗂️</div><div class="cc-title">Stack record</div><div class="cc-desc">Wraps Item + count. Supports add/remove operations immutably</div></div>
+          <div class="concept-card"><div class="cc-icon">🎒</div><div class="cc-title">Inventory class</div><div class="cc-desc">ArrayList&lt;Stack&gt; bag + EnumMap&lt;Slot, Stack&gt; equipped</div></div>
+          <div class="concept-card"><div class="cc-icon">🔍</div><div class="cc-title">Stream queries</div><div class="cc-desc">Filter by rarity, sort by value, calculate total worth</div></div>
+        </div>
+
+        <h3>Data Model</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>DataModel.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">enum</span> <span class="cl">Rarity</span> { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
+<span class="kw">enum</span> <span class="cl">Slot</span>   { WEAPON, HELMET, CHEST, GLOVES, BOOTS, RING, AMULET, CONSUMABLE }
+
+<span class="kw">record</span> <span class="cl">Item</span>(
+    <span class="typ">String</span> id, <span class="typ">String</span> name, <span class="cl">Rarity</span> rarity, <span class="cl">Slot</span> slot,
+    <span class="kw">int</span> value, <span class="typ">Map</span>&lt;<span class="typ">String</span>, <span class="typ">Integer</span>&gt; stats, <span class="kw">int</span> maxStack
+) {
+    <span class="kw">static final</span> <span class="typ">Map</span>&lt;<span class="cl">Rarity</span>, <span class="typ">String</span>&gt; ICONS = <span class="typ">Map</span>.of(
+        <span class="cl">COMMON</span>, <span class="str">"⚪"</span>, <span class="cl">UNCOMMON</span>, <span class="str">"🟢"</span>, <span class="cl">RARE</span>, <span class="str">"🔵"</span>,
+        <span class="cl">EPIC</span>, <span class="str">"🟣"</span>, <span class="cl">LEGENDARY</span>, <span class="str">"🟠"</span>
+    );
+    <span class="typ">String</span> <span class="fn">icon</span>() { <span class="kw">return</span> ICONS.get(rarity); }
+}
+
+<span class="kw">record</span> <span class="cl">Stack</span>(<span class="cl">Item</span> item, <span class="kw">int</span> count) {
+    <span class="kw">boolean</span> <span class="fn">canAdd</span>(<span class="kw">int</span> amount) { <span class="kw">return</span> count + amount &lt;= item.maxStack(); }
+    <span class="cl">Stack</span>   <span class="fn">add</span>   (<span class="kw">int</span> amount) { <span class="kw">return new</span> <span class="cl">Stack</span>(item, count + amount); }
+    <span class="cl">Stack</span>   <span class="fn">remove</span>(<span class="kw">int</span> amount) { <span class="kw">return new</span> <span class="cl">Stack</span>(item, count - amount); }
+}</pre>
+        </div>
+
+        <h3>Core Inventory Operations</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>Inventory.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">class</span> <span class="cl">Inventory</span> {
+    <span class="kw">private final int</span> capacity;
+    <span class="kw">private final</span> <span class="typ">ArrayList</span>&lt;<span class="cl">Stack</span>&gt; items = <span class="kw">new</span> <span class="typ">ArrayList</span>&lt;&gt;();
+    <span class="kw">private final</span> <span class="typ">Map</span>&lt;<span class="cl">Slot</span>, <span class="cl">Stack</span>&gt; equipped = <span class="kw">new</span> <span class="typ">EnumMap</span>&lt;&gt;(<span class="cl">Slot</span>.<span class="kw">class</span>);
+    
+    <span class="kw">boolean</span> <span class="fn">add</span>(<span class="cl">Item</span> item, <span class="kw">int</span> count) {
+        <span class="cm">// Try to merge with existing stack first</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; items.size(); i++) {
+            <span class="cl">Stack</span> s = items.get(i);
+            <span class="kw">if</span> (s.item().id().equals(item.id()) && s.canAdd(count)) {
+                items.set(i, s.add(count));
+                <span class="kw">return true</span>;
+            }
+        }
+        <span class="kw">if</span> (items.size() >= capacity) <span class="kw">return false</span>; <span class="cm">// Full!</span>
+        items.add(<span class="kw">new</span> <span class="cl">Stack</span>(item, count));
+        <span class="kw">return true</span>;
+    }
+    
+    <span class="cm">// Stream-powered queries</span>
+    <span class="typ">List</span>&lt;<span class="cl">Stack</span>&gt; <span class="fn">getByRarity</span>(<span class="cl">Rarity</span> minRarity) {
+        <span class="kw">return</span> items.stream()
+            .filter(s -> s.item().rarity().ordinal() >= minRarity.ordinal())
+            .sorted(<span class="typ">Comparator</span>.comparing(s -> -s.item().value()))
+            .toList();
+    }
+    
+    <span class="kw">int</span> <span class="fn">totalValue</span>() {
+        <span class="kw">return</span> items.stream()
+            .mapToInt(s -> s.item().value() * s.count())
+            .sum();
+    }
+}</pre>
+        </div>
+
+        <h3>Quick Reference Cheatsheet</h3>
+        <div class="cheatsheet">
+          <div class="cs-section">Arrays</div>
+          <div class="cs-row"><span class="cs-key">int[] arr = new int[10]</span><span class="cs-val">Fixed-size, all zeros</span></div>
+          <div class="cs-row"><span class="cs-key">arr.length</span><span class="cs-val">Size (not a method call)</span></div>
+          <div class="cs-row"><span class="cs-key">Arrays.sort(arr)</span><span class="cs-val">In-place sort, ascending</span></div>
+          <div class="cs-row"><span class="cs-key">Arrays.copyOf(arr, n)</span><span class="cs-val">New array with first n elements</span></div>
+          <div class="cs-section">ArrayLists</div>
+          <div class="cs-row"><span class="cs-key">new ArrayList&lt;T&gt;(cap)</span><span class="cs-val">Pre-sized to avoid resizes</span></div>
+          <div class="cs-row"><span class="cs-key">list.size()</span><span class="cs-val">Current count (method call)</span></div>
+          <div class="cs-row"><span class="cs-key">list.add/remove/set/get</span><span class="cs-val">Core CRUD operations</span></div>
+          <div class="cs-row"><span class="cs-key">list.sort(Comparator)</span><span class="cs-val">Sort with custom logic</span></div>
+          <div class="cs-section">Decision Guide</div>
+          <div class="cs-row"><span class="cs-key">Primitives, hot path</span><span class="cs-val">Array — no boxing overhead</span></div>
+          <div class="cs-row"><span class="cs-key">Unknown/growing size</span><span class="cs-val">ArrayList — auto-resize</span></div>
+          <div class="cs-row"><span class="cs-key">High-freq spawn/destroy</span><span class="cs-val">Array + object pool</span></div>
+          <div class="cs-row"><span class="cs-key">Filter/sort/transform</span><span class="cs-val">ArrayList + Streams API</span></div>
+        </div>
+
+        <h3>Practice Exercises</h3>
+        <div class="practice-list">
+          <div class="practice-item"><div class="pi-num">1</div><div class="pi-body"><div class="pi-title">Spell Hotbar — String[10], swap, cooldown display</div><div class="pi-meta"><span class="pi-tag">Array basics</span><span class="pi-time">15 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">2</div><div class="pi-body"><div class="pi-title">Dynamic Party — ArrayList&lt;Character&gt;, add/remove/sort by HP</div><div class="pi-meta"><span class="pi-tag">ArrayList CRUD</span><span class="pi-time">20 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">3</div><div class="pi-body"><div class="pi-title">Loot Table — Map&lt;Enemy, Item[]&gt;, weighted random drop</div><div class="pi-meta"><span class="pi-tag">Arrays in Map</span><span class="pi-time">25 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">4</div><div class="pi-body"><div class="pi-title">Skill Tree UI — Jagged String[][], unlock logic</div><div class="pi-meta"><span class="pi-tag">Jagged arrays</span><span class="pi-time">25 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">5</div><div class="pi-body"><div class="pi-title">Pathfinding Grid — int[][] → adjacency List&lt;List&lt;Integer&gt;&gt;</div><div class="pi-meta"><span class="pi-tag">Conversion</span><span class="pi-time">30 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">6</div><div class="pi-body"><div class="pi-title">Object Pool — Pool&lt;Bullet&gt; with active/available lists</div><div class="pi-meta"><span class="pi-tag">Pooling pattern</span><span class="pi-time">35 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">7</div><div class="pi-body"><div class="pi-title">Full Inventory — Extend Capstone: drag-drop, save/load JSON</div><div class="pi-meta"><span class="pi-tag">ALL</span><span class="pi-time">60+ min</span></div></div></div>
+        </div>
+
+        <div class="callout good">
+          <span class="callout-ico">🚀</span>
+          <div class="callout-body"><strong>NEXT STEPS</strong><p>You've built the foundation. Next: combine Arrays + Loops for game systems, explore <strong>HashMaps</strong> for O(1) item lookups, and <strong>Generics</strong> to make your Pool and Inventory work with any type.</p></div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(5)">← Performance & Memory</button>
+        <span class="nav-indicator">7 of 7</span>
+        <button class="btn btn-next" disabled>Course Complete 🎉</button>
+      </div>
     </div>
+
   </main>
 </div>
+
+<script>
+let current = 0;
+const total = 7;
+const completed = new Set();
+
+function go(n) {
+  document.getElementById('L' + current).classList.remove('active');
+  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+  completed.add(current);
+  document.querySelectorAll('.nav-btn')[current].classList.add('done');
+
+  current = n;
+  document.getElementById('L' + current).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === current);
+  });
+
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  document.querySelectorAll('#L' + current + ' .quiz-opt').forEach(o => {
+    o.disabled = false;
+    o.className = 'quiz-opt';
+  });
+  document.querySelectorAll('#L' + current + ' .quiz-fb').forEach(f => {
+    f.className = 'quiz-fb';
+  });
+}
+
+function updateProgress() {
+  const done = completed.size;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = (current + 1) + '/' + total;
+  document.getElementById('sbCount').textContent = (current + 1) + ' / ' + total;
+}
+
+function answer(btn, result) {
+  const quiz = btn.closest('.quiz');
+  const opts = quiz.querySelectorAll('.quiz-opt');
+  const fb = quiz.querySelector('.quiz-fb');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  if (result === 'wrong') {
+    opts.forEach(o => {
+      if (o.onclick && o.onclick.toString().includes("'correct'")) o.classList.add('correct');
+    });
+  }
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+</script>
+  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Roadmap
+</a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

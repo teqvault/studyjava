@@ -3,76 +3,918 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java Loops Course</title>
-<link rel="stylesheet" href="../css/oop-java-course.css">
-<script src="../scripts/main.js" defer></script>
+<title>Java Loops Course — Game Dev Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/loops-course.css">
 </head>
 <body>
 
 <header>
-  <h1>Java Loops Course</h1>
-  <p>Designed for Game Developers & Software Engineers</p>
+  <div class="logo">
+    <div class="logo-icon">🔁</div>
+    <div class="logo-text"><span>Java Loops</span> · Game Dev Edition</div>
+  </div>
+  <div class="hdr-right">
+    <div class="prog-wrap">
+      <span class="prog-label">Progress</span>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      <span class="prog-pct" id="progPct">1/8</span>
+    </div>
+  </div>
 </header>
 
-<div class="layout">
+<div class="shell">
   <nav class="sidebar">
-    <div class="sidebar-title">Course Lessons</div>
-    <a class="nav-item active" onclick="go(0, 8)" href="#">1. Why Loops?</a>
-    <a class="nav-item" onclick="go(1, 8)" href="#">2. for Loop</a>
-    <a class="nav-item" onclick="go(2, 8)" href="#">3. while Loop</a>
-    <a class="nav-item" onclick="go(3, 8)" href="#">4. do-while Loop</a>
-    <a class="nav-item" onclick="go(4, 8)" href="#">5. Enhanced for</a>
-    <a class="nav-item" onclick="go(5, 8)" href="#">6. Nested Loops</a>
-    <a class="nav-item" onclick="go(6, 8)" href="#">7. Loop Control</a>
-    <a class="nav-item" onclick="go(7, 8)" href="#">8. Capstone</a>
+    <div class="sb-hdr">
+      <span class="sb-title">Lessons</span>
+      <span class="sb-count" id="sbCount">1 / 8</span>
+    </div>
+    <div class="nav-list">
+      <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>Why Loops?</button>
+      <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>for Loop</button>
+      <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>while Loop</button>
+      <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>do-while Loop</button>
+      <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Enhanced for</button>
+      <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Nested Loops</button>
+      <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Loop Control</button>
+      <button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>Capstone</button>
+    </div>
+    <div class="sb-footer">
+      <strong>🎮 Game Dev Focus</strong>
+      Real-world examples every lesson
+    </div>
   </nav>
 
   <main class="main">
+
+    <!-- ═══════════════════ LESSON 1 ═══════════════════ -->
     <div class="lesson active" id="L0">
-      <h2>1. Why Loops? — The Game Loop Concept</h2>
-      <p>A loop is "repeat until done." The Game Loop is the heartbeat of every game engine.</p>
-      <pre><code>while (gameIsRunning) {
-    processInput();
-    updateState();
-    renderFrame();
-}</code></pre>
+      <div class="eyebrow"><span class="ey-tag">Module 1</span><span class="ey-num">Foundations</span></div>
+      <h2 class="lesson-title">Why Loops? — <em>The Game Loop Concept</em></h2>
+      <p class="lesson-intro">A loop is just <strong>"repeat until done."</strong> In games, this is the <strong>Game Loop</strong> — the heartbeat of every game engine running 60 times per second, keeping your player's world alive.</p>
+
+      <div class="prose">
+        <h3>The Mental Model</h3>
+        <p><strong>Real-World Analogy:</strong> Think of a <strong>conveyor belt at checkout</strong> — items (frames) keep moving through scan → bag → receipt until the belt stops. Your game does the same: input → update → render, forever.</p>
+
+        <div class="concept-grid">
+          <div class="concept-card"><div class="cc-icon">🎮</div><div class="cc-title">processInput()</div><div class="cc-desc">Read keyboard, mouse, controller every frame</div></div>
+          <div class="concept-card"><div class="cc-icon">⚙️</div><div class="cc-title">update()</div><div class="cc-desc">Move entities, check collisions, run AI</div></div>
+          <div class="concept-card"><div class="cc-icon">🖼️</div><div class="cc-title">render()</div><div class="cc-desc">Draw everything to screen, 60fps target</div></div>
+          <div class="concept-card"><div class="cc-icon">🔁</div><div class="cc-title">Loop</div><div class="cc-desc">Repeat until player quits or game ends</div></div>
+        </div>
+
+        <h3>The Game Loop — Every Engine Ever</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>GameLoop.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// THE GAME LOOP — runs 60 times per second!</span>
+<span class="kw">while</span> (gameIsRunning) {
+    processInput();   <span class="cm">// 1. Read keyboard/mouse/controller</span>
+    update();         <span class="cm">// 2. Move entities, check collisions</span>
+    render();         <span class="cm">// 3. Draw everything to screen</span>
+}</pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-ico">💡</span>
+          <div class="callout-body"><strong>KEY INSIGHT</strong><p>Without loops, you'd need to write <code>render()</code> 3,600 times for just one minute of gameplay. Loops let computers do the repetitive work so you can focus on the fun stuff.</p></div>
+        </div>
+
+        <h3>Why Java Has Four Loop Types</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Loop Type</th><th>Best For</th><th>Game Example</th></tr>
+            <tr><td>for</td><td>Known count</td><td>Spawn 10 enemies, tick 60fps timer</td></tr>
+            <tr><td>while</td><td>Unknown count</td><td>Game loop, resource gathering, input wait</td></tr>
+            <tr><td>do-while</td><td>Run at least once</td><td>Menu systems, retry logic</td></tr>
+            <tr><td>for-each</td><td>Collections</td><td>Render all entities, check all bullets</td></tr>
+          </table>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">In a game loop, which order correctly represents the three main phases?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">render → update → processInput</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">processInput → update → render</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">update → processInput → render</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">render → processInput → update</button>
+          </div>
+          <div class="quiz-fb" id="fb">Input must come first so we know what changed, then we calculate the new state, then we draw it. This is the canonical game loop order.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <span class="nav-indicator">1 of 8</span>
+        <button class="btn btn-next" onclick="go(1)">for Loop →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 2 ═══════════════════ -->
     <div class="lesson" id="L1">
-      <h2>2. for Loop — Counted Iterations</h2>
-      <p>Used for inventory initialization and countdown timers.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 2</span><span class="ey-num">Counted Iterations</span></div>
+      <h2 class="lesson-title">The <em>for Loop</em> — "I Know Exactly How Many Times"</h2>
+      <p class="lesson-intro">Use the <code>for</code> loop when you know the exact number of iterations up front — inventory slots, level counts, countdown timers. The three-part header puts initialization, condition, and update all in one visible line.</p>
+
+      <div class="prose">
+        <h3>Anatomy of a for Loop</h3>
+        <div class="loop-vis">
+          <div class="lv-title">FOR LOOP ANATOMY</div>
+          <div class="lv-anatomy">
+            <span class="lv-part part-init">int i = 0</span>
+            <span class="lv-arrow">;</span>
+            <span class="lv-part part-cond">i &lt; 10</span>
+            <span class="lv-arrow">;</span>
+            <span class="lv-part part-upd">i++</span>
+            <span class="lv-arrow"> → </span>
+            <span class="lv-part part-body">{ body }</span>
+          </div>
+          <div class="lv-labels">
+            <span class="lv-lbl" style="color:var(--accent1)">① init — runs once</span>
+            <span class="lv-lbl" style="color:var(--accent2)">② condition — checked every time</span>
+            <span class="lv-lbl" style="color:var(--accent3)">③ update — runs after each body</span>
+            <span class="lv-lbl" style="color:var(--accent4)">④ body — your code here</span>
+          </div>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ForSyntax.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">10</span>; i++) {
+    <span class="cm">// body runs 10 times (i = 0,1,2,...,9)</span>
+}
+<span class="cm">//   ↑ init    ↑ condition  ↑ update</span></pre>
+        </div>
+
+        <h3>🎮 Example 1: Inventory Slot Initialization</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>Inventory.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// Create 20 empty inventory slots for an RPG</span>
+<span class="typ">String</span>[] inventory = <span class="kw">new</span> <span class="typ">String</span>[<span class="num">20</span>];
+
+<span class="kw">for</span> (<span class="kw">int</span> slot = <span class="num">0</span>; slot &lt; inventory.length; slot++) {
+    inventory[slot] = <span class="str">"[EMPTY]"</span>;
+    <span class="typ">System</span>.out.println(<span class="str">"Slot "</span> + (slot + <span class="num">1</span>) + <span class="str">": "</span> + inventory[slot]);
+}
+<span class="cm">// Output: Slot 1: [EMPTY] ... Slot 20: [EMPTY]</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Countdown Timer (Boss Fight Warning)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>BossSpawn.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">System</span>.out.println(<span class="str">"⚔️ BOSS SPAWNING IN:"</span>);
+
+<span class="kw">for</span> (<span class="kw">int</span> seconds = <span class="num">10</span>; seconds >= <span class="num">1</span>; seconds--) {
+    <span class="typ">System</span>.out.println(seconds + <span class="str">"..."</span>);
+    <span class="cm">// Thread.sleep(1000); // Uncomment for real delay</span>
+}
+
+<span class="typ">System</span>.out.println(<span class="str">"💀 THE BOSS HAS ARRIVED!"</span>);</pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-ico">⚠️</span>
+          <div class="callout-body"><strong>COUNTDOWN TIP</strong><p>Notice the loop counts DOWN: <code>seconds = 10; seconds &gt;= 1; seconds--</code>. The init starts high, condition checks it's still positive, and the update decrements.</p></div>
+        </div>
+
+        <h3>🎮 Example 3: XP Table Generator</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>XPTable.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// Exponential XP curve — common in RPGs</span>
+<span class="kw">for</span> (<span class="kw">int</span> level = <span class="num">1</span>; level &lt;= <span class="num">20</span>; level++) {
+    <span class="kw">int</span> xpRequired = (<span class="kw">int</span>) (<span class="num">100</span> * <span class="typ">Math</span>.pow(<span class="num">1.5</span>, level - <span class="num">1</span>));
+    <span class="typ">System</span>.out.printf(<span class="str">"Level %2d → %,d XP%n"</span>, level, xpRequired);
+}
+<span class="cm">// Level  1 →     100 XP
+// Level  2 →     150 XP
+// Level 20 → 221,683 XP</span></pre>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">How many times does this loop execute?<br><code style="font-family:'JetBrains Mono',monospace">for (int i = 5; i &lt;= 10; i++)</code></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">5 times</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">6 times (5, 6, 7, 8, 9, 10)</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">10 times</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">4 times</button>
+          </div>
+          <div class="quiz-fb">The loop runs for i = 5, 6, 7, 8, 9, 10 — that's 6 iterations. The condition is <code>&lt;=</code> (less than OR EQUAL TO), so 10 is included.</div>
+        </div>
+
+        <div class="challenge easy">
+          <div class="ch-tag">🟢 Easy Challenge</div>
+          <h4>Spell Cooldown Display</h4>
+          <p>Write a <code>for</code> loop that prints all 5 spells in an array with their cooldown in seconds. Cooldowns: {3, 5, 8, 12, 20}.</p>
+          <ul>
+            <li>Print: <code>Fireball: 3s cooldown</code> (one per spell)</li>
+            <li>Use <code>String[]</code> for names, <code>int[]</code> for cooldowns</li>
+            <li>Bonus: mark spells with cooldown > 10 as "LONG"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(0)">← Why Loops?</button>
+        <span class="nav-indicator">2 of 8</span>
+        <button class="btn btn-next" onclick="go(2)">while Loop →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 3 ═══════════════════ -->
     <div class="lesson" id="L2">
-      <h2>3. while Loop — Condition-Driven</h2>
-      <p>Used for input validation and resource gathering.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 3</span><span class="ey-num">Condition-Driven</span></div>
+      <h2 class="lesson-title">The <em>while Loop</em> — "Keep Going While True"</h2>
+      <p class="lesson-intro">Use <code>while</code> when you don't know how many iterations you'll need — only <em>when to stop</em>. The condition is checked <strong>before</strong> each iteration. If it starts false, the body never runs.</p>
+
+      <div class="prose">
+        <div class="compare-grid">
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="background:rgba(167,139,250,.08);color:var(--accent1)">for loop</div>
+            <div class="cmp-body"><p><strong>When you know</strong> how many times</p><p><code>for (int i=0; i&lt;10; i++)</code></p><p>Counter is built-in, clean syntax</p></div>
+          </div>
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="background:rgba(52,211,153,.08);color:var(--accent2)">while loop</div>
+            <div class="cmp-body"><p><strong>When you know</strong> the stop condition</p><p><code>while (playerIsAlive)</code></p><p>Flexible, works for unknown counts</p></div>
+          </div>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>WhileSyntax.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">while</span> (condition) {
+    <span class="cm">// body — condition checked BEFORE each iteration</span>
+    <span class="cm">// if condition starts false, body NEVER runs</span>
+}</pre>
+        </div>
+
+        <h3>🎮 Example 1: Input Validation (Menu System)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>MenuSystem.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">Scanner</span> scanner = <span class="kw">new</span> <span class="typ">Scanner</span>(<span class="typ">System</span>.in);
+<span class="kw">int</span> choice = -<span class="num">1</span>;
+
+<span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">4</span>) {
+    <span class="typ">System</span>.out.println(<span class="str">"""
+        === MAIN MENU ===
+        1. New Game
+        2. Load Game
+        3. Settings
+        4. Quit
+        Choose (1-4): """</span>);
+    
+    <span class="kw">if</span> (scanner.hasNextInt()) {
+        choice = scanner.nextInt();
+        <span class="kw">if</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">4</span>)
+            <span class="typ">System</span>.out.println(<span class="str">"❌ Invalid! Enter 1-4."</span>);
+    } <span class="kw">else</span> {
+        <span class="typ">System</span>.out.println(<span class="str">"❌ Numbers only!"</span>);
+        scanner.next(); <span class="cm">// consume bad input</span>
+    }
+}
+<span class="typ">System</span>.out.println(<span class="str">"✅ You chose: "</span> + choice);</pre>
+        </div>
+
+        <h3>🎮 Example 2: Resource Gathering (Idle Game Mechanic)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ResourceGathering.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">int</span> gold = <span class="num">0</span>;
+<span class="kw">int</span> workers = <span class="num">3</span>;
+<span class="kw">int</span> targetGold = <span class="num">1000</span>;
+
+<span class="typ">System</span>.out.println(<span class="str">"⛏️ Mining gold... (target: "</span> + targetGold + <span class="str">")"</span>);
+
+<span class="kw">while</span> (gold &lt; targetGold) {
+    gold += workers * <span class="num">5</span>; <span class="cm">// each worker mines 5 gold/tick</span>
+    <span class="typ">System</span>.out.printf(<span class="str">"Gold: %,d | Workers: %d%n"</span>, gold, workers);
+    
+    <span class="cm">// Hire more workers at milestones</span>
+    <span class="kw">if</span> (gold >= <span class="num">500</span> && workers == <span class="num">3</span>) {
+        workers = <span class="num">5</span>;
+        <span class="typ">System</span>.out.println(<span class="str">"🎉 Hired 2 more workers!"</span>);
+    }
+}
+<span class="typ">System</span>.out.println(<span class="str">"💰 Target reached! Total: "</span> + gold);</pre>
+        </div>
+
+        <div class="callout danger">
+          <span class="callout-ico">🚨</span>
+          <div class="callout-body"><strong>INFINITE LOOP DANGER</strong><p>Always make sure something inside the loop eventually makes the condition false. A <code>while(true)</code> loop with no <code>break</code> will freeze your program — and your game!</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">If the condition is <code>false</code> when a <code>while</code> loop is first reached, what happens?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">The body runs once, then stops</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">The body never runs at all</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">A runtime error is thrown</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Java automatically flips the condition</button>
+          </div>
+          <div class="quiz-fb">The <code>while</code> loop checks the condition BEFORE each iteration. If it's false immediately, the body is skipped entirely — zero executions. This is what makes it different from <code>do-while</code>.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(1)">← for Loop</button>
+        <span class="nav-indicator">3 of 8</span>
+        <button class="btn btn-next" onclick="go(3)">do-while Loop →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 4 ═══════════════════ -->
     <div class="lesson" id="L3">
-      <h2>4. do-while Loop — Guaranteed Execution</h2>
-      <p>Perfect for retry logic and menu systems.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 4</span><span class="ey-num">Guaranteed Execution</span></div>
+      <h2 class="lesson-title">The <em>do-while Loop</em> — "Run Once, Then Check"</h2>
+      <p class="lesson-intro">The <code>do-while</code> loop guarantees the body runs <strong>at least once</strong> before checking the condition. Perfect for menu systems, retry logic, and any situation where you need one initial action before deciding to repeat.</p>
+
+      <div class="prose">
+        <h3>The Key Difference</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Loop</th><th>Checks Condition</th><th>Guaranteed First Run?</th><th>Use When</th></tr>
+            <tr><td>while</td><td>Before each iteration</td><td>❌ No</td><td>Condition may already be false</td></tr>
+            <tr><td>do-while</td><td>After each iteration</td><td>✅ Yes</td><td>Must execute once regardless</td></tr>
+          </table>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>DoWhileSyntax.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">do</span> {
+    <span class="cm">// body runs FIRST</span>
+    <span class="cm">// THEN condition is checked</span>
+} <span class="kw">while</span> (condition); <span class="cm">// ← semicolon required!</span></pre>
+        </div>
+
+        <h3>🎮 Example 1: Retry Mechanism (Server Connection)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ConnectionRetry.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">int</span> maxAttempts = <span class="num">3</span>;
+<span class="kw">int</span> attempt = <span class="num">0</span>;
+<span class="kw">boolean</span> connected = <span class="kw">false</span>;
+
+<span class="kw">do</span> {
+    attempt++;
+    <span class="typ">System</span>.out.println(<span class="str">"🔄 Attempt "</span> + attempt + <span class="str">" of "</span> + maxAttempts);
+    
+    connected = <span class="typ">Math</span>.random() &lt; <span class="num">0.3</span>; <span class="cm">// 30% success rate</span>
+    
+    <span class="kw">if</span> (!connected && attempt &lt; maxAttempts)
+        <span class="typ">System</span>.out.println(<span class="str">"❌ Failed. Retrying..."</span>);
+        
+} <span class="kw">while</span> (!connected && attempt &lt; maxAttempts);
+
+<span class="kw">if</span> (connected)
+    <span class="typ">System</span>.out.println(<span class="str">"✅ Connected to game server!"</span>);
+<span class="kw">else</span>
+    <span class="typ">System</span>.out.println(<span class="str">"💥 Failed after "</span> + maxAttempts + <span class="str">" attempts."</span>);</pre>
+        </div>
+
+        <h3>🎮 Example 2: Play Again Prompt</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>PlayAgain.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">Scanner</span> scanner = <span class="kw">new</span> <span class="typ">Scanner</span>(<span class="typ">System</span>.in);
+<span class="typ">String</span> playAgain;
+
+<span class="kw">do</span> {
+    playGame(); <span class="cm">// Your game logic here — always runs first!</span>
+    
+    <span class="typ">System</span>.out.print(<span class="str">"\n🎮 Play again? (y/n): "</span>);
+    playAgain = scanner.nextLine().trim().toLowerCase();
+    
+} <span class="kw">while</span> (playAgain.equals(<span class="str">"y"</span>) || playAgain.equals(<span class="str">"yes"</span>));
+
+<span class="typ">System</span>.out.println(<span class="str">"👋 Thanks for playing!"</span>);</pre>
+        </div>
+
+        <div class="callout good">
+          <span class="callout-ico">✅</span>
+          <div class="callout-body"><strong>WHEN TO CHOOSE do-while</strong><p>Ask yourself: "Is it possible I should skip this entirely?" If yes → <code>while</code>. If no, it must happen at least once → <code>do-while</code>. Menu systems, first attempts, and initial prompts almost always use <code>do-while</code>.</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">You're building a "retry login" feature. The user must attempt login at least once. Which loop should you use?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">for loop</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">while loop</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">do-while loop</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">enhanced for loop</button>
+          </div>
+          <div class="quiz-fb">The <code>do-while</code> guarantees the body (the login attempt) runs at least once before checking whether to retry. A <code>while</code> loop could theoretically skip the attempt entirely if the condition was somehow false from the start.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(2)">← while Loop</button>
+        <span class="nav-indicator">4 of 8</span>
+        <button class="btn btn-next" onclick="go(4)">Enhanced for →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 5 ═══════════════════ -->
     <div class="lesson" id="L4">
-      <h2>5. Enhanced for Loop</h2>
-      <p>Clean syntax for iterating over collections and arrays.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 5</span><span class="ey-num">Collections Made Easy</span></div>
+      <h2 class="lesson-title">Enhanced <em>for Loop</em> — "For Each Item in Collection"</h2>
+      <p class="lesson-intro">The enhanced <code>for</code> (or "for-each") loop gives you clean syntax for iterating over arrays and collections. No index arithmetic, no off-by-one errors — just "for each item, do this."</p>
+
+      <div class="prose">
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>ForEachSyntax.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">for</span> (<span class="typ">Type</span> item : collection) {
+    <span class="cm">// use item directly — no index needed!</span>
+    <span class="cm">// works with arrays, Lists, Sets, and more</span>
+}</pre>
+        </div>
+
+        <div class="compare-grid">
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="color:var(--muted)">Traditional for</div>
+            <div class="cmp-body"><p>Need the index variable</p><p>Can modify the array</p><p>Risk of off-by-one</p></div>
+          </div>
+          <div class="cmp-box">
+            <div class="cmp-hdr" style="color:var(--accent2)">Enhanced for</div>
+            <div class="cmp-body"><p>Cleaner, no index needed</p><p>Read-only (can't modify source)</p><p>Cannot skip or reverse</p></div>
+          </div>
+        </div>
+
+        <h3>🎮 Example 1: Displaying Player Inventory</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>InventoryDisplay.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">List</span>&lt;<span class="typ">String</span>&gt; inventory = <span class="typ">Arrays</span>.asList(
+    <span class="str">"🗡️ Iron Sword"</span>, <span class="str">"🛡️ Wooden Shield"</span>, <span class="str">"🧪 Health Potion"</span>,
+    <span class="str">"🧪 Mana Potion"</span>, <span class="str">"💰 Gold Coin x50"</span>, <span class="str">"🗝️ Dungeon Key"</span>
+);
+
+<span class="typ">System</span>.out.println(<span class="str">"🎒 YOUR INVENTORY:"</span>);
+<span class="kw">int</span> slot = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="typ">String</span> item : inventory) {
+    <span class="typ">System</span>.out.println(<span class="str">"  ["</span> + slot++ + <span class="str">"] "</span> + item);
+}
+<span class="cm">// [1] 🗡️ Iron Sword
+// [2] 🛡️ Wooden Shield ... etc</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Calculating Total Damage</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>CombatDamage.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">int</span>[] hits = {<span class="num">15</span>, <span class="num">22</span>, <span class="num">8</span>, <span class="num">30</span>, <span class="num">18</span>, <span class="num">25</span>};
+<span class="kw">int</span> totalDamage = <span class="num">0</span>;
+<span class="kw">int</span> critCount = <span class="num">0</span>;
+
+<span class="kw">for</span> (<span class="kw">int</span> damage : hits) {
+    totalDamage += damage;
+    <span class="kw">if</span> (damage >= <span class="num">25</span>) critCount++;
+    <span class="typ">System</span>.out.println(<span class="str">"  Hit: "</span> + damage + <span class="str">" dmg"</span>);
+}
+
+<span class="typ">System</span>.out.println(<span class="str">"💥 Total: "</span> + totalDamage + <span class="str">" | Crits: "</span> + critCount);</pre>
+        </div>
+
+        <h3>🎮 Example 3: Leaderboard Display</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>Leaderboard.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">record</span> <span class="cl">PlayerScore</span>(<span class="typ">String</span> name, <span class="kw">int</span> score) {}
+
+<span class="typ">List</span>&lt;<span class="cl">PlayerScore</span>&gt; leaderboard = <span class="typ">List</span>.of(
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"ShadowStrike"</span>, <span class="num">98750</span>),
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"PixelPwner"</span>, <span class="num">87650</span>),
+    <span class="kw">new</span> <span class="cl">PlayerScore</span>(<span class="str">"CodeCrusher"</span>, <span class="num">82340</span>)
+);
+
+<span class="typ">System</span>.out.println(<span class="str">"🏆 GLOBAL LEADERBOARD:"</span>);
+<span class="kw">int</span> rank = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="cl">PlayerScore</span> p : leaderboard) {
+    <span class="typ">String</span> medal = <span class="kw">switch</span> (rank) {
+        <span class="kw">case</span> <span class="num">1</span> -> <span class="str">"🥇"</span>; <span class="kw">case</span> <span class="num">2</span> -> <span class="str">"🥈"</span>; <span class="kw">case</span> <span class="num">3</span> -> <span class="str">"🥉"</span>; <span class="kw">default</span> -> <span class="str">"  "</span>;
+    };
+    <span class="typ">System</span>.out.printf(<span class="str">"%s #%-2d %-15s %,d%n"</span>, medal, rank++, p.name(), p.score());
+}</pre>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">When should you use a traditional <code>for</code> loop instead of the enhanced <code>for</code> loop?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">When iterating over a List</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">When you want cleaner code</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">When you need the index or need to modify elements</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">When working with primitives</button>
+          </div>
+          <div class="quiz-fb">The enhanced <code>for</code> is read-only and index-free. Use a traditional <code>for</code> when you need <code>i</code> (to modify elements via <code>arr[i] = x</code>, to iterate backwards, or to skip certain indexes).</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(3)">← do-while Loop</button>
+        <span class="nav-indicator">5 of 8</span>
+        <button class="btn btn-next" onclick="go(5)">Nested Loops →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 6 ═══════════════════ -->
     <div class="lesson" id="L5">
-      <h2>6. Nested Loops</h2>
-      <p>Essential for Grids, Matrices, and Tile Maps.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 6</span><span class="ey-num">Grids & Matrices</span></div>
+      <h2 class="lesson-title">Nested Loops — <em>Grids, Boards & Tile Maps</em></h2>
+      <p class="lesson-intro">Nested loops are the key to working with 2D data. Every tile map, game board, pixel buffer, and grid system in game development uses this pattern: outer loop handles rows, inner loop handles columns.</p>
+
+      <div class="prose">
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>NestedPattern.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">for</span> (<span class="kw">int</span> row = <span class="num">0</span>; row &lt; rows; row++) {       <span class="cm">// OUTER: rows</span>
+    <span class="kw">for</span> (<span class="kw">int</span> col = <span class="num">0</span>; col &lt; cols; col++) {   <span class="cm">// INNER: columns</span>
+        <span class="cm">// Process cell [row][col]</span>
+        <span class="cm">// Inner loop completes ALL columns before outer advances</span>
+    }
+}</pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-ico">💡</span>
+          <div class="callout-body"><strong>MENTAL MODEL</strong><p>Think of a book: the outer loop turns pages (rows), the inner loop reads each word on that page (columns). When you finish a row, you start the next one from the beginning.</p></div>
+        </div>
+
+        <h3>🎮 Example 1: Tic-Tac-Toe Board</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>TicTacToe.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">char</span>[][] board = {
+    {<span class="str">'X'</span>, <span class="str">'O'</span>, <span class="str">'X'</span>},
+    {<span class="str">'O'</span>, <span class="str">'X'</span>, <span class="str">' '</span>},
+    {<span class="str">' '</span>, <span class="str">'O'</span>, <span class="str">'X'</span>}
+};
+
+<span class="typ">System</span>.out.println(<span class="str">"  0 1 2"</span>);
+<span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">0</span>; r &lt; board.length; r++) {
+    <span class="typ">System</span>.out.print(r + <span class="str">" "</span>);
+    <span class="kw">for</span> (<span class="kw">int</span> c = <span class="num">0</span>; c &lt; board[r].length; c++) {
+        <span class="typ">System</span>.out.print(board[r][c]);
+        <span class="kw">if</span> (c &lt; <span class="num">2</span>) <span class="typ">System</span>.out.print(<span class="str">"|"</span>);
+    }
+    <span class="kw">if</span> (r &lt; <span class="num">2</span>) <span class="typ">System</span>.out.println(<span class="str">"\n  -----"</span>);
+}
+<span class="cm">// Output:
+//   0 1 2
+// 0 X|O|X
+//   -----
+// 1 O|X|
+//   -----
+// 2  |O|X</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Tile Map Renderer</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>TileMap.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="cm">// Legend: G=Grass, W=Water, T=Tree, P=Player</span>
+<span class="kw">char</span>[][] world = {
+    {<span class="str">'G'</span>,<span class="str">'G'</span>,<span class="str">'G'</span>,<span class="str">'W'</span>,<span class="str">'W'</span>,<span class="str">'W'</span>},
+    {<span class="str">'G'</span>,<span class="str">'T'</span>,<span class="str">'G'</span>,<span class="str">'W'</span>,<span class="str">'W'</span>,<span class="str">'W'</span>},
+    {<span class="str">'G'</span>,<span class="str">'G'</span>,<span class="str">'P'</span>,<span class="str">'G'</span>,<span class="str">'G'</span>,<span class="str">'G'</span>},
+};
+
+<span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">0</span>; r &lt; world.length; r++) {
+    <span class="kw">for</span> (<span class="kw">int</span> c = <span class="num">0</span>; c &lt; world[r].length; c++) {
+        <span class="typ">String</span> emoji = <span class="kw">switch</span> (world[r][c]) {
+            <span class="kw">case</span> <span class="str">'G'</span> -> <span class="str">"🟢"</span>; <span class="kw">case</span> <span class="str">'W'</span> -> <span class="str">"🔵"</span>;
+            <span class="kw">case</span> <span class="str">'T'</span> -> <span class="str">"🌲"</span>; <span class="kw">case</span> <span class="str">'P'</span> -> <span class="str">"🧍"</span>;
+            <span class="kw">default</span> -> <span class="str">"❓"</span>;
+        };
+        <span class="typ">System</span>.out.print(emoji + <span class="str">" "</span>);
+    }
+    <span class="typ">System</span>.out.println();
+}
+<span class="cm">// 🟢 🟢 🟢 🔵 🔵 🔵
+// 🟢 🌲 🟢 🔵 🔵 🔵
+// 🟢 🟢 🧍 🟢 🟢 🟢</span></pre>
+        </div>
+
+        <h3>🎮 Example 3: RPG Stat Scaling Table</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>StatScaling.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">System</span>.out.println(<span class="str">"   STR:  5  10  15  20  25"</span>);
+<span class="typ">System</span>.out.println(<span class="str">"LVL  ---------------------"</span>);
+<span class="kw">for</span> (<span class="kw">int</span> level = <span class="num">1</span>; level &lt;= <span class="num">5</span>; level++) {
+    <span class="typ">System</span>.out.printf(<span class="str">"%-4d"</span>, level);
+    <span class="kw">for</span> (<span class="kw">int</span> str : <span class="kw">new</span> <span class="kw">int</span>[]{<span class="num">5</span>, <span class="num">10</span>, <span class="num">15</span>, <span class="num">20</span>, <span class="num">25</span>}) {
+        <span class="kw">int</span> damage = level * str / <span class="num">2</span>;
+        <span class="typ">System</span>.out.printf(<span class="str">"%4d"</span>, damage);
+    }
+    <span class="typ">System</span>.out.println();
+}</pre>
+        </div>
+
+        <div class="challenge med">
+          <div class="ch-tag">🟡 Medium Challenge</div>
+          <h4>Dungeon Generator</h4>
+          <p>Create a 10×10 dungeon map using nested loops:</p>
+          <ul>
+            <li>Fill the border cells (row 0, row 9, col 0, col 9) with walls <code>'#'</code></li>
+            <li>Fill interior cells with floor tiles <code>'.'</code></li>
+            <li>Place a player <code>'@'</code> at position (5, 5)</li>
+            <li>Render it with nested loops, printing each row on its own line</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(4)">← Enhanced for</button>
+        <span class="nav-indicator">6 of 8</span>
+        <button class="btn btn-next" onclick="go(6)">Loop Control →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 7 ═══════════════════ -->
     <div class="lesson" id="L6">
-      <h2>7. Loop Control</h2>
-      <p>Mastering <code>break</code>, <code>continue</code>, and labels.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 7</span><span class="ey-num">Precision Control</span></div>
+      <h2 class="lesson-title">Loop Control — <em>break, continue & Labels</em></h2>
+      <p class="lesson-intro">Sometimes you need to exit a loop early or skip an iteration. <code>break</code> and <code>continue</code> give you precise control over loop flow — and labeled versions let you escape nested loops entirely.</p>
+
+      <div class="prose">
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>Statement</th><th>Effect</th><th>Common Use</th></tr>
+            <tr><td>break</td><td>Exit the loop immediately</td><td>Found what you were searching for</td></tr>
+            <tr><td>continue</td><td>Skip to next iteration</td><td>Skip invalid/null items</td></tr>
+            <tr><td>label: + break label</td><td>Exit outer (nested) loops</td><td>Found in 2D grid, stop all loops</td></tr>
+          </table>
+        </div>
+
+        <h3>🎮 Example 1: Search Inventory (break)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>InventorySearch.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">String</span>[] inventory = {<span class="str">"Sword"</span>, <span class="str">"Shield"</span>, <span class="str">"Potion"</span>, <span class="str">"Key"</span>, <span class="str">"Map"</span>};
+<span class="typ">String</span> target = <span class="str">"Key"</span>;
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; inventory.length; i++) {
+    <span class="typ">System</span>.out.println(<span class="str">"  Checking slot "</span> + i + <span class="str">": "</span> + inventory[i]);
+    <span class="kw">if</span> (inventory[i].equals(target)) {
+        <span class="typ">System</span>.out.println(<span class="str">"  ✅ Found at slot "</span> + i + <span class="str">"!"</span>);
+        <span class="kw">break</span>; <span class="cm">// Stop searching — we found it!</span>
+    }
+}
+<span class="cm">// Checking slot 0: Sword
+// Checking slot 1: Shield
+// Checking slot 2: Potion
+// Checking slot 3: Key
+// ✅ Found at slot 3!</span></pre>
+        </div>
+
+        <h3>🎮 Example 2: Process Valid Items (continue)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>LootProcessing.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="typ">String</span>[] loot = {<span class="str">"Gold"</span>, <span class="kw">null</span>, <span class="str">"Sword"</span>, <span class="str">""</span>, <span class="str">"Potion"</span>, <span class="str">"Gem"</span>};
+<span class="kw">int</span> validCount = <span class="num">0</span>;
+
+<span class="kw">for</span> (<span class="typ">String</span> item : loot) {
+    <span class="kw">if</span> (item == <span class="kw">null</span> || item.trim().isEmpty()) {
+        <span class="typ">System</span>.out.println(<span class="str">"  ⚠️ Skipping empty slot"</span>);
+        <span class="kw">continue</span>; <span class="cm">// Skip to next item</span>
+    }
+    <span class="typ">System</span>.out.println(<span class="str">"  ✅ Added: "</span> + item);
+    validCount++;
+}
+<span class="typ">System</span>.out.println(<span class="str">"Total valid: "</span> + validCount);</pre>
+        </div>
+
+        <h3>🎮 Example 3: Labeled break (Find Player in Grid)</h3>
+        <div class="ex-label">🎮 Game Dev Example</div>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>GridSearch.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">int</span>[][] dungeon = {
+    {<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>},
+    {<span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">2</span>}, <span class="cm">// 1=Player, 2=Exit</span>
+    {<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>}
+};
+
+<span class="kw">int</span> playerRow = -<span class="num">1</span>, playerCol = -<span class="num">1</span>;
+
+searchLoop: <span class="cm">// Label the OUTER loop</span>
+<span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">0</span>; r &lt; dungeon.length; r++) {
+    <span class="kw">for</span> (<span class="kw">int</span> c = <span class="num">0</span>; c &lt; dungeon[r].length; c++) {
+        <span class="kw">if</span> (dungeon[r][c] == <span class="num">1</span>) {
+            playerRow = r;
+            playerCol = c;
+            <span class="kw">break</span> searchLoop; <span class="cm">// Breaks BOTH loops at once!</span>
+        }
+    }
+}
+<span class="typ">System</span>.out.println(<span class="str">"🧍 Player at ("</span> + playerRow + <span class="str">", "</span> + playerCol + <span class="str">")"</span>);</pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-ico">⚠️</span>
+          <div class="callout-body"><strong>USE LABELS SPARINGLY</strong><p>Labels can make code hard to read. In production, consider refactoring the nested loop into a separate method that returns early. But for grid searches and game map traversal, labels are perfectly valid.</p></div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-tag">Quick Check</div>
+          <div class="quiz-q">What does <code>continue</code> do inside a loop body?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Stops the entire loop and exits</button>
+            <button class="quiz-opt" onclick="answer(this,'correct')">Skips the rest of the current iteration and moves to the next</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Restarts the loop from the beginning</button>
+            <button class="quiz-opt" onclick="answer(this,'wrong')">Continues executing the same iteration</button>
+          </div>
+          <div class="quiz-fb"><code>continue</code> skips the remaining code in the current iteration and jumps to the update step (for <code>for</code> loops) or rechecks the condition (for <code>while</code> loops). The loop itself keeps going — only that one iteration is cut short.</div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(5)">← Nested Loops</button>
+        <span class="nav-indicator">7 of 8</span>
+        <button class="btn btn-next" onclick="go(7)">Capstone →</button>
+      </div>
     </div>
 
+    <!-- ═══════════════════ LESSON 8 ═══════════════════ -->
     <div class="lesson" id="L7">
-      <h2>8. Capstone Project</h2>
-      <p>Mini Game Engine: Turn-based combat prototype.</p>
+      <div class="eyebrow"><span class="ey-tag">Module 8</span><span class="ey-num">Capstone Project</span></div>
+      <h2 class="lesson-title">Capstone — <em>Turn-Based Combat Prototype</em></h2>
+      <p class="lesson-intro">Put it all together. This mini game engine uses every loop type you've learned — <code>while</code> for the main game loop, <code>do-while</code> for combat rounds, nested <code>while</code> for input validation, and <code>for-each</code> to iterate enemies.</p>
+
+      <div class="prose">
+        <h3>Architecture Overview</h3>
+        <div class="concept-grid">
+          <div class="concept-card"><div class="cc-icon">🔄</div><div class="cc-title">while — Main Loop</div><div class="cc-desc">Runs while game isn't over and there are enemies left</div></div>
+          <div class="concept-card"><div class="cc-icon">⚔️</div><div class="cc-title">do-while — Combat</div><div class="cc-desc">Each combat round — always executes at least one turn</div></div>
+          <div class="concept-card"><div class="cc-icon">🖊️</div><div class="cc-title">while — Input</div><div class="cc-desc">Validates menu choice, retries on invalid input</div></div>
+          <div class="concept-card"><div class="cc-icon">📋</div><div class="cc-title">for-each — Enemies</div><div class="cc-desc">Iterates enemy list for wave setup and status</div></div>
+        </div>
+
+        <h3>Full Combat Engine</h3>
+        <div class="code-wrap">
+          <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>CombatDemo.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+          <pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cl">CombatDemo</span> {
+    <span class="kw">record</span> <span class="cl">Entity</span>(<span class="typ">String</span> name, <span class="kw">int</span> hp, <span class="kw">int</span> maxHp, <span class="kw">int</span> atk, <span class="kw">int</span> def) {}
+    
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="typ">String</span>[] args) {
+        <span class="cl">Entity</span> player = <span class="kw">new</span> <span class="cl">Entity</span>(<span class="str">"🧙 Hero"</span>, <span class="num">100</span>, <span class="num">100</span>, <span class="num">15</span>, <span class="num">5</span>);
+        <span class="typ">List</span>&lt;<span class="cl">Entity</span>&gt; enemies = <span class="typ">Arrays</span>.asList(
+            <span class="kw">new</span> <span class="cl">Entity</span>(<span class="str">"🐀 Rat"</span>,    <span class="num">30</span>,  <span class="num">30</span>,  <span class="num">8</span>,  <span class="num">2</span>),
+            <span class="kw">new</span> <span class="cl">Entity</span>(<span class="str">"🐺 Wolf"</span>,   <span class="num">50</span>,  <span class="num">50</span>, <span class="num">12</span>,  <span class="num">4</span>),
+            <span class="kw">new</span> <span class="cl">Entity</span>(<span class="str">"🐉 Dragon"</span>, <span class="num">200</span>, <span class="num">200</span>, <span class="num">25</span>, <span class="num">10</span>)
+        );
+        
+        <span class="typ">Scanner</span> sc = <span class="kw">new</span> <span class="typ">Scanner</span>(<span class="typ">System</span>.in);
+        <span class="kw">boolean</span> gameOver = <span class="kw">false</span>;
+        <span class="kw">int</span> wave = <span class="num">1</span>;
+        
+        <span class="cm">// ════ MAIN GAME LOOP (while) ════</span>
+        <span class="kw">while</span> (!gameOver && wave &lt;= enemies.size()) {
+            <span class="cl">Entity</span> enemy = enemies.get(wave - <span class="num">1</span>);
+            <span class="typ">System</span>.out.println(<span class="str">"\n═══ WAVE "</span> + wave + <span class="str">": "</span> + enemy.name() + <span class="str">" ═══"</span>);
+            
+            <span class="cm">// ════ COMBAT LOOP (do-while) ════</span>
+            <span class="kw">do</span> {
+                printStatus(player, enemy);
+                
+                <span class="cm">// ════ INPUT VALIDATION (while) ════</span>
+                <span class="kw">int</span> choice = -<span class="num">1</span>;
+                <span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">3</span>) {
+                    <span class="typ">System</span>.out.print(<span class="str">"[1] Attack  [2] Heal  [3] Flee: "</span>);
+                    <span class="kw">if</span> (sc.hasNextInt()) choice = sc.nextInt();
+                    <span class="kw">else</span> sc.next();
+                }
+                
+                <span class="kw">switch</span> (choice) {
+                    <span class="kw">case</span> <span class="num">1</span> -> attack(player, enemy);
+                    <span class="kw">case</span> <span class="num">2</span> -> heal(player);
+                    <span class="kw">case</span> <span class="num">3</span> -> { <span class="typ">System</span>.out.println(<span class="str">"🏃 You fled!"</span>); gameOver = <span class="kw">true</span>; }
+                }
+                
+                <span class="kw">if</span> (enemy.hp() > <span class="num">0</span> && !gameOver) enemyAttack(enemy, player);
+                <span class="kw">if</span> (player.hp() &lt;= <span class="num">0</span>) { <span class="typ">System</span>.out.println(<span class="str">"☠️ YOU DIED."</span>); gameOver = <span class="kw">true</span>; }
+                
+            } <span class="kw">while</span> (enemy.hp() > <span class="num">0</span> && player.hp() > <span class="num">0</span> && !gameOver);
+            
+            <span class="kw">if</span> (!gameOver) { <span class="typ">System</span>.out.println(<span class="str">"🎉 Defeated! +50 XP"</span>); wave++; }
+        }
+        
+        <span class="kw">if</span> (!gameOver) <span class="typ">System</span>.out.println(<span class="str">"\n🏆 VICTORY! All waves cleared!"</span>);
+        sc.close();
+    }
+}</pre>
+        </div>
+
+        <h3>Quick Reference Cheatsheet</h3>
+        <div class="cheatsheet">
+          <div class="cs-row"><span class="cs-key">for (i; c; u)</span><span class="cs-val">Known iteration count — inventory, timers, levels</span></div>
+          <div class="cs-row"><span class="cs-key">while (cond)</span><span class="cs-val">Unknown count, check FIRST — game loop, gathering</span></div>
+          <div class="cs-row"><span class="cs-key">do { } while</span><span class="cs-val">Run ONCE minimum — menus, retry, play-again</span></div>
+          <div class="cs-row"><span class="cs-key">for (x : xs)</span><span class="cs-val">Iterate collection/array — inventory, enemies</span></div>
+          <div class="cs-row"><span class="cs-key">break</span><span class="cs-val">Exit loop NOW — found target, player fled</span></div>
+          <div class="cs-row"><span class="cs-key">continue</span><span class="cs-val">Skip to next iteration — skip null/empty items</span></div>
+          <div class="cs-row"><span class="cs-key">label: break</span><span class="cs-val">Break OUTER loop from INNER — grid search</span></div>
+        </div>
+
+        <h3>Practice Exercises</h3>
+        <div class="practice-list">
+          <div class="practice-item"><div class="pi-num">1</div><div class="pi-body"><div class="pi-title">FizzBuzz — Print 1-100 with game twist</div><div class="pi-meta"><span class="pi-tag">for</span><span class="pi-time">10 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">2</div><div class="pi-body"><div class="pi-title">Guess the Number — with hints (higher/lower)</div><div class="pi-meta"><span class="pi-tag">while</span><span class="pi-tag">do-while</span><span class="pi-time">15 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">3</div><div class="pi-body"><div class="pi-title">Shopping Cart — add/remove/view/checkout</div><div class="pi-meta"><span class="pi-tag">for-each</span><span class="pi-tag">while</span><span class="pi-time">25 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">4</div><div class="pi-body"><div class="pi-title">Chessboard — print 8×8 with coordinates</div><div class="pi-meta"><span class="pi-tag">nested for</span><span class="pi-time">20 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">5</div><div class="pi-body"><div class="pi-title">Find First Prime &gt; 1000</div><div class="pi-meta"><span class="pi-tag">for</span><span class="pi-tag">break</span><span class="pi-tag">label</span><span class="pi-time">15 min</span></div></div></div>
+          <div class="practice-item"><div class="pi-num">6</div><div class="pi-body"><div class="pi-title">Text-based RPG — fight 3 enemies, all loop types</div><div class="pi-meta"><span class="pi-tag">ALL</span><span class="pi-time">45 min</span></div></div></div>
+        </div>
+
+        <div class="callout good">
+          <span class="callout-ico">🚀</span>
+          <div class="callout-body"><strong>NEXT STEPS</strong><p>Now that you've mastered loops, move on to <strong>Arrays & ArrayLists</strong> — loops are how you'll work with every collection. The combination is where real game code lives.</p></div>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="go(6)">← Loop Control</button>
+        <span class="nav-indicator">8 of 8</span>
+        <button class="btn btn-next" disabled>Course Complete 🎉</button>
+      </div>
     </div>
+
   </main>
 </div>
+
+<script>
+let current = 0;
+const total = 8;
+const completed = new Set();
+
+function go(n) {
+  document.getElementById('L' + current).classList.remove('active');
+  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+  completed.add(current);
+  document.querySelectorAll('.nav-btn')[current].classList.add('done');
+
+  current = n;
+  document.getElementById('L' + current).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === current);
+  });
+
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Reset quizzes in new lesson
+  document.querySelectorAll('#L' + current + ' .quiz-opt').forEach(o => {
+    o.disabled = false;
+    o.className = 'quiz-opt';
+  });
+  document.querySelectorAll('#L' + current + ' .quiz-fb').forEach(f => {
+    f.className = 'quiz-fb';
+  });
+}
+
+function updateProgress() {
+  const done = completed.size;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = (current + 1) + '/' + total;
+  document.getElementById('sbCount').textContent = (current + 1) + ' / ' + total;
+}
+
+function answer(btn, result) {
+  const quiz = btn.closest('.quiz');
+  const opts = quiz.querySelectorAll('.quiz-opt');
+  const fb = quiz.querySelector('.quiz-fb');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  if (result === 'wrong') {
+    opts.forEach(o => {
+      if (o.onclick.toString().includes("'correct'")) o.classList.add('correct');
+    });
+  }
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+</script>
+  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Roadmap
+</a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>
