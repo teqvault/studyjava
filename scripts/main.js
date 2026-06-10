@@ -39,9 +39,16 @@ window.go = function(idx, total) {
  * Universal Progress Tracker
  */
 window.updateProgress = function(total) {
-    const pct = Math.round((window.done.size / total) * 100);
-    const fill = document.getElementById('pFill') || document.getElementById('progressFill');
-    const txt = document.getElementById('pPct') || document.getElementById('progressPct');
+    // 1. Ensure total is a valid number, default to 1 if undefined to avoid division by zero
+    const safeTotal = (typeof total !== 'undefined' && total > 0) ? total : 1;
+    let pct = Math.round((window.done.size / safeTotal) * 100);
+    
+    // 2. Prevent NaN explicitly
+    if (isNaN(pct)) pct = 0;
+
+    // 3. Fallback logic: check for both standard IDs and portal-specific "op" IDs
+    const fill = document.getElementById('pFill') || document.getElementById('progressFill') || document.getElementById('opFill');
+    const txt = document.getElementById('pPct') || document.getElementById('progressPct') || document.getElementById('opPct');
     
     if (fill) fill.style.width = pct + '%';
     if (txt) txt.textContent = pct + '%';
@@ -77,3 +84,10 @@ window.Q = function(btn, correct, explObj) {
         fb.textContent = (correct ? '✓ Correct! ' : '✗ Not quite. ') + (explObj ? explObj[lessonId] : '');
     }
 };
+
+// Auto-initialize progress once the page is fully loaded
+window.addEventListener('load', () => {
+    // Attempt to guess total from .lesson elements if not passed initially
+    const total = document.querySelectorAll('.lesson').length || 1;
+    updateProgress(total);
+});
