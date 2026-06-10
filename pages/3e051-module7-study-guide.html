@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3E051 Module 7 Study Guide — TeqVault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #080D1A;
+    --slate: #0F1620;
+    --card: #131C2B;
+    --border: #1C2A3A;
+    --border-bright: #243347;
+    --cyan: #00C8F0;
+    --cyan-dim: rgba(0,200,240,0.10);
+    --green: #28E87A;
+    --green-dim: rgba(40,232,122,0.10);
+    --amber: #F0A800;
+    --amber-dim: rgba(240,168,0,0.10);
+    --red: #F04A6A;
+    --red-dim: rgba(240,74,106,0.10);
+    --purple: #9D6EFF;
+    --purple-dim: rgba(157,110,255,0.10);
+    --white: #E4EDF8;
+    --muted: #7A8FA8;
+    --sidebar-w: 270px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: 52px; display: flex; align-items: center; gap: 12px;
+    padding: 0 20px;
+    background: rgba(8,13,26,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-logo { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; color: var(--white); text-decoration: none; }
+  .topbar-logo span { color: var(--cyan); }
+  .topbar-sep { color: var(--border-bright); }
+  .topbar-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .score-pill { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); background: var(--green-dim); border: 1px solid rgba(40,232,122,0.25); padding: 3px 10px; border-radius: 20px; }
+  .menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--white); padding: 5px 9px; border-radius: 5px; cursor: pointer; }
+
+  .layout { display: flex; margin-top: 52px; }
+
+  .sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    position: fixed; top: 52px; bottom: 0; left: 0;
+    background: var(--slate); border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 16px 0;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .sb-section-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--muted); padding: 10px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 9px; padding: 7px 16px; font-size: 12px; color: var(--muted); cursor: pointer; border-left: 2px solid transparent; transition: all 0.12s; text-decoration: none; }
+  .sb-link:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+  .sb-link.active { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); }
+  .sb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .sb-link.active .sb-dot { background: var(--cyan); box-shadow: 0 0 5px var(--cyan); }
+  .sb-count { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 3px; }
+
+  .main { margin-left: var(--sidebar-w); flex: 1; max-width: 900px; padding: 40px 40px 120px; }
+
+  .category { display: none; }
+  .category.active { display: block; }
+
+  .hero { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; margin-bottom: 32px; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--cyan), var(--green), var(--purple)); }
+  .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; line-height: 1.1; }
+  .hero h1 em { font-style: normal; color: var(--cyan); }
+  .hero p { color: var(--muted); font-size: 14px; max-width: 540px; }
+  .hero-stats { display: flex; gap: 28px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .hs-val { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; }
+  .hs-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .cat-header { margin-bottom: 24px; }
+  .cat-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .cat-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+  .cat-ref { font-size: 12px; color: var(--muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+  .cat-ref span { color: var(--amber); }
+
+  .qa-list { display: flex; flex-direction: column; gap: 10px; }
+  .qa-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s; }
+  .qa-card:hover { border-color: var(--border-bright); }
+  .qa-question { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; cursor: pointer; user-select: none; }
+  .qa-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 7px; border-radius: 3px; flex-shrink: 0; margin-top: 2px; min-width: 42px; text-align: center; }
+  .qa-q-text { font-size: 14px; color: var(--white); flex: 1; line-height: 1.5; }
+  .qa-chevron { font-size: 11px; color: var(--muted); flex-shrink: 0; margin-top: 3px; transition: transform 0.2s; }
+  .qa-card.open .qa-chevron { transform: rotate(90deg); }
+  .qa-answer { display: none; padding: 0 16px 16px 52px; border-top: 1px solid var(--border); }
+  .qa-card.open .qa-answer { display: block; }
+  .qa-answer-inner { padding-top: 12px; font-size: 13px; color: #9BAFC4; line-height: 1.7; }
+  .qa-answer-inner strong { color: var(--white); font-weight: 600; }
+  .qa-answer-inner .ref { display: inline-block; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--amber); background: var(--amber-dim); border: 1px solid rgba(240,168,0,0.2); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.5px; }
+
+  .qa-card[data-type="eals"] .qa-num { color: var(--cyan); background: var(--cyan-dim); }
+  .qa-card[data-type="radr"] .qa-num { color: var(--red); background: var(--red-dim); }
+  .qa-card[data-type="bear"] .qa-num { color: var(--amber); background: var(--amber-dim); }
+  .qa-card[data-type="rals"] .qa-num { color: var(--green); background: var(--green-dim); }
+  .qa-card[data-type="maas"] .qa-num { color: var(--purple); background: var(--purple-dim); }
+
+  .section-divider { display: flex; align-items: center; gap: 12px; margin: 28px 0 16px; }
+  .section-divider-label { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: var(--white); white-space: nowrap; }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  .callout { border-radius: 7px; padding: 14px 16px; margin: 16px 0; border-left: 3px solid; font-size: 13px; }
+  .callout.tip { background: var(--cyan-dim); border-color: var(--cyan); color: #A8D8E8; }
+  .callout.warn { background: var(--amber-dim); border-color: var(--amber); color: #D4AA60; }
+  .callout strong { color: var(--white); }
+
+  .cat-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .nav-btn { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 7px; cursor: pointer; transition: all 0.12s; border: none; }
+  .nav-btn.prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .nav-btn.prev:hover { color: var(--white); border-color: var(--border-bright); }
+  .nav-btn.next { background: var(--cyan); color: var(--navy); }
+  .nav-btn.next:hover { background: #22D8FF; }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; z-index: 150; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 16px 80px; }
+    .menu-btn { display: block; }
+    .hero h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="topbar-logo" href="https://teqvault.study">Teq<span>Vault</span></a>
+  <span class="topbar-sep">·</span>
+  <span class="topbar-title">3E051 Module 7 Study Guide</span>
+  <div class="topbar-right">
+    <span class="score-pill" id="scorePill">0 / 0 reviewed</span>
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="sidebar" id="sidebar">
+  <div class="sb-section-label">Navigation</div>
+  <a class="sb-link active" onclick="go('overview')" id="nav-overview"><span class="sb-dot"></span> Overview</a>
+
+  <div class="sb-section-label" style="margin-top:8px;">Lesson 1 — Contingency Airfield</div>
+  <a class="sb-link" onclick="go('eals')" id="nav-eals"><span class="sb-dot"></span> EALS Fundamentals <span class="sb-count">30</span></a>
+  <a class="sb-link" onclick="go('radr')" id="nav-radr"><span class="sb-dot"></span> RADR Philosophy <span class="sb-count">20</span></a>
+  <a class="sb-link" onclick="go('roller')" id="nav-roller"><span class="sb-dot"></span> Roller Procedures <span class="sb-count">10</span></a>
+  <a class="sb-link" onclick="go('fod')" id="nav-fod"><span class="sb-dot"></span> FOD Removal <span class="sb-count">10</span></a>
+
+  <div class="sb-section-label" style="margin-top:8px;">Lesson 2 — BEAR Electrical</div>
+  <a class="sb-link" onclick="go('bearprimary')" id="nav-bearprimary"><span class="sb-dot"></span> BEAR Primary Distribution <span class="sb-count">30</span></a>
+  <a class="sb-link" onclick="go('bearsecondary')" id="nav-bearsecondary"><span class="sb-dot"></span> BEAR Secondary Distribution <span class="sb-count">20</span></a>
+  <a class="sb-link" onclick="go('grounding')" id="nav-grounding"><span class="sb-dot"></span> BEAR Grounding Methods <span class="sb-count">15</span></a>
+
+  <div class="sb-section-label" style="margin-top:8px;">Lesson 3 — Support Systems</div>
+  <a class="sb-link" onclick="go('rals')" id="nav-rals"><span class="sb-dot"></span> RALS Fundamentals <span class="sb-count">15</span></a>
+  <a class="sb-link" onclick="go('floodlight')" id="nav-floodlight"><span class="sb-dot"></span> Telescopic Floodlight <span class="sb-count">10</span></a>
+  <a class="sb-link" onclick="go('rowpu')" id="nav-rowpu"><span class="sb-dot"></span> ROWPU Electrical <span class="sb-count">10</span></a>
+  <a class="sb-link" onclick="go('kitchen')" id="nav-kitchen"><span class="sb-dot"></span> BEAR Kitchen Sets <span class="sb-count">10</span></a>
+
+  <div class="sb-section-label" style="margin-top:8px;">Lesson 4 — Facilities</div>
+  <a class="sb-link" onclick="go('maas')" id="nav-maas"><span class="sb-dot"></span> MAAS Fundamentals <span class="sb-count">20</span></a>
+  <a class="sb-link" onclick="go('shelter')" id="nav-shelter"><span class="sb-dot"></span> BEAR Shelter Lighting <span class="sb-count">10</span></a>
+</nav>
+
+<main class="main">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="category active" id="cat-overview">
+  <div class="hero">
+    <div class="hero-eyebrow">// 3E051 · module 7 · contingency operations</div>
+    <h1>Module 7<br><em>Study Guide</em></h1>
+    <p>Comprehensive question bank built directly from the Module 7 transcript. Covers EALS, RADR, BEAR primary/secondary distribution, grounding, RALS, ROWPU, MAAS, and shelter systems.</p>
+    <div class="hero-stats">
+      <div><div class="hs-val" style="color:var(--cyan)">200+</div><div class="hs-label">Questions</div></div>
+      <div><div class="hs-val" style="color:var(--green)">13</div><div class="hs-label">Topics</div></div>
+      <div><div class="hs-val" style="color:var(--amber)">4</div><div class="hs-label">Lessons</div></div>
+    </div>
+  </div>
+  <div class="callout tip">
+    <strong>Source:</strong> All questions are drawn directly from the 3E051 Module 7 Transcript (002) — Lessons 1 through 4. Click any question to reveal the answer and mark it reviewed. Color coding: <span style="color:var(--cyan)">cyan = EALS</span>, <span style="color:var(--red)">red = RADR</span>, <span style="color:var(--amber)">amber = BEAR</span>, <span style="color:var(--green)">green = RALS</span>, <span style="color:var(--purple)">purple = MAAS</span>.
+  </div>
+  <div class="cat-nav"><span></span><button class="nav-btn next" onclick="go('eals')">Start: EALS →</button></div>
+</div>
+
+<!-- ═══ EALS ═══ -->
+<div class="category" id="cat-eals">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 1 · task 1 · 19.4.4</div>
+    <div class="cat-title">EALS Fundamentals</div>
+    <div class="cat-ref">Reference: <span>TO 35F5-3-17-1 / TO 35F5-3-17-2 / AFTTP 3-32.14</span></div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">System Overview</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-01</span><span class="qa-q-text">What is the EALS designed to do, and what are the maximum dimensions of a runway it can light?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The EALS (Emergency Airfield Lighting System) is designed to be a <strong>rapidly installed runway lighting system for contingency airfields and temporary locations</strong> that need temporary airfield lighting. It supports flying operations at night and during periods of reduced visibility. It can light a runway or Minimum Operating Strip (MOS) up to <strong>150 feet wide by 10,000 feet long</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-02</span><span class="qa-q-text">What types of lighting does the EALS provide?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The EALS provides: <strong>runway edge lighting, approach lighting, threshold/end lighting, taxiway lighting, Precision Approach Path Indicator (PAPI) lights, Distance-To-Go (DTG) marker lights, and obstruction lighting</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-03</span><span class="qa-q-text">What power source provides power to the EALS, and what voltage does it supply to the constant current regulator?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The EALS receives power from two <strong>MEP 805A or B, 30 kilowatt, 50-60 Hertz tactical-quiet diesel driven generator sets</strong>. The generators supply <strong>416 volts AC</strong> to the 20 kilowatt constant current regulator. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-04</span><span class="qa-q-text">What is the regulator rated at versus its factory-adjusted maximum output, and why is it limited?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">While the regulator is <strong>rated at 20 kilowatts</strong>, it is factory adjusted for a <strong>maximum output of 13 kilowatts</strong>. This limits the output voltage and allows the use of <strong>smaller diameter cable</strong>. The reduced output does not support full or high intensity when all or most lights are in the complete 150 ft by 10,000 ft series circuit. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-05</span><span class="qa-q-text">How do the six EALS trailers fit on a C-130 aircraft?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The six air-transportable EALS trailers can fit within the space of <strong>three pallet positions on a single C-130 aircraft</strong>. The trailers can be safely towed at speeds under <strong>25 mph on paved surfaces</strong> or <strong>5 mph on unpaved surfaces</strong>, in a convoy of three or less. They are not designed for public roads (no taillights, brakes, or clearance lights). <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-06</span><span class="qa-q-text">What components does EALS have a spare for?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Every component on the EALS has a spare component. This includes the <strong>generator, regulator, control panel, PAPI, strobe master/slave, and the Series Circuit Adapters (SCA)</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Installation</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-07</span><span class="qa-q-text">How many personnel are needed to set up EALS, and how are they organized?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Six people</strong>, 2 of which must be certified electricians, organized into <strong>four crews with two general-purpose vehicles</strong>, can set up the EALS. TEAM A and TEAM B each have one truck with three people (one is designated "TAG"). Two-person teams lay the series circuit cable and place equipment; TAGs follow on foot approximately <strong>800 feet behind</strong> the trailer, connecting components. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-08</span><span class="qa-q-text">What does TEAM A install vs TEAM B in EALS setup?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>TEAM A installs all PAPI lighting</strong> and approach lighting for a unidirectional runway/MOS. <strong>TEAM B sets up the regulator and generators</strong>. Both teams start at opposite ends and perform identical tasks except for these two differences. After runway installation, Team A's 4 people install taxiways while Team B's 2 install obstruction lights, then B returns to assist with taxiways. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-09</span><span class="qa-q-text">How are approach lights placed, and what equipment uses a 45W lamp and 45W isolation transformer?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Approach lights are placed <strong>every 200 feet beyond the threshold</strong>, in line with the centerline, for 800 feet. At the 1,000-foot bar location, the center light is placed 3 to 10 feet on the approach side of the nearest strobe slave. Approach lights use a <strong>clear lens, 45-watt lamp, and 45-watt isolation transformer (IL)</strong> — the same fixture as edge lights. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-10</span><span class="qa-q-text">Describe the approach strobe system configuration — master units, slave units, SCAs, and placement.</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The approach strobe system contains <strong>3 master strobe units (1 spare), 4 slave units, and 5 SCAs (1 spare)</strong>. Place the master strobe unit and SCA at the <strong>1,200-foot point</strong> beyond the threshold. Place slave units at the <strong>1,000-foot and 1,400-foot points</strong> on the extended runway centerline. Point all strobes towards the approach. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-11</span><span class="qa-q-text">How do you determine the number of threshold/end light fixtures needed, and what are the threshold light specifications?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Divide the <strong>width of the runway or MOS by 10, then add one</strong>. The system contains <strong>33 fixtures and 33 ILs</strong> (including one spare each) — enough for a 150-foot wide runway. Threshold lights use a <strong>split red and green glass lens, 120-watt lamp, and 100-watt IL</strong>. They are placed in two groups of five, symmetrically, within 10 feet of the usable surface end, spaced 10 to 15 feet apart. Lights are red toward the runway and green toward the approach. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-12</span><span class="qa-q-text">What are the edge light specifications, total quantity, and emergency spacing deviation?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Edge lights use a <strong>clear lens, 45-watt lamp, and 45-watt IL</strong>. The system contains <strong>116 fixtures (4 spares) and 113 ILs (1 spare)</strong> — enough for a 10,000-foot runway plus seven approach lights each end. Position ILs outboard of fixtures; place fixtures inside edge markers, up to 10 feet from edge. In emergency conditions, spacing up to <strong>300 feet apart is an allowable deviation</strong> (standard is 200 feet; greater than 200 feet requires two cable segments). <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-13</span><span class="qa-q-text">Describe PAPI approach angle standards and placement requirements.</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The standard PAPI approach angle is <strong>3.0°</strong>, with the normal range between <strong>2.5° and 4.0°</strong> (may exceed 4.0° for local conditions). PAPI units are placed on the <strong>left side of the runway as viewed from the approach end</strong>, no closer than <strong>50 feet to a runway, taxiway, or apron</strong>. The inboard unit centerline is 50 to 60 feet from the runway edge; the outboard unit is 20 to 30 feet from the inboard unit. Beam centers must be within <strong>1 inch of a horizontal plane</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-14</span><span class="qa-q-text">What are the DTG marker light placement rules?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The DTG system has <strong>10 45-watt ILs</strong> and unidirectional fixtures accepting 45-watt PAR lamps. Place lights every <strong>1,000 feet</strong>, starting 1,000 feet from the runway end, up to the 5,000-foot marker. Signs are located on the <strong>right side of the runway as viewed from the approach end</strong>, 25 to 50 feet from the edge (or no more than half the runway width, whichever is less). Keep DTG markers away from PAPI units to reduce pilot confusion. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-15</span><span class="qa-q-text">What are the taxiway light specifications and normal vs. emergency spacing?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Taxiway lights use a <strong>blue lens, 30-watt lamps, and 45-watt ILs</strong>. The system includes <strong>40 light fixtures, 40 ILs, and 250 reflectors</strong>. Position fixtures no more than 10 feet from the taxiway edge, <strong>spaced 50 feet apart in straight sections and 25 feet apart in curves</strong>. Emergency deviation allows spacing up to <strong>220 feet in straight sections</strong> or <strong>100 feet in curved sections</strong>. A critical WARNING: ensure the runway circuit is <strong>de-energized and disconnected from the regulator before installing taxiway lights</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-16</span><span class="qa-q-text">What are the grounding requirements for EALS generators and regulators?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Ground the generators, regulators, and control panel. If a ground is not present, install <strong>three 3-foot ground rods</strong> supplied with the system. Connect a <strong>separate ground cable from the ground rod to each generator and regulator</strong>. Power and control connections must be per T.O. 35F5-3-17-1. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-17</span><span class="qa-q-text">Where should the regulator be placed relative to the runway, and what limits cable length to generators?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The regulator should be placed preferably <strong>200 to 600 feet from the runway</strong>, with a minimum distance of <strong>60 feet</strong>. The total length of the <strong>power cable plus control cable connecting generators to the regulator cannot exceed 1,000 feet</strong>. The auxiliary fuel supply is placed within 25 feet of the generators. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-18</span><span class="qa-q-text">What alternate power source can the EALS regulator use besides MEP 805 generators?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The regulator can be powered from any other source capable of providing a minimum of <strong>15 kVA, 240/416 VAC</strong>. The series circuit powers all EALS lighting equipment except obstruction lights. The series circuit uses a <strong>#10 AWG conductor</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-19</span><span class="qa-q-text">Describe the obstruction light system — how many lights, what type, and how are they deployed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The obstruction light system has <strong>10 battery-powered blinking red lights</strong>. If there are more than 10 obstructions, place them at the <strong>10 most significant</strong>. Airfield operations must be informed of all obstructions. Installation: install batteries, survey for 10 most prominent obstructions, turn each unit's switch to ON, and place at obstructions. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Operation & Intensity Settings</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-20</span><span class="qa-q-text">What are the initial switch positions before starting the EALS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">On the regulator panel: Intensity selector switch (S1) to <strong>REMOTE</strong>; Master circuit breaker (CB1) to <strong>OFF (down)</strong>. On the control panel: GENERATOR CONTROL — <strong>OFF</strong>; GEN1/GEN2 REMOTE START — <strong>OFF</strong>; GENERATOR SELECTION — <strong>AUTO</strong>; LIGHTING CONTROL — <strong>OFF</strong>; STROBE CONTROL — <strong>OFF</strong>. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-21</span><span class="qa-q-text">What is the EALS intensity setting guidance based on visibility conditions?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Visibility intensity settings: <strong>Night over 4 miles → LOW; Night 3 to 4 miles → MEDIUM; Night under 3 miles → HIGH</strong>. Adjust as necessary based on pilot request. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-22</span><span class="qa-q-text">What is the generator startup sequence, and how long do you wait before starting the backup?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Turn GENERATOR CONTROL to ON. Turn REMOTE START of primary unit to AUTO — the RUN and ONLINE indicators should light. <strong>Wait 5 seconds</strong>, then turn the REMOTE START of the backup generator to AUTO. Then turn CB1 on the regulator panel to ON, set LIGHTING CONTROL to desired intensity, then set STROBE CONTROL to <strong>1-18 or 19-36</strong> depending on which strobe set is needed. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-23</span><span class="qa-q-text">What are the three EALS shutdown methods and when is each used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>System Blackout:</strong> Used when airfield is under attack — press SYSTEM BLACKOUT switch; lights go out immediately but generator keeps running. Reset with BLACKOUT RESET. <strong>Normal Shutdown:</strong> LIGHTING CONTROL OFF → regulator CB and intensity switch OFF → let generator run 3 minutes no-load → REMOTE START OFF → GENERATOR CONTROL OFF. <strong>Emergency Shutdown:</strong> At control panel (GENERATOR CONTROL OFF or BLACKOUT button), at regulator (CB OFF or intensity to OFF), or at generator (EMERGENCY STOP button). <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Maintenance & Troubleshooting</span><div class="section-divider-line"></div></div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-24</span><span class="qa-q-text">What are the regulator short circuit test current value limits at each intensity step?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Using the male-to-male adapter to short output plugs and an ammeter, output current should be within: <strong>LOW: 4.66 to 4.94A; MEDIUM: 5.33 to 5.67A; HIGH: 6.40 to 6.70A</strong>. If values are outside these limits, the regulator needs service. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-25</span><span class="qa-q-text">What does the open circuit test verify, and how quickly must the protective device respond?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The open circuit test verifies the open-circuit protective device works. With the lighting circuit disconnected from output plugs, turn CB ON, set intensity to LOW — the open-circuit protective device should <strong>automatically de-energize the regulator in less than 2 seconds</strong>. After de-energizing, turn intensity to OFF — the protective device should reset. Repeat to confirm, then reconnect the lighting circuit. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-26</span><span class="qa-q-text">Why must strobe capacitors be discharged before servicing, and what is the flash tube replacement procedure?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Capacitors installed in strobe systems <strong>carry an electrical charge and must be discharged prior to servicing</strong> to prevent injury or death. Procedure: de-energize system, open door and turn on/off switch to OFF, <strong>short the capacitors</strong>, grasp flash tube by base and pull straight out, install new tube (do not touch glass with hands), close and latch door. Also check for internal/external damage, corrosion, and interlock switch/door latch operation. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-27</span><span class="qa-q-text">What is the troubleshooting process for a complete loss of a strobe segment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Possible causes: <strong>(1) Strobe control transmitter/receiver failure</strong> — check strobe selector; if both segments fail repeatedly, replace control panel; if one fails, check timing for failed segment. <strong>(2) Improper generator frequency</strong> — check frequency at panel; if not 60 Hz, adjust with manual speed control. <strong>(3) SCA failure</strong> — check SCA output voltage with true-RMS voltmeter; if not between <strong>228–264 VAC</strong> and runway circuit works, change SCA. <strong>(4) Strobe master unit failure</strong> — replace master. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-28</span><span class="qa-q-text">What is the process for troubleshooting an open circuit in the EALS series circuit?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Turn power OFF. Visually check for open conditions — reconnect or replace. If open not visible, <strong>sectionalize the circuit</strong>: disconnect home run cables from regulator. Disconnect series cable at fixtures on opposite sides of runway; pull ends to the "middle" and reconnect to form a smaller circuit. Re-energize — if that segment lights, the open is in the omitted portion. If it doesn't light, the open is in the tested segment. Continue segmenting and testing until the open is found; replace faulty components. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-29</span><span class="qa-q-text">What are generator cold weather operations requirements below 0°F?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Generators start/operate from 0°F down to <strong>-25°F without a winterization kit</strong>. Below -25°F, operate the <strong>winterization kit (heater)</strong> before startup. <strong>Never add water to a battery unless you immediately operate the engine for at least 1 hour</strong> (water may freeze). Insulation becomes brittle in extreme cold — disturb wiring as little as possible. Allow generator to <strong>warm up to operating temperature before applying load</strong>. Lubricate per cold weather guidelines. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="eals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">E-30</span><span class="qa-q-text">What is the PAPI lamp replacement procedure?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Ensure the lighting circuit is de-energized first.</strong> Disconnect all cables; remove front securing knobs. Loosen the four wing nuts on hood clamps and slide clamps free. Remove 9 screws from hood; lift hood straight up. Remove electrical connections by pushing in connector and turning counter-clockwise. Remove lamp by <strong>compressing retaining springs while turning lamp counter-clockwise</strong>; withdraw from rear of reflector. Install new lamp in reverse. <span class="ref">Module 7, Lesson 1, Task 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('overview')">← Overview</button>
+    <button class="nav-btn next" onclick="go('radr')">RADR Philosophy →</button>
+  </div>
+</div>
+
+<!-- ═══ RADR ═══ -->
+<div class="category" id="cat-radr">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 1 · task 2 · 19.6.1</div>
+    <div class="cat-title">Rapid Airfield Damage Recovery</div>
+    <div class="cat-ref">Reference: <span>AFPAM 10-219v4 / AFTTP 3-32.12 / AFTTP 3-32.17</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-01</span><span class="qa-q-text">What is the purpose of RADR and what is it a subset of?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The purpose of RADR (Rapid Airfield Damage Repair) is to <strong>rapidly repair aircraft operating surfaces and localized infrastructure to recover operations at an airfield after an attack</strong>. It is the essential element enabling air base resiliency and continuation of airfield operations. RADR is a subset of <strong>Airfield Damage Repair (ADR)</strong>. Reference: AFPAM 10-219v4. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-02</span><span class="qa-q-text">What are the three interrelated sub-processes (phases) of RADR?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">RADR consists of: <strong>(1) Rapid Damage Assessment (RDA)</strong> — identify and characterize damage and hazards; <strong>(2) Rapid Explosive Hazard Mitigation (REHM)</strong> — neutralize UXO within and near repair zones; <strong>(3) Rapid Damage Repair (RDR)</strong> — repair selected pavement damage and establish the MAOS. The REHM and RDR phases are conducted <strong>concurrently</strong> to maximize time compression. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-03</span><span class="qa-q-text">What is the maximum MAOS dimensions RADR can establish?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">RADR can establish a Minimum Airfield Operating Surface (MAOS) up to <strong>150 feet by 10,000 feet</strong>, associated taxiways, ramps, access routes, and critical infrastructure. The scope of rapid crater repair varies proportionally to the intensity of the attack. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-04</span><span class="qa-q-text">What is the difference between a spall and a camouflet?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>spall</strong> is surface damage which does <strong>not penetrate the pavement base course</strong>. A <strong>camouflet</strong> is a cavity formed from a deep underground burst with <strong>minimal surface rupture</strong>. Camouflets are detected during the RDA assessment phase as they may not be visible on the surface. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-05</span><span class="qa-q-text">What are the six steps of crater repair in sequence?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The six crater repair steps are: <strong>(1) Debris removal; (2) Upheaval marking; (3) Pavement cutting; (4) Pavement breaking and excavation; (5) Backfilling; (6) Capping</strong>. Each step has a dedicated crew that performs the same repair step on all craters in the repair zone before the next crew moves in — an assembly line concept. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-06</span><span class="qa-q-text">When does debris removal begin, and how far must debris be cleared around and from the MAOS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Debris removal begins immediately after the PAR sweep has proceeded <strong>at least 250 feet beyond the first crater</strong>. Clear debris at least <strong>15 feet from around each crater</strong>. After debris is removed from around each crater, push it at least <strong>30 feet from the edge of the MAOS</strong>. The debris removal team must stay ahead of the upheaval marking crew. Electricians may be used to operate a loader. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-07</span><span class="qa-q-text">What is upheaval marking and why is it critical?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Upheaval marking identifies upheaved pavement around craters — which is <strong>not always visible to the eye</strong>. Upheaval determination is accomplished through <strong>crater profile measurements (CPM)</strong>. Unremoved upheaval will most likely fail under traffic and create <strong>FOD hazards</strong>. Reference AFTTP 3-32.17 for craters under 20 feet diameter; T.O. 35E2-5-1 for craters 20 feet or larger. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-08</span><span class="qa-q-text">What is pavement cutting and why is it the most critical step?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Pavement cutting is performed by <strong>two compact track loaders with wheel saw attachments</strong> following upheaval marks. It is the <strong>most critical step regarding meeting timelines</strong> because it directly impacts excavation and capping efficiency. Removing more pavement than necessary increases repair time and exhausts materials. A conventional walk-behind concrete saw may be required when dowels or rebar are in the saw path. Electricians may be used as spotters. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-09</span><span class="qa-q-text">What is the "slash and splash" backfilling technique?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Backfilling uses flowable-fill (a medium strength, high viscosity, excavatable, rapid-setting cementitious material). The "slash and splash" technique: <strong>suspend a 3,000-pound super sack of flowable fill over the excavated area, slash the bottom to release material into the repair, then splash with 50 gallons of water until reaching the prescribed depth</strong>. Crushed stone may be used as an alternative but requires more time, equipment, and personnel. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-10</span><span class="qa-q-text">What capping materials are used and what alternative caps are allowed on aprons/taxiways?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Standard caps: <strong>concrete cap</strong> (using volumetric mixer with rapid-setting concrete) or <strong>asphalt cap</strong> (produced by asphalt recyclers, compacted with rollers). Alternative caps: <strong>AM-2 matting</strong> may be used on aprons and taxiways (not high-speed taxiways or intersections); <strong>Fiber-reinforced Polymer (FRP) mat panels</strong> may be used depending on aircraft type, operations, and location. Neither alternative is as durable as asphalt or concrete. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-11</span><span class="qa-q-text">What are the spall repair criteria and procedures?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A spall qualifies for expedient repair if it: <strong>does not penetrate the full pavement thickness to the underlying base course, is not larger than 5 feet in diameter, and does not cause upheaval in surrounding pavements</strong>. Spalls are repaired by removing debris and loose material from in and around them, then placing rapid-setting repair material ensuring the final repair is <strong>level with the surrounding pavement</strong>. Thousands of spalls are expected after an attack. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-12</span><span class="qa-q-text">What is the electrician's specific role during each RADR step?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Electricians may be used: <strong>Debris removal</strong> — operating a loader with multi-purpose bucket; <strong>Pavement cutting</strong> — as a spotter (using shovel, cutting alignment aid, dust mask; ground target stands, remove debris from shroud/track path, inspect saw bits); <strong>Pavement breaking</strong> — as spotter (clean corners, level excavation bottom, measure/mark backfill depth); <strong>Backfilling</strong> — as helper (utility knife, rake, shovel); <strong>Capping</strong> — as helper/vehicle operator for front-end loader, CTL, steel roller, pneumatic roller. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-13</span><span class="qa-q-text">What is REHM and what capabilities do EOD teams use?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">REHM (Rapid Explosive Hazard Mitigation) neutralizes UXO within and near repair zones. EOD personnel operate platforms and systems that allow <strong>surface and subsurface UXO positive identification, neutralization, collection, removal, and disposal</strong>. Automated systems reduce the UXO threat to Airmen and assessment timeline. Reference: AFTTP 3-32.5v6 for EOD UXO Operations guidance. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-14</span><span class="qa-q-text">What happens after all RADR processes are complete regarding the EALS and AAS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">FOD removal teams follow behind RDR teams. After FOD is cleared, <strong>marking and stripping crews identify and mark installation locations for the Aircraft Arresting System (AAS) and Emergency Airfield Lighting System (EALS)</strong>. These teams work simultaneously to restore required capability. FOD is removed from the MAOS by scraping, sweeping, and vacuuming all surfaces until accepted by Airfield Operations. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-15</span><span class="qa-q-text">What is the RADR assembly line concept?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The RDR process is based on an <strong>assembly line concept where the assembly line (repair crews) moves from crater to crater</strong>. Each step has a dedicated crew performing that same repair step across all craters in the repair zone before moving. This uses optimized techniques and rapid-setting materials to minimize Mean Time to Repair (MTR) for both asphalt-concrete (AC) and Portland Cement Concrete (PCC) surfaces. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-16</span><span class="qa-q-text">What is an RDA, and what automated systems support it?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">RDA (Rapid Damage Assessment) identifies and characterizes damage and hazards by collecting and analyzing data — number, location, and types of craters; UXO; and other damage. Assessments use both <strong>manual and automated data collection systems</strong>. Automated systems reduce the UXO threat to Airmen and reduce assessment timeline. Data collected selects the most appropriate MAOS to repair. Reference AFTTP 3-32.12 for MAOS selection and AFTTP 3-32.11 for airfield damage assessment. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-17</span><span class="qa-q-text">What is the MAAS installation sequence relative to RADR operations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">After RADR processes are complete, <strong>marking and stripping crews simultaneously mark locations for both the AAS (MAAS) and EALS installation</strong>. The grader makes a single coverage sweep about <strong>15 feet wide, 1,400 feet down the centerline overruns</strong> for approach lighting placement access. A path is cleared 15 feet wide to the PAPI location and 25 feet wide to AAS installation locations. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-18</span><span class="qa-q-text">What pavement cutting reference is used for craters of different sizes?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For craters with apparent size <strong>less than 20 feet in diameter</strong>: reference <strong>AFTTP 3-32.17</strong>. For craters with apparent size of <strong>20 feet in diameter or larger</strong>: reference <strong>T.O. 35E2-5-1</strong>. The measurement of full excavation depth must be reported and marked on walls using spray paint before backfilling begins. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-19</span><span class="qa-q-text">When is RADR considered modular and scalable?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">RADR is a <strong>modular and scalable team-based process</strong> that can: support <strong>thousands of combat sorties for all airframes</strong>, provide temporary to semi-permanent repair options in all pavement conditions, and support employ-in-place and expeditionary capabilities. The scope varies proportionally to the intensity of the attack. <span class="ref">Module 7, Lesson 1, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">R-20</span><span class="qa-q-text">What is the FOD removal process for the first 300 feet of the MOS vs. the remainder?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>first 300 feet (most critical area)</strong> of the MOS is cleared with a <strong>vacuum sweeper</strong>. The <strong>next 800 feet</strong> may also be cleared with a vacuum sweeper if possible. The <strong>remainder of the MOS</strong> is cleared with kick broom sweepers or two grader passes. A better standard is required on parking aprons and uphill taxiway sections because aircraft use more power there and are more likely to suck up debris. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('eals')">← EALS</button>
+    <button class="nav-btn next" onclick="go('roller')">Roller Procedures →</button>
+  </div>
+</div>
+
+<!-- ═══ ROLLER ═══ -->
+<div class="category" id="cat-roller">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 1 · task 3 · 19.6.2</div>
+    <div class="cat-title">Roller Procedures</div>
+    <div class="cat-ref">Reference: <span>RADR Rolling Sequence / Asphalt Capping</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-01</span><span class="qa-q-text">What is a "pass" in roller operations, and what is the overlap requirement?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>pass is equal to traveling across the repair and then returning to the original starting position</strong>. Perform each pass across the entire width of the repair. Overlap the previous pass by approximately <strong>12 inches</strong> until the entire repair cap has received the pass — similar to making half-lapped layers when making tape splices. Maximum rolling speed: <strong>3 mph</strong>. Avoid sharp turns, quick starts, and stops. <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-02</span><span class="qa-q-text">What is the correct rolling sequence for asphalt capping?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The rolling sequence: <strong>(1) ½ pass with steel-wheel roller (no vibration); (2) Two ½ passes with steel-wheel roller, vibration ON (asphalt must be ≥150°F); (3) 2 passes with pneumatic roller; (4) 3 passes with steel-wheel roller, no vibration</strong>. The helper trims excess asphalt with a square-head shovel between passes. <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-03</span><span class="qa-q-text">When should vibration be turned off during rolling, and what adjustments are made?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Turn off vibration, add an additional ½ pass, and decrease 2½ passes to 2 passes if: <strong>cracking is noted in the mat</strong> OR there is <strong>evidence of chipping on concrete edges, grooves, or joints</strong>. Never vibrate while the roller is stationary or on hard pavement. <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-04</span><span class="qa-q-text">What is the purpose of the pneumatic roller in RADR?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The pneumatic roller is used on <strong>step 3 of the RADR rolling process</strong> on asphalt, comprising <strong>2 passes over the crater</strong>. It simulates heavy traffic flow and <strong>squeezes any remaining air pockets out of the repair</strong>. It is only used during asphalt capping. Pneumatic roller passes may be skipped if time is an issue or for smaller repairs (8½ to 12 square feet). <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-05</span><span class="qa-q-text">What are the key steel wheel roller safety rules?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Key safety rules: <strong>Only climb onto/leave the machine when stationary; operate engine at low idle for 5 minutes before shutdown</strong> (lets hot areas cool); braking is accomplished using forward/reverse lever; never vibrate while stationary or on hard pavement; never allow passengers; keep out of the <strong>zero-clearance area (right and left steer pivot area)</strong> — presence there when turning causes injury or death; wear hard hat and protective glasses; stop engine when refueling. <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-06</span><span class="qa-q-text">What are the runway cleanliness standards from "dirtiest/fastest" to "cleanest"?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">From dirtiest/fastest to cleanest: <strong>(1) One fast grader coverage only</strong> — dirtiest but fastest; <strong>(2) Slow (2-3 mph) grader then faster (3-5 mph) grader</strong> — dirty, more large stones left; <strong>(3) One fast grader then tractor with front-mounted broom at ~5.5 mph</strong> — clean (ineffective if debris is wet); <strong>(4) One fast (4-5 mph) grader, then two vacuum sweeper passes at 3.5-4 mph</strong> — cleanest. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-07</span><span class="qa-q-text">What is the required asphalt temperature for vibration-on roller passes?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For the vibration-ON steel wheel roller passes (two ½ passes), the asphalt temperature should be <strong>150 degrees Fahrenheit or greater</strong>. Rolling below this temperature with vibration can damage the mat. <span class="ref">Module 7, Lesson 1, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-08</span><span class="qa-q-text">What FOD removal vehicles and equipment are normally used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">FOD removal equipment includes: <strong>Grader, Tractor Trailer, Dozer, Front End Loader, Industrial Tractor with Kick Broom, CTL with Kick Broom, and Vacuum Sweeper</strong>. Any piece of equipment with a bucket or blade can also be used to clear debris. Always perform vehicle operational inspections before use, refuel after use, and return to duty locations when tasks are complete. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-09</span><span class="qa-q-text">How wide is the haul lane cleared by FOD teams and where is all debris moved?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">FOD teams split into 2 crews (augmented by one loader from each crater repair team). Each crew clears a <strong>25-foot wide convoy and material haul lane down the entire MOS</strong>. The RADR OIC and Crater Chief direct which side of the MOS the haul lane will be cleared. <strong>All debris is moved to the opposite side</strong>. After clearing the haul lane, teams clear the threshold and departure ends. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RP-10</span><span class="qa-q-text">What is the purpose of the one FOD team rule?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">One FOD removal team supports <strong>all RADR capabilities</strong>. For example, a medium RADR capability has only one FOD removal team to support all repair teams. They may be augmented with debris removal equipment. Sweepers run continuously during RADR and sweeping ceases only after the <strong>entire RADR process is complete</strong> — aircraft activity and winds continually blow additional debris onto the strip. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('radr')">← RADR</button>
+    <button class="nav-btn next" onclick="go('fod')">FOD Removal →</button>
+  </div>
+</div>
+
+<!-- ═══ FOD ═══ -->
+<div class="category" id="cat-fod">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 1 · task 4 · 19.6.3 (cont.)</div>
+    <div class="cat-title">FOD Removal</div>
+    <div class="cat-ref">Reference: <span>Module 7 Transcript, Lesson 1, Task 4</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-01</span><span class="qa-q-text">What is the purpose of the FOD removal process in the RADR context?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The FOD removal process removes large and small debris from <strong>convoy routes, crater repair areas; performs initial and simultaneous sweeping on the airfield and around crater repair areas; and performs final sweeping before aircraft trafficking can begin</strong>. It is essential because even small pieces of sharp metal can damage aircraft tires. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-02</span><span class="qa-q-text">What is the grader coverage path toward PAPI and AAS locations after haul lane clearing?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The grader makes a single coverage sweep about <strong>15 feet wide, 1,400 feet down the MOS overrun centerline</strong> for approach lighting access. Additionally: a path <strong>15 feet wide</strong> is cleared from the MOS to the PAPI installation location; a path <strong>25 feet wide</strong> is cleared from the MOS to the AAS installation locations. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-03</span><span class="qa-q-text">Where is a higher standard of sweeping required and why?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A higher standard is required on <strong>parking aprons and uphill sections of taxiways</strong> because aircraft use more power at these locations and are more likely to suck up debris through jet blast/engine ingestion. A <strong>kick broom sweeper or second grader</strong> will be used for coverage at these locations. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-04</span><span class="qa-q-text">Why must shrapnel be removed even if debris appears minimal?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">It is essential to sweep all areas to be trafficked by aircraft — even if debris appears minimal — because <strong>even small pieces of sharp metal can damage aircraft tires</strong>. FOD can catastrophically fail tires during takeoff and landing, potentially causing aircraft loss. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-05</span><span class="qa-q-text">What are the five key vehicle procedures to follow during FOD operations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>(1) Perform vehicle operational inspections</strong> and take action for discrepancies; <strong>(2) Always refuel vehicles after use</strong>; <strong>(3) Return vehicles to duty locations or staging areas when tasks are complete</strong>; <strong>(4) Sweep all areas to be trafficked by aircraft even if debris appears minimal</strong>; <strong>(5) Continuously run sweepers</strong> until the entire RADR process is complete. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-06</span><span class="qa-q-text">Describe the relationship between FOD teams and crater repair teams' loaders.</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">FOD teams are augmented by <strong>one loader from each crater repair team</strong> during the haul lane clearing phase. After the threshold and departure ends are cleared, crater repair team loaders <strong>return to their respective teams</strong>. This temporary augmentation allows faster initial clearance while not permanently removing equipment from repair operations. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-07</span><span class="qa-q-text">What is the minimum broom speed for an effective clean surface pass?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For a clean surface, the tractor with front-mounted broom should travel at approximately <strong>5.5 mph</strong>. Speed is effective only if debris is mostly <strong>dry</strong> — a broom cannot produce a good clean surface if debris is wet and sticky. This pass follows a fast grader coverage to achieve a clean (not just "dirty") runway surface. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-08</span><span class="qa-q-text">What are the vacuum sweeper speeds for the cleanest surface standard?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The cleanest surface standard is achieved with: one fast grader pass at <strong>4-5 mph</strong>, followed by two vacuum sweeper passes at <strong>3.5-4 mph</strong>. This is the most time-intensive but produces the highest-quality clean surface. The first 300 feet of the MOS always gets the vacuum sweeper regardless of overall standard used. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-09</span><span class="qa-q-text">When does the FOD removal process begin relative to PAR sweep?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Debris removal begins immediately after the PAR sweep has proceeded <strong>at least 250 feet beyond the first crater to be repaired</strong>. This removes as much FOD as possible from all airfield pavements to be used for launch and recovery purposes. Sweepers run continuously from this point until the entire RADR process is complete. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="radr" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">F-10</span><span class="qa-q-text">When is the FOD removal process accepted as complete?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">FOD removal is accepted as complete when the MAOS surfaces are cleared of FOD and <strong>accepted by Airfield Operations</strong>. Sweeping does not cease until the entire RADR process is complete — aircraft activity and winds continually blow additional debris across the airstrip, so active sweeping must continue throughout operations. <span class="ref">Module 7, Lesson 1, Task 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('roller')">← Roller</button>
+    <button class="nav-btn next" onclick="go('bearprimary')">BEAR Primary →</button>
+  </div>
+</div>
+
+<!-- ═══ BEAR PRIMARY ═══ -->
+<div class="category" id="cat-bearprimary">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 2 · task 1 · 19.2.6.1.1</div>
+    <div class="cat-title">BEAR Primary Distribution System</div>
+    <div class="cat-ref">Reference: <span>TO 35F14-1-1 / TO 35CA2-2-10-1</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-01</span><span class="qa-q-text">What voltage is the BEAR primary distribution system, and what is the two-phase installation approach?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The BEAR primary distribution system operates at <strong>4,160 VAC</strong>. The two-phase approach: <strong>Phase 1</strong> — provides power to critical facilities (airfield, command post, kitchen, water plant, fire department) using low-voltage MEP generators. <strong>Phase 2</strong> — establishes the high-voltage distribution system; the power plant and associated equipment are installed. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-02</span><span class="qa-q-text">What are the two methods of arranging a BEAR distribution system, and what are the advantages of each?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Radial layout:</strong> individual branch lines run from the PSC to each SDC. Advantages: requires less material, manpower, and time. Disadvantage: susceptible to attack — one shell can disrupt large areas. Used for small contingencies and initial deployment. <strong>Loop layout:</strong> two or more PSC feeder circuits supply power to the customer; SDCs physically connected. Advantages: two or more paths for current flow — inherent resistance to complete power outages. Disadvantage: more material and time to construct. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-03</span><span class="qa-q-text">What is the BPU and what does it replace? What are its key specifications?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The BPU replaces the <strong>MEP-12 Generator</strong>. It is a fully enclosed, trailer-mounted, mobile, diesel-driven generator capable of <strong>4,160/2,400 VAC using a three-phase four-wire system</strong>. Rated at <strong>800 kW at 4,160/2,400 VAC at 60 Hz</strong>; <strong>435 kW at 3,800/2,200 VAC at 50 Hz</strong>. Maintains rating at altitudes up to <strong>4,000 feet</strong> and temperatures from <strong>-25 to 122°F</strong>. Up to <strong>12 BPUs may be paralleled</strong> (9,600 kW at 60 Hz). <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-04</span><span class="qa-q-text">What are the three BPU operating modes?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Isochronous:</strong> Provides constant voltage and frequency; used when paralleling with other BPUs. <strong>Droop:</strong> Allows variable voltage and frequency; allows BPU to sync with other generators such as a MEP-12. <strong>Utility:</strong> Allows parallel operation with a utility power grid (commercial power grid). <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-05</span><span class="qa-q-text">What are the BPU grounding requirements and ground grid specifications?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Each BPU contains <strong>three 3-foot ground rod sections</strong>. Drive the ground rod <strong>8 feet or more into earth, within 6 feet of the BPU</strong>, leaving a minimum of 6 inches above ground. When using more than one BPU, create a central ground grid by connecting all BPUs' ground rods together with <strong>#2 AWG copper conductor ground grid cable</strong>. Connect ground cable from the slotted chassis ground stud on the rear of the BPU to the ground rod. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-06</span><span class="qa-q-text">What is the PSC, and how many ways does it have?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The PSC (Primary Switching Center) is a high-voltage switching station serving as a connection point between power plant generators and primary distribution circuits. It has <strong>six connections called "ways."</strong> Each way may be either a switch or a combination of switch and circuit breaker. Ways 1 and 2 are <strong>load interrupter switches only</strong> (used as generator inputs); <strong>Ways 3-6 have fault interrupter capabilities</strong>. The PSC uses SF6 gas insulation. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-07</span><span class="qa-q-text">What are the factory fault interrupter current settings for PSC Ways 3-6?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Factory settings: <strong>Ways 3, 4, and 5: 200 amps</strong> (based on 1/0 AWG cable current limitations). <strong>Way 6: 340 amps</strong> (for paralleling 2 PSCs to support 4 BPUs or MEP-12s). If using 500 MCM copper tie cable, settings are increased to <strong>590 amps</strong>, and 600-amp deadbreak cable terminations are required. Ways 3 and 4 share one overcurrent control unit; Ways 5 and 6 share the other. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-08</span><span class="qa-q-text">What are the three switch positions on a PSC way, and why is the viewing window important?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The three positions are: <strong>Grounded, Open, and Closed</strong>. The viewing window allows you to <strong>visually verify the connection of the way</strong>. Look for the <strong>orange colored metal that is part of the movable switch blade</strong>. The grounded position is towards the operation side; the closed position blades are on the connection side. The voltage indicator at the top is charged by sunlight or a bright flashlight. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-09</span><span class="qa-q-text">What is SF6 gas in the PSC and what happens if it leaks?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">SF6 (sulfur hexafluoride) provides the <strong>electrical insulation within the PSC switch tank</strong>. If the tank is punctured or leaks, the SF6 escapes, losing the insulation. If a way is operated without SF6, <strong>internal switch contacts will pull an arc and flash over, causing damage to the operator and bystanders</strong>. Check the SF6 level by opening the viewing window of Way 1 — ensure the gas gauge is in the <strong>green zone</strong>. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-10</span><span class="qa-q-text">What is the SDC-HV and what voltage transformation does it perform?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SDC (Secondary Distribution Center) is the main point for distribution of secondary voltage. It contains a <strong>dry-type transformer that steps down 4,160 VAC primary to 120/208 VAC, three-phase, low-voltage power</strong>. Maximum SDCs per circuit: <strong>5 SDCs when fed directly from a high-voltage generator; 6-10 SDCs per feeder when using standard PSC distribution</strong>. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-11</span><span class="qa-q-text">What is the high-voltage cable used in BEAR primary distribution and how is it packaged?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The cable is <strong>#1/0 AWG, 5-kV, aluminum, cross-linked polyethylene (XLP)</strong> high-voltage cable with a single conductor and concentric ground. Each cable pallet contains <strong>three reels with 3,000 feet of cable per reel</strong>. Cable jacket is labeled for a specific phase (A, B, or C) to maintain proper phase relationships. Bury cables at least <strong>18 inches deep</strong> when possible; at least <strong>3 feet deep under roadways</strong>. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-12</span><span class="qa-q-text">What are the SDC tap connections and what voltage loss can they compensate for?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SDC primary windings have <strong>seven tap connections</strong>: two steps above and four steps below 4,160V. The tap changes can compensate for up to a <strong>629-volt loss</strong> and still provide proper voltage on the secondary side. This is important when SDCs are placed at ½-mile intervals or more, requiring voltage drop compensation. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-13</span><span class="qa-q-text">What are the LOTO-equivalent steps (Isolate-Block-Tag) for BEAR primary distribution?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>ISOLATE:</strong> Analyze and find solutions; open and de-energize circuit to isolate the section to be worked. <strong>BLOCK:</strong> Physically prevent switches from operating: remove feed-through EFDs, remove fused EFDs, apply locks to PSC 3-way switches, park elbows on stands, install terminal bushing covers on unused bushings. <strong>TAG:</strong> Place AF Form 979 (Danger Tag — protects against accidental energizing) or AF Form 980 (Caution Tag — identifies abnormal configurations). <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-14</span><span class="qa-q-text">What does inspection of energized PSC/SDC equipment allow, and what is strictly prohibited?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Inspection of energized equipment is <strong>limited to looking, listening, and smelling</strong>. Look for: blue or purple corona halos (in darkness). Listen for: popping, crackling (electrical discharge), humming (resonance). Smell for: ozone (corona) or overheating organics. <strong>Strictly prohibited: removing any panel, barrier, or partition</strong> — removing bolted panels while energized could result in serious injury or death. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-15</span><span class="qa-q-text">What PPE is required during all PSC operation phases?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Always wear at least <strong>Class 2 rubber gloves and appropriate arc-flash PPE (normally 40 cal)</strong> during all PSC operation phases. If sizzling or crackling sounds come from the PSC during load application or under full load, <strong>remove loads and de-energize the unit immediately</strong>. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-16</span><span class="qa-q-text">What is "tracking" in a PSC, and what happens when it occurs in epoxy insulators?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Tracking</strong> is an electrical discharge caused by bridging insulators phase-to-phase or to ground — usually a surface phenomenon. In PSC epoxy cast insulators, tracking causes the epoxy to <strong>melt to a non-conducting surface, extinguishing the arc</strong>. However, the insulator should be replaced as soon as possible. When carbon lines or erosion craters become visible in epoxy insulators, the insulator has been <strong>damaged beyond repair</strong> by extensive electrical discharge bombardment. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-17</span><span class="qa-q-text">What are the SDC maintenance frequencies for structures, access doors, panels, HV section, and transformers?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">SDC maintenance schedule: <strong>Structures — semiannually</strong> (free of structural damage, corrosion, paint good, storage clean); <strong>Access Doors — quarterly</strong> (free of damage, corrosion, hinge lubricated, latch/friction good, door seal attached); <strong>Access Panels — quarterly</strong> (free of damage, corrosion, all fastening hardware in place); <strong>HV Section — quarterly</strong> (loadbreak connectors, bushing wells, EFD switches/fuses, ground connections); <strong>Transformers — semiannually</strong> (compartment clean, tap connections secure). <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-18</span><span class="qa-q-text">What is the L0 bushing on the BPU and why is it not used in BEAR?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The L0 bushing is the <strong>neutral connection</strong> in the BPU's wye (Y) configuration. It is <strong>not used in the BEAR primary distribution system because the BEAR primary distribution does not utilize the neutral</strong> even though it is a wye configuration. Only L1, L2, and L3 connections are made for the three-phase connections. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-19</span><span class="qa-q-text">What is the DCS on the BPU and what functions does it provide?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>DCS (Digital Control System)</strong> is the brain of the BPU. It consists of five multifunction soft keys, alarm silence toggle, panel lights, AC circuit interrupt, unit or parallel, and fault reset. The multifunction switch has OFF, remote, local, and start positions plus an emergency stop button. The DCS provides: <strong>configuration and operation, annunciation, fault and warning reporting, and emergency stop control</strong>. In remote mode, up to 12 BPUs can be operated with the ROP software. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-20</span><span class="qa-q-text">What is "tracking" and what type of distribution is preferred for BEAR after initial establishment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Good practice is to <strong>quickly establish the base in a radial pattern, then come back and install loop conductors</strong> once the installation is operational. The loop cables are normally left in the <strong>open, de-energized position</strong> and are only used when needed. Like home station switching operations, ensure all electric shop personnel are accounted for and aware of abnormal conditions before switching. The PSC is <strong>not repairable in the field</strong> — only at depot level. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-21</span><span class="qa-q-text">What are the BPU site placement requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">BPU placement requirements: select a <strong>smooth, level surface capable of supporting the BPU's weight</strong>; minimum <strong>15 feet of clearance all around</strong> for maintenance; no overhead obstructions; close enough for paralleling cables to connect between all BPUs (standard cable is ~80 feet). Locate generator sets as far apart as feasible. Decompression doors at bottom must be closed; engage parking brakes, chock wheels. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-22</span><span class="qa-q-text">What is the EFD in the SDC and how does removing the center EFD isolate the transformer?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">EFD = <strong>Electric Fusible Disconnect</strong>. There are three sets of EFDs per phase (A, B, C), each group of three controlling: <strong>Output 1, the transformer primary (center, fused at 30A), and Output 2</strong>. The center EFD controls the transformer primary winding and includes a fuse. By <strong>removing only the center EFD</strong> of each set, you isolate the transformer while maintaining service to remaining SDCs in the circuit through the feed-through bushings. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-23</span><span class="qa-q-text">What is the MEP 805A/B and what systems does it typically power?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The MEP 805 is a <strong>24/30-kilowatt generator</strong> capable of providing <strong>120/208V, three-phase power</strong>. It typically supplies power to the <strong>kitchen set and the Emergency Airfield Lighting System (EALS)</strong>. The "A" suffix indicates analog components; the "B" suffix indicates digital controls. The MEP 800 series generators are also known as <strong>Tactical Quiet Generators (TQG)</strong> due to their noise reduction design. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-24</span><span class="qa-q-text">What is the ground rod specification for MEP generators, and what are the two other acceptable grounding methods?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Solid ground rod: minimum diameter <strong>5/8 inch</strong>, driven to minimum depth of <strong>8 feet</strong>. <strong>Buried metal plate:</strong> ¼-inch thick, minimum area of 9 square feet, buried at minimum depth of 4 feet; ground lead at least <strong>#6 AWG copper</strong>. <strong>Metal water pipe:</strong> At least 10 feet in contact with earth, minimum <strong>¾-inch diameter</strong>; supplement with a metal rod or buried plate. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-25</span><span class="qa-q-text">How do you change generator phase rotation if it's incorrect?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">To change phase rotation: <strong>(1) Turn off power; (2) Disconnect any two generator leads; (3) Switch their positions</strong> (if disconnecting A and C, connect C to A's position and A to C's position). After interchanging leads, retest with the phase rotation meter to confirm correction. For MEP-807A and MEP-809A, you must also <strong>program the auto voltage regulator (AVR)</strong> for the applicable voltage when reconfiguring. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-26</span><span class="qa-q-text">What voltage drop percentage does the NEC recommend limiting for branch circuits, and how is it calculated?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The NEC recommends limiting voltage drop for branch circuits to <strong>3 percent</strong>. Calculation: (Voltage difference) ÷ (Power supply voltage) = Voltage drop percent. Example: 120V supply, 108V at motor = 12V difference. 12 ÷ 120 = 0.10 or <strong>10%</strong> — unacceptable. The BEAR system limits individual branch circuits to a maximum length of <strong>800 feet</strong> to limit voltage drop to no more than 3%. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-27</span><span class="qa-q-text">What are the MEP 806A, 807A, and 809A generators used for?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>MEP 806A: 50/60 kW</strong> — mission essential power for small cantonment operations (up to 750 personnel, usually up to 3 months). Powers ROWPU, communications centers, command post, aircraft support, computers. <strong>MEP 807A: 100/83 kW</strong> — same missions as 806A but greater load; used when more than 750 personnel or load requires mobile prime power. <strong>MEP 809A: 200/166 kW</strong> — same mission requirements as 806A but provides greatest load capabilities. All can produce 120/208 or 240/416 VAC at 50 or 60 Hz. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-28</span><span class="qa-q-text">What is the SDC high-temperature override switch and when is it used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SDC has a high-temperature override circuit: if transformer primary windings overheat, the <strong>shunt-trip main circuit breaker trips to prevent damage</strong>. The override switch allows the technician to <strong>bypass the shunt trip mechanism to apply power to the secondary bus during maintenance and troubleshooting</strong>. This switch is used <strong>ONLY during maintenance and troubleshooting — NEVER during normal operations</strong>. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-29</span><span class="qa-q-text">What is the AMMPS and what generators make up this series?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>AMMPS (Advanced Mobile Medium Power System)</strong> is being fielded to add to and replace the 800 series MEP generators. Key units: <strong>MEP-1060</strong> — diesel/JP-8 powered, 30 kW at 60 Hz (25 kW at 50 Hz), skid-mounted, EPA compliant. <strong>MEP-1070</strong> — diesel/JP-8 powered, 60 kW at 60 Hz (50 kW at 50 Hz). Both are lightweight, electronically controlled. Mission critical loads are supported with 30 kW and 60 kW AMMPS generators. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BP-30</span><span class="qa-q-text">What is the voltage reconnection panel and how does it work for 30-200 kW MEP generators?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The voltage reconnection panel allows the alternator windings to be connected in <strong>series or parallel</strong> to obtain two different voltage values from a single generator. Series: voltage increases, current stays constant (240/416V). Parallel: voltage stays constant, current increases (120/208V). Before startup, ensure the <strong>reconnection board arrow matches the customer's voltage arrow</strong>. Ensure ALL nuts are tightly screwed down before operation. On 3-15 kW generators, voltage adjustment is via a selector switch instead. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('fod')">← FOD Removal</button>
+    <button class="nav-btn next" onclick="go('bearsecondary')">BEAR Secondary →</button>
+  </div>
+</div>
+
+<!-- ═══ BEAR SECONDARY ═══ -->
+<div class="category" id="cat-bearsecondary">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 2 · task 2 · 19.2.6.2.1</div>
+    <div class="cat-title">BEAR Secondary Distribution System</div>
+    <div class="cat-ref">Reference: <span>TO 35CA2-2-10-1 / TO 35F14-1-1</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-01</span><span class="qa-q-text">What are the secondary output specifications of the SDC, and how many output circuits does it have?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SDC secondary has <strong>16 120/208-volt output circuits</strong>, each capable of supplying <strong>60 amps per phase</strong>. Secondary feeder cables are <strong>five-wire, #6 AWG copper with 600-volt THW insulation rated at 60 amps</strong>. The 200-amp MEP input connects to the SDC from a MEP generator. The mechanical safety interlock <strong>prevents both breakers (main and mission essential) from being ON at the same time</strong>. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-02</span><span class="qa-q-text">What is the caution regarding transferring from MAIN to MISSION ESSENTIAL power?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>CAUTION: Never transfer from MAIN to MISSION ESSENTIAL power under load.</strong> The MEP generator may remain connected during normal operations when the SDC receives 4,160-volt primary power. However, the transfer must be performed with no load applied. Lethal voltages are present at the load connection board during operation — never connect or disconnect load leads while the generator is operating. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-03</span><span class="qa-q-text">What are the PDP sizes available and what are the connection types for smaller vs. larger PDPs?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">PDPs are available in: <strong>15 kW, 25 kW, 30 kW, 60 kW, 100 kW, and 200 kW</strong>. The <strong>15, 25, and 30 kW PDPs</strong> use smaller <strong>60-amp cannon plug connections</strong>. The <strong>60, 100, and 200 kW PDPs</strong> may need to be <strong>hard-wired through the bottom</strong> or use the <strong>larger 200-amp cannon plug connections</strong>. Larger PDPs can serve as sub-distribution centers to other PDPs and major loads. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-04</span><span class="qa-q-text">What are the secondary cable sizes, lengths available, and maximum recommended run length?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Secondary cables come in <strong>200-amp and 60-amp sizes</strong>. The 200-amp cable is <strong>25 feet long</strong> and connects the low-voltage MEP generator to the SDC. The 60-amp cables come in lengths of <strong>25, 50, and 100 feet</strong>. When installing, <strong>limit secondary runs to 150 feet</strong> when possible to reduce voltage drop. General practice limits any branch circuit to maximum <strong>800 feet</strong>. Total cable distance from generator to point of use should not exceed 800 feet. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-05</span><span class="qa-q-text">What does each tent in the BEAR base receive for lighting and outlets?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Each tent receives a <strong>lightweight distribution box fed from a PDP by a 50-foot, 20-amp cable with twist-lock connection</strong>. Each tent gets: <strong>one light streamer (six lights spaced along the streamer)</strong> and <strong>two convenience outlet assemblies (one per side of tent)</strong>. The distribution panel has a single-pole toggle switch protected by a 20-amp circuit breaker. Two <strong>GFCI 20-amp circuit breakers</strong> protect the outlet streamers. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-06</span><span class="qa-q-text">What is the 25 kW PDP associated with, and what are its connections?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>25 kW PDP is associated with the small shelter system</strong>. It has: one 120/208-volt cannon plug input, one 120/208-volt cannon plug output (usually for an ECU), four 20-amp 120-volt outputs for lighting, and one 25-amp 120-volt convenience outlet. The 15 kW PDP has: one 120/208-volt input, one 120/208-volt output for ECU, and twelve 20-amp 120-volt outputs for lighting/outlets. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-07</span><span class="qa-q-text">What is the SDC MEP power connection and how long can a low-voltage MEP power the SDC before the HV grid must be installed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SDC can accept power from a low-voltage MEP generator through the <strong>200-amp MEP input connection</strong> (mission essential circuit breaker) for up to <strong>15 days or longer</strong> before the high-voltage grid is installed. Apply load gradually by closing circuit breakers one at a time. A phase indicator light failing to come on means return the MAIN breaker to OFF and check fuses and lamps for the affected phase. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-08</span><span class="qa-q-text">What troubleshooting step applies when transformer high temp light is illuminated with no secondary power?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">If no 208 VAC secondary power and transformer high temp light is illuminated: <strong>transformer may have overheated and tripped the main breaker</strong>. Action: allow transformer to cool, check and remove overload, then reset the main breaker. If A, B, C bus energized indicators are not lit: possible blown fuse or broken/burned lamps — check and replace blown fuses; if lamps still don't light, check and replace bulbs; if still not lit, check transformer output. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-09</span><span class="qa-q-text">Where is the distribution box mounted in a BEAR SSS tent, and why?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The distribution box is mounted <strong>approximately 4 feet high, next to the personnel door, adjacent to the ECU return inlet</strong>. This location allows easy access to the switch controlling the lighting streamers. The box may be bolted to or through the tent frame. Velcro straps attach streamer cables to the tent frame, normally at each arch. The 3 cables (female connectors) connect string lights and receptacles; they should be approximately <strong>2 feet high</strong> along the arch frame. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-10</span><span class="qa-q-text">What generator starting procedures apply to the MEP 806A/B CIM display screen?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Hold ENGINE CONTROL switch in START (2 seconds). Observe CIM display until oil pressure reaches at least <strong>25 psi</strong>, voltage has increased to approximate rated value, and engine has reached stable speed. Release to PRIME & RUN. Check WATER TEMP (<strong>170–200°F</strong>) and OIL PRESSURE (<strong>25–60 psi</strong>). Warm up without load for <strong>5 minutes</strong> if possible. Adjust voltage and frequency to required values. Press GFCI TEST button — ensure RESET is in the IN position. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-11</span><span class="qa-q-text">What is the indicator lights significance on PDPs and what cannot be relied on solely?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">PDPs have voltage indicator lights to identify if a particular phase is energized. <strong>These indicator lights are NOT to be the sole identifier for determining if a circuit is energized</strong>. Always verify with an appropriate meter. Basic PDP operation consists of switching circuit breakers ON or OFF as needed; the panel board is powered by the PDP's main breaker. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-12</span><span class="qa-q-text">What are the cable safety installation rules for BEAR base secondary cables?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Key cable safety rules: <strong>bury cables or place them to prevent tripping hazards</strong>; install inside tents/expedient structures to prevent electrical hazard; place lights and cables low enough for occupants to reach but high enough so no one walks into them; cables must be <strong>in place and securely connected at each end before being energized</strong>; when connecting to SDC, <strong>start at the bottom and work up</strong>; ensure enough cable to reach any output cannon plug if needed. <span class="ref">Module 7, Lesson 2, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-13</span><span class="qa-q-text">What generator shutdown steps must be followed before turning off the DC disconnect?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Shutdown sequence: Turn off supplied load → push AC Circuit Interrupt to OPEN (confirm CONTACTOR POSITION reads OPEN) → turn local master control to OFF → <strong>operate engine without load until cool-down mode ends (unit shuts down by itself)</strong> → push emergency stop in → <strong>turn OFF DC electrical disconnect AFTER power-down sequence is complete</strong>. Failure to wait may result in damage to equipment. Then inspect coolant/oil, check for leaks, perform maintenance. <span class="ref">Module 7, Lesson 2, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-14</span><span class="qa-q-text">What SSS shelter dimensions and wind load ratings apply?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The Small Shelter System (SSS) measures <strong>32 feet 6 inches long × 20 feet wide × 10 feet high</strong> when fully erected. It can withstand <strong>steady wind loads of 50 knots and gusts up to 60 knots</strong>. Its lifespan is 10 years when erected long-term and has a <strong>20-year shelf life</strong>. If used in areas with winds over 40 mph, guy ropes are required — drive 18-inch anchors approximately 36 inches from the side, angled with top away from the shelter. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-15</span><span class="qa-q-text">What is the procedure for removing BEAR tent electrical systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>First, de-energize by disconnecting the power source (PDP or SDC) before starting any component removal</strong>. Disassembly is performed in reverse order of installation. Clean items as thoroughly as possible during teardown; allow wet components to dry before packing (prevent mold). All cords and components must be put back into proper storage containers so all parts are accounted for next deployment. Replace frayed cables — frayed conductors can cause electric shock or fire. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-16</span><span class="qa-q-text">What is the base squaring measurement for the SSS base assembly?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">To square the SSS base, measure <strong>38 feet 3 inches from outside corner to outside corner using the diagonal method</strong> with a rope or tape measure. Drive <strong>18-inch double-headed spikes</strong> through spike holes in the base frame to secure the assembly. Do NOT drive a spike through the center end base pieces — that hole is used for the end panel with a hard door. Place all base pieces with hooks on the outside facing down. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-17</span><span class="qa-q-text">What are the three types of SSS liners and their typical composition?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The SSS uses three liner types: <strong>mid liner, side liner, and end liner</strong>. Typical composition: <strong>one mid liner, two side liners, and two end liners</strong>. All are installed silver side up. Installation order: mid liner first (aligned under center purlin), then side liners (long edge without hook/loop next to mid liner), then end liners (edge with hook/loop straps facing the end arch). Each liner uses purlin cutouts to locate properly on the purlins. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-18</span><span class="qa-q-text">What periodic maintenance does the SSS electrical cable assembly require?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Inspect the electrical cable assemblies <strong>every 30 days</strong> looking for kinks, nicks, or cracks. If found, refer to electricians for repair. The shelter exterior fabric should be inspected for dirt buildup — clean with soap and water only (<strong>no solvents, cleaners, degreasers, or abrasives</strong>). When the shelter is stored for long periods, inspect at <strong>6-month intervals</strong>. Inspect during every assembly and disassembly for missing or broken parts. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-19</span><span class="qa-q-text">What is the BEAR kitchen power supply, and which SDCs serve which equipment?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The BEAR kitchen requires a <strong>225 Amp, 208 Volt, 3-phase, 60 Hz power source</strong> distributed by two dedicated 150 kVA SDCs (initially fed by one 60 kW and one 30 kW generator). <strong>SDC 1</strong> feeds: four walk-in refrigerators, two ACs, and three of four secondary electrical distribution boxes. <strong>SDC 2</strong> feeds: grease trap, water heater, water pump, tilting fry pan, AC, and one secondary distribution box. Once the base grid is operational, generators become backup. <span class="ref">Module 7, Lesson 3, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BS-20</span><span class="qa-q-text">What is the ESPEK and what are its power requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>ESPEK (Electric Single Pallet Expeditionary Kitchen)</strong> provides initial hot meals capability in austere locations. Power: supplied via a <strong>60 kW MEP-806B generator through a 200-amp power cable</strong> feeding a 60 kVA PDP. The PDP has five <strong>60-amp Class L box mount receptacles</strong> for 208 VAC 3-phase appliances. 110 VAC GFCI duplex convenience outlets are also included. The ESPEK can prepare <strong>550 UGR-H&S rations and 350 UGR-A rations in less than 2 hours</strong>. <span class="ref">Module 7, Lesson 3, Task 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('bearprimary')">← BEAR Primary</button>
+    <button class="nav-btn next" onclick="go('grounding')">BEAR Grounding →</button>
+  </div>
+</div>
+
+<!-- ═══ BEAR GROUNDING ═══ -->
+<div class="category" id="cat-grounding">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 2 · task 3 · 19.2.6.3</div>
+    <div class="cat-title">BEAR Grounding Methods</div>
+    <div class="cat-ref">Reference: <span>Module 7 Transcript, Lesson 2, Task 3</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-01</span><span class="qa-q-text">What are the four basic objectives of grounding in BEAR operations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>(1) Minimize damage and service interruptions</strong> due to all possible electrical faults including lightning. <strong>(2) Reduce overvoltages and insulation damage</strong> due to switching, static buildup, and lightning. <strong>(3) Minimize injuries</strong> to persons near electrical equipment by providing a low-resistance earth path. <strong>(4) Minimize noise</strong> in communication and control circuits by establishing a solid electrical reference. Key words: "minimize" and "reduce" — eliminating all risk is not possible. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-02</span><span class="qa-q-text">What are the four levels of adequate grounding for BEAR operations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>LVST:</strong> Low-voltage (≤600V) short-term (usually up to 4 weeks). <strong>LVLT:</strong> Low-voltage long-term (usually 4 weeks to 2 years). <strong>HVST:</strong> High-voltage (>600V) short-term. <strong>HVLT:</strong> High-voltage long-term. These levels were developed for arid, sandy, or rocky areas where 25-ohm grounding is difficult. Traditional grounding works well in coastal/moist areas but corrosion is a significant maintenance problem there. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-03</span><span class="qa-q-text">What grounding wire size should be used unless specified otherwise in BEAR grounding?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Unless specified otherwise, equipment should be grounded with <strong>#2 or #4 AWG copper wire</strong>. For high-voltage systems in very dry, sandy, rocky terrain, a <strong>dedicated ground wire</strong> is required — this wire serves the same purpose as moist soil in normal environments, ensuring fault currents are driven back to the generator to trip circuit protection. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-04</span><span class="qa-q-text">What is the LVST grounding requirement, and what happens if rods cannot be driven?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">LVST: Ground generators with a standard ground rod driven next to the generator. If rods cannot be driven, <strong>lay them horizontally in a trench 18 inches deep and cover with soil (not rocks)</strong>. Connect the distribution system neutral conductor from the generator to this ground. As long as this three-phase system has a grounded neutral, further deliberate grounding at other locations is not required. Place generator on an electrical grid platform (concrete or sandbags) tied to a standard ground rod. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-05</span><span class="qa-q-text">What is the salt solution treatment for LVLT grounding, and what proportions are used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For LVLT, treat generator ground rods with salt solutions poured directly on or around the rod to saturate the soil. Treat as water availability permits, repeating as necessary to keep rod contact soil as moist as possible. Proportions: <strong>3 pounds of salt per gallon of water</strong> for a good saturated solution. <strong>ROWPU brine water</strong> also serves well for this purpose. All distribution equipment (transformers, junction boxes, panels) must also be locally grounded with standard ground rods. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-06</span><span class="qa-q-text">What is the expedient perforated pipe grounding method for dry sand?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Drive a perforated pipe into dry, loose sand, then fill with a solution of <strong>15 pounds of salt per 5 gallons of water</strong> using a funnel. The salt solution percolates into sand and provides a conductive soil for current flow. This ground remains effective until the solution evaporates or drains away — usually <strong>several hours to a few days</strong>. Disadvantage: tends to corrode the pipe quickly — frequent replacement necessary. Keep the grounding clamp and wire connection clean and corrosion-free. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-07</span><span class="qa-q-text">What is the trench ground ring method and where is it best used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The trench method is most useful in <strong>rocky terrain where rods are difficult to drive</strong>. Lay bare copper wire in a horizontal trench (usually <strong>18 inches deep</strong>) and cover with soil; apply salt solution treatment if available. More wire in the trench provides a better ground. Note: <strong>wire becomes unrecoverable after several salt solution treatments</strong> due to corrosion. Some field users have successfully used this method without salt solution. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-08</span><span class="qa-q-text">What alternate grounding structures/sites can be used when traditional methods are unavailable?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Alternate grounding sites: <strong>existing water piping systems, rebar in reinforced concrete</strong> (serves as horizontal ground rods), <strong>existing metal sewage systems, metal fencing</strong> (construct electrical grids), and <strong>ground rods driven near operational wastewater dumps, sinks, septic tanks</strong> (sewage liquids are normally very conductive). When using sewage proximity: plastic/PVC drain pipe is recommended — prevents injecting current into water systems. Deep wells can tie the entire grounding system to earth potential. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-09</span><span class="qa-q-text">What is required for HVST grounding beyond what LVST requires?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In addition to traditional grounding and grounded neutral: a <strong>dedicated ground wire must be run from the generator grounding rod to all grounded locations on the base</strong>. This wire can be laid in existing trenches, separate trenching, or formed using the concentric ground wires of high-voltage cables. This extra wire provides a <strong>common ground plane normally provided by soils</strong> and is necessary for adequate personnel safety. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-10</span><span class="qa-q-text">What is the HVLT grounding requirement and what water source is used?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">HVLT requires the HVST system <strong>augmented with grid ground planes for generators and surface-mounted transformers</strong>, plus <strong>direct contact of the grounding system with a known permanent water source (local water table)</strong>. Connect the grounding plane and dedicated ground wires to the metal well casing, or lower a copper conductor into the well. If no water well is available, drilling is necessary. <strong>Continuous and frequent inspection</strong> of grounding connections is critical — cleaning corrosion and protecting connections maintains system reliability and safety. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-11</span><span class="qa-q-text">Why does the traditional 25-ohm grounding standard sometimes not apply in bare base operations?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In many bare base locations (especially <strong>dry, rocky, or sandy regions</strong>), the soil does not permit 25-ohm grounding with traditional ground rods or expedient techniques — the water table is very low and soils are poor conductors. Therefore, bare base grounding uses <strong>"adequate by expediency" levels</strong> consistent with the construction time phase and distribution system used. The objectives are to "minimize" and "reduce" risk, not eliminate it. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-12</span><span class="qa-q-text">What is the ROWPU ground resistance requirement and how is the ground rod installed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The ROWPU maximum ground resistance must not exceed <strong>25 ohms</strong>. The ROWPU comes with a <strong>three-piece ground rod</strong> stored on the control panel. Install: insert rod-driving bolt into coupler of the first section to protect it while hammering; drive until about <strong>6 inches remain exposed</strong>; remove bolt; insert next section into threaded coupler; repeat until all sections are installed. Then secure grounding conductor between ROWPU and ground rod. Check connection security and verify resistance does not exceed 25 ohms. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-13</span><span class="qa-q-text">In coastal regions, what makes grounding effective, and what maintenance problem arises?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">In coastal regions, <strong>high water tables and relatively moist soils with high mineral and salt content</strong> make traditional grounding methods provide excellent grounding. However, <strong>corrosion of ground connections is a significant maintenance problem</strong> because corroded terminals develop their own high resistance. This corrosion can be reduced by <strong>frequent inspections, maintenance, and treatment of ground connections</strong>. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-14</span><span class="qa-q-text">What is the generator platform ground grid requirement for LVST?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Place generators on an <strong>electrical grid platform of either concrete or sandbags</strong> tied to a standard ground rod driven a few feet away from the platform. The platform must be <strong>large enough to permit the generator operator to stand on it while attending the generator</strong>. Connect both the generator and the distribution system neutral wire to this ground grid and ground rod. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">BG-15</span><span class="qa-q-text">What caution applies when driving ground rods near sewage systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Exercise care to ensure that this ground connection does not endanger personnel</strong> should a fault occur. The drain pipe must NOT be constructed with metal materials — use <strong>plastic or PVC sewage drain pipe</strong> if the BEAR equipment ground rod is driven into the moist soil region of a sewage drain. This prevents injection of current into the water systems of a latrine or dining hall. The ground rod is driven into the waste-saturated moist soil region around a septic tank. <span class="ref">Module 7, Lesson 2, Task 3</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('bearsecondary')">← BEAR Secondary</button>
+    <button class="nav-btn next" onclick="go('rals')">RALS →</button>
+  </div>
+</div>
+
+<!-- ═══ RALS ═══ -->
+<div class="category" id="cat-rals">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 3 · task 1 · 19.2.2.1</div>
+    <div class="cat-title">Remote Area Lighting Systems (RALS)</div>
+    <div class="cat-ref">Reference: <span>TO 35F5-5-22-1</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-01</span><span class="qa-q-text">What does a RALS unit contain, and what power source does it require?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Each RALS unit is an air transportable cabinet weighing approximately <strong>1,500 pounds</strong>. It contains: <strong>two 750-foot lighting cable assemblies, 13 light masts, 13 light fixtures, 12 mast bases, and 17 lamps</strong>. It can be energized from any source providing <strong>120/208 Volt 3-phase power</strong>, typically fed from an SDC via a <strong>60-amp cable</strong>. The base must be mission ready within 72 hours. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-02</span><span class="qa-q-text">How is the RALS cable assembled and how long is each lighting loop?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Cable comes in <strong>four 375-foot sections</strong>. Connect two 375-foot cables using the <strong>208V 3-phase blue cannon plug connection</strong> to make a <strong>750-foot loop cord assembly</strong>. Repeat with the remaining two sections for the other half. All four make a complete <strong>1,500-foot lighting loop</strong>. Each 750-foot half loop connects to the RALS cabinet. One lighting circuit can only reach <strong>750 feet</strong>. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-03</span><span class="qa-q-text">How are RALS light poles and junction boxes positioned?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">There is a junction box every <strong>125 feet along each lighting loop assembly</strong> that feeds the lighting fixture. Place and anchor <strong>12 light mounting pads</strong> (one at each of the 12 junction box locations). Place <strong>12 of the 13 telescopic light poles in the mounting pads</strong>; secure the <strong>13th pole to the RALS cabinet</strong>. Extend poles to full height, secure power cord from fixture to poles, and connect to the junction box. Cables should be installed above ground except in high-traffic areas. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-04</span><span class="qa-q-text">What is the RALS operational check sequence including photocell testing?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Set SDC circuit breaker for feeder cable receptacle to ON. Turn on circuit breakers at RALS; set magnetic lighting contactor and photocell override switch to ON — <strong>all lights should come on</strong>. Repair problems with power off. Apply power and set photocell override to <strong>OFF — all lights should go out</strong>. Set override to <strong>AUTO</strong> and cover photocell window with opaque object — lights should come on in about <strong>30-120 seconds</strong>. Remove object — system fully operational. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-05</span><span class="qa-q-text">What lamp type is commonly used for RALS, and what is the maintenance frequency?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The RALS commonly uses <strong>150-watt HPS (High Pressure Sodium)</strong> lamps. All inspections and maintenance actions must be performed <strong>quarterly unless otherwise required</strong>. The entire system — including the storage cabinet — must be maintained in fully operational status since it can be mobilized at a moment's notice. Correct all discrepancies when found. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-06</span><span class="qa-q-text">What are the RALS maintenance inspection points for cables, breakers, and the container?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Lighting Loop Assemblies:</strong> ensure connections secure and corrosion-free; inspect cables thoroughly for damaged insulation; excessive corrosion warrants connector replacement. <strong>Circuit Breakers and Fuses:</strong> check condition and operability; check fuse holders, breaker mounts, and connections for corrosion; repair/replace defective items. <strong>RALS Container:</strong> check <strong>semiannually</strong> for structural damage, paint condition, cleanliness, and corrosion; remove corrosion with sandpaper or wire brush and repaint. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-07</span><span class="qa-q-text">What are the RALS site selection criteria?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Site selection considerations: any limitations of lighting cables and extent of circuit (<strong>one lighting circuit can only reach 750 feet</strong>); site should be as nearly level as possible — not critical to be perfectly level; the surface should be <strong>firm and well drained</strong> to prevent soil from washing out during heavy rains. Connect the feeder cable to the SDC before performing an operational check. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-08</span><span class="qa-q-text">What are the RALS uses beyond basic work area lighting?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The RALS can be utilized in other areas such as <strong>aircraft parking, munitions storage, and roadway lighting</strong> in addition to general work area illumination. It provides a reliable lighting source during hours of darkness and is a critical asset for the 72-hour mission-ready requirement at bare base sites. Refer to TO 35F5-5-22-1 for more guidance. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-09</span><span class="qa-q-text">How does the RALS differ from the telescopic floodlight set?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The <strong>telescopic floodlight set has advantages over RALS</strong>: faster setup time, easier to move around, and most importantly it <strong>produces its own power</strong> (self-contained 6 kW generator with diesel engine). The RALS requires an external power source (SDC/60-amp cable). The floodlight set is ideal for the <strong>first day or so of deployment</strong> before site electrical distribution is established. The RALS is better for sustained operations with established power. <span class="ref">Module 7, Lesson 3, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-10</span><span class="qa-q-text">What is the ROWPU and what are its production rates at different TDS levels?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The ROWPU (Reverse Osmosis Water Purification Unit) is used most frequently on deployments to produce potable water. At <strong>less than 1,000 ppm TDS</strong>: produces <strong>1,500 gallons per hour</strong>. At <strong>more than 45,000 ppm TDS</strong>: reduced to <strong>1,200 gallons per hour</strong>. Operates in temperatures from <strong>-25 to +140°F</strong>. Unit should be sited <strong>upstream from camp, no more than 250 feet from raw water source</strong>. Reference: TO 40W4-20-1. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-11</span><span class="qa-q-text">What are the ROWPU pump motor specifications?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Reverse Osmosis Pump:</strong> 208 VAC 3-Phase, 40 hp, 99.5 amps. <strong>Booster Pump:</strong> 208/460 VAC, 1 hp, 3.4/1.6 amps (protected by 3-phase 15-amp CB6). <strong>Raw Water Pumps (×2):</strong> 208 VAC, 3 hp, 8.1 amps; second pump powered from electrical cannon plug on first pump. <strong>Distribution Pump:</strong> 208/460 VAC, 1 hp, 3.4/1.6 amps (protected by 3-phase 15-amp CB5, fed through receptacle J5). Raw water pumps can also function as backwash pumps for maintenance. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-12</span><span class="qa-q-text">What is the PLC in the ROWPU and what makes it different from a general-purpose computer?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">A <strong>PLC (Programmable Logic Controller)</strong> is a digital computer used for automation of electromechanical processes. Unlike general-purpose computers, it is designed for: <strong>multiple inputs/outputs, extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact</strong>. Programs are stored in battery-backed or non-volatile memory. It is a real-time system — output results must be produced in response to input conditions within a bounded time. The ROWPU's PLC uses input sensors to control the entire water purification process. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-13</span><span class="qa-q-text">What is the critical WARNING for ROWPU maintenance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>WARNING: ROWPU piping and equipment can contain extremely high pressure during and after operation. If this pressure is not relieved before working on pipes or equipment, serious injury or death may result. Be sure to open ALL drains and vents before beginning any disassembly.</strong> Additionally, the ROWPU must be grounded before use, and the ROWPU's most outstanding feature is that it is designed to be compact, containing all required equipment within its structural confines. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-14</span><span class="qa-q-text">What are the telescopic floodlight set generator specs and proper voltage range?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The telescopic floodlight set has a <strong>3-cylinder, 10.5 horsepower, water-cooled diesel engine</strong> driving a <strong>6 kW generator</strong> capable of supplying <strong>120/240 volts AC</strong>. For proper operation, the voltage range should be <strong>233 to 247 volts AC</strong>. The main tower reaches a full height of <strong>29 feet</strong>. One breaker per 120V outlet and per 1,000-watt lamp. Do not operate starter motor for more than <strong>10 seconds</strong> — it may overheat. Allow a <strong>60-second cool-down</strong> between cranking intervals. <span class="ref">Module 7, Lesson 3, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">RA-15</span><span class="qa-q-text">What are the floodlight set maintenance intervals?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Daily:</strong> fuel level, engine oil level/condition, coolant level, fuel filter bowl for water, steel winch cables, fuel/oil leaks, tire pressure (min 20 psi, max 60 psi). <strong>250 hours:</strong> change engine oil and filter, air filter element, check coolant, check hardware. <strong>500 hours:</strong> replace fan belt, clean radiator fins, change fuel filter, inspect fuel tank. <strong>750 hours:</strong> lubricate mast. <strong>1,000 hours:</strong> inspect cable pulleys, clean and lube, inspect wheel bearings. <span class="ref">Module 7, Lesson 3, Task 2</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('grounding')">← BEAR Grounding</button>
+    <button class="nav-btn next" onclick="go('floodlight')">Floodlight Set →</button>
+  </div>
+</div>
+
+<!-- ═══ FLOODLIGHT / ROWPU / KITCHEN (combined brief) ═══ -->
+<div class="category" id="cat-floodlight">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 3 · tasks 2, 3, 4</div>
+    <div class="cat-title">Floodlight, ROWPU & Kitchen</div>
+    <div class="cat-ref">Reference: <span>TO 35F5-5-21-1 / TO 40W4-20-1 / TO 35E4-169-1</span></div>
+  </div>
+  <div class="callout tip"><strong>Note:</strong> These questions supplement the detailed RALS section above. Key specs for each system are grouped here for focused review.</div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-01</span><span class="qa-q-text">What pre-checks must be done before starting the telescopic floodlight generator?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Before starting: check <strong>engine oil level, engine coolant level, fuel level, and that air filter and all intake ductwork are securely clamped</strong>. At control panel: ensure all circuit breakers OFF → master control switch ON → press and hold fault bypass push button → press and hold glow plug engage for 10 seconds (continue holding 10 seconds after starting) → press starter switch to crank. Release starter when engine runs; release fault bypass after engine runs 5-10 seconds. <span class="ref">Module 7, Lesson 3, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-02</span><span class="qa-q-text">How should floodlights be pre-positioned before raising the mast?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Position floodlights from the <strong>rear end of the trailer while the tower is in the horizontal position</strong> — once raised, positioning requires a ladder. It is easiest to point reflectors <strong>outwards about 45 degrees and slightly downwards</strong>. If <strong>360-degree coverage</strong> is required, point 2 of the lights in the opposite direction. Only raise the main tower <strong>once the trailer is stabilized</strong> using the four leveling jacks. Release the mast support saddle latch before raising. <span class="ref">Module 7, Lesson 3, Task 2</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-03</span><span class="qa-q-text">What are the ROWPU chemical feed pump functions?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Chemical feed pumps are low-amperage diaphragm pumps that move only <strong>2.67 gallons per hour</strong>. They are unique in that they <strong>simultaneously feed four different chemicals</strong> the ROWPU uses. Each feed body dispenses: <strong>polymer, sodium hex, citric acid, and chlorine</strong>. Suction lines are at the bottom of each feed body; feed lines are on top. They are located to the left of the control box. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-04</span><span class="qa-q-text">What power does the ROWPU require?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The 1,500 GPH ROWPU can be powered by a <strong>35 kW generator or commercial power</strong>. It has an accessible control panel and is compact enough that all required hoses, bladders, pumps, tools, and test equipment are packed within the structural confines of the unit. It is operable on the ground or mounted on a 5-ton trailer or 5-ton truck. Air, rail, and truck transportable. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-05</span><span class="qa-q-text">What is the BEAR kitchen serving capacity and what power step is first required?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The BEAR kitchen facility is designed to <strong>serve up to 550 personnel and seat 120</strong>. First step in installation: <strong>install the SDCs and connect them to a power source</strong>. Then install secondary circuits to the four secondary distribution boxes and kitchen equipment directly plugging into SDCs. Final step: install facility lighting. Cables must be buried or protected by a platform in high-traffic areas. <span class="ref">Module 7, Lesson 3, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-06</span><span class="qa-q-text">What are the BEAR kitchen electrical maintenance checks?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Check the following <strong>prior to operation, every week while in operation, and prior to disassembly</strong>: <strong>(1) All electrical connections of cables, receptacles, circuit breakers, and light assemblies for damage, burned contacts, and insulation breakdown; (2) Attachment security of all electrical items; (3) Light assemblies for burned-out lamps; (4) Ensure equipment is installed correctly and functions properly.</strong> <span class="ref">Module 7, Lesson 3, Task 4</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-07</span><span class="qa-q-text">What is the junction box location and function on the ROWPU?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The junction box is located <strong>immediately to the right of the control panel</strong>. It contains the <strong>main system disconnect, circuit breakers, control relays, motor starters, and an I/O module</strong>. The push button control box (major component on the ROWPU control panel) is where all electrical components are controlled. The pilot light enclosure contains all indicator lights showing operation mode and trouble indicators for potential problems. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-08</span><span class="qa-q-text">What are the site prerequisites for any Air Force contingency bare base location?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The Air Force has pre-selected sites throughout the world with only two prerequisites: <strong>(1) a suitable landing area; (2) a water source within one mile</strong>. The water must be made potable using the ROWPU to sustain base operations. The ROWPU unit must be placed on firm, level ground, upstream from camp, and no more than 250 feet from the raw water source. <span class="ref">Module 7, Lesson 3, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-09</span><span class="qa-q-text">What is the RALS lamps and fixture quarterly maintenance?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Quarterly (or as required): <strong>Lamps and Fixtures:</strong> check lamp fixtures and mounting poles for security, condition, and corrosion; check condition of lamps. <strong>Circuit Breakers and Fuses:</strong> check breakers and fuses for condition and operability; check fuse holders, breaker mounts, and electrical connections for corrosion and broken items; repair or replace defective items. <strong>RALS Container:</strong> check semiannually for structural damage, paint, cleanliness of storage compartments, and corrosion. <span class="ref">Module 7, Lesson 3, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="rals" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">FL-10</span><span class="qa-q-text">What are the BEAR kitchen and ESPEK reference technical orders?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">BEAR Kitchen references: <strong>TO 35E4-169-1</strong> (Erection, Operation, Storage, Inspection, and Maintenance — Harvest Falcon/Eagle Kitchen Facility) and <strong>TO 35E4-169-11</strong> (Operation and Maintenance — Harvest Falcon/Eagle Kitchen Power Distribution System). ESPEK: single pallet expeditionary kitchen providing all initial hot meals capability for AEF deployments; can prepare 550 UGR-H&S rations and 350 UGR-A rations in less than 2 hours. <span class="ref">Module 7, Lesson 3, Task 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('rals')">← RALS</button>
+    <button class="nav-btn next" onclick="go('rowpu')">ROWPU (skip) →</button>
+  </div>
+</div>
+
+<!-- ═══ ROWPU redirect ═══ -->
+<div class="category" id="cat-rowpu">
+  <div class="cat-header"><div class="cat-eyebrow">// navigation</div><div class="cat-title">ROWPU Content</div></div>
+  <div class="callout tip"><strong>ROWPU questions are in the RALS & Support Systems section</strong> (RA-10 through RA-13, FL-03, FL-04, FL-07, FL-08). Use the sidebar to navigate there or continue to MAAS.</div>
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('floodlight')">← Floodlight</button>
+    <button class="nav-btn next" onclick="go('kitchen')">Kitchen →</button>
+  </div>
+</div>
+
+<!-- ═══ KITCHEN redirect ═══ -->
+<div class="category" id="cat-kitchen">
+  <div class="cat-header"><div class="cat-eyebrow">// navigation</div><div class="cat-title">BEAR Kitchen Content</div></div>
+  <div class="callout tip"><strong>Kitchen questions are distributed across sections:</strong> BS-19 & BS-20 (secondary distribution), FL-05, FL-06, FL-10 (floodlight section). Use the sidebar to navigate there or continue to MAAS.</div>
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('rowpu')">← ROWPU</button>
+    <button class="nav-btn next" onclick="go('maas')">MAAS →</button>
+  </div>
+</div>
+
+<!-- ═══ MAAS ═══ -->
+<div class="category" id="cat-maas">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 4 · task 1 · 19.1.1.1</div>
+    <div class="cat-title">Mobile Aircraft Arresting System (MAAS)</div>
+    <div class="cat-ref">Reference: <span>Module 7 Transcript, Lesson 4, Task 1</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-01</span><span class="qa-q-text">What is the purpose of the MAAS and how fast can it be certified for use?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The MAAS performs the same function as a fixed aircraft arresting system but focuses on <strong>contingency deployment rather than long-term installation</strong>. A fully functioning MAAS can be ready for certification in approximately <strong>37 minutes</strong> based on three four-man teams with zero installation delays (compared to approximately one day for a permanent BAK-12 install). The MAAS consists of <strong>two identical units</strong>, one on each side of the runway. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-02</span><span class="qa-q-text">What are the four main component areas of the MAAS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The four main component areas: <strong>(1) Trailer</strong> (energy absorber, body frame, axle support frames, axle cylinders, tow bar assembly, tires, storage box, hydraulic winch, pendant storage reel); <strong>(2) Trailer Braking System</strong> (hydraulic, emergency, and parking brakes); <strong>(3) Installation Tools</strong> (HPU, hydraulic breaker, post driver, stake puller, hammer drill); <strong>(4) Installation Hardware</strong> (anchor plates, taper bolts, flat washers, turnbuckles, stakes, moil points). <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-03</span><span class="qa-q-text">What energy absorber does the MAAS use, and what are the two runout options?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The MAAS uses the <strong>BAK-12</strong> as the energy absorber. Standard configuration: <strong>66-inch diameter reel with 990-foot runout</strong>. It can be upgraded with a <strong>32-tooth cam sprocket to allow 1,200-foot runout</strong>. Each trailer stores a different pendant cable length: one is <strong>90 feet long</strong> and the other is <strong>153 feet long</strong>, supporting multiple runway widths. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-04</span><span class="qa-q-text">What is the Hydraulic Power Unit (HPU) and how many are on each MAAS trailer?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The HPU is a <strong>portable, engine-driven gear-type hydraulic pump</strong>. There are <strong>two HPUs per trailer</strong>, one on each side. They power the various hydraulic tools and systems on the MAAS. Two 50-foot hoses connect each tool to the HPU. The HPU powers: hydraulic breaker, post driver, stake puller, hammer drill (auxiliary power tools), and the hydraulic winch for loading into aircraft. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-05</span><span class="qa-q-text">Describe the MAAS battery position and what it maintains.</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Battery position</strong> is when the shuttle valve is in the ON position, applying <strong>175 ±10 PSI static pressure from accumulator to the brakes</strong>. This continual pressure maintains <strong>pretension in the pendant cable</strong> — preventing sag and allowing the aircraft tail hook to successfully engage the pendant. This is the ready-to-arrest position. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-06</span><span class="qa-q-text">How does the MAAS arrest an aircraft — describe the hydraulic sequence.</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Aircraft tail hook engages pendant. Forward motion pulls pendant down runway; purchase tapes unwind from storage reel, driving the hydraulic pump and cam via chains/sprockets. The cam rotates clockwise toward 270°, operating the cam control valve — valve <strong>closes to increase restriction</strong> to fluid flow. When hydraulic pressure exceeds the static accumulator pressure, the <strong>shuttle valve moves to OFF</strong>. Increasing pressure applies to friction brakes, slowing the tape reel. When aircraft stops, all pressure is relieved through the cam control valve back to reservoir. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-07</span><span class="qa-q-text">What is the retraction time for MAAS and how does the retraction system work?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Retraction time is <strong>3 minutes for 990-foot runout</strong> and <strong>3.5 minutes for 1,200-foot runout</strong>. The rewind engine connects to the storage reel shaft via PTO, fluid coupling, gear reducer, and chains. The <strong>fluid coupling permits torque to be applied while the output shaft is "stalled"</strong> — engine torque is transmitted to the rewind sprocket for pre-tensioning. Reel rotation is stopped by tape tension when fully retracted. Pre-tension is maintained by static accumulator pressure when shuttle valve resets to ON. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-08</span><span class="qa-q-text">What are the four MAAS installation configurations and their key differences?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Concrete:</strong> 2 anchor plates; remove one tire on pilot's right; only installation requiring tire removal. <strong>Soil:</strong> 19 stakes for unidirectional (10 body + 9 for 3 stake lines); 31 stakes for bidirectional (10 body + 21 for 7 stake lines); maintain 15° stake angle. <strong>Asphalt over concrete (>1 inch):</strong> 10 moil points in stake pockets; no tire removal. <strong>Asphalt over soil:</strong> chip asphalt where stakes install; same as soil otherwise. Bi-directional concrete: 3 anchor plates, remove 2 tires per MAAS. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-09</span><span class="qa-q-text">What is the trailer positioning formula relative to pendant cable length?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Trailers should be positioned for <strong>cable length + 15 feet</strong> unless setbacks will be used. For bi-directional installation: position trailers so the distance between the two trailers is <strong>cable length + 15 feet</strong>. Setback kits with additional equipment can be used to allow for wide-bodied aircraft. Stake lines off the triple turnbuckle must maintain an approximate <strong>15° separation between stake lines</strong>. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-10</span><span class="qa-q-text">What are the MAAS preventive maintenance schedules for key components?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Hook cable:</strong> Replace every <strong>36 months when installed</strong> or <strong>60 months when stored</strong>. <strong>Tape:</strong> crop ends every <strong>6 months</strong>; replace per governing guidance when installed or after 60 months stored. <strong>Hydraulic system:</strong> synchronize/proof test after initial install, every <strong>3 months after install</strong>, every <strong>12 months while stored</strong>. <strong>Arresting system functional checkout:</strong> every <strong>month installed</strong>, every <strong>6 months stored</strong>. <strong>Coolant pumps:</strong> operate every <strong>month installed</strong>, every <strong>12 months stored</strong>. Inspect weekly and after each arrestment for loose/worn parts and anchor assembly security. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-11</span><span class="qa-q-text">What are MAAS tires filled with and why is caution required when removing them?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">MAAS tires are filled with <strong>urethane foam for puncture resistance</strong> and weigh approximately <strong>410 pounds</strong>. <strong>Extreme caution should be taken when removing or installing wheels</strong> during installation and removal due to the weight. The tow bar assembly has a <strong>pintle hook</strong> for single or tandem towing — reducing the requirement for multiple tow vehicles and the risk of FOD onto the runway. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-12</span><span class="qa-q-text">Why must anchor stakes not enter the tape path during soil installation?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Anchor stakes must not enter the tape path because <strong>it will damage the purchase tape during arrestment</strong>, potentially causing damage to aircraft and/or loss of life. Also regarding stake orientation: properly orient stakes for the stake puller on site so the stake puller <strong>won't severely damage them upon removal</strong>. The stake puller intentionally pinches the stake between two teeth — any body part caught between stake and teeth will cause severe injury. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-13</span><span class="qa-q-text">What are the three MAAS braking systems and their functions?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Hydraulic Braking System:</strong> braking assistance during towing; master cylinder actuated when trailer pushes against slowing tow vehicle. <strong>Emergency Brake System:</strong> breakaway cable attached to a breakaway lever — if unit separates from vehicle during towing, lever unlocks and applies hydraulic pressure to slow MAAS. <strong>Parking Brake System:</strong> single lever with over-center locking feature, mounted on rear axle, applies brakes to rear wheels only. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-14</span><span class="qa-q-text">What is the air cleaner service indicator for the MAAS Wisconsin engine?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Clean the air cleaner every <strong>6 months for a Wisconsin engine</strong>. Service the air cleaner when the <strong>red signal is fully visible when the engine is off</strong>. Oil filter replacement: every <strong>other oil change</strong>. Inspect the system for loose or worn parts and anchor assemblies for security <strong>weekly and after each arrestment</strong>. Severe damage to equipment, aircraft, and loss of life could occur if anchor assemblies are not secure. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-15</span><span class="qa-q-text">What is the hammer drill used for in MAAS installation and what quality control exists?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The hammer drill is used <strong>exclusively for concrete installation</strong> — drilling holes to install taper bolts. To ensure holes are drilled as close to <strong>90° to the surface</strong> of the concrete pad as possible, <strong>two observers monitor the drill operator for tilting and provide feedback for corrections</strong>. Taper bolts secure anchor plates to the concrete pad; flat washers distribute the force of tightening by increasing surface area. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-16</span><span class="qa-q-text">What is the body frame's role in the MAAS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The Body Frame <strong>supports all arresting gear components</strong>, supports the tape guide system, and has an <strong>internal set of 5 sheaves</strong> which allow for free travel of tape off the reel. It <strong>transmits loads to the ground</strong> just like fixed arresting system concrete pads. The axle support frames provide structural support for front and rear axle assemblies and serve as a mechanical link to the hydraulic cylinders that raise and lower the trailer. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-17</span><span class="qa-q-text">What additional uses does the MAAS have beyond contingency airfields?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The MAAS can be used for <strong>air shows like the Thunderbirds or Blue Angels</strong> since some air shows are at civilian airports without arresting system support. The MAAS is also useful when the installation cost of permanently installed aircraft arresting equipment <strong>exceeds the return on investment</strong>. The MAAS's transportability via air and land creates a variety of transportation options to the installation site. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-18</span><span class="qa-q-text">What are the MAAS asphalt over concrete bidirectional installation unique requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">For asphalt over concrete bidirectional installation: <strong>no body stakes are installed</strong>, therefore only <strong>21 stakes are necessary</strong> (vs 31 for soil bidirectional). To install the stakes, <strong>remove the asphalt where the stakes will be installed</strong>. There is no difference between bidirectional and unidirectional when it comes to asphalt over concrete methods — both use 10 moil points. If asphalt is less than 1 inch thick, use the concrete installation method instead. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-19</span><span class="qa-q-text">What safety warning applies to MAAS towing speed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The MAAS trailers are <strong>not designed for use on public roads and highways</strong> — they are not equipped with taillights, brakes, or clearance lights (same restriction as EALS trailers). The MAAS can be towed in convoy. The pintle hook allows tandem towing to <strong>reduce the requirement for multiple tow vehicles</strong> and the risk of FOD being brought onto the runway. The similarity between MAAS and permanently installed systems facilitates easy transitioning between maintaining either. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="maas" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">M-20</span><span class="qa-q-text">What does the pendant storage reel store and why are two different lengths provided?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The pendant storage reel stores the <strong>pendant cable and allows for easy deployment during installation</strong>. One trailer stores a <strong>90-foot pendant</strong> and the other stores a <strong>153-foot pendant</strong>. This difference in lengths allows the MAAS to support <strong>multiple runway widths</strong> — narrow runways use the shorter pendant; wider runways or setback configurations use the longer pendant. Together, the two trailers can accommodate any standard runway width. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('kitchen')">← Kitchen</button>
+    <button class="nav-btn next" onclick="go('shelter')">BEAR Shelter →</button>
+  </div>
+</div>
+
+<!-- ═══ SHELTER ═══ -->
+<div class="category" id="cat-shelter">
+  <div class="cat-header">
+    <div class="cat-eyebrow">// lesson 4 · tasks 1-2 · 19.2.1.1.1</div>
+    <div class="cat-title">BEAR Shelter Lighting</div>
+    <div class="cat-ref">Reference: <span>TO 35E5-6-11 (SSS) / Module 7 Transcript</span></div>
+  </div>
+  <div class="qa-list">
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-01</span><span class="qa-q-text">What are the three major components of the BEAR tent interior lighting/power distribution system?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The three major components: <strong>(1) Distribution box</strong>; <strong>(2) Two convenience outlet assemblies</strong>; <strong>(3) Incandescent light streamer assembly</strong>. Each tent receives one light streamer (six lights spaced along it) and two convenience outlet assemblies (one per side). The distribution box is fed from a PDP by a <strong>50-foot, 20-amp cable with twist-lock connection</strong>. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-02</span><span class="qa-q-text">What protection devices are in the BEAR tent distribution box?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">The distribution panel has a <strong>single-pole toggle switch protected by a 20-amp circuit breaker</strong> to control the lights. <strong>Two GFCI 20-amp circuit breakers protect an outlet streamer for each side</strong> within the tent. Both the light streamer and outlet streamers connect to the distribution panel with <strong>twist-lock connections</strong>. The 3 cables with female connectors are for string lights and receptacles. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-03</span><span class="qa-q-text">What are the light spacing specs for SSS tent electrical installation?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Install lights starting from the distribution box. String first three lights to purlins on the <strong>left side of shelter, approximately 10 feet apart</strong>. Continue running cable over and alongside the fifth arch to purlins on the right side. Attach the next three lights about <strong>10 feet apart</strong>. Connect receptacle strings: 39-foot string (4 receptacles) runs left side; 50-foot string (4 receptacles) runs right side. Attach a receptacle at each arch frame, approximately <strong>2 feet high</strong>. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-04</span><span class="qa-q-text">What frayed cable action must be taken during BEAR shelter teardown?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Use proper repair techniques or <strong>replace any cable or streamer that may have become frayed</strong>. Frayed cables and conductors <strong>may cause electric shock or start a fire</strong>. During teardown: de-energize first, disassemble in reverse order, clean items during removal, allow wet components to dry before packing (prevent mold), put all components into proper storage containers to ensure rapid reinstallation. <span class="ref">Module 7, Lesson 4, Task 1</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-05</span><span class="qa-q-text">What are the SSS safety items that must be followed during assembly?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner"><strong>Wear safety glasses</strong> when driving stakes and anchors with a hammer. <strong>Wear gloves</strong> to handle structural components or pull-on ropes. Frame members are under spring tension and could spring back — <strong>beware of frame member rebound</strong>. <strong>Never use a combustible heating device inside without proper ventilation</strong>. Use adequate personnel for heavy components. Never allow snow/ice buildup on top. Never drag fabric over ground or sharp objects. Never pound on pins or slip-fit connections. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-06</span><span class="qa-q-text">What site area is needed for SSS setup and what are the pre-setup requirements?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Select an area at least <strong>30 by 40 feet</strong>. Ensure the area is free of debris, has adequate drainage, and is as smooth and level as possible. Unlatch top latches and remove the container top. Unpack components keeping like items together. When removing items, <strong>inspect for damage or missing parts</strong>. After all items are removed, <strong>reinstall the container top for storage</strong> — store it this way until needed again. The SSS has been designated as the <strong>replacement for the TEMPER tent through attrition</strong>. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-07</span><span class="qa-q-text">How is the ECU (Environmental Control Unit) positioned and connected to the SSS?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Using a forklift, place the ECU on the most level area in front of the shelter duct openings, approximately <strong>12 inches away from the shelter end wall</strong>. The side labeled <strong>EXHAUST END must face toward the shelter duct openings</strong>. The <strong>supply duct</strong> (no wire ring supports) attaches to the supply air vent and goes through the right-hand fabric boot. The <strong>return air duct</strong> uses the left-hand fabric boot. ECUs should only be inspected and repaired by HVAC/R personnel. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-08</span><span class="qa-q-text">What is the cover installation sequence for the SSS main cover?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Lay cover next to shelter — <strong>black side faces inside</strong>. Secure one end of cover base rope to silver tie-off cleat; stretch and secure other end. Attach four pullover ropes to the four black loops at the base. With one person on each rope: <strong>end persons pull at 45 degrees toward outside; middle two pull straight back</strong> — this ensures even fabric pull across arches. Secure base rope on the other side. Work cover over ends with ladder/persons; ensure 4-5 inch overlap equal on both ends. Tension contour rope; attach base rope to hooks with hook tools. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-09</span><span class="qa-q-text">What are the two types of SSS end panels, and what is unique about the hard door installation?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Two end panel types: <strong>zippered</strong> and <strong>hard door</strong>. Hard door unique steps: make sure door is installed with <strong>white side facing inside</strong>; place doorframe so the stub slides into the <strong>spike hole in the center end base frame</strong>; from inside, slide header stubs into top of doorframe and secure with pins; install doorknob and adjust strike mechanism. After either type: install a plastic vent cap at the top center of each end panel (Velcro secured) for ventilation. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+    <div class="qa-card" data-type="bear" onclick="toggleCard(this)">
+      <div class="qa-question"><span class="qa-num">SH-10</span><span class="qa-q-text">What is the SSS disassembly first step, and what special tools/precautions are needed?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">First step: <strong>make sure all power is disconnected from the electrical system at the source</strong>. During disassembly: pullover ropes are NOT needed to remove the cover. If pins are tight, do not force — <strong>gently tap or wiggle</strong> them loose. Do not drop or throw objects from high elevations. To raise spike heads: use the spike puller with <strong>dunnage directly under spikes</strong> to prevent damage. Be sure cover and end wall panels are <strong>dry before packing</strong>. Disassemble in reverse order of erection. <span class="ref">Module 7, Lesson 4, Task 3</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-nav">
+    <button class="nav-btn prev" onclick="go('maas')">← MAAS</button>
+    <button class="nav-btn next" onclick="go('overview')" style="background:var(--green); color:var(--navy);">↺ Back to Overview</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+  const reviewed = new Set();
+
+  function go(id) {
+    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+    const cat = document.getElementById('cat-' + id);
+    if (cat) cat.classList.add('active');
+    const nav = document.getElementById('nav-' + id);
+    if (nav) nav.classList.add('active');
+    window.scrollTo(0,0);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function toggleCard(card) {
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (!wasOpen && !reviewed.has(card)) {
+      reviewed.add(card);
+      updateScore();
+    }
+  }
+
+  function updateScore() {
+    const total = document.querySelectorAll('.qa-card').length;
+    document.getElementById('scorePill').textContent = reviewed.size + ' / ' + total + ' reviewed';
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  window.addEventListener('load', () => {
+    const total = document.querySelectorAll('.qa-card').length;
+    document.getElementById('scorePill').textContent = '0 / ' + total + ' reviewed';
+  });
+</script>
+</body>
+</html>
