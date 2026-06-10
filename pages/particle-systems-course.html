@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Particle Systems Mastery | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+  <link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<style>
+  /* Particle course accent: cyan/magenta spark theme */
+  .header-badge { background: linear-gradient(90deg, #00d4ff, #ff00aa); }
+  header h1 { background: linear-gradient(135deg, #fff 15%, #00d4ff 50%, #ff00aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  header::before {
+    background: radial-gradient(circle at 20% 60%, rgba(0,212,255,0.2) 0%, transparent 55%),
+                radial-gradient(circle at 80% 25%, rgba(255,0,170,0.18) 0%, transparent 50%),
+                radial-gradient(circle at 55% 80%, rgba(255,209,102,0.1) 0%, transparent 40%);
+  }
+  .nav-item.active { border-left-color: #00d4ff; }
+  .lesson-num { color: #00d4ff; }
+
+  /* Particle preview boxes */
+  .particle-demo {
+    background: #0a0a14;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    margin: 18px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    letter-spacing: 8px;
+  }
+  .particle-demo .demo-label {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Animated particles in demo boxes */
+  @keyframes rain   { 0%{transform:translateY(-10px);opacity:1} 100%{transform:translateY(180px);opacity:0} }
+  @keyframes snow   { 0%{transform:translateY(-10px) translateX(0);opacity:1} 100%{transform:translateY(180px) translateX(30px);opacity:0} }
+  @keyframes fire   { 0%{transform:translateY(0) scale(1);opacity:1} 100%{transform:translateY(-60px) scale(0.1);opacity:0} }
+  @keyframes bubble { 0%{transform:translateY(0) scale(0.5);opacity:0.8} 100%{transform:translateY(-120px) scale(1.2);opacity:0} }
+  @keyframes spark  { 0%{transform:translate(0,0) scale(1);opacity:1} 100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0} }
+  @keyframes glow-pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+  @keyframes magic  { 0%{transform:rotate(0deg) translateX(40px) rotate(0deg) scale(1);opacity:1} 100%{transform:rotate(360deg) translateX(40px) rotate(-360deg) scale(0);opacity:0} }
+  @keyframes ocean-wave { 0%,100%{transform:scaleX(1) translateY(0)} 50%{transform:scaleX(1.05) translateY(-8px)} }
+
+  .raindrop {
+    position: absolute;
+    width: 2px;
+    height: 18px;
+    background: linear-gradient(180deg, transparent, #a0d8ff);
+    border-radius: 2px;
+    animation: rain linear infinite;
+  }
+  .snowflake {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: snow ease-in infinite;
+    box-shadow: 0 0 4px rgba(200,230,255,0.8);
+  }
+  .ember {
+    position: absolute;
+    border-radius: 50%;
+    animation: fire ease-out infinite;
+  }
+  .bubble-p {
+    position: absolute;
+    border: 1.5px solid rgba(100,200,255,0.7);
+    border-radius: 50%;
+    background: rgba(100,200,255,0.08);
+    animation: bubble ease-out infinite;
+  }
+  .sparkle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    animation: spark ease-out infinite;
+  }
+  .glow-orb {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  .magic-star {
+    position: absolute;
+    font-size: 12px;
+    animation: magic linear infinite;
+  }
+  .wave-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    border-radius: 60% 60% 0 0;
+    animation: ocean-wave ease-in-out infinite;
+  }
+
+  /* Module property table */
+  .prop-table th { color: #00d4ff; }
+  .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
+  .module-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    border-top: 2px solid var(--c, #00d4ff);
+  }
+  .module-card h5 { font-family: 'Fredoka One', cursive; font-size: 0.95rem; margin-bottom: 6px; color: var(--c, #00d4ff); }
+  .module-card p  { font-size: 0.82rem; color: var(--muted); }
+  .step-list { counter-reset: step; list-style: none; padding: 0; }
+  .step-list li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    color: #d4d4e8;
+  }
+  .step-list li::before {
+    content: counter(step);
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    background: linear-gradient(135deg, #00d4ff, #ff00aa);
+    color: #0f0e17; font-weight: 900; font-size: 12px;
+    border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+  }
+  .fx-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Bonus Course</div>
+  <h1>Particle Systems Mastery</h1>
+  <p>Create stunning visual effects in Unity — rain, fire, snow, magic, ocean, glow, lights, and more. Every effect explained from scratch.</p>
+  <div class="header-stars">🔥 💧 ❄️ ✨ 🌊 💫 🌟 ⚡</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">FX Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">Effect Modules</div>
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">⚙️</span> Particle System Basics <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🌧️</span> Rain <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">❄️</span> Snow <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🔥</span> Fire <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">💧</span> Water &amp; Bubbles <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🌊</span> Ocean <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🔴</span> Fireballs <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🔮</span> Magic &amp; Spells <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">✨</span> Glow &amp; Bloom <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">💡</span> Dynamic Lights <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">⚡</span> Lightning &amp; Electricity <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">💥</span> Explosions &amp; Impact <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">📱</span> Mobile FX Optimization <span class="nav-check" id="chk12"></span></div>
+</nav>
+
+<main class="main">
+
+<!-- ===== L0: BASICS ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>Particle System Fundamentals</h2>
+    <p class="lesson-intro">Every property explained — emission, shape, lifetime, velocity, color over life, size over life, and the Shader setup that makes particles look great.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ What Is a Particle System?</div>
+    <p>A <strong>Particle System</strong> is a component that spawns many small sprites (called <em>particles</em>) and simulates them independently — each with its own position, velocity, rotation, color, and lifetime. Together they create the illusion of fluids, smoke, fire, magic, and weather.</p>
+    <p>Unity's built-in particle system is called <strong>Shuriken</strong>. For advanced VFX, Unity 6 includes the <strong>Visual Effect Graph (VFX Graph)</strong> — GPU-based, supports millions of particles.</p>
+    <table>
+      <tr><th>System</th><th>Max Particles</th><th>Best For</th></tr>
+      <tr><td>Shuriken (ParticleSystem)</td><td>~10,000</td><td>Mobile, simple FX</td></tr>
+      <tr><td>VFX Graph</td><td>Millions</td><td>PC/console, cinematic FX</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 The Core Modules</div>
+    <div class="module-grid">
+      <div class="module-card" style="--c:#ff6b35"><h5>Main Module</h5><p>Duration, Looping, Lifetime, Speed, Gravity. The master settings.</p></div>
+      <div class="module-card" style="--c:#ffd166"><h5>Emission</h5><p>Rate over Time, Rate over Distance, Burst spawning.</p></div>
+      <div class="module-card" style="--c:#06d6a0"><h5>Shape</h5><p>Where particles spawn: Sphere, Cone, Box, Edge, Circle, Mesh.</p></div>
+      <div class="module-card" style="--c:#00d4ff"><h5>Velocity over Lifetime</h5><p>Add velocity curves — make fire rise, snow drift sideways.</p></div>
+      <div class="module-card" style="--c:#c77dff"><h5>Color over Lifetime</h5><p>Gradient from spawn to death — fire goes orange→red→black.</p></div>
+      <div class="module-card" style="--c:#ff00aa"><h5>Size over Lifetime</h5><p>Start big, shrink to nothing. Or start small, expand.</p></div>
+      <div class="module-card" style="--c:#ff6b35"><h5>Rotation over Lifetime</h5><p>Spin particles. Great for leaves, debris, embers.</p></div>
+      <div class="module-card" style="--c:#06d6a0"><h5>Noise</h5><p>Turbulence — makes motion organic. Essential for smoke &amp; magic.</p></div>
+      <div class="module-card" style="--c:#ffd166"><h5>Renderer</h5><p>Material, sorting, render mode (Billboard, Mesh, Stretched).</p></div>
+      <div class="module-card" style="--c:#00d4ff"><h5>Sub Emitters</h5><p>Particles that spawn other particles on birth/death — sparks on impact.</p></div>
+      <div class="module-card" style="--c:#c77dff"><h5>Trails</h5><p>Each particle leaves a ribbon trail. Magic streaks, comet tails.</p></div>
+      <div class="module-card" style="--c:#ff00aa"><h5>Lights</h5><p>Each particle emits a real-time light. Glowing embers, fireflies.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 The Particle Material — Additive Blending</div>
+    <p>Most glowing FX use <strong>Additive blending</strong> — particles add their color to whatever's behind them. Black = invisible, white = full brightness. This is how fire, magic, and glow work.</p>
+    <ol class="step-list">
+      <li>Create a Material → Shader: <strong>Universal Render Pipeline/Particles/Unlit</strong>.</li>
+      <li>Set <strong>Surface Type: Transparent</strong>, <strong>Blending Mode: Additive</strong>.</li>
+      <li>Assign a particle texture (soft circle, flame shape, star, etc.) to Base Map.</li>
+      <li>Set color to white — color control comes from the Particle System's Color over Lifetime.</li>
+      <li>Assign this material in the Particle System's Renderer module.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Premade Textures</strong>Unity's default Particles material includes useful textures: Default-Particle, Default-ParticleSystem, smoke texture. Find them in your project's Packages folder under Universal RP → Runtime → Textures.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⌨️ Scripting Particle Systems</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Controlling Particles</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">FXController</span> : MonoBehaviour
+{
+    <span class="kw">public</span> ParticleSystem <span class="var">rain</span>;
+    <span class="kw">public</span> ParticleSystem <span class="var">fire</span>;
+
+    <span class="kw">void</span> <span class="fn">StartRain</span>() {
+        <span class="var">rain</span>.<span class="fn">Play</span>();
+    }
+    <span class="kw">void</span> <span class="fn">StopRain</span>() {
+        <span class="var">rain</span>.<span class="fn">Stop</span>(withChildren: <span class="kw">true</span>,
+                     stopBehavior: ParticleSystemStopBehavior.StopEmitting);
+    }
+
+    <span class="cm">// Change emission rate at runtime</span>
+    <span class="kw">void</span> <span class="fn">SetRainIntensity</span>(<span class="kw">float</span> rate) {
+        <span class="kw">var</span> em = <span class="var">rain</span>.emission;
+        em.rateOverTime = rate;
+    }
+
+    <span class="cm">// Change fire color at runtime</span>
+    <span class="kw">void</span> <span class="fn">SetFireColor</span>(Color c) {
+        <span class="kw">var</span> main = <span class="var">fire</span>.main;
+        main.startColor = c;
+    }
+
+    <span class="cm">// One-shot burst at position</span>
+    <span class="kw">void</span> <span class="fn">SpawnImpact</span>(Vector3 pos) {
+        ParticleSystem ps = Instantiate(<span class="var">fire</span>, pos, Quaternion.identity);
+        ps.<span class="fn">Play</span>();
+        Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Start</button>
+    <button class="btn btn-next" onclick="next(0)">Rain →</button>
+  </div>
+</section>
+
+<!-- ===== L1: RAIN ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🌧️ Rain Effect</h2>
+    <p class="lesson-intro">Directional streaks, splash sub-emitters, puddle ripples, and a wet-surface shader — create a full rain storm system.</p>
+  </div>
+
+  <div class="particle-demo" id="rain-demo">
+    <div class="demo-label">Live Preview</div>
+    <div style="font-size:3rem">🌧️</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌧️ Rain Particle — Step by Step</div>
+    <ol class="step-list">
+      <li><strong>Main Module:</strong> Duration: 5, Loop: ✅, Start Lifetime: 1.5, Start Speed: 15, Start Size: 0.05, Gravity: 1, Max Particles: 2000.</li>
+      <li><strong>Emission:</strong> Rate over Time: 400. For a storm, use 600–800.</li>
+      <li><strong>Shape:</strong> Box. Width: 20, Height: 1, Depth: 20. Position Y: 8 (above the scene). This rains down over a 20×20 meter area.</li>
+      <li><strong>Renderer:</strong> Render Mode: <strong>Stretched Billboard</strong>, Speed Scale: 0.5, Length Scale: 2. This makes drops look like streaks moving downward.</li>
+      <li><strong>Color over Lifetime:</strong> Start: rgba(180,220,255,0.9), End: rgba(180,220,255,0). Fades out at the end.</li>
+      <li><strong>Sub Emitters:</strong> Enable → Birth: assign a "Splash" particle system (small upward burst of 3–5 tiny white particles).</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Rain Rotation Trick</strong>Rotate the entire Particle System GameObject to match your rain angle. For sideways rain, tilt it 20–30° on X. The Shape always emits in local space, so the whole rain tilts together.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💦 Splash Sub-Emitter</div>
+    <ol class="step-list">
+      <li>Create a child Particle System called "RainSplash".</li>
+      <li>Main: Duration: 0.3, Loop: ❌, Start Lifetime: 0.4, Start Speed: 1.5, Start Size: 0.08, Gravity: 2.</li>
+      <li>Emission: Burst at time 0 → Count: 5.</li>
+      <li>Shape: Hemisphere, Radius: 0.1. Particles spread outward and upward.</li>
+      <li>Color: white → transparent. Size over Lifetime: big → small.</li>
+      <li>In the parent Rain system → Sub Emitters → + → set Splash here. Condition: Collision.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌊 Puddle Ripple Effect</div>
+    <ol class="step-list">
+      <li>Create another child Particle System: "RainRipple".</li>
+      <li>Main: Lifetime: 1.2, Start Size: 0.3, Start Speed: 0, Max Particles: 100.</li>
+      <li>Shape: Circle, Radius: 0 (emit from center point).</li>
+      <li>Size over Lifetime: 0 → 1 (ring expands outward).</li>
+      <li>Color over Lifetime: solid → fully transparent (ring fades as it expands).</li>
+      <li>Renderer: Material using a ring sprite (white circle with hole in center). Render Mode: Billboard.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ Rain Settings Reference</div>
+    <table class="prop-table">
+      <tr><th>Property</th><th>Light Rain</th><th>Storm</th><th>Hurricane</th></tr>
+      <tr><td>Rate over Time</td><td>150</td><td>400</td><td>800</td></tr>
+      <tr><td>Start Speed</td><td>10</td><td>15</td><td>22</td></tr>
+      <tr><td>Start Lifetime</td><td>2</td><td>1.5</td><td>1</td></tr>
+      <tr><td>Gravity</td><td>0.5</td><td>1</td><td>1.5</td></tr>
+      <tr><td>Max Particles</td><td>500</td><td>2000</td><td>4000</td></tr>
+      <tr><td>Tilt (X rotation)</td><td>0°</td><td>10°</td><td>30°</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Basics</button>
+    <button class="btn btn-next" onclick="next(1)">Snow →</button>
+  </div>
+</section>
+
+<!-- ===== L2: SNOW ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>❄️ Snow Effect</h2>
+    <p class="lesson-intro">Soft drifting flakes, turbulence noise for organic movement, accumulation decals, and a blizzard variant.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❄️ Snow Particle — Step by Step</div>
+    <ol class="step-list">
+      <li><strong>Main Module:</strong> Duration: 5, Loop: ✅, Start Lifetime: min 4, max 8 (random between two constants), Start Speed: min 0.5, max 2, Start Size: min 0.03, max 0.12, Gravity: 0.05, Max Particles: 500.</li>
+      <li><strong>Emission:</strong> Rate over Time: 60. (Snow is gentler than rain — fewer, slower particles.)</li>
+      <li><strong>Shape:</strong> Box, Width: 20, Depth: 20, Height: 0. Position Y: 8. Emit from the Volume (not just the Surface).</li>
+      <li><strong>Velocity over Lifetime:</strong> X: curve oscillating between -0.5 and 0.5 (drift left/right). Y: -0.5 constant (gentle fall).</li>
+      <li><strong>Noise Module:</strong> Strength: 0.3, Frequency: 0.5, Scroll Speed: 0.1. This makes flakes drift organically.</li>
+      <li><strong>Rotation over Lifetime:</strong> Angular Velocity: random between -30 and 30. Flakes spin slowly.</li>
+      <li><strong>Size over Lifetime:</strong> Stays roughly constant (use a flat curve, slight fade at end).</li>
+      <li><strong>Color over Lifetime:</strong> Start rgba(255,255,255,0.9), End rgba(255,255,255,0). Fades gently.</li>
+      <li><strong>Renderer:</strong> Material with a soft white circle sprite. Mode: Billboard.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌨️ Blizzard Variant</div>
+    <table class="prop-table">
+      <tr><th>Property</th><th>Gentle Snow</th><th>Blizzard</th></tr>
+      <tr><td>Rate over Time</td><td>60</td><td>300</td></tr>
+      <tr><td>Start Speed</td><td>0.5 – 2</td><td>5 – 12</td></tr>
+      <tr><td>Noise Strength</td><td>0.3</td><td>1.5</td></tr>
+      <tr><td>Gravity</td><td>0.05</td><td>0.3</td></tr>
+      <tr><td>System Tilt X</td><td>5°</td><td>40°</td></tr>
+      <tr><td>Velocity X</td><td>±0.5</td><td>±4</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 Snow Accumulation (Decal Shader)</div>
+    <p>For surfaces that accumulate snow over time, use a URP Decal Projector:</p>
+    <ol class="step-list">
+      <li>Add → 3D Object → Decal Projector to the scene.</li>
+      <li>Create a Decal material: Shader Graph → URP Decal. Set Base Map to a white noise snow texture.</li>
+      <li>In C#, animate the Decal Projector's <code>fadeFactor</code> from 0→1 over 10 seconds to show snow building up.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Rain</button>
+    <button class="btn btn-next" onclick="next(2)">Fire →</button>
+  </div>
+</section>
+
+<!-- ===== L3: FIRE ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>🔥 Fire Effect</h2>
+    <p class="lesson-intro">Three-layer fire (core, mid, smoke), heat distortion, embers, and a campfire system with dynamic light flickering.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 The Three-Layer Fire System</div>
+    <p>Realistic fire is <strong>three stacked particle systems</strong>, each representing a different part of the flame:</p>
+    <div class="module-grid">
+      <div class="module-card" style="--c:#ffd166"><h5>Layer 1: Core Flame</h5><p>Bright white-yellow center. Small, fast, hot. Additive blend. 50 particles max.</p></div>
+      <div class="module-card" style="--c:#ff6b35"><h5>Layer 2: Mid Flame</h5><p>Orange-red body. Medium speed, drifts upward. Soft additive. 80 particles.</p></div>
+      <div class="module-card" style="--c:#5a5880"><h5>Layer 3: Smoke</h5><p>Dark gray, expands, rises. Alpha blend. Slow, large, noisy. 30 particles.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 Core Flame Settings</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 0.5–0.8, Speed: 2–4, Size: 0.3–0.6, Max: 50. <strong>Simulation Space: World</strong>.</li>
+      <li>Emission: Rate: 80.</li>
+      <li>Shape: Cone, Angle: 10, Radius: 0.1. Tight upward stream.</li>
+      <li>Velocity over Lifetime: Y: 1.5 (rises fast). Add slight X wobble: sin curve ±0.3.</li>
+      <li>Color over Lifetime: <code>#ffffff → #fffba0 → #ffaa00 → #ff4400 → transparent</code>. White hot → yellow → orange → fades.</li>
+      <li>Size over Lifetime: Ramp up from 0 → 1 → 0 (grows then shrinks).</li>
+      <li>Noise: Strength: 0.4, Frequency: 2. Makes flame flicker organically.</li>
+      <li>Renderer: Additive material, billboard, Sorting Layer: VFX.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💨 Smoke Settings</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 3–5, Speed: 0.5–1, Start Size: 0.4–0.8, Max: 30. Gravity: -0.1 (floats upward).</li>
+      <li>Shape: Cone, Angle: 30, Radius: 0.15. Wider spread than core.</li>
+      <li>Color over Lifetime: rgba(80,80,80,0) → rgba(80,80,80,0.5) → rgba(0,0,0,0). Appears mid-life, fades out.</li>
+      <li>Size over Lifetime: 0.5 → 2.5. Smoke expands as it rises.</li>
+      <li>Velocity over Lifetime: Y: 0.8. Noise Strength: 1.2, Frequency: 0.3. Very turbulent.</li>
+      <li>Renderer: <strong>Alpha Blend</strong> material (not additive — smoke is opaque, not glowing). Sort in front of environment, behind characters.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌟 Ember Sub-Emitter</div>
+    <ol class="step-list">
+      <li>Small, bright orange-white dots. Main: Lifetime: 1.5–3, Speed: 2–5, Size: 0.04, Max: 50.</li>
+      <li>Emission: Burst mode — spawn 2–4 every 0.2 seconds.</li>
+      <li>Velocity over Lifetime: Y: 0.5–2, X: random ±1. Embers fly upward and sideways.</li>
+      <li>Rotation over Lifetime: ±180 deg/sec — they spin.</li>
+      <li>Color: white-orange → transparent. Additive blend.</li>
+      <li><strong>Lights module:</strong> Enable → Ratio: 0.3. 30% of embers emit a real point light! Max Lights: 4. Intensity: 0.5, Range: 0.5. This creates real flickering light from embers.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Flickering Fire Light (Script)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — FireLightFlicker.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">FireLightFlicker</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Light  <span class="var">fireLight</span>;
+    <span class="kw">public float</span> <span class="var">baseIntensity</span>  = <span class="num">3f</span>;
+    <span class="kw">public float</span> <span class="var">flickerAmount</span>  = <span class="num">1.5f</span>;
+    <span class="kw">public float</span> <span class="var">flickerSpeed</span>   = <span class="num">12f</span>;
+    <span class="kw">private float</span> <span class="var">noise</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="var">noise</span> = Mathf.<span class="fn">PerlinNoise</span>(Time.time * <span class="var">flickerSpeed</span>, <span class="num">0</span>);
+        <span class="var">fireLight</span>.intensity = <span class="var">baseIntensity</span> + (<span class="var">noise</span> - <span class="num">0.5f</span>) * <span class="var">flickerAmount</span>;
+        <span class="cm">// Optional: slight color shift hot→cool</span>
+        <span class="var">fireLight</span>.color = Color.<span class="fn">Lerp</span>(
+            <span class="kw">new</span> Color(<span class="num">1f</span>, <span class="num">0.5f</span>, <span class="num">0.1f</span>),
+            <span class="kw">new</span> Color(<span class="num">1f</span>, <span class="num">0.8f</span>, <span class="num">0.3f</span>),
+            <span class="var">noise</span>);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Snow</button>
+    <button class="btn btn-next" onclick="next(3)">Water &amp; Bubbles →</button>
+  </div>
+</section>
+
+<!-- ===== L4: WATER/BUBBLES ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>💧 Water &amp; Bubbles</h2>
+    <p class="lesson-intro">Drips, splashes, water jets, rising bubbles, and underwater ambient particles.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💧 Water Drip Effect</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 0.8, Speed: 4, Start Size: 0.08, Gravity: 2, Max: 20.</li>
+      <li>Emission: Burst — 1 particle every 0.5 seconds (drip drip drip).</li>
+      <li>Shape: Point (single emission point).</li>
+      <li>Velocity: Y: -5 (falls down), no X deviation for clean drip.</li>
+      <li>Color: rgba(100,180,255,0.9) → transparent. Size over Lifetime: constant then rapid shrink at end (splat).</li>
+      <li>Sub Emitters → Collision: tiny splash burst (5 particles in cone, upward, size 0.04, lifetime 0.3).</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🫧 Bubbles (Rising)</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 2–4, Speed: 0.5–1.5, Start Size: 0.05–0.2 (random), Gravity: -0.5 (negative = floats up), Max: 80.</li>
+      <li>Emission: Rate: 15.</li>
+      <li>Shape: Box (represents underwater floor area). Width/Depth: 5, Height: 0.</li>
+      <li>Velocity over Lifetime: Y: 1. Slight X wobble (sin oscillation ±0.2).</li>
+      <li>Color: rgba(150,220,255,0.6) → rgba(200,240,255,0.1). Semi-transparent, fades at top.</li>
+      <li>Size over Lifetime: small → grows slightly → pops (shrinks to 0 at end).</li>
+      <li>Renderer: Material with a circle sprite, set to <strong>Transparent</strong> blend (not additive — bubbles aren't glowing).</li>
+    </ol>
+    <div class="callout fun">
+      <span class="callout-emoji">🫧</span>
+      <div class="callout-body"><strong>Bubble Pop</strong>Use Sub Emitters → Death: spawn a tiny 1-frame sparkle burst (4 particles, outward, white, size 0.03). This gives the satisfying "pop" visual when a bubble reaches the surface.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💦 Water Jet / Fountain</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 1–2, Speed: 8–12, Gravity: 2, Start Size: 0.1–0.15, Max: 200.</li>
+      <li>Emission: Rate: 150.</li>
+      <li>Shape: Cone, Angle: 5–15 (tight stream), Radius: 0.02.</li>
+      <li>Velocity over Lifetime: Limit over Lifetime: 0.5 (drag — slows particles naturally like water).</li>
+      <li>Collision Module: Enable → Type: World. Dampen: 0.2, Bounce: 0.1. Particles collide with the ground/pool surface.</li>
+      <li>Sub Emitters → Collision: splash burst.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Fire</button>
+    <button class="btn btn-next" onclick="next(4)">Ocean →</button>
+  </div>
+</section>
+
+<!-- ===== L5: OCEAN ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>🌊 Ocean &amp; Water Surface</h2>
+    <p class="lesson-intro">Ocean uses a combination of a shader-animated mesh + particle foam/spray — not a pure particle system.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌊 Ocean Architecture</div>
+    <p>Real game oceans combine <strong>three systems</strong>:</p>
+    <div class="module-grid">
+      <div class="module-card" style="--c:#00d4ff"><h5>1. Wave Mesh Shader</h5><p>A subdivided plane animated by a Shader Graph vertex displacement using sine waves.</p></div>
+      <div class="module-card" style="--c:#06d6a0"><h5>2. Foam Particles</h5><p>White particle sprites along wave crests and shorelines.</p></div>
+      <div class="module-card" style="--c:#c77dff"><h5>3. Spray Particles</h5><p>Fine mist particles above wave crests, additive blend.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌊 Ocean Shader (Shader Graph)</div>
+    <ol class="step-list">
+      <li>Create a Shader Graph: URP Lit. Set Surface: Transparent.</li>
+      <li>In Vertex stage: add a <strong>Position</strong> node (object space). Feed the Y into a <strong>Sine</strong> node driven by <code>Time × waveSpeed + X × waveFrequency</code>. Output to Vertex Position Y. This makes the mesh ripple.</li>
+      <li>For depth color: sample screen-space depth, blend between shallow color (light cyan) and deep color (dark blue) based on depth value.</li>
+      <li>Add Normal Map from a tiling water normal texture, scrolling over time (two UV sets scrolling in opposite directions for complex ripple).</li>
+      <li>Set Smoothness: 0.95. Specular: high. This gives the glossy water look.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Mobile Ocean</strong>For mobile, skip vertex displacement (expensive on lower-end GPUs). Use a flat plane with a good scrolling normal map + color gradient. Add foam particles along edges. This looks 90% as good at 10% the cost.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏄 Foam &amp; Spray Particles</div>
+    <ol class="step-list">
+      <li><strong>Foam:</strong> Large, white, soft-edged circle sprites. Lifetime: 2–4, Speed: 0, Size: 0.5–1.5. Shape: Edge along shoreline or wave crest. Alpha blend, not additive. Slow fade-in and fade-out.</li>
+      <li><strong>Spray/Mist:</strong> Tiny white dots. Lifetime: 0.5–1, Speed: 1–3 (upward + outward from wave). Additive blend. Size: 0.03–0.08. Noise Strength: 1. Creates fine water mist that catches light beautifully.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Water</button>
+    <button class="btn btn-next" onclick="next(5)">Fireballs →</button>
+  </div>
+</section>
+
+<!-- ===== L6: FIREBALLS ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>🔴 Fireballs &amp; Projectiles</h2>
+    <p class="lesson-intro">A moving fireball with trailing fire, a glowing core, and an impact explosion — all driven from a prefab that travels through the scene.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔴 Fireball Prefab Structure</div>
+    <div class="scene-diagram">
+<span class="node">Fireball (GameObject)</span>
+├── <span class="comp">SphereCollider</span>          — hit detection
+├── <span class="comp">Rigidbody</span> (Kinematic)   — position controlled by script
+├── <span class="comp">Light</span>                   — orange point light, range 3, intensity 5
+├── <span class="comp">FireballCore</span> (PS)       — glowing sphere sprite, additive
+├── <span class="comp">FireTrail</span> (PS)          — fire particles streaming backward
+└── <span class="comp">FireballScript</span>          — moves forward, triggers explosion on hit
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 Fireball Trail Settings</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 0.6, Speed: 0, Start Size: 0.4–0.8, Max: 100. <strong>Simulation Space: World</strong> (critical — trail stays behind in world space as fireball moves).</li>
+      <li>Emission: Rate: 60.</li>
+      <li>Shape: Sphere, Radius: 0.1. Emits in all directions from the fireball center.</li>
+      <li>Velocity over Lifetime: Orbital mode — slight spiral for swirling fire trail.</li>
+      <li>Color over Lifetime: <code>white → yellow → orange → red → transparent</code>.</li>
+      <li>Size over Lifetime: 1 → 0. Shrinks as the trail ages (particles get smaller as they fall behind).</li>
+      <li>Noise: Strength: 0.8, Frequency: 3. Organic swirling motion.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Impact Explosion (On Hit)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — FireballController.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">Fireball</span> : MonoBehaviour
+{
+    <span class="kw">public float</span>         <span class="var">speed</span>     = <span class="num">12f</span>;
+    <span class="kw">public</span> ParticleSystem <span class="var">explosion</span>;
+    <span class="kw">public float</span>         <span class="var">damage</span>    = <span class="num">40f</span>;
+    <span class="kw">public float</span>         <span class="var">blastRadius</span> = <span class="num">3f</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        transform.<span class="fn">Translate</span>(Vector3.forward * <span class="var">speed</span> * Time.deltaTime);
+    }
+
+    <span class="kw">void</span> <span class="fn">OnTriggerEnter</span>(Collider other)
+    {
+        <span class="kw">if</span> (other.CompareTag(<span class="str">"Player"</span>) || other.CompareTag(<span class="str">"Environment"</span>))
+        {
+            <span class="fn">Explode</span>();
+        }
+    }
+
+    <span class="kw">void</span> <span class="fn">Explode</span>()
+    {
+        <span class="cm">// Detach explosion, disable travel</span>
+        <span class="kw">var</span> vfx = Instantiate(<span class="var">explosion</span>, transform.position, Quaternion.identity);
+        vfx.<span class="fn">Play</span>();
+        Destroy(vfx.gameObject, <span class="num">3f</span>);
+
+        <span class="cm">// Area damage</span>
+        Collider[] hits = Physics.<span class="fn">OverlapSphere</span>(transform.position, <span class="var">blastRadius</span>);
+        <span class="kw">foreach</span> (<span class="kw">var</span> h <span class="kw">in</span> hits)
+        {
+            <span class="kw">var</span> hp = h.GetComponent&lt;Health&gt;();
+            <span class="kw">if</span> (hp != <span class="kw">null</span>) hp.<span class="fn">TakeDamage</span>(<span class="var">damage</span>);
+        }
+
+        Destroy(gameObject);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Explosion Particle System</div>
+    <ol class="step-list">
+      <li>Shape: Sphere, Radius: 0.3. Emits in all directions.</li>
+      <li>Emission: Burst — Count: 60, Time: 0. One massive simultaneous burst.</li>
+      <li>Main: Lifetime: 0.6–1.2, Speed: 5–15 (fast outward), Size: 0.3–0.8, Gravity: 0.5.</li>
+      <li>Color: white → orange → dark red → transparent (fast fade).</li>
+      <li>Add a separate <strong>Shockwave</strong>: a single disc particle, starts small, expands quickly, flat, additive white. Size over Lifetime: 0 → 3 over 0.3 seconds.</li>
+      <li>Add <strong>Debris</strong> sub-system: dark gray chunks, gravity 2, bounce collision, slow rotation. Stays on the ground after explosion.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Ocean</button>
+    <button class="btn btn-next" onclick="next(6)">Magic &amp; Spells →</button>
+  </div>
+</section>
+
+<!-- ===== L7: MAGIC ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>🔮 Magic &amp; Spells</h2>
+    <p class="lesson-intro">Portal vortex, floating rune particles, energy beams, magic circle, and a fully scripted spell casting system.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ Magic Sparkle Effect (Basic)</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 1–2, Speed: 0.5–2, Start Size: 0.05–0.15, Max: 150.</li>
+      <li>Emission: Rate: 40. Also add 3 Bursts spaced 0.5s apart, Count: 8.</li>
+      <li>Shape: Sphere, Radius: 0.5. Particles spawn in a sphere around the caster.</li>
+      <li>Velocity over Lifetime: <strong>Orbital</strong> — X: 2, Y: 2. Particles orbit the center like electrons around an atom.</li>
+      <li>Color: random from gradient: purple, cyan, white, gold. Use "Random Between Two Colors" mode for magical variety.</li>
+      <li>Noise: Strength: 0.5, Frequency: 1.5. Subtle shimmer movement.</li>
+      <li>Trails Module: Enable → Lifetime: 0.3, Width: 0.02. Each sparkle leaves a short glowing trail.</li>
+      <li>Renderer: Star or cross sprite, Additive blend.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌀 Portal Vortex</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 2, Speed: 1–3, Gravity: 0, Max: 300.</li>
+      <li>Shape: <strong>Circle</strong>, Radius: 2, Emit from Edge. Particles start at the outer edge.</li>
+      <li>Velocity over Lifetime: <strong>Orbital</strong> — spin particles. Also add <strong>Linear Y</strong>: slight pull toward center.</li>
+      <li>Color: outer starts dark, inner goes bright cyan/purple. Over Lifetime: dark purple → bright cyan → white.</li>
+      <li>Size over Lifetime: starts large, shrinks to 0 as they reach center (sucked in).</li>
+      <li>Rotation over Lifetime: 180 deg/sec. Particles spin as they spiral inward.</li>
+      <li>Add a second system with larger, slower particles (ring wisps) for layered depth.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Energy Beam (Line Renderer + Particles)</div>
+    <p>A beam is a <strong>LineRenderer</strong> for the core, plus particle systems for charge-up and impact.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — MagicBeam.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">MagicBeam</span> : MonoBehaviour
+{
+    <span class="kw">public</span> LineRenderer  <span class="var">beam</span>;
+    <span class="kw">public</span> Transform     <span class="var">target</span>;
+    <span class="kw">public</span> ParticleSystem <span class="var">impactVFX</span>;
+    <span class="kw">public float</span>         <span class="var">widthPulse</span> = <span class="num">0.05f</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="cm">// Draw beam from caster to target</span>
+        <span class="var">beam</span>.<span class="fn">SetPosition</span>(<span class="num">0</span>, transform.position);
+        <span class="var">beam</span>.<span class="fn">SetPosition</span>(<span class="num">1</span>, <span class="var">target</span>.position);
+
+        <span class="cm">// Pulse the width for energy feel</span>
+        <span class="kw">float</span> w = <span class="var">widthPulse</span> + Mathf.<span class="fn">Sin</span>(Time.time * <span class="num">20f</span>) * <span class="num">0.01f</span>;
+        <span class="var">beam</span>.startWidth = w;
+        <span class="var">beam</span>.endWidth   = w * <span class="num">0.5f</span>;
+
+        <span class="cm">// Move impact VFX to beam endpoint</span>
+        <span class="var">impactVFX</span>.transform.position = <span class="var">target</span>.position;
+    }
+}</pre>
+    </div>
+    <p>Set the LineRenderer material to Additive + a beam texture (white gradient from center to edge). Add a blue/purple point light to the target impact VFX.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔯 Magic Circle Ground Effect</div>
+    <ol class="step-list">
+      <li>Create a flat quad at Y=0.01 (just above ground). Material: Additive, with a magic circle rune texture. Animate rotation via script.</li>
+      <li>Add a particle system on the circle edge (Shape: Circle, Radius: 1.5, Emit from Edge). Slow-rising magical wisps.</li>
+      <li>Add rising rune sprites (Texture Sheet Animation module, multiple rune frames, random start frame). Particles float up and fade.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Fireballs</button>
+    <button class="btn btn-next" onclick="next(7)">Glow &amp; Bloom →</button>
+  </div>
+</section>
+
+<!-- ===== L8: GLOW ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>✨ Glow &amp; Bloom</h2>
+    <p class="lesson-intro">URP Bloom post-processing, emissive materials, glowing particles, HDR colors, and the full pipeline for making things luminous.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 How Glow Works in Unity</div>
+    <p>Glow is not a particle effect — it's a <strong>post-processing effect called Bloom</strong>. Here's how the pipeline works:</p>
+    <ol class="step-list">
+      <li>Objects use <strong>HDR (High Dynamic Range)</strong> colors — values above 1.0 in the color picker. Normal colors max at 1.0; HDR goes to 3.0, 5.0, 10.0+.</li>
+      <li>URP renders the scene normally.</li>
+      <li><strong>Bloom post-process</strong> reads all pixels brighter than a threshold and bleeds their light outward — creating the glow halo.</li>
+      <li>Result: anything emitting HDR light glows. Regular colored objects don't.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Setting Up Bloom</div>
+    <ol class="step-list">
+      <li>Project Settings → Graphics → Scriptable Render Pipeline Settings → your URP asset. Ensure <strong>HDR: On</strong> and <strong>Post Processing: On</strong>.</li>
+      <li>In Scene: Add → Volume → Global Volume. Add a new Profile.</li>
+      <li>Add Override → <strong>Bloom</strong>. Set Threshold: 1.0 (glow anything above this), Intensity: 0.5–1.5, Scatter: 0.7.</li>
+      <li>Also add <strong>Color Adjustments</strong> (slight saturation +10) and <strong>Vignette</strong> for atmosphere.</li>
+      <li>On Camera: ensure <strong>Post Processing: ✅</strong>.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Enable HDR on Camera</strong>Edit → Project Settings → Quality → HDR must be enabled, AND the Camera component must have Allow HDR checked. Without both, Bloom won't work.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Making Things Glow</div>
+    <div class="two-col">
+      <div>
+        <p><strong>Emissive Material:</strong></p>
+        <ol class="step-list">
+          <li>Material → URP/Lit → enable <strong>Emission</strong>.</li>
+          <li>Set Emission Color using the HDR color picker — drag intensity above 1.0.</li>
+          <li>This material now glows wherever Bloom is active.</li>
+        </ol>
+      </div>
+      <div>
+        <p><strong>Glowing Particle:</strong></p>
+        <ol class="step-list">
+          <li>Additive particle material automatically glows with Bloom enabled.</li>
+          <li>Set Start Color to HDR white (intensity 3.0+).</li>
+          <li>White additive particles become intense bloom halos.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ Glowing Firefly Effect</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 4–8, Speed: 0.2–0.8, Size: 0.06–0.1, Max: 30, Simulation Space: World.</li>
+      <li>Shape: Box covering scene area.</li>
+      <li>Velocity over Lifetime: Random between (-1,-0.5,-1) and (1,0.5,1). Gentle drifting.</li>
+      <li>Noise: Strength: 0.5, Frequency: 0.3, Scroll Speed: 0.1. Organic flight pattern.</li>
+      <li>Color over Lifetime: starts transparent, peaks at HDR yellow-green (R:0.6, G:1.0, B:0.2, A:1.0, Intensity: 2.5), fades out. Pulsing blink effect.</li>
+      <li>Lights Module: Ratio: 0.5. Half of fireflies emit a real point light (range 0.8, intensity 0.6, color warm green).</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Magic</button>
+    <button class="btn btn-next" onclick="next(8)">Dynamic Lights →</button>
+  </div>
+</section>
+
+<!-- ===== L9: LIGHTS ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>💡 Dynamic Lights</h2>
+    <p class="lesson-intro">Particle-driven lights, animated light patterns, color-shifting dramatic effects, and the Lights module deep dive.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 The Particle Lights Module</div>
+    <p>The <strong>Lights</strong> module in a Particle System lets each particle emit a real-time Unity Light. Used carefully, this creates incredible interactive lighting from effects.</p>
+    <table class="prop-table">
+      <tr><th>Property</th><th>Description</th></tr>
+      <tr><td>Light</td><td>Assign a Point Light prefab here</td></tr>
+      <tr><td>Ratio</td><td>0.0–1.0 — what fraction of particles get a light. Keep below 0.3 for performance.</td></tr>
+      <tr><td>Random Distribution</td><td>Which particles get lights (random vs all)</td></tr>
+      <tr><td>Use Particle Color</td><td>Light color matches particle color (great for fire!)</td></tr>
+      <tr><td>Size Affects Range</td><td>Bigger particles = bigger light radius</td></tr>
+      <tr><td>Alpha Affects Intensity</td><td>Fading particles dim their lights (very realistic)</td></tr>
+      <tr><td>Range Multiplier</td><td>Scale the light radius</td></tr>
+      <tr><td>Intensity Multiplier</td><td>Scale brightness</td></tr>
+      <tr><td>Maximum Lights</td><td>Hard cap — never exceed 8 for mobile</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕯️ Candle / Torch System</div>
+    <ol class="step-list">
+      <li>Create the flame particle system (see Fire module). Layer: Core, Mid, Embers.</li>
+      <li>On the Embers system → Lights Module → assign a warm orange Point Light prefab. Ratio: 0.2. Max: 3.</li>
+      <li>On a parent GameObject, attach FireLightFlicker.cs. Perlin noise drives intensity fluctuation.</li>
+      <li>Result: 2–3 dynamic lights from embers, plus the base flicker, creates convincingly real torch lighting.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Bake the Main Light</strong>For a dungeon scene with 20 torches: bake a warm orange light contribution from each torch position. Only the flicker (delta from baked) needs to be realtime. This is how games handle many lights — fake it with baking.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎭 Scripted Light Animation (No Particles)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — LightAnimator.cs (Police Siren, Alarm, Disco)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">LightAnimator</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Light <span class="var">lt</span>;
+    <span class="kw">public enum</span> <span class="cl">Mode</span> { Siren, Alarm, Flicker, Pulse }
+    <span class="kw">public</span> <span class="cl">Mode</span> <span class="var">mode</span>;
+    <span class="kw">public float</span> <span class="var">speed</span> = <span class="num">3f</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">float</span> t = Time.time * <span class="var">speed</span>;
+        <span class="kw">switch</span> (<span class="var">mode</span>) {
+            <span class="kw">case</span> <span class="cl">Mode</span>.Siren:
+                <span class="var">lt</span>.color = Mathf.<span class="fn">Sin</span>(t) > <span class="num">0</span>
+                    ? Color.red : Color.blue;
+                <span class="var">lt</span>.intensity = <span class="num">5f</span>; <span class="kw">break</span>;
+
+            <span class="kw">case</span> <span class="cl">Mode</span>.Alarm:
+                <span class="var">lt</span>.intensity = Mathf.<span class="fn">PingPong</span>(t * <span class="num">2</span>, <span class="num">6f</span>); <span class="kw">break</span>;
+
+            <span class="kw">case</span> <span class="cl">Mode</span>.Flicker:
+                <span class="var">lt</span>.intensity = Mathf.<span class="fn">PerlinNoise</span>(t, <span class="num">0</span>) * <span class="num">5f</span>; <span class="kw">break</span>;
+
+            <span class="kw">case</span> <span class="cl">Mode</span>.Pulse:
+                <span class="var">lt</span>.intensity = (<span class="num">1</span> + Mathf.<span class="fn">Sin</span>(t)) * <span class="num">2.5f</span>; <span class="kw">break</span>;
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Glow</button>
+    <button class="btn btn-next" onclick="next(9)">Lightning →</button>
+  </div>
+</section>
+
+<!-- ===== L10: LIGHTNING ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>⚡ Lightning &amp; Electricity</h2>
+    <p class="lesson-intro">Procedural lightning bolts, electric arc particles, charged-up VFX, and a Tesla coil effect.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Lightning Bolt — LineRenderer Method</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — LightningBolt.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">LightningBolt</span> : MonoBehaviour
+{
+    <span class="kw">public</span> LineRenderer <span class="var">lr</span>;
+    <span class="kw">public</span> Transform    <span class="var">start</span>, <span class="var">end</span>;
+    <span class="kw">public int</span>          <span class="var">segments</span>    = <span class="num">12</span>;
+    <span class="kw">public float</span>        <span class="var">jaggedness</span>  = <span class="num">0.4f</span>;
+    <span class="kw">public float</span>        <span class="var">refreshRate</span> = <span class="num">0.03f</span>;
+    <span class="kw">private float</span>       <span class="var">timer</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="var">timer</span> -= Time.deltaTime;
+        <span class="kw">if</span> (<span class="var">timer</span> > <span class="num">0</span>) <span class="kw">return</span>;
+        <span class="var">timer</span> = <span class="var">refreshRate</span>;
+        <span class="fn">GenerateBolt</span>(<span class="var">start</span>.position, <span class="var">end</span>.position);
+    }
+
+    <span class="kw">void</span> <span class="fn">GenerateBolt</span>(Vector3 a, Vector3 b)
+    {
+        <span class="var">lr</span>.positionCount = <span class="var">segments</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="var">segments</span>; i++)
+        {
+            <span class="kw">float</span>   t    = (<span class="kw">float</span>)i / (<span class="var">segments</span> - <span class="num">1</span>);
+            Vector3 mid  = Vector3.<span class="fn">Lerp</span>(a, b, t);
+            Vector3 perp = Vector3.<span class="fn">Cross</span>((b - a).<span class="fn">normalized</span>, Vector3.forward);
+            mid += perp * Random.<span class="fn">Range</span>(-<span class="var">jaggedness</span>, <span class="var">jaggedness</span>);
+            mid += Vector3.up * Random.<span class="fn">Range</span>(-<span class="var">jaggedness</span>, <span class="var">jaggedness</span>);
+            <span class="var">lr</span>.<span class="fn">SetPosition</span>(i, mid);
+        }
+    }
+}</pre>
+    </div>
+    <p>Set the LineRenderer material to Additive with a bright blue-white gradient. Set Width: 0.02. The bolt regenerates every 30ms to create the electric flicker.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Electric Sparks Particle System</div>
+    <ol class="step-list">
+      <li>Main: Lifetime: 0.2–0.5, Speed: 3–8, Start Size: 0.03–0.06, Gravity: 1, Max: 80.</li>
+      <li>Emission: Rate: 0. Bursts only — 10–20 sparks every 0.05 seconds.</li>
+      <li>Shape: Point or tiny Sphere (radius 0.05).</li>
+      <li>Velocity: Random outward in all directions. Speed: 5–12.</li>
+      <li>Color: white → blue-white → transparent. Very fast fade.</li>
+      <li>Rotation: 360 deg/sec random. Sparks tumble.</li>
+      <li>Renderer: Stretched Billboard, Speed Scale: 0.8. Sparks leave bright streaks.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Lights</button>
+    <button class="btn btn-next" onclick="next(10)">Explosions →</button>
+  </div>
+</section>
+
+<!-- ===== L11: EXPLOSIONS ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>💥 Explosions &amp; Impact Effects</h2>
+    <p class="lesson-intro">Full explosion prefab system — shockwave, flash, debris, smoke, fire aftermath, and screen shake integration.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Explosion Prefab — Layer Stack</div>
+    <div class="module-grid">
+      <div class="module-card" style="--c:#ffffff"><h5>1. Flash</h5><p>Instant white sphere. Lifetime: 0.1s. Single burst of 1 giant particle. Size: 5. Additive. The eye-searing first frame.</p></div>
+      <div class="module-card" style="--c:#ffd166"><h5>2. Fireball</h5><p>Expanding orange sphere. Lifetime: 0.6s. Size: 0→3 quickly. Additive fire material.</p></div>
+      <div class="module-card" style="--c:#ff6b35"><h5>3. Shockwave</h5><p>Ring disc expanding outward. Single flat particle, scale 0→6 in 0.2s. Rim-lit additive ring texture.</p></div>
+      <div class="module-card" style="--c:#5a5880"><h5>4. Smoke</h5><p>Large billowing gray clouds. Lifetime: 3–6s. Size: 2→8. Alpha blend. Slow turbulent rise.</p></div>
+      <div class="module-card" style="--c:#8b4513"><h5>5. Debris</h5><p>Dark chunks flying outward. Gravity, bounce, real collision. Stays on ground permanently.</p></div>
+      <div class="module-card" style="--c:#ff4400"><h5>6. Sparks</h5><p>Fast bright orange lines. Stretched billboard, Speed Scale 1.5. Short lifetime (0.3s). Sizzle out quickly.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📳 Screen Shake (Camera Trauma)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — CameraShake.cs (Trauma System)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">CameraShake</span> : MonoBehaviour
+{
+    <span class="kw">public static</span> CameraShake <span class="var">I</span>;
+    <span class="kw">private float</span> <span class="var">trauma</span>;
+    <span class="kw">private float</span> <span class="var">seed</span>;
+    <span class="kw">public float</span>  <span class="var">maxAngle</span>    = <span class="num">10f</span>;
+    <span class="kw">public float</span>  <span class="var">maxOffset</span>   = <span class="num">0.3f</span>;
+    <span class="kw">public float</span>  <span class="var">traumaDecay</span> = <span class="num">1.5f</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => <span class="var">I</span> = <span class="kw">this</span>;
+
+    <span class="kw">public void</span> <span class="fn">AddTrauma</span>(<span class="kw">float</span> amount) =>
+        <span class="var">trauma</span> = Mathf.<span class="fn">Clamp01</span>(<span class="var">trauma</span> + amount);
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">if</span> (<span class="var">trauma</span> &lt;= <span class="num">0f</span>) { <span class="var">trauma</span> = <span class="num">0</span>; <span class="kw">return</span>; }
+
+        <span class="kw">float</span> shake = <span class="var">trauma</span> * <span class="var">trauma</span>; <span class="cm">// quadratic = natural falloff</span>
+        <span class="var">seed</span> += Time.deltaTime;
+
+        transform.localRotation = Quaternion.Euler(
+            <span class="var">maxAngle</span> * shake * Mathf.<span class="fn">PerlinNoise</span>(<span class="var">seed</span>, <span class="num">0</span>),
+            <span class="var">maxAngle</span> * shake * Mathf.<span class="fn">PerlinNoise</span>(<span class="var">seed</span>, <span class="num">1</span>),
+            <span class="var">maxAngle</span> * shake * Mathf.<span class="fn">PerlinNoise</span>(<span class="var">seed</span>, <span class="num">2</span>));
+
+        <span class="var">trauma</span> -= <span class="var">traumaDecay</span> * Time.deltaTime;
+    }
+}
+
+<span class="cm">// Usage anywhere — e.g. in explosion script:</span>
+<span class="cm">// CameraShake.I.AddTrauma(0.6f);</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Lightning</button>
+    <button class="btn btn-next" onclick="next(11)">Mobile Optimization →</button>
+  </div>
+</section>
+
+<!-- ===== L12: OPTIMIZATION ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13 🏁</div>
+    <h2>📱 Mobile FX Optimization</h2>
+    <p class="lesson-intro">Hit 60fps with great-looking effects — GPU budgets, LOD particles, culling, pooling, and the mobile FX checklist.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Mobile Particle Budget</div>
+    <table class="prop-table">
+      <tr><th>Effect</th><th>Safe Mobile Count</th><th>Max Count</th></tr>
+      <tr><td>Rain</td><td>500</td><td>1500</td></tr>
+      <tr><td>Snow</td><td>150</td><td>400</td></tr>
+      <tr><td>Fire (campfire)</td><td>80</td><td>200</td></tr>
+      <tr><td>Magic sparkles</td><td>60</td><td>150</td></tr>
+      <tr><td>Explosion (one-shot)</td><td>80</td><td>200</td></tr>
+      <tr><td>Simultaneous explosions</td><td>2 max</td><td>4 max</td></tr>
+      <tr><td>Particle lights</td><td>4 max</td><td>8 absolute max</td></tr>
+      <tr><td>Total scene particles</td><td>&lt;2000</td><td>5000 risk</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">♻️ Particle Pooling</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — VFXPool.cs (Singleton)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">VFXPool</span> : MonoBehaviour
+{
+    <span class="kw">public static</span> VFXPool <span class="var">I</span>;
+    [System.Serializable]
+    <span class="kw">public class</span> <span class="cl">VFXEntry</span> {
+        <span class="kw">public string</span>         <span class="var">id</span>;
+        <span class="kw">public</span> ParticleSystem <span class="var">prefab</span>;
+        <span class="kw">public int</span>            <span class="var">poolSize</span> = <span class="num">5</span>;
+    }
+    <span class="kw">public</span> VFXEntry[] <span class="var">effects</span>;
+    <span class="kw">private</span> Dictionary&lt;string, Queue&lt;ParticleSystem&gt;&gt; <span class="var">pools</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() {
+        <span class="var">I</span>     = <span class="kw">this</span>;
+        <span class="var">pools</span> = <span class="kw">new</span> Dictionary&lt;string, Queue&lt;ParticleSystem&gt;&gt;();
+        <span class="kw">foreach</span> (<span class="kw">var</span> e <span class="kw">in</span> <span class="var">effects</span>) {
+            <span class="kw">var</span> q = <span class="kw">new</span> Queue&lt;ParticleSystem&gt;();
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; e.poolSize; i++) {
+                <span class="kw">var</span> ps = Instantiate(e.prefab);
+                ps.gameObject.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+                q.<span class="fn">Enqueue</span>(ps);
+            }
+            <span class="var">pools</span>[e.id] = q;
+        }
+    }
+
+    <span class="kw">public void</span> <span class="fn">Play</span>(<span class="kw">string</span> id, Vector3 pos)
+    {
+        <span class="kw">if</span> (!<span class="var">pools</span>.<span class="fn">ContainsKey</span>(id) || <span class="var">pools</span>[id].Count == <span class="num">0</span>) <span class="kw">return</span>;
+        <span class="kw">var</span> ps = <span class="var">pools</span>[id].<span class="fn">Dequeue</span>();
+        ps.transform.position = pos;
+        ps.gameObject.<span class="fn">SetActive</span>(<span class="kw">true</span>);
+        ps.<span class="fn">Play</span>();
+        <span class="fn">StartCoroutine</span>(<span class="fn">Return</span>(id, ps));
+    }
+
+    IEnumerator <span class="fn">Return</span>(<span class="kw">string</span> id, ParticleSystem ps)
+    {
+        <span class="kw">yield return new</span> WaitForSeconds(ps.main.duration + <span class="num">0.5f</span>);
+        ps.<span class="fn">Stop</span>(<span class="kw">true</span>, ParticleSystemStopBehavior.StopEmittingAndClear);
+        ps.gameObject.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+        <span class="var">pools</span>[id].<span class="fn">Enqueue</span>(ps);
+    }
+}
+
+<span class="cm">// Usage: VFXPool.I.Play("Explosion", hitPoint);</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Mobile FX Checklist</div>
+    <table class="prop-table">
+      <tr><th>Check</th><th>Why It Matters</th></tr>
+      <tr><td>✅ Max Particles set on every system</td><td>Prevents runaway spawn on slow devices</td></tr>
+      <tr><td>✅ Culling Mode: Pause And Catch Up</td><td>Stops off-screen particles from simulating</td></tr>
+      <tr><td>✅ Ring Buffer mode on looping FX</td><td>Reuses particle slots instead of allocating</td></tr>
+      <tr><td>✅ Texture atlases for particle sprites</td><td>One draw call for all particle types</td></tr>
+      <tr><td>✅ Particle Lights: Max ≤ 4 per system</td><td>Real-time lights are expensive on mobile</td></tr>
+      <tr><td>✅ Bloom Intensity ≤ 1.5</td><td>High bloom = GPU bandwidth spike</td></tr>
+      <tr><td>✅ No PolygonCollider on particle collision</td><td>Use simplified colliders for particle physics</td></tr>
+      <tr><td>✅ All one-shot FX pooled</td><td>Destroy() causes GC spikes = frame drops</td></tr>
+      <tr><td>✅ Profiler tested on real device</td><td>PC performance ≠ phone performance</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Final FX Challenge</div>
+    <h4>Build a Complete Death Road Weather System</h4>
+    <ul>
+      <li>Rain (400 particles/sec) with splash sub-emitter</li>
+      <li>Distant lightning (LineRenderer bolt + flash + thunder sound)</li>
+      <li>Campfire with 3 layers + flickering point light + embers</li>
+      <li>Magic healing effect on player (orbital sparkles + bloom + circle ground projection)</li>
+      <li>Explosion on enemy death (flash + shockwave + debris + smoke + screen shake)</li>
+      <li>All FX pooled, all particle counts within mobile budget</li>
+      <li>Bloom post-processing enabled and tuned</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(12)">← Explosions</button>
+    <button class="btn btn-next" disabled>Mastery Complete! ✨</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 13;
+const done  = new Set();
+let   cur   = 0;
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function next(i) { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i) { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+done.add(0);
+updateBar();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

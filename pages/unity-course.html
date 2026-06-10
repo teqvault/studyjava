@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unity Mobile Game Dev | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+  <link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<style>
+  /* Unity-specific accent override: orange/green game feel */
+  .header-badge { background: linear-gradient(90deg, #ff6b35, #06d6a0); }
+  header h1 { background: linear-gradient(135deg, #fff 20%, #ff6b35 60%, #ffd166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  header::before {
+    background: radial-gradient(circle at 25% 50%, rgba(255,107,53,0.18) 0%, transparent 60%),
+                radial-gradient(circle at 75% 30%, rgba(6,214,160,0.14) 0%, transparent 50%);
+  }
+  .nav-item.active { border-left-color: #ff6b35; }
+  .lesson-num { color: #ff6b35; }
+  .unity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 22px 0; }
+  .unity-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    border-top: 3px solid var(--accent);
+    transition: transform 0.2s;
+  }
+  .unity-card:hover { transform: translateY(-4px); }
+  .unity-card .uc-icon { font-size: 2rem; margin-bottom: 10px; }
+  .unity-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 6px; }
+  .unity-card p { font-size: 0.87rem; color: var(--muted); }
+  .step-list { counter-reset: step; list-style: none; padding: 0; }
+  .step-list li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+    color: #d4d4e8;
+  }
+  .step-list li::before {
+    content: counter(step);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #ff6b35, #ffd166);
+    color: #0f0e17;
+    font-weight: 900;
+    font-size: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .spec-table th { color: #ff6b35; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 18px 0; }
+  @media(max-width:600px) { .two-col { grid-template-columns: 1fr; } }
+  .scene-diagram {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.83rem;
+    color: #a7a9be;
+    line-height: 2;
+    margin: 18px 0;
+  }
+  .scene-diagram .node { color: #ffd166; }
+  .scene-diagram .comp { color: #06d6a0; }
+  .scene-diagram .val  { color: #ff9f6b; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Unity Mobile Game Dev</h1>
+  <p>Master 2D, 3D, and 2.5D game development for mobile — from your first scene to shipping on Android &amp; iOS.</p>
+  <div class="header-stars">🎮 🕹️ 📱 🎯 ⚔️</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🚀</span> Getting Started <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🗂️</span> Unity Interface <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">📐</span> 2D Foundations <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🧩</span> 2D Physics &amp; Colliders <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🎞️</span> 2D Animation <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🧊</span> 3D Fundamentals <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">💡</span> Lighting &amp; Materials <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🌐</span> 2.5D — The Death Road Way <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">📱</span> Mobile Input &amp; Touch <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🎨</span> UI &amp; HUD Systems <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🤖</span> AI &amp; Pathfinding <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">⚡</span> Mobile Optimization <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">📦</span> Build &amp; Ship <span class="nav-check" id="chk12"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ===== LESSON 0: Getting Started ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>Getting Started with Unity</h2>
+    <p class="lesson-intro">Set up Unity Hub, create your first mobile project, and understand how Unity's project structure maps to real game architecture.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎮 What is Unity?</div>
+    <p>Unity is a cross-platform game engine used by millions of indie and AAA studios. It runs on C# and supports 2D, 3D, AR, VR, and mobile targets — all from one editor. Games like <strong>Pokémon GO, Among Us, Hollow Knight,</strong> and <strong>Last Day on Earth</strong> were built in Unity.</p>
+    <div class="section-divider"><span>why unity for mobile</span></div>
+    <div class="unity-grid">
+      <div class="unity-card" style="--accent:#ff6b35"><div class="uc-icon">📱</div><h4>Android + iOS</h4><p>One codebase builds to both platforms with platform-specific modules.</p></div>
+      <div class="unity-card" style="--accent:#06d6a0"><div class="uc-icon">🏪</div><h4>Asset Store</h4><p>Thousands of free and paid assets — animations, shaders, UI kits.</p></div>
+      <div class="unity-card" style="--accent:#ffd166"><div class="uc-icon">⚡</div><h4>C# Scripting</h4><p>Full .NET runtime with modern C# features and excellent IDE support.</p></div>
+      <div class="unity-card" style="--accent:#c77dff"><div class="uc-icon">🆓</div><h4>Free Tier</h4><p>Personal license is free for projects earning under $200k/year.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📥 Installation Checklist</div>
+    <ol class="step-list">
+      <li>Download <strong>Unity Hub</strong> from unity.com/download — this manages all your Unity versions.</li>
+      <li>In Unity Hub → Installs → Install Editor → choose <strong>Unity 6</strong> (LTS recommended for mobile).</li>
+      <li>When installing, check: <strong>Android Build Support</strong>, <strong>Android SDK &amp; NDK Tools</strong>, <strong>iOS Build Support</strong> (Mac only), and <strong>OpenJDK</strong>.</li>
+      <li>Install <strong>Visual Studio 2022 Community</strong> or <strong>JetBrains Rider</strong> as your IDE — both integrate with Unity's debugger.</li>
+      <li>In Unity Hub → Licenses → Get a free Personal license.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 Creating Your First Mobile Project</div>
+    <ol class="step-list">
+      <li>Unity Hub → New Project → Select <strong>"3D (URP)"</strong> template — URP (Universal Render Pipeline) is the standard for mobile.</li>
+      <li>Name it <code>TheDeathRoad</code>, choose a save location, click Create.</li>
+      <li>Once open: <strong>File → Build Settings → Android</strong> → click <strong>Switch Platform</strong>. This tells Unity your target is mobile from day one.</li>
+      <li>Go to <strong>Edit → Project Settings → Player</strong> → set Company Name, Product Name, and <strong>Minimum API Level: Android 8.0 (API 26)</strong>.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>URP vs Built-in</strong>URP (Universal Render Pipeline) is Unity's recommended pipeline for mobile — it's faster, uses Shader Graph, and has better batching. Always start new projects in URP.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ Project Folder Structure</div>
+    <div class="scene-diagram">
+<span class="node">Assets/</span>
+├── <span class="comp">_Scenes/</span>          <span class="val">← all .unity scene files</span>
+├── <span class="comp">Scripts/</span>           <span class="val">← your C# MonoBehaviours</span>
+│   ├── Player/
+│   ├── Enemies/
+│   └── UI/
+├── <span class="comp">Prefabs/</span>           <span class="val">← reusable GameObjects</span>
+├── <span class="comp">Art/</span>
+│   ├── Sprites/       <span class="val">← 2D textures</span>
+│   ├── Models/        <span class="val">← 3D .fbx / .obj</span>
+│   └── Animations/
+├── <span class="comp">Audio/</span>
+├── <span class="comp">Materials/</span>
+└── <span class="comp">Resources/</span>         <span class="val">← runtime-loaded assets</span>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Never rename folders Unity needs</strong>Keep <code>Resources/</code>, <code>StreamingAssets/</code>, <code>Plugins/</code>, and <code>Editor/</code> named exactly — Unity treats them specially.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Which render pipeline should you use for a new Unity mobile game?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Built-in Render Pipeline</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">Universal Render Pipeline (URP)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">High Definition Render Pipeline (HDRP)</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Unity Interface →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 1: Interface ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>The Unity Interface</h2>
+    <p class="lesson-intro">Learn every panel of the Unity editor — Scene, Game, Hierarchy, Inspector, Project, and Console — and how they work together.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar-card"><div class="pillar-icon">🖼️</div><h4>Scene View</h4><p>Where you place and position GameObjects visually in the world.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">📺</div><h4>Game View</h4><p>What the player's camera sees. Hit Play to run your game here.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">🌲</div><h4>Hierarchy</h4><p>A tree of every GameObject in the current scene, with parent-child relationships.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">🔍</div><h4>Inspector</h4><p>Shows all Components on the selected GameObject and lets you tweak values.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">📂</div><h4>Project</h4><p>Your Assets folder — drag files here to import them into your project.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">💬</div><h4>Console</h4><p>Debug.Log(), errors, and warnings appear here. Your best debugging friend.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎮 Core Concepts: GameObjects &amp; Components</div>
+    <p>Everything in a Unity scene is a <strong>GameObject</strong> — an empty container. GameObjects do nothing by themselves. You attach <strong>Components</strong> to give them behavior.</p>
+    <div class="scene-diagram">
+<span class="node">GameObject: "Player"</span>
+├── <span class="comp">Transform</span>          <span class="val">← position, rotation, scale (EVERY object has this)</span>
+├── <span class="comp">SpriteRenderer</span>     <span class="val">← draws the sprite</span>
+├── <span class="comp">Rigidbody2D</span>        <span class="val">← gives it physics</span>
+├── <span class="comp">Collider2D</span>         <span class="val">← defines hit box</span>
+└── <span class="comp">PlayerController</span>   <span class="val">← your custom C# script</span>
+    </div>
+    <div class="callout fun">
+      <span class="callout-emoji">🧠</span>
+      <div class="callout-body"><strong>The Component Mindset</strong>Unity uses an Entity-Component pattern. Instead of big class hierarchies, you compose behavior by snapping components together — like LEGO bricks. A "Player" is just a container; <em>components</em> make it move, draw, and collide.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⌨️ Essential Shortcuts</div>
+    <table class="spec-table">
+      <tr><th>Shortcut</th><th>Action</th></tr>
+      <tr><td><code>W</code></td><td>Move tool (translate)</td></tr>
+      <tr><td><code>E</code></td><td>Rotate tool</td></tr>
+      <tr><td><code>R</code></td><td>Scale tool</td></tr>
+      <tr><td><code>Ctrl+P</code></td><td>Play / Stop</td></tr>
+      <tr><td><code>Ctrl+D</code></td><td>Duplicate selected object</td></tr>
+      <tr><td><code>F</code></td><td>Focus camera on selected object</td></tr>
+      <tr><td><code>Ctrl+Shift+N</code></td><td>New empty GameObject</td></tr>
+      <tr><td><code>Ctrl+Z</code></td><td>Undo (works in most editor actions)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Your First Script</div>
+    <p>In Unity, scripts are <strong>MonoBehaviours</strong> — C# classes that attach to GameObjects. Two key lifecycle methods:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — MonoBehaviour Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="cl">HelloWorld</span> : MonoBehaviour
+{
+    <span class="cm">// Called ONCE when the GameObject first appears in the scene</span>
+    <span class="kw">void</span> <span class="fn">Start</span>()
+    {
+        Debug.<span class="fn">Log</span>(<span class="str">"Scene started!"</span>);
+    }
+
+    <span class="cm">// Called EVERY FRAME (~60 times/sec on mobile)</span>
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="cm">// Game logic goes here</span>
+    }
+}</pre>
+    </div>
+    <ol class="step-list">
+      <li>In Project panel → right-click Scripts/ → Create → C# Script → name it <code>HelloWorld</code>.</li>
+      <li>Double-click to open in your IDE. Paste the code above.</li>
+      <li>Drag the script from Project onto a GameObject in the Hierarchy. Hit Play. Check Console.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Getting Started</button>
+    <button class="btn btn-next" onclick="next(1)">2D Foundations →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 2: 2D FOUNDATIONS ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>2D Foundations</h2>
+    <p class="lesson-intro">Sprites, tilemaps, cameras, sorting layers, and the complete 2D pipeline — everything you need to build a 2D mobile game world.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ Sprites: The Building Blocks</div>
+    <p>A <strong>Sprite</strong> is a 2D image displayed in your game. Unity handles the import, slicing, packing, and rendering.</p>
+    <ol class="step-list">
+      <li>Drag a PNG into your <code>Assets/Art/Sprites/</code> folder.</li>
+      <li>Select it in Project → in Inspector set <strong>Texture Type: Sprite (2D and UI)</strong>.</li>
+      <li>Set <strong>Pixels Per Unit</strong> (PPU) — typically 32, 64, or 100. Keep it consistent across all art. PPU determines how many pixels = 1 Unity unit (meter).</li>
+      <li>For spritesheets: set <strong>Sprite Mode: Multiple</strong> → open <strong>Sprite Editor</strong> → Slice → Grid By Cell Size → enter your frame size.</li>
+      <li>Drag the sprite into the Scene or onto a GameObject. Unity auto-adds a <strong>SpriteRenderer</strong>.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Mobile Texture Compression</strong>Set texture compression to <strong>ASTC</strong> for Android/iOS. In the Inspector, Platform tab → Android → Format: ASTC 6x6. This cuts texture memory in half with minimal quality loss.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ Tilemaps — Building Your World</div>
+    <p>Unity's <strong>Tilemap</strong> system lets you paint levels like pixels on a grid — perfect for top-down survival games.</p>
+    <ol class="step-list">
+      <li>Hierarchy → right-click → 2D Object → Tilemap → Rectangular. This creates a <strong>Grid</strong> parent with a <strong>Tilemap</strong> child.</li>
+      <li>Window → 2D → Tile Palette → Create New Palette → name it "World".</li>
+      <li>Drag your tileset sprites into the Tile Palette. Now you can paint tiles onto the scene grid.</li>
+      <li>Create <strong>multiple Tilemaps</strong> for layering: Ground, Decoration, Walls, Shadows — each as a child of the same Grid.</li>
+      <li>Add a <strong>TilemapCollider2D</strong> + <strong>CompositeCollider2D</strong> to the Walls tilemap for efficient collision.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Tilemap Layers Setup (Hierarchy)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="node">Grid (GameObject)</span>
+├── <span class="comp">Tilemap: Ground</span>        Order: 0
+├── <span class="comp">Tilemap: Shadows</span>       Order: 1
+├── <span class="comp">Tilemap: Objects</span>       Order: 2
+└── <span class="comp">Tilemap: Walls</span>         Order: 3 + TilemapCollider2D</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📷 2D Camera Setup</div>
+    <p>For a mobile top-down game, your camera needs to follow the player and fit different screen sizes.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — SmoothCameraFollow.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="cl">CameraFollow</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Transform <span class="var">target</span>;        <span class="cm">// Drag player here</span>
+    <span class="kw">public float</span>    <span class="var">smoothSpeed</span> = <span class="num">8f</span>;
+    <span class="kw">public</span> Vector3  <span class="var">offset</span> = <span class="kw">new</span> Vector3(<span class="num">0</span>, <span class="num">0</span>, <span class="num">-10</span>);
+
+    <span class="kw">void</span> <span class="fn">LateUpdate</span>()
+    {
+        Vector3 desired   = target.position + offset;
+        Vector3 smoothed  = Vector3.<span class="fn">Lerp</span>(transform.position, desired,
+                                          smoothSpeed * Time.deltaTime);
+        transform.position = smoothed;
+    }
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">📱</span>
+      <div class="callout-body"><strong>Camera Size for Mobile</strong>On the Camera component, set <strong>Projection: Orthographic</strong> and <strong>Size: 5</strong> as a starting point. Use <strong>Canvas Scaler: Scale With Screen Size</strong> with reference 1080×1920 for portrait mobile games.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Sorting Layers — Draw Order</div>
+    <p>In 2D, Unity needs to know what draws in front of what. <strong>Sorting Layers</strong> give you explicit control.</p>
+    <ol class="step-list">
+      <li>Edit → Project Settings → Tags and Layers → Sorting Layers. Add: Background, Ground, Shadows, Characters, Projectiles, UI.</li>
+      <li>On each SpriteRenderer and Tilemap Renderer, set the correct Sorting Layer.</li>
+      <li>Use <strong>Order In Layer</strong> for fine-grained control within the same layer (higher = in front).</li>
+      <li>For characters in a top-down game, dynamically set Order in Layer based on Y position: lower Y = in front.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Y-Sort (draw order by Y position)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="cm">// Multiply by -100 so lower Y = higher sort order</span>
+    GetComponent&lt;SpriteRenderer&gt;().sortingOrder =
+        Mathf.<span class="fn">RoundToInt</span>(-transform.position.y * <span class="num">100</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Unity Interface</button>
+    <button class="btn btn-next" onclick="next(2)">Physics &amp; Colliders →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 3: Physics ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>2D Physics &amp; Colliders</h2>
+    <p class="lesson-intro">Rigidbodies, colliders, triggers, layers, and the full physics pipeline — make objects collide, bounce, and interact.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Rigidbody2D — Physics Bodies</div>
+    <p>Add a <strong>Rigidbody2D</strong> component to any object that should be affected by physics (gravity, forces, velocity).</p>
+    <table>
+      <tr><th>Body Type</th><th>Use Case</th></tr>
+      <tr><td><span class="badge badge-green">Dynamic</span></td><td>Player, enemies, projectiles — fully simulated</td></tr>
+      <tr><td><span class="badge badge-yellow">Kinematic</span></td><td>Moving platforms, doors — controlled by script, not forces</td></tr>
+      <tr><td><span class="badge badge-purple">Static</span></td><td>Walls, ground — never moves, super performant</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">📱</span>
+      <div class="callout-body"><strong>Top-Down Setup</strong>For a top-down survival game, set <strong>Gravity Scale: 0</strong> on the player's Rigidbody2D. You handle all movement in script — no falling.</div>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Top-Down Player Movement</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">PlayerMovement</span> : MonoBehaviour
+{
+    <span class="kw">public float</span> <span class="var">speed</span> = <span class="num">5f</span>;
+    <span class="kw">private</span> Rigidbody2D <span class="var">rb</span>;
+    <span class="kw">private</span> Vector2 <span class="var">moveInput</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => rb = GetComponent&lt;Rigidbody2D&gt;();
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="cm">// Keyboard (replaced by touch joystick on mobile)</span>
+        <span class="var">moveInput</span>.x = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Horizontal"</span>);
+        <span class="var">moveInput</span>.y = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Vertical"</span>);
+        <span class="var">moveInput</span>.<span class="fn">Normalize</span>();
+    }
+
+    <span class="kw">void</span> <span class="fn">FixedUpdate</span>()
+    {
+        <span class="cm">// Always move physics in FixedUpdate</span>
+        rb.linearVelocity = <span class="var">moveInput</span> * <span class="var">speed</span>;
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Colliders — Collision Shapes</div>
+    <div class="unity-grid">
+      <div class="unity-card" style="--accent:#ff6b35"><div class="uc-icon">⬜</div><h4>BoxCollider2D</h4><p>Rectangular. Best for most characters, tiles, and pickups.</p></div>
+      <div class="unity-card" style="--accent:#06d6a0"><div class="uc-icon">⭕</div><h4>CircleCollider2D</h4><p>Perfectly round. Great for projectiles and rolling objects.</p></div>
+      <div class="unity-card" style="--accent:#ffd166"><div class="uc-icon">🔷</div><h4>CapsuleCollider2D</h4><p>Pill shape. Ideal for humanoid characters.</p></div>
+      <div class="unity-card" style="--accent:#c77dff"><div class="uc-icon">🔺</div><h4>PolygonCollider2D</h4><p>Matches sprite shape. Most accurate, most expensive — use sparingly.</p></div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Is Trigger</strong>Check <strong>Is Trigger</strong> on a collider to make it detect overlaps without physical response — perfect for pickups, zones, and damage areas.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📞 Collision Callbacks</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Collision &amp; Trigger Events</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm">// Called when physics bodies touch (Is Trigger = false)</span>
+<span class="kw">void</span> <span class="fn">OnCollisionEnter2D</span>(Collision2D col)
+{
+    <span class="kw">if</span> (col.gameObject.<span class="fn">CompareTag</span>(<span class="str">"Enemy"</span>))
+        <span class="fn">TakeDamage</span>(<span class="num">10</span>);
+}
+
+<span class="cm">// Called when entering a trigger zone (Is Trigger = true)</span>
+<span class="kw">void</span> <span class="fn">OnTriggerEnter2D</span>(Collider2D other)
+{
+    <span class="kw">if</span> (other.gameObject.<span class="fn">CompareTag</span>(<span class="str">"Pickup"</span>))
+    {
+        <span class="fn">CollectItem</span>(other.gameObject);
+        Destroy(other.gameObject);
+    }
+}
+
+<span class="cm">// Continuously while inside trigger</span>
+<span class="kw">void</span> <span class="fn">OnTriggerStay2D</span>(Collider2D other) { }
+
+<span class="cm">// When leaving trigger</span>
+<span class="kw">void</span> <span class="fn">OnTriggerExit2D</span>(Collider2D other) { }</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎭 Physics Layers — Controlling Who Hits Who</div>
+    <ol class="step-list">
+      <li>Edit → Project Settings → Tags and Layers → Layers. Add: Player, Enemy, Projectile, Ground, Pickup.</li>
+      <li>Assign layers to GameObjects in the Inspector (top-right dropdown).</li>
+      <li>Edit → Project Settings → Physics 2D → Layer Collision Matrix. Uncheck pairs that shouldn't collide (e.g. Enemy-Enemy, Projectile-Projectile).</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← 2D Foundations</button>
+    <button class="btn btn-next" onclick="next(3)">2D Animation →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 4: Animation ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>2D Animation</h2>
+    <p class="lesson-intro">Animator Controller, Blend Trees, Animation Events, and smooth state machines — bring your sprites to life.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎞️ Animation Workflow</div>
+    <ol class="step-list">
+      <li>Select sliced sprite frames in Project → drag them all into the Scene. Unity auto-creates an Animation clip and a basic Animator.</li>
+      <li>Open <strong>Window → Animation → Animation</strong> to see the timeline. Adjust Sample Rate (12 fps for pixel art, 24 for smooth).</li>
+      <li>Open <strong>Window → Animation → Animator</strong> to see the state machine. This controls which animation plays when.</li>
+      <li>Add Parameters (float Speed, bool IsAttacking, trigger Hit) to drive transitions between states.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Driving the Animator</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private</span> Animator <span class="var">anim</span>;
+<span class="kw">private</span> Rigidbody2D <span class="var">rb</span>;
+
+<span class="kw">void</span> <span class="fn">Awake</span>() {
+    <span class="var">anim</span> = GetComponent&lt;Animator&gt;();
+    <span class="var">rb</span>   = GetComponent&lt;Rigidbody2D&gt;();
+}
+
+<span class="kw">void</span> <span class="fn">Update</span>() {
+    <span class="cm">// Speed param drives Idle ↔ Walk blend</span>
+    <span class="var">anim</span>.<span class="fn">SetFloat</span>(<span class="str">"Speed"</span>, rb.linearVelocity.magnitude);
+
+    <span class="cm">// Trigger one-shot attack animation</span>
+    <span class="kw">if</span> (Input.<span class="fn">GetKeyDown</span>(KeyCode.Space))
+        <span class="var">anim</span>.<span class="fn">SetTrigger</span>(<span class="str">"Attack"</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌀 Blend Trees — 8-Direction Movement</div>
+    <p>For top-down movement, use a <strong>2D Blend Tree</strong> to blend idle/walk animations based on movement direction.</p>
+    <ol class="step-list">
+      <li>In Animator, right-click → Create State → From New Blend Tree.</li>
+      <li>Double-click the Blend Tree → set Blend Type: <strong>2D Simple Directional</strong>.</li>
+      <li>Parameters: <code>MoveX</code> (float) and <code>MoveY</code> (float).</li>
+      <li>Add Motion fields for each direction: walk_up (0,1), walk_down (0,-1), walk_right (1,0), walk_left (-1,0). Add diagonals for 8-way.</li>
+      <li>In script: <code>anim.SetFloat("MoveX", moveInput.x)</code> and <code>anim.SetFloat("MoveY", moveInput.y)</code>.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Physics</button>
+    <button class="btn btn-next" onclick="next(4)">3D Fundamentals →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 5: 3D ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>3D Fundamentals</h2>
+    <p class="lesson-intro">Meshes, materials, lighting, cameras, and the 3D pipeline — the foundation for your Death Road characters and world objects.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧊 3D Objects in Unity</div>
+    <div class="unity-grid">
+      <div class="unity-card" style="--accent:#ff6b35"><div class="uc-icon">📦</div><h4>Primitives</h4><p>Cube, Sphere, Capsule, Cylinder — great for prototyping before art is ready.</p></div>
+      <div class="unity-card" style="--accent:#06d6a0"><div class="uc-icon">🗿</div><h4>Mesh + MeshRenderer</h4><p>Import .fbx/.obj from Blender. MeshRenderer applies materials to it.</p></div>
+      <div class="unity-card" style="--accent:#ffd166"><div class="uc-icon">💀</div><h4>Skinned Mesh</h4><p>Characters with bones/armatures. Used with Animator for 3D animation.</p></div>
+      <div class="unity-card" style="--accent:#c77dff"><div class="uc-icon">🎭</div><h4>Prefabs</h4><p>Saved reusable GameObjects. Instantiate enemies, pickups, effects from prefabs.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Materials &amp; URP Shaders</div>
+    <p>Materials define how a surface looks — color, texture, shininess, transparency.</p>
+    <ol class="step-list">
+      <li>Project → right-click → Create → Material. Name it <code>PlayerMat</code>.</li>
+      <li>In Inspector, Shader dropdown → <strong>Universal Render Pipeline/Lit</strong> for realistic, or <strong>URP/Unlit</strong> for flat (great for 2.5D characters).</li>
+      <li>Drag your character texture into the <strong>Base Map</strong> slot.</li>
+      <li>Drag the material onto your mesh in the Scene or Inspector.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>For 2.5D Characters</strong>Use <strong>URP/Unlit</strong> on 3D characters — no lighting calculations means consistent look regardless of world lighting, and much better mobile performance.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📷 3D Camera Modes</div>
+    <table>
+      <tr><th>Mode</th><th>Use Case</th><th>FOV</th></tr>
+      <tr><td>Perspective</td><td>Standard 3D games — depth visible</td><td>60°</td></tr>
+      <tr><td>Orthographic</td><td>2.5D, isometric — no perspective distortion</td><td>Size-based</td></tr>
+      <tr><td>Isometric</td><td>Perspective rotated 45°/35° — like Diablo</td><td>40–50°</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ 3D Physics — Rigidbody &amp; Colliders</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — 3D Character Controller</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">CharController3D</span> : MonoBehaviour
+{
+    <span class="kw">public float</span> <span class="var">speed</span> = <span class="num">4f</span>;
+    <span class="kw">private</span> Rigidbody <span class="var">rb</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => <span class="var">rb</span> = GetComponent&lt;Rigidbody&gt;();
+
+    <span class="kw">void</span> <span class="fn">FixedUpdate</span>()
+    {
+        <span class="kw">float</span> h = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Horizontal"</span>);
+        <span class="kw">float</span> v = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Vertical"</span>);
+        Vector3 dir = <span class="kw">new</span> Vector3(h, <span class="num">0</span>, v).<span class="fn">normalized</span>;
+        rb.MovePosition(rb.position + dir * <span class="var">speed</span> * Time.fixedDeltaTime);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← 2D Animation</button>
+    <button class="btn btn-next" onclick="next(5)">Lighting &amp; Materials →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 6: Lighting ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>Lighting &amp; Materials</h2>
+    <p class="lesson-intro">URP lighting, baked vs realtime, normal maps, emissives, and mobile-optimized lighting setups for your game world.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Light Types in URP</div>
+    <div class="unity-grid">
+      <div class="unity-card" style="--accent:#ffd166"><div class="uc-icon">☀️</div><h4>Directional Light</h4><p>The sun. Infinite range, affects everything. One per scene max.</p></div>
+      <div class="unity-card" style="--accent:#ff6b35"><div class="uc-icon">💡</div><h4>Point Light</h4><p>Like a lightbulb — spherical falloff from a point. For torches, lamps.</p></div>
+      <div class="unity-card" style="--accent:#c77dff"><div class="uc-icon">🔦</div><h4>Spot Light</h4><p>Cone of light. Flashlights, car headlights, dramatic effect.</p></div>
+      <div class="unity-card" style="--accent:#06d6a0"><div class="uc-icon">📦</div><h4>Area Light</h4><p>Bake-only — large soft light from a rectangular area. Windows, panels.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🍞 Baked vs Realtime Lighting</div>
+    <table>
+      <tr><th>Type</th><th>Mobile Cost</th><th>Dynamic Objects</th><th>Best For</th></tr>
+      <tr><td><span class="badge badge-green">Baked</span></td><td>Near zero at runtime</td><td>❌ Static only</td><td>Environment, terrain</td></tr>
+      <tr><td><span class="badge badge-yellow">Mixed</span></td><td>Moderate</td><td>✅ Dynamic shadows</td><td>Main directional light</td></tr>
+      <tr><td><span class="badge badge-red">Realtime</span></td><td>High</td><td>✅ Fully dynamic</td><td>Flashlights, pickups</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">📱</span>
+      <div class="callout-body"><strong>Mobile Lighting Budget</strong>On mobile, limit yourself to: 1 Directional (Mixed or Baked), max 2-3 realtime Point/Spot lights visible at once. Bake everything static. This keeps frame rate smooth on mid-range phones.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 PBR Maps — Making Materials Look Real</div>
+    <table>
+      <tr><th>Map</th><th>Controls</th></tr>
+      <tr><td>Base Map (Albedo)</td><td>The base color/texture</td></tr>
+      <tr><td>Normal Map</td><td>Fake surface bumps without extra geometry</td></tr>
+      <tr><td>Metallic Map</td><td>How metal-like the surface is</td></tr>
+      <tr><td>Smoothness</td><td>How shiny/rough (rough=matte, smooth=mirror)</td></tr>
+      <tr><td>Emission Map</td><td>Self-illuminated — glows without needing a light</td></tr>
+      <tr><td>Occlusion Map</td><td>Baked ambient shadow in crevices</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← 3D Fundamentals</button>
+    <button class="btn btn-next" onclick="next(6)">2.5D — The Death Road Way →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 7: 2.5D ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08 ⭐</div>
+    <h2>2.5D — The Death Road Way</h2>
+    <p class="lesson-intro">3D characters on a 2D world plane — exactly how Last Day on Earth works. Depth sorting, isometric cameras, billboard sprites, and the full hybrid pipeline.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎮 What Is 2.5D?</div>
+    <p>2.5D means characters and objects are <strong>3D meshes</strong> rendered on a <strong>constrained plane</strong> — players can't move into/out of the screen. The camera is locked at an angle. The result feels dimensional but plays like a top-down 2D game.</p>
+    <div class="analogy">
+      <div class="analogy-label">Real Game Example</div>
+      <p><strong>Last Day on Earth: Survival</strong> uses 3D characters with skeletal animation on an isometric fixed camera. The world is a flat plane. Characters have real 3D depth (you can see their back when facing away). It looks great, runs fast, and is much easier to animate than pure sprite sheets.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📷 Setting Up the 2.5D Camera</div>
+    <ol class="step-list">
+      <li>Create a Camera. Set <strong>Projection: Perspective</strong>, <strong>Field of View: 50</strong>.</li>
+      <li>Rotate the camera: X = 45°, Y = 45° for isometric. Or X = 60°, Y = 0° for a top-down tilted view like LDOE.</li>
+      <li>Position camera above and behind the player — experiment with Z = -10, Y = 8.</li>
+      <li>Attach a camera follow script that locks to player XZ position (never Y — no vertical movement).</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — 2.5D Camera Follow</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">IsoCamera</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Transform <span class="var">target</span>;
+    <span class="kw">public</span> Vector3   <span class="var">offset</span> = <span class="kw">new</span> Vector3(<span class="num">0</span>, <span class="num">10</span>, <span class="num">-7</span>);
+    <span class="kw">public float</span>    <span class="var">smooth</span> = <span class="num">6f</span>;
+
+    <span class="kw">void</span> <span class="fn">LateUpdate</span>()
+    {
+        Vector3 goal = <span class="var">target</span>.position + <span class="var">offset</span>;
+        transform.position = Vector3.<span class="fn">Lerp</span>(
+            transform.position, goal, <span class="var">smooth</span> * Time.deltaTime);
+        transform.<span class="fn">LookAt</span>(<span class="var">target</span>);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧍 3D Characters on a Flat Plane</div>
+    <ol class="step-list">
+      <li>Import your character .fbx from Blender (or use a Unity asset). Set <strong>Rig: Humanoid</strong> for mecanim animations.</li>
+      <li>Place the character at Y = 0 (ground plane). Set Rigidbody → <strong>Freeze Rotation XYZ</strong> and <strong>Freeze Position Y</strong>.</li>
+      <li>Add a <strong>CapsuleCollider</strong> for physics. Size it to match the character.</li>
+      <li>Movement is always on the XZ plane (no Y movement unless jumping).</li>
+      <li>Rotate the character to face movement direction using <code>Quaternion.LookRotation</code>.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — 2.5D Player Controller (Full)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">Player25D</span> : MonoBehaviour
+{
+    <span class="kw">public float</span> <span class="var">speed</span>       = <span class="num">4f</span>;
+    <span class="kw">public float</span> <span class="var">rotSpeed</span>    = <span class="num">15f</span>;
+    <span class="kw">private</span> Rigidbody <span class="var">rb</span>;
+    <span class="kw">private</span> Animator  <span class="var">anim</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() {
+        <span class="var">rb</span>   = GetComponent&lt;Rigidbody&gt;();
+        <span class="var">anim</span> = GetComponent&lt;Animator&gt;();
+    }
+
+    <span class="kw">void</span> <span class="fn">FixedUpdate</span>()
+    {
+        <span class="kw">float</span> h = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Horizontal"</span>);
+        <span class="kw">float</span> v = Input.<span class="fn">GetAxisRaw</span>(<span class="str">"Vertical"</span>);
+        Vector3 move = <span class="kw">new</span> Vector3(h, <span class="num">0</span>, v).<span class="fn">normalized</span>;
+
+        <span class="cm">// Move on XZ plane only</span>
+        rb.MovePosition(rb.position + move * <span class="var">speed</span> * Time.fixedDeltaTime);
+
+        <span class="cm">// Rotate to face movement direction</span>
+        <span class="kw">if</span> (move != Vector3.zero)
+        {
+            Quaternion targetRot = Quaternion.<span class="fn">LookRotation</span>(move, Vector3.up);
+            rb.MoveRotation(Quaternion.<span class="fn">Slerp</span>(
+                rb.rotation, targetRot, <span class="var">rotSpeed</span> * Time.fixedDeltaTime));
+        }
+
+        <span class="cm">// Drive animations</span>
+        <span class="var">anim</span>.<span class="fn">SetFloat</span>(<span class="str">"Speed"</span>, move.magnitude);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Depth Sorting — Who Draws in Front?</div>
+    <p>In 2.5D, objects closer to the camera (lower Z in isometric) should draw in front. Unity handles this automatically with the renderer's depth buffer — but for transparent objects (trees, UI) you need manual sorting.</p>
+    <ol class="step-list">
+      <li>For opaque 3D objects: Unity's depth buffer handles sorting automatically. No extra work needed.</li>
+      <li>For transparent sprites (foliage, shadows, UI markers): Use the <strong>Sorting Group</strong> component + set Order based on world Z position.</li>
+      <li>For ground decals and shadows: use a flat quad with an Unlit transparent material, slightly above Y=0 to avoid Z-fighting.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Dynamic Depth Sort for Transparent Objects</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine.Rendering;
+
+<span class="kw">public class</span> <span class="cl">DepthSort</span> : MonoBehaviour
+{
+    <span class="kw">private</span> SortingGroup <span class="var">sg</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => <span class="var">sg</span> = GetComponent&lt;SortingGroup&gt;();
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="cm">// Objects farther from camera (higher Z) get lower order</span>
+        <span class="var">sg</span>.sortingOrder = <span class="num">5000</span> - Mathf.<span class="fn">RoundToInt</span>(transform.position.z * <span class="num">10</span>);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌿 World Design: Trees, Walls, &amp; Occlusion</div>
+    <p>In a survival game like Death Road, objects should become transparent when the player walks behind them.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Object Fade When Player Behind</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">OcclusionFader</span> : MonoBehaviour
+{
+    <span class="kw">public float</span>  <span class="var">fadeAlpha</span>   = <span class="num">0.3f</span>;
+    <span class="kw">public float</span>  <span class="var">fadeSpeed</span>   = <span class="num">8f</span>;
+    <span class="kw">private</span> Renderer   <span class="var">rend</span>;
+    <span class="kw">private float</span>  <span class="var">targetAlpha</span> = <span class="num">1f</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => <span class="var">rend</span> = GetComponent&lt;Renderer&gt;();
+
+    <span class="cm">// Call this from a trigger on the building</span>
+    <span class="kw">public void</span> <span class="fn">SetFaded</span>(<span class="kw">bool</span> faded) =>
+        <span class="var">targetAlpha</span> = faded ? <span class="var">fadeAlpha</span> : <span class="num">1f</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        Color c = <span class="var">rend</span>.material.color;
+        c.a = Mathf.<span class="fn">Lerp</span>(c.a, <span class="var">targetAlpha</span>, <span class="var">fadeSpeed</span> * Time.deltaTime);
+        <span class="var">rend</span>.material.color = c;
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Death Road Project Challenge</div>
+    <h4>Build Your First 2.5D Scene</h4>
+    <p>Using everything from Modules 01–08:</p>
+    <ul>
+      <li>Set up an isometric camera (X=50, Y=45) above a flat plane</li>
+      <li>Place a 3D capsule as your player with the Player25D script</li>
+      <li>Add 3 cube "buildings" and attach OcclusionFader triggers</li>
+      <li>Add a directional light at 45° and bake ambient lighting</li>
+      <li>Test that the player walks behind buildings correctly</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Lighting</button>
+    <button class="btn btn-next" onclick="next(7)">Mobile Input →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 8: Mobile Input ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>Mobile Input &amp; Touch</h2>
+    <p class="lesson-intro">Virtual joysticks, tap detection, swipe gestures, and Unity's Input System — build controls that feel native on touchscreens.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👆 Unity's New Input System</div>
+    <ol class="step-list">
+      <li>Package Manager → search "Input System" → Install. When prompted, switch to the New Input System.</li>
+      <li>Create → Input Actions asset. Add an Action Map "Player" with actions: Move (Vector2), Attack (Button), Interact (Button).</li>
+      <li>For Move, add bindings: WASD keyboard + Left Stick gamepad + a virtual joystick touch binding.</li>
+      <li>Generate C# class: check "Generate C# Class" in the asset Inspector → Apply.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — New Input System Setup</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">PlayerInput</span> : MonoBehaviour
+{
+    <span class="kw">private</span> PlayerControls <span class="var">controls</span>; <span class="cm">// generated class</span>
+    <span class="kw">private</span> Vector2 <span class="var">moveInput</span>;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() {
+        <span class="var">controls</span> = <span class="kw">new</span> <span class="fn">PlayerControls</span>();
+        <span class="var">controls</span>.Player.Move.performed += ctx =>
+            <span class="var">moveInput</span> = ctx.<span class="fn">ReadValue</span>&lt;Vector2&gt;();
+        <span class="var">controls</span>.Player.Move.canceled  += _ =>
+            <span class="var">moveInput</span> = Vector2.zero;
+        <span class="var">controls</span>.Player.Attack.performed += _ =>
+            <span class="fn">DoAttack</span>();
+    }
+    <span class="kw">void</span> <span class="fn">OnEnable</span>()  => <span class="var">controls</span>.<span class="fn">Enable</span>();
+    <span class="kw">void</span> <span class="fn">OnDisable</span>() => <span class="var">controls</span>.<span class="fn">Disable</span>();
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕹️ Virtual Joystick (from scratch)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — VirtualJoystick.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> UnityEngine.EventSystems;
+
+<span class="kw">public class</span> <span class="cl">VirtualJoystick</span> : MonoBehaviour,
+    IPointerDownHandler, IDragHandler, IPointerUpHandler
+{
+    <span class="kw">public</span> RectTransform <span class="var">handle</span>;
+    <span class="kw">public float</span> <span class="var">maxRadius</span> = <span class="num">80f</span>;
+    <span class="kw">public static</span> Vector2 <span class="var">Input</span>;
+
+    <span class="kw">private</span> Vector2 <span class="var">center</span>;
+
+    <span class="kw">public void</span> <span class="fn">OnPointerDown</span>(PointerEventData e) {
+        <span class="var">center</span> = e.position;
+    }
+    <span class="kw">public void</span> <span class="fn">OnDrag</span>(PointerEventData e) {
+        Vector2 delta = e.position - <span class="var">center</span>;
+        Vector2 clamped = Vector2.<span class="fn">ClampMagnitude</span>(delta, <span class="var">maxRadius</span>);
+        <span class="var">handle</span>.anchoredPosition = clamped;
+        <span class="var">Input</span> = clamped / <span class="var">maxRadius</span>;
+    }
+    <span class="kw">public void</span> <span class="fn">OnPointerUp</span>(PointerEventData e) {
+        <span class="var">handle</span>.anchoredPosition = Vector2.zero;
+        <span class="var">Input</span> = Vector2.zero;
+    }
+}</pre>
+    </div>
+    <p>Then in your player script, replace <code>Input.GetAxisRaw()</code> with <code>VirtualJoystick.Input.x</code> / <code>VirtualJoystick.Input.y</code>.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👆 Tap &amp; Swipe Detection</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Simple Tap + Swipe</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">foreach</span> (Touch touch <span class="kw">in</span> UnityEngine.Input.touches)
+    {
+        <span class="kw">if</span> (touch.phase == TouchPhase.Began)
+            <span class="fn">OnTapStart</span>(touch.position);
+
+        <span class="kw">if</span> (touch.phase == TouchPhase.Ended)
+        {
+            <span class="kw">if</span> (touch.deltaPosition.magnitude &lt; <span class="num">10f</span>)
+                <span class="fn">OnTap</span>(touch.position);      <span class="cm">// short tap</span>
+            <span class="kw">else</span>
+                <span class="fn">OnSwipe</span>(touch.deltaPosition); <span class="cm">// swipe gesture</span>
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← 2.5D</button>
+    <button class="btn btn-next" onclick="next(8)">UI &amp; HUD →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 9: UI ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>UI &amp; HUD Systems</h2>
+    <p class="lesson-intro">Canvas, health bars, inventory slots, damage numbers, menus — build a complete mobile game UI that looks great on any screen size.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ Canvas Setup for Mobile</div>
+    <ol class="step-list">
+      <li>Hierarchy → UI → Canvas. Set <strong>Render Mode: Screen Space — Overlay</strong>.</li>
+      <li>Add a <strong>Canvas Scaler</strong>: UI Scale Mode → <strong>Scale With Screen Size</strong>. Reference: 1080 × 1920 (portrait) or 1920 × 1080 (landscape). Match: Width or Height.</li>
+      <li>Add a <strong>Canvas Group</strong> to control alpha/interactability for menu transitions.</li>
+      <li>Use <strong>Safe Area</strong> anchoring for notch/island devices: anchor UI to the safe area rect at runtime.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Safe Area (Notch Fix)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">SafeAreaFitter</span> : MonoBehaviour
+{
+    <span class="kw">void</span> <span class="fn">Awake</span>() {
+        RectTransform rt   = GetComponent&lt;RectTransform&gt;();
+        Rect safe          = Screen.safeArea;
+        Vector2 anchorMin  = safe.position / <span class="kw">new</span> Vector2(Screen.width, Screen.height);
+        Vector2 anchorMax  = (safe.position + safe.size) / <span class="kw">new</span> Vector2(Screen.width, Screen.height);
+        rt.anchorMin       = anchorMin;
+        rt.anchorMax       = anchorMax;
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❤️ Health Bar</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — HealthBar.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine.UI;
+
+<span class="kw">public class</span> <span class="cl">HealthBar</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Slider <span class="var">slider</span>;
+    <span class="kw">public</span> Image  <span class="var">fill</span>;
+    <span class="kw">public</span> Color  <span class="var">fullColor</span>  = Color.green;
+    <span class="kw">public</span> Color  <span class="var">emptyColor</span> = Color.red;
+
+    <span class="kw">public void</span> <span class="fn">SetHealth</span>(<span class="kw">float</span> current, <span class="kw">float</span> max)
+    {
+        <span class="kw">float</span> t = current / max;
+        <span class="var">slider</span>.value = t;
+        <span class="var">fill</span>.color   = Color.<span class="fn">Lerp</span>(<span class="var">emptyColor</span>, <span class="var">fullColor</span>, t);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 Floating Damage Numbers</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — DamagePopup.cs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">DamagePopup</span> : MonoBehaviour
+{
+    <span class="kw">public</span> TextMeshProUGUI <span class="var">label</span>;
+    <span class="kw">private float</span> <span class="var">moveY</span>  = <span class="num">1.5f</span>;
+    <span class="kw">private float</span> <span class="var">lifetime</span> = <span class="num">1f</span>;
+    <span class="kw">private float</span> <span class="var">t</span>;
+
+    <span class="kw">public void</span> <span class="fn">Init</span>(<span class="kw">int</span> dmg) {
+        <span class="var">label</span>.text = dmg.ToString();
+    }
+
+    <span class="kw">void</span> <span class="fn">Update</span>() {
+        <span class="var">t</span> += Time.deltaTime;
+        transform.position += Vector3.up * <span class="var">moveY</span> * Time.deltaTime;
+        <span class="var">label</span>.alpha = Mathf.<span class="fn">Lerp</span>(<span class="num">1f</span>, <span class="num">0f</span>, <span class="var">t</span> / <span class="var">lifetime</span>);
+        <span class="kw">if</span> (<span class="var">t</span> >= <span class="var">lifetime</span>) Destroy(gameObject);
+    }
+
+    <span class="cm">// Static spawner — call this from anywhere</span>
+    <span class="kw">public static void</span> <span class="fn">Spawn</span>(Vector3 pos, <span class="kw">int</span> dmg) {
+        DamagePopup popup = Instantiate(Resources.<span class="fn">Load</span>&lt;DamagePopup&gt;(<span class="str">"DamagePopup"</span>));
+        popup.transform.position = pos;
+        popup.<span class="fn">Init</span>(dmg);
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Mobile Input</button>
+    <button class="btn btn-next" onclick="next(9)">AI &amp; Pathfinding →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 10: AI ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>AI &amp; Pathfinding</h2>
+    <p class="lesson-intro">NavMesh, A* pathfinding, state machines for enemies, and behavior trees — make zombies and survivors feel alive.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ NavMesh — Unity's Built-In Pathfinding</div>
+    <ol class="step-list">
+      <li>Install: Package Manager → AI Navigation (for Unity 6) → Install.</li>
+      <li>Select all walkable ground objects → Inspector → Static dropdown → check <strong>Navigation Static</strong>.</li>
+      <li>Window → AI → Navigation → Bake tab → click <strong>Bake</strong>. A blue overlay shows the walkable area.</li>
+      <li>Add a <strong>NavMeshAgent</strong> component to the enemy GameObject. Set Speed, Stopping Distance, and Angular Speed.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Basic Enemy AI with NavMesh</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine.AI;
+
+<span class="kw">public class</span> <span class="cl">ZombieAI</span> : MonoBehaviour
+{
+    <span class="kw">public</span> Transform  <span class="var">player</span>;
+    <span class="kw">public float</span>     <span class="var">detectionRange</span>  = <span class="num">8f</span>;
+    <span class="kw">public float</span>     <span class="var">attackRange</span>     = <span class="num">1.5f</span>;
+    <span class="kw">public float</span>     <span class="var">attackCooldown</span>  = <span class="num">1.2f</span>;
+    <span class="kw">private</span> NavMeshAgent <span class="var">agent</span>;
+    <span class="kw">private float</span>     <span class="var">lastAttack</span>;
+
+    <span class="kw">enum</span> <span class="cl">State</span> { Idle, Chase, Attack }
+    <span class="kw">private</span> <span class="cl">State</span> <span class="var">state</span> = <span class="cl">State</span>.Idle;
+
+    <span class="kw">void</span> <span class="fn">Awake</span>() => <span class="var">agent</span> = GetComponent&lt;NavMeshAgent&gt;();
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">float</span> dist = Vector3.<span class="fn">Distance</span>(transform.position, <span class="var">player</span>.position);
+
+        <span class="var">state</span> = dist &lt; <span class="var">attackRange</span>    ? <span class="cl">State</span>.Attack
+               : dist &lt; <span class="var">detectionRange</span> ? <span class="cl">State</span>.Chase
+               :                           <span class="cl">State</span>.Idle;
+
+        <span class="kw">switch</span> (<span class="var">state</span>) {
+            <span class="kw">case</span> <span class="cl">State</span>.Chase:
+                <span class="var">agent</span>.<span class="fn">SetDestination</span>(<span class="var">player</span>.position); <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="cl">State</span>.Attack:
+                <span class="var">agent</span>.<span class="fn">ResetPath</span>();
+                <span class="kw">if</span> (Time.time > <span class="var">lastAttack</span> + <span class="var">attackCooldown</span>)
+                { <span class="fn">DoAttack</span>(); <span class="var">lastAttack</span> = Time.time; }
+                <span class="kw">break</span>;
+            <span class="kw">default</span>:
+                <span class="var">agent</span>.<span class="fn">ResetPath</span>(); <span class="kw">break</span>;
+        }
+    }
+
+    <span class="kw">void</span> <span class="fn">DoAttack</span>() => Debug.<span class="fn">Log</span>(<span class="str">"Zombie attacks!"</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 State Machine vs Behavior Tree</div>
+    <table>
+      <tr><th>Approach</th><th>Best For</th><th>Complexity</th></tr>
+      <tr><td>Enum State Machine</td><td>Simple enemies (zombie, guard)</td><td>Low</td></tr>
+      <tr><td>ScriptableObject States</td><td>Multiple enemy types sharing logic</td><td>Medium</td></tr>
+      <tr><td>Behavior Designer / NodeCanvas</td><td>Complex NPC with dialogue + combat</td><td>High</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>For Death Road</strong>Start with the enum state machine — Idle, Wander, Chase, Attack, Flee. Add a <strong>SuspicionMeter</strong> float that increases when the player is nearby and triggers state transitions.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← UI &amp; HUD</button>
+    <button class="btn btn-next" onclick="next(10)">Mobile Optimization →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 11: Optimization ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>Mobile Optimization</h2>
+    <p class="lesson-intro">Target 60fps on mid-range Android devices — GPU batching, object pooling, LODs, texture atlases, and the Profiler workflow.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 The Profiler — Find the Problem First</div>
+    <p>Before optimizing anything, measure. Unity's Profiler shows exactly where your frame time is going.</p>
+    <ol class="step-list">
+      <li>Window → Analysis → Profiler (Ctrl+7).</li>
+      <li>Hit Play and watch CPU, GPU, Memory, and Rendering graphs.</li>
+      <li>Click a spike in the timeline to see the call stack. The longest bar is your problem.</li>
+      <li>On a real Android device: connect via USB → Profiler → Target: [your device].</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">♻️ Object Pooling — Never Use Destroy()</div>
+    <p>Creating and destroying GameObjects at runtime (bullets, enemies, FX) causes garbage collection spikes. Pool them instead.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Generic Object Pool</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> System.Collections.Generic;
+
+<span class="kw">public class</span> <span class="cl">ObjectPool</span>&lt;T&gt; <span class="kw">where</span> T : MonoBehaviour
+{
+    <span class="kw">private</span> Queue&lt;T&gt;  <span class="var">pool</span> = <span class="kw">new</span> Queue&lt;T&gt;();
+    <span class="kw">private</span> T         <span class="var">prefab</span>;
+
+    <span class="kw">public</span> <span class="fn">ObjectPool</span>(T prefab, <span class="kw">int</span> preload) {
+        <span class="kw">this</span>.<span class="var">prefab</span> = prefab;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; preload; i++) <span class="fn">CreateNew</span>();
+    }
+
+    <span class="kw">public</span> T <span class="fn">Get</span>() {
+        T obj = <span class="var">pool</span>.Count > <span class="num">0</span> ? <span class="var">pool</span>.<span class="fn">Dequeue</span>() : <span class="fn">CreateNew</span>();
+        obj.gameObject.<span class="fn">SetActive</span>(<span class="kw">true</span>);
+        <span class="kw">return</span> obj;
+    }
+
+    <span class="kw">public void</span> <span class="fn">Return</span>(T obj) {
+        obj.gameObject.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+        <span class="var">pool</span>.<span class="fn">Enqueue</span>(obj);
+    }
+
+    <span class="kw">private</span> T <span class="fn">CreateNew</span>() {
+        T obj = Object.<span class="fn">Instantiate</span>(<span class="var">prefab</span>);
+        obj.gameObject.<span class="fn">SetActive</span>(<span class="kw">false</span>);
+        <span class="var">pool</span>.<span class="fn">Enqueue</span>(obj);
+        <span class="kw">return</span> obj;
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Optimization Cheat Sheet</div>
+    <table>
+      <tr><th>Problem</th><th>Fix</th></tr>
+      <tr><td>Too many draw calls</td><td>Enable GPU Instancing + Static Batching</td></tr>
+      <tr><td>Overdraw (transparent layers)</td><td>Reduce transparent objects, use URP Shader Graph alpha clip</td></tr>
+      <tr><td>Physics spikes</td><td>Reduce FixedUpdate rate to 0.02 → 0.033, fewer colliders</td></tr>
+      <tr><td>Memory spikes (GC)</td><td>Object pooling, avoid LINQ in Update, pre-allocate lists</td></tr>
+      <tr><td>Texture memory</td><td>ASTC compression, Texture Atlases, Mip Maps</td></tr>
+      <tr><td>Shader cost</td><td>URP/Lit → URP/Simple Lit → URP/Unlit (cheapest)</td></tr>
+      <tr><td>Shadow cost</td><td>Bake shadows, reduce shadow distance, use blob shadows</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← AI</button>
+    <button class="btn btn-next" onclick="next(11)">Build &amp; Ship →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 12: Build ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13 🏁</div>
+    <h2>Build &amp; Ship</h2>
+    <p class="lesson-intro">Generate APK/AAB for Android, set up signing, configure IL2CPP, and submit to Google Play and the App Store.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Android Build Settings</div>
+    <ol class="step-list">
+      <li>File → Build Settings → Android → Switch Platform.</li>
+      <li>Player Settings → Other Settings → set <strong>Scripting Backend: IL2CPP</strong> (faster, smaller, required for 64-bit).</li>
+      <li>Target Architectures: check <strong>ARM64</strong> (required by Google Play). ARM7 optional for older devices.</li>
+      <li>Set <strong>Minify: Release</strong> for both Java and IL2CPP. This shrinks the APK.</li>
+      <li>Build → choose <strong>.aab</strong> (Android App Bundle) for Google Play, <strong>.apk</strong> for sideload/testing.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔏 Keystore Signing</div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Never Lose Your Keystore</strong>Once you publish with a keystore, every update to that app MUST use the same keystore. Losing it means you can never update your published app. Back it up to Google Drive, external drive, and email.</div>
+    </div>
+    <ol class="step-list">
+      <li>Player Settings → Publishing Settings → Keystore Manager → Create New.</li>
+      <li>Fill in alias, password, organization. Save the .keystore file somewhere safe.</li>
+      <li>Unity will sign every build with this key automatically.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 Google Play Submission</div>
+    <ol class="step-list">
+      <li>Build a Release .aab with IL2CPP + ARM64 + minify on.</li>
+      <li>Google Play Console → Create App → upload the .aab to Internal Testing first.</li>
+      <li>Required: Privacy Policy URL, Content Rating questionnaire, Target Audience &amp; Content form.</li>
+      <li>Add screenshots: phone (minimum 2), feature graphic (1024×500).</li>
+      <li>Move from Internal → Closed → Open testing → Production over several days.</li>
+    </ol>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Final Challenge</div>
+    <h4>Ship a Death Road Prototype</h4>
+    <p>Build and sideload a prototype APK containing:</p>
+    <ul>
+      <li>2.5D isometric scene with a playable character</li>
+      <li>At least 2 zombie NavMesh enemies</li>
+      <li>Virtual joystick + attack button</li>
+      <li>Health bar HUD</li>
+      <li>Object pooled bullet/swing VFX</li>
+      <li>Builds without errors in Release mode with IL2CPP + ARM64</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(12)">← Optimization</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 13;
+const done  = new Set();
+let   cur   = 0;
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  fb.textContent = result === 'correct'
+    ? '✅ Correct! URP is Unity\'s recommended pipeline for mobile — faster shaders, better batching, and mobile-specific optimizations.'
+    : '❌ Not quite. URP (Universal Render Pipeline) is the right choice for mobile. Built-in is older and slower; HDRP is for high-end PC/console only.';
+}
+
+done.add(0);
+updateBar();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
