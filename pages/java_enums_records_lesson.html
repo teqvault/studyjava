@@ -4,137 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enums & Records — Core Java Mastery</title>
-<style>
-  :root {
-    --bg:#0d1117;--bg-card:#161b22;--bg-card-hover:#1c2230;--bg-inline:#1a2236;
-    --border:#21293a;--border-accent:#2d4a7a;
-    --blue-bright:#79b8ff;--blue-mid:#58a6ff;--blue-dim:#1f4e8c;--blue-glow:rgba(88,166,255,.12);
-    --green:#56d364;--green-dim:#1a3d20;--green-bright:#a8f0c0;
-    --red:#f85149;--red-dim:#3d1a1a;--red-bright:#ffa198;
-    --yellow:#e3b341;--yellow-dim:#3d2e0a;--yellow-bright:#f0d080;
-    --purple:#c084fc;--purple-dim:#2a1a4a;
-    --orange:#f0883e;--orange-dim:#2e1a0a;
-    --teal:#39d0d8;--teal-dim:#0d2d30;
-    --text-primary:#e6edf3;--text-secondary:#8b949e;--text-muted:#484f58;
-    --sidebar-w:270px;
-    --font-mono:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
-    --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-sans);font-size:15px;line-height:1.7;display:flex;min-height:100vh}
-  #sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-card);border-right:1px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
-  .sidebar-header{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
-  .sidebar-course-tag{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
-  .sidebar-title{font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.4}
-  .sidebar-progress-wrap{padding:12px 18px;border-bottom:1px solid var(--border)}
-  .progress-label{font-size:11px;color:var(--text-secondary);margin-bottom:6px;display:flex;justify-content:space-between}
-  .progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,var(--orange-dim),var(--orange));border-radius:2px;width:0%;transition:width .4s ease}
-  .sidebar-nav{padding:10px 0;flex:1}
-  .nav-section-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);padding:10px 18px 4px}
-  .nav-item{display:flex;align-items:center;gap:10px;padding:7px 18px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;font-size:13px;color:var(--text-secondary)}
-  .nav-item:hover{background:var(--bg-card-hover);color:var(--text-primary)}
-  .nav-item.active{border-left-color:var(--orange);color:var(--orange);background:var(--orange-dim)}
-  .nav-item.done{color:var(--green)}.nav-item.done .nav-dot{background:var(--green)}
-  .nav-dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex-shrink:0;transition:background .2s}
-  .nav-item.active .nav-dot{background:var(--orange);box-shadow:0 0 6px var(--orange)}
-  #main{margin-left:var(--sidebar-w);flex:1;max-width:860px;padding:48px 52px 80px}
-  .lesson-section{display:none;animation:fadeIn .25s ease}.lesson-section.active{display:block}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-  .lesson-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
-  h1.lesson-title{font-size:34px;font-weight:700;line-height:1.2;letter-spacing:-.02em;color:var(--text-primary);margin-bottom:14px}
-  .lesson-subtitle{font-size:16px;color:var(--text-secondary);line-height:1.6;margin-bottom:32px;max-width:620px}
-  .lesson-meta{display:flex;gap:20px;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border)}
-  .meta-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);background:var(--bg-card);border:1px solid var(--border);padding:4px 12px;border-radius:20px}
-  .meta-pill .dot{width:6px;height:6px;border-radius:50%}
-  h2{font-size:22px;font-weight:600;color:var(--text-primary);margin:36px 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
-  h2::before{content:'';display:block;width:3px;height:20px;background:var(--orange);border-radius:2px}
-  h3{font-size:16px;font-weight:600;color:var(--orange);margin:24px 0 10px}
-  p{margin-bottom:14px;color:var(--text-primary);line-height:1.75}
-  .code-block{background:#090d13;border:1px solid var(--border);border-radius:8px;margin:16px 0 20px;overflow:hidden}
-  .code-header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
-  .code-filename{font-family:var(--font-mono);font-size:12px;color:var(--text-secondary)}
-  .code-tag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
-  .tag-bad{background:var(--red-dim);color:var(--red)}.tag-good{background:var(--green-dim);color:var(--green)}
-  .tag-example{background:var(--blue-dim);color:var(--blue-bright)}.tag-output{background:#1a1a2e;color:#8888cc}
-  pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13.5px;line-height:1.65}
-  .kw{color:#ff7b72}.type{color:#79b8ff}.gen{color:#f0c070}.method{color:#d2a8ff}
-  .str{color:#a5d6ff}.num{color:#79c0ff}.comment{color:#484f58;font-style:italic}
-  .anno{color:#f0883e}.enum-const{color:#f0c070;font-weight:600}
-  code{font-family:var(--font-mono);font-size:13px;background:var(--bg-inline);color:var(--orange);padding:2px 7px;border-radius:4px;border:1px solid var(--border)}
-  .callout{border-radius:8px;padding:16px 18px;margin:18px 0;border-left:3px solid;font-size:14px;line-height:1.7}
-  .callout-title{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-  .callout.info{background:#0c1929;border-color:var(--blue-mid)}.callout.info .callout-title{color:var(--blue-mid)}
-  .callout.warning{background:var(--yellow-dim);border-color:var(--yellow)}.callout.warning .callout-title{color:var(--yellow)}
-  .callout.tip{background:var(--green-dim);border-color:var(--green)}.callout.tip .callout-title{color:var(--green)}
-  .callout.concept{background:var(--purple-dim);border-color:var(--purple)}.callout.concept .callout-title{color:var(--purple)}
-  .callout.orange{background:var(--orange-dim);border-color:var(--orange)}.callout.orange .callout-title{color:var(--orange)}
-  .analogy-card{background:linear-gradient(135deg,#0c1929 0%,#12102a 100%);border:1px solid var(--border-accent);border-radius:10px;padding:22px 24px;margin:20px 0;position:relative;overflow:hidden}
-  .analogy-card::before{content:'💡';position:absolute;top:18px;right:18px;font-size:22px;opacity:.5}
-  .analogy-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
-  .analogy-card p{color:var(--text-secondary);margin-bottom:0}.analogy-card strong{color:var(--text-primary)}
-  .concept-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-  .concept-tile{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;transition:border-color .2s}
-  .concept-tile:hover{border-color:var(--orange)}
-  .concept-tile-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
-  .concept-tile-text{font-size:13px;color:var(--text-secondary);line-height:1.5}
-  .compare-table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:13.5px}
-  .compare-table th{background:var(--bg-card);padding:10px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);border-bottom:1px solid var(--border)}
-  .compare-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-primary);vertical-align:top}
-  .compare-table tr:last-child td{border-bottom:none}.compare-table tr:hover td{background:var(--bg-card-hover)}
-  .td-bad{color:var(--red)}.td-good{color:var(--green)}
-  .quiz-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:24px;margin:28px 0}
-  .quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
-  .quiz-q{font-size:15px;font-weight:500;color:var(--text-primary);margin-bottom:16px;line-height:1.5}
-  .quiz-options{display:flex;flex-direction:column;gap:8px}
-  .quiz-option{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 14px;cursor:pointer;font-size:13.5px;color:var(--text-secondary);transition:all .15s;display:flex;align-items:flex-start;gap:10px;text-align:left}
-  .quiz-option:hover{border-color:var(--orange);color:var(--text-primary);background:var(--orange-dim)}
-  .quiz-option.correct{border-color:var(--green);color:var(--green-bright);background:var(--green-dim)}
-  .quiz-option.wrong{border-color:var(--red);color:var(--red-bright);background:var(--red-dim)}
-  .option-letter{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:1px 6px;border-radius:3px;background:var(--border);flex-shrink:0;margin-top:1px}
-  .quiz-feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:7px;font-size:13.5px;line-height:1.6}
-  .quiz-feedback.show{display:block}
-  .quiz-feedback.correct-fb{background:var(--green-dim);color:var(--green-bright);border:1px solid var(--green)}
-  .quiz-feedback.wrong-fb{background:var(--red-dim);color:var(--red-bright);border:1px solid var(--red)}
-  .challenge-card{background:linear-gradient(135deg,#0f1d12 0%,#0d1117 100%);border:1px solid #2a4a30;border-radius:10px;padding:24px;margin:28px 0}
-  .challenge-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
-  .challenge-title{font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:10px}
-  .challenge-desc{color:var(--text-secondary);font-size:14px;margin-bottom:14px}
-  .challenge-task{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px 14px;font-size:13.5px;color:var(--text-primary);margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
-  .task-num{color:var(--green);font-family:var(--font-mono);font-size:12px;font-weight:600;flex-shrink:0;margin-top:2px}
-  .reveal-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);font-size:12px;padding:6px 14px;border-radius:5px;cursor:pointer;transition:all .15s;margin-top:8px;font-family:var(--font-sans)}
-  .reveal-btn:hover{border-color:var(--green);color:var(--green)}
-  .reveal-content{display:none;margin-top:12px}.reveal-content.show{display:block}
-  .lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:52px;padding-top:28px;border-top:1px solid var(--border)}
-  .nav-btn{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:10px 20px;border-radius:7px;cursor:pointer;font-size:13px;font-family:var(--font-sans);transition:all .15s}
-  .nav-btn:hover{border-color:var(--orange);color:var(--orange)}
-  .nav-btn:disabled{opacity:.3;cursor:not-allowed}
-  .nav-btn.primary{background:var(--orange-dim);border-color:var(--orange);color:var(--orange);font-weight:500}
-  .nav-btn.primary:hover{background:#3d2510}
-  .section-indicator{font-size:12px;color:var(--text-muted)}
-  .step-list{margin:14px 0}
-  .step-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
-  .step-item:last-child{border-bottom:none}
-  .step-num{width:26px;height:26px;background:var(--orange-dim);color:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px}
-  .step-content{flex:1}
-  .step-title{font-weight:600;color:var(--text-primary);margin-bottom:3px;font-size:14px}
-  .step-desc{color:var(--text-secondary);font-size:13.5px}
-  /* RECORD ANATOMY */
-  .record-anatomy{background:#090d13;border:1px solid var(--border);border-radius:10px;padding:28px 24px;margin:20px 0;text-align:center}
-  .ra-expr{font-family:var(--font-mono);font-size:22px;letter-spacing:.02em;margin-bottom:20px;line-height:1.5}
-  .ra-kw{color:#ff7b72}.ra-name{color:#d2a8ff}.ra-comp{color:#f0883e}.ra-types{color:#79b8ff}.ra-params{color:#e6edf3}
-  .ra-labels{display:flex;justify-content:center;gap:32px;font-size:11px;color:var(--text-secondary);flex-wrap:wrap}
-  .ra-lbl{display:flex;flex-direction:column;align-items:center;gap:3px}
-  .ra-lbl span:last-child{font-weight:600}
-  /* ENUM MEMBER TABLE */
-  .enum-member-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
-  .em-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
-  .em-card h4{font-family:var(--font-mono);font-size:13px;color:var(--orange);margin-bottom:4px}
-  .em-card p{font-size:13px;color:var(--text-secondary);margin-bottom:0}
-  /* BEFORE/AFTER */
-  .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
-  .before-after-section { margin: 20px 0; }
-</style>
+
+    <link rel="stylesheet" href="../css/java_enums_records_lesson.css">
 </head>
 <body>
 <nav id="sidebar">
@@ -642,7 +513,7 @@
             <span class="kw">new</span> <span class="type">Person</span>(<span class="str">"Carol"</span>, <span class="num">35</span>));
 
         people.<span class="method">stream</span>()
-              .<span class="method">filter</span>(p -> p.<span class="method">age</span>() >= <span class="num">30</span>)
+              .<span class="method">filter</span>(p -> p.<span class="method">age</span>() &gt;= <span class="num">30</span>)
               .<span class="method">map</span>(<span class="type">Person</span>::<span class="method">name</span>)
               .<span class="method">forEach</span>(<span class="type">System</span>.out::<span class="method">println</span>);
         <span class="comment">// Alice</span>
@@ -698,9 +569,9 @@
 
     <span class="comment">// Compact constructor — no parameter list, fields auto-assigned after</span>
     <span class="type">Range</span> {
-        <span class="kw">if</span> (min > max) {
+        <span class="kw">if</span> (min &gt; max) {
             <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(
-                <span class="str">"min ("</span> + min + <span class="str">") must be <= max ("</span> + max + <span class="str">")"</span>);
+                <span class="str">"min ("</span> + min + <span class="str">") must be &lt;= max ("</span> + max + <span class="str">")"</span>);
         }
     }
 }
@@ -716,7 +587,7 @@
 
     <span class="comment">// Compact constructor — normalise currency code</span>
     <span class="type">Money</span> {
-        <span class="kw">if</span> (amount < <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Amount cannot be negative"</span>);
+        <span class="kw">if</span> (amount &lt; <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Amount cannot be negative"</span>);
         currency = currency.<span class="method">toUpperCase</span>();  <span class="comment">// normalise before assignment</span>
     }
 
@@ -938,7 +809,7 @@ shapes.<span class="method">forEach</span>(s -> <span class="type">System</span>
 
 <span class="comment">// Main</span>
 <span class="type">TrafficLight</span> light = <span class="type">TrafficLight</span>.<span class="enum-const">RED</span>;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">9</span>; i++) {
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">9</span>; i++) {
     <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%s (%ds)%n"</span>, light, light.<span class="method">getDuration</span>());
     light = light.<span class="method">next</span>();
 }</pre>
@@ -959,7 +830,7 @@ shapes.<span class="method">forEach</span>(s -> <span class="type">System</span>
       <div class="code-block">
         <div class="code-header"><span class="code-filename">Product.java</span><span class="code-tag tag-good">Solution</span></div>
         <pre><span class="kw">public record</span> <span class="type">Product</span>(<span class="type">String</span> name, <span class="type">String</span> category, <span class="kw">double</span> price) {
-    <span class="type">Product</span> { <span class="kw">if</span> (price <= <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Price must be > 0"</span>); }
+    <span class="type">Product</span> { <span class="kw">if</span> (price &lt;= <span class="num">0</span>) <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Price must be &gt; 0"</span>); }
 }
 
 <span class="type">List</span>&lt;<span class="type">Product</span>&gt; catalogue = <span class="type">List</span>.<span class="method">of</span>(
@@ -1035,5 +906,9 @@ catalogue.<span class="method">stream</span>()
   }
   document.querySelectorAll('.nav-item').forEach((el,i)=>el.addEventListener('click',()=>goTo(i)));
 </script>
+  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Roadmap
+</a>
 </body>
 </html>

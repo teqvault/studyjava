@@ -1,287 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java Mastery Roadmap</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Mastery Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #f97316; /* Java Orange */
-            --accent-hover: #ea580c;
-            --line-color: #334155;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        header {
-            text-align: center;
-            padding: 4rem 1rem 2rem;
-            background: linear-gradient(to bottom, #1e293b, #0f172a);
-            border-bottom: 1px solid var(--line-color);
-        }
-
-        header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: -webkit-linear-gradient(45deg, #f97316, #fcd34d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .roadmap-container {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-            position: relative;
-        }
-
-        /* Center Line */
-        .roadmap-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: 4px;
-            background: var(--line-color);
-            transform: translateX(-50%);
-            border-radius: 4px;
-        }
-
-        .node {
-            display: flex;
-            justify-content: flex-end;
-            padding-right: 3rem;
-            position: relative;
-            margin-bottom: 3rem;
-            width: 50%;
-        }
-
-        .node:nth-child(even) {
-            align-self: flex-end;
-            justify-content: flex-start;
-            padding-right: 0;
-            padding-left: 3rem;
-            margin-left: 50%;
-        }
-
-        /* Timeline Dots */
-        .node::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -10px;
-            width: 20px;
-            height: 20px;
-            background-color: var(--bg-dark);
-            border: 4px solid var(--accent);
-            border-radius: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-            box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
-        }
-
-        .node:nth-child(even)::before {
-            right: auto;
-            left: -10px;
-        }
-
-        .card {
-            background-color: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 100%;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--line-color);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-            text-decoration: none;
-            color: var(--text-main);
-            display: block;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .category-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .roadmap-container::before {
-                left: 30px;
-            }
-            .node, .node:nth-child(even) {
-                width: 100%;
-                justify-content: flex-start;
-                padding-left: 70px;
-                padding-right: 0;
-                margin-left: 0;
-            }
-            .node::before, .node:nth-child(even)::before {
-                left: 20px;
-                right: auto;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-    <header>
-        <h1>Java Learning Roadmap</h1>
-        <p>Your structured path from environment setup to advanced software architecture.</p>
-    </header>
+<!-- ── HERO ────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">// java-mastery-roadmap v2.0</div>
 
-    <div class="roadmap-container">
+  <h1 class="hero-title">
+    Learn Java.<br>
+    <span class="accent">Build things.</span><br>
+    <span class="dim">Get hired.</span>
+  </h1>
 
-        <div class="node">
-            <a href="java-pre-course.html" class="card">
-                <span class="category-label">1. Preparation</span>
-                <h3>Java Pre-Course</h3>
-                <p>Essential introductory concepts to kickstart your journey.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="intellij-idea-course.html" class="card">
-                <span class="category-label">1. Preparation</span>
-                <h3>IntelliJ IDEA Course</h3>
-                <p>Master your Integrated Development Environment.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="git-github-course.html" class="card">
-                <span class="category-label">1. Preparation</span>
-                <h3>Git & GitHub</h3>
-                <p>Version control and repository management basics.</p>
-            </a>
-        </div>
+  <p class="hero-sub">
+    A structured path from zero to job-ready. 17 courses, one direction.
+  </p>
 
-        <div class="node">
-            <a href="java-beginner-course.html" class="card">
-                <span class="category-label">2. Fundamentals</span>
-                <h3>Java Beginner Course</h3>
-                <p>Syntax, data types, and fundamental programming logic.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="corejava-portal.html" class="card">
-                <span class="category-label">2. Fundamentals</span>
-                <h3>Core Java Portal</h3>
-                <p>Deep dive into the core standard libraries.</p>
-            </a>
-        </div>
-
-        <div class="node">
-            <a href="oop-java-course.html" class="card">
-                <span class="category-label">3. OOP Concepts</span>
-                <h3>OOP in Java</h3>
-                <p>Classes, inheritance, and object lifecycle.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="oop-java-advanced-course.html" class="card">
-                <span class="category-label">3. OOP Concepts</span>
-                <h3>Advanced OOP</h3>
-                <p>Interfaces, polymorphism, and abstraction.</p>
-            </a>
-        </div>
-
-        <div class="node">
-            <a href="java_enums_records_lesson.html" class="card">
-                <span class="category-label">4. Data Structures</span>
-                <h3>Enums & Records</h3>
-                <p>Modern Java data carriers and enumerated types.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="java_generics_lesson.html" class="card">
-                <span class="category-label">4. Data Structures</span>
-                <h3>Java Generics</h3>
-                <p>Type safety and generic class creation.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="java_generics_lesson_1.html" class="card">
-                <span class="category-label">4. Data Structures</span>
-                <h3>Generics Part 2</h3>
-                <p>Advanced wildcards and generic boundaries.</p>
-            </a>
-        </div>
-
-        <div class="node">
-            <a href="java_lambdas_streams_lesson.html" class="card">
-                <span class="category-label">5. Modern Java</span>
-                <h3>Lambdas & Streams</h3>
-                <p>Functional programming and stream operations.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="java_optional_lesson.html" class="card">
-                <span class="category-label">5. Modern Java</span>
-                <h3>Java Optional</h3>
-                <p>Handling null references safely and elegantly.</p>
-            </a>
-        </div>
-        <div class="node">
-            <a href="java_concurrency_lesson.html" class="card">
-                <span class="category-label">5. Modern Java</span>
-                <h3>Java Concurrency</h3>
-                <p>Multithreading, thread safety, and async execution.</p>
-            </a>
-        </div>
-
-        <div class="node">
-            <a href="java_design_patterns_lesson.html" class="card">
-                <span class="category-label">6. Architecture</span>
-                <h3>Design Patterns</h3>
-                <p>Standard solutions to common software design problems.</p>
-            </a>
-        </div>
-
+  <div class="compile-widget">
+    <div class="compile-bar">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      <span class="compile-label">JavaMasteryRoadmap.java</span>
     </div>
+    <div class="compile-body" id="terminal-output">
+    </div>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#roadmap" class="cta-btn">
+      <span>./start_learning</span>
+      <span>→</span>
+    </a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">17</div>
+      <div class="stat-label">Courses</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Phases</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Potential</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKS ────────────────────────────────────── -->
+<section class="books-section">
+  <div class="books-inner">
+    <div class="books-eyebrow">// recommended_reading</div>
+    <div class="books-header">
+      <h2 class="books-title">Two books. The whole journey.</h2>
+      <p class="books-sub">These pair directly with the curriculum — one for when you're starting out, one for when you're going deep.</p>
+    </div>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="book-cover book-cover-hfj">
+          <span class="book-cover-title">Head First<br>Java</span>
+        </div>
+        <div class="book-info">
+          <div class="book-phase">Phases 1 – 3</div>
+          <div class="book-name">Head First Java</div>
+          <div class="book-author">Kathy Sierra & Bert Bates</div>
+          <p class="book-desc">Visual, conversational, and genuinely fun. The best beginner Java book ever written — pairs with Pre-Course through Advanced OOP.</p>
+          <div class="book-tags">
+            <span class="btag">Beginner-friendly</span>
+            <span class="btag">OOP</span>
+            <span class="btag">Core Java</span>
+          </div>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover book-cover-mja">
+          <span class="book-cover-title">Modern Java<br>in Action</span>
+        </div>
+        <div class="book-info">
+          <div class="book-phase">Phases 4 – 7</div>
+          <div class="book-name">Modern Java in Action</div>
+          <div class="book-author">Urma, Fusco & Mycroft</div>
+          <p class="book-desc">The definitive guide to lambdas, streams, Optional, concurrency, and modern Java features. Mirrors the second half of this curriculum exactly.</p>
+          <div class="book-tags">
+            <span class="btag">Lambdas & Streams</span>
+            <span class="btag">Concurrency</span>
+            <span class="btag">Modern Java</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROADMAP ─────────────────────────────────── -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">// course_catalog</div>
+    <h2 class="section-title">Your complete learning path</h2>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_01</span>
+      <span class="phase-name">Preparation</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/java-pre-course.html" class="course-card">
+        <div class="card-tag">Preparation</div>
+        <div class="card-title">Java Pre-Course</div>
+        <p class="card-desc">Logic, problem-solving, and computational thinking before you write a single line of syntax.</p>
+      </a>
+      <a href="pages/intellij-idea-course.html" class="course-card">
+        <div class="card-tag">Preparation</div>
+        <div class="card-title">IntelliJ IDEA</div>
+        <p class="card-desc">Master your IDE. Shortcuts, debugger, refactoring tools — the setup that separates fast devs from slow ones.</p>
+      </a>
+      <a href="pages/git-github-course.html" class="course-card">
+        <div class="card-tag">Preparation</div>
+        <div class="card-title">Git & GitHub</div>
+        <p class="card-desc">Version control from first commit to collaborative pull requests. Non-negotiable for any dev role.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_02</span>
+      <span class="phase-name">Fundamentals</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/java-beginner-course.html" class="course-card">
+        <div class="card-tag">Fundamentals</div>
+        <div class="card-title">Java Beginner Course</div>
+        <p class="card-desc">Syntax, primitives, control flow, arrays, and methods. The complete foundation, not the abridged version.</p>
+      </a>
+      <a href="pages/corejava-portal.html" class="course-card">
+        <div class="card-tag">Fundamentals</div>
+        <div class="card-title">Core Java Portal</div>
+        <p class="card-desc">The standard library in depth — collections, I/O, strings, and the classes you'll reach for every day.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_03</span>
+      <span class="phase-name">OOP Concepts</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/oop-java-course.html" class="course-card">
+        <div class="card-tag">OOP Concepts</div>
+        <div class="card-title">OOP in Java</div>
+        <p class="card-desc">Classes, objects, constructors, encapsulation, and the object lifecycle from instantiation to garbage collection.</p>
+      </a>
+      <a href="pages/oop-java-advanced-course.html" class="course-card">
+        <div class="card-tag">OOP Concepts</div>
+        <div class="card-title">Advanced OOP</div>
+        <p class="card-desc">Inheritance hierarchies, polymorphism, abstract classes, and interfaces — how Java models the real world.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_04</span>
+      <span class="phase-name">Data Structures</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/java_enums_records_lesson.html" class="course-card">
+        <div class="card-tag">Data Structures</div>
+        <div class="card-title">Enums & Records</div>
+        <p class="card-desc">Modern Java data carriers. Write less boilerplate, express more intent, and model domain concepts precisely.</p>
+      </a>
+      <a href="pages/java_generics_lesson.html" class="course-card">
+        <div class="card-tag">Data Structures</div>
+        <div class="card-title">Java Generics</div>
+        <p class="card-desc">Type-safe containers and algorithms. Understand what &lt;T&gt; actually means and how to write your own generic types.</p>
+      </a>
+      <a href="pages/java_generics_lesson_1.html" class="course-card">
+        <div class="card-tag">Data Structures</div>
+        <div class="card-title">Generics Part 2</div>
+        <p class="card-desc">Wildcards, bounded types, and the subtleties of variance. The generics knowledge most devs are missing.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_05</span>
+      <span class="phase-name">Modern Java</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/java_lambdas_streams_lesson.html" class="course-card">
+        <div class="card-tag">Modern Java</div>
+        <div class="card-title">Lambdas & Streams</div>
+        <p class="card-desc">Functional-style Java. Write expressive data pipelines with filter, map, reduce, and the full Stream API.</p>
+      </a>
+      <a href="pages/java_optional_lesson.html" class="course-card">
+        <div class="card-tag">Modern Java</div>
+        <div class="card-title">Java Optional</div>
+        <p class="card-desc">Eliminate NullPointerExceptions by design. Model absence explicitly rather than hoping nothing is null.</p>
+      </a>
+      <a href="pages/java_concurrency_lesson.html" class="course-card">
+        <div class="card-tag">Modern Java</div>
+        <div class="card-title">Java Concurrency</div>
+        <p class="card-desc">Threads, executors, CompletableFuture, and synchronization primitives. Write code that runs in parallel safely.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 6 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_06</span>
+      <span class="phase-name">Architecture</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/java_design_patterns_lesson.html" class="course-card">
+        <div class="card-tag">Architecture</div>
+        <div class="card-title">Design Patterns</div>
+        <p class="card-desc">Singleton, Factory, Observer, Strategy, and more. The vocabulary senior devs use — start speaking it.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase 7 -->
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num">phase_07</span>
+      <span class="phase-name">Enterprise Frameworks</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/springboot-course.html" class="course-card featured">
+        <div class="featured-inner">
+          <div>
+            <div class="card-tag">Enterprise · Final Phase</div>
+            <div class="card-title">Spring Boot Course</div>
+            <p class="card-desc">Build production-ready REST APIs with the framework behind half the Java jobs on the market. Dependency injection, JPA, validation, exception handling, and testing — all in one capstone course.</p>
+          </div>
+          <span class="featured-badge">Job-Ready ✓</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer class="site-footer">
+  <span>// java-mastery-roadmap — built for students, by obsessives</span>
+</footer>
+
+<script>
+// Terminal animation
+const lines = [
+  { text: '$ javac JavaMasteryRoadmap.java', cls: 'cl-prompt', delay: 0 },
+  { text: 'import foundations.*;', cls: 'cl-kw', delay: 500 },
+  { text: 'import oop.advanced.*;', cls: 'cl-kw', delay: 800 },
+  { text: 'import spring.boot.*;  // the endgame', cls: 'cl-cmt', delay: 1100 },
+  { text: '', cls: '', delay: 1400 },
+  { text: '[BUILD] Compiling 17 modules...', cls: 'cl-warn', delay: 1600 },
+  { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2200 },
+  { text: '[OK]    Ready to run → java Developer', cls: 'cl-ok', delay: 2700 },
+];
+
+const terminal = document.getElementById('terminal-output');
+let lineIndex = 0;
+
+function typeNextLine() {
+  if (lineIndex >= lines.length) {
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    terminal.appendChild(cursor);
+    return;
+  }
+  const { text, cls, delay } = lines[lineIndex++];
+  setTimeout(() => {
+    const span = document.createElement('span');
+    span.className = 'cl ' + cls;
+    span.textContent = text;
+    terminal.appendChild(span);
+    typeNextLine();
+  }, delay);
+}
+
+window.addEventListener('load', () => setTimeout(typeNextLine, 800));
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
