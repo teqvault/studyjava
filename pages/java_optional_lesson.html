@@ -1,59 +1,53 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Optional — Core Java Mastery</title>
-
-    <link rel="stylesheet" href="../css/java_optional_lesson.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="../css/java_optional_lesson.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
-<nav id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-course-tag">Core Java · Phase 2</div>
-    <div class="sidebar-title">Optional — Null-Safe Code</div>
-  </div>
-  <div class="sidebar-progress-wrap">
-    <div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  </div>
-  <div class="sidebar-nav">
-    <div class="nav-section-label">Sections</div>
-    <a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> The Null Problem</a>
-    <a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> What Is Optional?</a>
-    <a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Creating Optionals</a>
-    <a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Retrieving Values</a>
-    <a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> Transforming: map &amp; flatMap</a>
-    <a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> filter &amp; ifPresent</a>
-    <a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Optional in Method Signatures</a>
-    <a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Chaining Optionals</a>
-    <a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Anti-patterns &amp; Rules</a>
-    <a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
-  </div>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-course-tag">Core Java · Phase 2</div>
+<div class="sidebar-title">Optional — Null-Safe Code</div>
+</div>
+<div class="sidebar-progress-wrap">
+<div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section-label">Sections</div>
+<a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> The Null Problem</a>
+<a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> What Is Optional?</a>
+<a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Creating Optionals</a>
+<a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Retrieving Values</a>
+<a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> Transforming: map &amp; flatMap</a>
+<a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> filter &amp; ifPresent</a>
+<a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Optional in Method Signatures</a>
+<a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Chaining Optionals</a>
+<a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Anti-patterns &amp; Rules</a>
+<a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
+</div>
 </nav>
-
-<main id="main">
-
+<main class="main" id="main">
 <!-- ══ S0: THE NULL PROBLEM ══ -->
 <section class="lesson-section active" id="section-0">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 1 of 10</div>
-  <h1 class="lesson-title">The Null Problem</h1>
-  <p class="lesson-subtitle">Tony Hoare, the inventor of null, called it his "billion-dollar mistake." Before Optional, null was how Java represented "no value" — and it crashed programs constantly.</p>
-
-  <div class="lesson-meta">
-    <div class="meta-pill"><span class="dot" style="background:var(--violet)"></span> Beginner-friendly</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~7 min read</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
-  </div>
-
-  <h2>The Classic Crash</h2>
-  <p>Every Java developer has seen this exception. It's the most common runtime error in Java:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">NullCrash.java</span><span class="code-tag tag-bad">⚠ NullPointerException</span></div>
-    <pre><span class="kw">public class</span> <span class="type">UserService</span> {
+<div class="lesson-eyebrow">Core Java · Optional · Section 1 of 10</div>
+<h1 class="lesson-title">The Null Problem</h1>
+<p class="lesson-subtitle">Tony Hoare, the inventor of null, called it his "billion-dollar mistake." Before Optional, null was how Java represented "no value" — and it crashed programs constantly.</p>
+<div class="lesson-meta">
+<div class="meta-pill"><span class="dot" style="background:var(--violet)"></span> Beginner-friendly</div>
+<div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~7 min read</div>
+<div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
+</div>
+<h2>The Classic Crash</h2>
+<p>Every Java developer has seen this exception. It's the most common runtime error in Java:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">NullCrash.java</span><span class="code-tag tag-bad">⚠ NullPointerException</span></div>
+<pre><span class="kw">public class</span> <span class="type">UserService</span> {
 
     <span class="kw">public</span> <span class="type">User</span> <span class="method">findUser</span>(<span class="type">String</span> id) {
         <span class="comment">// Returns null if user not found</span>
@@ -67,16 +61,13 @@
 <span class="type">String</span> city = user.<span class="method">getAddress</span>().<span class="method">getCity</span>();
 <span class="comment">// ❌ NullPointerException if user is null</span>
 <span class="comment">// ❌ NullPointerException if getAddress() returns null</span></pre>
-  </div>
-
-  <p>There are two problems here. First, <code>findUser</code>'s return type — <code>User</code> — gives you no indication that it might return null. The caller has to read the docs, or the source code, or get burned at runtime. Second, null can propagate silently through layers of code before exploding.</p>
-
-  <h2>The Defensive Null-Check Pyramid</h2>
-  <p>The traditional "solution" was to check for null everywhere. This made code ugly, verbose, and easy to forget:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">NullChecks.java</span><span class="code-tag tag-bad">⚠ Null Check Pyramid</span></div>
-    <pre><span class="type">User</span> user = service.<span class="method">findUser</span>(<span class="str">"abc123"</span>);
+</div>
+<p>There are two problems here. First, <code>findUser</code>'s return type — <code>User</code> — gives you no indication that it might return null. The caller has to read the docs, or the source code, or get burned at runtime. Second, null can propagate silently through layers of code before exploding.</p>
+<h2>The Defensive Null-Check Pyramid</h2>
+<p>The traditional "solution" was to check for null everywhere. This made code ugly, verbose, and easy to forget:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">NullChecks.java</span><span class="code-tag tag-bad">⚠ Null Check Pyramid</span></div>
+<pre><span class="type">User</span> user = service.<span class="method">findUser</span>(<span class="str">"abc123"</span>);
 
 <span class="kw">if</span> (user != <span class="kw">null</span>) {
     <span class="type">Address</span> address = user.<span class="method">getAddress</span>();
@@ -87,54 +78,46 @@
         }
     }
 }</pre>
-  </div>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>Null is like a time bomb hidden in a gift box. The box says "User" — but it might be empty. You only find out when you open it and try to use what's inside. <strong>Optional is a transparent box</strong> that tells you upfront whether there's anything inside, before you try to open it.</p>
-  </div>
-
-  <h2>What Optional Promises</h2>
-  <div class="concept-row">
-    <div class="concept-tile"><div class="concept-tile-label">Explicit</div><div class="concept-tile-text">A method returning <code>Optional&lt;User&gt;</code> is honest: "I might not return a user." The type itself is the documentation.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Safe</div><div class="concept-tile-text">You can't accidentally use a missing value — Optional forces you to handle the empty case before extracting.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Chainable</div><div class="concept-tile-text">Optional has map, filter, and flatMap — you can transform a value that might not exist without nested if-blocks.</div></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" disabled>← Previous</button>
-    <span class="section-indicator">Section 1 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(1)">What Is Optional? →</button>
-  </div>
+</div>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>Null is like a time bomb hidden in a gift box. The box says "User" — but it might be empty. You only find out when you open it and try to use what's inside. <strong>Optional is a transparent box</strong> that tells you upfront whether there's anything inside, before you try to open it.</p>
+</div>
+<h2>What Optional Promises</h2>
+<div class="concept-row">
+<div class="concept-tile"><div class="concept-tile-label">Explicit</div><div class="concept-tile-text">A method returning <code>Optional&lt;User&gt;</code> is honest: "I might not return a user." The type itself is the documentation.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Safe</div><div class="concept-tile-text">You can't accidentally use a missing value — Optional forces you to handle the empty case before extracting.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Chainable</div><div class="concept-tile-text">Optional has map, filter, and flatMap — you can transform a value that might not exist without nested if-blocks.</div></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" disabled="">← Previous</button>
+<span class="section-indicator">Section 1 of 10</span>
+<button class="nav-btn primary" onclick="goTo(1)">What Is Optional? →</button>
+</div>
 </section>
-
 <!-- ══ S1: WHAT IS OPTIONAL ══ -->
 <section class="lesson-section" id="section-1">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 2 of 10</div>
-  <h1 class="lesson-title">What Is Optional?</h1>
-  <p class="lesson-subtitle"><code>Optional&lt;T&gt;</code> is a container that either holds a value of type T, or holds nothing. It was introduced in Java 8 specifically to address the null problem in return types.</p>
-
-  <h2>The Two States</h2>
-
-  <div class="flow">
-    <div class="flow-row">
-      <div class="flow-box has-val">Optional.of("Alice")</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-box has-val" style="flex:2">Present — contains "Alice"</div>
-    </div>
-    <div style="height:10px"></div>
-    <div class="flow-row">
-      <div class="flow-box empty">Optional.empty()</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-box empty" style="flex:2">Empty — contains nothing</div>
-    </div>
-  </div>
-
-  <p>That's it. Optional wraps a value that <em>might or might not be there</em>. The wrapper itself is never null — it's always an Optional object, just either full or empty.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">OptionalBasics.java</span><span class="code-tag tag-example">Two States</span></div>
-    <pre><span class="kw">import</span> java.util.Optional;
+<div class="lesson-eyebrow">Core Java · Optional · Section 2 of 10</div>
+<h1 class="lesson-title">What Is Optional?</h1>
+<p class="lesson-subtitle"><code>Optional&lt;T&gt;</code> is a container that either holds a value of type T, or holds nothing. It was introduced in Java 8 specifically to address the null problem in return types.</p>
+<h2>The Two States</h2>
+<div class="flow">
+<div class="flow-row">
+<div class="flow-box has-val">Optional.of("Alice")</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box has-val" style="flex:2">Present — contains "Alice"</div>
+</div>
+<div style="height:10px"></div>
+<div class="flow-row">
+<div class="flow-box empty">Optional.empty()</div>
+<div class="flow-arrow">→</div>
+<div class="flow-box empty" style="flex:2">Empty — contains nothing</div>
+</div>
+</div>
+<p>That's it. Optional wraps a value that <em>might or might not be there</em>. The wrapper itself is never null — it's always an Optional object, just either full or empty.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">OptionalBasics.java</span><span class="code-tag tag-example">Two States</span></div>
+<pre><span class="kw">import</span> java.util.Optional;
 
 <span class="comment">// A present Optional</span>
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; present = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"Alice"</span>);
@@ -147,65 +130,58 @@
 <span class="type">System</span>.out.<span class="method">println</span>(empty.<span class="method">isPresent</span>());    <span class="comment">// false</span>
 <span class="type">System</span>.out.<span class="method">println</span>(empty.<span class="method">isEmpty</span>());      <span class="comment">// true</span>
 <span class="type">System</span>.out.<span class="method">println</span>(empty);                <span class="comment">// Optional.empty</span></pre>
+</div>
+<div class="callout info">
+<div class="callout-title">📐 Generic Type</div>
+<code>Optional&lt;T&gt;</code> is generic — the T is the type of value it might hold. <code>Optional&lt;String&gt;</code> might hold a String. <code>Optional&lt;User&gt;</code> might hold a User. Just like how <code>List&lt;String&gt;</code> holds Strings, <code>Optional&lt;String&gt;</code> potentially holds one String.
   </div>
-
-  <div class="callout info">
-    <div class="callout-title">📐 Generic Type</div>
-    <code>Optional&lt;T&gt;</code> is generic — the T is the type of value it might hold. <code>Optional&lt;String&gt;</code> might hold a String. <code>Optional&lt;User&gt;</code> might hold a User. Just like how <code>List&lt;String&gt;</code> holds Strings, <code>Optional&lt;String&gt;</code> potentially holds one String.
-  </div>
-
-  <h2>How It Changes the Contract</h2>
-
-  <table class="compare-table">
-    <tr><th>Before Optional</th><th>With Optional</th></tr>
-    <tr>
-      <td class="td-bad"><code>User findUser(String id)</code><br><small>Might return null — caller has to know</small></td>
-      <td class="td-good"><code>Optional&lt;User&gt; findUser(String id)</code><br><small>Might return empty — the type says so</small></td>
-    </tr>
-    <tr>
-      <td class="td-bad">NullPointerException at runtime if forgotten</td>
-      <td class="td-good">Compiler forces you to handle the empty case</td>
-    </tr>
-    <tr>
-      <td class="td-bad">Null propagates silently through code</td>
-      <td class="td-good">Empty Optional is explicit — you can see it</td>
-    </tr>
-  </table>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(0)">← The Null Problem</button>
-    <span class="section-indicator">Section 2 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(2)">Creating Optionals →</button>
-  </div>
+<h2>How It Changes the Contract</h2>
+<table class="compare-table">
+<tr><th>Before Optional</th><th>With Optional</th></tr>
+<tr>
+<td class="td-bad"><code>User findUser(String id)</code><br/><small>Might return null — caller has to know</small></td>
+<td class="td-good"><code>Optional&lt;User&gt; findUser(String id)</code><br/><small>Might return empty — the type says so</small></td>
+</tr>
+<tr>
+<td class="td-bad">NullPointerException at runtime if forgotten</td>
+<td class="td-good">Compiler forces you to handle the empty case</td>
+</tr>
+<tr>
+<td class="td-bad">Null propagates silently through code</td>
+<td class="td-good">Empty Optional is explicit — you can see it</td>
+</tr>
+</table>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(0)">← The Null Problem</button>
+<span class="section-indicator">Section 2 of 10</span>
+<button class="nav-btn primary" onclick="goTo(2)">Creating Optionals →</button>
+</div>
 </section>
-
 <!-- ══ S2: CREATING OPTIONALS ══ -->
 <section class="lesson-section" id="section-2">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 3 of 10</div>
-  <h1 class="lesson-title">Creating Optionals</h1>
-  <p class="lesson-subtitle">There are three factory methods for creating an Optional. Knowing when to use each one is the first step.</p>
-
-  <div class="method-grid">
-    <div class="method-card creation">
-      <h4>Optional.of(value)</h4>
-      <div class="sig">Optional&lt;T&gt; of(T value)</div>
-      <p>Wraps a value you <em>know</em> is not null. Throws NullPointerException immediately if you pass null — which is a feature, not a bug.</p>
-    </div>
-    <div class="method-card creation">
-      <h4>Optional.empty()</h4>
-      <div class="sig">Optional&lt;T&gt; empty()</div>
-      <p>Creates an empty Optional — no value. Use this when you want to express "nothing to return."</p>
-    </div>
-    <div class="method-card creation" style="grid-column:span 2">
-      <h4>Optional.ofNullable(value)</h4>
-      <div class="sig">Optional&lt;T&gt; ofNullable(T value)</div>
-      <p>Wraps a value that <em>might</em> be null. If the value is null, returns <code>Optional.empty()</code>. If not null, returns <code>Optional.of(value)</code>. Use this when bridging from legacy code that returns null.</p>
-    </div>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Creating.java</span><span class="code-tag tag-example">Three Factory Methods</span></div>
-    <pre><span class="kw">import</span> java.util.Optional;
+<div class="lesson-eyebrow">Core Java · Optional · Section 3 of 10</div>
+<h1 class="lesson-title">Creating Optionals</h1>
+<p class="lesson-subtitle">There are three factory methods for creating an Optional. Knowing when to use each one is the first step.</p>
+<div class="method-grid">
+<div class="method-card creation">
+<h4>Optional.of(value)</h4>
+<div class="sig">Optional&lt;T&gt; of(T value)</div>
+<p>Wraps a value you <em>know</em> is not null. Throws NullPointerException immediately if you pass null — which is a feature, not a bug.</p>
+</div>
+<div class="method-card creation">
+<h4>Optional.empty()</h4>
+<div class="sig">Optional&lt;T&gt; empty()</div>
+<p>Creates an empty Optional — no value. Use this when you want to express "nothing to return."</p>
+</div>
+<div class="method-card creation" style="grid-column:span 2">
+<h4>Optional.ofNullable(value)</h4>
+<div class="sig">Optional&lt;T&gt; ofNullable(T value)</div>
+<p>Wraps a value that <em>might</em> be null. If the value is null, returns <code>Optional.empty()</code>. If not null, returns <code>Optional.of(value)</code>. Use this when bridging from legacy code that returns null.</p>
+</div>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Creating.java</span><span class="code-tag tag-example">Three Factory Methods</span></div>
+<pre><span class="kw">import</span> java.util.Optional;
 
 <span class="comment">// of() — value is definitely not null</span>
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; a = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"hello"</span>);       <span class="comment">// ✓ Optional[hello]</span>
@@ -225,66 +201,60 @@
     <span class="type">User</span> user = legacyDao.<span class="method">getUser</span>(id);  <span class="comment">// might return null</span>
     <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">ofNullable</span>(user);    <span class="comment">// safely wrap it</span>
 }</pre>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ Simple Decision Rule</div>
-    Writing a method that should return a value? → <code>Optional.of(value)</code><br>
-    Writing a method that has no result? → <code>Optional.empty()</code><br>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ Simple Decision Rule</div>
+    Writing a method that should return a value? → <code>Optional.of(value)</code><br/>
+    Writing a method that has no result? → <code>Optional.empty()</code><br/>
     Wrapping something from old code that might return null? → <code>Optional.ofNullable(value)</code>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">You call a legacy method that might return null. Which factory method should you use to wrap the result?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> <code>Optional.of(result)</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">B</span> <code>Optional.empty()</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">C</span> <code>Optional.ofNullable(result)</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> <code>Optional.wrap(result)</code></button>
-    </div>
-    <div class="quiz-feedback" id="q1-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(1)">← What Is Optional?</button>
-    <span class="section-indicator">Section 3 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(3)">Retrieving Values →</button>
-  </div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">You call a legacy method that might return null. Which factory method should you use to wrap the result?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> <code>Optional.of(result)</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">B</span> <code>Optional.empty()</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">C</span> <code>Optional.ofNullable(result)</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> <code>Optional.wrap(result)</code></button>
+</div>
+<div class="quiz-feedback" id="q1-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(1)">← What Is Optional?</button>
+<span class="section-indicator">Section 3 of 10</span>
+<button class="nav-btn primary" onclick="goTo(3)">Retrieving Values →</button>
+</div>
 </section>
-
 <!-- ══ S3: RETRIEVING VALUES ══ -->
 <section class="lesson-section" id="section-3">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 4 of 10</div>
-  <h1 class="lesson-title">Retrieving Values</h1>
-  <p class="lesson-subtitle">Once you have an Optional, you need to get the value out. There are several ways — some safe, some dangerous. Know the difference.</p>
-
-  <div class="method-grid">
-    <div class="method-card terminal">
-      <h4>orElse(default)</h4>
-      <div class="sig">T orElse(T other)</div>
-      <p>Returns the value if present, otherwise returns the default you provide. The default is always evaluated.</p>
-    </div>
-    <div class="method-card terminal">
-      <h4>orElseGet(supplier)</h4>
-      <div class="sig">T orElseGet(Supplier&lt;T&gt; s)</div>
-      <p>Returns the value if present, otherwise calls the Supplier to generate a default. Lazy — the Supplier only runs if needed.</p>
-    </div>
-    <div class="method-card terminal">
-      <h4>orElseThrow()</h4>
-      <div class="sig">T orElseThrow()</div>
-      <p>Returns the value if present. Throws <code>NoSuchElementException</code> if empty. Use when empty truly is an error.</p>
-    </div>
-    <div class="method-card terminal">
-      <h4>get() ⚠</h4>
-      <div class="sig">T get()</div>
-      <p>Returns the value — but throws if empty. Considered bad practice. Use <code>orElseThrow()</code> instead. Almost never the right choice.</p>
-    </div>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Retrieving.java</span><span class="code-tag tag-example">All Retrieval Methods</span></div>
-    <pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; present = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"Alice"</span>);
+<div class="lesson-eyebrow">Core Java · Optional · Section 4 of 10</div>
+<h1 class="lesson-title">Retrieving Values</h1>
+<p class="lesson-subtitle">Once you have an Optional, you need to get the value out. There are several ways — some safe, some dangerous. Know the difference.</p>
+<div class="method-grid">
+<div class="method-card terminal">
+<h4>orElse(default)</h4>
+<div class="sig">T orElse(T other)</div>
+<p>Returns the value if present, otherwise returns the default you provide. The default is always evaluated.</p>
+</div>
+<div class="method-card terminal">
+<h4>orElseGet(supplier)</h4>
+<div class="sig">T orElseGet(Supplier&lt;T&gt; s)</div>
+<p>Returns the value if present, otherwise calls the Supplier to generate a default. Lazy — the Supplier only runs if needed.</p>
+</div>
+<div class="method-card terminal">
+<h4>orElseThrow()</h4>
+<div class="sig">T orElseThrow()</div>
+<p>Returns the value if present. Throws <code>NoSuchElementException</code> if empty. Use when empty truly is an error.</p>
+</div>
+<div class="method-card terminal">
+<h4>get() ⚠</h4>
+<div class="sig">T get()</div>
+<p>Returns the value — but throws if empty. Considered bad practice. Use <code>orElseThrow()</code> instead. Almost never the right choice.</p>
+</div>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Retrieving.java</span><span class="code-tag tag-example">All Retrieval Methods</span></div>
+<pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; present = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"Alice"</span>);
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; empty   = <span class="opt">Optional</span>.<span class="method">empty</span>();
 
 <span class="comment">// orElse — constant default</span>
@@ -292,58 +262,52 @@
 <span class="type">System</span>.out.<span class="method">println</span>(empty.<span class="method">orElse</span>(<span class="str">"Unknown"</span>));    <span class="comment">// Unknown</span>
 
 <span class="comment">// orElseGet — computed default (lazy)</span>
-<span class="type">System</span>.out.<span class="method">println</span>(present.<span class="method">orElseGet</span>(() -> <span class="str">"computed"</span>));  <span class="comment">// Alice</span>
-<span class="type">System</span>.out.<span class="method">println</span>(empty.<span class="method">orElseGet</span>(() -> <span class="str">"computed"</span>));    <span class="comment">// computed</span>
+<span class="type">System</span>.out.<span class="method">println</span>(present.<span class="method">orElseGet</span>(() -&gt; <span class="str">"computed"</span>));  <span class="comment">// Alice</span>
+<span class="type">System</span>.out.<span class="method">println</span>(empty.<span class="method">orElseGet</span>(() -&gt; <span class="str">"computed"</span>));    <span class="comment">// computed</span>
 
 <span class="comment">// orElseThrow — empty means something went wrong</span>
 <span class="type">String</span> val = present.<span class="method">orElseThrow</span>();           <span class="comment">// Alice</span>
 <span class="type">String</span> bad = empty.<span class="method">orElseThrow</span>();              <span class="comment">// ❌ NoSuchElementException</span>
 
 <span class="comment">// Custom exception</span>
-<span class="type">String</span> result = empty.<span class="method">orElseThrow</span>(() ->
+<span class="type">String</span> result = empty.<span class="method">orElseThrow</span>(() -&gt;
     <span class="kw">new</span> <span class="type">UserNotFoundException</span>(<span class="str">"User not found"</span>)
 );
 
 <span class="comment">// get() — avoid this</span>
 <span class="comment">// present.get();  ← works but poor style</span>
 <span class="comment">// empty.get();    ← NoSuchElementException</span></pre>
-  </div>
-
-  <h2>orElse vs orElseGet</h2>
-  <p>These look identical but behave differently when the default is expensive to compute:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">LazyDefault.java</span><span class="code-tag tag-example">Performance Difference</span></div>
-    <pre><span class="comment">// orElse — ALWAYS computes the default, even if not used</span>
+</div>
+<h2>orElse vs orElseGet</h2>
+<p>These look identical but behave differently when the default is expensive to compute:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">LazyDefault.java</span><span class="code-tag tag-example">Performance Difference</span></div>
+<pre><span class="comment">// orElse — ALWAYS computes the default, even if not used</span>
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; opt = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"present"</span>);
 <span class="type">String</span> r1 = opt.<span class="method">orElse</span>(<span class="method">expensiveDbCall</span>());  <span class="comment">// DB called even though opt has value!</span>
 
 <span class="comment">// orElseGet — LAZY, only computes default if Optional is empty</span>
-<span class="type">String</span> r2 = opt.<span class="method">orElseGet</span>(() -> <span class="method">expensiveDbCall</span>());  <span class="comment">// DB NOT called</span>
+<span class="type">String</span> r2 = opt.<span class="method">orElseGet</span>(() -&gt; <span class="method">expensiveDbCall</span>());  <span class="comment">// DB NOT called</span>
 
 <span class="comment">// Rule: if the default is a constant → orElse</span>
 <span class="comment">//       if the default requires computation → orElseGet</span></pre>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(2)">← Creating Optionals</button>
-    <span class="section-indicator">Section 4 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(4)">map &amp; flatMap →</button>
-  </div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(2)">← Creating Optionals</button>
+<span class="section-indicator">Section 4 of 10</span>
+<button class="nav-btn primary" onclick="goTo(4)">map &amp; flatMap →</button>
+</div>
 </section>
-
 <!-- ══ S4: MAP & FLATMAP ══ -->
 <section class="lesson-section" id="section-4">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 5 of 10</div>
-  <h1 class="lesson-title">Transforming: map &amp; flatMap</h1>
-  <p class="lesson-subtitle">The real power of Optional is transforming values without unpacking them first. <code>map</code> and <code>flatMap</code> let you chain operations on a value that might not exist.</p>
-
-  <h2>map() — Transform If Present</h2>
-  <p><code>map</code> applies a function to the value inside the Optional — if present. If empty, it returns empty. You never touch null.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">MapOpt.java</span><span class="code-tag tag-example">map()</span></div>
-    <pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; name = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"alice"</span>);
+<div class="lesson-eyebrow">Core Java · Optional · Section 5 of 10</div>
+<h1 class="lesson-title">Transforming: map &amp; flatMap</h1>
+<p class="lesson-subtitle">The real power of Optional is transforming values without unpacking them first. <code>map</code> and <code>flatMap</code> let you chain operations on a value that might not exist.</p>
+<h2>map() — Transform If Present</h2>
+<p><code>map</code> applies a function to the value inside the Optional — if present. If empty, it returns empty. You never touch null.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">MapOpt.java</span><span class="code-tag tag-example">map()</span></div>
+<pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; name = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"alice"</span>);
 
 <span class="comment">// Transform the value inside — returns Optional&lt;String&gt;</span>
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; upper = name.<span class="method">map</span>(<span class="type">String</span>::<span class="method">toUpperCase</span>);
@@ -362,14 +326,12 @@
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; city = <span class="method">findUser</span>(<span class="str">"id123"</span>)
     .<span class="method">map</span>(<span class="type">User</span>::<span class="method">getAddress</span>)   <span class="comment">// Optional&lt;Address&gt;</span>
     .<span class="comment">/* but getAddress returns Address, not Optional... */</span></pre>
-  </div>
-
-  <h2>The map vs flatMap Distinction</h2>
-  <p>When the function you pass to <code>map</code> itself returns an Optional, you end up with <code>Optional&lt;Optional&lt;T&gt;&gt;</code> — a nested Optional. That's where <code>flatMap</code> comes in.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">FlatMap.java</span><span class="code-tag tag-example">When to Use flatMap</span></div>
-    <pre><span class="kw">class</span> <span class="type">User</span> {
+</div>
+<h2>The map vs flatMap Distinction</h2>
+<p>When the function you pass to <code>map</code> itself returns an Optional, you end up with <code>Optional&lt;Optional&lt;T&gt;&gt;</code> — a nested Optional. That's where <code>flatMap</code> comes in.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">FlatMap.java</span><span class="code-tag tag-example">When to Use flatMap</span></div>
+<pre><span class="kw">class</span> <span class="type">User</span> {
     <span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">Address</span>&gt; <span class="method">getAddress</span>() { ... }  <span class="comment">// returns Optional</span>
 }
 <span class="kw">class</span> <span class="type">Address</span> {
@@ -390,111 +352,98 @@
     .<span class="method">flatMap</span>(<span class="type">User</span>::<span class="method">getAddress</span>)
     .<span class="method">flatMap</span>(<span class="type">Address</span>::<span class="method">getCity</span>)
     .<span class="method">orElse</span>(<span class="str">"Unknown city"</span>);</pre>
-  </div>
-
-  <div class="callout violet">
-    <div class="callout-title">🔑 map vs flatMap — The Rule</div>
-    Use <strong>map</strong> when your function returns a plain value: <code>User → String</code><br>
-    Use <strong>flatMap</strong> when your function returns an Optional: <code>User → Optional&lt;Address&gt;</code><br><br>
+</div>
+<div class="callout violet">
+<div class="callout-title">🔑 map vs flatMap — The Rule</div>
+    Use <strong>map</strong> when your function returns a plain value: <code>User → String</code><br/>
+    Use <strong>flatMap</strong> when your function returns an Optional: <code>User → Optional&lt;Address&gt;</code><br/><br/>
     flatMap unwraps the inner Optional so you don't end up with <code>Optional&lt;Optional&lt;T&gt;&gt;</code>.
   </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">A method <code>getAddress()</code> returns <code>Optional&lt;Address&gt;</code>. You're calling it on an <code>Optional&lt;User&gt;</code>. Which method should you use?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> <code>map(User::getAddress)</code> — gives you <code>Optional&lt;Address&gt;</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">B</span> <code>flatMap(User::getAddress)</code> — gives you <code>Optional&lt;Address&gt;</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">C</span> Either works identically</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> Neither — you must unwrap first with <code>get()</code></button>
-    </div>
-    <div class="quiz-feedback" id="q2-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(3)">← Retrieving Values</button>
-    <span class="section-indicator">Section 5 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(5)">filter &amp; ifPresent →</button>
-  </div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">A method <code>getAddress()</code> returns <code>Optional&lt;Address&gt;</code>. You're calling it on an <code>Optional&lt;User&gt;</code>. Which method should you use?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> <code>map(User::getAddress)</code> — gives you <code>Optional&lt;Address&gt;</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">B</span> <code>flatMap(User::getAddress)</code> — gives you <code>Optional&lt;Address&gt;</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">C</span> Either works identically</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> Neither — you must unwrap first with <code>get()</code></button>
+</div>
+<div class="quiz-feedback" id="q2-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(3)">← Retrieving Values</button>
+<span class="section-indicator">Section 5 of 10</span>
+<button class="nav-btn primary" onclick="goTo(5)">filter &amp; ifPresent →</button>
+</div>
 </section>
-
 <!-- ══ S5: FILTER & IFPRESENT ══ -->
 <section class="lesson-section" id="section-5">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 6 of 10</div>
-  <h1 class="lesson-title">filter &amp; ifPresent</h1>
-  <p class="lesson-subtitle">Two more tools for working with Optionals without ever touching null directly.</p>
+<div class="lesson-eyebrow">Core Java · Optional · Section 6 of 10</div>
+<h1 class="lesson-title">filter &amp; ifPresent</h1>
+<p class="lesson-subtitle">Two more tools for working with Optionals without ever touching null directly.</p>
+<h2>filter() — Conditional Emptying</h2>
+<p><code>filter</code> applies a Predicate to the value. If the value passes, you get the same Optional back. If it fails — or was already empty — you get <code>Optional.empty()</code>.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Filter.java</span><span class="code-tag tag-example">filter()</span></div>
+<pre><span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; score = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="num">85</span>);
 
-  <h2>filter() — Conditional Emptying</h2>
-  <p><code>filter</code> applies a Predicate to the value. If the value passes, you get the same Optional back. If it fails — or was already empty — you get <code>Optional.empty()</code>.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Filter.java</span><span class="code-tag tag-example">filter()</span></div>
-    <pre><span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; score = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="num">85</span>);
-
-<span class="comment">// Keep only if score is passing (>= 60)</span>
-<span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; passing = score.<span class="method">filter</span>(s -> s &gt;= <span class="num">60</span>);
+<span class="comment">// Keep only if score is passing (&gt;= 60)</span>
+<span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; passing = score.<span class="method">filter</span>(s -&gt; s &gt;= <span class="num">60</span>);
 <span class="type">System</span>.out.<span class="method">println</span>(passing);  <span class="comment">// Optional[85]</span>
 
-<span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; failing = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="num">45</span>).<span class="method">filter</span>(s -> s &gt;= <span class="num">60</span>);
+<span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; failing = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="num">45</span>).<span class="method">filter</span>(s -&gt; s &gt;= <span class="num">60</span>);
 <span class="type">System</span>.out.<span class="method">println</span>(failing);  <span class="comment">// Optional.empty</span>
 
 <span class="comment">// Real use: only process premium users</span>
 <span class="method">findUser</span>(<span class="str">"id"</span>)
     .<span class="method">filter</span>(<span class="type">User</span>::<span class="method">isPremium</span>)
-    .<span class="method">ifPresent</span>(u -> <span class="method">sendPremiumOffer</span>(u));</pre>
-  </div>
-
-  <h2>ifPresent() — Side Effects</h2>
-  <p><code>ifPresent</code> runs a Consumer <em>only if</em> the value is present. Nothing happens if empty. No if-check needed.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">IfPresent.java</span><span class="code-tag tag-example">ifPresent() &amp; ifPresentOrElse()</span></div>
-    <pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; name = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"Alice"</span>);
+    .<span class="method">ifPresent</span>(u -&gt; <span class="method">sendPremiumOffer</span>(u));</pre>
+</div>
+<h2>ifPresent() — Side Effects</h2>
+<p><code>ifPresent</code> runs a Consumer <em>only if</em> the value is present. Nothing happens if empty. No if-check needed.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">IfPresent.java</span><span class="code-tag tag-example">ifPresent() &amp; ifPresentOrElse()</span></div>
+<pre><span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; name = <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"Alice"</span>);
 <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; none = <span class="opt">Optional</span>.<span class="method">empty</span>();
 
 <span class="comment">// ifPresent — runs only if value exists</span>
-name.<span class="method">ifPresent</span>(n -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Hello, "</span> + n));  <span class="comment">// Hello, Alice</span>
-none.<span class="method">ifPresent</span>(n -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Hello, "</span> + n));  <span class="comment">// nothing</span>
+name.<span class="method">ifPresent</span>(n -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Hello, "</span> + n));  <span class="comment">// Hello, Alice</span>
+none.<span class="method">ifPresent</span>(n -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Hello, "</span> + n));  <span class="comment">// nothing</span>
 
 <span class="comment">// ifPresentOrElse (Java 9+) — handle both cases</span>
 name.<span class="method">ifPresentOrElse</span>(
-    n -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Found: "</span> + n),
-    ()  -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Not found"</span>)
+    n -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Found: "</span> + n),
+    ()  -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Not found"</span>)
 );
 <span class="comment">// Found: Alice</span>
 
 none.<span class="method">ifPresentOrElse</span>(
-    n -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Found: "</span> + n),
-    ()  -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Not found"</span>)
+    n -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Found: "</span> + n),
+    ()  -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Not found"</span>)
 );
 <span class="comment">// Not found</span></pre>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ ifPresent vs orElse — Which to Use?</div>
+<strong>ifPresent</strong>: when you want to do something <em>with</em> the value (side effect — printing, saving, sending email). Returns void.<br/><br/>
+<strong>orElse / map</strong>: when you want to <em>compute a result</em> from the Optional. Returns a value.
   </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ ifPresent vs orElse — Which to Use?</div>
-    <strong>ifPresent</strong>: when you want to do something <em>with</em> the value (side effect — printing, saving, sending email). Returns void.<br><br>
-    <strong>orElse / map</strong>: when you want to <em>compute a result</em> from the Optional. Returns a value.
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(4)">← map &amp; flatMap</button>
-    <span class="section-indicator">Section 6 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(6)">Optional in Method Signatures →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(4)">← map &amp; flatMap</button>
+<span class="section-indicator">Section 6 of 10</span>
+<button class="nav-btn primary" onclick="goTo(6)">Optional in Method Signatures →</button>
+</div>
 </section>
-
 <!-- ══ S6: METHOD SIGNATURES ══ -->
 <section class="lesson-section" id="section-6">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 7 of 10</div>
-  <h1 class="lesson-title">Optional in Method Signatures</h1>
-  <p class="lesson-subtitle">Where you put Optional in your code matters. It belongs in return types — and almost nowhere else.</p>
-
-  <h2>The Intended Use: Return Types</h2>
-  <p>Optional was designed for one purpose: to be a <strong>method return type</strong> that signals "this might not have a result." This is where it shines.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Repository.java</span><span class="code-tag tag-good">✓ Correct Use — Return Type</span></div>
-    <pre><span class="kw">public interface</span> <span class="type">UserRepository</span> {
+<div class="lesson-eyebrow">Core Java · Optional · Section 7 of 10</div>
+<h1 class="lesson-title">Optional in Method Signatures</h1>
+<p class="lesson-subtitle">Where you put Optional in your code matters. It belongs in return types — and almost nowhere else.</p>
+<h2>The Intended Use: Return Types</h2>
+<p>Optional was designed for one purpose: to be a <strong>method return type</strong> that signals "this might not have a result." This is where it shines.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Repository.java</span><span class="code-tag tag-good">✓ Correct Use — Return Type</span></div>
+<pre><span class="kw">public interface</span> <span class="type">UserRepository</span> {
 
     <span class="comment">// Clear: might not find a user — caller must handle empty</span>
     <span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; <span class="method">findById</span>(<span class="type">String</span> id);
@@ -505,11 +454,10 @@ none.<span class="method">ifPresentOrElse</span>(
     <span class="comment">// Returns all — no Optional needed, empty list is fine</span>
     <span class="type">List</span>&lt;<span class="type">User</span>&gt; <span class="method">findAll</span>();
 }</pre>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Service.java</span><span class="code-tag tag-good">✓ Using the Optional Return</span></div>
-    <pre><span class="kw">public class</span> <span class="type">UserService</span> {
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Service.java</span><span class="code-tag tag-good">✓ Using the Optional Return</span></div>
+<pre><span class="kw">public class</span> <span class="type">UserService</span> {
 
     <span class="kw">public</span> <span class="type">String</span> <span class="method">getDisplayName</span>(<span class="type">String</span> userId) {
         <span class="kw">return</span> repo.<span class="method">findById</span>(userId)
@@ -519,65 +467,57 @@ none.<span class="method">ifPresentOrElse</span>(
 
     <span class="kw">public void</span> <span class="method">sendWelcome</span>(<span class="type">String</span> userId) {
         repo.<span class="method">findById</span>(userId)
-            .<span class="method">ifPresent</span>(user -> emailService.<span class="method">sendWelcome</span>(user.<span class="method">getEmail</span>()));
+            .<span class="method">ifPresent</span>(user -&gt; emailService.<span class="method">sendWelcome</span>(user.<span class="method">getEmail</span>()));
     }
 
     <span class="kw">public</span> <span class="type">User</span> <span class="method">getOrThrow</span>(<span class="type">String</span> userId) {
         <span class="kw">return</span> repo.<span class="method">findById</span>(userId)
-                   .<span class="method">orElseThrow</span>(() -> <span class="kw">new</span> <span class="type">UserNotFoundException</span>(userId));
+                   .<span class="method">orElseThrow</span>(() -&gt; <span class="kw">new</span> <span class="type">UserNotFoundException</span>(userId));
     }
 }</pre>
-  </div>
-
-  <h2>Where Optional Does NOT Belong</h2>
-
-  <div class="antipattern">
-    <div class="antipattern-label">❌ Anti-pattern — Optional as Parameter</div>
-    <pre><span class="comment">// Never do this:</span>
+</div>
+<h2>Where Optional Does NOT Belong</h2>
+<div class="antipattern">
+<div class="antipattern-label">❌ Anti-pattern — Optional as Parameter</div>
+<pre><span class="comment">// Never do this:</span>
 <span class="kw">public void</span> <span class="method">createUser</span>(<span class="type">String</span> name, <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; phone) { ... }
 
 <span class="comment">// The caller now has to wrap:</span>
 <span class="method">createUser</span>(<span class="str">"Alice"</span>, <span class="opt">Optional</span>.<span class="method">of</span>(<span class="str">"555-1234"</span>));
 <span class="method">createUser</span>(<span class="str">"Bob"</span>,   <span class="opt">Optional</span>.<span class="method">empty</span>());  <span class="comment">// ugly</span></pre>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">BetterParam.java</span><span class="code-tag tag-good">✓ Use overloads or nullable instead</span></div>
-    <pre><span class="comment">// Option 1: overload</span>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">BetterParam.java</span><span class="code-tag tag-good">✓ Use overloads or nullable instead</span></div>
+<pre><span class="comment">// Option 1: overload</span>
 <span class="kw">public void</span> <span class="method">createUser</span>(<span class="type">String</span> name) { <span class="method">createUser</span>(name, <span class="kw">null</span>); }
 <span class="kw">public void</span> <span class="method">createUser</span>(<span class="type">String</span> name, <span class="type">String</span> phone) { ... }
 
 <span class="comment">// Option 2: nullable with annotation (clear intent)</span>
 <span class="kw">public void</span> <span class="method">createUser</span>(<span class="type">String</span> name, <span class="anno">@Nullable</span> <span class="type">String</span> phone) { ... }</pre>
-  </div>
-
-  <table class="compare-table">
-    <tr><th>✓ Use Optional</th><th>✗ Don't Use Optional</th></tr>
-    <tr><td>Method return types</td><td>Method parameters</td></tr>
-    <tr><td>When "no result" is a valid expected outcome</td><td>Fields in a class</td></tr>
-    <tr><td>Stream <code>findFirst()</code>, <code>reduce()</code> results</td><td>Collections (use empty list instead)</td></tr>
-    <tr><td>Repository / DAO lookup methods</td><td>Serialised objects (Optional isn't Serializable)</td></tr>
-  </table>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(5)">← filter &amp; ifPresent</button>
-    <span class="section-indicator">Section 7 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(7)">Chaining Optionals →</button>
-  </div>
+</div>
+<table class="compare-table">
+<tr><th>✓ Use Optional</th><th>✗ Don't Use Optional</th></tr>
+<tr><td>Method return types</td><td>Method parameters</td></tr>
+<tr><td>When "no result" is a valid expected outcome</td><td>Fields in a class</td></tr>
+<tr><td>Stream <code>findFirst()</code>, <code>reduce()</code> results</td><td>Collections (use empty list instead)</td></tr>
+<tr><td>Repository / DAO lookup methods</td><td>Serialised objects (Optional isn't Serializable)</td></tr>
+</table>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(5)">← filter &amp; ifPresent</button>
+<span class="section-indicator">Section 7 of 10</span>
+<button class="nav-btn primary" onclick="goTo(7)">Chaining Optionals →</button>
+</div>
 </section>
-
 <!-- ══ S7: CHAINING ══ -->
 <section class="lesson-section" id="section-7">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 8 of 10</div>
-  <h1 class="lesson-title">Chaining Optionals</h1>
-  <p class="lesson-subtitle">The real payoff. Chaining Optional operations replaces nested null checks with a clean, linear pipeline.</p>
-
-  <h2>Before and After</h2>
-  <p>Imagine fetching a user's billing country from a deeply nested object graph — User → Order → Address → Country:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Before.java</span><span class="code-tag tag-bad">⚠ Null-Check Pyramid</span></div>
-    <pre><span class="type">String</span> country = <span class="str">"Unknown"</span>;
+<div class="lesson-eyebrow">Core Java · Optional · Section 8 of 10</div>
+<h1 class="lesson-title">Chaining Optionals</h1>
+<p class="lesson-subtitle">The real payoff. Chaining Optional operations replaces nested null checks with a clean, linear pipeline.</p>
+<h2>Before and After</h2>
+<p>Imagine fetching a user's billing country from a deeply nested object graph — User → Order → Address → Country:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Before.java</span><span class="code-tag tag-bad">⚠ Null-Check Pyramid</span></div>
+<pre><span class="type">String</span> country = <span class="str">"Unknown"</span>;
 
 <span class="type">User</span> user = <span class="method">findUser</span>(userId);
 <span class="kw">if</span> (user != <span class="kw">null</span>) {
@@ -592,24 +532,20 @@ none.<span class="method">ifPresentOrElse</span>(
         }
     }
 }</pre>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">After.java</span><span class="code-tag tag-good">✓ Optional Chain</span></div>
-    <pre><span class="type">String</span> country = <span class="method">findUser</span>(userId)                <span class="comment">// Optional&lt;User&gt;</span>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">After.java</span><span class="code-tag tag-good">✓ Optional Chain</span></div>
+<pre><span class="type">String</span> country = <span class="method">findUser</span>(userId)                <span class="comment">// Optional&lt;User&gt;</span>
     .<span class="method">flatMap</span>(<span class="type">User</span>::<span class="method">getLastOrder</span>)               <span class="comment">// Optional&lt;Order&gt;</span>
     .<span class="method">flatMap</span>(<span class="type">Order</span>::<span class="method">getShippingAddress</span>)         <span class="comment">// Optional&lt;Address&gt;</span>
     .<span class="method">map</span>(<span class="type">Address</span>::<span class="method">getCountry</span>)                   <span class="comment">// Optional&lt;String&gt;</span>
     .<span class="method">orElse</span>(<span class="str">"Unknown"</span>);                          <span class="comment">// String</span></pre>
-  </div>
-
-  <p>Same logic, zero nested braces, zero null references, far easier to read. If any step returns empty, the whole chain short-circuits to <code>"Unknown"</code>.</p>
-
-  <h2>A Complete Real-World Example</h2>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">EcommerceService.java</span><span class="code-tag tag-example">Full Pipeline</span></div>
-    <pre><span class="kw">record</span> <span class="type">User</span>(<span class="type">String</span> id, <span class="type">String</span> name, <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; email) {}
+</div>
+<p>Same logic, zero nested braces, zero null references, far easier to read. If any step returns empty, the whole chain short-circuits to <code>"Unknown"</code>.</p>
+<h2>A Complete Real-World Example</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">EcommerceService.java</span><span class="code-tag tag-example">Full Pipeline</span></div>
+<pre><span class="kw">record</span> <span class="type">User</span>(<span class="type">String</span> id, <span class="type">String</span> name, <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; email) {}
 <span class="kw">record</span> <span class="type">Product</span>(<span class="type">String</span> sku, <span class="type">String</span> name, <span class="kw">double</span> price) {}
 
 <span class="kw">class</span> <span class="type">EcommerceService</span> {
@@ -627,8 +563,8 @@ none.<span class="method">ifPresentOrElse</span>(
     <span class="kw">public</span> <span class="type">String</span> <span class="method">getEmailDomain</span>(<span class="type">String</span> userId) {
         <span class="kw">return</span> <span class="method">findUser</span>(userId)
             .<span class="method">flatMap</span>(<span class="type">User</span>::<span class="method">email</span>)
-            .<span class="method">filter</span>(e -> e.<span class="method">contains</span>(<span class="str">"@"</span>))
-            .<span class="method">map</span>(e -> e.<span class="method">substring</span>(e.<span class="method">indexOf</span>(<span class="str">"@"</span>) + <span class="num">1</span>))
+            .<span class="method">filter</span>(e -&gt; e.<span class="method">contains</span>(<span class="str">"@"</span>))
+            .<span class="method">map</span>(e -&gt; e.<span class="method">substring</span>(e.<span class="method">indexOf</span>(<span class="str">"@"</span>) + <span class="num">1</span>))
             .<span class="method">orElse</span>(<span class="str">"no-email"</span>);
     }
 }
@@ -637,162 +573,146 @@ none.<span class="method">ifPresentOrElse</span>(
 <span class="type">System</span>.out.<span class="method">println</span>(svc.<span class="method">getEmailDomain</span>(<span class="str">"u1"</span>));  <span class="comment">// example.com</span>
 <span class="type">System</span>.out.<span class="method">println</span>(svc.<span class="method">getEmailDomain</span>(<span class="str">"u2"</span>));  <span class="comment">// no-email (no email address)</span>
 <span class="type">System</span>.out.<span class="method">println</span>(svc.<span class="method">getEmailDomain</span>(<span class="str">"u9"</span>));  <span class="comment">// no-email (user not found)</span></pre>
-  </div>
-
-  <div class="callout violet">
-    <div class="callout-title">🔗 Short-Circuit Behaviour</div>
+</div>
+<div class="callout violet">
+<div class="callout-title">🔗 Short-Circuit Behaviour</div>
     When any step in an Optional chain produces an empty Optional — whether from <code>flatMap</code> returning empty, <code>filter</code> rejecting a value, or <code>map</code> returning null — the rest of the chain is skipped entirely. Only the terminal operation (<code>orElse</code>, etc.) is called. This is identical to how streams are lazy.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(6)">← Method Signatures</button>
-    <span class="section-indicator">Section 8 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(8)">Anti-patterns &amp; Rules →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(6)">← Method Signatures</button>
+<span class="section-indicator">Section 8 of 10</span>
+<button class="nav-btn primary" onclick="goTo(8)">Anti-patterns &amp; Rules →</button>
+</div>
 </section>
-
 <!-- ══ S8: ANTI-PATTERNS ══ -->
 <section class="lesson-section" id="section-8">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 9 of 10</div>
-  <h1 class="lesson-title">Anti-patterns &amp; Rules</h1>
-  <p class="lesson-subtitle">Optional is easy to misuse. These are the patterns that look right but undermine the whole point.</p>
-
-  <h2>Anti-pattern 1: Calling get() Without Checking</h2>
-  <div class="antipattern">
-    <div class="antipattern-label">❌ Anti-pattern</div>
-    <pre><span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; user = repo.<span class="method">findById</span>(<span class="str">"id"</span>);
+<div class="lesson-eyebrow">Core Java · Optional · Section 9 of 10</div>
+<h1 class="lesson-title">Anti-patterns &amp; Rules</h1>
+<p class="lesson-subtitle">Optional is easy to misuse. These are the patterns that look right but undermine the whole point.</p>
+<h2>Anti-pattern 1: Calling get() Without Checking</h2>
+<div class="antipattern">
+<div class="antipattern-label">❌ Anti-pattern</div>
+<pre><span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; user = repo.<span class="method">findById</span>(<span class="str">"id"</span>);
 <span class="type">String</span> name = user.<span class="method">get</span>().<span class="method">getName</span>();  <span class="comment">// ❌ NoSuchElementException if empty</span></pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Use orElse or map</span></div>
-    <pre><span class="type">String</span> name = repo.<span class="method">findById</span>(<span class="str">"id"</span>)
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Use orElse or map</span></div>
+<pre><span class="type">String</span> name = repo.<span class="method">findById</span>(<span class="str">"id"</span>)
                    .<span class="method">map</span>(<span class="type">User</span>::<span class="method">getName</span>)
                    .<span class="method">orElse</span>(<span class="str">"Unknown"</span>);</pre>
-  </div>
-
-  <h2>Anti-pattern 2: isPresent() + get() — Reinventing null</h2>
-  <div class="antipattern">
-    <div class="antipattern-label">❌ Anti-pattern — defeats the purpose</div>
-    <pre><span class="kw">if</span> (opt.<span class="method">isPresent</span>()) {
+</div>
+<h2>Anti-pattern 2: isPresent() + get() — Reinventing null</h2>
+<div class="antipattern">
+<div class="antipattern-label">❌ Anti-pattern — defeats the purpose</div>
+<pre><span class="kw">if</span> (opt.<span class="method">isPresent</span>()) {
     <span class="type">String</span> val = opt.<span class="method">get</span>();  <span class="comment">// just like null check + deref</span>
     <span class="type">System</span>.out.<span class="method">println</span>(val);
 }</pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Use ifPresent</span></div>
-    <pre>opt.<span class="method">ifPresent</span>(<span class="type">System</span>.out::<span class="method">println</span>);</pre>
-  </div>
-
-  <h2>Anti-pattern 3: Returning null from an Optional Method</h2>
-  <div class="antipattern">
-    <div class="antipattern-label">❌ Worst of both worlds</div>
-    <pre><span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; <span class="method">findUser</span>(<span class="type">String</span> id) {
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Use ifPresent</span></div>
+<pre>opt.<span class="method">ifPresent</span>(<span class="type">System</span>.out::<span class="method">println</span>);</pre>
+</div>
+<h2>Anti-pattern 3: Returning null from an Optional Method</h2>
+<div class="antipattern">
+<div class="antipattern-label">❌ Worst of both worlds</div>
+<pre><span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; <span class="method">findUser</span>(<span class="type">String</span> id) {
     <span class="kw">if</span> (!exists(id)) <span class="kw">return null</span>;  <span class="comment">// ❌ never return null from Optional method</span>
     <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">of</span>(load(id));
 }</pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Return Optional.empty()</span></div>
-    <pre><span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; <span class="method">findUser</span>(<span class="type">String</span> id) {
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Return Optional.empty()</span></div>
+<pre><span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">User</span>&gt; <span class="method">findUser</span>(<span class="type">String</span> id) {
     <span class="kw">if</span> (!exists(id)) <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">empty</span>();
     <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">of</span>(load(id));
 }</pre>
-  </div>
-
-  <h2>Anti-pattern 4: Optional in a Field</h2>
-  <div class="antipattern">
-    <div class="antipattern-label">❌ Optional is not serializable</div>
-    <pre><span class="kw">class</span> <span class="type">User</span> {
+</div>
+<h2>Anti-pattern 4: Optional in a Field</h2>
+<div class="antipattern">
+<div class="antipattern-label">❌ Optional is not serializable</div>
+<pre><span class="kw">class</span> <span class="type">User</span> {
     <span class="kw">private</span> <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; phone;  <span class="comment">// ❌ not serializable, bad design</span>
 }</pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Nullable field, Optional return</span></div>
-    <pre><span class="kw">class</span> <span class="type">User</span> {
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Fixed.java</span><span class="code-tag tag-good">✓ Nullable field, Optional return</span></div>
+<pre><span class="kw">class</span> <span class="type">User</span> {
     <span class="kw">private</span> <span class="type">String</span> phone;  <span class="comment">// nullable field is fine</span>
 
     <span class="kw">public</span> <span class="opt">Optional</span>&lt;<span class="type">String</span>&gt; <span class="method">getPhone</span>() {
         <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">ofNullable</span>(phone);  <span class="comment">// wrap on the way out</span>
     }
 }</pre>
-  </div>
-
-  <div class="callout warning">
-    <div class="callout-title">⚠ The Golden Rules</div>
-    1. Never call <code>get()</code> without a prior <code>isPresent()</code> check — better yet, use <code>orElse</code> or <code>map</code> instead.<br>
-    2. Never use <code>isPresent()</code> + <code>get()</code> — replace with <code>ifPresent</code>, <code>map</code>, or <code>orElse</code>.<br>
-    3. Never return <code>null</code> from a method that returns Optional.<br>
-    4. Don't use Optional as a field type or parameter type.<br>
+</div>
+<div class="callout warning">
+<div class="callout-title">⚠ The Golden Rules</div>
+    1. Never call <code>get()</code> without a prior <code>isPresent()</code> check — better yet, use <code>orElse</code> or <code>map</code> instead.<br/>
+    2. Never use <code>isPresent()</code> + <code>get()</code> — replace with <code>ifPresent</code>, <code>map</code>, or <code>orElse</code>.<br/>
+    3. Never return <code>null</code> from a method that returns Optional.<br/>
+    4. Don't use Optional as a field type or parameter type.<br/>
     5. Don't use Optional for collections — return an empty list, not <code>Optional&lt;List&gt;</code>.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(7)">← Chaining Optionals</button>
-    <span class="section-indicator">Section 9 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(7)">← Chaining Optionals</button>
+<span class="section-indicator">Section 9 of 10</span>
+<button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
+</div>
 </section>
-
 <!-- ══ S9: QUIZ & CHALLENGE ══ -->
 <section class="lesson-section" id="section-9">
-  <div class="lesson-eyebrow">Core Java · Optional · Section 10 of 10</div>
-  <h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
-  <p class="lesson-subtitle">Put it all together.</p>
-
-  <h2>Final Quiz</h2>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 1 of 3</div>
-    <div class="quiz-q">What is the difference between <code>orElse("default")</code> and <code>orElseGet(() -> "default")</code>?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> They are identical — no difference</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">B</span> <code>orElse</code> always evaluates the default; <code>orElseGet</code> only evaluates it if the Optional is empty</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">C</span> <code>orElseGet</code> always evaluates the default; <code>orElse</code> only evaluates it if empty</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> <code>orElse</code> throws if empty; <code>orElseGet</code> returns null</button>
-    </div>
-    <div class="quiz-feedback" id="fq1-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 2 of 3</div>
-    <div class="quiz-q">You have <code>Optional&lt;User&gt;</code> and want to get the user's name only if they are an admin, defaulting to <code>"Guest"</code>. Which chain is correct?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">A</span> <code>.filter(User::isAdmin).map(User::getName).orElse("Guest")</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">B</span> <code>.map(User::getName).filter(User::isAdmin).orElse("Guest")</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> <code>.get().getName()</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> <code>.orElse("Guest").filter(User::isAdmin)</code></button>
-    </div>
-    <div class="quiz-feedback" id="fq2-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 3 of 3</div>
-    <div class="quiz-q">Which of these is the correct place to use Optional?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> As a field in a class: <code>private Optional&lt;String&gt; name;</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> As a method parameter: <code>void setName(Optional&lt;String&gt; name)</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> As a method return type: <code>Optional&lt;User&gt; findById(String id)</code></button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Wrapping a collection: <code>Optional&lt;List&lt;User&gt;&gt; getAll()</code></button>
-    </div>
-    <div class="quiz-feedback" id="fq3-feedback"></div>
-  </div>
-
-  <h2>Coding Challenges</h2>
-
-  <div class="challenge-card">
-    <div class="challenge-label">🏋 Challenge 1 — Beginner</div>
-    <div class="challenge-title">Safe Config Reader</div>
-    <div class="challenge-desc">Write a method that reads from a config map and safely extracts a parsed integer value.</div>
-    <div class="challenge-task"><span class="task-num">01</span>Start with <code>Map&lt;String, String&gt; config = Map.of("timeout", "30", "retries", "abc")</code></div>
-    <div class="challenge-task"><span class="task-num">02</span>Write <code>Optional&lt;Integer&gt; getInt(Map config, String key)</code> that returns empty if key missing or value not parseable as integer</div>
-    <div class="challenge-task"><span class="task-num">03</span>Test: <code>getInt(config, "timeout")</code> → <code>Optional[30]</code>, <code>getInt(config, "retries")</code> → empty, <code>getInt(config, "missing")</code> → empty</div>
-    <button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
-    <div class="reveal-content" id="sol1">
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">Solution.java</span><span class="code-tag tag-good">Solution</span></div>
-        <pre><span class="kw">public static</span> <span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; <span class="method">getInt</span>(<span class="type">Map</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt; config, <span class="type">String</span> key) {
+<div class="lesson-eyebrow">Core Java · Optional · Section 10 of 10</div>
+<h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
+<p class="lesson-subtitle">Put it all together.</p>
+<h2>Final Quiz</h2>
+<div class="quiz-card">
+<div class="quiz-label">Question 1 of 3</div>
+<div class="quiz-q">What is the difference between <code>orElse("default")</code> and <code>orElseGet(() -&gt; "default")</code>?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> They are identical — no difference</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">B</span> <code>orElse</code> always evaluates the default; <code>orElseGet</code> only evaluates it if the Optional is empty</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">C</span> <code>orElseGet</code> always evaluates the default; <code>orElse</code> only evaluates it if empty</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> <code>orElse</code> throws if empty; <code>orElseGet</code> returns null</button>
+</div>
+<div class="quiz-feedback" id="fq1-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 2 of 3</div>
+<div class="quiz-q">You have <code>Optional&lt;User&gt;</code> and want to get the user's name only if they are an admin, defaulting to <code>"Guest"</code>. Which chain is correct?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">A</span> <code>.filter(User::isAdmin).map(User::getName).orElse("Guest")</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">B</span> <code>.map(User::getName).filter(User::isAdmin).orElse("Guest")</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> <code>.get().getName()</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> <code>.orElse("Guest").filter(User::isAdmin)</code></button>
+</div>
+<div class="quiz-feedback" id="fq2-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 3 of 3</div>
+<div class="quiz-q">Which of these is the correct place to use Optional?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> As a field in a class: <code>private Optional&lt;String&gt; name;</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> As a method parameter: <code>void setName(Optional&lt;String&gt; name)</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> As a method return type: <code>Optional&lt;User&gt; findById(String id)</code></button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Wrapping a collection: <code>Optional&lt;List&lt;User&gt;&gt; getAll()</code></button>
+</div>
+<div class="quiz-feedback" id="fq3-feedback"></div>
+</div>
+<h2>Coding Challenges</h2>
+<div class="challenge-card">
+<div class="challenge-label">🏋 Challenge 1 — Beginner</div>
+<div class="challenge-title">Safe Config Reader</div>
+<div class="challenge-desc">Write a method that reads from a config map and safely extracts a parsed integer value.</div>
+<div class="challenge-task"><span class="task-num">01</span>Start with <code>Map&lt;String, String&gt; config = Map.of("timeout", "30", "retries", "abc")</code></div>
+<div class="challenge-task"><span class="task-num">02</span>Write <code>Optional&lt;Integer&gt; getInt(Map config, String key)</code> that returns empty if key missing or value not parseable as integer</div>
+<div class="challenge-task"><span class="task-num">03</span>Test: <code>getInt(config, "timeout")</code> → <code>Optional[30]</code>, <code>getInt(config, "retries")</code> → empty, <code>getInt(config, "missing")</code> → empty</div>
+<button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
+<div class="reveal-content" id="sol1">
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Solution.java</span><span class="code-tag tag-good">Solution</span></div>
+<pre><span class="kw">public static</span> <span class="opt">Optional</span>&lt;<span class="type">Integer</span>&gt; <span class="method">getInt</span>(<span class="type">Map</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt; config, <span class="type">String</span> key) {
     <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">ofNullable</span>(config.<span class="method">get</span>(key))
-        .<span class="method">flatMap</span>(val -> {
+        .<span class="method">flatMap</span>(val -&gt; {
             <span class="kw">try</span> {
                 <span class="kw">return</span> <span class="opt">Optional</span>.<span class="method">of</span>(<span class="type">Integer</span>.<span class="method">parseInt</span>(val));
             } <span class="kw">catch</span> (<span class="type">NumberFormatException</span> e) {
@@ -805,23 +725,22 @@ none.<span class="method">ifPresentOrElse</span>(
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getInt</span>(config, <span class="str">"timeout"</span>));  <span class="comment">// Optional[30]</span>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getInt</span>(config, <span class="str">"retries"</span>));  <span class="comment">// Optional.empty</span>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getInt</span>(config, <span class="str">"missing"</span>));  <span class="comment">// Optional.empty</span></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="challenge-card">
-    <div class="challenge-label">🏋🏋 Challenge 2 — Intermediate</div>
-    <div class="challenge-title">User Lookup Pipeline</div>
-    <div class="challenge-desc">Chain Optionals across a simulated user/order/address object graph.</div>
-    <div class="challenge-task"><span class="task-num">01</span>Create records: <code>Address(String city, String country)</code>, <code>Order(String id, Optional&lt;Address&gt; shipping)</code>, <code>User(String name, Optional&lt;Order&gt; lastOrder)</code></div>
-    <div class="challenge-task"><span class="task-num">02</span>Write <code>Optional&lt;User&gt; findUser(String name)</code> backed by a small Map</div>
-    <div class="challenge-task"><span class="task-num">03</span>Write <code>String getShippingCountry(String userName)</code> using a flatMap chain, defaulting to <code>"Unknown"</code></div>
-    <div class="challenge-task"><span class="task-num">04</span>Test with a user who has an order with an address, one without, and one that doesn't exist</div>
-    <button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution</button>
-    <div class="reveal-content" id="sol2">
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">Pipeline.java</span><span class="code-tag tag-good">Solution</span></div>
-        <pre><span class="kw">record</span> <span class="type">Address</span>(<span class="type">String</span> city, <span class="type">String</span> country) {}
+</div>
+</div>
+</div>
+<div class="challenge-card">
+<div class="challenge-label">🏋🏋 Challenge 2 — Intermediate</div>
+<div class="challenge-title">User Lookup Pipeline</div>
+<div class="challenge-desc">Chain Optionals across a simulated user/order/address object graph.</div>
+<div class="challenge-task"><span class="task-num">01</span>Create records: <code>Address(String city, String country)</code>, <code>Order(String id, Optional&lt;Address&gt; shipping)</code>, <code>User(String name, Optional&lt;Order&gt; lastOrder)</code></div>
+<div class="challenge-task"><span class="task-num">02</span>Write <code>Optional&lt;User&gt; findUser(String name)</code> backed by a small Map</div>
+<div class="challenge-task"><span class="task-num">03</span>Write <code>String getShippingCountry(String userName)</code> using a flatMap chain, defaulting to <code>"Unknown"</code></div>
+<div class="challenge-task"><span class="task-num">04</span>Test with a user who has an order with an address, one without, and one that doesn't exist</div>
+<button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution</button>
+<div class="reveal-content" id="sol2">
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Pipeline.java</span><span class="code-tag tag-good">Solution</span></div>
+<pre><span class="kw">record</span> <span class="type">Address</span>(<span class="type">String</span> city, <span class="type">String</span> country) {}
 <span class="kw">record</span> <span class="type">Order</span>(<span class="type">String</span> id, <span class="opt">Optional</span>&lt;<span class="type">Address</span>&gt; shipping) {}
 <span class="kw">record</span> <span class="type">User</span>(<span class="type">String</span> name, <span class="opt">Optional</span>&lt;<span class="type">Order</span>&gt; lastOrder) {}
 
@@ -845,24 +764,20 @@ none.<span class="method">ifPresentOrElse</span>(
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getShippingCountry</span>(<span class="str">"Bob"</span>));    <span class="comment">// Unknown (no address)</span>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getShippingCountry</span>(<span class="str">"Carol"</span>));  <span class="comment">// Unknown (no order)</span>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="method">getShippingCountry</span>(<span class="str">"Dave"</span>));   <span class="comment">// Unknown (not found)</span></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ What You've Learned</div>
+</div>
+</div>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ What You've Learned</div>
     The null problem and why it matters · Optional's two states: present and empty · Three factory methods: <code>of</code>, <code>empty</code>, <code>ofNullable</code> · Retrieving values: <code>orElse</code>, <code>orElseGet</code>, <code>orElseThrow</code> · Transforming: <code>map</code> vs <code>flatMap</code> · Filtering and side effects: <code>filter</code>, <code>ifPresent</code>, <code>ifPresentOrElse</code> · Where Optional belongs (return types) and where it doesn't · Chaining to replace null-check pyramids · The five golden rules to avoid anti-patterns.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(8)">← Anti-patterns &amp; Rules</button>
-    <span class="section-indicator">Section 10 of 10</span>
-    <button class="nav-btn primary" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)" onclick="alert('Lesson complete! Next: Design Patterns.')">✓ Mark Complete</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(8)">← Anti-patterns &amp; Rules</button>
+<span class="section-indicator">Section 10 of 10</span>
+<button class="nav-btn primary" onclick="alert('Lesson complete! Next: Design Patterns.')" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)">✓ Mark Complete</button>
+</div>
 </section>
-
 </main>
-
 <script>
   let cur=0;const total=10;const visited=new Set([0]);
   function goTo(n){
@@ -900,10 +815,10 @@ none.<span class="method">ifPresentOrElse</span>(
   }
   document.querySelectorAll('.nav-item').forEach((el,i)=>el.addEventListener('click',()=>goTo(i)));
 </script>
-<a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

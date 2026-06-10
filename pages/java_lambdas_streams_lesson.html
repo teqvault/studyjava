@@ -1,102 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lambdas & Streams — Modern Java</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/java_lambdas_streams_lesson.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lambdas &amp; Streams — Modern Java</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../css/java_lambdas_streams_lesson.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- SIDEBAR -->
-<nav id="sidebar">
-  <div class="brand">
-    <div class="brand-mark">
-      <div class="brand-icon">λ</div>
-      <span class="brand-title">Lambdas & Streams</span>
-    </div>
-    <div class="brand-sub">Modern Java · Functional Style</div>
-  </div>
-
-  <div class="prog-wrap">
-    <div class="prog-meta">
-      <span>Progress</span>
-      <span id="prog-text">0 / 10</span>
-    </div>
-    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-group-label">Module 1 — Functional Foundations</div>
-    <div class="nav-item active" onclick="show(0)" id="nav-0">
-      <span class="nav-n">01</span><span>Functional Programming in Java</span><span class="nav-chk" id="chk-0"></span>
-    </div>
-    <div class="nav-item" onclick="show(1)" id="nav-1">
-      <span class="nav-n">02</span><span>Lambda Expressions</span><span class="nav-chk" id="chk-1"></span>
-    </div>
-    <div class="nav-item" onclick="show(2)" id="nav-2">
-      <span class="nav-n">03</span><span>Functional Interfaces</span><span class="nav-chk" id="chk-2"></span>
-    </div>
-    <div class="nav-item" onclick="show(3)" id="nav-3">
-      <span class="nav-n">04</span><span>Method References</span><span class="nav-chk" id="chk-3"></span>
-    </div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-group-label">Module 2 — The Stream API</div>
-    <div class="nav-item" onclick="show(4)" id="nav-4">
-      <span class="nav-n">05</span><span>What is a Stream?</span><span class="nav-chk" id="chk-4"></span>
-    </div>
-    <div class="nav-item" onclick="show(5)" id="nav-5">
-      <span class="nav-n">06</span><span>Intermediate Operations</span><span class="nav-chk" id="chk-5"></span>
-    </div>
-    <div class="nav-item" onclick="show(6)" id="nav-6">
-      <span class="nav-n">07</span><span>Terminal Operations</span><span class="nav-chk" id="chk-6"></span>
-    </div>
-    <div class="nav-item" onclick="show(7)" id="nav-7">
-      <span class="nav-n">08</span><span>Collectors in Depth</span><span class="nav-chk" id="chk-7"></span>
-    </div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-group-label">Module 3 — Advanced Patterns</div>
-    <div class="nav-item" onclick="show(8)" id="nav-8">
-      <span class="nav-n">09</span><span>flatMap & Optional Streams</span><span class="nav-chk" id="chk-8"></span>
-    </div>
-    <div class="nav-item" onclick="show(9)" id="nav-9">
-      <span class="nav-n">10</span><span>Parallel Streams & Performance</span><span class="nav-chk" id="chk-9"></span>
-    </div>
-  </div>
+<nav class="sidebar" id="sidebar">
+<div class="brand">
+<div class="brand-mark">
+<div class="brand-icon">λ</div>
+<span class="brand-title">Lambdas &amp; Streams</span>
+</div>
+<div class="brand-sub">Modern Java · Functional Style</div>
+</div>
+<div class="prog-wrap">
+<div class="prog-meta">
+<span>Progress</span>
+<span id="prog-text">0 / 10</span>
+</div>
+<div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="nav-section">
+<div class="nav-group-label">Module 1 — Functional Foundations</div>
+<div class="nav-item active" id="nav-0" onclick="show(0)">
+<span class="nav-n">01</span><span>Functional Programming in Java</span><span class="nav-chk" id="chk-0"></span>
+</div>
+<div class="nav-item" id="nav-1" onclick="show(1)">
+<span class="nav-n">02</span><span>Lambda Expressions</span><span class="nav-chk" id="chk-1"></span>
+</div>
+<div class="nav-item" id="nav-2" onclick="show(2)">
+<span class="nav-n">03</span><span>Functional Interfaces</span><span class="nav-chk" id="chk-2"></span>
+</div>
+<div class="nav-item" id="nav-3" onclick="show(3)">
+<span class="nav-n">04</span><span>Method References</span><span class="nav-chk" id="chk-3"></span>
+</div>
+</div>
+<div class="nav-section">
+<div class="nav-group-label">Module 2 — The Stream API</div>
+<div class="nav-item" id="nav-4" onclick="show(4)">
+<span class="nav-n">05</span><span>What is a Stream?</span><span class="nav-chk" id="chk-4"></span>
+</div>
+<div class="nav-item" id="nav-5" onclick="show(5)">
+<span class="nav-n">06</span><span>Intermediate Operations</span><span class="nav-chk" id="chk-5"></span>
+</div>
+<div class="nav-item" id="nav-6" onclick="show(6)">
+<span class="nav-n">07</span><span>Terminal Operations</span><span class="nav-chk" id="chk-6"></span>
+</div>
+<div class="nav-item" id="nav-7" onclick="show(7)">
+<span class="nav-n">08</span><span>Collectors in Depth</span><span class="nav-chk" id="chk-7"></span>
+</div>
+</div>
+<div class="nav-section">
+<div class="nav-group-label">Module 3 — Advanced Patterns</div>
+<div class="nav-item" id="nav-8" onclick="show(8)">
+<span class="nav-n">09</span><span>flatMap &amp; Optional Streams</span><span class="nav-chk" id="chk-8"></span>
+</div>
+<div class="nav-item" id="nav-9" onclick="show(9)">
+<span class="nav-n">10</span><span>Parallel Streams &amp; Performance</span><span class="nav-chk" id="chk-9"></span>
+</div>
+</div>
 </nav>
-
 <!-- MAIN -->
-<main id="main">
-  <div class="topbar">
-    <div class="breadcrumb">lambdas-streams / <span id="crumb">lesson-01</span></div>
-    <div class="topbar-btns">
-      <button class="btn" onclick="prevL()">← Prev</button>
-      <button class="btn btn-primary" onclick="markDone()">Mark Complete ✓</button>
-      <button class="btn" onclick="nextL()">Next →</button>
-    </div>
-  </div>
-
-  <div class="lesson-wrap">
-
-    <!-- L0: Functional Programming in Java -->
-    <div class="lesson-panel active" id="panel-0">
-      <div class="lesson-eyebrow">Module 1 · Lesson 01</div>
-      <h1 class="lesson-title">Functional Programming in Java</h1>
-      <p class="lesson-lead">Java has always been object-oriented. In Java 8, it gained a second paradigm: functional programming. Understanding why it was added — and what problem it solves — is the foundation for everything that follows.</p>
-
-      <h2>The Problem with Anonymous Classes</h2>
-      <p>Before Java 8, passing behavior around required anonymous inner classes. The intent was buried in ceremony:</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">SortingExample.java — before Java 8</span><span class="code-tag">Java 7</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="cls">Arrays</span>.asList(<span class="str">"Charlie"</span>, <span class="str">"Alice"</span>, <span class="str">"Bob"</span>);
+<main class="main" id="main">
+<div class="topbar">
+<div class="breadcrumb">lambdas-streams / <span id="crumb">lesson-01</span></div>
+<div class="topbar-btns">
+<button class="btn" onclick="prevL()">← Prev</button>
+<button class="btn btn-primary" onclick="markDone()">Mark Complete ✓</button>
+<button class="btn" onclick="nextL()">Next →</button>
+</div>
+</div>
+<div class="lesson-wrap">
+<!-- L0: Functional Programming in Java -->
+<div class="lesson-panel active" id="panel-0">
+<div class="lesson-eyebrow">Module 1 · Lesson 01</div>
+<h1 class="lesson-title">Functional Programming in Java</h1>
+<p class="lesson-lead">Java has always been object-oriented. In Java 8, it gained a second paradigm: functional programming. Understanding why it was added — and what problem it solves — is the foundation for everything that follows.</p>
+<h2>The Problem with Anonymous Classes</h2>
+<p>Before Java 8, passing behavior around required anonymous inner classes. The intent was buried in ceremony:</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">SortingExample.java — before Java 8</span><span class="code-tag">Java 7</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="cls">Arrays</span>.asList(<span class="str">"Charlie"</span>, <span class="str">"Alice"</span>, <span class="str">"Bob"</span>);
 
 <span class="cm">// The intent: sort by length.</span>
 <span class="cm">// What you had to write:</span>
@@ -108,37 +98,32 @@
 });
 
 <span class="cm">// With Java 8 lambdas — same intent, no ceremony:</span>
-names.sort((a, b) <span class="lam">-></span> <span class="cls">Integer</span>.compare(a.length(), b.length()));
+names.sort((a, b) <span class="lam">-&gt;</span> <span class="cls">Integer</span>.compare(a.length(), b.length()));
 
 <span class="cm">// Or even cleaner with a method reference:</span>
 names.sort(<span class="cls">Comparator</span>.comparingInt(<span class="cls">String</span>::length));</pre>
-      </div>
-
-      <h2>Two Programming Paradigms</h2>
-      <div class="cg">
-        <div class="cc">
-          <div class="cc-icon">🏛️</div>
-          <div class="cc-title">Object-Oriented (OOP)</div>
-          <p>Models the world as objects with state and behavior. Focuses on <em>what things are</em>. Classes, encapsulation, inheritance.</p>
-        </div>
-        <div class="cc">
-          <div class="cc-icon">λ</div>
-          <div class="cc-title">Functional (FP)</div>
-          <p>Models programs as transformations of data. Focuses on <em>what to do with data</em>. Functions, immutability, composition.</p>
-        </div>
-      </div>
-
-      <p>Java doesn't force you to choose — you can (and should) use both. OOP for modeling your domain, FP for processing data collections. They complement each other perfectly.</p>
-
-      <h2>Core Functional Principles in Java</h2>
-
-      <h3>1. Functions as Values</h3>
-      <p>In FP, functions are first-class citizens — you can store them in variables, pass them to methods, and return them from methods. Java achieves this through lambdas and functional interfaces.</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Functions as values</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Store a function in a variable</span>
-<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; isLong = s <span class="lam">-></span> s.length() &gt; <span class="num">5</span>;
+</div>
+<h2>Two Programming Paradigms</h2>
+<div class="cg">
+<div class="cc">
+<div class="cc-icon">🏛️</div>
+<div class="cc-title">Object-Oriented (OOP)</div>
+<p>Models the world as objects with state and behavior. Focuses on <em>what things are</em>. Classes, encapsulation, inheritance.</p>
+</div>
+<div class="cc">
+<div class="cc-icon">λ</div>
+<div class="cc-title">Functional (FP)</div>
+<p>Models programs as transformations of data. Focuses on <em>what to do with data</em>. Functions, immutability, composition.</p>
+</div>
+</div>
+<p>Java doesn't force you to choose — you can (and should) use both. OOP for modeling your domain, FP for processing data collections. They complement each other perfectly.</p>
+<h2>Core Functional Principles in Java</h2>
+<h3>1. Functions as Values</h3>
+<p>In FP, functions are first-class citizens — you can store them in variables, pass them to methods, and return them from methods. Java achieves this through lambdas and functional interfaces.</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Functions as values</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Store a function in a variable</span>
+<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; isLong = s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">5</span>;
 
 <span class="cm">// Pass it to a method</span>
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; longNames = names.stream()
@@ -147,117 +132,104 @@ names.sort(<span class="cls">Comparator</span>.comparingInt(<span class="cls">St
 
 <span class="cm">// Compose functions</span>
 <span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; isShort = isLong.negate();
-<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; startsWithA = s <span class="lam">-></span> s.startsWith(<span class="str">"A"</span>);
+<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; startsWithA = s <span class="lam">-&gt;</span> s.startsWith(<span class="str">"A"</span>);
 <span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; shortAndA = isShort.and(startsWithA);</pre>
-      </div>
-
-      <h3>2. Immutability</h3>
-      <p>Functional code avoids mutating state. Instead of modifying a list, you produce a new one. Streams embody this — operations on a stream never modify the source collection.</p>
-
-      <h3>3. Pure Functions</h3>
-      <p>A pure function's output depends only on its inputs — no side effects, no reading global state. Pure lambdas are easier to test, reason about, and parallelize.</p>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">
-          <div class="callout-title">Why This Matters for Your Career</div>
-          <p>Stream pipelines appear in virtually every Java codebase. Interviewers frequently ask you to rewrite imperative loops as stream operations. This is not optional knowledge for a junior Java dev.</p>
-        </div>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What fundamental change did Java 8 introduce to how behavior can be passed around?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 added the ability to extend multiple classes simultaneously</div>
-            <div class="qopt" onclick="ans(this,'correct','0-1')"><span class="qdot"></span>Java 8 introduced lambdas, allowing functions to be passed as values without anonymous class boilerplate</div>
-            <div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 made all methods static by default to support functional-style calls</div>
-            <div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 removed the need for interfaces entirely</div>
-          </div>
-          <div class="qexp" id="exp-0-1">Before Java 8, passing behavior required anonymous inner classes — verbose and hard to read. Lambdas let you express the same intent in a single line. Under the hood, Java still uses functional interfaces; lambdas are syntactic sugar that the compiler converts.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. What does "immutability" mean in the context of streams?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Stream objects cannot be assigned to variables</div>
-            <div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Stream operations are synchronized and thread-safe by default</div>
-            <div class="qopt" onclick="ans(this,'correct','0-2')"><span class="qdot"></span>Stream operations never modify the source collection — they produce new results</div>
-            <div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Once created, a stream cannot have any operations applied to it</div>
-          </div>
-          <div class="qexp" id="exp-0-2">Calling .stream().filter(...).map(...) on a List does not change the original List. Each operation returns a new stream (or a final result). The source data is untouched. This is a core guarantee of the Stream API.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div></div>
-        <div class="lnav-btn" onclick="show(1)"><span class="lnav-label">Next Lesson →</span><span class="lnav-title">Lambda Expressions</span></div>
-      </div>
-    </div>
-
-    <!-- L1: Lambda Expressions -->
-    <div class="lesson-panel" id="panel-1">
-      <div class="lesson-eyebrow">Module 1 · Lesson 02</div>
-      <h1 class="lesson-title">Lambda Expressions</h1>
-      <p class="lesson-lead">A lambda is a concise way to represent an anonymous function — a block of code you can pass around like data. Mastering the syntax variants and understanding capture rules will make you fluent in modern Java.</p>
-
-      <h2>Lambda Syntax</h2>
-      <p>Lambdas have three parts: parameters, the arrow <code>-></code>, and a body. The body can be a single expression or a block.</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Lambda syntax forms</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Form 1: No parameters</span>
-<span class="cls">Runnable</span> r = () <span class="lam">-></span> <span class="cls">System</span>.out.println(<span class="str">"Running!"</span>);
+</div>
+<h3>2. Immutability</h3>
+<p>Functional code avoids mutating state. Instead of modifying a list, you produce a new one. Streams embody this — operations on a stream never modify the source collection.</p>
+<h3>3. Pure Functions</h3>
+<p>A pure function's output depends only on its inputs — no side effects, no reading global state. Pure lambdas are easier to test, reason about, and parallelize.</p>
+<div class="callout callout-tip">
+<span class="callout-icon">💡</span>
+<div class="callout-body">
+<div class="callout-title">Why This Matters for Your Career</div>
+<p>Stream pipelines appear in virtually every Java codebase. Interviewers frequently ask you to rewrite imperative loops as stream operations. This is not optional knowledge for a junior Java dev.</p>
+</div>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What fundamental change did Java 8 introduce to how behavior can be passed around?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 added the ability to extend multiple classes simultaneously</div>
+<div class="qopt" onclick="ans(this,'correct','0-1')"><span class="qdot"></span>Java 8 introduced lambdas, allowing functions to be passed as values without anonymous class boilerplate</div>
+<div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 made all methods static by default to support functional-style calls</div>
+<div class="qopt" onclick="ans(this,'wrong','0-1')"><span class="qdot"></span>Java 8 removed the need for interfaces entirely</div>
+</div>
+<div class="qexp" id="exp-0-1">Before Java 8, passing behavior required anonymous inner classes — verbose and hard to read. Lambdas let you express the same intent in a single line. Under the hood, Java still uses functional interfaces; lambdas are syntactic sugar that the compiler converts.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. What does "immutability" mean in the context of streams?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Stream objects cannot be assigned to variables</div>
+<div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Stream operations are synchronized and thread-safe by default</div>
+<div class="qopt" onclick="ans(this,'correct','0-2')"><span class="qdot"></span>Stream operations never modify the source collection — they produce new results</div>
+<div class="qopt" onclick="ans(this,'wrong','0-2')"><span class="qdot"></span>Once created, a stream cannot have any operations applied to it</div>
+</div>
+<div class="qexp" id="exp-0-2">Calling .stream().filter(...).map(...) on a List does not change the original List. Each operation returns a new stream (or a final result). The source data is untouched. This is a core guarantee of the Stream API.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div></div>
+<div class="lnav-btn" onclick="show(1)"><span class="lnav-label">Next Lesson →</span><span class="lnav-title">Lambda Expressions</span></div>
+</div>
+</div>
+<!-- L1: Lambda Expressions -->
+<div class="lesson-panel" id="panel-1">
+<div class="lesson-eyebrow">Module 1 · Lesson 02</div>
+<h1 class="lesson-title">Lambda Expressions</h1>
+<p class="lesson-lead">A lambda is a concise way to represent an anonymous function — a block of code you can pass around like data. Mastering the syntax variants and understanding capture rules will make you fluent in modern Java.</p>
+<h2>Lambda Syntax</h2>
+<p>Lambdas have three parts: parameters, the arrow <code>-&gt;</code>, and a body. The body can be a single expression or a block.</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Lambda syntax forms</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Form 1: No parameters</span>
+<span class="cls">Runnable</span> r = () <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(<span class="str">"Running!"</span>);
 
 <span class="cm">// Form 2: Single parameter (parens optional)</span>
-<span class="cls">Consumer</span>&lt;<span class="cls">String</span>&gt; print = s <span class="lam">-></span> <span class="cls">System</span>.out.println(s);
+<span class="cls">Consumer</span>&lt;<span class="cls">String</span>&gt; print = s <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(s);
 
 <span class="cm">// Form 3: Multiple parameters</span>
-<span class="cls">Comparator</span>&lt;<span class="cls">Integer</span>&gt; cmp = (a, b) <span class="lam">-></span> a - b;
+<span class="cls">Comparator</span>&lt;<span class="cls">Integer</span>&gt; cmp = (a, b) <span class="lam">-&gt;</span> a - b;
 
 <span class="cm">// Form 4: Block body (multiple statements, explicit return)</span>
-<span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; format = name <span class="lam">-></span> {
+<span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; format = name <span class="lam">-&gt;</span> {
     <span class="cls">String</span> trimmed = name.trim();
     <span class="kw">return</span> trimmed.substring(<span class="num">0</span>, <span class="num">1</span>).toUpperCase() + trimmed.substring(<span class="num">1</span>);
 };
 
 <span class="cm">// Form 5: With explicit types (rarely needed — compiler infers)</span>
-<span class="cls">BiFunction</span>&lt;<span class="cls">Integer</span>, <span class="cls">Integer</span>, <span class="cls">Integer</span>&gt; add = (<span class="cls">Integer</span> x, <span class="cls">Integer</span> y) <span class="lam">-></span> x + y;</pre>
-      </div>
+<span class="cls">BiFunction</span>&lt;<span class="cls">Integer</span>, <span class="cls">Integer</span>, <span class="cls">Integer</span>&gt; add = (<span class="cls">Integer</span> x, <span class="cls">Integer</span> y) <span class="lam">-&gt;</span> x + y;</pre>
+</div>
+<div class="callout callout-info">
+<span class="callout-icon">ℹ️</span>
+<div class="callout-body">
+<div class="callout-title">Type Inference</div>
+<p>The compiler infers parameter types from context. If the target type is <code>Predicate&lt;String&gt;</code>, the compiler knows the lambda takes a <code>String</code>. You almost never need to write the types explicitly.</p>
+</div>
+</div>
+<h2>Variable Capture</h2>
+<p>Lambdas can reference variables from the enclosing scope — but only if those variables are <strong>effectively final</strong> (never reassigned after initialization).</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Variable capture rules</span><span class="code-tag">Java</span></div>
+<pre><span class="kw">int</span> threshold = <span class="num">5</span>;  <span class="cm">// effectively final — never reassigned</span>
 
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">
-          <div class="callout-title">Type Inference</div>
-          <p>The compiler infers parameter types from context. If the target type is <code>Predicate&lt;String&gt;</code>, the compiler knows the lambda takes a <code>String</code>. You almost never need to write the types explicitly.</p>
-        </div>
-      </div>
-
-      <h2>Variable Capture</h2>
-      <p>Lambdas can reference variables from the enclosing scope — but only if those variables are <strong>effectively final</strong> (never reassigned after initialization).</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Variable capture rules</span><span class="code-tag">Java</span></div>
-        <pre><span class="kw">int</span> threshold = <span class="num">5</span>;  <span class="cm">// effectively final — never reassigned</span>
-
-<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; longEnough = s <span class="lam">-></span> s.length() &gt; threshold;  <span class="cm">// ✅ OK</span>
+<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; longEnough = s <span class="lam">-&gt;</span> s.length() &gt; threshold;  <span class="cm">// ✅ OK</span>
 
 threshold = <span class="num">10</span>;  <span class="cm">// now reassigned — lambda above would fail to compile</span>
 
 <span class="cm">// ❌ This does NOT compile:</span>
 <span class="kw">int</span> count = <span class="num">0</span>;
-list.forEach(s <span class="lam">-></span> count++);  <span class="cm">// ERROR: count is not effectively final</span>
+list.forEach(s <span class="lam">-&gt;</span> count++);  <span class="cm">// ERROR: count is not effectively final</span>
 
 <span class="cm">// ✅ Use AtomicInteger for mutable counters in lambdas:</span>
 <span class="cls">AtomicInteger</span> count = <span class="kw">new</span> <span class="cls">AtomicInteger</span>(<span class="num">0</span>);
-list.forEach(s <span class="lam">-></span> count.incrementAndGet());</pre>
-      </div>
-
-      <h2>this in Lambdas vs Anonymous Classes</h2>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">this reference difference</span><span class="code-tag">Java</span></div>
-        <pre><span class="kw">public class</span> <span class="cls">MyClass</span> {
+list.forEach(s <span class="lam">-&gt;</span> count.incrementAndGet());</pre>
+</div>
+<h2>this in Lambdas vs Anonymous Classes</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">this reference difference</span><span class="code-tag">Java</span></div>
+<pre><span class="kw">public class</span> <span class="cls">MyClass</span> {
     <span class="kw">private</span> <span class="cls">String</span> name = <span class="str">"MyClass"</span>;
 
     <span class="kw">void</span> <span class="fn">demo</span>() {
@@ -269,63 +241,57 @@ list.forEach(s <span class="lam">-></span> count.incrementAndGet());</pre>
         };
 
         <span class="cm">// Lambda: 'this' refers to the ENCLOSING class (MyClass)</span>
-        <span class="cls">Runnable</span> lam = () <span class="lam">-></span> <span class="cls">System</span>.out.println(<span class="kw">this</span>.name);  <span class="cm">// "MyClass"</span>
+        <span class="cls">Runnable</span> lam = () <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(<span class="kw">this</span>.name);  <span class="cm">// "MyClass"</span>
     }
 }</pre>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. Which of these lambdas will NOT compile?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>Runnable r = () -> System.out.println("ok");</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>Predicate&lt;String&gt; p = s -> s.isEmpty();</code></div>
-            <div class="qopt" onclick="ans(this,'correct','1-1')"><span class="qdot"></span><code>int x = 5; x++; Predicate&lt;Integer&gt; p = n -> n &gt; x;</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>BiFunction&lt;Integer,Integer,Integer&gt; f = (a,b) -> a + b;</code></div>
-          </div>
-          <div class="qexp" id="exp-1-1">The third option won't compile because x is mutated (x++) after it's initialized, so it's not effectively final. A lambda can only capture variables that are never reassigned. The fix: don't increment x after the declaration, or use AtomicInteger.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. A lambda that takes two Strings and returns a boolean — which functional interface fits?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>Function&lt;String, Boolean&gt;</div>
-            <div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>Predicate&lt;String&gt;</div>
-            <div class="qopt" onclick="ans(this,'correct','1-2')"><span class="qdot"></span>BiPredicate&lt;String, String&gt;</div>
-            <div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>BiConsumer&lt;String, String&gt;</div>
-          </div>
-          <div class="qexp" id="exp-1-2">BiPredicate&lt;T, U&gt; takes two arguments and returns boolean. Predicate&lt;T&gt; takes one. Function&lt;T,R&gt; returns R (not necessarily boolean). BiConsumer takes two arguments but returns void. Match the shape of your lambda to the shape of the functional interface.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(0)"><span class="lnav-label">← Previous</span><span class="lnav-title">Functional Programming in Java</span></div>
-        <div class="lnav-btn" onclick="show(2)"><span class="lnav-label">Next →</span><span class="lnav-title">Functional Interfaces</span></div>
-      </div>
-    </div>
-
-    <!-- L2: Functional Interfaces -->
-    <div class="lesson-panel" id="panel-2">
-      <div class="lesson-eyebrow">Module 1 · Lesson 03</div>
-      <h1 class="lesson-title">Functional Interfaces</h1>
-      <p class="lesson-lead">A functional interface is any interface with exactly one abstract method. It's the type system's way of representing a function. Java ships with a rich set of them in <code>java.util.function</code> — learn the core four and you'll handle 90% of cases.</p>
-
-      <h2>The Core Four</h2>
-
-      <table class="compare-table">
-        <thead><tr><th>Interface</th><th>Shape</th><th>Use for</th><th>Example</th></tr></thead>
-        <tbody>
-          <tr><td>Predicate&lt;T&gt;</td><td>T → boolean</td><td>Testing / filtering</td><td><code>s -> s.length() &gt; 3</code></td></tr>
-          <tr><td>Function&lt;T,R&gt;</td><td>T → R</td><td>Transforming</td><td><code>s -> s.toUpperCase()</code></td></tr>
-          <tr><td>Consumer&lt;T&gt;</td><td>T → void</td><td>Side effects</td><td><code>s -> System.out.println(s)</code></td></tr>
-          <tr><td>Supplier&lt;T&gt;</td><td>() → T</td><td>Producing values</td><td><code>() -> new ArrayList<>()</code></td></tr>
-        </tbody>
-      </table>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Core four in use</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Predicate — test a condition</span>
-<span class="cls">Predicate</span>&lt;<span class="cls">Integer</span>&gt; isEven = n <span class="lam">-></span> n % <span class="num">2</span> == <span class="num">0</span>;
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. Which of these lambdas will NOT compile?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>Runnable r = () -&gt; System.out.println("ok");</code></div>
+<div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>Predicate&lt;String&gt; p = s -&gt; s.isEmpty();</code></div>
+<div class="qopt" onclick="ans(this,'correct','1-1')"><span class="qdot"></span><code>int x = 5; x++; Predicate&lt;Integer&gt; p = n -&gt; n &gt; x;</code></div>
+<div class="qopt" onclick="ans(this,'wrong','1-1')"><span class="qdot"></span><code>BiFunction&lt;Integer,Integer,Integer&gt; f = (a,b) -&gt; a + b;</code></div>
+</div>
+<div class="qexp" id="exp-1-1">The third option won't compile because x is mutated (x++) after it's initialized, so it's not effectively final. A lambda can only capture variables that are never reassigned. The fix: don't increment x after the declaration, or use AtomicInteger.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. A lambda that takes two Strings and returns a boolean — which functional interface fits?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>Function&lt;String, Boolean&gt;</div>
+<div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>Predicate&lt;String&gt;</div>
+<div class="qopt" onclick="ans(this,'correct','1-2')"><span class="qdot"></span>BiPredicate&lt;String, String&gt;</div>
+<div class="qopt" onclick="ans(this,'wrong','1-2')"><span class="qdot"></span>BiConsumer&lt;String, String&gt;</div>
+</div>
+<div class="qexp" id="exp-1-2">BiPredicate&lt;T, U&gt; takes two arguments and returns boolean. Predicate&lt;T&gt; takes one. Function&lt;T,R&gt; returns R (not necessarily boolean). BiConsumer takes two arguments but returns void. Match the shape of your lambda to the shape of the functional interface.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(0)"><span class="lnav-label">← Previous</span><span class="lnav-title">Functional Programming in Java</span></div>
+<div class="lnav-btn" onclick="show(2)"><span class="lnav-label">Next →</span><span class="lnav-title">Functional Interfaces</span></div>
+</div>
+</div>
+<!-- L2: Functional Interfaces -->
+<div class="lesson-panel" id="panel-2">
+<div class="lesson-eyebrow">Module 1 · Lesson 03</div>
+<h1 class="lesson-title">Functional Interfaces</h1>
+<p class="lesson-lead">A functional interface is any interface with exactly one abstract method. It's the type system's way of representing a function. Java ships with a rich set of them in <code>java.util.function</code> — learn the core four and you'll handle 90% of cases.</p>
+<h2>The Core Four</h2>
+<table class="compare-table">
+<thead><tr><th>Interface</th><th>Shape</th><th>Use for</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Predicate&lt;T&gt;</td><td>T → boolean</td><td>Testing / filtering</td><td><code>s -&gt; s.length() &gt; 3</code></td></tr>
+<tr><td>Function&lt;T,R&gt;</td><td>T → R</td><td>Transforming</td><td><code>s -&gt; s.toUpperCase()</code></td></tr>
+<tr><td>Consumer&lt;T&gt;</td><td>T → void</td><td>Side effects</td><td><code>s -&gt; System.out.println(s)</code></td></tr>
+<tr><td>Supplier&lt;T&gt;</td><td>() → T</td><td>Producing values</td><td><code>() -&gt; new ArrayList&lt;&gt;()</code></td></tr>
+</tbody>
+</table>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Core four in use</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Predicate — test a condition</span>
+<span class="cls">Predicate</span>&lt;<span class="cls">Integer</span>&gt; isEven = n <span class="lam">-&gt;</span> n % <span class="num">2</span> == <span class="num">0</span>;
 isEven.test(<span class="num">4</span>);   <span class="cm">// true</span>
 isEven.test(<span class="num">7</span>);   <span class="cm">// false</span>
 
@@ -334,20 +300,18 @@ isEven.test(<span class="num">7</span>);   <span class="cm">// false</span>
 strLen.apply(<span class="str">"hello"</span>);  <span class="cm">// 5</span>
 
 <span class="cm">// Consumer — do something, return nothing</span>
-<span class="cls">Consumer</span>&lt;<span class="cls">String</span>&gt; logger = msg <span class="lam">-></span> <span class="cls">System</span>.out.println(<span class="str">"[LOG] "</span> + msg);
+<span class="cls">Consumer</span>&lt;<span class="cls">String</span>&gt; logger = msg <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(<span class="str">"[LOG] "</span> + msg);
 logger.accept(<span class="str">"Started"</span>);  <span class="cm">// prints [LOG] Started</span>
 
 <span class="cm">// Supplier — produce a value from nothing</span>
 <span class="cls">Supplier</span>&lt;<span class="cls">List</span>&lt;<span class="cls">String</span>&gt;&gt; listFactory = <span class="cls">ArrayList</span>::<span class="kw">new</span>;
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; list = listFactory.get();  <span class="cm">// fresh list each call</span></pre>
-      </div>
-
-      <h2>Composing Functions</h2>
-      <p>Functional interfaces include default methods for composition — building complex transformations from simple pieces.</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Function composition</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; trim = <span class="cls">String</span>::trim;
+</div>
+<h2>Composing Functions</h2>
+<p>Functional interfaces include default methods for composition — building complex transformations from simple pieces.</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Function composition</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; trim = <span class="cls">String</span>::trim;
 <span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; upper = <span class="cls">String</span>::toUpperCase;
 
 <span class="cm">// andThen: trim first, THEN uppercase</span>
@@ -355,82 +319,75 @@ logger.accept(<span class="str">"Started"</span>);  <span class="cm">// prints [
 clean.apply(<span class="str">"  hello  "</span>);  <span class="cm">// "HELLO"</span>
 
 <span class="cm">// Predicate composition</span>
-<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; notEmpty = s <span class="lam">-></span> !s.isEmpty();
-<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; notBlank = s <span class="lam">-></span> !s.isBlank();
+<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; notEmpty = s <span class="lam">-&gt;</span> !s.isEmpty();
+<span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; notBlank = s <span class="lam">-&gt;</span> !s.isBlank();
 <span class="cls">Predicate</span>&lt;<span class="cls">String</span>&gt; valid = notEmpty.and(notBlank);
 
 <span class="cm">// UnaryOperator — Function&lt;T,T&gt; shorthand</span>
-<span class="cls">UnaryOperator</span>&lt;<span class="cls">Integer</span>&gt; doubleIt = n <span class="lam">-></span> n * <span class="num">2</span>;
-<span class="cls">UnaryOperator</span>&lt;<span class="cls">Integer</span>&gt; addTen  = n <span class="lam">-></span> n + <span class="num">10</span>;
+<span class="cls">UnaryOperator</span>&lt;<span class="cls">Integer</span>&gt; doubleIt = n <span class="lam">-&gt;</span> n * <span class="num">2</span>;
+<span class="cls">UnaryOperator</span>&lt;<span class="cls">Integer</span>&gt; addTen  = n <span class="lam">-&gt;</span> n + <span class="num">10</span>;
 <span class="cls">UnaryOperator</span>&lt;<span class="cls">Integer</span>&gt; doubleThenAdd = doubleIt.andThen(addTen);
 doubleThenAdd.apply(<span class="num">5</span>);  <span class="cm">// (5*2)+10 = 20</span></pre>
-      </div>
-
-      <h2>Creating Your Own Functional Interface</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Custom functional interface</span><span class="code-tag">Java</span></div>
-        <pre><span class="ann">@FunctionalInterface</span>  <span class="cm">// optional but documents intent; compiler enforces 1 abstract method</span>
+</div>
+<h2>Creating Your Own Functional Interface</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Custom functional interface</span><span class="code-tag">Java</span></div>
+<pre><span class="ann">@FunctionalInterface</span>  <span class="cm">// optional but documents intent; compiler enforces 1 abstract method</span>
 <span class="kw">public interface</span> <span class="cls">TriFunction</span>&lt;A, B, C, R&gt; {
     R <span class="fn">apply</span>(A a, B b, C c);
 }
 
 <span class="cls">TriFunction</span>&lt;<span class="cls">Integer</span>, <span class="cls">Integer</span>, <span class="cls">Integer</span>, <span class="cls">Integer</span>&gt; clamp =
-    (val, min, max) <span class="lam">-></span> <span class="cls">Math</span>.min(<span class="cls">Math</span>.max(val, min), max);
+    (val, min, max) <span class="lam">-&gt;</span> <span class="cls">Math</span>.min(<span class="cls">Math</span>.max(val, min), max);
 
 clamp.apply(<span class="num">150</span>, <span class="num">0</span>, <span class="num">100</span>);  <span class="cm">// 100</span></pre>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. You need to transform a List&lt;String&gt; to a List&lt;Integer&gt; (lengths). Which functional interface maps a String to an Integer?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Predicate&lt;String&gt;</div>
-            <div class="qopt" onclick="ans(this,'correct','2-1')"><span class="qdot"></span>Function&lt;String, Integer&gt;</div>
-            <div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Consumer&lt;String&gt;</div>
-            <div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Supplier&lt;Integer&gt;</div>
-          </div>
-          <div class="qexp" id="exp-2-1">Function&lt;T, R&gt; maps a value of type T to a value of type R. For String → Integer, you'd use Function&lt;String, Integer&gt; with String::length. In a stream: .map(String::length). Predicate returns boolean, Consumer returns void, Supplier takes no input.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. What does @FunctionalInterface guarantee?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface will be automatically implemented by the compiler</div>
-            <div class="qopt" onclick="ans(this,'correct','2-2')"><span class="qdot"></span>The compiler will enforce that the interface has exactly one abstract method</div>
-            <div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface can only be used with lambda expressions, not anonymous classes</div>
-            <div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface methods will execute in parallel</div>
-          </div>
-          <div class="qexp" id="exp-2-2">@FunctionalInterface is a documentation annotation that also triggers a compile-time check. If you accidentally add a second abstract method, the compiler reports an error. It doesn't change runtime behavior — any single-abstract-method interface works as a lambda target whether annotated or not.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(1)"><span class="lnav-label">← Previous</span><span class="lnav-title">Lambda Expressions</span></div>
-        <div class="lnav-btn" onclick="show(3)"><span class="lnav-label">Next →</span><span class="lnav-title">Method References</span></div>
-      </div>
-    </div>
-
-    <!-- L3: Method References -->
-    <div class="lesson-panel" id="panel-3">
-      <div class="lesson-eyebrow">Module 1 · Lesson 04</div>
-      <h1 class="lesson-title">Method References</h1>
-      <p class="lesson-lead">Method references are shorthand for lambdas that do nothing but call an existing method. When a lambda is just <code>x -> SomeClass.someMethod(x)</code>, you can write <code>SomeClass::someMethod</code> instead — cleaner signal, same behavior.</p>
-
-      <h2>Four Kinds of Method References</h2>
-
-      <table class="compare-table">
-        <thead><tr><th>Kind</th><th>Syntax</th><th>Equivalent Lambda</th></tr></thead>
-        <tbody>
-          <tr><td>Static method</td><td>ClassName::staticMethod</td><td>x -> ClassName.staticMethod(x)</td></tr>
-          <tr><td>Instance (specific object)</td><td>obj::instanceMethod</td><td>x -> obj.instanceMethod(x)</td></tr>
-          <tr><td>Instance (arbitrary object)</td><td>ClassName::instanceMethod</td><td>x -> x.instanceMethod()</td></tr>
-          <tr><td>Constructor</td><td>ClassName::new</td><td>x -> new ClassName(x)</td></tr>
-        </tbody>
-      </table>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">All four forms</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// 1. Static method reference</span>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. You need to transform a List&lt;String&gt; to a List&lt;Integer&gt; (lengths). Which functional interface maps a String to an Integer?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Predicate&lt;String&gt;</div>
+<div class="qopt" onclick="ans(this,'correct','2-1')"><span class="qdot"></span>Function&lt;String, Integer&gt;</div>
+<div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Consumer&lt;String&gt;</div>
+<div class="qopt" onclick="ans(this,'wrong','2-1')"><span class="qdot"></span>Supplier&lt;Integer&gt;</div>
+</div>
+<div class="qexp" id="exp-2-1">Function&lt;T, R&gt; maps a value of type T to a value of type R. For String → Integer, you'd use Function&lt;String, Integer&gt; with String::length. In a stream: .map(String::length). Predicate returns boolean, Consumer returns void, Supplier takes no input.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. What does @FunctionalInterface guarantee?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface will be automatically implemented by the compiler</div>
+<div class="qopt" onclick="ans(this,'correct','2-2')"><span class="qdot"></span>The compiler will enforce that the interface has exactly one abstract method</div>
+<div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface can only be used with lambda expressions, not anonymous classes</div>
+<div class="qopt" onclick="ans(this,'wrong','2-2')"><span class="qdot"></span>The interface methods will execute in parallel</div>
+</div>
+<div class="qexp" id="exp-2-2">@FunctionalInterface is a documentation annotation that also triggers a compile-time check. If you accidentally add a second abstract method, the compiler reports an error. It doesn't change runtime behavior — any single-abstract-method interface works as a lambda target whether annotated or not.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(1)"><span class="lnav-label">← Previous</span><span class="lnav-title">Lambda Expressions</span></div>
+<div class="lnav-btn" onclick="show(3)"><span class="lnav-label">Next →</span><span class="lnav-title">Method References</span></div>
+</div>
+</div>
+<!-- L3: Method References -->
+<div class="lesson-panel" id="panel-3">
+<div class="lesson-eyebrow">Module 1 · Lesson 04</div>
+<h1 class="lesson-title">Method References</h1>
+<p class="lesson-lead">Method references are shorthand for lambdas that do nothing but call an existing method. When a lambda is just <code>x -&gt; SomeClass.someMethod(x)</code>, you can write <code>SomeClass::someMethod</code> instead — cleaner signal, same behavior.</p>
+<h2>Four Kinds of Method References</h2>
+<table class="compare-table">
+<thead><tr><th>Kind</th><th>Syntax</th><th>Equivalent Lambda</th></tr></thead>
+<tbody>
+<tr><td>Static method</td><td>ClassName::staticMethod</td><td>x -&gt; ClassName.staticMethod(x)</td></tr>
+<tr><td>Instance (specific object)</td><td>obj::instanceMethod</td><td>x -&gt; obj.instanceMethod(x)</td></tr>
+<tr><td>Instance (arbitrary object)</td><td>ClassName::instanceMethod</td><td>x -&gt; x.instanceMethod()</td></tr>
+<tr><td>Constructor</td><td>ClassName::new</td><td>x -&gt; new ClassName(x)</td></tr>
+</tbody>
+</table>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">All four forms</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// 1. Static method reference</span>
 <span class="cls">Function</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; parseInt = <span class="cls">Integer</span>::parseInt;
 parseInt.apply(<span class="str">"42"</span>);  <span class="cm">// 42</span>
 
@@ -452,92 +409,84 @@ toUpper.apply(<span class="str">"java"</span>);  <span class="cm">// "JAVA"</spa
 names.stream()
      .map(<span class="cls">String</span>::toUpperCase)        <span class="cm">// unbound instance</span>
      .forEach(<span class="cls">System</span>.out::println);    <span class="cm">// bound to System.out</span></pre>
-      </div>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">🔑</span>
-        <div class="callout-body">
-          <div class="callout-title">When to use method references vs lambdas</div>
-          <p>Use a method reference when the lambda body is <em>only</em> a method call with no extra logic. If you need to transform the argument, combine calls, or add a condition — write a lambda. Clarity wins over brevity.</p>
-        </div>
-      </div>
-
-      <div class="challenge">
-        <div class="challenge-hdr"><span class="challenge-icon">🎯</span><span class="challenge-title">Challenge: Refactor to Method References</span></div>
-        <p>Rewrite each lambda below as a method reference where possible:</p>
-        <div class="code-block" style="margin:12px 0 0">
-          <div class="code-head"><span class="code-fn">Refactor these</span><span class="code-tag">Java</span></div>
-          <pre>list.stream().map(s <span class="lam">-></span> s.trim()).collect(toList());
-list.stream().filter(s <span class="lam">-></span> !s.isEmpty()).collect(toList());
-list.stream().forEach(s <span class="lam">-></span> <span class="cls">System</span>.out.println(s));
-list.stream().map(s <span class="lam">-></span> <span class="kw">new</span> <span class="cls">StringBuilder</span>(s)).collect(toList());
-list.stream().map(s <span class="lam">-></span> <span class="cls">Integer</span>.parseInt(s)).collect(toList());</pre>
-        </div>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What is the method reference equivalent of <code>s -> s.toUpperCase()</code>?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>String::toUpperCase()</div>
-            <div class="qopt" onclick="ans(this,'correct','3-1')"><span class="qdot"></span>String::toUpperCase</div>
-            <div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>s::toUpperCase</div>
-            <div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>String.toUpperCase::apply</div>
-          </div>
-          <div class="qexp" id="exp-3-1">String::toUpperCase is an unbound instance method reference. The compiler knows it takes a String parameter (the object the method is called on) and returns a String. Note: no parentheses — method references never have () after the method name.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(2)"><span class="lnav-label">← Previous</span><span class="lnav-title">Functional Interfaces</span></div>
-        <div class="lnav-btn" onclick="show(4)"><span class="lnav-label">Next →</span><span class="lnav-title">What is a Stream?</span></div>
-      </div>
-    </div>
-
-    <!-- L4: What is a Stream -->
-    <div class="lesson-panel" id="panel-4">
-      <div class="lesson-eyebrow">Module 2 · Lesson 05</div>
-      <h1 class="lesson-title">What is a Stream?</h1>
-      <p class="lesson-lead">A Stream is a sequence of elements supporting sequential and parallel aggregate operations. It's not a data structure — it doesn't store elements. It's a pipeline: data flows through it, gets transformed, and produces a result.</p>
-
-      <h2>The Pipeline Model</h2>
-      <p>Every stream pipeline has three parts: a <strong>source</strong>, zero or more <strong>intermediate operations</strong>, and a <strong>terminal operation</strong>.</p>
-
-      <div class="pipeline">
-        <div class="pipeline-label">// Stream pipeline anatomy</div>
-        <div class="pipe-row">
-          <div class="pipe-node">
-            <div class="pipe-box source">List.of(...)</div>
-            <div class="pipe-tag">Source</div>
-          </div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node">
-            <div class="pipe-box intermediate">.filter()</div>
-            <div class="pipe-tag">Intermediate</div>
-          </div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node">
-            <div class="pipe-box intermediate">.map()</div>
-            <div class="pipe-tag">Intermediate</div>
-          </div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node">
-            <div class="pipe-box intermediate">.sorted()</div>
-            <div class="pipe-tag">Intermediate</div>
-          </div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node">
-            <div class="pipe-box terminal-op">.collect()</div>
-            <div class="pipe-tag">Terminal</div>
-          </div>
-        </div>
-      </div>
-
-      <h2>Creating Streams</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Stream sources</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// From a Collection</span>
+</div>
+<div class="callout callout-key">
+<span class="callout-icon">🔑</span>
+<div class="callout-body">
+<div class="callout-title">When to use method references vs lambdas</div>
+<p>Use a method reference when the lambda body is <em>only</em> a method call with no extra logic. If you need to transform the argument, combine calls, or add a condition — write a lambda. Clarity wins over brevity.</p>
+</div>
+</div>
+<div class="challenge">
+<div class="challenge-hdr"><span class="challenge-icon">🎯</span><span class="challenge-title">Challenge: Refactor to Method References</span></div>
+<p>Rewrite each lambda below as a method reference where possible:</p>
+<div class="code-block" style="margin:12px 0 0">
+<div class="code-head"><span class="code-fn">Refactor these</span><span class="code-tag">Java</span></div>
+<pre>list.stream().map(s <span class="lam">-&gt;</span> s.trim()).collect(toList());
+list.stream().filter(s <span class="lam">-&gt;</span> !s.isEmpty()).collect(toList());
+list.stream().forEach(s <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(s));
+list.stream().map(s <span class="lam">-&gt;</span> <span class="kw">new</span> <span class="cls">StringBuilder</span>(s)).collect(toList());
+list.stream().map(s <span class="lam">-&gt;</span> <span class="cls">Integer</span>.parseInt(s)).collect(toList());</pre>
+</div>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What is the method reference equivalent of <code>s -&gt; s.toUpperCase()</code>?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>String::toUpperCase()</div>
+<div class="qopt" onclick="ans(this,'correct','3-1')"><span class="qdot"></span>String::toUpperCase</div>
+<div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>s::toUpperCase</div>
+<div class="qopt" onclick="ans(this,'wrong','3-1')"><span class="qdot"></span>String.toUpperCase::apply</div>
+</div>
+<div class="qexp" id="exp-3-1">String::toUpperCase is an unbound instance method reference. The compiler knows it takes a String parameter (the object the method is called on) and returns a String. Note: no parentheses — method references never have () after the method name.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(2)"><span class="lnav-label">← Previous</span><span class="lnav-title">Functional Interfaces</span></div>
+<div class="lnav-btn" onclick="show(4)"><span class="lnav-label">Next →</span><span class="lnav-title">What is a Stream?</span></div>
+</div>
+</div>
+<!-- L4: What is a Stream -->
+<div class="lesson-panel" id="panel-4">
+<div class="lesson-eyebrow">Module 2 · Lesson 05</div>
+<h1 class="lesson-title">What is a Stream?</h1>
+<p class="lesson-lead">A Stream is a sequence of elements supporting sequential and parallel aggregate operations. It's not a data structure — it doesn't store elements. It's a pipeline: data flows through it, gets transformed, and produces a result.</p>
+<h2>The Pipeline Model</h2>
+<p>Every stream pipeline has three parts: a <strong>source</strong>, zero or more <strong>intermediate operations</strong>, and a <strong>terminal operation</strong>.</p>
+<div class="pipeline">
+<div class="pipeline-label">// Stream pipeline anatomy</div>
+<div class="pipe-row">
+<div class="pipe-node">
+<div class="pipe-box source">List.of(...)</div>
+<div class="pipe-tag">Source</div>
+</div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node">
+<div class="pipe-box intermediate">.filter()</div>
+<div class="pipe-tag">Intermediate</div>
+</div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node">
+<div class="pipe-box intermediate">.map()</div>
+<div class="pipe-tag">Intermediate</div>
+</div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node">
+<div class="pipe-box intermediate">.sorted()</div>
+<div class="pipe-tag">Intermediate</div>
+</div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node">
+<div class="pipe-box terminal-op">.collect()</div>
+<div class="pipe-tag">Terminal</div>
+</div>
+</div>
+</div>
+<h2>Creating Streams</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Stream sources</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// From a Collection</span>
 <span class="cls">Stream</span>&lt;<span class="cls">String</span>&gt; s1 = names.stream();
 
 <span class="cm">// From values directly</span>
@@ -547,26 +496,24 @@ list.stream().map(s <span class="lam">-></span> <span class="cls">Integer</span>
 <span class="cls">Stream</span>&lt;<span class="cls">String</span>&gt; s3 = <span class="cls">Arrays</span>.stream(namesArray);
 
 <span class="cm">// Infinite stream — generates values on demand</span>
-<span class="cls">Stream</span>&lt;<span class="cls">Integer</span>&gt; naturals = <span class="cls">Stream</span>.iterate(<span class="num">1</span>, n <span class="lam">-></span> n + <span class="num">1</span>);
+<span class="cls">Stream</span>&lt;<span class="cls">Integer</span>&gt; naturals = <span class="cls">Stream</span>.iterate(<span class="num">1</span>, n <span class="lam">-&gt;</span> n + <span class="num">1</span>);
 
 <span class="cm">// Range of integers (use IntStream for primitives — no boxing)</span>
 <span class="cls">IntStream</span> range = <span class="cls">IntStream</span>.rangeClosed(<span class="num">1</span>, <span class="num">10</span>);  <span class="cm">// 1 to 10 inclusive</span>
 
 <span class="cm">// From a file</span>
 <span class="cls">Stream</span>&lt;<span class="cls">String</span>&gt; lines = <span class="cls">Files</span>.lines(<span class="cls">Path</span>.of(<span class="str">"data.txt"</span>));  <span class="cm">// remember to close!</span></pre>
-      </div>
-
-      <h2>Laziness — The Key Insight</h2>
-      <p>Intermediate operations are <strong>lazy</strong>: they don't execute until a terminal operation is called. This enables optimization — Java can short-circuit, fuse operations, and avoid processing elements that won't appear in the result.</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Laziness demonstration</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">Stream</span>.of(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Dave"</span>)
-    .filter(s <span class="lam">-></span> {
+</div>
+<h2>Laziness — The Key Insight</h2>
+<p>Intermediate operations are <strong>lazy</strong>: they don't execute until a terminal operation is called. This enables optimization — Java can short-circuit, fuse operations, and avoid processing elements that won't appear in the result.</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Laziness demonstration</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">Stream</span>.of(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Dave"</span>)
+    .filter(s <span class="lam">-&gt;</span> {
         <span class="cls">System</span>.out.println(<span class="str">"filter: "</span> + s);
         <span class="kw">return</span> s.length() &gt; <span class="num">3</span>;
     })
-    .map(s <span class="lam">-></span> {
+    .map(s <span class="lam">-&gt;</span> {
         <span class="cls">System</span>.out.println(<span class="str">"map: "</span> + s);
         <span class="kw">return</span> s.toUpperCase();
     })
@@ -574,66 +521,58 @@ list.stream().map(s <span class="lam">-></span> <span class="cls">Integer</span>
 
 <span class="cm">// Output: filter: Alice → map: Alice → (done — found it!)</span>
 <span class="cm">// Bob/Charlie/Dave are never even processed</span></pre>
-      </div>
-
-      <div class="callout callout-warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body">
-          <div class="callout-title">Streams are single-use</div>
-          <p>Once a terminal operation is called, the stream is consumed and cannot be reused. Attempting to operate on a consumed stream throws <code>IllegalStateException</code>. If you need to process the same data twice, call <code>.stream()</code> again on the collection.</p>
-        </div>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What happens when you call <code>.filter()</code> on a stream without a terminal operation?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>The filter runs immediately and stores the filtered elements</div>
-            <div class="qopt" onclick="ans(this,'correct','4-1')"><span class="qdot"></span>Nothing — intermediate operations are lazy and execute only when a terminal operation is called</div>
-            <div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>A compile error occurs because filter requires collect immediately after</div>
-            <div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>The filter runs but returns an empty stream until collect is called</div>
-          </div>
-          <div class="qexp" id="exp-4-1">Intermediate operations return a new Stream with a description of the operation to perform — no data is processed yet. Processing begins only when a terminal operation (collect, findFirst, forEach, count, etc.) is invoked. This laziness is what enables short-circuit optimizations like stopping after findFirst().</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(3)"><span class="lnav-label">← Previous</span><span class="lnav-title">Method References</span></div>
-        <div class="lnav-btn" onclick="show(5)"><span class="lnav-label">Next →</span><span class="lnav-title">Intermediate Operations</span></div>
-      </div>
-    </div>
-
-
-    <!-- L5: Intermediate Operations -->
-    <div class="lesson-panel" id="panel-5">
-      <div class="lesson-eyebrow">Module 2 · Lesson 06</div>
-      <h1 class="lesson-title">Intermediate Operations</h1>
-      <p class="lesson-lead">Intermediate operations transform a stream into another stream. They're the building blocks of your pipeline — chained together, they describe what to do with each element before the terminal operation collects the result.</p>
-
-      <h2>The Essential Operations</h2>
-
-      <table class="compare-table">
-        <thead><tr><th>Operation</th><th>What it does</th><th>Returns</th></tr></thead>
-        <tbody>
-          <tr><td>filter(Predicate)</td><td>Keep elements matching the predicate</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>map(Function)</td><td>Transform each element T → R</td><td>Stream&lt;R&gt;</td></tr>
-          <tr><td>sorted()</td><td>Natural order sort</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>sorted(Comparator)</td><td>Custom order sort</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>distinct()</td><td>Remove duplicates (uses equals)</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>limit(n)</td><td>Keep first n elements</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>skip(n)</td><td>Skip first n elements</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>peek(Consumer)</td><td>Observe elements without modifying (debugging)</td><td>Stream&lt;T&gt;</td></tr>
-          <tr><td>mapToInt/Long/Double</td><td>Convert to primitive stream (avoids boxing)</td><td>IntStream etc.</td></tr>
-        </tbody>
-      </table>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Intermediate operations in action</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; words = <span class="cls">List</span>.of(<span class="str">"stream"</span>, <span class="str">"lambda"</span>, <span class="str">"java"</span>, <span class="str">"stream"</span>, <span class="str">"api"</span>);
+</div>
+<div class="callout callout-warn">
+<span class="callout-icon">⚠️</span>
+<div class="callout-body">
+<div class="callout-title">Streams are single-use</div>
+<p>Once a terminal operation is called, the stream is consumed and cannot be reused. Attempting to operate on a consumed stream throws <code>IllegalStateException</code>. If you need to process the same data twice, call <code>.stream()</code> again on the collection.</p>
+</div>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What happens when you call <code>.filter()</code> on a stream without a terminal operation?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>The filter runs immediately and stores the filtered elements</div>
+<div class="qopt" onclick="ans(this,'correct','4-1')"><span class="qdot"></span>Nothing — intermediate operations are lazy and execute only when a terminal operation is called</div>
+<div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>A compile error occurs because filter requires collect immediately after</div>
+<div class="qopt" onclick="ans(this,'wrong','4-1')"><span class="qdot"></span>The filter runs but returns an empty stream until collect is called</div>
+</div>
+<div class="qexp" id="exp-4-1">Intermediate operations return a new Stream with a description of the operation to perform — no data is processed yet. Processing begins only when a terminal operation (collect, findFirst, forEach, count, etc.) is invoked. This laziness is what enables short-circuit optimizations like stopping after findFirst().</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(3)"><span class="lnav-label">← Previous</span><span class="lnav-title">Method References</span></div>
+<div class="lnav-btn" onclick="show(5)"><span class="lnav-label">Next →</span><span class="lnav-title">Intermediate Operations</span></div>
+</div>
+</div>
+<!-- L5: Intermediate Operations -->
+<div class="lesson-panel" id="panel-5">
+<div class="lesson-eyebrow">Module 2 · Lesson 06</div>
+<h1 class="lesson-title">Intermediate Operations</h1>
+<p class="lesson-lead">Intermediate operations transform a stream into another stream. They're the building blocks of your pipeline — chained together, they describe what to do with each element before the terminal operation collects the result.</p>
+<h2>The Essential Operations</h2>
+<table class="compare-table">
+<thead><tr><th>Operation</th><th>What it does</th><th>Returns</th></tr></thead>
+<tbody>
+<tr><td>filter(Predicate)</td><td>Keep elements matching the predicate</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>map(Function)</td><td>Transform each element T → R</td><td>Stream&lt;R&gt;</td></tr>
+<tr><td>sorted()</td><td>Natural order sort</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>sorted(Comparator)</td><td>Custom order sort</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>distinct()</td><td>Remove duplicates (uses equals)</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>limit(n)</td><td>Keep first n elements</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>skip(n)</td><td>Skip first n elements</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>peek(Consumer)</td><td>Observe elements without modifying (debugging)</td><td>Stream&lt;T&gt;</td></tr>
+<tr><td>mapToInt/Long/Double</td><td>Convert to primitive stream (avoids boxing)</td><td>IntStream etc.</td></tr>
+</tbody>
+</table>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Intermediate operations in action</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; words = <span class="cls">List</span>.of(<span class="str">"stream"</span>, <span class="str">"lambda"</span>, <span class="str">"java"</span>, <span class="str">"stream"</span>, <span class="str">"api"</span>);
 
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; result = words.stream()
-    .filter(w <span class="lam">-></span> w.length() &gt; <span class="num">3</span>)      <span class="cm">// ["stream","lambda","java","stream"]</span>
+    .filter(w <span class="lam">-&gt;</span> w.length() &gt; <span class="num">3</span>)      <span class="cm">// ["stream","lambda","java","stream"]</span>
     .distinct()                          <span class="cm">// ["stream","lambda","java"]</span>
     .sorted()                            <span class="cm">// ["java","lambda","stream"]</span>
     .map(<span class="cls">String</span>::toUpperCase)            <span class="cm">// ["JAVA","LAMBDA","STREAM"]</span>
@@ -642,19 +581,17 @@ list.stream().map(s <span class="lam">-></span> <span class="cls">Integer</span>
 
 <span class="cm">// peek() for debugging — inspect without changing the stream</span>
 <span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; lengths = words.stream()
-    .filter(w <span class="lam">-></span> w.length() &gt; <span class="num">3</span>)
-    .peek(w <span class="lam">-></span> <span class="cls">System</span>.out.println(<span class="str">"After filter: "</span> + w))
+    .filter(w <span class="lam">-&gt;</span> w.length() &gt; <span class="num">3</span>)
+    .peek(w <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(<span class="str">"After filter: "</span> + w))
     .map(<span class="cls">String</span>::length)
-    .peek(n <span class="lam">-></span> <span class="cls">System</span>.out.println(<span class="str">"After map: "</span> + n))
+    .peek(n <span class="lam">-&gt;</span> <span class="cls">System</span>.out.println(<span class="str">"After map: "</span> + n))
     .collect(<span class="cls">Collectors</span>.toList());</pre>
-      </div>
-
-      <h2>map vs mapToInt — Avoid Boxing</h2>
-      <p>Using <code>map(String::length)</code> produces a <code>Stream&lt;Integer&gt;</code> — boxed integers. For numeric processing, use primitive streams to skip the boxing overhead:</p>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Primitive streams</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Stream&lt;Integer&gt; — boxes each int (slow for large data)</span>
+</div>
+<h2>map vs mapToInt — Avoid Boxing</h2>
+<p>Using <code>map(String::length)</code> produces a <code>Stream&lt;Integer&gt;</code> — boxed integers. For numeric processing, use primitive streams to skip the boxing overhead:</p>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Primitive streams</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Stream&lt;Integer&gt; — boxes each int (slow for large data)</span>
 <span class="kw">int</span> total = words.stream()
     .map(<span class="cls">String</span>::length)        <span class="cm">// Stream&lt;Integer&gt;</span>
     .reduce(<span class="num">0</span>, <span class="cls">Integer</span>::sum);
@@ -670,60 +607,55 @@ list.stream().map(s <span class="lam">-></span> <span class="cls">Integer</span>
     .summaryStatistics();
 stats.getAverage();  <span class="cm">// 4.8</span>
 stats.getMax();      <span class="cm">// 6</span></pre>
-      </div>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">
-          <div class="callout-title">Order matters for performance</div>
-          <p>Put <code>filter()</code> before <code>map()</code> when possible — it reduces the number of elements that need transforming. Put <code>limit()</code> early for infinite streams. <code>sorted()</code> and <code>distinct()</code> are stateful and require seeing all elements, so they're inherently expensive on large streams.</p>
-        </div>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What does <code>peek()</code> do to the stream elements?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It modifies elements in place, like a side-effect map</div>
-            <div class="qopt" onclick="ans(this,'correct','5-1')"><span class="qdot"></span>It observes each element (e.g., for logging) without changing the stream</div>
-            <div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It pauses execution until the next operation is ready</div>
-            <div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It copies each element and adds the copy to the stream</div>
-          </div>
-          <div class="qexp" id="exp-5-1">peek() takes a Consumer — it performs an action on each element (like printing it) but doesn't change the element or the stream. It's primarily a debugging tool to inspect values at different stages of the pipeline without breaking the chain.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. Why prefer <code>mapToInt()</code> over <code>map()</code> for numeric computations?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() supports more operations than map()</div>
-            <div class="qopt" onclick="ans(this,'correct','5-2')"><span class="qdot"></span>mapToInt() avoids boxing int to Integer, reducing memory and CPU overhead</div>
-            <div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() runs operations in parallel automatically</div>
-            <div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() is safer — it handles null automatically</div>
-          </div>
-          <div class="qexp" id="exp-5-2">map(String::length) creates a Stream&lt;Integer&gt; where each int is boxed (wrapped in an Integer object). mapToInt() creates an IntStream of raw primitives — no object allocation per element. For large collections this matters. IntStream also adds domain-specific methods: sum(), average(), summaryStatistics().</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(4)"><span class="lnav-label">← Previous</span><span class="lnav-title">What is a Stream?</span></div>
-        <div class="lnav-btn" onclick="show(6)"><span class="lnav-label">Next →</span><span class="lnav-title">Terminal Operations</span></div>
-      </div>
-    </div>
-
-    <!-- L6: Terminal Operations -->
-    <div class="lesson-panel" id="panel-6">
-      <div class="lesson-eyebrow">Module 2 · Lesson 07</div>
-      <h1 class="lesson-title">Terminal Operations</h1>
-      <p class="lesson-lead">Terminal operations trigger the pipeline. They consume the stream, produce a result (or a side effect), and leave the stream closed. Picking the right terminal operation is as important as building the right pipeline.</p>
-
-      <h2>Reduction Operations</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">reduce() — the general case</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; nums = <span class="cls">List</span>.of(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>);
+</div>
+<div class="callout callout-tip">
+<span class="callout-icon">💡</span>
+<div class="callout-body">
+<div class="callout-title">Order matters for performance</div>
+<p>Put <code>filter()</code> before <code>map()</code> when possible — it reduces the number of elements that need transforming. Put <code>limit()</code> early for infinite streams. <code>sorted()</code> and <code>distinct()</code> are stateful and require seeing all elements, so they're inherently expensive on large streams.</p>
+</div>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What does <code>peek()</code> do to the stream elements?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It modifies elements in place, like a side-effect map</div>
+<div class="qopt" onclick="ans(this,'correct','5-1')"><span class="qdot"></span>It observes each element (e.g., for logging) without changing the stream</div>
+<div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It pauses execution until the next operation is ready</div>
+<div class="qopt" onclick="ans(this,'wrong','5-1')"><span class="qdot"></span>It copies each element and adds the copy to the stream</div>
+</div>
+<div class="qexp" id="exp-5-1">peek() takes a Consumer — it performs an action on each element (like printing it) but doesn't change the element or the stream. It's primarily a debugging tool to inspect values at different stages of the pipeline without breaking the chain.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. Why prefer <code>mapToInt()</code> over <code>map()</code> for numeric computations?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() supports more operations than map()</div>
+<div class="qopt" onclick="ans(this,'correct','5-2')"><span class="qdot"></span>mapToInt() avoids boxing int to Integer, reducing memory and CPU overhead</div>
+<div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() runs operations in parallel automatically</div>
+<div class="qopt" onclick="ans(this,'wrong','5-2')"><span class="qdot"></span>mapToInt() is safer — it handles null automatically</div>
+</div>
+<div class="qexp" id="exp-5-2">map(String::length) creates a Stream&lt;Integer&gt; where each int is boxed (wrapped in an Integer object). mapToInt() creates an IntStream of raw primitives — no object allocation per element. For large collections this matters. IntStream also adds domain-specific methods: sum(), average(), summaryStatistics().</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(4)"><span class="lnav-label">← Previous</span><span class="lnav-title">What is a Stream?</span></div>
+<div class="lnav-btn" onclick="show(6)"><span class="lnav-label">Next →</span><span class="lnav-title">Terminal Operations</span></div>
+</div>
+</div>
+<!-- L6: Terminal Operations -->
+<div class="lesson-panel" id="panel-6">
+<div class="lesson-eyebrow">Module 2 · Lesson 07</div>
+<h1 class="lesson-title">Terminal Operations</h1>
+<p class="lesson-lead">Terminal operations trigger the pipeline. They consume the stream, produce a result (or a side effect), and leave the stream closed. Picking the right terminal operation is as important as building the right pipeline.</p>
+<h2>Reduction Operations</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">reduce() — the general case</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; nums = <span class="cls">List</span>.of(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>);
 
 <span class="cm">// reduce(identity, accumulator)</span>
-<span class="kw">int</span> sum = nums.stream().reduce(<span class="num">0</span>, (acc, n) <span class="lam">-></span> acc + n);  <span class="cm">// 15</span>
-<span class="kw">int</span> product = nums.stream().reduce(<span class="num">1</span>, (acc, n) <span class="lam">-></span> acc * n);  <span class="cm">// 120</span>
+<span class="kw">int</span> sum = nums.stream().reduce(<span class="num">0</span>, (acc, n) <span class="lam">-&gt;</span> acc + n);  <span class="cm">// 15</span>
+<span class="kw">int</span> product = nums.stream().reduce(<span class="num">1</span>, (acc, n) <span class="lam">-&gt;</span> acc * n);  <span class="cm">// 120</span>
 
 <span class="cm">// Without identity — returns Optional (stream might be empty)</span>
 <span class="cls">Optional</span>&lt;<span class="cls">Integer</span>&gt; max = nums.stream().reduce(<span class="cls">Integer</span>::max);
@@ -733,87 +665,81 @@ nums.stream().mapToInt(<span class="cls">Integer</span>::intValue).sum();
 nums.stream().mapToInt(<span class="cls">Integer</span>::intValue).average();  <span class="cm">// OptionalDouble</span>
 nums.stream().mapToInt(<span class="cls">Integer</span>::intValue).min();
 nums.stream().mapToInt(<span class="cls">Integer</span>::intValue).max();</pre>
-      </div>
-
-      <h2>Finding & Matching</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">find and match operations</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="cls">List</span>.of(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>);
+</div>
+<h2>Finding &amp; Matching</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">find and match operations</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="cls">List</span>.of(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>);
 
 <span class="cm">// findFirst — returns first element matching pipeline (Optional)</span>
 <span class="cls">Optional</span>&lt;<span class="cls">String</span>&gt; first = names.stream()
-    .filter(s <span class="lam">-></span> s.startsWith(<span class="str">"C"</span>))
+    .filter(s <span class="lam">-&gt;</span> s.startsWith(<span class="str">"C"</span>))
     .findFirst();  <span class="cm">// Optional["Charlie"]</span>
 
 <span class="cm">// anyMatch / allMatch / noneMatch — return boolean</span>
-<span class="kw">boolean</span> anyLong  = names.stream().anyMatch(s <span class="lam">-></span> s.length() &gt; <span class="num">4</span>);  <span class="cm">// true</span>
-<span class="kw">boolean</span> allShort = names.stream().allMatch(s <span class="lam">-></span> s.length() &lt; <span class="num">10</span>); <span class="cm">// true</span>
-<span class="kw">boolean</span> noneNum  = names.stream().noneMatch(s <span class="lam">-></span> s.matches(<span class="str">"\\d+"</span>));  <span class="cm">// true</span>
+<span class="kw">boolean</span> anyLong  = names.stream().anyMatch(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">4</span>);  <span class="cm">// true</span>
+<span class="kw">boolean</span> allShort = names.stream().allMatch(s <span class="lam">-&gt;</span> s.length() &lt; <span class="num">10</span>); <span class="cm">// true</span>
+<span class="kw">boolean</span> noneNum  = names.stream().noneMatch(s <span class="lam">-&gt;</span> s.matches(<span class="str">"\\d+"</span>));  <span class="cm">// true</span>
 
 <span class="cm">// count — number of elements after pipeline</span>
-<span class="kw">long</span> longNames = names.stream().filter(s <span class="lam">-></span> s.length() &gt; <span class="num">3</span>).count();  <span class="cm">// 2</span></pre>
-      </div>
-
-      <h2>forEach</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">forEach — side effects only</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Good: printing, logging, storing to external system</span>
+<span class="kw">long</span> longNames = names.stream().filter(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">3</span>).count();  <span class="cm">// 2</span></pre>
+</div>
+<h2>forEach</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">forEach — side effects only</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Good: printing, logging, storing to external system</span>
 names.stream()
-     .filter(s <span class="lam">-></span> s.length() &gt; <span class="num">3</span>)
+     .filter(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">3</span>)
      .forEach(<span class="cls">System</span>.out::println);
 
 <span class="cm">// ❌ Bad: modifying a collection inside forEach (side-effect anti-pattern)</span>
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; result = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
 names.stream()
-     .filter(s <span class="lam">-></span> s.length() &gt; <span class="num">3</span>)
+     .filter(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">3</span>)
      .forEach(result::add);  <span class="cm">// works but defeats the purpose — use collect instead</span>
 
 <span class="cm">// ✅ Good: use collect for building collections</span>
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; result = names.stream()
-     .filter(s <span class="lam">-></span> s.length() &gt; <span class="num">3</span>)
+     .filter(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">3</span>)
      .collect(<span class="cls">Collectors</span>.toList());</pre>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. Why does <code>reduce(accumulator)</code> without an identity return <code>Optional</code>?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>Optional makes reduce thread-safe in parallel streams</div>
-            <div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>reduce always returns Optional regardless of parameters</div>
-            <div class="qopt" onclick="ans(this,'correct','6-1')"><span class="qdot"></span>The stream might be empty — with no identity value, there's no sensible default to return</div>
-            <div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>Optional is returned to indicate that reduce is a lazy operation</div>
-          </div>
-          <div class="qexp" id="exp-6-1">If you call reduce(Integer::max) on an empty stream, what should it return? There's no "maximum of nothing." By returning Optional, Java forces you to handle the empty case explicitly. With an identity value like reduce(0, Integer::sum), the identity (0) is the default for empty streams, so no Optional is needed.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. You want to check if ANY name in a list starts with "Z". Which is most efficient?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span><code>names.stream().filter(s -> s.startsWith("Z")).count() &gt; 0</code></div>
-            <div class="qopt" onclick="ans(this,'correct','6-2')"><span class="qdot"></span><code>names.stream().anyMatch(s -> s.startsWith("Z"))</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span><code>names.stream().filter(s -> s.startsWith("Z")).findFirst().isPresent()</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span>All three are equivalent in performance</div>
-          </div>
-          <div class="qexp" id="exp-6-2">anyMatch() short-circuits — it stops as soon as it finds a matching element. count() must process the entire stream to count matches. findFirst() also short-circuits but is semantically "find one" not "does any match." Use anyMatch for boolean checks — it's the clearest expression of intent and the most efficient.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(5)"><span class="lnav-label">← Previous</span><span class="lnav-title">Intermediate Operations</span></div>
-        <div class="lnav-btn" onclick="show(7)"><span class="lnav-label">Next →</span><span class="lnav-title">Collectors in Depth</span></div>
-      </div>
-    </div>
-
-    <!-- L7: Collectors -->
-    <div class="lesson-panel" id="panel-7">
-      <div class="lesson-eyebrow">Module 2 · Lesson 08</div>
-      <h1 class="lesson-title">Collectors in Depth</h1>
-      <p class="lesson-lead"><code>collect()</code> is the most versatile terminal operation. The <code>Collectors</code> utility class provides ready-made collectors for lists, sets, maps, grouping, partitioning, joining, and more. This is where streams become truly powerful.</p>
-
-      <h2>Basic Collectors</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Collecting to standard collections</span><span class="code-tag">Java</span></div>
-        <pre><span class="kw">import static</span> java.util.stream.Collectors.*;
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. Why does <code>reduce(accumulator)</code> without an identity return <code>Optional</code>?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>Optional makes reduce thread-safe in parallel streams</div>
+<div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>reduce always returns Optional regardless of parameters</div>
+<div class="qopt" onclick="ans(this,'correct','6-1')"><span class="qdot"></span>The stream might be empty — with no identity value, there's no sensible default to return</div>
+<div class="qopt" onclick="ans(this,'wrong','6-1')"><span class="qdot"></span>Optional is returned to indicate that reduce is a lazy operation</div>
+</div>
+<div class="qexp" id="exp-6-1">If you call reduce(Integer::max) on an empty stream, what should it return? There's no "maximum of nothing." By returning Optional, Java forces you to handle the empty case explicitly. With an identity value like reduce(0, Integer::sum), the identity (0) is the default for empty streams, so no Optional is needed.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. You want to check if ANY name in a list starts with "Z". Which is most efficient?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span><code>names.stream().filter(s -&gt; s.startsWith("Z")).count() &gt; 0</code></div>
+<div class="qopt" onclick="ans(this,'correct','6-2')"><span class="qdot"></span><code>names.stream().anyMatch(s -&gt; s.startsWith("Z"))</code></div>
+<div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span><code>names.stream().filter(s -&gt; s.startsWith("Z")).findFirst().isPresent()</code></div>
+<div class="qopt" onclick="ans(this,'wrong','6-2')"><span class="qdot"></span>All three are equivalent in performance</div>
+</div>
+<div class="qexp" id="exp-6-2">anyMatch() short-circuits — it stops as soon as it finds a matching element. count() must process the entire stream to count matches. findFirst() also short-circuits but is semantically "find one" not "does any match." Use anyMatch for boolean checks — it's the clearest expression of intent and the most efficient.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(5)"><span class="lnav-label">← Previous</span><span class="lnav-title">Intermediate Operations</span></div>
+<div class="lnav-btn" onclick="show(7)"><span class="lnav-label">Next →</span><span class="lnav-title">Collectors in Depth</span></div>
+</div>
+</div>
+<!-- L7: Collectors -->
+<div class="lesson-panel" id="panel-7">
+<div class="lesson-eyebrow">Module 2 · Lesson 08</div>
+<h1 class="lesson-title">Collectors in Depth</h1>
+<p class="lesson-lead"><code>collect()</code> is the most versatile terminal operation. The <code>Collectors</code> utility class provides ready-made collectors for lists, sets, maps, grouping, partitioning, joining, and more. This is where streams become truly powerful.</p>
+<h2>Basic Collectors</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Collecting to standard collections</span><span class="code-tag">Java</span></div>
+<pre><span class="kw">import static</span> java.util.stream.Collectors.*;
 
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="cls">List</span>.of(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Alice"</span>, <span class="str">"Charlie"</span>);
 
@@ -831,22 +757,21 @@ names.stream()
 <span class="kw">long</span> n = names.stream().collect(counting());  <span class="cm">// 4</span>
 
 <span class="cm">// Java 16+: toList() as terminal op directly (immutable)</span>
-<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; immutable = names.stream().filter(s <span class="lam">-></span> s.length() &gt; <span class="num">3</span>).toList();</pre>
-      </div>
-
-      <h2>groupingBy — The Power Move</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">groupingBy — the most useful Collector</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; words = <span class="cls">List</span>.of(<span class="str">"cat"</span>, <span class="str">"car"</span>, <span class="str">"dog"</span>, <span class="str">"deer"</span>, <span class="str">"duck"</span>);
+<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; immutable = names.stream().filter(s <span class="lam">-&gt;</span> s.length() &gt; <span class="num">3</span>).toList();</pre>
+</div>
+<h2>groupingBy — The Power Move</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">groupingBy — the most useful Collector</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; words = <span class="cls">List</span>.of(<span class="str">"cat"</span>, <span class="str">"car"</span>, <span class="str">"dog"</span>, <span class="str">"deer"</span>, <span class="str">"duck"</span>);
 
 <span class="cm">// Group by first letter → Map&lt;Character, List&lt;String&gt;&gt;</span>
 <span class="cls">Map</span>&lt;<span class="cls">Character</span>, <span class="cls">List</span>&lt;<span class="cls">String</span>&gt;&gt; byLetter = words.stream()
-    .collect(groupingBy(s <span class="lam">-></span> s.charAt(<span class="num">0</span>)));
+    .collect(groupingBy(s <span class="lam">-&gt;</span> s.charAt(<span class="num">0</span>)));
 <span class="cm">// {c=[cat,car], d=[dog,deer,duck]}</span>
 
 <span class="cm">// Group and count instead of listing</span>
 <span class="cls">Map</span>&lt;<span class="cls">Character</span>, <span class="cls">Long</span>&gt; countByLetter = words.stream()
-    .collect(groupingBy(s <span class="lam">-></span> s.charAt(<span class="num">0</span>), counting()));
+    .collect(groupingBy(s <span class="lam">-&gt;</span> s.charAt(<span class="num">0</span>), counting()));
 <span class="cm">// {c=2, d=3}</span>
 
 <span class="cm">// Group employees by department, collect to names only</span>
@@ -855,20 +780,19 @@ names.stream()
         <span class="cls">Employee</span>::getDepartment,
         mapping(<span class="cls">Employee</span>::getName, toList())
     ));</pre>
-      </div>
-
-      <h2>partitioningBy & toMap</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Partitioning and toMap</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// partitioningBy — special groupingBy for boolean split</span>
+</div>
+<h2>partitioningBy &amp; toMap</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Partitioning and toMap</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// partitioningBy — special groupingBy for boolean split</span>
 <span class="cls">Map</span>&lt;<span class="cls">Boolean</span>, <span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt;&gt; evenOdd = nums.stream()
-    .collect(partitioningBy(n <span class="lam">-></span> n % <span class="num">2</span> == <span class="num">0</span>));
+    .collect(partitioningBy(n <span class="lam">-&gt;</span> n % <span class="num">2</span> == <span class="num">0</span>));
 <span class="cm">// {true=[2,4], false=[1,3,5]}</span>
 
 <span class="cm">// toMap — build a Map from stream elements</span>
 <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; wordLengths = words.stream()
     .collect(toMap(
-        w <span class="lam">-></span> w,             <span class="cm">// key: the word itself</span>
+        w <span class="lam">-&gt;</span> w,             <span class="cm">// key: the word itself</span>
         <span class="cls">String</span>::length      <span class="cm">// value: its length</span>
     ));
 <span class="cm">// {cat=3, car=3, dog=3, deer=4, duck=4}</span>
@@ -877,80 +801,74 @@ names.stream()
 <span class="cls">Map</span>&lt;<span class="cls">Integer</span>, <span class="cls">String</span>&gt; lengthToWords = words.stream()
     .collect(toMap(
         <span class="cls">String</span>::length,
-        w <span class="lam">-></span> w,
-        (existing, newVal) <span class="lam">-></span> existing + <span class="str">","</span> + newVal  <span class="cm">// merge on collision</span>
+        w <span class="lam">-&gt;</span> w,
+        (existing, newVal) <span class="lam">-&gt;</span> existing + <span class="str">","</span> + newVal  <span class="cm">// merge on collision</span>
     ));</pre>
-      </div>
-
-      <div class="challenge">
-        <div class="challenge-hdr"><span class="challenge-icon">🎯</span><span class="challenge-title">Challenge: Employee Analytics</span></div>
-        <p>Given a <code>List&lt;Employee&gt;</code> where Employee has name, department, salary, and active fields, write stream pipelines to produce:</p>
-        <ul>
-          <li>The average salary per department: <code>Map&lt;String, Double&gt;</code></li>
-          <li>The highest-paid active employee's name</li>
-          <li>A comma-separated list of all active employees sorted by salary descending</li>
-          <li>Count of employees per department, sorted by count descending</li>
-        </ul>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What's the difference between groupingBy and partitioningBy?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>groupingBy is for strings; partitioningBy is for numbers</div>
-            <div class="qopt" onclick="ans(this,'correct','7-1')"><span class="qdot"></span>partitioningBy splits into exactly two groups (true/false); groupingBy can create any number of groups by any key</div>
-            <div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>partitioningBy is faster because it creates fewer groups</div>
-            <div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>groupingBy requires a Comparator; partitioningBy requires a Predicate</div>
-          </div>
-          <div class="qexp" id="exp-7-1">partitioningBy takes a Predicate and always produces Map&lt;Boolean, List&lt;T&gt;&gt; — exactly two buckets. groupingBy takes a Function and can produce any number of groups keyed by whatever the function returns. Use partitioningBy when the grouping criterion is naturally binary (passed/failed, active/inactive).</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(6)"><span class="lnav-label">← Previous</span><span class="lnav-title">Terminal Operations</span></div>
-        <div class="lnav-btn" onclick="show(8)"><span class="lnav-label">Next →</span><span class="lnav-title">flatMap & Optional Streams</span></div>
-      </div>
-    </div>
-
-    <!-- L8: flatMap & Optional -->
-    <div class="lesson-panel" id="panel-8">
-      <div class="lesson-eyebrow">Module 3 · Lesson 09</div>
-      <h1 class="lesson-title">flatMap & Optional Streams</h1>
-      <p class="lesson-lead"><code>flatMap</code> is the operation that trips up most developers learning streams. Once it clicks, you'll reach for it constantly. It solves the "stream of streams" problem — flattening nested structures into a single stream.</p>
-
-      <h2>map vs flatMap</h2>
-      <div class="pipeline">
-        <div class="pipeline-label">// map: one element in → one element out</div>
-        <div class="pipe-row">
-          <div class="pipe-node"><div class="pipe-box data">["a b", "c d"]</div><div class="pipe-tag">Source</div></div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node"><div class="pipe-box intermediate">.map(split)</div><div class="pipe-tag">map</div></div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node"><div class="pipe-box data">[["a","b"], ["c","d"]]</div><div class="pipe-tag">Stream of arrays</div></div>
-        </div>
-      </div>
-      <div class="pipeline" style="margin-top:8px">
-        <div class="pipeline-label">// flatMap: one element in → zero or more out, merged into one stream</div>
-        <div class="pipe-row">
-          <div class="pipe-node"><div class="pipe-box data">["a b", "c d"]</div><div class="pipe-tag">Source</div></div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node"><div class="pipe-box intermediate">.flatMap(split)</div><div class="pipe-tag">flatMap</div></div>
-          <div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
-          <div class="pipe-node"><div class="pipe-box terminal-op">["a","b","c","d"]</div><div class="pipe-tag">Flat stream</div></div>
-        </div>
-      </div>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">flatMap examples</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; sentences = <span class="cls">List</span>.of(<span class="str">"hello world"</span>, <span class="str">"java streams"</span>);
+</div>
+<div class="challenge">
+<div class="challenge-hdr"><span class="challenge-icon">🎯</span><span class="challenge-title">Challenge: Employee Analytics</span></div>
+<p>Given a <code>List&lt;Employee&gt;</code> where Employee has name, department, salary, and active fields, write stream pipelines to produce:</p>
+<ul>
+<li>The average salary per department: <code>Map&lt;String, Double&gt;</code></li>
+<li>The highest-paid active employee's name</li>
+<li>A comma-separated list of all active employees sorted by salary descending</li>
+<li>Count of employees per department, sorted by count descending</li>
+</ul>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What's the difference between groupingBy and partitioningBy?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>groupingBy is for strings; partitioningBy is for numbers</div>
+<div class="qopt" onclick="ans(this,'correct','7-1')"><span class="qdot"></span>partitioningBy splits into exactly two groups (true/false); groupingBy can create any number of groups by any key</div>
+<div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>partitioningBy is faster because it creates fewer groups</div>
+<div class="qopt" onclick="ans(this,'wrong','7-1')"><span class="qdot"></span>groupingBy requires a Comparator; partitioningBy requires a Predicate</div>
+</div>
+<div class="qexp" id="exp-7-1">partitioningBy takes a Predicate and always produces Map&lt;Boolean, List&lt;T&gt;&gt; — exactly two buckets. groupingBy takes a Function and can produce any number of groups keyed by whatever the function returns. Use partitioningBy when the grouping criterion is naturally binary (passed/failed, active/inactive).</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(6)"><span class="lnav-label">← Previous</span><span class="lnav-title">Terminal Operations</span></div>
+<div class="lnav-btn" onclick="show(8)"><span class="lnav-label">Next →</span><span class="lnav-title">flatMap &amp; Optional Streams</span></div>
+</div>
+</div>
+<!-- L8: flatMap & Optional -->
+<div class="lesson-panel" id="panel-8">
+<div class="lesson-eyebrow">Module 3 · Lesson 09</div>
+<h1 class="lesson-title">flatMap &amp; Optional Streams</h1>
+<p class="lesson-lead"><code>flatMap</code> is the operation that trips up most developers learning streams. Once it clicks, you'll reach for it constantly. It solves the "stream of streams" problem — flattening nested structures into a single stream.</p>
+<h2>map vs flatMap</h2>
+<div class="pipeline">
+<div class="pipeline-label">// map: one element in → one element out</div>
+<div class="pipe-row">
+<div class="pipe-node"><div class="pipe-box data">["a b", "c d"]</div><div class="pipe-tag">Source</div></div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node"><div class="pipe-box intermediate">.map(split)</div><div class="pipe-tag">map</div></div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node"><div class="pipe-box data">[["a","b"], ["c","d"]]</div><div class="pipe-tag">Stream of arrays</div></div>
+</div>
+</div>
+<div class="pipeline" style="margin-top:8px">
+<div class="pipeline-label">// flatMap: one element in → zero or more out, merged into one stream</div>
+<div class="pipe-row">
+<div class="pipe-node"><div class="pipe-box data">["a b", "c d"]</div><div class="pipe-tag">Source</div></div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node"><div class="pipe-box intermediate">.flatMap(split)</div><div class="pipe-tag">flatMap</div></div>
+<div class="pipe-arrow"><div class="pipe-arrow-line"></div></div>
+<div class="pipe-node"><div class="pipe-box terminal-op">["a","b","c","d"]</div><div class="pipe-tag">Flat stream</div></div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">flatMap examples</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">String</span>&gt; sentences = <span class="cls">List</span>.of(<span class="str">"hello world"</span>, <span class="str">"java streams"</span>);
 
 <span class="cm">// map gives Stream&lt;String[]&gt; — nested, not useful</span>
-sentences.stream().map(s <span class="lam">-></span> s.split(<span class="str">" "</span>));   <span class="cm">// Stream&lt;String[]&gt;</span>
+sentences.stream().map(s <span class="lam">-&gt;</span> s.split(<span class="str">" "</span>));   <span class="cm">// Stream&lt;String[]&gt;</span>
 
 <span class="cm">// flatMap flattens to Stream&lt;String&gt;</span>
 sentences.stream()
-    .flatMap(s <span class="lam">-></span> <span class="cls">Arrays</span>.stream(s.split(<span class="str">" "</span>)))
+    .flatMap(s <span class="lam">-&gt;</span> <span class="cls">Arrays</span>.stream(s.split(<span class="str">" "</span>)))
     .distinct()
     .sorted()
     .forEach(<span class="cls">System</span>.out::println);
@@ -960,19 +878,18 @@ sentences.stream()
 <span class="cls">List</span>&lt;<span class="cls">Order</span>&gt; orders = getOrders();
 
 <span class="cls">List</span>&lt;<span class="cls">Item</span>&gt; allItems = orders.stream()
-    .flatMap(order <span class="lam">-></span> order.getItems().stream())  <span class="cm">// Order → Stream&lt;Item&gt;</span>
+    .flatMap(order <span class="lam">-&gt;</span> order.getItems().stream())  <span class="cm">// Order → Stream&lt;Item&gt;</span>
     .collect(<span class="cls">Collectors</span>.toList());
 
 <span class="cm">// Get all unique tags across all blog posts</span>
 <span class="cls">Set</span>&lt;<span class="cls">String</span>&gt; allTags = posts.stream()
-    .flatMap(post <span class="lam">-></span> post.getTags().stream())
+    .flatMap(post <span class="lam">-&gt;</span> post.getTags().stream())
     .collect(<span class="cls">Collectors</span>.toSet());</pre>
-      </div>
-
-      <h2>Optional with Streams</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Optional.stream() — Java 9+</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// Optional.stream() converts Optional to 0 or 1 element stream</span>
+</div>
+<h2>Optional with Streams</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Optional.stream() — Java 9+</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// Optional.stream() converts Optional to 0 or 1 element stream</span>
 <span class="cm">// Super useful with flatMap to filter out empty Optionals:</span>
 
 <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; ids = <span class="cls">List</span>.of(<span class="str">"1"</span>, <span class="str">"bad"</span>, <span class="str">"3"</span>, <span class="str">"4"</span>);
@@ -988,98 +905,90 @@ sentences.stream()
     <span class="kw">try</span> { <span class="kw">return</span> <span class="cls">Optional</span>.of(<span class="cls">Integer</span>.parseInt(s)); }
     <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) { <span class="kw">return</span> <span class="cls">Optional</span>.empty(); }
 }</pre>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. You have <code>List&lt;List&lt;Integer&gt;&gt; matrix</code>. How do you get a flat <code>List&lt;Integer&gt;</code> of all values?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().map(List::stream).collect(toList())</code></div>
-            <div class="qopt" onclick="ans(this,'correct','8-1')"><span class="qdot"></span><code>matrix.stream().flatMap(List::stream).collect(toList())</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().flatten().collect(toList())</code></div>
-            <div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().reduce(List::addAll).get()</code></div>
-          </div>
-          <div class="qexp" id="exp-8-1">flatMap(List::stream) converts each inner List into a Stream and merges all those streams into one. map(List::stream) would give you Stream&lt;Stream&lt;Integer&gt;&gt; — nested streams that are hard to work with. There's no flatten() method on Stream.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(7)"><span class="lnav-label">← Previous</span><span class="lnav-title">Collectors in Depth</span></div>
-        <div class="lnav-btn" onclick="show(9)"><span class="lnav-label">Next →</span><span class="lnav-title">Parallel Streams & Performance</span></div>
-      </div>
-    </div>
-
-    <!-- L9: Parallel Streams -->
-    <div class="lesson-panel" id="panel-9">
-      <div class="lesson-eyebrow">Module 3 · Lesson 10</div>
-      <h1 class="lesson-title">Parallel Streams & Performance</h1>
-      <p class="lesson-lead">Parallel streams split your data across CPU cores and process chunks simultaneously. It's one line to enable — but knowing when it helps and when it hurts is what separates knowledgeable devs from those who cargo-cult it.</p>
-
-      <h2>Enabling Parallelism</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Sequential vs parallel</span><span class="code-tag">Java</span></div>
-        <pre><span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; bigList = <span class="cm">/* 10 million integers */</span>;
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. You have <code>List&lt;List&lt;Integer&gt;&gt; matrix</code>. How do you get a flat <code>List&lt;Integer&gt;</code> of all values?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().map(List::stream).collect(toList())</code></div>
+<div class="qopt" onclick="ans(this,'correct','8-1')"><span class="qdot"></span><code>matrix.stream().flatMap(List::stream).collect(toList())</code></div>
+<div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().flatten().collect(toList())</code></div>
+<div class="qopt" onclick="ans(this,'wrong','8-1')"><span class="qdot"></span><code>matrix.stream().reduce(List::addAll).get()</code></div>
+</div>
+<div class="qexp" id="exp-8-1">flatMap(List::stream) converts each inner List into a Stream and merges all those streams into one. map(List::stream) would give you Stream&lt;Stream&lt;Integer&gt;&gt; — nested streams that are hard to work with. There's no flatten() method on Stream.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(7)"><span class="lnav-label">← Previous</span><span class="lnav-title">Collectors in Depth</span></div>
+<div class="lnav-btn" onclick="show(9)"><span class="lnav-label">Next →</span><span class="lnav-title">Parallel Streams &amp; Performance</span></div>
+</div>
+</div>
+<!-- L9: Parallel Streams -->
+<div class="lesson-panel" id="panel-9">
+<div class="lesson-eyebrow">Module 3 · Lesson 10</div>
+<h1 class="lesson-title">Parallel Streams &amp; Performance</h1>
+<p class="lesson-lead">Parallel streams split your data across CPU cores and process chunks simultaneously. It's one line to enable — but knowing when it helps and when it hurts is what separates knowledgeable devs from those who cargo-cult it.</p>
+<h2>Enabling Parallelism</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Sequential vs parallel</span><span class="code-tag">Java</span></div>
+<pre><span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; bigList = <span class="cm">/* 10 million integers */</span>;
 
 <span class="cm">// Sequential — uses one thread</span>
 <span class="kw">long</span> count = bigList.stream()
-    .filter(n <span class="lam">-></span> n % <span class="num">2</span> == <span class="num">0</span>)
+    .filter(n <span class="lam">-&gt;</span> n % <span class="num">2</span> == <span class="num">0</span>)
     .count();
 
 <span class="cm">// Parallel — uses ForkJoinPool.commonPool() (all available CPU cores)</span>
 <span class="kw">long</span> count = bigList.parallelStream()
-    .filter(n <span class="lam">-></span> n % <span class="num">2</span> == <span class="num">0</span>)
+    .filter(n <span class="lam">-&gt;</span> n % <span class="num">2</span> == <span class="num">0</span>)
     .count();
 
 <span class="cm">// Or switch mid-pipeline</span>
 <span class="kw">long</span> count = bigList.stream()
     .parallel()
-    .filter(n <span class="lam">-></span> n % <span class="num">2</span> == <span class="num">0</span>)
+    .filter(n <span class="lam">-&gt;</span> n % <span class="num">2</span> == <span class="num">0</span>)
     .count();</pre>
-      </div>
-
-      <h2>When Parallel Helps — and When It Doesn't</h2>
-      <div class="cg">
-        <div class="cc">
-          <div class="cc-icon">✅</div>
-          <div class="cc-title">Good candidates for parallel</div>
-          <p>Large datasets (100k+ elements), CPU-intensive operations, no ordering requirements, stateless operations, independent elements.</p>
-        </div>
-        <div class="cc">
-          <div class="cc-icon">❌</div>
-          <div class="cc-title">Bad candidates for parallel</div>
-          <p>Small datasets (thread overhead exceeds benefit), I/O-bound operations, operations that require ordering, shared mutable state.</p>
-        </div>
-      </div>
-
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Parallel stream pitfalls</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// ❌ Race condition — shared mutable state</span>
+</div>
+<h2>When Parallel Helps — and When It Doesn't</h2>
+<div class="cg">
+<div class="cc">
+<div class="cc-icon">✅</div>
+<div class="cc-title">Good candidates for parallel</div>
+<p>Large datasets (100k+ elements), CPU-intensive operations, no ordering requirements, stateless operations, independent elements.</p>
+</div>
+<div class="cc">
+<div class="cc-icon">❌</div>
+<div class="cc-title">Bad candidates for parallel</div>
+<p>Small datasets (thread overhead exceeds benefit), I/O-bound operations, operations that require ordering, shared mutable state.</p>
+</div>
+</div>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Parallel stream pitfalls</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// ❌ Race condition — shared mutable state</span>
 <span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; results = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();  <span class="cm">// NOT thread-safe</span>
-bigList.parallelStream().filter(n <span class="lam">-></span> n &gt; <span class="num">0</span>).forEach(results::add);  <span class="cm">// data corruption!</span>
+bigList.parallelStream().filter(n <span class="lam">-&gt;</span> n &gt; <span class="num">0</span>).forEach(results::add);  <span class="cm">// data corruption!</span>
 
 <span class="cm">// ✅ Use thread-safe collector instead</span>
 <span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; results = bigList.parallelStream()
-    .filter(n <span class="lam">-></span> n &gt; <span class="num">0</span>)
+    .filter(n <span class="lam">-&gt;</span> n &gt; <span class="num">0</span>)
     .collect(<span class="cls">Collectors</span>.toList());  <span class="cm">// Collectors are designed for parallel use</span>
 
 <span class="cm">// ❌ Order-sensitive operations with parallel (results non-deterministic)</span>
 bigList.parallelStream().findFirst();  <span class="cm">// use findAny() with parallel — faster, no order guarantee</span>
 bigList.parallelStream().findAny();    <span class="cm">// ✅ better for parallel</span></pre>
-      </div>
-
-      <div class="callout callout-warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body">
-          <div class="callout-title">Measure before parallelizing</div>
-          <p>Parallel streams have real overhead: thread coordination, data splitting, result merging. On a list of 100 elements, parallel is almost always <em>slower</em> than sequential. Always benchmark with realistic data sizes before assuming parallel helps.</p>
-        </div>
-      </div>
-
-      <h2>Stream Performance Summary</h2>
-      <div class="code-block">
-        <div class="code-head"><span class="code-fn">Performance best practices</span><span class="code-tag">Java</span></div>
-        <pre><span class="cm">// 1. Use primitive streams to avoid boxing</span>
+</div>
+<div class="callout callout-warn">
+<span class="callout-icon">⚠️</span>
+<div class="callout-body">
+<div class="callout-title">Measure before parallelizing</div>
+<p>Parallel streams have real overhead: thread coordination, data splitting, result merging. On a list of 100 elements, parallel is almost always <em>slower</em> than sequential. Always benchmark with realistic data sizes before assuming parallel helps.</p>
+</div>
+</div>
+<h2>Stream Performance Summary</h2>
+<div class="code-block">
+<div class="code-head"><span class="code-fn">Performance best practices</span><span class="code-tag">Java</span></div>
+<pre><span class="cm">// 1. Use primitive streams to avoid boxing</span>
 intList.stream().mapToInt(<span class="cls">Integer</span>::intValue).sum();  <span class="cm">// faster than .reduce(0, Integer::sum)</span>
 
 <span class="cm">// 2. Filter early to reduce pipeline elements</span>
@@ -1095,73 +1004,66 @@ stream.filter(p).anyMatch(q);   <span class="cm">// stops as soon as any matches
 
 <span class="cm">// 5. Don't use parallel on small collections or I/O-bound tasks</span>
 <span class="cm">// Rule of thumb: parallel pays off at 10k+ elements with CPU work</span></pre>
-      </div>
-
-      <div class="challenge">
-        <div class="challenge-hdr"><span class="challenge-icon">🏆</span><span class="challenge-title">Final Challenge: Build a Word Frequency Analyzer</span></div>
-        <p>Given a large <code>List&lt;String&gt;</code> of sentences, write a stream pipeline that:</p>
-        <ul>
-          <li>Splits all sentences into individual words (flatMap)</li>
-          <li>Normalizes to lowercase and trims whitespace</li>
-          <li>Filters out stop words (a, the, is, in, of, and...)</li>
-          <li>Produces a <code>Map&lt;String, Long&gt;</code> of word → frequency</li>
-          <li>Returns the top 10 most frequent words as a sorted <code>List&lt;Map.Entry&lt;String,Long&gt;&gt;</code></li>
-          <li><strong>Bonus:</strong> Rerun with <code>parallelStream()</code> on 1M sentences and compare timing</li>
-        </ul>
-      </div>
-
-      <div class="quiz-box">
-        <div class="quiz-hdr"><span class="quiz-badge">Final Quiz</span><span class="quiz-title">Course Completion Check</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. When does a parallel stream reliably outperform sequential?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>Always — parallel is always faster because it uses more CPU cores</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>When the stream has any filter operations</div>
-            <div class="qopt" onclick="ans(this,'correct','9-1')"><span class="qdot"></span>Large datasets with CPU-intensive, stateless operations and no ordering requirements</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>Any time the collection has more than 10 elements</div>
-          </div>
-          <div class="qexp" id="exp-9-1">Parallel streams win when: the data is large enough to amortize thread overhead, the work per element is computationally expensive (not just a simple comparison), elements can be processed independently, and you don't need ordered results. I/O-bound work, small collections, and operations requiring shared state are all poor fits.</div>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">2. A colleague writes: <code>list.parallelStream().forEach(results::add)</code>. What's the bug?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>parallelStream() doesn't support forEach</div>
-            <div class="qopt" onclick="ans(this,'correct','9-2')"><span class="qdot"></span>ArrayList is not thread-safe — multiple threads adding concurrently causes data corruption or lost elements</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>results::add is a static method reference and can't be used with forEach</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>There is no bug — parallelStream automatically synchronizes collection writes</div>
-          </div>
-          <div class="qexp" id="exp-9-2">ArrayList's add() is not synchronized. With multiple threads calling it simultaneously, you get race conditions: elements get lost, the internal array gets corrupted, or you see stale data. Fix: use a thread-safe collector (.collect(Collectors.toList())) or a concurrent collection like CopyOnWriteArrayList.</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">3. What's the output of: <code>Stream.of("a","b","c").map(String::toUpperCase).filter(s -> s.compareTo("B") &gt;= 0).findFirst().orElse("none")</code>?</div>
-          <div class="quiz-opts">
-            <div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"A"</div>
-            <div class="qopt" onclick="ans(this,'correct','9-3')"><span class="qdot"></span>"B"</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"C"</div>
-            <div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"none"</div>
-          </div>
-          <div class="qexp" id="exp-9-3">The pipeline: map makes ["A","B","C"]. filter keeps elements &gt;= "B" alphabetically: ["B","C"]. findFirst() returns Optional["B"]. orElse is not invoked since the Optional has a value. Answer: "B". This also demonstrates laziness: "A" is mapped then filtered out, "B" is mapped, passes filter, findFirst returns it — "C" is never even processed.</div>
-        </div>
-      </div>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">🎓</span>
-        <div class="callout-body">
-          <div class="callout-title">Course Complete — You Know Streams</div>
-          <p>You can now write functional Java that senior devs respect: lambdas, method references, the full Stream API, Collectors, flatMap, and parallel. Practice by refactoring any imperative loop you encounter into a stream pipeline. That muscle memory is what makes it stick.</p>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lnav-btn" onclick="show(8)"><span class="lnav-label">← Previous</span><span class="lnav-title">flatMap & Optional Streams</span></div>
-        <div></div>
-      </div>
-    </div>
-
-  </div><!-- end lesson-wrap -->
+</div>
+<div class="challenge">
+<div class="challenge-hdr"><span class="challenge-icon">🏆</span><span class="challenge-title">Final Challenge: Build a Word Frequency Analyzer</span></div>
+<p>Given a large <code>List&lt;String&gt;</code> of sentences, write a stream pipeline that:</p>
+<ul>
+<li>Splits all sentences into individual words (flatMap)</li>
+<li>Normalizes to lowercase and trims whitespace</li>
+<li>Filters out stop words (a, the, is, in, of, and...)</li>
+<li>Produces a <code>Map&lt;String, Long&gt;</code> of word → frequency</li>
+<li>Returns the top 10 most frequent words as a sorted <code>List&lt;Map.Entry&lt;String,Long&gt;&gt;</code></li>
+<li><strong>Bonus:</strong> Rerun with <code>parallelStream()</code> on 1M sentences and compare timing</li>
+</ul>
+</div>
+<div class="quiz-box">
+<div class="quiz-hdr"><span class="quiz-badge">Final Quiz</span><span class="quiz-title">Course Completion Check</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. When does a parallel stream reliably outperform sequential?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>Always — parallel is always faster because it uses more CPU cores</div>
+<div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>When the stream has any filter operations</div>
+<div class="qopt" onclick="ans(this,'correct','9-1')"><span class="qdot"></span>Large datasets with CPU-intensive, stateless operations and no ordering requirements</div>
+<div class="qopt" onclick="ans(this,'wrong','9-1')"><span class="qdot"></span>Any time the collection has more than 10 elements</div>
+</div>
+<div class="qexp" id="exp-9-1">Parallel streams win when: the data is large enough to amortize thread overhead, the work per element is computationally expensive (not just a simple comparison), elements can be processed independently, and you don't need ordered results. I/O-bound work, small collections, and operations requiring shared state are all poor fits.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. A colleague writes: <code>list.parallelStream().forEach(results::add)</code>. What's the bug?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>parallelStream() doesn't support forEach</div>
+<div class="qopt" onclick="ans(this,'correct','9-2')"><span class="qdot"></span>ArrayList is not thread-safe — multiple threads adding concurrently causes data corruption or lost elements</div>
+<div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>results::add is a static method reference and can't be used with forEach</div>
+<div class="qopt" onclick="ans(this,'wrong','9-2')"><span class="qdot"></span>There is no bug — parallelStream automatically synchronizes collection writes</div>
+</div>
+<div class="qexp" id="exp-9-2">ArrayList's add() is not synchronized. With multiple threads calling it simultaneously, you get race conditions: elements get lost, the internal array gets corrupted, or you see stale data. Fix: use a thread-safe collector (.collect(Collectors.toList())) or a concurrent collection like CopyOnWriteArrayList.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">3. What's the output of: <code>Stream.of("a","b","c").map(String::toUpperCase).filter(s -&gt; s.compareTo("B") &gt;= 0).findFirst().orElse("none")</code>?</div>
+<div class="quiz-opts">
+<div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"A"</div>
+<div class="qopt" onclick="ans(this,'correct','9-3')"><span class="qdot"></span>"B"</div>
+<div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"C"</div>
+<div class="qopt" onclick="ans(this,'wrong','9-3')"><span class="qdot"></span>"none"</div>
+</div>
+<div class="qexp" id="exp-9-3">The pipeline: map makes ["A","B","C"]. filter keeps elements &gt;= "B" alphabetically: ["B","C"]. findFirst() returns Optional["B"]. orElse is not invoked since the Optional has a value. Answer: "B". This also demonstrates laziness: "A" is mapped then filtered out, "B" is mapped, passes filter, findFirst returns it — "C" is never even processed.</div>
+</div>
+</div>
+<div class="callout callout-tip">
+<span class="callout-icon">🎓</span>
+<div class="callout-body">
+<div class="callout-title">Course Complete — You Know Streams</div>
+<p>You can now write functional Java that senior devs respect: lambdas, method references, the full Stream API, Collectors, flatMap, and parallel. Practice by refactoring any imperative loop you encounter into a stream pipeline. That muscle memory is what makes it stick.</p>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lnav-btn" onclick="show(8)"><span class="lnav-label">← Previous</span><span class="lnav-title">flatMap &amp; Optional Streams</span></div>
+<div></div>
+</div>
+</div>
+</div><!-- end lesson-wrap -->
 </main>
-
 <script>
 const TOTAL = 10;
 let done = new Set();
@@ -1200,10 +1102,10 @@ function ans(el, result, qid) {
   if (exp) exp.style.display = 'block';
 }
 </script>
-  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

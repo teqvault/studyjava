@@ -1,171 +1,156 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Spring Boot Course — From Zero to REST API</title>
-
-    <link rel="stylesheet" href="../css/springboot-course.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="../css/springboot-course.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- SIDEBAR -->
-<nav id="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-logo">
-      <svg class="spring-leaf" viewBox="0 0 32 32" fill="none">
-        <path d="M4 28C4 28 8 20 16 16C24 12 28 4 28 4C28 4 28 12 22 18C18 22 16 28 16 28" fill="#6DB33F"/>
-        <path d="M4 28C4 28 8 22 14 20" stroke="#3D6B22" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <span class="brand-title">Spring Boot</span>
-    </div>
-    <div class="brand-sub">From Zero to REST API</div>
-  </div>
-
-  <div class="progress-bar-wrap">
-    <div class="progress-label">
-      <span>Progress</span>
-      <span id="prog-text">0 / 12</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
-  </div>
-
-  <div class="sidebar-section">
-    <div class="section-label">Module 1 — Foundations</div>
-    <div class="nav-item active" onclick="showLesson(0)" id="nav-0">
-      <span class="nav-num">01</span>
-      <span>What is Spring Boot?</span>
-      <span class="nav-check" id="chk-0"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(1)" id="nav-1">
-      <span class="nav-num">02</span>
-      <span>Project Setup & Initializr</span>
-      <span class="nav-check" id="chk-1"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(2)" id="nav-2">
-      <span class="nav-num">03</span>
-      <span>Application Structure</span>
-      <span class="nav-check" id="chk-2"></span>
-    </div>
-  </div>
-
-  <div class="sidebar-section">
-    <div class="section-label">Module 2 — REST APIs</div>
-    <div class="nav-item" onclick="showLesson(3)" id="nav-3">
-      <span class="nav-num">04</span>
-      <span>Your First REST Controller</span>
-      <span class="nav-check" id="chk-3"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(4)" id="nav-4">
-      <span class="nav-num">05</span>
-      <span>HTTP Methods & Mappings</span>
-      <span class="nav-check" id="chk-4"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(5)" id="nav-5">
-      <span class="nav-num">06</span>
-      <span>Request Body & Validation</span>
-      <span class="nav-check" id="chk-5"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(6)" id="nav-6">
-      <span class="nav-num">07</span>
-      <span>Response Entities & Status Codes</span>
-      <span class="nav-check" id="chk-6"></span>
-    </div>
-  </div>
-
-  <div class="sidebar-section">
-    <div class="section-label">Module 3 — Data & Services</div>
-    <div class="nav-item" onclick="showLesson(7)" id="nav-7">
-      <span class="nav-num">08</span>
-      <span>The Service Layer</span>
-      <span class="nav-check" id="chk-7"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(8)" id="nav-8">
-      <span class="nav-num">09</span>
-      <span>Spring Data JPA & Repositories</span>
-      <span class="nav-check" id="chk-8"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(9)" id="nav-9">
-      <span class="nav-num">10</span>
-      <span>Entity Relationships</span>
-      <span class="nav-check" id="chk-9"></span>
-    </div>
-  </div>
-
-  <div class="sidebar-section">
-    <div class="section-label">Module 4 — Production Ready</div>
-    <div class="nav-item" onclick="showLesson(10)" id="nav-10">
-      <span class="nav-num">11</span>
-      <span>Exception Handling</span>
-      <span class="nav-check" id="chk-10"></span>
-    </div>
-    <div class="nav-item" onclick="showLesson(11)" id="nav-11">
-      <span class="nav-num">12</span>
-      <span>Testing with Spring Boot Test</span>
-      <span class="nav-check" id="chk-11"></span>
-    </div>
-  </div>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand">
+<div class="brand-logo">
+<svg class="spring-leaf" fill="none" viewbox="0 0 32 32">
+<path d="M4 28C4 28 8 20 16 16C24 12 28 4 28 4C28 4 28 12 22 18C18 22 16 28 16 28" fill="#6DB33F"></path>
+<path d="M4 28C4 28 8 22 14 20" stroke="#3D6B22" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span class="brand-title">Spring Boot</span>
+</div>
+<div class="brand-sub">From Zero to REST API</div>
+</div>
+<div class="progress-bar-wrap">
+<div class="progress-label">
+<span>Progress</span>
+<span id="prog-text">0 / 12</span>
+</div>
+<div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+<div class="sidebar-section">
+<div class="section-label">Module 1 — Foundations</div>
+<div class="nav-item active" id="nav-0" onclick="showLesson(0)">
+<span class="nav-num">01</span>
+<span>What is Spring Boot?</span>
+<span class="nav-check" id="chk-0"></span>
+</div>
+<div class="nav-item" id="nav-1" onclick="showLesson(1)">
+<span class="nav-num">02</span>
+<span>Project Setup &amp; Initializr</span>
+<span class="nav-check" id="chk-1"></span>
+</div>
+<div class="nav-item" id="nav-2" onclick="showLesson(2)">
+<span class="nav-num">03</span>
+<span>Application Structure</span>
+<span class="nav-check" id="chk-2"></span>
+</div>
+</div>
+<div class="sidebar-section">
+<div class="section-label">Module 2 — REST APIs</div>
+<div class="nav-item" id="nav-3" onclick="showLesson(3)">
+<span class="nav-num">04</span>
+<span>Your First REST Controller</span>
+<span class="nav-check" id="chk-3"></span>
+</div>
+<div class="nav-item" id="nav-4" onclick="showLesson(4)">
+<span class="nav-num">05</span>
+<span>HTTP Methods &amp; Mappings</span>
+<span class="nav-check" id="chk-4"></span>
+</div>
+<div class="nav-item" id="nav-5" onclick="showLesson(5)">
+<span class="nav-num">06</span>
+<span>Request Body &amp; Validation</span>
+<span class="nav-check" id="chk-5"></span>
+</div>
+<div class="nav-item" id="nav-6" onclick="showLesson(6)">
+<span class="nav-num">07</span>
+<span>Response Entities &amp; Status Codes</span>
+<span class="nav-check" id="chk-6"></span>
+</div>
+</div>
+<div class="sidebar-section">
+<div class="section-label">Module 3 — Data &amp; Services</div>
+<div class="nav-item" id="nav-7" onclick="showLesson(7)">
+<span class="nav-num">08</span>
+<span>The Service Layer</span>
+<span class="nav-check" id="chk-7"></span>
+</div>
+<div class="nav-item" id="nav-8" onclick="showLesson(8)">
+<span class="nav-num">09</span>
+<span>Spring Data JPA &amp; Repositories</span>
+<span class="nav-check" id="chk-8"></span>
+</div>
+<div class="nav-item" id="nav-9" onclick="showLesson(9)">
+<span class="nav-num">10</span>
+<span>Entity Relationships</span>
+<span class="nav-check" id="chk-9"></span>
+</div>
+</div>
+<div class="sidebar-section">
+<div class="section-label">Module 4 — Production Ready</div>
+<div class="nav-item" id="nav-10" onclick="showLesson(10)">
+<span class="nav-num">11</span>
+<span>Exception Handling</span>
+<span class="nav-check" id="chk-10"></span>
+</div>
+<div class="nav-item" id="nav-11" onclick="showLesson(11)">
+<span class="nav-num">12</span>
+<span>Testing with Spring Boot Test</span>
+<span class="nav-check" id="chk-11"></span>
+</div>
+</div>
 </nav>
-
 <!-- MAIN -->
-<main id="main">
-  <div class="topbar">
-    <div class="topbar-breadcrumb">spring-boot-course / <span id="crumb">lesson-01</span></div>
-    <div class="topbar-actions">
-      <button class="btn" onclick="prevLesson()">← Prev</button>
-      <button class="btn btn-primary" onclick="markComplete()">Mark Complete ✓</button>
-      <button class="btn" onclick="nextLesson()">Next →</button>
-    </div>
-  </div>
-
-
-  <!-- LESSON PANELS -->
-  <div class="lesson-wrap">
-
-    <!-- LESSON 0: What is Spring Boot -->
-    <div class="lesson-panel active" id="panel-0">
-      <div class="lesson-eyebrow">Module 1 · Lesson 01</div>
-      <h1 class="lesson-title">What is Spring Boot?</h1>
-      <p class="lesson-lead">Spring Boot is the industry-standard framework for building Java web applications and APIs. It takes Spring — Java's most powerful ecosystem — and removes the boilerplate that made it infamous, letting you ship a production-ready server with almost no configuration.</p>
-
-      <h2>Spring vs Spring Boot</h2>
-      <p>Spring Framework has existed since 2003. It's powerful but historically required mountains of XML configuration and manual wiring. Spring Boot, introduced in 2014, changed everything.</p>
-
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-icon">🔧</div>
-          <div class="concept-card-title">Spring Framework</div>
-          <p>The core engine. Dependency injection, AOP, data access. Extremely capable but verbose to configure manually.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">🚀</div>
-          <div class="concept-card-title">Spring Boot</div>
-          <p>Opinionated defaults on top of Spring. Auto-configuration, embedded server, starter dependencies. Zero XML required.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">📦</div>
-          <div class="concept-card-title">Auto-Configuration</div>
-          <p>Spring Boot detects what's on your classpath and configures it automatically. Add a database driver? It auto-wires a DataSource.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">☕</div>
-          <div class="concept-card-title">Embedded Server</div>
-          <p>Ships with Tomcat built in. Run your app as a plain Java jar — no separate server install, no deployment wars.</p>
-        </div>
-      </div>
-
-      <h2>The Three Pillars of Spring Boot</h2>
-
-      <h3>1. Dependency Injection (IoC)</h3>
-      <p>The core idea: instead of classes creating their own dependencies, Spring <em>injects</em> them. This makes code testable, modular, and loosely coupled.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">Without DI vs With Spring DI</span>
-          <span class="code-lang">Java</span>
-        </div>
-        <pre><span class="cm">// ❌ Without DI — tightly coupled, hard to test</span>
+<main class="main" id="main">
+<div class="topbar">
+<div class="topbar-breadcrumb">spring-boot-course / <span id="crumb">lesson-01</span></div>
+<div class="topbar-actions">
+<button class="btn" onclick="prevLesson()">← Prev</button>
+<button class="btn btn-primary" onclick="markComplete()">Mark Complete ✓</button>
+<button class="btn" onclick="nextLesson()">Next →</button>
+</div>
+</div>
+<!-- LESSON PANELS -->
+<div class="lesson-wrap">
+<!-- LESSON 0: What is Spring Boot -->
+<div class="lesson-panel active" id="panel-0">
+<div class="lesson-eyebrow">Module 1 · Lesson 01</div>
+<h1 class="lesson-title">What is Spring Boot?</h1>
+<p class="lesson-lead">Spring Boot is the industry-standard framework for building Java web applications and APIs. It takes Spring — Java's most powerful ecosystem — and removes the boilerplate that made it infamous, letting you ship a production-ready server with almost no configuration.</p>
+<h2>Spring vs Spring Boot</h2>
+<p>Spring Framework has existed since 2003. It's powerful but historically required mountains of XML configuration and manual wiring. Spring Boot, introduced in 2014, changed everything.</p>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-icon">🔧</div>
+<div class="concept-card-title">Spring Framework</div>
+<p>The core engine. Dependency injection, AOP, data access. Extremely capable but verbose to configure manually.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">🚀</div>
+<div class="concept-card-title">Spring Boot</div>
+<p>Opinionated defaults on top of Spring. Auto-configuration, embedded server, starter dependencies. Zero XML required.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">📦</div>
+<div class="concept-card-title">Auto-Configuration</div>
+<p>Spring Boot detects what's on your classpath and configures it automatically. Add a database driver? It auto-wires a DataSource.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">☕</div>
+<div class="concept-card-title">Embedded Server</div>
+<p>Ships with Tomcat built in. Run your app as a plain Java jar — no separate server install, no deployment wars.</p>
+</div>
+</div>
+<h2>The Three Pillars of Spring Boot</h2>
+<h3>1. Dependency Injection (IoC)</h3>
+<p>The core idea: instead of classes creating their own dependencies, Spring <em>injects</em> them. This makes code testable, modular, and loosely coupled.</p>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">Without DI vs With Spring DI</span>
+<span class="code-lang">Java</span>
+</div>
+<pre><span class="cm">// ❌ Without DI — tightly coupled, hard to test</span>
 <span class="kw">public class</span> <span class="cls">OrderService</span> {
     <span class="kw">private</span> <span class="cls">EmailService</span> emailService = <span class="kw">new</span> <span class="cls">EmailService</span>(); <span class="cm">// creates own dep</span>
 }
@@ -179,144 +164,129 @@
         <span class="kw">this</span>.emailService = emailService;
     }
 }</pre>
-      </div>
-
-      <h3>2. The Application Context</h3>
-      <p>Spring maintains a container called the <strong>Application Context</strong> — a registry of all your beans (managed objects). When your app starts, Spring scans for annotated classes, instantiates them, wires their dependencies, and manages their lifecycle.</p>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">🔑</span>
-        <div class="callout-body">
-          <div class="callout-title">Bean</div>
-          <p>Any object managed by Spring's container. You mark a class as a bean using annotations like <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, or <code>@Controller</code>. Spring creates exactly one instance (by default) and shares it wherever it's needed.</p>
-        </div>
-      </div>
-
-      <h3>3. Convention Over Configuration</h3>
-      <p>Spring Boot makes sensible assumptions. If you add the Spring Web dependency, it assumes you want a web server and starts Tomcat on port 8080. If you add H2 to the classpath, it creates an in-memory database and connects to it. You override only what you need to.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">src/main/resources/application.properties</span>
-          <span class="code-lang">properties</span>
-        </div>
-        <pre><span class="cm"># Override only what you want — everything else uses defaults</span>
+</div>
+<h3>2. The Application Context</h3>
+<p>Spring maintains a container called the <strong>Application Context</strong> — a registry of all your beans (managed objects). When your app starts, Spring scans for annotated classes, instantiates them, wires their dependencies, and manages their lifecycle.</p>
+<div class="callout callout-key">
+<span class="callout-icon">🔑</span>
+<div class="callout-body">
+<div class="callout-title">Bean</div>
+<p>Any object managed by Spring's container. You mark a class as a bean using annotations like <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, or <code>@Controller</code>. Spring creates exactly one instance (by default) and shares it wherever it's needed.</p>
+</div>
+</div>
+<h3>3. Convention Over Configuration</h3>
+<p>Spring Boot makes sensible assumptions. If you add the Spring Web dependency, it assumes you want a web server and starts Tomcat on port 8080. If you add H2 to the classpath, it creates an in-memory database and connects to it. You override only what you need to.</p>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">src/main/resources/application.properties</span>
+<span class="code-lang">properties</span>
+</div>
+<pre><span class="cm"># Override only what you want — everything else uses defaults</span>
 server.port=<span class="num">8080</span>
 spring.application.name=<span class="str">my-api</span>
 spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
-      </div>
-
-      <h2>What You'll Build</h2>
-      <p>By the end of this course, you'll have built a fully functional <strong>Task Management REST API</strong> — with endpoints to create, read, update, and delete tasks, backed by a real database, with validation, error handling, and tests. This is the exact project type you'd be asked to build in a junior dev interview or onboarding.</p>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">
-          <div class="callout-title">Why Spring Boot for Junior Devs?</div>
-          <p>Spring Boot appears in the majority of Java backend job postings. It's used at companies from startups to banks to Netflix. Knowing it is essentially table stakes for Java backend roles.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">1. What does Spring Boot's auto-configuration do?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Writes your business logic automatically based on your database schema</div>
-            <div class="quiz-option" onclick="answer(this,'correct','0-1')"><span class="quiz-dot"></span> Detects what's on the classpath and configures components automatically with sensible defaults</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Generates REST endpoints from your entity classes without any code</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Compiles Java faster by pre-loading Spring libraries</div>
-          </div>
-          <div class="quiz-explanation" id="exp-0-1">Auto-configuration examines what libraries are available and applies configuration on your behalf. Add a JPA dependency and datasource properties? Spring Boot configures the entire persistence layer — connection pool, transaction manager, and all.</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">2. What is a Spring Bean?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> A special immutable value object used for configuration</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> A Java class that must extend the SpringBean abstract class</div>
-            <div class="quiz-option" onclick="answer(this,'correct','0-2')"><span class="quiz-dot"></span> An object whose lifecycle is managed by Spring's Application Context</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> Any class annotated with @Bean that runs at application startup</div>
-          </div>
-          <div class="quiz-explanation" id="exp-0-2">A bean is simply an object that Spring manages. Spring creates it, injects its dependencies, and can call lifecycle hooks on it. Any class annotated with @Component or a stereotype annotation (@Service, @Repository, @Controller) becomes a bean.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div></div>
-        <div class="lesson-nav-btn" onclick="showLesson(1)">
-          <span class="lesson-nav-label">Next Lesson →</span>
-          <span class="lesson-nav-title">Project Setup & Initializr</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LESSON 1: Project Setup -->
-    <div class="lesson-panel" id="panel-1">
-      <div class="lesson-eyebrow">Module 1 · Lesson 02</div>
-      <h1 class="lesson-title">Project Setup & Spring Initializr</h1>
-      <p class="lesson-lead">Every Spring Boot project starts the same way: at start.spring.io. The Initializr generates a ready-to-run project skeleton with exactly the dependencies you choose — no manual pom.xml wrestling required.</p>
-
-      <h2>Using Spring Initializr</h2>
-      <p>Navigate to <strong>start.spring.io</strong> and fill in your project metadata. Here's what a typical API project looks like:</p>
-
-      <div class="initializr-mock">
-        <div class="initializr-bar">
-          <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
-          <span class="initializr-url">start.spring.io</span>
-        </div>
-        <div class="initializr-body">
-          <div class="init-field">
-            <label>Project</label>
-            <div class="init-val">Maven</div>
-          </div>
-          <div class="init-field">
-            <label>Language</label>
-            <div class="init-val">Java</div>
-          </div>
-          <div class="init-field">
-            <label>Spring Boot</label>
-            <div class="init-val">3.3.x (latest)</div>
-          </div>
-          <div class="init-field">
-            <label>Java Version</label>
-            <div class="init-val">21</div>
-          </div>
-          <div class="init-field">
-            <label>Group</label>
-            <div class="init-val">com.example</div>
-          </div>
-          <div class="init-field">
-            <label>Artifact</label>
-            <div class="init-val">task-api</div>
-          </div>
-          <div class="init-deps">
-            <label>Dependencies</label>
-            <div class="dep-chips">
-              <span class="dep-chip">Spring Web</span>
-              <span class="dep-chip">Spring Data JPA</span>
-              <span class="dep-chip">H2 Database</span>
-              <span class="dep-chip">Spring Boot DevTools</span>
-              <span class="dep-chip">Validation</span>
-            </div>
-          </div>
-          <button class="init-generate">⬇ Generate Project</button>
-        </div>
-      </div>
-
-      <h2>Understanding the Generated pom.xml</h2>
-      <p>Maven's pom.xml is your project's manifest. Spring Boot's parent POM handles version management for you — you add a dependency by name and the parent knows the correct version.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">pom.xml (key sections)</span>
-          <span class="code-lang">XML</span>
-        </div>
-        <pre><span class="cm">&lt;!-- Spring Boot parent manages ALL dependency versions --&gt;</span>
+</div>
+<h2>What You'll Build</h2>
+<p>By the end of this course, you'll have built a fully functional <strong>Task Management REST API</strong> — with endpoints to create, read, update, and delete tasks, backed by a real database, with validation, error handling, and tests. This is the exact project type you'd be asked to build in a junior dev interview or onboarding.</p>
+<div class="callout callout-tip">
+<span class="callout-icon">💡</span>
+<div class="callout-body">
+<div class="callout-title">Why Spring Boot for Junior Devs?</div>
+<p>Spring Boot appears in the majority of Java backend job postings. It's used at companies from startups to banks to Netflix. Knowing it is essentially table stakes for Java backend roles.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. What does Spring Boot's auto-configuration do?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Writes your business logic automatically based on your database schema</div>
+<div class="quiz-option" onclick="answer(this,'correct','0-1')"><span class="quiz-dot"></span> Detects what's on the classpath and configures components automatically with sensible defaults</div>
+<div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Generates REST endpoints from your entity classes without any code</div>
+<div class="quiz-option" onclick="answer(this,'wrong','0-1')"><span class="quiz-dot"></span> Compiles Java faster by pre-loading Spring libraries</div>
+</div>
+<div class="quiz-explanation" id="exp-0-1">Auto-configuration examines what libraries are available and applies configuration on your behalf. Add a JPA dependency and datasource properties? Spring Boot configures the entire persistence layer — connection pool, transaction manager, and all.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. What is a Spring Bean?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> A special immutable value object used for configuration</div>
+<div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> A Java class that must extend the SpringBean abstract class</div>
+<div class="quiz-option" onclick="answer(this,'correct','0-2')"><span class="quiz-dot"></span> An object whose lifecycle is managed by Spring's Application Context</div>
+<div class="quiz-option" onclick="answer(this,'wrong','0-2')"><span class="quiz-dot"></span> Any class annotated with @Bean that runs at application startup</div>
+</div>
+<div class="quiz-explanation" id="exp-0-2">A bean is simply an object that Spring manages. Spring creates it, injects its dependencies, and can call lifecycle hooks on it. Any class annotated with @Component or a stereotype annotation (@Service, @Repository, @Controller) becomes a bean.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div></div>
+<div class="lesson-nav-btn" onclick="showLesson(1)">
+<span class="lesson-nav-label">Next Lesson →</span>
+<span class="lesson-nav-title">Project Setup &amp; Initializr</span>
+</div>
+</div>
+</div>
+<!-- LESSON 1: Project Setup -->
+<div class="lesson-panel" id="panel-1">
+<div class="lesson-eyebrow">Module 1 · Lesson 02</div>
+<h1 class="lesson-title">Project Setup &amp; Spring Initializr</h1>
+<p class="lesson-lead">Every Spring Boot project starts the same way: at start.spring.io. The Initializr generates a ready-to-run project skeleton with exactly the dependencies you choose — no manual pom.xml wrestling required.</p>
+<h2>Using Spring Initializr</h2>
+<p>Navigate to <strong>start.spring.io</strong> and fill in your project metadata. Here's what a typical API project looks like:</p>
+<div class="initializr-mock">
+<div class="initializr-bar">
+<div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+<span class="initializr-url">start.spring.io</span>
+</div>
+<div class="initializr-body">
+<div class="init-field">
+<label>Project</label>
+<div class="init-val">Maven</div>
+</div>
+<div class="init-field">
+<label>Language</label>
+<div class="init-val">Java</div>
+</div>
+<div class="init-field">
+<label>Spring Boot</label>
+<div class="init-val">3.3.x (latest)</div>
+</div>
+<div class="init-field">
+<label>Java Version</label>
+<div class="init-val">21</div>
+</div>
+<div class="init-field">
+<label>Group</label>
+<div class="init-val">com.example</div>
+</div>
+<div class="init-field">
+<label>Artifact</label>
+<div class="init-val">task-api</div>
+</div>
+<div class="init-deps">
+<label>Dependencies</label>
+<div class="dep-chips">
+<span class="dep-chip">Spring Web</span>
+<span class="dep-chip">Spring Data JPA</span>
+<span class="dep-chip">H2 Database</span>
+<span class="dep-chip">Spring Boot DevTools</span>
+<span class="dep-chip">Validation</span>
+</div>
+</div>
+<button class="init-generate">⬇ Generate Project</button>
+</div>
+</div>
+<h2>Understanding the Generated pom.xml</h2>
+<p>Maven's pom.xml is your project's manifest. Spring Boot's parent POM handles version management for you — you add a dependency by name and the parent knows the correct version.</p>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">pom.xml (key sections)</span>
+<span class="code-lang">XML</span>
+</div>
+<pre><span class="cm">&lt;!-- Spring Boot parent manages ALL dependency versions --&gt;</span>
 &lt;parent&gt;
     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
     &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
@@ -343,17 +313,15 @@ spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
         &lt;scope&gt;runtime&lt;/scope&gt;
     &lt;/dependency&gt;
 &lt;/dependencies&gt;</pre>
-      </div>
-
-      <h2>The Entry Point</h2>
-      <p>Every Spring Boot app has exactly one main class annotated with <code>@SpringBootApplication</code>. This annotation is a shorthand for three annotations combined:</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">TaskApiApplication.java</span>
-          <span class="code-lang">Java</span>
-        </div>
-        <pre><span class="kw">package</span> com.example.taskapi;
+</div>
+<h2>The Entry Point</h2>
+<p>Every Spring Boot app has exactly one main class annotated with <code>@SpringBootApplication</code>. This annotation is a shorthand for three annotations combined:</p>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">TaskApiApplication.java</span>
+<span class="code-lang">Java</span>
+</div>
+<pre><span class="kw">package</span> com.example.taskapi;
 
 <span class="kw">import</span> org.springframework.boot.SpringApplication;
 <span class="kw">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -367,104 +335,93 @@ spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
         // registers all beans, and starts listening for HTTP requests</span>
     }
 }</pre>
-      </div>
-
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">
-          <div class="callout-title">Running the Application</div>
-          <p>From IntelliJ: click the green ▶ button next to <code>main()</code>. From terminal: <code>mvn spring-boot:run</code>. You'll see Spring's banner, then <code>Started TaskApiApplication in 1.4 seconds</code>. Your server is live at <code>http://localhost:8080</code>.</p>
-        </div>
-      </div>
-
-      <h2>DevTools: Hot Reload</h2>
-      <p>The <code>spring-boot-devtools</code> dependency enables automatic restart when you change code. Save a file in IntelliJ and Spring restarts in under a second — no manual stop/start cycle during development.</p>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">1. What does the <code>@SpringBootApplication</code> annotation combine?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @RestController + @Service + @Repository</div>
-            <div class="quiz-option" onclick="answer(this,'correct','1-1')"><span class="quiz-dot"></span> @Configuration + @EnableAutoConfiguration + @ComponentScan</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @Component + @Autowired + @Transactional</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @SpringContext + @BeanFactory + @PropertySource</div>
-          </div>
-          <div class="quiz-explanation" id="exp-1-1">@SpringBootApplication is a convenience annotation. @Configuration marks the class as a bean definition source. @EnableAutoConfiguration triggers Spring Boot's auto-configuration. @ComponentScan tells Spring where to scan for beans (the current package and all sub-packages).</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">2. Why does the H2 dependency use <code>scope: runtime</code>?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because H2 is only available on Java 11 and above at runtime</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because Maven needs to download it separately at runtime</div>
-            <div class="quiz-option" onclick="answer(this,'correct','1-2')"><span class="quiz-dot"></span> Because it's only needed at runtime, not compile time — your code references JPA abstractions, not H2 directly</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because H2 runs in a separate JVM process</div>
-          </div>
-          <div class="quiz-explanation" id="exp-1-2">Runtime scope means the dependency is available when the app runs but not on the compile classpath. Your code uses JPA interfaces (EntityManager, Repository) — it never imports H2 classes directly. This is good design: swap H2 for PostgreSQL in production by changing one dependency, zero code changes.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(0)">
-          <span class="lesson-nav-label">← Previous</span>
-          <span class="lesson-nav-title">What is Spring Boot?</span>
-        </div>
-        <div class="lesson-nav-btn" onclick="showLesson(2)">
-          <span class="lesson-nav-label">Next Lesson →</span>
-          <span class="lesson-nav-title">Application Structure</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LESSON 2: Application Structure -->
-    <div class="lesson-panel" id="panel-2">
-      <div class="lesson-eyebrow">Module 1 · Lesson 03</div>
-      <h1 class="lesson-title">Application Structure</h1>
-      <p class="lesson-lead">A well-structured Spring Boot application separates concerns into distinct layers. Understanding this architecture is foundational — it determines where every class lives, what it's responsible for, and how components interact.</p>
-
-      <h2>The Layered Architecture</h2>
-      <p>Spring Boot applications follow a standard layered pattern. Each layer has a single responsibility and communicates only with the layer directly below it.</p>
-
-      <div class="layer-diagram">
-        <div class="layer layer-controller">
-          <span class="layer-icon">🌐</span>
-          <span class="layer-name">Controller Layer</span>
-          <span class="layer-role">Handles HTTP requests. Routes to services. Returns responses.</span>
-          <span class="layer-ann">@RestController</span>
-        </div>
-        <div class="layer layer-service">
-          <span class="layer-icon">⚙️</span>
-          <span class="layer-name">Service Layer</span>
-          <span class="layer-role">Business logic lives here. Orchestrates repositories. Enforces rules.</span>
-          <span class="layer-ann">@Service</span>
-        </div>
-        <div class="layer layer-repo">
-          <span class="layer-icon">📋</span>
-          <span class="layer-name">Repository Layer</span>
-          <span class="layer-role">Database access only. No business logic. Just queries.</span>
-          <span class="layer-ann">@Repository</span>
-        </div>
-        <div class="layer layer-db">
-          <span class="layer-icon">🗄️</span>
-          <span class="layer-name">Database</span>
-          <span class="layer-role">H2 (dev) / PostgreSQL / MySQL (production)</span>
-          <span class="layer-ann">JPA / Hibernate</span>
-        </div>
-      </div>
-
-      <h2>Project Directory Structure</h2>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">task-api/ — full project layout</span>
-          <span class="code-lang">tree</span>
-        </div>
-        <pre>src/
+</div>
+<div class="callout callout-info">
+<span class="callout-icon">ℹ️</span>
+<div class="callout-body">
+<div class="callout-title">Running the Application</div>
+<p>From IntelliJ: click the green ▶ button next to <code>main()</code>. From terminal: <code>mvn spring-boot:run</code>. You'll see Spring's banner, then <code>Started TaskApiApplication in 1.4 seconds</code>. Your server is live at <code>http://localhost:8080</code>.</p>
+</div>
+</div>
+<h2>DevTools: Hot Reload</h2>
+<p>The <code>spring-boot-devtools</code> dependency enables automatic restart when you change code. Save a file in IntelliJ and Spring restarts in under a second — no manual stop/start cycle during development.</p>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. What does the <code>@SpringBootApplication</code> annotation combine?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @RestController + @Service + @Repository</div>
+<div class="quiz-option" onclick="answer(this,'correct','1-1')"><span class="quiz-dot"></span> @Configuration + @EnableAutoConfiguration + @ComponentScan</div>
+<div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @Component + @Autowired + @Transactional</div>
+<div class="quiz-option" onclick="answer(this,'wrong','1-1')"><span class="quiz-dot"></span> @SpringContext + @BeanFactory + @PropertySource</div>
+</div>
+<div class="quiz-explanation" id="exp-1-1">@SpringBootApplication is a convenience annotation. @Configuration marks the class as a bean definition source. @EnableAutoConfiguration triggers Spring Boot's auto-configuration. @ComponentScan tells Spring where to scan for beans (the current package and all sub-packages).</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. Why does the H2 dependency use <code>scope: runtime</code>?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because H2 is only available on Java 11 and above at runtime</div>
+<div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because Maven needs to download it separately at runtime</div>
+<div class="quiz-option" onclick="answer(this,'correct','1-2')"><span class="quiz-dot"></span> Because it's only needed at runtime, not compile time — your code references JPA abstractions, not H2 directly</div>
+<div class="quiz-option" onclick="answer(this,'wrong','1-2')"><span class="quiz-dot"></span> Because H2 runs in a separate JVM process</div>
+</div>
+<div class="quiz-explanation" id="exp-1-2">Runtime scope means the dependency is available when the app runs but not on the compile classpath. Your code uses JPA interfaces (EntityManager, Repository) — it never imports H2 classes directly. This is good design: swap H2 for PostgreSQL in production by changing one dependency, zero code changes.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(0)">
+<span class="lesson-nav-label">← Previous</span>
+<span class="lesson-nav-title">What is Spring Boot?</span>
+</div>
+<div class="lesson-nav-btn" onclick="showLesson(2)">
+<span class="lesson-nav-label">Next Lesson →</span>
+<span class="lesson-nav-title">Application Structure</span>
+</div>
+</div>
+</div>
+<!-- LESSON 2: Application Structure -->
+<div class="lesson-panel" id="panel-2">
+<div class="lesson-eyebrow">Module 1 · Lesson 03</div>
+<h1 class="lesson-title">Application Structure</h1>
+<p class="lesson-lead">A well-structured Spring Boot application separates concerns into distinct layers. Understanding this architecture is foundational — it determines where every class lives, what it's responsible for, and how components interact.</p>
+<h2>The Layered Architecture</h2>
+<p>Spring Boot applications follow a standard layered pattern. Each layer has a single responsibility and communicates only with the layer directly below it.</p>
+<div class="layer-diagram">
+<div class="layer layer-controller">
+<span class="layer-icon">🌐</span>
+<span class="layer-name">Controller Layer</span>
+<span class="layer-role">Handles HTTP requests. Routes to services. Returns responses.</span>
+<span class="layer-ann">@RestController</span>
+</div>
+<div class="layer layer-service">
+<span class="layer-icon">⚙️</span>
+<span class="layer-name">Service Layer</span>
+<span class="layer-role">Business logic lives here. Orchestrates repositories. Enforces rules.</span>
+<span class="layer-ann">@Service</span>
+</div>
+<div class="layer layer-repo">
+<span class="layer-icon">📋</span>
+<span class="layer-name">Repository Layer</span>
+<span class="layer-role">Database access only. No business logic. Just queries.</span>
+<span class="layer-ann">@Repository</span>
+</div>
+<div class="layer layer-db">
+<span class="layer-icon">🗄️</span>
+<span class="layer-name">Database</span>
+<span class="layer-role">H2 (dev) / PostgreSQL / MySQL (production)</span>
+<span class="layer-ann">JPA / Hibernate</span>
+</div>
+</div>
+<h2>Project Directory Structure</h2>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">task-api/ — full project layout</span>
+<span class="code-lang">tree</span>
+</div>
+<pre>src/
 ├── main/
 │   ├── java/com/example/taskapi/
 │   │   ├── <span class="cls">TaskApiApplication.java</span>     <span class="cm">← entry point</span>
@@ -483,17 +440,15 @@ spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
 └── test/
     └── java/com/example/taskapi/
         └── <span class="cls">TaskControllerTest.java</span>        <span class="cm">← tests</span></pre>
-      </div>
-
-      <h2>The Task Entity — Your Data Model</h2>
-      <p>The <code>model</code> package holds your JPA entities — classes that map directly to database tables. Let's create the <code>Task</code> entity that the whole API will be built around.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">model/Task.java</span>
-          <span class="code-lang">Java</span>
-        </div>
-        <pre><span class="kw">package</span> com.example.taskapi.model;
+</div>
+<h2>The Task Entity — Your Data Model</h2>
+<p>The <code>model</code> package holds your JPA entities — classes that map directly to database tables. Let's create the <code>Task</code> entity that the whole API will be built around.</p>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">model/Task.java</span>
+<span class="code-lang">Java</span>
+</div>
+<pre><span class="kw">package</span> com.example.taskapi.model;
 
 <span class="kw">import</span> jakarta.persistence.*;
 <span class="kw">import</span> java.time.LocalDateTime;
@@ -532,90 +487,81 @@ spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
     <span class="kw">public void</span> <span class="fn">setCompleted</span>(<span class="kw">boolean</span> completed) { <span class="kw">this</span>.completed = completed; }
     <span class="kw">public</span> <span class="cls">LocalDateTime</span> <span class="fn">getCreatedAt</span>() { <span class="kw">return</span> createdAt; }
 }</pre>
-      </div>
-
-      <div class="callout callout-warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body">
-          <div class="callout-title">JPA Requires a No-Args Constructor</div>
-          <p>Hibernate (the JPA implementation Spring Boot uses) needs to instantiate entities using reflection. Always include a public no-argument constructor alongside any custom constructors.</p>
-        </div>
-      </div>
-
-      <div class="challenge-box">
-        <div class="challenge-header">
-          <span class="challenge-icon">🎯</span>
-          <span class="challenge-title">Challenge: Extend the Task Entity</span>
-        </div>
-        <div class="challenge-body">
-          <p>Add the following fields to the Task entity:</p>
-          <ul>
-            <li>A <code>priority</code> field of type <code>int</code> (1=low, 2=medium, 3=high)</li>
-            <li>A <code>dueDate</code> field of type <code>LocalDate</code></li>
-            <li>An <code>updatedAt</code> field that stores when the task was last modified</li>
-          </ul>
-          <p style="margin-top:10px;">Add appropriate getters, setters, and include <code>dueDate</code> in the constructor. Think about which fields should have <code>@Column(nullable = false)</code>.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">1. Where should database query logic live in a layered Spring application?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Controller, so the HTTP layer has direct database access</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Entity class, keeping data and queries together</div>
-            <div class="quiz-option" onclick="answer(this,'correct','2-1')"><span class="quiz-dot"></span> In the Repository layer, which is the only layer responsible for database access</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Service layer, as it orchestrates all operations including queries</div>
-          </div>
-          <div class="quiz-explanation" id="exp-2-1">The Repository layer is the single point of contact with the database. This separation means you can swap databases, mock the repository in tests, or optimize queries — all without touching the service or controller. Each layer only talks to the layer directly beneath it.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(1)">
-          <span class="lesson-nav-label">← Previous</span>
-          <span class="lesson-nav-title">Project Setup & Initializr</span>
-        </div>
-        <div class="lesson-nav-btn" onclick="showLesson(3)">
-          <span class="lesson-nav-label">Next Lesson →</span>
-          <span class="lesson-nav-title">Your First REST Controller</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LESSON 3: First REST Controller -->
-    <div class="lesson-panel" id="panel-3">
-      <div class="lesson-eyebrow">Module 2 · Lesson 04</div>
-      <h1 class="lesson-title">Your First REST Controller</h1>
-      <p class="lesson-lead">The controller is where HTTP meets your Java code. It maps incoming requests to handler methods, calls your service, and returns responses. Let's build the TaskController from scratch and understand every annotation.</p>
-
-      <h2>@RestController vs @Controller</h2>
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-icon">🖥️</div>
-          <div class="concept-card-title">@Controller</div>
-          <p>Returns view names (HTML templates). Used for server-rendered web apps with Thymeleaf or JSP.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">📡</div>
-          <div class="concept-card-title">@RestController</div>
-          <p>Returns data (JSON/XML) directly. Equivalent to <code>@Controller + @ResponseBody</code> on every method. This is what you want for APIs.</p>
-        </div>
-      </div>
-
-      <h2>Building the TaskController</h2>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">controller/TaskController.java</span>
-          <span class="code-lang">Java</span>
-        </div>
-        <pre><span class="kw">package</span> com.example.taskapi.controller;
+</div>
+<div class="callout callout-warn">
+<span class="callout-icon">⚠️</span>
+<div class="callout-body">
+<div class="callout-title">JPA Requires a No-Args Constructor</div>
+<p>Hibernate (the JPA implementation Spring Boot uses) needs to instantiate entities using reflection. Always include a public no-argument constructor alongside any custom constructors.</p>
+</div>
+</div>
+<div class="challenge-box">
+<div class="challenge-header">
+<span class="challenge-icon">🎯</span>
+<span class="challenge-title">Challenge: Extend the Task Entity</span>
+</div>
+<div class="challenge-body">
+<p>Add the following fields to the Task entity:</p>
+<ul>
+<li>A <code>priority</code> field of type <code>int</code> (1=low, 2=medium, 3=high)</li>
+<li>A <code>dueDate</code> field of type <code>LocalDate</code></li>
+<li>An <code>updatedAt</code> field that stores when the task was last modified</li>
+</ul>
+<p style="margin-top:10px;">Add appropriate getters, setters, and include <code>dueDate</code> in the constructor. Think about which fields should have <code>@Column(nullable = false)</code>.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. Where should database query logic live in a layered Spring application?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Controller, so the HTTP layer has direct database access</div>
+<div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Entity class, keeping data and queries together</div>
+<div class="quiz-option" onclick="answer(this,'correct','2-1')"><span class="quiz-dot"></span> In the Repository layer, which is the only layer responsible for database access</div>
+<div class="quiz-option" onclick="answer(this,'wrong','2-1')"><span class="quiz-dot"></span> In the Service layer, as it orchestrates all operations including queries</div>
+</div>
+<div class="quiz-explanation" id="exp-2-1">The Repository layer is the single point of contact with the database. This separation means you can swap databases, mock the repository in tests, or optimize queries — all without touching the service or controller. Each layer only talks to the layer directly beneath it.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(1)">
+<span class="lesson-nav-label">← Previous</span>
+<span class="lesson-nav-title">Project Setup &amp; Initializr</span>
+</div>
+<div class="lesson-nav-btn" onclick="showLesson(3)">
+<span class="lesson-nav-label">Next Lesson →</span>
+<span class="lesson-nav-title">Your First REST Controller</span>
+</div>
+</div>
+</div>
+<!-- LESSON 3: First REST Controller -->
+<div class="lesson-panel" id="panel-3">
+<div class="lesson-eyebrow">Module 2 · Lesson 04</div>
+<h1 class="lesson-title">Your First REST Controller</h1>
+<p class="lesson-lead">The controller is where HTTP meets your Java code. It maps incoming requests to handler methods, calls your service, and returns responses. Let's build the TaskController from scratch and understand every annotation.</p>
+<h2>@RestController vs @Controller</h2>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-icon">🖥️</div>
+<div class="concept-card-title">@Controller</div>
+<p>Returns view names (HTML templates). Used for server-rendered web apps with Thymeleaf or JSP.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">📡</div>
+<div class="concept-card-title">@RestController</div>
+<p>Returns data (JSON/XML) directly. Equivalent to <code>@Controller + @ResponseBody</code> on every method. This is what you want for APIs.</p>
+</div>
+</div>
+<h2>Building the TaskController</h2>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">controller/TaskController.java</span>
+<span class="code-lang">Java</span>
+</div>
+<pre><span class="kw">package</span> com.example.taskapi.controller;
 
 <span class="kw">import</span> com.example.taskapi.model.Task;
 <span class="kw">import</span> com.example.taskapi.service.TaskService;
@@ -657,41 +603,36 @@ spring.datasource.url=<span class="str">jdbc:h2:mem:testdb</span></pre>
         taskService.deleteTask(id);
     }
 }</pre>
-      </div>
-
-      <h2>Key Annotations Explained</h2>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">📌</span>
-        <div class="callout-body">
-          <div class="callout-title">@RequestMapping("/api/tasks")</div>
-          <p>Sets the base URL path for the entire controller. All method mappings are relative to this. Keeps paths DRY — you don't repeat <code>/api/tasks</code> in every method.</p>
-        </div>
-      </div>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">📌</span>
-        <div class="callout-body">
-          <div class="callout-title">@PathVariable</div>
-          <p>Extracts a value from the URL path. <code>@GetMapping("/{id}")</code> with <code>@PathVariable Long id</code> captures the <code>42</code> from <code>GET /api/tasks/42</code> and binds it to the <code>id</code> parameter.</p>
-        </div>
-      </div>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">📌</span>
-        <div class="callout-body">
-          <div class="callout-title">@RequestBody</div>
-          <p>Deserializes the JSON request body into a Java object. Spring uses Jackson automatically. When a client sends <code>{"title":"Buy milk"}</code>, Spring converts it to a <code>Task</code> object before your method even runs.</p>
-        </div>
-      </div>
-
-      <h2>Testing with curl</h2>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-filename">Terminal — manual API testing</span>
-          <span class="code-lang">bash</span>
-        </div>
-        <pre><span class="cm"># Get all tasks</span>
+</div>
+<h2>Key Annotations Explained</h2>
+<div class="callout callout-key">
+<span class="callout-icon">📌</span>
+<div class="callout-body">
+<div class="callout-title">@RequestMapping("/api/tasks")</div>
+<p>Sets the base URL path for the entire controller. All method mappings are relative to this. Keeps paths DRY — you don't repeat <code>/api/tasks</code> in every method.</p>
+</div>
+</div>
+<div class="callout callout-key">
+<span class="callout-icon">📌</span>
+<div class="callout-body">
+<div class="callout-title">@PathVariable</div>
+<p>Extracts a value from the URL path. <code>@GetMapping("/{id}")</code> with <code>@PathVariable Long id</code> captures the <code>42</code> from <code>GET /api/tasks/42</code> and binds it to the <code>id</code> parameter.</p>
+</div>
+</div>
+<div class="callout callout-key">
+<span class="callout-icon">📌</span>
+<div class="callout-body">
+<div class="callout-title">@RequestBody</div>
+<p>Deserializes the JSON request body into a Java object. Spring uses Jackson automatically. When a client sends <code>{"title":"Buy milk"}</code>, Spring converts it to a <code>Task</code> object before your method even runs.</p>
+</div>
+</div>
+<h2>Testing with curl</h2>
+<div class="code-block">
+<div class="code-header">
+<span class="code-filename">Terminal — manual API testing</span>
+<span class="code-lang">bash</span>
+</div>
+<pre><span class="cm"># Get all tasks</span>
 curl http://localhost:8080/api/tasks
 
 <span class="cm"># Create a task</span>
@@ -704,68 +645,60 @@ curl http://localhost:8080/api/tasks/1
 
 <span class="cm"># Delete a task</span>
 curl -X DELETE http://localhost:8080/api/tasks/1</pre>
-      </div>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">
-          <div class="callout-title">Use Postman or IntelliJ HTTP Client</div>
-          <p>While curl works, Postman (free) and IntelliJ's built-in HTTP Client make API testing far more comfortable — especially when you're sending complex JSON request bodies or inspecting response headers.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">1. What is the difference between <code>@Controller</code> and <code>@RestController</code>?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> @RestController can only handle GET requests</div>
-            <div class="quiz-option" onclick="answer(this,'correct','3-1')"><span class="quiz-dot"></span> @RestController automatically serializes return values to JSON; @Controller returns view names for template rendering</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> @RestController is used for microservices; @Controller for monoliths</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> There is no difference — they are interchangeable aliases</div>
-          </div>
-          <div class="quiz-explanation" id="exp-3-1">@RestController = @Controller + @ResponseBody applied to every method. The @ResponseBody annotation tells Spring to serialize the return value directly into the HTTP response body as JSON (using Jackson), rather than treating it as a view name to look up.</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">2. How does @PathVariable work with <code>@GetMapping("/{id}")</code>?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from a query string like <code>?id=42</code></div>
-            <div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from a request header</div>
-            <div class="quiz-option" onclick="answer(this,'correct','3-2')"><span class="quiz-dot"></span> It extracts the value from the URL path — the <code>42</code> in <code>/api/tasks/42</code></div>
-            <div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from the JSON request body</div>
-          </div>
-          <div class="quiz-explanation" id="exp-3-2">The {id} in the mapping is a path template variable. Spring matches it by name to the @PathVariable parameter and performs automatic type conversion — the string "42" from the URL becomes a Long in your method. For query parameters like ?completed=true, you'd use @RequestParam instead.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(2)">
-          <span class="lesson-nav-label">← Previous</span>
-          <span class="lesson-nav-title">Application Structure</span>
-        </div>
-        <div class="lesson-nav-btn" onclick="showLesson(4)">
-          <span class="lesson-nav-label">Next Lesson →</span>
-          <span class="lesson-nav-title">HTTP Methods & Mappings</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LESSON 4: HTTP Methods -->
-    <div class="lesson-panel" id="panel-4">
-      <div class="lesson-eyebrow">Module 2 · Lesson 05</div>
-      <h1 class="lesson-title">HTTP Methods & Mappings</h1>
-      <p class="lesson-lead">REST APIs communicate intent through HTTP methods. Choosing the right verb isn't arbitrary — it's a contract with every client consuming your API. Spring Boot provides a dedicated annotation for each.</p>
-
-      <h2>The HTTP Verb Semantics</h2>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">REST Method Reference</span><span class="code-lang">HTTP</span></div>
-        <pre><span class="cm">Method    Annotation       URL                  Purpose              Idempotent?</span>
+</div>
+<div class="callout callout-tip">
+<span class="callout-icon">💡</span>
+<div class="callout-body">
+<div class="callout-title">Use Postman or IntelliJ HTTP Client</div>
+<p>While curl works, Postman (free) and IntelliJ's built-in HTTP Client make API testing far more comfortable — especially when you're sending complex JSON request bodies or inspecting response headers.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. What is the difference between <code>@Controller</code> and <code>@RestController</code>?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> @RestController can only handle GET requests</div>
+<div class="quiz-option" onclick="answer(this,'correct','3-1')"><span class="quiz-dot"></span> @RestController automatically serializes return values to JSON; @Controller returns view names for template rendering</div>
+<div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> @RestController is used for microservices; @Controller for monoliths</div>
+<div class="quiz-option" onclick="answer(this,'wrong','3-1')"><span class="quiz-dot"></span> There is no difference — they are interchangeable aliases</div>
+</div>
+<div class="quiz-explanation" id="exp-3-1">@RestController = @Controller + @ResponseBody applied to every method. The @ResponseBody annotation tells Spring to serialize the return value directly into the HTTP response body as JSON (using Jackson), rather than treating it as a view name to look up.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. How does @PathVariable work with <code>@GetMapping("/{id}")</code>?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from a query string like <code>?id=42</code></div>
+<div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from a request header</div>
+<div class="quiz-option" onclick="answer(this,'correct','3-2')"><span class="quiz-dot"></span> It extracts the value from the URL path — the <code>42</code> in <code>/api/tasks/42</code></div>
+<div class="quiz-option" onclick="answer(this,'wrong','3-2')"><span class="quiz-dot"></span> It reads the id from the JSON request body</div>
+</div>
+<div class="quiz-explanation" id="exp-3-2">The {id} in the mapping is a path template variable. Spring matches it by name to the @PathVariable parameter and performs automatic type conversion — the string "42" from the URL becomes a Long in your method. For query parameters like ?completed=true, you'd use @RequestParam instead.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(2)">
+<span class="lesson-nav-label">← Previous</span>
+<span class="lesson-nav-title">Application Structure</span>
+</div>
+<div class="lesson-nav-btn" onclick="showLesson(4)">
+<span class="lesson-nav-label">Next Lesson →</span>
+<span class="lesson-nav-title">HTTP Methods &amp; Mappings</span>
+</div>
+</div>
+</div>
+<!-- LESSON 4: HTTP Methods -->
+<div class="lesson-panel" id="panel-4">
+<div class="lesson-eyebrow">Module 2 · Lesson 05</div>
+<h1 class="lesson-title">HTTP Methods &amp; Mappings</h1>
+<p class="lesson-lead">REST APIs communicate intent through HTTP methods. Choosing the right verb isn't arbitrary — it's a contract with every client consuming your API. Spring Boot provides a dedicated annotation for each.</p>
+<h2>The HTTP Verb Semantics</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">REST Method Reference</span><span class="code-lang">HTTP</span></div>
+<pre><span class="cm">Method    Annotation       URL                  Purpose              Idempotent?</span>
 ──────────────────────────────────────────────────────────────────────────────
 <span class="kw">GET</span>       <span class="ann">@GetMapping</span>      /tasks               List all             ✅ Yes
 <span class="kw">GET</span>       <span class="ann">@GetMapping</span>      /tasks/{id}          Get one              ✅ Yes
@@ -773,21 +706,18 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
 <span class="kw">PUT</span>       <span class="ann">@PutMapping</span>      /tasks/{id}          Replace entirely     ✅ Yes
 <span class="kw">PATCH</span>     <span class="ann">@PatchMapping</span>    /tasks/{id}          Partial update       ⚠️ Usually
 <span class="kw">DELETE</span>    <span class="ann">@DeleteMapping</span>   /tasks/{id}          Delete               ✅ Yes</pre>
-      </div>
-
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">
-          <div class="callout-title">Idempotent means: same result regardless of how many times you call it</div>
-          <p>DELETE /tasks/42 called 10 times = task 42 is deleted. Same result each time. POST /tasks called 10 times = 10 new tasks created. That's why POST is not idempotent.</p>
-        </div>
-      </div>
-
-      <h2>Implementing PUT — Full Update</h2>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">TaskController.java — update methods</span><span class="code-lang">Java</span></div>
-        <pre><span class="cm">// PUT /api/tasks/42 — replace all fields</span>
+</div>
+<div class="callout callout-info">
+<span class="callout-icon">ℹ️</span>
+<div class="callout-body">
+<div class="callout-title">Idempotent means: same result regardless of how many times you call it</div>
+<p>DELETE /tasks/42 called 10 times = task 42 is deleted. Same result each time. POST /tasks called 10 times = 10 new tasks created. That's why POST is not idempotent.</p>
+</div>
+</div>
+<h2>Implementing PUT — Full Update</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TaskController.java — update methods</span><span class="code-lang">Java</span></div>
+<pre><span class="cm">// PUT /api/tasks/42 — replace all fields</span>
 <span class="ann">@PutMapping</span>(<span class="str">"/{id}"</span>)
 <span class="kw">public</span> <span class="cls">Task</span> <span class="fn">updateTask</span>(<span class="ann">@PathVariable</span> <span class="cls">Long</span> id,
                        <span class="ann">@RequestBody</span> <span class="cls">Task</span> updatedTask) {
@@ -809,84 +739,74 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     }
     <span class="kw">return</span> taskService.getAllTasks();
 }</pre>
-      </div>
-
-      <h2>PUT vs PATCH — Know the Difference</h2>
-
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-icon">🔄</div>
-          <div class="concept-card-title">PUT — Full Replacement</div>
-          <p>Client sends a complete representation. Any fields not included are set to null/default. Use when the client owns the full resource state.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">✏️</div>
-          <div class="concept-card-title">PATCH — Partial Update</div>
-          <p>Client sends only the fields to change. Other fields remain untouched. Use for specific field updates like "mark as completed" or "change title only."</p>
-        </div>
-      </div>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">
-          <div class="callout-title">@RequestParam vs @PathVariable</div>
-          <p><code>@PathVariable</code> extracts from the URL path: <code>/tasks/42</code>. <code>@RequestParam</code> extracts from the query string: <code>/tasks?completed=true</code>. Path variables identify a resource; query params filter or modify how it's returned.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">1. A user changes only the title of a task. Which HTTP method is most appropriate?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> PUT — replace the entire task with a new version</div>
-            <div class="quiz-option" onclick="answer(this,'correct','4-1')"><span class="quiz-dot"></span> PATCH — update only the title field, leaving everything else untouched</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> POST — create a new task with the updated title</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> GET — retrieve the task with the new title in the URL</div>
-          </div>
-          <div class="quiz-explanation" id="exp-4-1">PATCH is for partial updates. Sending PUT with only the title field would effectively null out the description, completed status, and other fields — because PUT replaces the entire resource. PATCH lets the client say "only change what I'm sending."</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">2. What does <code>@RequestParam(required = false)</code> mean?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> The parameter is ignored if the client sends it</div>
-            <div class="quiz-option" onclick="answer(this,'correct','4-2')"><span class="quiz-dot"></span> The query parameter is optional — the method still works if the client doesn't include it</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> The parameter only works with POST requests</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> Spring will not validate this parameter's type</div>
-          </div>
-          <div class="quiz-explanation" id="exp-4-2">By default, @RequestParam is required=true and Spring returns 400 Bad Request if it's missing. Setting required=false makes it optional — the parameter will be null if not provided. This lets one endpoint serve both "get all" and "get filtered" behavior.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(3)">
-          <span class="lesson-nav-label">← Previous</span>
-          <span class="lesson-nav-title">Your First REST Controller</span>
-        </div>
-        <div class="lesson-nav-btn" onclick="showLesson(5)">
-          <span class="lesson-nav-label">Next Lesson →</span>
-          <span class="lesson-nav-title">Request Body & Validation</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LESSONS 5-11: Placeholder panels -->
-    <div class="lesson-panel" id="panel-5">
-      <div class="lesson-eyebrow">Module 2 · Lesson 06</div>
-      <h1 class="lesson-title">Request Body & Validation</h1>
-      <p class="lesson-lead">Accepting untrusted input and ensuring it meets your data requirements before it reaches your business logic or database.</p>
-
-      <h2>Bean Validation with @Valid</h2>
-      <p>Spring Boot integrates with Jakarta Bean Validation. Add constraint annotations to your model, add <code>@Valid</code> to your controller parameter, and Spring automatically validates incoming request bodies — returning a structured 400 error if validation fails.</p>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">model/Task.java — with validation</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> jakarta.validation.constraints.*;
+</div>
+<h2>PUT vs PATCH — Know the Difference</h2>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-icon">🔄</div>
+<div class="concept-card-title">PUT — Full Replacement</div>
+<p>Client sends a complete representation. Any fields not included are set to null/default. Use when the client owns the full resource state.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">✏️</div>
+<div class="concept-card-title">PATCH — Partial Update</div>
+<p>Client sends only the fields to change. Other fields remain untouched. Use for specific field updates like "mark as completed" or "change title only."</p>
+</div>
+</div>
+<div class="callout callout-tip">
+<span class="callout-icon">💡</span>
+<div class="callout-body">
+<div class="callout-title">@RequestParam vs @PathVariable</div>
+<p><code>@PathVariable</code> extracts from the URL path: <code>/tasks/42</code>. <code>@RequestParam</code> extracts from the query string: <code>/tasks?completed=true</code>. Path variables identify a resource; query params filter or modify how it's returned.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. A user changes only the title of a task. Which HTTP method is most appropriate?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> PUT — replace the entire task with a new version</div>
+<div class="quiz-option" onclick="answer(this,'correct','4-1')"><span class="quiz-dot"></span> PATCH — update only the title field, leaving everything else untouched</div>
+<div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> POST — create a new task with the updated title</div>
+<div class="quiz-option" onclick="answer(this,'wrong','4-1')"><span class="quiz-dot"></span> GET — retrieve the task with the new title in the URL</div>
+</div>
+<div class="quiz-explanation" id="exp-4-1">PATCH is for partial updates. Sending PUT with only the title field would effectively null out the description, completed status, and other fields — because PUT replaces the entire resource. PATCH lets the client say "only change what I'm sending."</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. What does <code>@RequestParam(required = false)</code> mean?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> The parameter is ignored if the client sends it</div>
+<div class="quiz-option" onclick="answer(this,'correct','4-2')"><span class="quiz-dot"></span> The query parameter is optional — the method still works if the client doesn't include it</div>
+<div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> The parameter only works with POST requests</div>
+<div class="quiz-option" onclick="answer(this,'wrong','4-2')"><span class="quiz-dot"></span> Spring will not validate this parameter's type</div>
+</div>
+<div class="quiz-explanation" id="exp-4-2">By default, @RequestParam is required=true and Spring returns 400 Bad Request if it's missing. Setting required=false makes it optional — the parameter will be null if not provided. This lets one endpoint serve both "get all" and "get filtered" behavior.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(3)">
+<span class="lesson-nav-label">← Previous</span>
+<span class="lesson-nav-title">Your First REST Controller</span>
+</div>
+<div class="lesson-nav-btn" onclick="showLesson(5)">
+<span class="lesson-nav-label">Next Lesson →</span>
+<span class="lesson-nav-title">Request Body &amp; Validation</span>
+</div>
+</div>
+</div>
+<!-- LESSONS 5-11: Placeholder panels -->
+<div class="lesson-panel" id="panel-5">
+<div class="lesson-eyebrow">Module 2 · Lesson 06</div>
+<h1 class="lesson-title">Request Body &amp; Validation</h1>
+<p class="lesson-lead">Accepting untrusted input and ensuring it meets your data requirements before it reaches your business logic or database.</p>
+<h2>Bean Validation with @Valid</h2>
+<p>Spring Boot integrates with Jakarta Bean Validation. Add constraint annotations to your model, add <code>@Valid</code> to your controller parameter, and Spring automatically validates incoming request bodies — returning a structured 400 error if validation fails.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">model/Task.java — with validation</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> jakarta.validation.constraints.*;
 
 <span class="ann">@Entity</span>
 <span class="kw">public class</span> <span class="cls">Task</span> {
@@ -909,85 +829,78 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
 
     <span class="cm">// getters/setters...</span>
 }</pre>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">TaskController.java — @Valid on POST</span><span class="code-lang">Java</span></div>
-        <pre><span class="ann">@PostMapping</span>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TaskController.java — @Valid on POST</span><span class="code-lang">Java</span></div>
+<pre><span class="ann">@PostMapping</span>
 <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">Task</span>&gt; <span class="fn">createTask</span>(<span class="ann">@Valid</span> <span class="ann">@RequestBody</span> <span class="cls">Task</span> task) {
     <span class="cm">// If task fails validation, Spring returns 400 BEFORE this line runs</span>
     <span class="cls">Task</span> saved = taskService.createTask(task);
     <span class="kw">return</span> <span class="cls">ResponseEntity</span>.status(<span class="num">201</span>).body(saved);
 }</pre>
-      </div>
-
-      <h2>Common Validation Annotations</h2>
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-title">@NotNull / @NotBlank</div>
-          <p><code>@NotNull</code>: value cannot be null. <code>@NotBlank</code>: string cannot be null, empty, or whitespace-only.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@Size(min, max)</div>
-          <p>Validates String length or Collection size. Works with min and/or max bounds.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@Min / @Max</div>
-          <p>Validates numeric values. <code>@Min(1) @Max(3)</code> ensures a priority field is between 1 and 3.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@Email / @Pattern</div>
-          <p><code>@Email</code> validates email format. <code>@Pattern(regexp)</code> validates against a regex.</p>
-        </div>
-      </div>
-
-      <div class="challenge-box">
-        <div class="challenge-header">
-          <span class="challenge-icon">🎯</span>
-          <span class="challenge-title">Challenge: Custom Validation Response</span>
-        </div>
-        <div class="challenge-body">
-          <p>By default, validation errors return a verbose 400 response. Create a <code>@ControllerAdvice</code> exception handler that catches <code>MethodArgumentNotValidException</code> and returns a clean JSON response like:</p>
-          <ul>
-            <li><code>{ "errors": { "title": "Title is required", "priority": "must be between 1 and 3" } }</code></li>
-            <li>Extract field errors from the <code>BindingResult</code> and map them by field name</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header">
-          <span class="quiz-badge">Quiz</span>
-          <span class="quiz-title">Check Your Understanding</span>
-        </div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What HTTP status code does Spring return when @Valid validation fails?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 500 Internal Server Error</div>
-            <div class="quiz-option" onclick="answer(this,'correct','5-1')"><span class="quiz-dot"></span> 400 Bad Request</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 422 Unprocessable Entity</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 403 Forbidden</div>
-          </div>
-          <div class="quiz-explanation" id="exp-5-1">Spring automatically returns 400 Bad Request when @Valid fails. The response body contains detailed information about which fields failed and why. You can customize this response format using @ControllerAdvice to handle MethodArgumentNotValidException.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(4)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">HTTP Methods & Mappings</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(6)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Response Entities & Status Codes</span></div>
-      </div>
-    </div>
-
-    <!-- LESSONS 6-11: Condensed but complete -->
-    <div class="lesson-panel" id="panel-6">
-      <div class="lesson-eyebrow">Module 2 · Lesson 07</div>
-      <h1 class="lesson-title">Response Entities & Status Codes</h1>
-      <p class="lesson-lead">Returning raw objects from controllers is fine for simple cases, but <code>ResponseEntity</code> gives you full control over status codes, headers, and response bodies — which is what professional APIs require.</p>
-
-      <h2>ResponseEntity — Full HTTP Control</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">TaskController.java — ResponseEntity usage</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> org.springframework.http.ResponseEntity;
+</div>
+<h2>Common Validation Annotations</h2>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-title">@NotNull / @NotBlank</div>
+<p><code>@NotNull</code>: value cannot be null. <code>@NotBlank</code>: string cannot be null, empty, or whitespace-only.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@Size(min, max)</div>
+<p>Validates String length or Collection size. Works with min and/or max bounds.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@Min / @Max</div>
+<p>Validates numeric values. <code>@Min(1) @Max(3)</code> ensures a priority field is between 1 and 3.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@Email / @Pattern</div>
+<p><code>@Email</code> validates email format. <code>@Pattern(regexp)</code> validates against a regex.</p>
+</div>
+</div>
+<div class="challenge-box">
+<div class="challenge-header">
+<span class="challenge-icon">🎯</span>
+<span class="challenge-title">Challenge: Custom Validation Response</span>
+</div>
+<div class="challenge-body">
+<p>By default, validation errors return a verbose 400 response. Create a <code>@ControllerAdvice</code> exception handler that catches <code>MethodArgumentNotValidException</code> and returns a clean JSON response like:</p>
+<ul>
+<li><code>{ "errors": { "title": "Title is required", "priority": "must be between 1 and 3" } }</code></li>
+<li>Extract field errors from the <code>BindingResult</code> and map them by field name</li>
+</ul>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header">
+<span class="quiz-badge">Quiz</span>
+<span class="quiz-title">Check Your Understanding</span>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">1. What HTTP status code does Spring return when @Valid validation fails?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 500 Internal Server Error</div>
+<div class="quiz-option" onclick="answer(this,'correct','5-1')"><span class="quiz-dot"></span> 400 Bad Request</div>
+<div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 422 Unprocessable Entity</div>
+<div class="quiz-option" onclick="answer(this,'wrong','5-1')"><span class="quiz-dot"></span> 403 Forbidden</div>
+</div>
+<div class="quiz-explanation" id="exp-5-1">Spring automatically returns 400 Bad Request when @Valid fails. The response body contains detailed information about which fields failed and why. You can customize this response format using @ControllerAdvice to handle MethodArgumentNotValidException.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(4)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">HTTP Methods &amp; Mappings</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(6)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Response Entities &amp; Status Codes</span></div>
+</div>
+</div>
+<!-- LESSONS 6-11: Condensed but complete -->
+<div class="lesson-panel" id="panel-6">
+<div class="lesson-eyebrow">Module 2 · Lesson 07</div>
+<h1 class="lesson-title">Response Entities &amp; Status Codes</h1>
+<p class="lesson-lead">Returning raw objects from controllers is fine for simple cases, but <code>ResponseEntity</code> gives you full control over status codes, headers, and response bodies — which is what professional APIs require.</p>
+<h2>ResponseEntity — Full HTTP Control</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TaskController.java — ResponseEntity usage</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> org.springframework.http.ResponseEntity;
 <span class="kw">import</span> org.springframework.http.HttpStatus;
 
 <span class="cm">// POST — 201 Created with Location header</span>
@@ -1013,12 +926,11 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
         .map(<span class="cls">ResponseEntity</span>::ok)                <span class="cm">// 200 if found</span>
         .orElse(<span class="cls">ResponseEntity</span>.notFound().build()); <span class="cm">// 404 if not</span>
 }</pre>
-      </div>
-
-      <h2>HTTP Status Code Reference</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">Status codes you'll use most</span><span class="code-lang">HTTP</span></div>
-        <pre><span class="cm">2xx — Success</span>
+</div>
+<h2>HTTP Status Code Reference</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Status codes you'll use most</span><span class="code-lang">HTTP</span></div>
+<pre><span class="cm">2xx — Success</span>
 <span class="num">200</span> OK          → Successful GET, PUT, PATCH
 <span class="num">201</span> Created     → Successful POST (resource created)
 <span class="num">204</span> No Content  → Successful DELETE (nothing to return)
@@ -1032,45 +944,40 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
 
 <span class="cm">5xx — Server Error</span>
 <span class="num">500</span> Internal Server Error → Unhandled exception in your code</pre>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. A client successfully creates a resource. What status code should you return?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 200 OK</div>
-            <div class="quiz-option" onclick="answer(this,'correct','6-1')"><span class="quiz-dot"></span> 201 Created</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 204 No Content</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 202 Accepted</div>
-          </div>
-          <div class="quiz-explanation" id="exp-6-1">201 Created is the correct response for successful POST requests that create a new resource. It communicates to clients that the creation was successful and is distinct from a general 200 OK. Returning 200 for creation works but is less precise and breaks REST conventions.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(5)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Request Body & Validation</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(7)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">The Service Layer</span></div>
-      </div>
-    </div>
-
-    <div class="lesson-panel" id="panel-7">
-      <div class="lesson-eyebrow">Module 3 · Lesson 08</div>
-      <h1 class="lesson-title">The Service Layer</h1>
-      <p class="lesson-lead">The service layer is the heart of your application. Business logic lives here — not in controllers (which handle HTTP) and not in repositories (which handle data). This separation is what makes code testable and maintainable.</p>
-
-      <h2>Why a Separate Service Layer?</h2>
-      <div class="callout callout-warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body">
-          <div class="callout-title">Fat Controllers Are an Anti-Pattern</div>
-          <p>Putting business logic directly in controllers couples your rules to the HTTP layer. If you later add a scheduled job, a CLI command, or a second controller that needs the same logic, you'd duplicate code. Services decouple logic from delivery mechanism.</p>
-        </div>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">service/TaskService.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">package</span> com.example.taskapi.service;
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. A client successfully creates a resource. What status code should you return?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 200 OK</div>
+<div class="quiz-option" onclick="answer(this,'correct','6-1')"><span class="quiz-dot"></span> 201 Created</div>
+<div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 204 No Content</div>
+<div class="quiz-option" onclick="answer(this,'wrong','6-1')"><span class="quiz-dot"></span> 202 Accepted</div>
+</div>
+<div class="quiz-explanation" id="exp-6-1">201 Created is the correct response for successful POST requests that create a new resource. It communicates to clients that the creation was successful and is distinct from a general 200 OK. Returning 200 for creation works but is less precise and breaks REST conventions.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(5)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Request Body &amp; Validation</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(7)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">The Service Layer</span></div>
+</div>
+</div>
+<div class="lesson-panel" id="panel-7">
+<div class="lesson-eyebrow">Module 3 · Lesson 08</div>
+<h1 class="lesson-title">The Service Layer</h1>
+<p class="lesson-lead">The service layer is the heart of your application. Business logic lives here — not in controllers (which handle HTTP) and not in repositories (which handle data). This separation is what makes code testable and maintainable.</p>
+<h2>Why a Separate Service Layer?</h2>
+<div class="callout callout-warn">
+<span class="callout-icon">⚠️</span>
+<div class="callout-body">
+<div class="callout-title">Fat Controllers Are an Anti-Pattern</div>
+<p>Putting business logic directly in controllers couples your rules to the HTTP layer. If you later add a scheduled job, a CLI command, or a second controller that needs the same logic, you'd duplicate code. Services decouple logic from delivery mechanism.</p>
+</div>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">service/TaskService.java</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">package</span> com.example.taskapi.service;
 
 <span class="kw">import</span> com.example.taskapi.exception.TaskNotFoundException;
 <span class="kw">import</span> com.example.taskapi.model.Task;
@@ -1094,7 +1001,7 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
 
     <span class="kw">public</span> <span class="cls">Task</span> <span class="fn">getTaskById</span>(<span class="cls">Long</span> id) {
         <span class="kw">return</span> taskRepository.findById(id)
-            .orElseThrow(() -> <span class="kw">new</span> <span class="cls">TaskNotFoundException</span>(id));
+            .orElseThrow(() -&gt; <span class="kw">new</span> <span class="cls">TaskNotFoundException</span>(id));
     }
 
     <span class="ann">@Transactional</span>              <span class="cm">// wraps entire method in a DB transaction</span>
@@ -1128,45 +1035,40 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
         taskRepository.deleteById(id);
     }
 }</pre>
-      </div>
-
-      <div class="callout callout-key">
-        <span class="callout-icon">🔑</span>
-        <div class="callout-body">
-          <div class="callout-title">@Transactional</div>
-          <p>Wraps the method in a database transaction. If an exception occurs mid-method, all database changes are rolled back. Essential for operations that modify data. Spring manages the transaction automatically — you just add the annotation.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. Where should business rules (e.g., "a completed task cannot be deleted") live?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Controller, checked before calling the service</div>
-            <div class="quiz-option" onclick="answer(this,'correct','7-1')"><span class="quiz-dot"></span> In the Service layer, so any entry point (REST, scheduler, CLI) enforces the rule</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Repository, as a database constraint</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Entity class itself, in the setter method</div>
-          </div>
-          <div class="quiz-explanation" id="exp-7-1">Business rules belong in the service layer. If you put the check in the controller, a future scheduler or admin CLI that bypasses HTTP would skip the rule. The service is the single enforcer of business invariants, regardless of how the operation was triggered.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(6)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Response Entities & Status Codes</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(8)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Spring Data JPA & Repositories</span></div>
-      </div>
-    </div>
-
-    <div class="lesson-panel" id="panel-8">
-      <div class="lesson-eyebrow">Module 3 · Lesson 09</div>
-      <h1 class="lesson-title">Spring Data JPA & Repositories</h1>
-      <p class="lesson-lead">Spring Data JPA is one of Spring Boot's most powerful features. It eliminates virtually all boilerplate database code — you define an interface, Spring generates the implementation at runtime.</p>
-
-      <h2>JpaRepository — Everything for Free</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">repository/TaskRepository.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">package</span> com.example.taskapi.repository;
+</div>
+<div class="callout callout-key">
+<span class="callout-icon">🔑</span>
+<div class="callout-body">
+<div class="callout-title">@Transactional</div>
+<p>Wraps the method in a database transaction. If an exception occurs mid-method, all database changes are rolled back. Essential for operations that modify data. Spring manages the transaction automatically — you just add the annotation.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. Where should business rules (e.g., "a completed task cannot be deleted") live?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Controller, checked before calling the service</div>
+<div class="quiz-option" onclick="answer(this,'correct','7-1')"><span class="quiz-dot"></span> In the Service layer, so any entry point (REST, scheduler, CLI) enforces the rule</div>
+<div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Repository, as a database constraint</div>
+<div class="quiz-option" onclick="answer(this,'wrong','7-1')"><span class="quiz-dot"></span> In the Entity class itself, in the setter method</div>
+</div>
+<div class="quiz-explanation" id="exp-7-1">Business rules belong in the service layer. If you put the check in the controller, a future scheduler or admin CLI that bypasses HTTP would skip the rule. The service is the single enforcer of business invariants, regardless of how the operation was triggered.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(6)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Response Entities &amp; Status Codes</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(8)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Spring Data JPA &amp; Repositories</span></div>
+</div>
+</div>
+<div class="lesson-panel" id="panel-8">
+<div class="lesson-eyebrow">Module 3 · Lesson 09</div>
+<h1 class="lesson-title">Spring Data JPA &amp; Repositories</h1>
+<p class="lesson-lead">Spring Data JPA is one of Spring Boot's most powerful features. It eliminates virtually all boilerplate database code — you define an interface, Spring generates the implementation at runtime.</p>
+<h2>JpaRepository — Everything for Free</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">repository/TaskRepository.java</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">package</span> com.example.taskapi.repository;
 
 <span class="kw">import</span> com.example.taskapi.model.Task;
 <span class="kw">import</span> org.springframework.data.jpa.repository.JpaRepository;
@@ -1184,20 +1086,18 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     <span class="cls">List</span>&lt;<span class="cls">Task</span>&gt; <span class="fn">findByPriorityOrderByCreatedAtDesc</span>(<span class="kw">int</span> priority);
     <span class="kw">long</span> <span class="fn">countByCompleted</span>(<span class="kw">boolean</span> completed);
 }</pre>
-      </div>
-
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">
-          <div class="callout-title">Derived Query Method Naming</div>
-          <p>Spring reads the method name and generates SQL. <code>findByTitleContainingIgnoreCase</code> becomes <code>SELECT * FROM tasks WHERE LOWER(title) LIKE LOWER('%keyword%')</code>. Keywords include: <code>By</code>, <code>And</code>, <code>Or</code>, <code>Like</code>, <code>Containing</code>, <code>StartingWith</code>, <code>OrderBy</code>, <code>Asc</code>, <code>Desc</code>, <code>Top</code>, <code>First</code>.</p>
-        </div>
-      </div>
-
-      <h2>Custom JPQL Queries</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">Custom @Query when naming isn't enough</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> org.springframework.data.jpa.repository.Query;
+</div>
+<div class="callout callout-info">
+<span class="callout-icon">ℹ️</span>
+<div class="callout-body">
+<div class="callout-title">Derived Query Method Naming</div>
+<p>Spring reads the method name and generates SQL. <code>findByTitleContainingIgnoreCase</code> becomes <code>SELECT * FROM tasks WHERE LOWER(title) LIKE LOWER('%keyword%')</code>. Keywords include: <code>By</code>, <code>And</code>, <code>Or</code>, <code>Like</code>, <code>Containing</code>, <code>StartingWith</code>, <code>OrderBy</code>, <code>Asc</code>, <code>Desc</code>, <code>Top</code>, <code>First</code>.</p>
+</div>
+</div>
+<h2>Custom JPQL Queries</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Custom @Query when naming isn't enough</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> org.springframework.data.jpa.repository.Query;
 <span class="kw">import</span> org.springframework.data.repository.query.Param;
 
 <span class="cm">// JPQL — queries against entity class names, not table names</span>
@@ -1208,57 +1108,52 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
 <span class="ann">@Query</span>(value = <span class="str">"SELECT * FROM tasks WHERE created_at &gt; NOW() - INTERVAL '7 days'"</span>,
        nativeQuery = <span class="kw">true</span>)
 <span class="cls">List</span>&lt;<span class="cls">Task</span>&gt; <span class="fn">findCreatedThisWeek</span>();</pre>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What does <code>JpaRepository&lt;Task, Long&gt;</code> mean?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the database name; Long is the connection timeout in milliseconds</div>
-            <div class="quiz-option" onclick="answer(this,'correct','8-1')"><span class="quiz-dot"></span> Task is the entity type being managed; Long is the type of its primary key (the @Id field)</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the table name; Long is the maximum number of records to return</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the entity class; Long is the number of relationships it can have</div>
-          </div>
-          <div class="quiz-explanation" id="exp-8-1">JpaRepository takes two generic type parameters: the entity class (Task) and the type of its @Id / primary key field (Long). This allows Spring to generate type-safe implementations — findById returns Optional&lt;Task&gt;, save accepts and returns Task, and so on.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(7)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">The Service Layer</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(9)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Entity Relationships</span></div>
-      </div>
-    </div>
-
-    <div class="lesson-panel" id="panel-9">
-      <div class="lesson-eyebrow">Module 3 · Lesson 10</div>
-      <h1 class="lesson-title">Entity Relationships</h1>
-      <p class="lesson-lead">Real applications have related data. A task belongs to a user. A user has many tasks. JPA models these relationships with annotations that map directly to foreign keys and join tables in your database.</p>
-
-      <h2>The Four Relationship Types</h2>
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-title">@ManyToOne</div>
-          <p>Many tasks belong to one user. The "many" side holds the foreign key column. Most common relationship.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@OneToMany</div>
-          <p>One user has many tasks. The inverse of @ManyToOne. Usually the "one" side mapped by the "many" side.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@OneToOne</div>
-          <p>One user profile belongs to one user. The relationship owner holds the foreign key column.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-title">@ManyToMany</div>
-          <p>A task can have many tags; a tag can belong to many tasks. Requires a join table.</p>
-        </div>
-      </div>
-
-      <h2>Implementing User → Task Relationship</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">model/User.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="ann">@Entity</span>
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What does <code>JpaRepository&lt;Task, Long&gt;</code> mean?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the database name; Long is the connection timeout in milliseconds</div>
+<div class="quiz-option" onclick="answer(this,'correct','8-1')"><span class="quiz-dot"></span> Task is the entity type being managed; Long is the type of its primary key (the @Id field)</div>
+<div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the table name; Long is the maximum number of records to return</div>
+<div class="quiz-option" onclick="answer(this,'wrong','8-1')"><span class="quiz-dot"></span> Task is the entity class; Long is the number of relationships it can have</div>
+</div>
+<div class="quiz-explanation" id="exp-8-1">JpaRepository takes two generic type parameters: the entity class (Task) and the type of its @Id / primary key field (Long). This allows Spring to generate type-safe implementations — findById returns Optional&lt;Task&gt;, save accepts and returns Task, and so on.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(7)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">The Service Layer</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(9)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Entity Relationships</span></div>
+</div>
+</div>
+<div class="lesson-panel" id="panel-9">
+<div class="lesson-eyebrow">Module 3 · Lesson 10</div>
+<h1 class="lesson-title">Entity Relationships</h1>
+<p class="lesson-lead">Real applications have related data. A task belongs to a user. A user has many tasks. JPA models these relationships with annotations that map directly to foreign keys and join tables in your database.</p>
+<h2>The Four Relationship Types</h2>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-title">@ManyToOne</div>
+<p>Many tasks belong to one user. The "many" side holds the foreign key column. Most common relationship.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@OneToMany</div>
+<p>One user has many tasks. The inverse of @ManyToOne. Usually the "one" side mapped by the "many" side.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@OneToOne</div>
+<p>One user profile belongs to one user. The relationship owner holds the foreign key column.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-title">@ManyToMany</div>
+<p>A task can have many tags; a tag can belong to many tasks. Requires a join table.</p>
+</div>
+</div>
+<h2>Implementing User → Task Relationship</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">model/User.java</span><span class="code-lang">Java</span></div>
+<pre><span class="ann">@Entity</span>
 <span class="ann">@Table</span>(name = <span class="str">"users"</span>)
 <span class="kw">public class</span> <span class="cls">User</span> {
 
@@ -1273,52 +1168,46 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     <span class="cm">// cascade = ALL: deleting a user deletes their tasks</span>
     <span class="cm">// orphanRemoval: removing a task from the list deletes it from DB</span>
 }</pre>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">model/Task.java — add the owning side</span><span class="code-lang">Java</span></div>
-        <pre><span class="ann">@ManyToOne</span>(fetch = FetchType.LAZY)   <span class="cm">// LAZY: don't load User unless accessed</span>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">model/Task.java — add the owning side</span><span class="code-lang">Java</span></div>
+<pre><span class="ann">@ManyToOne</span>(fetch = FetchType.LAZY)   <span class="cm">// LAZY: don't load User unless accessed</span>
 <span class="ann">@JoinColumn</span>(name = <span class="str">"user_id"</span>)        <span class="cm">// creates user_id foreign key column</span>
 <span class="kw">private</span> <span class="cls">User</span> user;</pre>
-      </div>
-
-      <div class="callout callout-warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body">
-          <div class="callout-title">Avoid Infinite Recursion in JSON Serialization</div>
-          <p>If <code>User</code> has a list of <code>Task</code>s, and each <code>Task</code> has a <code>User</code>, Jackson will recurse infinitely when serializing. Use <code>@JsonManagedReference</code> / <code>@JsonBackReference</code>, or better yet: use DTO (Data Transfer Objects) to control exactly what gets serialized.</p>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. In a @ManyToOne / @OneToMany relationship, which side owns the foreign key column?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'correct','9-1')"><span class="quiz-dot"></span> The @ManyToOne (many) side — it holds the @JoinColumn (user_id)</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> The @OneToMany (one) side — it defines the relationship structure</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> Neither — JPA creates a separate join table automatically</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> Both sides share the foreign key through bidirectional mapping</div>
-          </div>
-          <div class="quiz-explanation" id="exp-9-1">The @ManyToOne side is the "owning" side that holds the foreign key column (user_id in the tasks table). The @OneToMany side uses mappedBy to point to the field on the other side that owns the relationship. This tells JPA not to create a second column or join table.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(8)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Spring Data JPA & Repositories</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(10)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Exception Handling</span></div>
-      </div>
-    </div>
-
-    <div class="lesson-panel" id="panel-10">
-      <div class="lesson-eyebrow">Module 4 · Lesson 11</div>
-      <h1 class="lesson-title">Exception Handling</h1>
-      <p class="lesson-lead">Unhandled exceptions expose stack traces to clients and return 500 errors for problems that should return 404 or 400. Spring's <code>@ControllerAdvice</code> centralizes exception handling and lets you return clean, structured error responses.</p>
-
-      <h2>Custom Exception Classes</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">exception/TaskNotFoundException.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">package</span> com.example.taskapi.exception;
+</div>
+<div class="callout callout-warn">
+<span class="callout-icon">⚠️</span>
+<div class="callout-body">
+<div class="callout-title">Avoid Infinite Recursion in JSON Serialization</div>
+<p>If <code>User</code> has a list of <code>Task</code>s, and each <code>Task</code> has a <code>User</code>, Jackson will recurse infinitely when serializing. Use <code>@JsonManagedReference</code> / <code>@JsonBackReference</code>, or better yet: use DTO (Data Transfer Objects) to control exactly what gets serialized.</p>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. In a @ManyToOne / @OneToMany relationship, which side owns the foreign key column?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'correct','9-1')"><span class="quiz-dot"></span> The @ManyToOne (many) side — it holds the @JoinColumn (user_id)</div>
+<div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> The @OneToMany (one) side — it defines the relationship structure</div>
+<div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> Neither — JPA creates a separate join table automatically</div>
+<div class="quiz-option" onclick="answer(this,'wrong','9-1')"><span class="quiz-dot"></span> Both sides share the foreign key through bidirectional mapping</div>
+</div>
+<div class="quiz-explanation" id="exp-9-1">The @ManyToOne side is the "owning" side that holds the foreign key column (user_id in the tasks table). The @OneToMany side uses mappedBy to point to the field on the other side that owns the relationship. This tells JPA not to create a second column or join table.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(8)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Spring Data JPA &amp; Repositories</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(10)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Exception Handling</span></div>
+</div>
+</div>
+<div class="lesson-panel" id="panel-10">
+<div class="lesson-eyebrow">Module 4 · Lesson 11</div>
+<h1 class="lesson-title">Exception Handling</h1>
+<p class="lesson-lead">Unhandled exceptions expose stack traces to clients and return 500 errors for problems that should return 404 or 400. Spring's <code>@ControllerAdvice</code> centralizes exception handling and lets you return clean, structured error responses.</p>
+<h2>Custom Exception Classes</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">exception/TaskNotFoundException.java</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">package</span> com.example.taskapi.exception;
 
 <span class="kw">import</span> org.springframework.http.HttpStatus;
 <span class="kw">import</span> org.springframework.web.bind.annotation.ResponseStatus;
@@ -1330,12 +1219,11 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
         <span class="kw">super</span>(<span class="str">"Task not found with id: "</span> + id);
     }
 }</pre>
-      </div>
-
-      <h2>Global Exception Handler with @ControllerAdvice</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">exception/GlobalExceptionHandler.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> org.springframework.web.bind.annotation.*;
+</div>
+<h2>Global Exception Handler with @ControllerAdvice</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">exception/GlobalExceptionHandler.java</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> org.springframework.web.bind.annotation.*;
 <span class="kw">import</span> org.springframework.http.*;
 <span class="kw">import</span> java.time.LocalDateTime;
 <span class="kw">import</span> java.util.*;
@@ -1358,68 +1246,63 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
             <span class="cls">MethodArgumentNotValidException</span> ex) {
         <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; errors = <span class="kw">new</span> <span class="cls">LinkedHashMap</span>&lt;&gt;();
         ex.getBindingResult().getFieldErrors()
-            .forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
+            .forEach(e -&gt; errors.put(e.getField(), e.getDefaultMessage()));
         <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Object</span>&gt; body = <span class="kw">new</span> <span class="cls">LinkedHashMap</span>&lt;&gt;();
         body.put(<span class="str">"status"</span>, <span class="num">400</span>);
         body.put(<span class="str">"errors"</span>, errors);
         <span class="kw">return</span> <span class="cls">ResponseEntity</span>.badRequest().body(body);
     }
 }</pre>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What is the advantage of @ControllerAdvice over handling exceptions in each controller?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It makes error handling faster by caching exception types</div>
-            <div class="quiz-option" onclick="answer(this,'correct','10-1')"><span class="quiz-dot"></span> It centralizes all error handling in one place — no duplication across controllers, consistent response format</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It prevents exceptions from propagating to the JVM</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It automatically logs all exceptions to a file</div>
-          </div>
-          <div class="quiz-explanation" id="exp-10-1">@ControllerAdvice applies globally. Every exception of the handled types — regardless of which controller throws it — gets the same clean response. Without it, you'd either duplicate the try-catch logic in every controller or get unformatted 500 errors.</div>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(9)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Entity Relationships</span></div>
-        <div class="lesson-nav-btn" onclick="showLesson(11)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Testing with Spring Boot Test</span></div>
-      </div>
-    </div>
-
-    <div class="lesson-panel" id="panel-11">
-      <div class="lesson-eyebrow">Module 4 · Lesson 12</div>
-      <h1 class="lesson-title">Testing with Spring Boot Test</h1>
-      <p class="lesson-lead">A REST API without tests is a liability. Spring Boot Test provides the tools to test your controllers, services, and repositories in isolation and end-to-end — with almost zero configuration.</p>
-
-      <h2>Three Testing Strategies</h2>
-      <div class="concept-grid">
-        <div class="concept-card">
-          <div class="concept-card-icon">⚡</div>
-          <div class="concept-card-title">Unit Tests</div>
-          <p>Test service logic in isolation. Mock repositories with Mockito. Fast, no Spring context needed.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">🔬</div>
-          <div class="concept-card-title">Slice Tests (@WebMvcTest)</div>
-          <p>Test controllers only. Spring loads just the web layer. Mock services. Fast, targeted.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">🏗️</div>
-          <div class="concept-card-title">Integration Tests</div>
-          <p>Full Spring context, real database (H2), real HTTP calls. Slow but comprehensive.</p>
-        </div>
-        <div class="concept-card">
-          <div class="concept-card-icon">🔗</div>
-          <div class="concept-card-title">@DataJpaTest</div>
-          <p>Tests repositories with a real embedded database. Only loads JPA components, not web layer.</p>
-        </div>
-      </div>
-
-      <h2>Testing a Controller with @WebMvcTest</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">TaskControllerTest.java</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> org.junit.jupiter.api.Test;
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Quiz</span><span class="quiz-title">Check Your Understanding</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What is the advantage of @ControllerAdvice over handling exceptions in each controller?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It makes error handling faster by caching exception types</div>
+<div class="quiz-option" onclick="answer(this,'correct','10-1')"><span class="quiz-dot"></span> It centralizes all error handling in one place — no duplication across controllers, consistent response format</div>
+<div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It prevents exceptions from propagating to the JVM</div>
+<div class="quiz-option" onclick="answer(this,'wrong','10-1')"><span class="quiz-dot"></span> It automatically logs all exceptions to a file</div>
+</div>
+<div class="quiz-explanation" id="exp-10-1">@ControllerAdvice applies globally. Every exception of the handled types — regardless of which controller throws it — gets the same clean response. Without it, you'd either duplicate the try-catch logic in every controller or get unformatted 500 errors.</div>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(9)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Entity Relationships</span></div>
+<div class="lesson-nav-btn" onclick="showLesson(11)"><span class="lesson-nav-label">Next →</span><span class="lesson-nav-title">Testing with Spring Boot Test</span></div>
+</div>
+</div>
+<div class="lesson-panel" id="panel-11">
+<div class="lesson-eyebrow">Module 4 · Lesson 12</div>
+<h1 class="lesson-title">Testing with Spring Boot Test</h1>
+<p class="lesson-lead">A REST API without tests is a liability. Spring Boot Test provides the tools to test your controllers, services, and repositories in isolation and end-to-end — with almost zero configuration.</p>
+<h2>Three Testing Strategies</h2>
+<div class="concept-grid">
+<div class="concept-card">
+<div class="concept-card-icon">⚡</div>
+<div class="concept-card-title">Unit Tests</div>
+<p>Test service logic in isolation. Mock repositories with Mockito. Fast, no Spring context needed.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">🔬</div>
+<div class="concept-card-title">Slice Tests (@WebMvcTest)</div>
+<p>Test controllers only. Spring loads just the web layer. Mock services. Fast, targeted.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">🏗️</div>
+<div class="concept-card-title">Integration Tests</div>
+<p>Full Spring context, real database (H2), real HTTP calls. Slow but comprehensive.</p>
+</div>
+<div class="concept-card">
+<div class="concept-card-icon">🔗</div>
+<div class="concept-card-title">@DataJpaTest</div>
+<p>Tests repositories with a real embedded database. Only loads JPA components, not web layer.</p>
+</div>
+</div>
+<h2>Testing a Controller with @WebMvcTest</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TaskControllerTest.java</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> org.junit.jupiter.api.Test;
 <span class="kw">import</span> org.springframework.beans.factory.annotation.Autowired;
 <span class="kw">import</span> org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 <span class="kw">import</span> org.springframework.boot.test.mock.mockito.MockBean;
@@ -1456,12 +1339,11 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
             .andExpect(status().isNotFound());
     }
 }</pre>
-      </div>
-
-      <h2>Service Unit Test with Mockito</h2>
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">TaskServiceTest.java — pure unit test</span><span class="code-lang">Java</span></div>
-        <pre><span class="kw">import</span> org.junit.jupiter.api.*;
+</div>
+<h2>Service Unit Test with Mockito</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TaskServiceTest.java — pure unit test</span><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> org.junit.jupiter.api.*;
 <span class="kw">import</span> org.mockito.*;
 <span class="kw">import static</span> org.assertj.core.api.Assertions.*;
 <span class="kw">import static</span> org.mockito.Mockito.*;
@@ -1490,72 +1372,65 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     <span class="kw">void</span> <span class="fn">getTaskById_whenNotExists_throwsException</span>() {
         when(taskRepository.findById(<span class="num">999L</span>)).thenReturn(<span class="cls">Optional</span>.empty());
 
-        assertThatThrownBy(() -> taskService.getTaskById(<span class="num">999L</span>))
+        assertThatThrownBy(() -&gt; taskService.getTaskById(<span class="num">999L</span>))
             .isInstanceOf(<span class="cls">TaskNotFoundException</span>.<span class="kw">class</span>);
     }
 }</pre>
-      </div>
-
-      <div class="challenge-box">
-        <div class="challenge-header">
-          <span class="challenge-icon">🏆</span>
-          <span class="challenge-title">Final Challenge: Complete the Task API</span>
-        </div>
-        <div class="challenge-body">
-          <p>You now have all the pieces. Build the complete Task Management API:</p>
-          <ul>
-            <li>All CRUD endpoints with proper HTTP verbs and status codes</li>
-            <li>Request validation with meaningful error messages</li>
-            <li>Global exception handler returning consistent JSON errors</li>
-            <li>Unit tests for TaskService (at least 5 test cases)</li>
-            <li>@WebMvcTest for TaskController covering success and error paths</li>
-            <li><strong>Bonus:</strong> Add a User entity, implement the relationship, and add a <code>GET /api/users/{id}/tasks</code> endpoint</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <div class="quiz-header"><span class="quiz-badge">Final Quiz</span><span class="quiz-title">Course Completion Check</span></div>
-        <div class="quiz-q">
-          <div class="quiz-question">1. What is the key difference between @WebMvcTest and @SpringBootTest?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> @SpringBootTest is for unit tests; @WebMvcTest is for integration tests</div>
-            <div class="quiz-option" onclick="answer(this,'correct','11-1')"><span class="quiz-dot"></span> @WebMvcTest loads only the web layer (faster, for controller tests); @SpringBootTest loads the full application context</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> @WebMvcTest uses a real HTTP server; @SpringBootTest uses MockMvc</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> There is no difference — they are interchangeable</div>
-          </div>
-          <div class="quiz-explanation" id="exp-11-1">@WebMvcTest is a "slice" test — it only loads web-layer components (controllers, filters, converters). Services and repositories are not loaded; you mock them with @MockBean. This makes it fast. @SpringBootTest loads everything — perfect for integration tests that need the full stack.</div>
-        </div>
-
-        <div class="quiz-q">
-          <div class="quiz-question">2. In a unit test, why do we use @Mock instead of creating a real TaskRepository?</div>
-          <div class="quiz-options">
-            <div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because repositories cannot be instantiated directly in tests</div>
-            <div class="quiz-option" onclick="answer(this,'correct','11-2')"><span class="quiz-dot"></span> To isolate the unit under test from its dependencies, control its behavior precisely, and avoid needing a database</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because @Mock creates a faster version of the repository with caching</div>
-            <div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because Mockito can only mock interfaces, not classes</div>
-          </div>
-          <div class="quiz-explanation" id="exp-11-2">Mocks let you test the service in complete isolation. You control exactly what the repository returns for each input, without needing a database running. If a test fails, you know the bug is in the service, not the database or repository. This is the core principle of unit testing.</div>
-        </div>
-      </div>
-
-      <div class="callout callout-tip">
-        <span class="callout-icon">🎓</span>
-        <div class="callout-body">
-          <div class="callout-title">You've Completed Spring Boot: From Zero to REST API</div>
-          <p>You can now build, structure, validate, and test a production-grade Spring Boot REST API. These are exactly the skills a hiring manager expects from a junior Java developer. Next step: build your portfolio project and push it to GitHub.</p>
-        </div>
-      </div>
-
-      <div class="lesson-nav">
-        <div class="lesson-nav-btn" onclick="showLesson(10)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Exception Handling</span></div>
-        <div></div>
-      </div>
-    </div>
-
-  </div><!-- end lesson-wrap -->
+</div>
+<div class="challenge-box">
+<div class="challenge-header">
+<span class="challenge-icon">🏆</span>
+<span class="challenge-title">Final Challenge: Complete the Task API</span>
+</div>
+<div class="challenge-body">
+<p>You now have all the pieces. Build the complete Task Management API:</p>
+<ul>
+<li>All CRUD endpoints with proper HTTP verbs and status codes</li>
+<li>Request validation with meaningful error messages</li>
+<li>Global exception handler returning consistent JSON errors</li>
+<li>Unit tests for TaskService (at least 5 test cases)</li>
+<li>@WebMvcTest for TaskController covering success and error paths</li>
+<li><strong>Bonus:</strong> Add a User entity, implement the relationship, and add a <code>GET /api/users/{id}/tasks</code> endpoint</li>
+</ul>
+</div>
+</div>
+<div class="quiz-section">
+<div class="quiz-header"><span class="quiz-badge">Final Quiz</span><span class="quiz-title">Course Completion Check</span></div>
+<div class="quiz-q">
+<div class="quiz-question">1. What is the key difference between @WebMvcTest and @SpringBootTest?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> @SpringBootTest is for unit tests; @WebMvcTest is for integration tests</div>
+<div class="quiz-option" onclick="answer(this,'correct','11-1')"><span class="quiz-dot"></span> @WebMvcTest loads only the web layer (faster, for controller tests); @SpringBootTest loads the full application context</div>
+<div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> @WebMvcTest uses a real HTTP server; @SpringBootTest uses MockMvc</div>
+<div class="quiz-option" onclick="answer(this,'wrong','11-1')"><span class="quiz-dot"></span> There is no difference — they are interchangeable</div>
+</div>
+<div class="quiz-explanation" id="exp-11-1">@WebMvcTest is a "slice" test — it only loads web-layer components (controllers, filters, converters). Services and repositories are not loaded; you mock them with @MockBean. This makes it fast. @SpringBootTest loads everything — perfect for integration tests that need the full stack.</div>
+</div>
+<div class="quiz-q">
+<div class="quiz-question">2. In a unit test, why do we use @Mock instead of creating a real TaskRepository?</div>
+<div class="quiz-options">
+<div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because repositories cannot be instantiated directly in tests</div>
+<div class="quiz-option" onclick="answer(this,'correct','11-2')"><span class="quiz-dot"></span> To isolate the unit under test from its dependencies, control its behavior precisely, and avoid needing a database</div>
+<div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because @Mock creates a faster version of the repository with caching</div>
+<div class="quiz-option" onclick="answer(this,'wrong','11-2')"><span class="quiz-dot"></span> Because Mockito can only mock interfaces, not classes</div>
+</div>
+<div class="quiz-explanation" id="exp-11-2">Mocks let you test the service in complete isolation. You control exactly what the repository returns for each input, without needing a database running. If a test fails, you know the bug is in the service, not the database or repository. This is the core principle of unit testing.</div>
+</div>
+</div>
+<div class="callout callout-tip">
+<span class="callout-icon">🎓</span>
+<div class="callout-body">
+<div class="callout-title">You've Completed Spring Boot: From Zero to REST API</div>
+<p>You can now build, structure, validate, and test a production-grade Spring Boot REST API. These are exactly the skills a hiring manager expects from a junior Java developer. Next step: build your portfolio project and push it to GitHub.</p>
+</div>
+</div>
+<div class="lesson-nav">
+<div class="lesson-nav-btn" onclick="showLesson(10)"><span class="lesson-nav-label">← Previous</span><span class="lesson-nav-title">Exception Handling</span></div>
+<div></div>
+</div>
+</div>
+</div><!-- end lesson-wrap -->
 </main>
-
 <script>
   const TOTAL = 12;
   let completed = new Set();
@@ -1598,10 +1473,10 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     if (exp) exp.style.display = 'block';
   }
 </script>
-<a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

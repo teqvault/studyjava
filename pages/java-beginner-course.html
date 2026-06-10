@@ -1,98 +1,85 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Java for Beginners — Your Path to Junior Developer</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/java-beginner-course.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../css/java-beginner-course.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
 <header>
-  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
-    <span></span><span></span><span></span>
-  </button>
-  <a class="logo" href="#">
-    <div class="logo-icon">{ }</div>
-    <span class="logo-text">Learn<span>Java</span></span>
-  </a>
-  <div class="header-meta">
-    <span class="badge">Beginner → Junior Dev</span>
-    <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
-      <span class="prog-pct" id="pPct">0%</span>
-    </div>
-  </div>
+<button aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation" class="menu-toggle" id="menuToggle">
+<span></span><span></span><span></span>
+</button>
+<a class="logo" href="#">
+<div class="logo-icon">{ }</div>
+<span class="logo-text">Learn<span>Java</span></span>
+</a>
+<div class="header-meta">
+<span class="badge">Beginner → Junior Dev</span>
+<div class="prog-wrap">
+<div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+<span class="prog-pct" id="pPct">0%</span>
+</div>
+</div>
 </header>
-
 <div class="shell">
-
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-close">
-    <span>Navigation</span>
-    <button id="sidebarClose" aria-label="Close navigation">✕</button>
-  </div>
-  <div class="sb-section">Getting Started</div>
-  <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What is Java?</button>
-  <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Your First Program</button>
-  <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Variables &amp; Data Types</button>
-  <div class="sb-section">Core Syntax</div>
-  <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Operators &amp; Expressions</button>
-  <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Control Flow: if/else</button>
-  <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Loops</button>
-  <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Methods</button>
-  <div class="sb-section">Data Structures</div>
-  <button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>Arrays</button>
-  <button class="nav-btn" onclick="go(8)"><span class="nav-num">9</span>ArrayList &amp; Collections</button>
-  <button class="nav-btn" onclick="go(9)"><span class="nav-num">10</span>Strings in Depth</button>
-  <div class="sb-section">Object-Oriented</div>
-  <button class="nav-btn" onclick="go(10)"><span class="nav-num">11</span>Classes &amp; Objects</button>
-  <button class="nav-btn" onclick="go(11)"><span class="nav-num">12</span>Inheritance</button>
-  <button class="nav-btn" onclick="go(12)"><span class="nav-num">13</span>Interfaces</button>
-  <div class="sb-section">Real-World Skills</div>
-  <button class="nav-btn" onclick="go(13)"><span class="nav-num">14</span>Exception Handling</button>
-  <button class="nav-btn" onclick="go(14)"><span class="nav-num">15</span>File I/O</button>
-  <button class="nav-btn" onclick="go(15)"><span class="nav-num">16</span>Capstone Project</button>
+<div class="sidebar-close">
+<span>Navigation</span>
+<button aria-label="Close navigation" id="sidebarClose">✕</button>
+</div>
+<div class="sb-section">Getting Started</div>
+<button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What is Java?</button>
+<button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Your First Program</button>
+<button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Variables &amp; Data Types</button>
+<div class="sb-section">Core Syntax</div>
+<button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Operators &amp; Expressions</button>
+<button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Control Flow: if/else</button>
+<button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Loops</button>
+<button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Methods</button>
+<div class="sb-section">Data Structures</div>
+<button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>Arrays</button>
+<button class="nav-btn" onclick="go(8)"><span class="nav-num">9</span>ArrayList &amp; Collections</button>
+<button class="nav-btn" onclick="go(9)"><span class="nav-num">10</span>Strings in Depth</button>
+<div class="sb-section">Object-Oriented</div>
+<button class="nav-btn" onclick="go(10)"><span class="nav-num">11</span>Classes &amp; Objects</button>
+<button class="nav-btn" onclick="go(11)"><span class="nav-num">12</span>Inheritance</button>
+<button class="nav-btn" onclick="go(12)"><span class="nav-num">13</span>Interfaces</button>
+<div class="sb-section">Real-World Skills</div>
+<button class="nav-btn" onclick="go(13)"><span class="nav-num">14</span>Exception Handling</button>
+<button class="nav-btn" onclick="go(14)"><span class="nav-num">15</span>File I/O</button>
+<button class="nav-btn" onclick="go(15)"><span class="nav-num">16</span>Capstone Project</button>
 </nav>
-
 <main class="main">
-
 <!-- ── LESSON 0: What is Java? ── -->
 <div class="lesson active" id="L0">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 1</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Getting Started</span></div>
 <h2>What is Java?</h2>
 <p class="lesson-intro">Before writing a single line, let's understand what Java actually is, why companies hire Java developers, and what you'll be able to build by the end of this course.</p>
-
 <div class="prose">
 <p>Java is one of the most widely used programming languages in the world. It powers Android apps, large-scale enterprise systems at banks and insurance companies, backend APIs, and much more. Learning Java opens doors to a huge number of jobs — it consistently ranks in the <strong>top 3 most in-demand languages</strong> for developers.</p>
 <h3>Why Java for your first language?</h3>
 </div>
-
 <div class="grid-2">
 <div class="concept-card"><div class="concept-tag" style="color:var(--java)">Jobs</div><h4>Huge job market</h4><p>Java developers are among the most hired in tech. Banks, healthcare, government, startups — all use Java.</p></div>
 <div class="concept-card"><div class="concept-tag" style="color:var(--blue)">Structure</div><h4>Teaches you to think</h4><p>Java forces you to be organized. The habits you build here will make you a better developer in any language.</p></div>
 <div class="concept-card"><div class="concept-tag" style="color:var(--green)">Portable</div><h4>Write once, run anywhere</h4><p>Java runs on any device with a JVM installed — Windows, Mac, Linux, Android. No rewriting for each platform.</p></div>
 <div class="concept-card"><div class="concept-tag" style="color:var(--purple)">Ecosystem</div><h4>Massive ecosystem</h4><p>Thousands of libraries and frameworks. Spring, Maven, Gradle, JUnit — the tools are all there waiting for you.</p></div>
 </div>
-
 <div class="prose"><h3>How Java runs: the JVM</h3>
 <p>Most languages compile directly to machine code your CPU understands. Java does something different: it compiles to <strong>bytecode</strong>, a middle format that any computer can understand — as long as it has the <strong>Java Virtual Machine (JVM)</strong> installed.</p>
 <p>This is why Java is "write once, run anywhere." You write the code once, compile it once, and that compiled file runs identically everywhere.</p>
 </div>
-
 <div class="rw-banner"><span class="rw-icon">🏢</span><div class="rw-text"><strong>Real World: Where you'll see Java</strong><p>Netflix, LinkedIn, Amazon, and Uber all use Java heavily in their backends. Android's entire development ecosystem is Java/Kotlin. The financial industry runs billions of dollars through Java systems every day.</p></div></div>
-
 <div class="prose"><h3>What you'll build by the end</h3>
 <p>This course takes you from zero to a working <strong>task management console application</strong> — a real program that stores tasks, lets you add and complete them, and reads/writes to a file. It's exactly the kind of project you'd put on a resume for a junior developer role.</p>
 <p>Along the way you'll learn every concept a junior developer needs: variables, loops, methods, object-oriented design, error handling, and file I/O.</p></div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>You don't need to install anything yet</strong><p>You can follow all early lessons using an online Java editor like <strong>replit.com</strong> or <strong>jdoodle.com</strong>. When you're ready to work locally, we'll walk through installing JDK + IntelliJ IDEA.</p></div></div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">Java compiles your code into bytecode that runs on the JVM. Why is this useful?</div>
@@ -101,19 +88,16 @@
 <button class="quiz-opt" onclick="Q(this,true)">The same compiled code runs on any device that has the JVM installed</button>
 <button class="quiz-opt" onclick="Q(this,false)">It prevents other people from reading your source code</button>
 </div><div class="quiz-fb" id="qf0"></div></div>
-
 <div class="lesson-nav">
-<button class="btn btn-prev" disabled>← Previous</button>
+<button class="btn btn-prev" disabled="">← Previous</button>
 <button class="btn btn-next" onclick="go(1)">Next: Your First Program →</button>
 </div>
 </div>
-
 <!-- ── LESSON 1: First Program ── -->
 <div class="lesson" id="L1">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 2</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Getting Started</span></div>
 <h2>Your First Program</h2>
 <p class="lesson-intro">Every Java developer's journey starts here — the classic "Hello, World!" But we're going to understand <em>every word</em> of it, not just copy-paste.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">HelloWorld.java</span><span class="code-tag">Your first program</span></div>
 <pre><span class="kw">public class</span> <span class="cl">HelloWorld</span> {
@@ -124,18 +108,14 @@
 
 }</pre>
 </div>
-
 <div class="prose"><p>Let's break down every single piece:</p></div>
-
 <div class="steps">
 <div class="step"><div class="step-num">1</div><div class="step-body"><h4><code>public class HelloWorld</code></h4><p>In Java, all code lives inside a <strong>class</strong>. Think of a class as a container. The name of the class (<code>HelloWorld</code>) must match the file name exactly — <code>HelloWorld.java</code>. <code>public</code> means other parts of the program can see it.</p></div></div>
 <div class="step"><div class="step-num">2</div><div class="step-body"><h4><code>public static void main(String[] args)</code></h4><p>This is the <strong>entry point</strong> — it's the exact method the JVM looks for and calls first when your program runs. Every Java program must have this. For now, memorize it as a formula; the pieces will make sense as you progress.</p></div></div>
 <div class="step"><div class="step-num">3</div><div class="step-body"><h4><code>System.out.println("Hello, World!");</code></h4><p><code>System.out</code> represents the console (the black terminal window). <code>println</code> prints text and moves to a new line. The text you want to print goes inside the parentheses as a <strong>String</strong> (text in double quotes). Every statement ends with a semicolon <code>;</code>.</p></div></div>
 <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Curly braces <code>{ }</code></h4><p>Curly braces group code together. The outer pair belongs to the class, the inner pair belongs to the <code>main</code> method. Everything inside a pair of braces is considered to be "inside" that block.</p></div></div>
 </div>
-
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>Java is case-sensitive</strong><p><code>System</code> is not the same as <code>system</code>. <code>String</code> is not the same as <code>string</code>. This is one of the most common beginner errors. If your code isn't working, check your capitalisation first.</p></div></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Greetings.java</span><span class="code-tag">Multiple outputs</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Greetings</span> {
@@ -151,9 +131,7 @@
     }
 }</pre>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Comments</strong><p>Lines starting with <code>//</code> are comments — they're notes for humans and are completely ignored by Java. Use them to explain what your code does. Good comments make you a better teammate and future-you will thank present-you.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Write a program that introduces yourself</h4>
@@ -165,7 +143,6 @@
 </ul>
 <p>Use <code>println</code> for each line. Check: does your file name match your class name?</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">Which is the correct method signature that Java looks for as the starting point of a program?</div>
@@ -174,21 +151,17 @@
 <button class="quiz-opt" onclick="Q(this,true)"><code>public static void main(String[] args)</code></button>
 <button class="quiz-opt" onclick="Q(this,false)"><code>public static void run()</code></button>
 </div><div class="quiz-fb" id="qf1"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(0)">← Previous</button>
 <button class="btn btn-next" onclick="go(2)">Next: Variables →</button>
 </div>
 </div>
-
 <!-- ── LESSON 2: Variables ── -->
 <div class="lesson" id="L2">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 3</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Getting Started</span></div>
 <h2>Variables &amp; Data Types</h2>
 <p class="lesson-intro">Variables are named storage boxes for your program's data. Java requires you to say exactly what <em>kind</em> of data each box will hold — this is called <strong>static typing</strong> and it's one of Java's biggest strengths.</p>
-
 <div class="prose"><p>Unlike some languages where you can just write <code>x = 5</code>, Java requires a <strong>type declaration</strong>: you must tell the compiler what kind of data the variable will hold before you use it. This catches mistakes before your program even runs.</p></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">DataTypes.java</span><span class="code-tag">The 8 primitive types + String</span></div>
 <pre><span class="kw">public class</span> <span class="cl">DataTypes</span> {
@@ -217,7 +190,6 @@
     }
 }</pre>
 </div>
-
 <div class="tbl-wrap"><table>
 <tr><th>Type</th><th>Stores</th><th>Example value</th><th>Use when</th></tr>
 <tr><td>int</td><td>Whole numbers</td><td>42, -7, 1000</td><td>Age, count, score</td></tr>
@@ -227,9 +199,7 @@
 <tr><td>char</td><td>One character</td><td>'A', '7', '!'</td><td>Single letters/symbols</td></tr>
 <tr><td>String</td><td>Text (any length)</td><td>"Hello"</td><td>Names, messages, IDs</td></tr>
 </table></div>
-
 <div class="prose"><h3>Declaring vs. Assigning</h3><p>You can separate the declaration (creating the box) from the assignment (putting something in it):</p></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Variables.java</span><span class="code-tag">Declaration · Assignment · var keyword</span></div>
 <pre><span class="cm">// Declare first, assign later</span>
@@ -251,9 +221,7 @@ score <span class="op">=</span> <span class="num">100</span>;
 <span class="kw">int</span> numberOfStudents <span class="op">=</span> <span class="num">30</span>;  <span class="cm">// camelCase: first word lowercase, rest capitalized</span>
 <span class="kw">final int</span> MAX_SIZE <span class="op">=</span> <span class="num">100</span>;   <span class="cm">// constants: ALL_CAPS with underscores</span></pre>
 </div>
-
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>String vs. primitive types</strong><p><code>String</code> starts with a capital letter — it's not a primitive, it's a class (more on that in the OOP lessons). The 8 primitives all start lowercase: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>, <code>long</code>, <code>float</code>, <code>short</code>, <code>byte</code>.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Student Profile</h4>
@@ -267,7 +235,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Print each piece of information on its own line, like: <code>Name: Jordan Lee</code></p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">You need to store the price of an item like $14.99. Which data type is most appropriate?</div>
@@ -277,20 +244,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,false)"><code>boolean</code></button>
 <button class="quiz-opt" onclick="Q(this,false)"><code>char</code></button>
 </div><div class="quiz-fb" id="qf2"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(1)">← Previous</button>
 <button class="btn btn-next" onclick="go(3)">Next: Operators →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 3: Operators ── -->
 <div class="lesson" id="L3">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 4</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Core Syntax</span></div>
 <h2>Operators &amp; Expressions</h2>
 <p class="lesson-intro">Operators let you do math, compare values, and combine conditions. These are the verbs of your programs — they make things happen.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Operators.java</span><span class="code-tag">Arithmetic · Comparison · Logical</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Operators</span> {
@@ -340,9 +303,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>The integer division trap</strong><p><code>10 / 3</code> in Java gives <code>3</code>, not <code>3.333</code>. When both operands are <code>int</code>, Java throws away the decimal. To get a decimal result, cast one number to <code>double</code> first: <code>(double) 10 / 3</code> → <code>3.333</code>. This trips up almost every beginner.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Shopping Cart Calculator</h4>
@@ -355,7 +316,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 <li>Print the subtotal, discount amount, tax amount, and final total using <code>printf</code> with 2 decimal places</li>
 </ul>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What does <code>17 % 5</code> evaluate to?</div>
@@ -365,19 +325,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,false)">3.4</button>
 <button class="quiz-opt" onclick="Q(this,false)">0</button>
 </div><div class="quiz-fb" id="qf3"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(2)">← Previous</button>
 <button class="btn btn-next" onclick="go(4)">Next: if/else →</button>
 </div>
 </div>
-
 <!-- ── LESSON 4: if/else ── -->
 <div class="lesson" id="L4">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 5</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Core Syntax</span></div>
 <h2>Control Flow: if / else</h2>
 <p class="lesson-intro">Programs need to make decisions. The <code>if/else</code> statement is how your code chooses what to do based on conditions. It's the foundation of all program logic.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Decisions.java</span><span class="code-tag">if · else if · else · switch</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Decisions</span> {
@@ -438,9 +395,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="rw-banner"><span class="rw-icon">💼</span><div class="rw-text"><strong>Real World: Decision logic is everywhere</strong><p>Every login system, payment processor, and recommendation engine is built from if/else logic. "Is the user logged in? Is their session valid? Is the payment method declined?" — real applications make hundreds of these decisions per request.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Build a Movie Ticket Pricing System</h4>
@@ -454,29 +409,24 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Create variables for <code>age</code> and <code>day</code>, calculate the price, and print the result. Test with at least 3 different combinations.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
-<div class="quiz-q">The condition <code>age &gt;= 18 && hasLicense</code> evaluates to <code>true</code> when…</div>
+<div class="quiz-q">The condition <code>age &gt;= 18 &amp;&amp; hasLicense</code> evaluates to <code>true</code> when…</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">age is 18 or over, OR the person has a license</button>
 <button class="quiz-opt" onclick="Q(this,true)">age is 18 or over AND the person has a license (both must be true)</button>
 <button class="quiz-opt" onclick="Q(this,false)">age is exactly 18 and the person doesn't have a license</button>
 </div><div class="quiz-fb" id="qf4"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(3)">← Previous</button>
 <button class="btn btn-next" onclick="go(5)">Next: Loops →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 5: Loops ── -->
 <div class="lesson" id="L5">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 6</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Core Syntax</span></div>
 <h2>Loops</h2>
 <p class="lesson-intro">Loops let your program repeat actions without copy-pasting code. Instead of printing 100 lines by hand, one loop does it in 3 lines. They're indispensable.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Loops.java</span><span class="code-tag">for · while · do-while · for-each</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Loops</span> {
@@ -526,9 +476,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>The infinite loop</strong><p>If your loop condition never becomes <code>false</code>, the program hangs forever. Always make sure your loop variable is moving toward the condition being false. If your program freezes, that's usually why. Press Ctrl+C to stop it.</p></div></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">NestedLoops.java</span><span class="code-tag">Loops inside loops — multiplication table</span></div>
 <pre><span class="cm">// Nested loops: a loop inside a loop</span>
@@ -544,7 +492,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 //    3   6   9  12  15
 //  ...</span></pre>
 </div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>FizzBuzz — the classic interview question</h4>
@@ -557,7 +504,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p><em>This question appears in real Java developer interviews. If you can write this cleanly, you're on your way.</em></p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What's the difference between <code>break</code> and <code>continue</code> inside a loop?</div>
@@ -566,19 +512,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)"><code>break</code> exits the loop entirely; <code>continue</code> skips the current iteration and moves to the next one</button>
 <button class="quiz-opt" onclick="Q(this,false)"><code>continue</code> restarts the loop from iteration 1</button>
 </div><div class="quiz-fb" id="qf5"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(4)">← Previous</button>
 <button class="btn btn-next" onclick="go(6)">Next: Methods →</button>
 </div>
 </div>
-
 <!-- ── LESSON 6: Methods ── -->
 <div class="lesson" id="L6">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 7</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Core Syntax</span></div>
 <h2>Methods</h2>
 <p class="lesson-intro">Methods are named blocks of reusable code. Instead of writing the same logic over and over, you write it once in a method and call it by name. They're how real programs stay organized.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Methods.java</span><span class="code-tag">Defining · Parameters · Return values</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Methods</span> {
@@ -629,11 +572,8 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>The Single Responsibility Rule</strong><p>Each method should do exactly one thing. A method called <code>calculateAndPrintTax</code> is doing two things — calculating AND printing. Better: one method calculates and returns the tax, a different one prints it. This makes your code easier to test and reuse.</p></div></div>
-
 <div class="prose"><h3>Method overloading</h3><p>Java lets you have multiple methods with the same name, as long as their parameters differ. This is called <strong>overloading</strong>.</p></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Overloading.java</span><span class="code-tag">Same name, different parameters</span></div>
 <pre><span class="kw">public static double</span> <span class="fn">area</span>(<span class="kw">double</span> side) {
@@ -653,7 +593,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 <span class="fn">area</span>(<span class="num">4.0</span>, <span class="num">6.0</span>);      <span class="cm">// → 24.0 (rectangle)</span>
 <span class="fn">area</span>(<span class="num">3.0</span>, <span class="bool">true</span>);     <span class="cm">// → 28.27 (circle)</span></pre>
 </div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Build a Calculator Utility</h4>
@@ -667,7 +606,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>In <code>main</code>, call each method and print the results.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">A method is declared as <code>public static int square(int n)</code>. What must happen inside the method body?</div>
@@ -676,20 +614,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)">It must return an <code>int</code> value using the <code>return</code> keyword</button>
 <button class="quiz-opt" onclick="Q(this,false)">It must call another method</button>
 </div><div class="quiz-fb" id="qf6"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(5)">← Previous</button>
 <button class="btn btn-next" onclick="go(7)">Next: Arrays →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 7: Arrays ── -->
 <div class="lesson" id="L7">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 8</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Data Structures</span></div>
 <h2>Arrays</h2>
 <p class="lesson-intro">An array is a list of values stored under one variable name. Instead of creating <code>score1</code>, <code>score2</code>, <code>score3</code>... you create one array that holds all of them.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Arrays.java</span><span class="code-tag">Declaration · Access · for-each · 2D arrays</span></div>
 <pre><span class="kw">public class</span> <span class="cl">ArraysDemo</span> {
@@ -736,9 +670,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout error"><span class="callout-ico">🚫</span><div class="callout-body"><strong>ArrayIndexOutOfBoundsException</strong><p>Arrays in Java start at index <code>0</code>, not 1. A 5-element array has valid indices 0–4. Trying to access index 5 crashes with <code>ArrayIndexOutOfBoundsException</code>. This is the most common array error. Always use <code>array.length - 1</code> for the last element, or use a for-each loop.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Grade Statistics</h4>
@@ -751,7 +683,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Call all methods from <code>main</code> and print a formatted report. Bonus: sort the array and print it in order.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">You have <code>int[] nums = {10, 20, 30, 40, 50}</code>. What is <code>nums[3]</code>?</div>
@@ -761,19 +692,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,false)">50</button>
 <button class="quiz-opt" onclick="Q(this,false)">3</button>
 </div><div class="quiz-fb" id="qf7"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(6)">← Previous</button>
 <button class="btn btn-next" onclick="go(8)">Next: ArrayList →</button>
 </div>
 </div>
-
 <!-- ── LESSON 8: ArrayList ── -->
 <div class="lesson" id="L8">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 9</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Data Structures</span></div>
 <h2>ArrayList &amp; Collections</h2>
 <p class="lesson-intro">Arrays are fixed size — you can't add or remove elements. In real applications, data changes all the time. <code>ArrayList</code> is the go-to resizable list that professional Java developers use every day.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">ListsDemo.java</span><span class="code-tag">ArrayList · HashMap · common operations</span></div>
 <pre><span class="kw">import</span> java.util.ArrayList;
@@ -825,7 +753,6 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="tbl-wrap"><table>
 <tr><th>ArrayList</th><th>Regular Array</th></tr>
 <tr><td>Resizable — add/remove freely</td><td>Fixed size once created</td></tr>
@@ -834,9 +761,7 @@ score <span class="op">=</span> <span class="num">100</span>;
 <tr><td>Slightly slower (boxing overhead)</td><td>Faster for fixed-size data</td></tr>
 <tr><td>Can't store primitives directly</td><td>Can store int, double, etc.</td></tr>
 </table></div>
-
 <div class="rw-banner"><span class="rw-icon">💼</span><div class="rw-text"><strong>Real World: Collections are everywhere</strong><p><code>ArrayList</code> and <code>HashMap</code> are among the most-used classes in all of Java. Every user list, product catalog, shopping cart, and configuration object in a real application uses them. Getting comfortable with these makes you immediately useful on a team.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Mini Contact Book</h4>
@@ -848,7 +773,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 <li>Print all contacts in alphabetical order (hint: convert keys to an ArrayList and sort it)</li>
 </ul>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">You have an <code>ArrayList&lt;String&gt; list</code> with 3 items. After <code>list.add("new item")</code>, what does <code>list.size()</code> return?</div>
@@ -857,19 +781,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)">4</button>
 <button class="quiz-opt" onclick="Q(this,false)">0</button>
 </div><div class="quiz-fb" id="qf8"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(7)">← Previous</button>
 <button class="btn btn-next" onclick="go(9)">Next: Strings →</button>
 </div>
 </div>
-
 <!-- ── LESSON 9: Strings ── -->
 <div class="lesson" id="L9">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 10</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Data Structures</span></div>
 <h2>Strings in Depth</h2>
 <p class="lesson-intro">Strings are everywhere — usernames, messages, file paths, API responses. Java's String class has dozens of built-in methods. Knowing them saves hours of writing code from scratch.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">StringMethods.java</span><span class="code-tag">Essential String operations</span></div>
 <pre><span class="kw">public class</span> <span class="cl">StringMethods</span> {
@@ -923,9 +844,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout error"><span class="callout-ico">🚫</span><div class="callout-body"><strong>Never use == to compare Strings</strong><p><code>==</code> checks if two variables point to the same memory location, not if they have the same content. Two different <code>String</code> objects with the same text can fail a <code>==</code> check. Always use <code>.equals()</code> to compare String content. This is one of the most common Java bugs in beginner code.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Username Validator</h4>
@@ -939,7 +858,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Test it with at least 5 different usernames — some valid, some not.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What's the correct way to check if two Strings contain the same text?</div>
@@ -948,25 +866,20 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)"><code>if (str1.equals(str2))</code></button>
 <button class="quiz-opt" onclick="Q(this,false)"><code>if (str1.compareTo(str2))</code></button>
 </div><div class="quiz-fb" id="qf9"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(8)">← Previous</button>
 <button class="btn btn-next" onclick="go(10)">Next: Classes →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 10: Classes & Objects ── -->
 <div class="lesson" id="L10">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 11</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Object-Oriented</span></div>
 <h2>Classes &amp; Objects</h2>
 <p class="lesson-intro">This is the big one. Object-Oriented Programming (OOP) is the foundation of professional Java. A <strong>class</strong> is a blueprint; an <strong>object</strong> is a thing built from that blueprint. Everything in Java is built this way.</p>
-
 <div class="prose">
 <p>Think of a class like an architectural drawing for a house. The drawing defines what every house built from it will have: rooms, doors, windows. An object is a specific house built from that drawing — your house, my house. Each is its own thing with its own data, but both were built the same way.</p>
 <h3>Defining a class</h3>
 </div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">BankAccount.java</span><span class="code-tag">Fields · Constructor · Methods · Encapsulation</span></div>
 <pre><span class="kw">public class</span> <span class="cl">BankAccount</span> {
@@ -1015,7 +928,6 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Main.java</span><span class="code-tag">Creating and using objects</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Main</span> {
@@ -1047,9 +959,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Encapsulation: why private fields?</strong><p>Making fields <code>private</code> means nothing outside the class can directly change them. Someone can't write <code>alice.balance = -99999</code> and corrupt your data. They must go through <code>deposit()</code> and <code>withdraw()</code> — which have your validation logic. This protection is called <strong>encapsulation</strong> and it's one of the most important ideas in OOP.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Build a Student class</h4>
@@ -1064,7 +974,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>In <code>main</code>, create 3 students, add grades to each, and print their reports.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">In a class, what is the purpose of a <strong>constructor</strong>?</div>
@@ -1073,21 +982,17 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,false)">To delete the object when it's no longer needed</button>
 <button class="quiz-opt" onclick="Q(this,true)">To set up the initial state of an object when it is created with <code>new</code></button>
 </div><div class="quiz-fb" id="qf10"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(9)">← Previous</button>
 <button class="btn btn-next" onclick="go(11)">Next: Inheritance →</button>
 </div>
 </div>
-
 <!-- ── LESSON 11: Inheritance ── -->
 <div class="lesson" id="L11">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 12</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Object-Oriented</span></div>
 <h2>Inheritance</h2>
 <p class="lesson-intro">Inheritance lets one class build on top of another. If you have common features shared by multiple classes, put them in a parent class. Child classes inherit everything and add their own unique behavior — no copy-pasting.</p>
-
 <div class="prose"><p>Imagine you're building a zoo app. Animals all have a name, an age, and make a sound. But a <code>Dog</code> fetches, a <code>Bird</code> flies, and a <code>Fish</code> swims. Inheritance lets you put the shared stuff in <code>Animal</code> and the unique stuff in each subclass.</p></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Animal.java + subclasses</span><span class="code-tag">extends · super · @Override · polymorphism</span></div>
 <pre><span class="cm">// ─── Parent class (Superclass) ─────────────────</span>
@@ -1183,9 +1088,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Is-a relationship</strong><p>Inheritance should only be used when there's a genuine "is-a" relationship. A <code>Dog</code> IS AN <code>Animal</code> ✅. A <code>Car</code> is NOT an <code>Engine</code> ❌ — a car <em>has</em> an engine. When in doubt, ask: "Does this child truly <em>IS-A</em> parent?" If not, use composition (a class that <em>contains</em> another class as a field).</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Shape Hierarchy</h4>
@@ -1197,7 +1100,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Each subclass overrides a <code>getArea()</code> method. In <code>main</code>, create an array of <code>Shape</code> objects, loop through them, print each shape's color, type, and area. Find which shape has the largest area.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What does <code>super(name, age)</code> do inside a subclass constructor?</div>
@@ -1206,22 +1108,17 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)">Calls the parent class's constructor to set up inherited fields</button>
 <button class="quiz-opt" onclick="Q(this,false)">Overrides the parent class's constructor</button>
 </div><div class="quiz-fb" id="qf11"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(10)">← Previous</button>
 <button class="btn btn-next" onclick="go(12)">Next: Interfaces →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 12: Interfaces ── -->
 <div class="lesson" id="L12">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 13</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Object-Oriented</span></div>
 <h2>Interfaces</h2>
 <p class="lesson-intro">An interface is a contract. It says "any class that implements me <em>must</em> provide these methods." Interfaces let unrelated classes share a common set of behaviours — and they're everywhere in professional Java code.</p>
-
 <div class="prose"><p>Think of an interface like a job description. "Software Developer" requires: writes code, reviews PRs, attends standups. Whether you're a junior dev at a startup or a senior at a bank, you both implement the same interface. The interface doesn't care <em>how</em> you do it — just that you can.</p></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Interfaces.java</span><span class="code-tag">interface · implements · default methods</span></div>
 <pre><span class="cm">// ─── Define an interface ───────────────────────</span>
@@ -1294,7 +1191,6 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="tbl-wrap"><table>
 <tr><th></th><th>Interface</th><th>Abstract Class</th></tr>
 <tr><td>Can have fields?</td><td>Only constants</td><td>Yes</td></tr>
@@ -1302,9 +1198,7 @@ score <span class="op">=</span> <span class="num">100</span>;
 <tr><td>How many can a class use?</td><td>Many (implements A, B, C)</td><td>One (extends)</td></tr>
 <tr><td>Best for</td><td>Unrelated classes sharing behaviour</td><td>Related classes sharing code</td></tr>
 </table></div>
-
 <div class="rw-banner"><span class="rw-icon">💼</span><div class="rw-text"><strong>Real World: Interfaces are Java's backbone</strong><p>Every Java framework uses interfaces heavily. Spring uses them for services and repositories. Java's <code>List</code>, <code>Map</code>, and <code>Collection</code> are all interfaces. When you write <code>ArrayList&lt;String&gt; list</code>, you could also write <code>List&lt;String&gt; list</code> — because ArrayList <em>implements</em> List. This makes it trivially easy to swap implementations later.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Payment System</h4>
@@ -1316,7 +1210,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Write a <code>checkout(PaymentMethod method, double total)</code> method that works with any payment type. Demonstrate all three.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What is the key advantage of using an interface as a method parameter type (like <code>void print(Printable p)</code>)?</div>
@@ -1325,19 +1218,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)">The method can accept any class that implements the interface, making it flexible and reusable</button>
 <button class="quiz-opt" onclick="Q(this,false)">It prevents the method from being overridden</button>
 </div><div class="quiz-fb" id="qf12"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(11)">← Previous</button>
 <button class="btn btn-next" onclick="go(13)">Next: Exception Handling →</button>
 </div>
 </div>
-
 <!-- ── LESSON 13: Exception Handling ── -->
 <div class="lesson" id="L13">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 14</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Real-World Skills</span></div>
 <h2>Exception Handling</h2>
 <p class="lesson-intro">Real programs crash. Users type letters where numbers are expected, files don't exist, network connections drop. Exception handling is how you write programs that deal with errors gracefully instead of crashing.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Exceptions.java</span><span class="code-tag">try · catch · finally · throw · custom exceptions</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Exceptions</span> {
@@ -1406,9 +1296,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     balance <span class="op">-=</span> amount;
 }</pre>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Common exceptions you'll encounter</strong><p><code>NullPointerException</code> — called a method on a null reference. <code>ArrayIndexOutOfBoundsException</code> — accessed an invalid index. <code>NumberFormatException</code> — tried to parse "abc" as an integer. <code>ClassCastException</code> — invalid type cast. <code>StackOverflowError</code> — infinite recursion. Recognising these by name saves huge amounts of debugging time.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Safe Number Parser Utility</h4>
@@ -1420,7 +1308,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>Test each method with valid input, non-numeric input, and edge cases (empty string, null, negative numbers).</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">What does the <code>finally</code> block in a try-catch-finally do?</div>
@@ -1429,20 +1316,16 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,false)">It only runs if no exception occurred</button>
 <button class="quiz-opt" onclick="Q(this,true)">It always runs — whether an exception occurred or not. Useful for cleanup like closing files.</button>
 </div><div class="quiz-fb" id="qf13"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(12)">← Previous</button>
 <button class="btn btn-next" onclick="go(14)">Next: File I/O →</button>
 </div>
 </div>
-
-
 <!-- ── LESSON 14: File I/O ── -->
 <div class="lesson" id="L14">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 15</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Real-World Skills</span></div>
 <h2>File I/O</h2>
 <p class="lesson-intro">Programs that can't save data are toys. File I/O — reading from and writing to files — is what turns your programs into tools that remember things between runs. Every real application does this.</p>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">FileIO.java</span><span class="code-tag">Writing · Reading · Appending · try-with-resources</span></div>
 <pre><span class="kw">import</span> java.io.*;
@@ -1521,9 +1404,7 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>Always close your files</strong><p>If you open a file and don't close it, you'll eventually run out of file handles and the program crashes. The <strong>try-with-resources</strong> block (<code>try (FileWriter fw = ...)</code>) closes the resource automatically when the block ends — even if an exception occurs. Always use this pattern for files, database connections, and network sockets.</p></div></div>
-
 <div class="challenge">
 <div class="ch-label">Your Turn</div>
 <h4>Persistent To-Do List</h4>
@@ -1536,7 +1417,6 @@ score <span class="op">=</span> <span class="num">100</span>;
 </ul>
 <p>This is a realistic mini-application. Make it handle the case where the file doesn't exist yet.</p>
 </div>
-
 <div class="quiz">
 <div class="quiz-eyebrow">Quick Check</div>
 <div class="quiz-q">Why is <code>try-with-resources</code> preferred over a regular <code>try-finally</code> for file handling?</div>
@@ -1545,21 +1425,17 @@ score <span class="op">=</span> <span class="num">100</span>;
 <button class="quiz-opt" onclick="Q(this,true)">It automatically closes the file when the block ends — even if an exception occurs — preventing resource leaks</button>
 <button class="quiz-opt" onclick="Q(this,false)">It prevents all IOExceptions from occurring</button>
 </div><div class="quiz-fb" id="qf14"></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(13)">← Previous</button>
 <button class="btn btn-next" onclick="go(15)">Next: Capstone Project →</button>
 </div>
 </div>
-
 <!-- ── LESSON 15: Capstone ── -->
 <div class="lesson" id="L15">
 <div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 16</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Capstone Project</span></div>
 <h2>Capstone: Task Manager App</h2>
 <p class="lesson-intro">You've learned everything you need. Now build it all together into a real, working application — the kind you'd show in a job interview or put on GitHub.</p>
-
 <div class="callout tip"><span class="callout-ico">🎯</span><div class="callout-body"><strong>What you're building</strong><p>A console-based <strong>Task Manager</strong> that persists to a file. Users can add tasks, list them, mark complete, delete, and filter by status. Every concept from this course appears in it.</p></div></div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">Task.java</span><span class="code-tag">Model class — represents one task</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Task</span> {
@@ -1619,7 +1495,6 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="code-wrap">
 <div class="code-top"><span class="code-fname">TaskManager.java</span><span class="code-tag">Core logic — your main class to build</span></div>
 <pre><span class="kw">import</span> java.util.*;
@@ -1726,7 +1601,6 @@ score <span class="op">=</span> <span class="num">100</span>;
     }
 }</pre>
 </div>
-
 <div class="prose"><h3>Extensions to make it resume-worthy</h3></div>
 <div class="grid-2">
 <div class="concept-card"><div class="concept-tag" style="color:var(--java)">Feature</div><h4>Due dates</h4><p>Add a <code>dueDate</code> field. Implement a <code>listOverdue()</code> method that shows tasks past their deadline.</p></div>
@@ -1734,15 +1608,12 @@ score <span class="op">=</span> <span class="num">100</span>;
 <div class="concept-card"><div class="concept-tag" style="color:var(--green)">Feature</div><h4>Statistics</h4><p>Show total tasks, completed count, pending count, and completion percentage.</p></div>
 <div class="concept-card"><div class="concept-tag" style="color:var(--purple)">Feature</div><h4>Sorting</h4><p>Sort tasks by priority (HIGH first), by due date, or by completion status before displaying.</p></div>
 </div>
-
 <div class="rw-banner"><span class="rw-icon">🎉</span><div class="rw-text"><strong>What comes next on your journey</strong><p>You now know enough to be a productive Java developer. Your next steps: <strong>Git &amp; GitHub</strong> (version control), <strong>Maven/Gradle</strong> (project build tools), <strong>JUnit</strong> (unit testing), <strong>Spring Boot</strong> (building REST APIs), and <strong>SQL + JDBC</strong> (databases). Every one of those builds directly on what you just learned.</p></div></div>
-
 <div class="lesson-nav">
 <button class="btn btn-prev" onclick="go(14)">← Previous</button>
-<button class="btn btn-next" disabled>🎓 Course Complete!</button>
+<button class="btn btn-next" disabled="">🎓 Course Complete!</button>
 </div>
 </div>
-
 </main>
 </div>
 <script>
@@ -1851,10 +1722,10 @@ score <span class="op">=</span> <span class="num">100</span>;
     window.addEventListener('DOMContentLoaded', updateProgress);
 })();
 </script>
-    <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

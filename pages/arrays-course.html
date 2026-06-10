@@ -402,8 +402,8 @@ leaderboard.sort(<span class="typ">Comparator</span>
 <span class="cm">// Filter: Only Rare+ weapons worth over 1000 gold</span>
 <span class="typ">List</span>&lt;<span class="cl">Item</span>&gt; valuableWeapons = allLoot.stream()
     .filter(i -> i.type().equals(<span class="str">"Weapon"</span>))
-    .filter(i -> i.rarity() >= <span class="num">2</span>)
-    .filter(i -> i.value() > <span class="num">1000</span>)
+    .filter(i -> i.rarity() &gt;= <span class="num">2</span>)
+    .filter(i -> i.value() &gt; <span class="num">1000</span>)
     .sorted(<span class="typ">Comparator</span>.comparingInt(<span class="cl">Item</span>::value).reversed())
     .toList();
 
@@ -713,7 +713,7 @@ leaderboard.sort(<span class="typ">Comparator</span>
                 <span class="kw">return true</span>;
             }
         }
-        <span class="kw">if</span> (items.size() >= capacity) <span class="kw">return false</span>; <span class="cm">// Full!</span>
+        <span class="kw">if</span> (items.size() &gt;= capacity) <span class="kw">return false</span>; <span class="cm">// Full!</span>
         items.add(<span class="kw">new</span> <span class="cl">Stack</span>(item, count));
         <span class="kw">return true</span>;
     }
@@ -721,7 +721,7 @@ leaderboard.sort(<span class="typ">Comparator</span>
     <span class="cm">// Stream-powered queries</span>
     <span class="typ">List</span>&lt;<span class="cl">Stack</span>&gt; <span class="fn">getByRarity</span>(<span class="cl">Rarity</span> minRarity) {
         <span class="kw">return</span> items.stream()
-            .filter(s -> s.item().rarity().ordinal() >= minRarity.ordinal())
+            .filter(s -> s.item().rarity().ordinal() &gt;= minRarity.ordinal())
             .sorted(<span class="typ">Comparator</span>.comparing(s -> -s.item().value()))
             .toList();
     }

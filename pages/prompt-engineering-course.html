@@ -1,845 +1,349 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Prompt Engineering — TeqVault</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0A0F1E;
-    --slate: #111827;
-    --card: #161D2E;
-    --border: #1E2A3A;
-    --cyan: #00D4FF;
-    --cyan-dim: rgba(0,212,255,0.12);
-    --green: #39FF14;
-    --green-dim: rgba(57,255,20,0.1);
-    --amber: #FFB800;
-    --red: #FF4D6A;
-    --white: #E8EDF5;
-    --muted: #8896A5;
-    --sidebar-w: 280px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--navy);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-
-  /* ─── TOP BAR ─────────────────────────── */
-  .topbar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(10,15,30,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 16px;
-    padding: 0 24px; height: 56px;
-  }
-  .topbar-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px; font-weight: 700; letter-spacing: -0.5px;
-    color: var(--white);
-    display: flex; align-items: center; gap: 8px;
-    text-decoration: none;
-  }
-  .topbar-logo span { color: var(--cyan); }
-  .topbar-badge {
-    background: var(--cyan-dim); border: 1px solid var(--cyan);
-    color: var(--cyan); font-size: 11px; font-weight: 600;
-    padding: 2px 8px; border-radius: 20px; letter-spacing: 0.5px;
-  }
-  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-  .progress-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--green);
-    background: var(--green-dim); border: 1px solid rgba(57,255,20,0.3);
-    padding: 4px 12px; border-radius: 20px;
-  }
-  .menu-btn {
-    display: none; background: none; border: 1px solid var(--border);
-    color: var(--white); padding: 6px 10px; border-radius: 6px;
-    cursor: pointer; font-size: 14px;
-  }
-
-  /* ─── LAYOUT ──────────────────────────── */
-  .layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
-
-  /* ─── SIDEBAR ─────────────────────────── */
-  .sidebar {
-    width: var(--sidebar-w); flex-shrink: 0;
-    position: fixed; top: 56px; left: 0; bottom: 0;
-    overflow-y: auto; background: var(--slate);
-    border-right: 1px solid var(--border);
-    padding: 20px 0;
-    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-  }
-  .sidebar::-webkit-scrollbar { width: 4px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .sidebar-section { margin-bottom: 6px; }
-  .sidebar-module-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-    color: var(--muted); text-transform: uppercase;
-    padding: 12px 20px 4px;
-  }
-  .sidebar-link {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 20px; font-size: 13px; color: var(--muted);
-    text-decoration: none; cursor: pointer;
-    border-left: 3px solid transparent;
-    transition: all 0.15s ease;
-  }
-  .sidebar-link:hover { color: var(--white); background: rgba(255,255,255,0.04); }
-  .sidebar-link.active {
-    color: var(--cyan); border-left-color: var(--cyan);
-    background: var(--cyan-dim);
-  }
-  .sidebar-link .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--border); flex-shrink: 0;
-  }
-  .sidebar-link.active .dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
-  .sidebar-link.done .dot { background: var(--green); }
-
-  /* ─── MAIN CONTENT ────────────────────── */
-  .main {
-    margin-left: var(--sidebar-w);
-    flex: 1; max-width: 860px;
-    padding: 48px 48px 120px;
-  }
-
-  /* ─── LESSON SECTIONS ─────────────────── */
-  .lesson { display: none; }
-  .lesson.active { display: block; }
-
-  /* ─── HERO ────────────────────────────── */
-  .hero {
-    border: 1px solid var(--border); border-radius: 12px;
-    background: var(--card); padding: 48px;
-    margin-bottom: 40px; position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; top: -60px; right: -60px;
-    width: 240px; height: 240px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--cyan); letter-spacing: 2px;
-    text-transform: uppercase; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .hero-eyebrow::before { content: '//'; opacity: 0.5; }
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 42px; font-weight: 700; line-height: 1.1;
-    letter-spacing: -1.5px; margin-bottom: 20px;
-  }
-  .hero h1 em { font-style: normal; color: var(--cyan); }
-  .hero p { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.8; }
-  .hero-stats {
-    display: flex; gap: 32px; margin-top: 32px;
-    padding-top: 32px; border-top: 1px solid var(--border);
-  }
-  .hero-stat-val {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 28px; font-weight: 700; color: var(--white);
-  }
-  .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-  /* ─── SECTION HEADINGS ────────────────── */
-  .lesson-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 30px; font-weight: 700; letter-spacing: -0.8px;
-    margin-bottom: 8px;
-  }
-  .lesson-subtitle { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
-  
-  h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px; font-weight: 600; letter-spacing: -0.3px;
-    margin: 36px 0 12px; color: var(--white);
-  }
-  h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px; font-weight: 600;
-    margin: 24px 0 8px; color: var(--white);
-  }
-  p { margin-bottom: 16px; color: #B8C4D0; }
-
-  /* ─── CALLOUT BOXES ───────────────────── */
-  .callout {
-    border-radius: 8px; padding: 18px 20px;
-    margin: 20px 0; border-left: 3px solid;
-  }
-  .callout.info { background: var(--cyan-dim); border-color: var(--cyan); }
-  .callout.success { background: var(--green-dim); border-color: var(--green); }
-  .callout.warning { background: rgba(255,184,0,0.08); border-color: var(--amber); }
-  .callout.danger { background: rgba(255,77,106,0.08); border-color: var(--red); }
-  .callout-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px; font-weight: 600; letter-spacing: 0.3px;
-    margin-bottom: 6px;
-  }
-  .callout.info .callout-title { color: var(--cyan); }
-  .callout.success .callout-title { color: var(--green); }
-  .callout.warning .callout-title { color: var(--amber); }
-  .callout.danger .callout-title { color: var(--red); }
-  .callout p { margin: 0; font-size: 14px; }
-
-  /* ─── CODE / PROMPT BLOCKS ────────────── */
-  .code-block {
-    background: #070C18; border: 1px solid var(--border);
-    border-radius: 8px; overflow: hidden; margin: 16px 0;
-  }
-  .code-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid var(--border);
-  }
-  .code-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--muted); letter-spacing: 0.5px;
-  }
-  .copy-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--cyan); background: none;
-    border: 1px solid rgba(0,212,255,0.3); padding: 3px 10px;
-    border-radius: 4px; cursor: pointer; transition: all 0.15s;
-  }
-  .copy-btn:hover { background: var(--cyan-dim); }
-  pre {
-    padding: 20px; overflow-x: auto; font-size: 13px;
-    font-family: 'JetBrains Mono', monospace; line-height: 1.8;
-    color: #C5D3E0;
-    white-space: pre-wrap; word-wrap: break-word;
-  }
-  .hl-role { color: var(--cyan); font-weight: 600; }
-  .hl-key { color: var(--amber); }
-  .hl-val { color: var(--green); }
-  .hl-comment { color: var(--muted); font-style: italic; }
-  .hl-bad { color: var(--red); }
-  .hl-good { color: var(--green); }
-
-  /* ─── CHAT DEMO ───────────────────────── */
-  .chat-demo {
-    background: #070C18; border: 1px solid var(--border);
-    border-radius: 10px; overflow: hidden; margin: 20px 0;
-  }
-  .chat-topbar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px; background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid var(--border);
-  }
-  .chat-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .chat-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--muted); margin-left: 4px;
-  }
-  .chat-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-  .msg { display: flex; flex-direction: column; gap: 4px; max-width: 90%; }
-  .msg.user { align-self: flex-end; }
-  .msg.ai { align-self: flex-start; }
-  .msg-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
-  }
-  .msg.user .msg-label { color: var(--amber); text-align: right; }
-  .msg.ai .msg-label { color: var(--cyan); }
-  .msg-bubble {
-    padding: 12px 16px; border-radius: 8px;
-    font-size: 14px; line-height: 1.7;
-  }
-  .msg.user .msg-bubble {
-    background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.2);
-    color: var(--white);
-  }
-  .msg.ai .msg-bubble {
-    background: var(--cyan-dim); border: 1px solid rgba(0,212,255,0.15);
-    color: var(--white);
-  }
-
-  /* ─── COMPARE BLOCKS ──────────────────── */
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-  .compare-card {
-    border-radius: 8px; overflow: hidden; border: 1px solid;
-  }
-  .compare-card.bad { border-color: rgba(255,77,106,0.3); }
-  .compare-card.good { border-color: rgba(57,255,20,0.3); }
-  .compare-head {
-    padding: 10px 16px; font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .compare-card.bad .compare-head { background: rgba(255,77,106,0.1); color: var(--red); }
-  .compare-card.good .compare-head { background: rgba(57,255,20,0.08); color: var(--green); }
-  .compare-body {
-    padding: 16px; font-family: 'JetBrains Mono', monospace;
-    font-size: 13px; line-height: 1.8; background: #070C18;
-    color: #B8C4D0; min-height: 80px;
-  }
-  .compare-card.bad .compare-body { color: rgba(255,77,106,0.8); }
-  .compare-card.good .compare-body { color: rgba(57,255,20,0.9); }
-
-  /* ─── TECHNIQUE CARDS ─────────────────── */
-  .technique-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-  .technique-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 20px;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .technique-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
-  .technique-icon {
-    font-size: 22px; margin-bottom: 10px;
-  }
-  .technique-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; font-weight: 600; margin-bottom: 6px;
-    color: var(--white);
-  }
-  .technique-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-  /* ─── FRAMEWORK TABLE ─────────────────── */
-  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-  thead tr { border-bottom: 1px solid var(--cyan); }
-  th {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    color: var(--cyan); text-transform: uppercase; letter-spacing: 1px;
-    padding: 10px 14px; text-align: left;
-  }
-  td { padding: 12px 14px; color: #B8C4D0; border-bottom: 1px solid var(--border); }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-
-  /* ─── CHECKPOINT QUIZ ─────────────────── */
-  .quiz { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin: 28px 0; overflow: hidden; }
-  .quiz-head {
-    display: flex; align-items: center; gap: 10px;
-    padding: 16px 20px; background: rgba(0,212,255,0.06);
-    border-bottom: 1px solid var(--border);
-  }
-  .quiz-icon { font-size: 18px; }
-  .quiz-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px; font-weight: 600; color: var(--cyan);
-  }
-  .quiz-body { padding: 20px; }
-  .quiz-q { font-size: 14px; margin-bottom: 14px; color: var(--white); }
-  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-  .quiz-opt {
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-    border-radius: 6px; padding: 10px 14px; font-size: 13px;
-    cursor: pointer; transition: all 0.15s; color: var(--muted);
-    text-align: left;
-  }
-  .quiz-opt:hover { border-color: var(--cyan); color: var(--white); background: var(--cyan-dim); }
-  .quiz-opt.correct { border-color: var(--green); color: var(--green); background: var(--green-dim); }
-  .quiz-opt.wrong { border-color: var(--red); color: var(--red); background: rgba(255,77,106,0.08); }
-  .quiz-feedback { margin-top: 14px; font-size: 13px; padding: 10px 14px; border-radius: 6px; display: none; }
-  .quiz-feedback.show { display: block; }
-  .quiz-feedback.correct-msg { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,255,20,0.3); }
-  .quiz-feedback.wrong-msg { background: rgba(255,77,106,0.08); color: var(--red); border: 1px solid rgba(255,77,106,0.3); }
-
-  /* ─── REAL WORLD SCENARIOS ────────────── */
-  .scenario {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; margin: 20px 0; overflow: hidden;
-  }
-  .scenario-head {
-    padding: 14px 20px;
-    background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(57,255,20,0.04));
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .scenario-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: var(--amber); letter-spacing: 1px;
-    text-transform: uppercase; background: rgba(255,184,0,0.1);
-    border: 1px solid rgba(255,184,0,0.3); padding: 2px 8px; border-radius: 4px;
-  }
-  .scenario-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px; font-weight: 600; color: var(--white);
-  }
-  .scenario-body { padding: 20px; }
-
-  /* ─── NAV BUTTONS ─────────────────────── */
-  .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
-  .nav-btn {
-    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
-    padding: 12px 24px; border-radius: 8px; cursor: pointer;
-    transition: all 0.15s; text-decoration: none;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .nav-btn.prev { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-  .nav-btn.prev:hover { border-color: var(--white); color: var(--white); }
-  .nav-btn.next { background: var(--cyan); color: var(--navy); border: none; }
-  .nav-btn.next:hover { background: #33DDFF; transform: translateX(2px); }
-  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
-
-  /* ─── PROGRESS BAR ────────────────────── */
-  .module-progress { margin-bottom: 28px; }
-  .module-progress-bar { height: 3px; background: var(--border); border-radius: 3px; margin-top: 8px; }
-  .module-progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--green)); border-radius: 3px; transition: width 0.4s ease; }
-
-  /* ─── FRAMEWORKS SECTION ──────────────── */
-  .framework-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 24px; margin: 16px 0;
-    position: relative; overflow: hidden;
-  }
-  .framework-card::after {
-    content: attr(data-label);
-    position: absolute; top: 16px; right: 16px;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    color: var(--cyan); background: var(--cyan-dim);
-    border: 1px solid rgba(0,212,255,0.3); padding: 3px 8px; border-radius: 4px;
-    letter-spacing: 1px; text-transform: uppercase;
-  }
-  .framework-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--cyan);
-    margin-bottom: 6px;
-  }
-  .framework-expand {
-    font-size: 13px; color: var(--muted); margin-bottom: 16px;
-  }
-  .framework-parts { display: flex; flex-direction: column; gap: 8px; }
-  .fp {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 12px; background: rgba(255,255,255,0.03); border-radius: 6px;
-  }
-  .fp-letter {
-    font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700;
-    color: var(--cyan); width: 28px; flex-shrink: 0;
-  }
-  .fp-label { font-size: 13px; font-weight: 600; color: var(--white); }
-  .fp-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-  /* ─── JOB SECTION ─────────────────────── */
-  .job-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 24px; margin: 16px 0;
-  }
-  .job-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px; font-weight: 700; color: var(--white);
-    display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
-  }
-  .salary-badge {
-    font-family: 'JetBrains Mono', monospace; font-size: 13px;
-    color: var(--green); background: var(--green-dim);
-    border: 1px solid rgba(57,255,20,0.3); padding: 3px 10px; border-radius: 20px;
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .skill-tag {
-    font-size: 12px; color: var(--muted);
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-    padding: 3px 10px; border-radius: 4px;
-  }
-
-  /* ─── PORTFOLIO CHECKLIST ─────────────── */
-  .checklist { list-style: none; padding: 0; margin: 16px 0; }
-  .checklist li {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    font-size: 14px; color: #B8C4D0;
-  }
-  .checklist li:last-child { border: none; }
-  .checklist li::before {
-    content: '✦'; color: var(--cyan); font-size: 10px;
-    flex-shrink: 0; margin-top: 4px;
-  }
-
-  /* ─── MOBILE ──────────────────────────── */
-  @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; z-index: 90; }
-    .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 24px 20px 80px; }
-    .compare { grid-template-columns: 1fr; }
-    .technique-grid { grid-template-columns: 1fr; }
-    .menu-btn { display: block; }
-    .hero h1 { font-size: 28px; }
-    .hero-stats { flex-wrap: wrap; gap: 20px; }
-  }
-</style>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<link href="../css/prompt-engineering-course.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- TOP BAR -->
 <header class="topbar">
-  <a class="topbar-logo" href="https://teqvault.study">
+<a class="topbar-logo" href="https://teqvault.study">
     Teq<span>Vault</span>
-  </a>
-  <span class="topbar-badge">PROMPT ENGINEERING</span>
-  <div class="topbar-right">
-    <span class="progress-pill" id="progressPill">0% complete</span>
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-  </div>
+</a>
+<span class="topbar-badge">PROMPT ENGINEERING</span>
+<div class="topbar-right">
+<span class="progress-pill" id="progressPill">0% complete</span>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+</div>
 </header>
-
 <!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-section">
-    <div class="sidebar-module-label">Getting Started</div>
-    <a class="sidebar-link active" onclick="go('intro')" id="nav-intro">
-      <span class="dot"></span> Course Overview
+<div class="sidebar-section">
+<div class="sidebar-module-label">Getting Started</div>
+<a class="sidebar-link active" id="nav-intro" onclick="go('intro')">
+<span class="dot"></span> Course Overview
     </a>
-    <a class="sidebar-link" onclick="go('foundations')" id="nav-foundations">
-      <span class="dot"></span> What Is Prompt Engineering?
+<a class="sidebar-link" id="nav-foundations" onclick="go('foundations')">
+<span class="dot"></span> What Is Prompt Engineering?
     </a>
-    <a class="sidebar-link" onclick="go('how-llms-work')" id="nav-how-llms-work">
-      <span class="dot"></span> How LLMs Actually Work
+<a class="sidebar-link" id="nav-how-llms-work" onclick="go('how-llms-work')">
+<span class="dot"></span> How LLMs Actually Work
     </a>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-module-label">Core Skills</div>
-    <a class="sidebar-link" onclick="go('anatomy')" id="nav-anatomy">
-      <span class="dot"></span> Anatomy of a Good Prompt
+</div>
+<div class="sidebar-section">
+<div class="sidebar-module-label">Core Skills</div>
+<a class="sidebar-link" id="nav-anatomy" onclick="go('anatomy')">
+<span class="dot"></span> Anatomy of a Good Prompt
     </a>
-    <a class="sidebar-link" onclick="go('frameworks')" id="nav-frameworks">
-      <span class="dot"></span> Prompt Frameworks
+<a class="sidebar-link" id="nav-frameworks" onclick="go('frameworks')">
+<span class="dot"></span> Prompt Frameworks
     </a>
-    <a class="sidebar-link" onclick="go('roles')" id="nav-roles">
-      <span class="dot"></span> Role & Persona Prompting
+<a class="sidebar-link" id="nav-roles" onclick="go('roles')">
+<span class="dot"></span> Role &amp; Persona Prompting
     </a>
-    <a class="sidebar-link" onclick="go('context')" id="nav-context">
-      <span class="dot"></span> Context & Memory
+<a class="sidebar-link" id="nav-context" onclick="go('context')">
+<span class="dot"></span> Context &amp; Memory
     </a>
-    <a class="sidebar-link" onclick="go('output-control')" id="nav-output-control">
-      <span class="dot"></span> Controlling Output Format
+<a class="sidebar-link" id="nav-output-control" onclick="go('output-control')">
+<span class="dot"></span> Controlling Output Format
     </a>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-module-label">Advanced Techniques</div>
-    <a class="sidebar-link" onclick="go('chain-of-thought')" id="nav-chain-of-thought">
-      <span class="dot"></span> Chain-of-Thought Prompting
+</div>
+<div class="sidebar-section">
+<div class="sidebar-module-label">Advanced Techniques</div>
+<a class="sidebar-link" id="nav-chain-of-thought" onclick="go('chain-of-thought')">
+<span class="dot"></span> Chain-of-Thought Prompting
     </a>
-    <a class="sidebar-link" onclick="go('few-shot')" id="nav-few-shot">
-      <span class="dot"></span> Few-Shot & Zero-Shot
+<a class="sidebar-link" id="nav-few-shot" onclick="go('few-shot')">
+<span class="dot"></span> Few-Shot &amp; Zero-Shot
     </a>
-    <a class="sidebar-link" onclick="go('system-prompts')" id="nav-system-prompts">
-      <span class="dot"></span> System Prompts & APIs
+<a class="sidebar-link" id="nav-system-prompts" onclick="go('system-prompts')">
+<span class="dot"></span> System Prompts &amp; APIs
     </a>
-    <a class="sidebar-link" onclick="go('iteration')" id="nav-iteration">
-      <span class="dot"></span> Prompt Iteration & Debugging
+<a class="sidebar-link" id="nav-iteration" onclick="go('iteration')">
+<span class="dot"></span> Prompt Iteration &amp; Debugging
     </a>
-    <a class="sidebar-link" onclick="go('rag')" id="nav-rag">
-      <span class="dot"></span> RAG & Retrieval Augmentation
+<a class="sidebar-link" id="nav-rag" onclick="go('rag')">
+<span class="dot"></span> RAG &amp; Retrieval Augmentation
     </a>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-module-label">Real-World Applications</div>
-    <a class="sidebar-link" onclick="go('content')" id="nav-content">
-      <span class="dot"></span> Content & Copywriting
+</div>
+<div class="sidebar-section">
+<div class="sidebar-module-label">Real-World Applications</div>
+<a class="sidebar-link" id="nav-content" onclick="go('content')">
+<span class="dot"></span> Content &amp; Copywriting
     </a>
-    <a class="sidebar-link" onclick="go('code')" id="nav-code">
-      <span class="dot"></span> Coding With AI
+<a class="sidebar-link" id="nav-code" onclick="go('code')">
+<span class="dot"></span> Coding With AI
     </a>
-    <a class="sidebar-link" onclick="go('data')" id="nav-data">
-      <span class="dot"></span> Data Analysis & Research
+<a class="sidebar-link" id="nav-data" onclick="go('data')">
+<span class="dot"></span> Data Analysis &amp; Research
     </a>
-    <a class="sidebar-link" onclick="go('agents')" id="nav-agents">
-      <span class="dot"></span> AI Agents & Automation
+<a class="sidebar-link" id="nav-agents" onclick="go('agents')">
+<span class="dot"></span> AI Agents &amp; Automation
     </a>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-module-label">Job Readiness</div>
-    <a class="sidebar-link" onclick="go('models')" id="nav-models">
-      <span class="dot"></span> Model Landscape (GPT, Claude, etc.)
+</div>
+<div class="sidebar-section">
+<div class="sidebar-module-label">Job Readiness</div>
+<a class="sidebar-link" id="nav-models" onclick="go('models')">
+<span class="dot"></span> Model Landscape (GPT, Claude, etc.)
     </a>
-    <a class="sidebar-link" onclick="go('ethics')" id="nav-ethics">
-      <span class="dot"></span> Ethics, Safety & Bias
+<a class="sidebar-link" id="nav-ethics" onclick="go('ethics')">
+<span class="dot"></span> Ethics, Safety &amp; Bias
     </a>
-    <a class="sidebar-link" onclick="go('portfolio')" id="nav-portfolio">
-      <span class="dot"></span> Portfolio & Career Path
+<a class="sidebar-link" id="nav-portfolio" onclick="go('portfolio')">
+<span class="dot"></span> Portfolio &amp; Career Path
     </a>
-    <a class="sidebar-link" onclick="go('capstone')" id="nav-capstone">
-      <span class="dot"></span> Capstone Project
+<a class="sidebar-link" id="nav-capstone" onclick="go('capstone')">
+<span class="dot"></span> Capstone Project
     </a>
-  </div>
+</div>
 </nav>
-
 <!-- MAIN -->
 <main class="main">
-
-  <!-- ═══ INTRO ═══ -->
-  <div class="lesson active" id="lesson-intro">
-    <div class="hero">
-      <div class="hero-eyebrow">teqvault.study — prompt engineering</div>
-      <h1>Master <em>Prompt Engineering</em>.<br>From Zero to Job-Ready.</h1>
-      <p>Prompt engineering is the fastest growing skill in tech. This course teaches you to communicate with AI systems at a professional level — turning vague requests into powerful, reliable results.</p>
-      <div class="hero-stats">
-        <div>
-          <div class="hero-stat-val">18</div>
-          <div class="hero-stat-label">Lessons</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">60+</div>
-          <div class="hero-stat-label">Real-World Examples</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">$85k+</div>
-          <div class="hero-stat-label">Average Starting Salary</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">8hrs</div>
-          <div class="hero-stat-label">Estimated Completion</div>
-        </div>
-      </div>
-    </div>
-
-    <h2>What You'll Learn</h2>
-    <div class="technique-grid">
-      <div class="technique-card">
-        <div class="technique-icon">🧠</div>
-        <div class="technique-name">How LLMs Think</div>
-        <div class="technique-desc">Understand how models like GPT and Claude process and generate text so you can work with them, not against them.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">⚙️</div>
-        <div class="technique-name">Proven Frameworks</div>
-        <div class="technique-desc">COSTAR, RISEN, RTF, and more — structured approaches used by professionals at top AI companies.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">💼</div>
-        <div class="technique-name">Real Job Skills</div>
-        <div class="technique-desc">Build prompts for content creation, coding, research, customer support, data analysis, and more.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🚀</div>
-        <div class="technique-name">Advanced Techniques</div>
-        <div class="technique-desc">Chain-of-thought, few-shot learning, RAG, agents, and system prompt engineering at the API level.</div>
-      </div>
-    </div>
-
-    <h2>Prerequisites</h2>
-    <p>None. You only need curiosity and access to any AI chatbot (ChatGPT, Claude, Gemini — all work). We'll build everything from the ground up.</p>
-
-    <div class="callout info">
-      <div class="callout-title">💡 How This Course Works</div>
-      <p>Each lesson includes plain explanations, real-world examples, before/after prompt comparisons, and a quick knowledge check. Try every example yourself — active practice is how this sticks.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <span></span>
-      <button class="nav-btn next" onclick="go('foundations')">Start Learning →</button>
-    </div>
-  </div>
-
-  <!-- ═══ FOUNDATIONS ═══ -->
-  <div class="lesson" id="lesson-foundations">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 1 / GETTING STARTED</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:33%"></div></div>
-    </div>
-    <div class="lesson-title">What Is Prompt Engineering?</div>
-    <div class="lesson-subtitle">The discipline of communicating with AI to get reliable, high-quality results.</div>
-
-    <p>A <strong>prompt</strong> is any text you send to an AI model. Prompt engineering is the skill of crafting those prompts to get the exact output you want — consistently, efficiently, and at professional quality.</p>
-    <p>Think of it like this: an AI model is an incredibly powerful tool, but like any tool, its output depends entirely on how you use it. A saw in the hands of someone who doesn't understand it makes a jagged cut. The same saw in the hands of a craftsperson makes clean, precise cuts.</p>
-
-    <h2>The Skill Gap Is Real</h2>
-    <p>Most people use AI like this:</p>
-    <div class="chat-demo">
-      <div class="chat-topbar">
-        <div class="chat-dot" style="background:#FF5F57"></div>
-        <div class="chat-dot" style="background:#FEBC2E"></div>
-        <div class="chat-dot" style="background:#28C840"></div>
-        <div class="chat-name">Average User</div>
-      </div>
-      <div class="chat-body">
-        <div class="msg user">
-          <div class="msg-label">You</div>
-          <div class="msg-bubble">write me a blog post about marketing</div>
-        </div>
-        <div class="msg ai">
-          <div class="msg-label">AI</div>
-          <div class="msg-bubble">Sure! Here's a generic 500-word blog post about marketing that says nothing specific, targets no one in particular, and could have been written by anyone for any company in any industry...</div>
-        </div>
-      </div>
-    </div>
-    <p>A prompt engineer approaches the same task differently:</p>
-    <div class="chat-demo">
-      <div class="chat-topbar">
-        <div class="chat-dot" style="background:#FF5F57"></div>
-        <div class="chat-dot" style="background:#FEBC2E"></div>
-        <div class="chat-dot" style="background:#28C840"></div>
-        <div class="chat-name">Prompt Engineer</div>
-      </div>
-      <div class="chat-body">
-        <div class="msg user">
-          <div class="msg-label">You</div>
-          <div class="msg-bubble">You are a senior content strategist at a B2B SaaS company. Write a 600-word blog post titled "Why Your Email List is Your Most Undervalued Marketing Asset" targeting early-stage startup founders. The tone should be direct and data-driven, like a founder talking to another founder. Include one compelling stat in the opening paragraph, three actionable takeaways in the body, and end with a CTA to join our newsletter. Avoid jargon.</div>
-        </div>
-        <div class="msg ai">
-          <div class="msg-label">AI</div>
-          <div class="msg-bubble">The result: a targeted, useful article that a real founder would actually read — and that your marketing team could publish immediately.</div>
-        </div>
-      </div>
-    </div>
-
-    <h2>Why This Skill Matters Now</h2>
-    <table>
-      <thead><tr><th>Year</th><th>What Changed</th><th>Impact on Prompt Engineering</th></tr></thead>
-      <tbody>
-        <tr><td>2022</td><td>ChatGPT launches</td><td>Prompt engineering emerges as a concept</td></tr>
-        <tr><td>2023</td><td>GPT-4, Claude 2, Gemini launch</td><td>Job listings for "Prompt Engineers" surge 500%</td></tr>
-        <tr><td>2024</td><td>AI embedded in every SaaS tool</td><td>Skill becomes table stakes for knowledge workers</td></tr>
-        <tr><td>2025+</td><td>AI agents and multimodal AI become common</td><td>Advanced prompt engineering drives entire workflows</td></tr>
-      </tbody>
-    </table>
-
-    <div class="quiz">
-      <div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Knowledge Check</span></div>
-      <div class="quiz-body">
-        <div class="quiz-q">Which of the following best describes prompt engineering?</div>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this, false)">Writing code to fine-tune an AI model</button>
-          <button class="quiz-opt" onclick="answer(this, true)">Crafting inputs to AI models to consistently get high-quality, reliable outputs</button>
-          <button class="quiz-opt" onclick="answer(this, false)">Designing the architecture of large language models</button>
-          <button class="quiz-opt" onclick="answer(this, false)">Using AI to write software prompts for users</button>
-        </div>
-        <div class="quiz-feedback" id="qf1"></div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('intro')">← Course Overview</button>
-      <button class="nav-btn next" onclick="go('how-llms-work')">How LLMs Work →</button>
-    </div>
-  </div>
-
-  <!-- ═══ HOW LLMs WORK ═══ -->
-  <div class="lesson" id="lesson-how-llms-work">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 1 / GETTING STARTED</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:66%"></div></div>
-    </div>
-    <div class="lesson-title">How LLMs Actually Work</div>
-    <div class="lesson-subtitle">You don't need a PhD — but understanding this will make you dramatically better at prompting.</div>
-
-    <p>A Large Language Model (LLM) is trained on billions of text documents from the internet. During training, it learns to predict: <em>"given this text, what word comes next?"</em> — over and over, billions of times, until it develops a deep statistical model of language and knowledge.</p>
-    
-    <div class="callout info">
-      <div class="callout-title">The Core Mental Model</div>
-      <p>An LLM is a very sophisticated text-completion machine. It doesn't "know" things the way you do — it predicts what a knowledgeable person would write given your prompt. Your job as a prompt engineer is to set up the context so that the "knowledgeable person" it's imitating is exactly the expert you need.</p>
-    </div>
-
-    <h2>Tokens: The Basic Unit</h2>
-    <p>LLMs don't read words — they read <strong>tokens</strong>. A token is roughly ¾ of a word. "marketing" is 1 token. "unbelievable" might be 2–3. This matters because:</p>
-    <ul style="padding-left:20px; margin-bottom:16px; color:#B8C4D0;">
-      <li style="margin-bottom:8px;">Models have a <strong>context window</strong> — a maximum number of tokens they can process at once (GPT-4: ~128k, Claude 3: ~200k)</li>
-      <li style="margin-bottom:8px;">API pricing is per token, so efficient prompts save money</li>
-      <li style="margin-bottom:8px;">Very long prompts can cause the model to "forget" early instructions</li>
-    </ul>
-
-    <h2>Temperature & Randomness</h2>
-    <p>When generating each token, the model picks from a probability distribution. <strong>Temperature</strong> controls how random that selection is:</p>
-    <table>
-      <thead><tr><th>Temperature</th><th>Behavior</th><th>Best For</th></tr></thead>
-      <tbody>
-        <tr><td>0.0</td><td>Always picks the most likely token</td><td>Factual Q&A, data extraction, code</td></tr>
-        <tr><td>0.3–0.7</td><td>Mostly predictable, slight variation</td><td>Business writing, summaries</td></tr>
-        <tr><td>0.8–1.0</td><td>Creative and varied</td><td>Brainstorming, storytelling, marketing copy</td></tr>
-        <tr><td>1.5+</td><td>Highly unpredictable</td><td>Experimental/artistic (rarely useful)</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Why Context Matters So Much</h2>
-    <p>The model has no memory between conversations (unless given one). Every message you send is processed as a fresh context window. This means:</p>
-    <div class="callout warning">
-      <div class="callout-title">⚠️ Critical Insight</div>
-      <p>Everything the model needs to give you a great answer must exist in your prompt. It cannot access the internet (unless tools are enabled), remember your last conversation, or infer what you "really meant." Give it everything it needs upfront.</p>
-    </div>
-
-    <h2>Hallucinations & Why They Happen</h2>
-    <p>LLMs sometimes confidently state incorrect information. This is called a <strong>hallucination</strong>. It happens because the model is always predicting plausible-sounding text — it can't distinguish between "I know this" and "this sounds right." Your prompts can reduce hallucination by:</p>
-    <ul style="padding-left:20px; color:#B8C4D0;">
-      <li style="margin-bottom:8px;">Asking the model to cite its reasoning</li>
-      <li style="margin-bottom:8px;">Providing source documents and asking it to only use those</li>
-      <li style="margin-bottom:8px;">Instructing it to say "I don't know" when uncertain</li>
-      <li style="margin-bottom:8px;">Setting temperature low for factual tasks</li>
-    </ul>
-
-    <div class="quiz">
-      <div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Knowledge Check</span></div>
-      <div class="quiz-body">
-        <div class="quiz-q">If you want an LLM to write creative, unpredictable marketing taglines, which temperature setting is most appropriate?</div>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this, false)">0.0</button>
-          <button class="quiz-opt" onclick="answer(this, false)">0.1</button>
-          <button class="quiz-opt" onclick="answer(this, true)">0.8–1.0</button>
-          <button class="quiz-opt" onclick="answer(this, false)">Any temperature — it doesn't matter</button>
-        </div>
-        <div class="quiz-feedback" id="qf2"></div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('foundations')">← Foundations</button>
-      <button class="nav-btn next" onclick="go('anatomy')">Anatomy of a Prompt →</button>
-    </div>
-  </div>
-
-  <!-- ═══ ANATOMY ═══ -->
-  <div class="lesson" id="lesson-anatomy">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 2 / CORE SKILLS</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
-    </div>
-    <div class="lesson-title">Anatomy of a Good Prompt</div>
-    <div class="lesson-subtitle">The six components that separate professional prompts from amateur ones.</div>
-
-    <p>Professional prompts aren't magic — they're built from a predictable set of components. Once you know these, you'll be able to reverse-engineer any great prompt and build your own from scratch.</p>
-
-    <h2>The Six Components</h2>
-    <table>
-      <thead><tr><th>#</th><th>Component</th><th>What It Does</th><th>Required?</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td><strong>Role / Persona</strong></td><td>Sets the AI's expertise and voice</td><td>Highly recommended</td></tr>
-        <tr><td>2</td><td><strong>Task</strong></td><td>The core thing you want done</td><td>Always</td></tr>
-        <tr><td>3</td><td><strong>Context</strong></td><td>Background the AI needs to do it well</td><td>Usually</td></tr>
-        <tr><td>4</td><td><strong>Format</strong></td><td>How the output should be structured</td><td>Often</td></tr>
-        <tr><td>5</td><td><strong>Constraints</strong></td><td>Rules, limits, things to avoid</td><td>Situational</td></tr>
-        <tr><td>6</td><td><strong>Examples</strong></td><td>Samples of what good looks like</td><td>For precision tasks</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Before & After: See the Difference</h2>
-    <div class="compare">
-      <div class="compare-card bad">
-        <div class="compare-head">✗ Weak Prompt</div>
-        <div class="compare-body">Write a product description for our new headphones.</div>
-      </div>
-      <div class="compare-card good">
-        <div class="compare-head">✓ Strong Prompt</div>
-        <div class="compare-body">You are a senior copywriter for a premium audio brand. Write a 120-word product description for "ArcFlow Pro" wireless headphones targeting music producers aged 25–40. Emphasize the 40-hour battery life, 48kHz studio-grade audio, and foldable design. Tone: confident, technical but accessible. No hyperbole. End with a single punchy sentence.</div>
-      </div>
-    </div>
-
-    <h2>Building Your First Professional Prompt</h2>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-label">prompt — annotated</span>
-        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      </div>
-      <pre><span class="hl-role">[ROLE]</span>
+<!-- ═══ INTRO ═══ -->
+<div class="lesson active" id="lesson-intro">
+<div class="hero">
+<div class="hero-eyebrow">teqvault.study — prompt engineering</div>
+<h1>Master <em>Prompt Engineering</em>.<br/>From Zero to Job-Ready.</h1>
+<p>Prompt engineering is the fastest growing skill in tech. This course teaches you to communicate with AI systems at a professional level — turning vague requests into powerful, reliable results.</p>
+<div class="hero-stats">
+<div>
+<div class="hero-stat-val">18</div>
+<div class="hero-stat-label">Lessons</div>
+</div>
+<div>
+<div class="hero-stat-val">60+</div>
+<div class="hero-stat-label">Real-World Examples</div>
+</div>
+<div>
+<div class="hero-stat-val">$85k+</div>
+<div class="hero-stat-label">Average Starting Salary</div>
+</div>
+<div>
+<div class="hero-stat-val">8hrs</div>
+<div class="hero-stat-label">Estimated Completion</div>
+</div>
+</div>
+</div>
+<h2>What You'll Learn</h2>
+<div class="technique-grid">
+<div class="technique-card">
+<div class="technique-icon">🧠</div>
+<div class="technique-name">How LLMs Think</div>
+<div class="technique-desc">Understand how models like GPT and Claude process and generate text so you can work with them, not against them.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">⚙️</div>
+<div class="technique-name">Proven Frameworks</div>
+<div class="technique-desc">COSTAR, RISEN, RTF, and more — structured approaches used by professionals at top AI companies.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">💼</div>
+<div class="technique-name">Real Job Skills</div>
+<div class="technique-desc">Build prompts for content creation, coding, research, customer support, data analysis, and more.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🚀</div>
+<div class="technique-name">Advanced Techniques</div>
+<div class="technique-desc">Chain-of-thought, few-shot learning, RAG, agents, and system prompt engineering at the API level.</div>
+</div>
+</div>
+<h2>Prerequisites</h2>
+<p>None. You only need curiosity and access to any AI chatbot (ChatGPT, Claude, Gemini — all work). We'll build everything from the ground up.</p>
+<div class="callout info">
+<div class="callout-title">💡 How This Course Works</div>
+<p>Each lesson includes plain explanations, real-world examples, before/after prompt comparisons, and a quick knowledge check. Try every example yourself — active practice is how this sticks.</p>
+</div>
+<div class="lesson-nav">
+<span></span>
+<button class="nav-btn next" onclick="go('foundations')">Start Learning →</button>
+</div>
+</div>
+<!-- ═══ FOUNDATIONS ═══ -->
+<div class="lesson" id="lesson-foundations">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 1 / GETTING STARTED</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:33%"></div></div>
+</div>
+<div class="lesson-title">What Is Prompt Engineering?</div>
+<div class="lesson-subtitle">The discipline of communicating with AI to get reliable, high-quality results.</div>
+<p>A <strong>prompt</strong> is any text you send to an AI model. Prompt engineering is the skill of crafting those prompts to get the exact output you want — consistently, efficiently, and at professional quality.</p>
+<p>Think of it like this: an AI model is an incredibly powerful tool, but like any tool, its output depends entirely on how you use it. A saw in the hands of someone who doesn't understand it makes a jagged cut. The same saw in the hands of a craftsperson makes clean, precise cuts.</p>
+<h2>The Skill Gap Is Real</h2>
+<p>Most people use AI like this:</p>
+<div class="chat-demo">
+<div class="chat-topbar">
+<div class="chat-dot" style="background:#FF5F57"></div>
+<div class="chat-dot" style="background:#FEBC2E"></div>
+<div class="chat-dot" style="background:#28C840"></div>
+<div class="chat-name">Average User</div>
+</div>
+<div class="chat-body">
+<div class="msg user">
+<div class="msg-label">You</div>
+<div class="msg-bubble">write me a blog post about marketing</div>
+</div>
+<div class="msg ai">
+<div class="msg-label">AI</div>
+<div class="msg-bubble">Sure! Here's a generic 500-word blog post about marketing that says nothing specific, targets no one in particular, and could have been written by anyone for any company in any industry...</div>
+</div>
+</div>
+</div>
+<p>A prompt engineer approaches the same task differently:</p>
+<div class="chat-demo">
+<div class="chat-topbar">
+<div class="chat-dot" style="background:#FF5F57"></div>
+<div class="chat-dot" style="background:#FEBC2E"></div>
+<div class="chat-dot" style="background:#28C840"></div>
+<div class="chat-name">Prompt Engineer</div>
+</div>
+<div class="chat-body">
+<div class="msg user">
+<div class="msg-label">You</div>
+<div class="msg-bubble">You are a senior content strategist at a B2B SaaS company. Write a 600-word blog post titled "Why Your Email List is Your Most Undervalued Marketing Asset" targeting early-stage startup founders. The tone should be direct and data-driven, like a founder talking to another founder. Include one compelling stat in the opening paragraph, three actionable takeaways in the body, and end with a CTA to join our newsletter. Avoid jargon.</div>
+</div>
+<div class="msg ai">
+<div class="msg-label">AI</div>
+<div class="msg-bubble">The result: a targeted, useful article that a real founder would actually read — and that your marketing team could publish immediately.</div>
+</div>
+</div>
+</div>
+<h2>Why This Skill Matters Now</h2>
+<table>
+<thead><tr><th>Year</th><th>What Changed</th><th>Impact on Prompt Engineering</th></tr></thead>
+<tbody>
+<tr><td>2022</td><td>ChatGPT launches</td><td>Prompt engineering emerges as a concept</td></tr>
+<tr><td>2023</td><td>GPT-4, Claude 2, Gemini launch</td><td>Job listings for "Prompt Engineers" surge 500%</td></tr>
+<tr><td>2024</td><td>AI embedded in every SaaS tool</td><td>Skill becomes table stakes for knowledge workers</td></tr>
+<tr><td>2025+</td><td>AI agents and multimodal AI become common</td><td>Advanced prompt engineering drives entire workflows</td></tr>
+</tbody>
+</table>
+<div class="quiz">
+<div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Knowledge Check</span></div>
+<div class="quiz-body">
+<div class="quiz-q">Which of the following best describes prompt engineering?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="answer(this, false)">Writing code to fine-tune an AI model</button>
+<button class="quiz-opt" onclick="answer(this, true)">Crafting inputs to AI models to consistently get high-quality, reliable outputs</button>
+<button class="quiz-opt" onclick="answer(this, false)">Designing the architecture of large language models</button>
+<button class="quiz-opt" onclick="answer(this, false)">Using AI to write software prompts for users</button>
+</div>
+<div class="quiz-feedback" id="qf1"></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('intro')">← Course Overview</button>
+<button class="nav-btn next" onclick="go('how-llms-work')">How LLMs Work →</button>
+</div>
+</div>
+<!-- ═══ HOW LLMs WORK ═══ -->
+<div class="lesson" id="lesson-how-llms-work">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 1 / GETTING STARTED</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:66%"></div></div>
+</div>
+<div class="lesson-title">How LLMs Actually Work</div>
+<div class="lesson-subtitle">You don't need a PhD — but understanding this will make you dramatically better at prompting.</div>
+<p>A Large Language Model (LLM) is trained on billions of text documents from the internet. During training, it learns to predict: <em>"given this text, what word comes next?"</em> — over and over, billions of times, until it develops a deep statistical model of language and knowledge.</p>
+<div class="callout info">
+<div class="callout-title">The Core Mental Model</div>
+<p>An LLM is a very sophisticated text-completion machine. It doesn't "know" things the way you do — it predicts what a knowledgeable person would write given your prompt. Your job as a prompt engineer is to set up the context so that the "knowledgeable person" it's imitating is exactly the expert you need.</p>
+</div>
+<h2>Tokens: The Basic Unit</h2>
+<p>LLMs don't read words — they read <strong>tokens</strong>. A token is roughly ¾ of a word. "marketing" is 1 token. "unbelievable" might be 2–3. This matters because:</p>
+<ul style="padding-left:20px; margin-bottom:16px; color:#B8C4D0;">
+<li style="margin-bottom:8px;">Models have a <strong>context window</strong> — a maximum number of tokens they can process at once (GPT-4: ~128k, Claude 3: ~200k)</li>
+<li style="margin-bottom:8px;">API pricing is per token, so efficient prompts save money</li>
+<li style="margin-bottom:8px;">Very long prompts can cause the model to "forget" early instructions</li>
+</ul>
+<h2>Temperature &amp; Randomness</h2>
+<p>When generating each token, the model picks from a probability distribution. <strong>Temperature</strong> controls how random that selection is:</p>
+<table>
+<thead><tr><th>Temperature</th><th>Behavior</th><th>Best For</th></tr></thead>
+<tbody>
+<tr><td>0.0</td><td>Always picks the most likely token</td><td>Factual Q&amp;A, data extraction, code</td></tr>
+<tr><td>0.3–0.7</td><td>Mostly predictable, slight variation</td><td>Business writing, summaries</td></tr>
+<tr><td>0.8–1.0</td><td>Creative and varied</td><td>Brainstorming, storytelling, marketing copy</td></tr>
+<tr><td>1.5+</td><td>Highly unpredictable</td><td>Experimental/artistic (rarely useful)</td></tr>
+</tbody>
+</table>
+<h2>Why Context Matters So Much</h2>
+<p>The model has no memory between conversations (unless given one). Every message you send is processed as a fresh context window. This means:</p>
+<div class="callout warning">
+<div class="callout-title">⚠️ Critical Insight</div>
+<p>Everything the model needs to give you a great answer must exist in your prompt. It cannot access the internet (unless tools are enabled), remember your last conversation, or infer what you "really meant." Give it everything it needs upfront.</p>
+</div>
+<h2>Hallucinations &amp; Why They Happen</h2>
+<p>LLMs sometimes confidently state incorrect information. This is called a <strong>hallucination</strong>. It happens because the model is always predicting plausible-sounding text — it can't distinguish between "I know this" and "this sounds right." Your prompts can reduce hallucination by:</p>
+<ul style="padding-left:20px; color:#B8C4D0;">
+<li style="margin-bottom:8px;">Asking the model to cite its reasoning</li>
+<li style="margin-bottom:8px;">Providing source documents and asking it to only use those</li>
+<li style="margin-bottom:8px;">Instructing it to say "I don't know" when uncertain</li>
+<li style="margin-bottom:8px;">Setting temperature low for factual tasks</li>
+</ul>
+<div class="quiz">
+<div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Knowledge Check</span></div>
+<div class="quiz-body">
+<div class="quiz-q">If you want an LLM to write creative, unpredictable marketing taglines, which temperature setting is most appropriate?</div>
+<div class="quiz-options">
+<button class="quiz-opt" onclick="answer(this, false)">0.0</button>
+<button class="quiz-opt" onclick="answer(this, false)">0.1</button>
+<button class="quiz-opt" onclick="answer(this, true)">0.8–1.0</button>
+<button class="quiz-opt" onclick="answer(this, false)">Any temperature — it doesn't matter</button>
+</div>
+<div class="quiz-feedback" id="qf2"></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('foundations')">← Foundations</button>
+<button class="nav-btn next" onclick="go('anatomy')">Anatomy of a Prompt →</button>
+</div>
+</div>
+<!-- ═══ ANATOMY ═══ -->
+<div class="lesson" id="lesson-anatomy">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 2 / CORE SKILLS</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
+</div>
+<div class="lesson-title">Anatomy of a Good Prompt</div>
+<div class="lesson-subtitle">The six components that separate professional prompts from amateur ones.</div>
+<p>Professional prompts aren't magic — they're built from a predictable set of components. Once you know these, you'll be able to reverse-engineer any great prompt and build your own from scratch.</p>
+<h2>The Six Components</h2>
+<table>
+<thead><tr><th>#</th><th>Component</th><th>What It Does</th><th>Required?</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Role / Persona</strong></td><td>Sets the AI's expertise and voice</td><td>Highly recommended</td></tr>
+<tr><td>2</td><td><strong>Task</strong></td><td>The core thing you want done</td><td>Always</td></tr>
+<tr><td>3</td><td><strong>Context</strong></td><td>Background the AI needs to do it well</td><td>Usually</td></tr>
+<tr><td>4</td><td><strong>Format</strong></td><td>How the output should be structured</td><td>Often</td></tr>
+<tr><td>5</td><td><strong>Constraints</strong></td><td>Rules, limits, things to avoid</td><td>Situational</td></tr>
+<tr><td>6</td><td><strong>Examples</strong></td><td>Samples of what good looks like</td><td>For precision tasks</td></tr>
+</tbody>
+</table>
+<h2>Before &amp; After: See the Difference</h2>
+<div class="compare">
+<div class="compare-card bad">
+<div class="compare-head">✗ Weak Prompt</div>
+<div class="compare-body">Write a product description for our new headphones.</div>
+</div>
+<div class="compare-card good">
+<div class="compare-head">✓ Strong Prompt</div>
+<div class="compare-body">You are a senior copywriter for a premium audio brand. Write a 120-word product description for "ArcFlow Pro" wireless headphones targeting music producers aged 25–40. Emphasize the 40-hour battery life, 48kHz studio-grade audio, and foldable design. Tone: confident, technical but accessible. No hyperbole. End with a single punchy sentence.</div>
+</div>
+</div>
+<h2>Building Your First Professional Prompt</h2>
+<div class="code-block">
+<div class="code-header">
+<span class="code-label">prompt — annotated</span>
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>
+</div>
+<pre><span class="hl-role">[ROLE]</span>
 You are a senior UX researcher at a fintech startup.
 
 <span class="hl-key">[TASK]</span>
@@ -860,18 +364,17 @@ Use bold headers. Questions numbered within each section.
 <span class="hl-comment">[CONSTRAINTS]</span>
 Avoid leading questions. Do not mention competitor products by name.
 All questions should be open-ended (no yes/no answers).</pre>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Real World</span>
-        <span class="scenario-title">Marketing Agency — Social Media Post</span>
-      </div>
-      <div class="scenario-body">
-        <p style="margin-bottom:16px;">A marketing manager needs Instagram captions for a skincare brand launch. Here's how they'd apply the anatomy:</p>
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre>You are a social media strategist specializing in beauty and wellness brands.
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Real World</span>
+<span class="scenario-title">Marketing Agency — Social Media Post</span>
+</div>
+<div class="scenario-body">
+<p style="margin-bottom:16px;">A marketing manager needs Instagram captions for a skincare brand launch. Here's how they'd apply the anatomy:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre>You are a social media strategist specializing in beauty and wellness brands.
 
 Write 5 Instagram captions for the launch of "Lumina Glow Serum" by Aura Skin.
 The product: a vitamin C + hyaluronic acid serum, $68, launching Feb 14th.
@@ -882,62 +385,55 @@ and end with a call to action (link in bio or swipe up). Vary the tone:
 2 emotional/aspirational, 2 educational, 1 playful.
 
 Do not use the word "luxury." Avoid generic phrases like "glow up" or "self-care."</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('how-llms-work')">← How LLMs Work</button>
-      <button class="nav-btn next" onclick="go('frameworks')">Prompt Frameworks →</button>
-    </div>
-  </div>
-
-  <!-- ═══ FRAMEWORKS ═══ -->
-  <div class="lesson" id="lesson-frameworks">
-    <div class="lesson-title">Prompt Frameworks</div>
-    <div class="lesson-subtitle">Proven templates that professionals use daily — memorize these and you'll never write a weak prompt again.</div>
-
-    <p>Instead of building from scratch every time, use a framework as a scaffold. These are industry-standard structures used by prompt engineers at AI companies, agencies, and in-house teams.</p>
-
-    <div class="framework-card" data-label="Framework">
-      <div class="framework-name">COSTAR</div>
-      <div class="framework-expand">Context · Objective · Style · Tone · Audience · Response</div>
-      <div class="framework-parts">
-        <div class="fp"><div class="fp-letter">C</div><div><div class="fp-label">Context</div><div class="fp-desc">Background information the AI needs. "We're a Series A SaaS startup targeting HR teams..."</div></div></div>
-        <div class="fp"><div class="fp-letter">O</div><div><div class="fp-label">Objective</div><div class="fp-desc">The specific task. "Write a landing page headline and sub-headline."</div></div></div>
-        <div class="fp"><div class="fp-letter">S</div><div><div class="fp-label">Style</div><div class="fp-desc">Writing style or creative direction. "Similar to Basecamp's direct, no-fluff style."</div></div></div>
-        <div class="fp"><div class="fp-letter">T</div><div><div class="fp-label">Tone</div><div class="fp-desc">Emotional register. "Confident and empathetic, not salesy."</div></div></div>
-        <div class="fp"><div class="fp-letter">A</div><div><div class="fp-label">Audience</div><div class="fp-desc">Who will read this. "HR directors at companies with 200–2000 employees."</div></div></div>
-        <div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Response</div><div class="fp-desc">Output format. "Return 3 headline options, each with a 20-word sub-headline."</div></div></div>
-      </div>
-    </div>
-
-    <div class="framework-card" data-label="Framework">
-      <div class="framework-name">RTF</div>
-      <div class="framework-expand">Role · Task · Format — the quickest professional framework</div>
-      <div class="framework-parts">
-        <div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Role</div><div class="fp-desc">Who the AI should act as. Simple and fast to set up.</div></div></div>
-        <div class="fp"><div class="fp-letter">T</div><div><div class="fp-label">Task</div><div class="fp-desc">Exactly what you need done — be specific about deliverable.</div></div></div>
-        <div class="fp"><div class="fp-letter">F</div><div><div class="fp-label">Format</div><div class="fp-desc">Structure, length, style of the output.</div></div></div>
-      </div>
-    </div>
-
-    <div class="framework-card" data-label="Framework">
-      <div class="framework-name">RISEN</div>
-      <div class="framework-expand">Role · Instructions · Steps · End Goal · Narrowing — best for complex tasks</div>
-      <div class="framework-parts">
-        <div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Role</div><div class="fp-desc">The expert persona you're assigning.</div></div></div>
-        <div class="fp"><div class="fp-letter">I</div><div><div class="fp-label">Instructions</div><div class="fp-desc">The core task with relevant details.</div></div></div>
-        <div class="fp"><div class="fp-letter">S</div><div><div class="fp-label">Steps</div><div class="fp-desc">Break down the process or order of operations if sequential.</div></div></div>
-        <div class="fp"><div class="fp-letter">E</div><div><div class="fp-label">End Goal</div><div class="fp-desc">What success looks like. "The output should allow a developer to begin implementation immediately."</div></div></div>
-        <div class="fp"><div class="fp-letter">N</div><div><div class="fp-label">Narrowing</div><div class="fp-desc">Constraints, exclusions, scope limits. "Do not include API documentation. Limit to under 500 words."</div></div></div>
-      </div>
-    </div>
-
-    <h2>Framework in Action: COSTAR Example</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">COSTAR prompt — email campaign</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><span class="hl-role">Context:</span> We're an online coding bootcamp, "LaunchCode." We have a list of 12,000
+</div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('how-llms-work')">← How LLMs Work</button>
+<button class="nav-btn next" onclick="go('frameworks')">Prompt Frameworks →</button>
+</div>
+</div>
+<!-- ═══ FRAMEWORKS ═══ -->
+<div class="lesson" id="lesson-frameworks">
+<div class="lesson-title">Prompt Frameworks</div>
+<div class="lesson-subtitle">Proven templates that professionals use daily — memorize these and you'll never write a weak prompt again.</div>
+<p>Instead of building from scratch every time, use a framework as a scaffold. These are industry-standard structures used by prompt engineers at AI companies, agencies, and in-house teams.</p>
+<div class="framework-card" data-label="Framework">
+<div class="framework-name">COSTAR</div>
+<div class="framework-expand">Context · Objective · Style · Tone · Audience · Response</div>
+<div class="framework-parts">
+<div class="fp"><div class="fp-letter">C</div><div><div class="fp-label">Context</div><div class="fp-desc">Background information the AI needs. "We're a Series A SaaS startup targeting HR teams..."</div></div></div>
+<div class="fp"><div class="fp-letter">O</div><div><div class="fp-label">Objective</div><div class="fp-desc">The specific task. "Write a landing page headline and sub-headline."</div></div></div>
+<div class="fp"><div class="fp-letter">S</div><div><div class="fp-label">Style</div><div class="fp-desc">Writing style or creative direction. "Similar to Basecamp's direct, no-fluff style."</div></div></div>
+<div class="fp"><div class="fp-letter">T</div><div><div class="fp-label">Tone</div><div class="fp-desc">Emotional register. "Confident and empathetic, not salesy."</div></div></div>
+<div class="fp"><div class="fp-letter">A</div><div><div class="fp-label">Audience</div><div class="fp-desc">Who will read this. "HR directors at companies with 200–2000 employees."</div></div></div>
+<div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Response</div><div class="fp-desc">Output format. "Return 3 headline options, each with a 20-word sub-headline."</div></div></div>
+</div>
+</div>
+<div class="framework-card" data-label="Framework">
+<div class="framework-name">RTF</div>
+<div class="framework-expand">Role · Task · Format — the quickest professional framework</div>
+<div class="framework-parts">
+<div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Role</div><div class="fp-desc">Who the AI should act as. Simple and fast to set up.</div></div></div>
+<div class="fp"><div class="fp-letter">T</div><div><div class="fp-label">Task</div><div class="fp-desc">Exactly what you need done — be specific about deliverable.</div></div></div>
+<div class="fp"><div class="fp-letter">F</div><div><div class="fp-label">Format</div><div class="fp-desc">Structure, length, style of the output.</div></div></div>
+</div>
+</div>
+<div class="framework-card" data-label="Framework">
+<div class="framework-name">RISEN</div>
+<div class="framework-expand">Role · Instructions · Steps · End Goal · Narrowing — best for complex tasks</div>
+<div class="framework-parts">
+<div class="fp"><div class="fp-letter">R</div><div><div class="fp-label">Role</div><div class="fp-desc">The expert persona you're assigning.</div></div></div>
+<div class="fp"><div class="fp-letter">I</div><div><div class="fp-label">Instructions</div><div class="fp-desc">The core task with relevant details.</div></div></div>
+<div class="fp"><div class="fp-letter">S</div><div><div class="fp-label">Steps</div><div class="fp-desc">Break down the process or order of operations if sequential.</div></div></div>
+<div class="fp"><div class="fp-letter">E</div><div><div class="fp-label">End Goal</div><div class="fp-desc">What success looks like. "The output should allow a developer to begin implementation immediately."</div></div></div>
+<div class="fp"><div class="fp-letter">N</div><div><div class="fp-label">Narrowing</div><div class="fp-desc">Constraints, exclusions, scope limits. "Do not include API documentation. Limit to under 500 words."</div></div></div>
+</div>
+</div>
+<h2>Framework in Action: COSTAR Example</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">COSTAR prompt — email campaign</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre><span class="hl-role">Context:</span> We're an online coding bootcamp, "LaunchCode." We have a list of 12,000
 subscribers who signed up for our free Python tutorial but haven't enrolled
 in a paid course. It's been 30 days since they finished the tutorial.
 
@@ -955,40 +451,35 @@ They want to switch careers but feel overwhelmed.
 
 Response: One email, subject line + body. Under 200 words.
 Include a single CTA: a text link (not a button) to start the free trial.</pre>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('anatomy')">← Anatomy</button>
-      <button class="nav-btn next" onclick="go('roles')">Role Prompting →</button>
-    </div>
-  </div>
-
-  <!-- ═══ ROLES ═══ -->
-  <div class="lesson" id="lesson-roles">
-    <div class="lesson-title">Role & Persona Prompting</div>
-    <div class="lesson-subtitle">The single highest-ROI technique in prompt engineering.</div>
-
-    <p>When you assign a role to an AI, you're not just changing its tone — you're activating a specific cluster of knowledge, vocabulary, reasoning patterns, and priorities. A prompt starting "You are a tax attorney" will produce fundamentally different output than "You are a financial blogger" — even for the same question.</p>
-
-    <h2>How to Write Great Roles</h2>
-    <p>Bad roles are vague. Good roles are specific, contextual, and include implicit constraints.</p>
-    <div class="compare">
-      <div class="compare-card bad">
-        <div class="compare-head">✗ Vague Role</div>
-        <div class="compare-body">You are an expert in marketing.
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('anatomy')">← Anatomy</button>
+<button class="nav-btn next" onclick="go('roles')">Role Prompting →</button>
+</div>
+</div>
+<!-- ═══ ROLES ═══ -->
+<div class="lesson" id="lesson-roles">
+<div class="lesson-title">Role &amp; Persona Prompting</div>
+<div class="lesson-subtitle">The single highest-ROI technique in prompt engineering.</div>
+<p>When you assign a role to an AI, you're not just changing its tone — you're activating a specific cluster of knowledge, vocabulary, reasoning patterns, and priorities. A prompt starting "You are a tax attorney" will produce fundamentally different output than "You are a financial blogger" — even for the same question.</p>
+<h2>How to Write Great Roles</h2>
+<p>Bad roles are vague. Good roles are specific, contextual, and include implicit constraints.</p>
+<div class="compare">
+<div class="compare-card bad">
+<div class="compare-head">✗ Vague Role</div>
+<div class="compare-body">You are an expert in marketing.
 Write ad copy for my product.</div>
-      </div>
-      <div class="compare-card good">
-        <div class="compare-head">✓ Specific Role</div>
-        <div class="compare-body">You are a direct response copywriter with 15 years of experience writing high-converting ads for e-commerce brands. You've worked with DTC brands doing $1M–$20M in annual revenue and your copy focuses on pain points, not features.</div>
-      </div>
-    </div>
-
-    <h2>The Role Layering Technique</h2>
-    <p>Stack multiple role dimensions for maximum precision:</p>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">role layering</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><span class="hl-role">You are [job title]</span> with [years] of experience in [specific niche].
+</div>
+<div class="compare-card good">
+<div class="compare-head">✓ Specific Role</div>
+<div class="compare-body">You are a direct response copywriter with 15 years of experience writing high-converting ads for e-commerce brands. You've worked with DTC brands doing $1M–$20M in annual revenue and your copy focuses on pain points, not features.</div>
+</div>
+</div>
+<h2>The Role Layering Technique</h2>
+<p>Stack multiple role dimensions for maximum precision:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">role layering</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre><span class="hl-role">You are [job title]</span> with [years] of experience in [specific niche].
 You've worked at [reference company/type].
 Your expertise is specifically in [sub-skill].
 You are known for [distinctive trait — e.g., "making complex topics accessible" 
@@ -999,68 +490,61 @@ You are a senior product manager with 10 years of experience in B2B SaaS.
 You've worked at Salesforce and two early-stage startups.
 Your expertise is specifically in reducing churn through onboarding redesigns.
 You are known for data-driven recommendations backed by user research.</pre>
-    </div>
-
-    <h2>Real-World Role Examples</h2>
-    <table>
-      <thead><tr><th>Task</th><th>Effective Role</th></tr></thead>
-      <tbody>
-        <tr><td>Legal contract review</td><td>"You are a contract attorney specializing in SaaS vendor agreements. You are reviewing this on behalf of the buyer."</td></tr>
-        <tr><td>Python code review</td><td>"You are a senior Python engineer who cares deeply about code readability and will fail a PR that lacks type hints or docstrings."</td></tr>
-        <tr><td>Job interview prep</td><td>"You are a technical recruiter at a FAANG company who has interviewed 500+ software engineers. Be demanding."</td></tr>
-        <tr><td>Financial analysis</td><td>"You are a CFO at a Series B startup who thinks in unit economics and is skeptical of vanity metrics."</td></tr>
-        <tr><td>Customer support</td><td>"You are a customer success manager at Stripe who resolves billing issues with empathy and efficiency. You never escalate without trying at least two solutions first."</td></tr>
-      </tbody>
-    </table>
-
-    <div class="callout success">
-      <div class="callout-title">✦ Pro Tip: Adversarial Personas</div>
-      <p>Assign a critical role to stress-test your own work. "You are a skeptical venture capitalist who has seen 5,000 pitches and immediately spots weak assumptions. Review my pitch deck and list every red flag." This gives you honest feedback that a supportive prompt never would.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('frameworks')">← Frameworks</button>
-      <button class="nav-btn next" onclick="go('context')">Context & Memory →</button>
-    </div>
-  </div>
-
-  <!-- ═══ CONTEXT ═══ -->
-  <div class="lesson" id="lesson-context">
-    <div class="lesson-title">Context & Memory</div>
-    <div class="lesson-subtitle">Giving the AI everything it needs — and managing conversations like a professional.</div>
-
-    <p>Context is the difference between a generic answer and a genuinely useful one. Every piece of relevant information you provide dramatically narrows the solution space — and narrows it toward the right answer.</p>
-
-    <h2>The Context Pyramid</h2>
-    <p>Think of context in layers, from most to least important:</p>
-    <div class="technique-grid">
-      <div class="technique-card">
-        <div class="technique-icon">🎯</div>
-        <div class="technique-name">Task Context</div>
-        <div class="technique-desc">What specifically you're trying to accomplish and why. This is always essential.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">👤</div>
-        <div class="technique-name">Audience Context</div>
-        <div class="technique-desc">Who will use/read/receive the output. Age, expertise level, goals, pain points.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🏢</div>
-        <div class="technique-name">Business Context</div>
-        <div class="technique-desc">Company type, size, industry, stage. A startup prompt differs from an enterprise prompt.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">⚠️</div>
-        <div class="technique-name">Constraint Context</div>
-        <div class="technique-desc">What's already been tried, what doesn't work, what's off-limits.</div>
-      </div>
-    </div>
-
-    <h2>Managing Multi-Turn Conversations</h2>
-    <p>Most professional use cases involve back-and-forth conversations, not single prompts. Treat each conversation like a project:</p>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">conversation management strategy</span></div>
-      <pre><span class="hl-comment">// TURN 1: Set the stage</span>
+</div>
+<h2>Real-World Role Examples</h2>
+<table>
+<thead><tr><th>Task</th><th>Effective Role</th></tr></thead>
+<tbody>
+<tr><td>Legal contract review</td><td>"You are a contract attorney specializing in SaaS vendor agreements. You are reviewing this on behalf of the buyer."</td></tr>
+<tr><td>Python code review</td><td>"You are a senior Python engineer who cares deeply about code readability and will fail a PR that lacks type hints or docstrings."</td></tr>
+<tr><td>Job interview prep</td><td>"You are a technical recruiter at a FAANG company who has interviewed 500+ software engineers. Be demanding."</td></tr>
+<tr><td>Financial analysis</td><td>"You are a CFO at a Series B startup who thinks in unit economics and is skeptical of vanity metrics."</td></tr>
+<tr><td>Customer support</td><td>"You are a customer success manager at Stripe who resolves billing issues with empathy and efficiency. You never escalate without trying at least two solutions first."</td></tr>
+</tbody>
+</table>
+<div class="callout success">
+<div class="callout-title">✦ Pro Tip: Adversarial Personas</div>
+<p>Assign a critical role to stress-test your own work. "You are a skeptical venture capitalist who has seen 5,000 pitches and immediately spots weak assumptions. Review my pitch deck and list every red flag." This gives you honest feedback that a supportive prompt never would.</p>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('frameworks')">← Frameworks</button>
+<button class="nav-btn next" onclick="go('context')">Context &amp; Memory →</button>
+</div>
+</div>
+<!-- ═══ CONTEXT ═══ -->
+<div class="lesson" id="lesson-context">
+<div class="lesson-title">Context &amp; Memory</div>
+<div class="lesson-subtitle">Giving the AI everything it needs — and managing conversations like a professional.</div>
+<p>Context is the difference between a generic answer and a genuinely useful one. Every piece of relevant information you provide dramatically narrows the solution space — and narrows it toward the right answer.</p>
+<h2>The Context Pyramid</h2>
+<p>Think of context in layers, from most to least important:</p>
+<div class="technique-grid">
+<div class="technique-card">
+<div class="technique-icon">🎯</div>
+<div class="technique-name">Task Context</div>
+<div class="technique-desc">What specifically you're trying to accomplish and why. This is always essential.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">👤</div>
+<div class="technique-name">Audience Context</div>
+<div class="technique-desc">Who will use/read/receive the output. Age, expertise level, goals, pain points.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🏢</div>
+<div class="technique-name">Business Context</div>
+<div class="technique-desc">Company type, size, industry, stage. A startup prompt differs from an enterprise prompt.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">⚠️</div>
+<div class="technique-name">Constraint Context</div>
+<div class="technique-desc">What's already been tried, what doesn't work, what's off-limits.</div>
+</div>
+</div>
+<h2>Managing Multi-Turn Conversations</h2>
+<p>Most professional use cases involve back-and-forth conversations, not single prompts. Treat each conversation like a project:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">conversation management strategy</span></div>
+<pre><span class="hl-comment">// TURN 1: Set the stage</span>
 "We're going to work on [project]. Here's all the context you need: [context block].
 Do not produce any output yet. Just confirm you understand the brief."
 
@@ -1073,13 +557,12 @@ for the audience we defined. Replace all jargon with plain language."
 
 <span class="hl-comment">// TURN N: Keep context alive</span>
 "Keeping everything we've established in mind, now create [next piece]."</pre>
-    </div>
-
-    <h2>The Context Document Technique</h2>
-    <p>For recurring tasks, create a reusable "context block" — a brief document you paste at the start of relevant conversations:</p>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">context block — marketing team example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre><span class="hl-role">## COMPANY CONTEXT (paste at start of all marketing prompts)</span>
+</div>
+<h2>The Context Document Technique</h2>
+<p>For recurring tasks, create a reusable "context block" — a brief document you paste at the start of relevant conversations:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">context block — marketing team example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre><span class="hl-role">## COMPANY CONTEXT (paste at start of all marketing prompts)</span>
 
 Company: Northwave Analytics
 Product: Real-time social listening dashboard
@@ -1090,49 +573,44 @@ Brand voice: Confident, data-driven, direct. No buzzwords. No emojis.
 Competitors we're aware of: Brandwatch, Sprout Social, Mention
 Things we never say: "game-changing," "revolutionary," "best-in-class"
 Current campaign: Q3 focus on reducing churn, not new acquisition</pre>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('roles')">← Role Prompting</button>
-      <button class="nav-btn next" onclick="go('output-control')">Output Control →</button>
-    </div>
-  </div>
-
-  <!-- ═══ OUTPUT CONTROL ═══ -->
-  <div class="lesson" id="lesson-output-control">
-    <div class="lesson-title">Controlling Output Format</div>
-    <div class="lesson-subtitle">Get exactly the structure you need — from markdown to JSON to tables.</div>
-
-    <p>Professional prompt engineers don't just get good content — they get content in the exact format they can immediately use. Format control is what makes AI output production-ready.</p>
-
-    <h2>Output Format Options</h2>
-    <div class="technique-grid">
-      <div class="technique-card">
-        <div class="technique-icon">📝</div>
-        <div class="technique-name">Markdown</div>
-        <div class="technique-desc">Default for documentation, blogs, README files. Ask for specific heading levels, bold, bullets.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">📊</div>
-        <div class="technique-name">JSON / XML</div>
-        <div class="technique-desc">Essential for developers. Perfect for structured data extraction, API inputs, config files.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">📋</div>
-        <div class="technique-name">Tables</div>
-        <div class="technique-desc">Comparisons, feature matrices, research summaries. Specify column names explicitly.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">📧</div>
-        <div class="technique-name">Prose Templates</div>
-        <div class="technique-desc">Emails, reports, scripts. Use placeholders like [NAME] and [COMPANY] for reusable templates.</div>
-      </div>
-    </div>
-
-    <h2>Requesting JSON Output</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">structured data extraction</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre>Extract the key information from this job posting and return it as a JSON object.
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('roles')">← Role Prompting</button>
+<button class="nav-btn next" onclick="go('output-control')">Output Control →</button>
+</div>
+</div>
+<!-- ═══ OUTPUT CONTROL ═══ -->
+<div class="lesson" id="lesson-output-control">
+<div class="lesson-title">Controlling Output Format</div>
+<div class="lesson-subtitle">Get exactly the structure you need — from markdown to JSON to tables.</div>
+<p>Professional prompt engineers don't just get good content — they get content in the exact format they can immediately use. Format control is what makes AI output production-ready.</p>
+<h2>Output Format Options</h2>
+<div class="technique-grid">
+<div class="technique-card">
+<div class="technique-icon">📝</div>
+<div class="technique-name">Markdown</div>
+<div class="technique-desc">Default for documentation, blogs, README files. Ask for specific heading levels, bold, bullets.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">📊</div>
+<div class="technique-name">JSON / XML</div>
+<div class="technique-desc">Essential for developers. Perfect for structured data extraction, API inputs, config files.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">📋</div>
+<div class="technique-name">Tables</div>
+<div class="technique-desc">Comparisons, feature matrices, research summaries. Specify column names explicitly.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">📧</div>
+<div class="technique-name">Prose Templates</div>
+<div class="technique-desc">Emails, reports, scripts. Use placeholders like [NAME] and [COMPANY] for reusable templates.</div>
+</div>
+</div>
+<h2>Requesting JSON Output</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">structured data extraction</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre>Extract the key information from this job posting and return it as a JSON object.
 Use exactly this structure:
 
 {
@@ -1150,68 +628,59 @@ Use exactly this structure:
 Return only the JSON. No explanation. No markdown code blocks.
 
 Job posting: [PASTE JOB DESCRIPTION HERE]</pre>
-    </div>
-
-    <h2>Length & Density Control</h2>
-    <table>
-      <thead><tr><th>Instruction</th><th>Effect</th></tr></thead>
-      <tbody>
-        <tr><td>"Under 100 words"</td><td>Forces ruthless brevity</td></tr>
-        <tr><td>"Use only bullet points"</td><td>Prevents rambling prose</td></tr>
-        <tr><td>"No preamble — go straight to the answer"</td><td>Removes "Certainly! Here is..."</td></tr>
-        <tr><td>"Write at an 8th-grade reading level"</td><td>Controls vocabulary complexity</td></tr>
-        <tr><td>"Use short paragraphs of 1–3 sentences"</td><td>Improves readability/scannability</td></tr>
-        <tr><td>"Do not use the word 'leverage' or 'utilize'"</td><td>Enforces vocabulary constraints</td></tr>
-      </tbody>
-    </table>
-
-    <div class="callout success">
-      <div class="callout-title">✦ Power Move: Anti-Sycophancy Instructions</div>
-      <p>LLMs naturally want to agree with you and start responses with validation. Stop it cold: add "Do not start your response with a compliment or acknowledgment. Go directly to the output." This alone makes AI output dramatically more usable.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('context')">← Context</button>
-      <button class="nav-btn next" onclick="go('chain-of-thought')">Chain of Thought →</button>
-    </div>
-  </div>
-
-  <!-- ═══ CHAIN OF THOUGHT ═══ -->
-  <div class="lesson" id="lesson-chain-of-thought">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 3 / ADVANCED TECHNIQUES</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
-    </div>
-    <div class="lesson-title">Chain-of-Thought Prompting</div>
-    <div class="lesson-subtitle">Force the AI to reason step-by-step — dramatically improving accuracy on complex problems.</div>
-
-    <p>Chain-of-Thought (CoT) prompting is one of the most powerful techniques discovered in AI research. By instructing a model to "think out loud" before giving an answer, you activate its reasoning capabilities and dramatically reduce errors on logic, math, and multi-step tasks.</p>
-
-    <div class="callout info">
-      <div class="callout-title">Why It Works</div>
-      <p>When an LLM generates its reasoning token-by-token, each step becomes context for the next step. This mirrors how humans solve problems by writing them out — the act of articulation improves accuracy.</p>
-    </div>
-
-    <h2>The Basic Trigger Phrase</h2>
-    <p>Simply adding "Let's think through this step by step" or "Think step-by-step before answering" to the end of a prompt activates chain-of-thought reasoning. Research from Google Brain found this simple addition improved accuracy on math word problems by up to 40%.</p>
-
-    <div class="compare">
-      <div class="compare-card bad">
-        <div class="compare-head">✗ Without CoT</div>
-        <div class="compare-body">If a SaaS company has 1,200 customers, a 5% monthly churn rate, and adds 80 new customers per month, what will the customer count be in 6 months?</div>
-      </div>
-      <div class="compare-card good">
-        <div class="compare-head">✓ With CoT</div>
-        <div class="compare-body">If a SaaS company has 1,200 customers, a 5% monthly churn rate, and adds 80 new customers per month, what will the customer count be in 6 months?
+</div>
+<h2>Length &amp; Density Control</h2>
+<table>
+<thead><tr><th>Instruction</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>"Under 100 words"</td><td>Forces ruthless brevity</td></tr>
+<tr><td>"Use only bullet points"</td><td>Prevents rambling prose</td></tr>
+<tr><td>"No preamble — go straight to the answer"</td><td>Removes "Certainly! Here is..."</td></tr>
+<tr><td>"Write at an 8th-grade reading level"</td><td>Controls vocabulary complexity</td></tr>
+<tr><td>"Use short paragraphs of 1–3 sentences"</td><td>Improves readability/scannability</td></tr>
+<tr><td>"Do not use the word 'leverage' or 'utilize'"</td><td>Enforces vocabulary constraints</td></tr>
+</tbody>
+</table>
+<div class="callout success">
+<div class="callout-title">✦ Power Move: Anti-Sycophancy Instructions</div>
+<p>LLMs naturally want to agree with you and start responses with validation. Stop it cold: add "Do not start your response with a compliment or acknowledgment. Go directly to the output." This alone makes AI output dramatically more usable.</p>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('context')">← Context</button>
+<button class="nav-btn next" onclick="go('chain-of-thought')">Chain of Thought →</button>
+</div>
+</div>
+<!-- ═══ CHAIN OF THOUGHT ═══ -->
+<div class="lesson" id="lesson-chain-of-thought">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 3 / ADVANCED TECHNIQUES</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
+</div>
+<div class="lesson-title">Chain-of-Thought Prompting</div>
+<div class="lesson-subtitle">Force the AI to reason step-by-step — dramatically improving accuracy on complex problems.</div>
+<p>Chain-of-Thought (CoT) prompting is one of the most powerful techniques discovered in AI research. By instructing a model to "think out loud" before giving an answer, you activate its reasoning capabilities and dramatically reduce errors on logic, math, and multi-step tasks.</p>
+<div class="callout info">
+<div class="callout-title">Why It Works</div>
+<p>When an LLM generates its reasoning token-by-token, each step becomes context for the next step. This mirrors how humans solve problems by writing them out — the act of articulation improves accuracy.</p>
+</div>
+<h2>The Basic Trigger Phrase</h2>
+<p>Simply adding "Let's think through this step by step" or "Think step-by-step before answering" to the end of a prompt activates chain-of-thought reasoning. Research from Google Brain found this simple addition improved accuracy on math word problems by up to 40%.</p>
+<div class="compare">
+<div class="compare-card bad">
+<div class="compare-head">✗ Without CoT</div>
+<div class="compare-body">If a SaaS company has 1,200 customers, a 5% monthly churn rate, and adds 80 new customers per month, what will the customer count be in 6 months?</div>
+</div>
+<div class="compare-card good">
+<div class="compare-head">✓ With CoT</div>
+<div class="compare-body">If a SaaS company has 1,200 customers, a 5% monthly churn rate, and adds 80 new customers per month, what will the customer count be in 6 months?
 
 Think step-by-step, showing your calculation for each month.</div>
-      </div>
-    </div>
-
-    <h2>Advanced CoT: Structured Reasoning</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">structured reasoning prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre">You are a senior business analyst.
+</div>
+</div>
+<h2>Advanced CoT: Structured Reasoning</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">structured reasoning prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a senior business analyst.
 
 Analyze whether we should expand into the German market.
 
@@ -1223,47 +692,41 @@ Think through this in the following order:
 5. <span class="hl-val">Recommendation</span>: Go/No-go with your reasoning
 
 Show your reasoning in each section before giving conclusions.
-Company context: [INSERT COMPANY DETAILS]</pre>
-    </div>
-
-    <h2>Zero-Shot CoT vs Few-Shot CoT</h2>
-    <table>
-      <thead><tr><th>Type</th><th>How To Use</th><th>Best For</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Zero-Shot CoT</strong></td><td>Add "think step by step" — no examples needed</td><td>Quick reasoning tasks, math, logic</td></tr>
-        <tr><td><strong>Few-Shot CoT</strong></td><td>Show 1–3 examples of the reasoning process, then ask your question</td><td>Specialized domains, consistent format needed</td></tr>
-        <tr><td><strong>Self-Consistency CoT</strong></td><td>Generate 3–5 answers independently, pick the most common one</td><td>High-stakes decisions, reducing hallucination risk</td></tr>
-      </tbody>
-    </table>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('output-control')">← Output Control</button>
-      <button class="nav-btn next" onclick="go('few-shot')">Few-Shot Learning →</button>
-    </div>
-  </div>
-
-  <!-- ═══ FEW-SHOT ═══ -->
-  <div class="lesson" id="lesson-few-shot">
-    <div class="lesson-title">Few-Shot & Zero-Shot Learning</div>
-    <div class="lesson-subtitle">Teach the AI your exact style with examples — no fine-tuning required.</div>
-
-    <p>Few-shot prompting means giving the model examples of what you want before asking it to do the task. It's the most effective way to transfer a specific style, format, or reasoning pattern to the AI without any technical training.</p>
-
-    <h2>Zero-Shot vs One-Shot vs Few-Shot</h2>
-    <table>
-      <thead><tr><th>Type</th><th>Examples Provided</th><th>When to Use</th></tr></thead>
-      <tbody>
-        <tr><td>Zero-Shot</td><td>0 (rely on instructions alone)</td><td>Common tasks, simple formats</td></tr>
-        <tr><td>One-Shot</td><td>1 example</td><td>When you have a strong template to follow</td></tr>
-        <tr><td>Few-Shot</td><td>2–5 examples</td><td>Stylistic tasks, classification, specialized formats</td></tr>
-        <tr><td>Many-Shot</td><td>6+ examples</td><td>Complex classification, rare formats</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Few-Shot in Action: Brand Voice Matching</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">few-shot — brand voice replication</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre">You are a copywriter learning our brand voice. Study these examples, then
+Company context: [INSERT COMPANY DETAILS]
+</pre"></div>
+<h2>Zero-Shot CoT vs Few-Shot CoT</h2>
+<table>
+<thead><tr><th>Type</th><th>How To Use</th><th>Best For</th></tr></thead>
+<tbody>
+<tr><td><strong>Zero-Shot CoT</strong></td><td>Add "think step by step" — no examples needed</td><td>Quick reasoning tasks, math, logic</td></tr>
+<tr><td><strong>Few-Shot CoT</strong></td><td>Show 1–3 examples of the reasoning process, then ask your question</td><td>Specialized domains, consistent format needed</td></tr>
+<tr><td><strong>Self-Consistency CoT</strong></td><td>Generate 3–5 answers independently, pick the most common one</td><td>High-stakes decisions, reducing hallucination risk</td></tr>
+</tbody>
+</table>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('output-control')">← Output Control</button>
+<button class="nav-btn next" onclick="go('few-shot')">Few-Shot Learning →</button>
+</div>
+</div>
+<!-- ═══ FEW-SHOT ═══ -->
+<div class="lesson" id="lesson-few-shot">
+<div class="lesson-title">Few-Shot &amp; Zero-Shot Learning</div>
+<div class="lesson-subtitle">Teach the AI your exact style with examples — no fine-tuning required.</div>
+<p>Few-shot prompting means giving the model examples of what you want before asking it to do the task. It's the most effective way to transfer a specific style, format, or reasoning pattern to the AI without any technical training.</p>
+<h2>Zero-Shot vs One-Shot vs Few-Shot</h2>
+<table>
+<thead><tr><th>Type</th><th>Examples Provided</th><th>When to Use</th></tr></thead>
+<tbody>
+<tr><td>Zero-Shot</td><td>0 (rely on instructions alone)</td><td>Common tasks, simple formats</td></tr>
+<tr><td>One-Shot</td><td>1 example</td><td>When you have a strong template to follow</td></tr>
+<tr><td>Few-Shot</td><td>2–5 examples</td><td>Stylistic tasks, classification, specialized formats</td></tr>
+<tr><td>Many-Shot</td><td>6+ examples</td><td>Complex classification, rare formats</td></tr>
+</tbody>
+</table>
+<h2>Few-Shot in Action: Brand Voice Matching</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">few-shot — brand voice replication</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a copywriter learning our brand voice. Study these examples, then
 write a new tweet in the same style.
 
 <span class="hl-key">EXAMPLE 1:</span>
@@ -1280,13 +743,12 @@ Tweet: you'll be live in 4 minutes. we timed it.
 
 <span class="hl-val">NOW YOUR TURN:</span>
 Prompt: Write about our new CSV export feature
-Tweet:</pre>
-    </div>
-
-    <h2>Few-Shot for Classification Tasks</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">few-shot — sentiment classification</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre>Classify each customer review as POSITIVE, NEGATIVE, or NEUTRAL.
+Tweet:
+</pre"></div>
+<h2>Few-Shot for Classification Tasks</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">few-shot — sentiment classification</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre>Classify each customer review as POSITIVE, NEGATIVE, or NEUTRAL.
 Return only the classification label.
 
 <span class="hl-key">Examples:</span>
@@ -1302,32 +764,26 @@ Classification: NEUTRAL
 <span class="hl-val">Now classify:</span>
 Review: "Been using it for 3 months. Had two outages but support resolved them fast."
 Classification:</pre>
-    </div>
-
-    <div class="callout warning">
-      <div class="callout-title">⚠️ Watch Out: Example Bias</div>
-      <p>The model will mirror your examples — including their flaws. If your examples use passive voice, expect passive voice output. If they're all negative in sentiment, neutral inputs may skew negative. Always review your examples for unintended patterns before using them at scale.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('chain-of-thought')">← Chain of Thought</button>
-      <button class="nav-btn next" onclick="go('system-prompts')">System Prompts →</button>
-    </div>
-  </div>
-
-  <!-- ═══ SYSTEM PROMPTS ═══ -->
-  <div class="lesson" id="lesson-system-prompts">
-    <div class="lesson-title">System Prompts & APIs</div>
-    <div class="lesson-subtitle">How professional applications are built on top of AI — and how to write the instructions that power them.</div>
-
-    <p>When you use an AI feature inside a product (a chatbot on a website, an AI writing assistant, a code reviewer) — there's almost always a system prompt running behind the scenes that you can't see. Understanding and writing system prompts is the core skill of building AI-powered products.</p>
-
-    <h2>What Is a System Prompt?</h2>
-    <p>A system prompt is an instruction set provided to the AI before the user's first message. It defines the AI's persona, capabilities, constraints, and behavior for the entire conversation. Users typically can't see or override it.</p>
-
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">api call structure</span></div>
-      <pre>{
+</div>
+<div class="callout warning">
+<div class="callout-title">⚠️ Watch Out: Example Bias</div>
+<p>The model will mirror your examples — including their flaws. If your examples use passive voice, expect passive voice output. If they're all negative in sentiment, neutral inputs may skew negative. Always review your examples for unintended patterns before using them at scale.</p>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('chain-of-thought')">← Chain of Thought</button>
+<button class="nav-btn next" onclick="go('system-prompts')">System Prompts →</button>
+</div>
+</div>
+<!-- ═══ SYSTEM PROMPTS ═══ -->
+<div class="lesson" id="lesson-system-prompts">
+<div class="lesson-title">System Prompts &amp; APIs</div>
+<div class="lesson-subtitle">How professional applications are built on top of AI — and how to write the instructions that power them.</div>
+<p>When you use an AI feature inside a product (a chatbot on a website, an AI writing assistant, a code reviewer) — there's almost always a system prompt running behind the scenes that you can't see. Understanding and writing system prompts is the core skill of building AI-powered products.</p>
+<h2>What Is a System Prompt?</h2>
+<p>A system prompt is an instruction set provided to the AI before the user's first message. It defines the AI's persona, capabilities, constraints, and behavior for the entire conversation. Users typically can't see or override it.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">api call structure</span></div>
+<pre>{
   <span class="hl-key">"model"</span>: <span class="hl-val">"claude-sonnet-4-20250514"</span>,
   <span class="hl-key">"system"</span>: <span class="hl-val">"[YOUR SYSTEM PROMPT GOES HERE]"</span>,
   <span class="hl-key">"messages"</span>: [
@@ -1337,12 +793,11 @@ Classification:</pre>
     }
   ]
 }</pre>
-    </div>
-
-    <h2>Anatomy of a Professional System Prompt</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">system prompt — SaaS customer support bot</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre"><span class="hl-role">## Identity</span>
+</div>
+<h2>Anatomy of a Professional System Prompt</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">system prompt — SaaS customer support bot</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre"><span class="hl-role">## Identity</span>
 You are Aria, the customer support assistant for Northwave Analytics.
 You are helpful, efficient, and empathetic. You speak in plain English.
 You never use jargon unless the user uses it first.
@@ -1368,65 +823,57 @@ Then set the conversation status to ESCALATE.
 - Never mention competitor products by name
 
 <span class="hl-comment">## Tone</span>
-Concise. No filler words. Short sentences. Get to the solution fast.</pre>
-    </div>
-
-    <h2>Key System Prompt Patterns</h2>
-    <table>
-      <thead><tr><th>Pattern</th><th>Example</th><th>Why It Matters</th></tr></thead>
-      <tbody>
-        <tr><td>Capability Boundary</td><td>"You can only discuss topics related to cooking."</td><td>Prevents off-topic responses in focused apps</td></tr>
-        <tr><td>Failure Mode</td><td>"If you don't know, say 'I'm not sure — let me find out.'"</td><td>Controls hallucination behavior</td></tr>
-        <tr><td>Output Format Lock</td><td>"Always respond in this JSON structure: {}"</td><td>Ensures parseable output for downstream code</td></tr>
-        <tr><td>Persona Consistency</td><td>"Your name is Max. Never break character."</td><td>Creates consistent UX</td></tr>
-        <tr><td>Safety Rails</td><td>"Never provide medical diagnoses. Always recommend professional consultation."</td><td>Legal and safety compliance</td></tr>
-      </tbody>
-    </table>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('few-shot')">← Few-Shot</button>
-      <button class="nav-btn next" onclick="go('iteration')">Prompt Iteration →</button>
-    </div>
-  </div>
-
-  <!-- ═══ ITERATION ═══ -->
-  <div class="lesson" id="lesson-iteration">
-    <div class="lesson-title">Prompt Iteration & Debugging</div>
-    <div class="lesson-subtitle">The professional workflow: diagnose, refine, test, repeat.</div>
-
-    <p>Great prompts aren't written — they're iterated. Every professional prompt engineer treats prompt writing like a feedback loop, not a one-shot task. This lesson teaches you the systematic process.</p>
-
-    <h2>The Prompt Debugging Loop</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">iteration workflow</span></div>
-      <pre"><span class="hl-role">1. WRITE</span>  → Draft your best prompt
+Concise. No filler words. Short sentences. Get to the solution fast.
+</pre"></div>
+<h2>Key System Prompt Patterns</h2>
+<table>
+<thead><tr><th>Pattern</th><th>Example</th><th>Why It Matters</th></tr></thead>
+<tbody>
+<tr><td>Capability Boundary</td><td>"You can only discuss topics related to cooking."</td><td>Prevents off-topic responses in focused apps</td></tr>
+<tr><td>Failure Mode</td><td>"If you don't know, say 'I'm not sure — let me find out.'"</td><td>Controls hallucination behavior</td></tr>
+<tr><td>Output Format Lock</td><td>"Always respond in this JSON structure: {}"</td><td>Ensures parseable output for downstream code</td></tr>
+<tr><td>Persona Consistency</td><td>"Your name is Max. Never break character."</td><td>Creates consistent UX</td></tr>
+<tr><td>Safety Rails</td><td>"Never provide medical diagnoses. Always recommend professional consultation."</td><td>Legal and safety compliance</td></tr>
+</tbody>
+</table>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('few-shot')">← Few-Shot</button>
+<button class="nav-btn next" onclick="go('iteration')">Prompt Iteration →</button>
+</div>
+</div>
+<!-- ═══ ITERATION ═══ -->
+<div class="lesson" id="lesson-iteration">
+<div class="lesson-title">Prompt Iteration &amp; Debugging</div>
+<div class="lesson-subtitle">The professional workflow: diagnose, refine, test, repeat.</div>
+<p>Great prompts aren't written — they're iterated. Every professional prompt engineer treats prompt writing like a feedback loop, not a one-shot task. This lesson teaches you the systematic process.</p>
+<h2>The Prompt Debugging Loop</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">iteration workflow</span></div>
+<pre"><span class="hl-role">1. WRITE</span>  → Draft your best prompt
 <span class="hl-key">2. TEST</span>   → Run it 3–5 times (outputs vary due to temperature)
 <span class="hl-val">3. DIAGNOSE</span> → Identify the specific failure mode
 <span class="hl-comment">4. HYPOTHESIZE</span> → What instruction would fix this?
 <span class="hl-role">5. EDIT</span>  → Change ONE thing at a time
-<span class="hl-key">6. REPEAT</span> → Until consistently good output</pre>
-    </div>
-
-    <h2>Common Failure Modes & Fixes</h2>
-    <table>
-      <thead><tr><th>Symptom</th><th>Root Cause</th><th>Fix</th></tr></thead>
-      <tbody>
-        <tr><td>Output too generic</td><td>Missing context or role</td><td>Add specific audience, company, or use case details</td></tr>
-        <tr><td>Wrong format</td><td>Format not explicitly requested</td><td>Add explicit format instructions with an example structure</td></tr>
-        <tr><td>Too long / too short</td><td>No length constraint</td><td>Add exact word/paragraph count</td></tr>
-        <tr><td>Hallucinations present</td><td>No grounding or fact-check instruction</td><td>Add "only use information I've provided" + CoT</td></tr>
-        <tr><td>Ignoring key constraints</td><td>Instructions buried in long prompt</td><td>Move constraints to the top; use ALL CAPS for critical rules</td></tr>
-        <tr><td>Sycophantic opener</td><td>Default model behavior</td><td>Add "Do not begin with acknowledgment. Start directly."</td></tr>
-        <tr><td>Inconsistent results</td><td>High temperature or ambiguous instructions</td><td>Lower temperature; clarify vague terms</td></tr>
-      </tbody>
-    </table>
-
-    <h2>A/B Testing Your Prompts</h2>
-    <p>When you're building a production system, test multiple prompt variants against the same inputs:</p>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">evaluation framework</span></div>
-      <pre"><span class="hl-comment">// For each prompt variant, score on 5 criteria (1–5 scale):</span>
-
+<span class="hl-key">6. REPEAT</span> → Until consistently good output
+</pre"></div>
+<h2>Common Failure Modes &amp; Fixes</h2>
+<table>
+<thead><tr><th>Symptom</th><th>Root Cause</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Output too generic</td><td>Missing context or role</td><td>Add specific audience, company, or use case details</td></tr>
+<tr><td>Wrong format</td><td>Format not explicitly requested</td><td>Add explicit format instructions with an example structure</td></tr>
+<tr><td>Too long / too short</td><td>No length constraint</td><td>Add exact word/paragraph count</td></tr>
+<tr><td>Hallucinations present</td><td>No grounding or fact-check instruction</td><td>Add "only use information I've provided" + CoT</td></tr>
+<tr><td>Ignoring key constraints</td><td>Instructions buried in long prompt</td><td>Move constraints to the top; use ALL CAPS for critical rules</td></tr>
+<tr><td>Sycophantic opener</td><td>Default model behavior</td><td>Add "Do not begin with acknowledgment. Start directly."</td></tr>
+<tr><td>Inconsistent results</td><td>High temperature or ambiguous instructions</td><td>Lower temperature; clarify vague terms</td></tr>
+</tbody>
+</table>
+<h2>A/B Testing Your Prompts</h2>
+<p>When you're building a production system, test multiple prompt variants against the same inputs:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">evaluation framework</span></div>
+<pre"><span class="hl-comment">// For each prompt variant, score on 5 criteria (1–5 scale):</span>
 <span class="hl-key">Accuracy</span>:    Is the information correct?
 <span class="hl-key">Relevance</span>:   Does it address the actual need?
 <span class="hl-key">Format</span>:      Is the output in the right structure?
@@ -1435,26 +882,22 @@ Concise. No filler words. Short sentences. Get to the solution fast.</pre>
 
 <span class="hl-comment">// Run 5 test inputs through each variant.
 // Total max score: 25 points per variant.
-// Pick winner. Document what made it better.</span></pre>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('system-prompts')">← System Prompts</button>
-      <button class="nav-btn next" onclick="go('rag')">RAG & Retrieval →</button>
-    </div>
-  </div>
-
-  <!-- ═══ RAG ═══ -->
-  <div class="lesson" id="lesson-rag">
-    <div class="lesson-title">RAG & Retrieval Augmented Generation</div>
-    <div class="lesson-subtitle">How to give AI access to your private knowledge base — and prompt it effectively.</div>
-
-    <p>RAG (Retrieval Augmented Generation) is the technique of retrieving relevant documents from a knowledge base and injecting them into your prompt before the AI responds. It's how companies build chatbots that "know" their internal docs, product manuals, or legal contracts.</p>
-
-    <h2>How RAG Works (Simply)</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">rag pipeline — simplified</span></div>
-      <pre"><span class="hl-role">USER QUESTION</span> → "What's our refund policy for annual plans?"
+// Pick winner. Document what made it better.</span>
+</pre"></div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('system-prompts')">← System Prompts</button>
+<button class="nav-btn next" onclick="go('rag')">RAG &amp; Retrieval →</button>
+</div>
+</div>
+<!-- ═══ RAG ═══ -->
+<div class="lesson" id="lesson-rag">
+<div class="lesson-title">RAG &amp; Retrieval Augmented Generation</div>
+<div class="lesson-subtitle">How to give AI access to your private knowledge base — and prompt it effectively.</div>
+<p>RAG (Retrieval Augmented Generation) is the technique of retrieving relevant documents from a knowledge base and injecting them into your prompt before the AI responds. It's how companies build chatbots that "know" their internal docs, product manuals, or legal contracts.</p>
+<h2>How RAG Works (Simply)</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">rag pipeline — simplified</span></div>
+<pre"><span class="hl-role">USER QUESTION</span> → "What's our refund policy for annual plans?"
       ↓
 <span class="hl-key">RETRIEVAL STEP</span> → Search knowledge base for relevant chunks
       ↓
@@ -1467,14 +910,13 @@ Concise. No filler words. Short sentences. Get to the solution fast.</pre>
  [Document 1]: Annual plan refunds are available within 30 days...
  [Document 2]: Enterprise customers may negotiate custom terms...
 
- Question: What's our refund policy for annual plans?"</pre>
-    </div>
-
-    <h2>The Grounded Prompt Pattern</h2>
-    <p>This is the single most important RAG prompt pattern — it prevents hallucination by anchoring the AI to your provided sources:</p>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">grounded RAG prompt template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre>You are a [ROLE] answering questions for [AUDIENCE].
+ Question: What's our refund policy for annual plans?"
+</pre"></div>
+<h2>The Grounded Prompt Pattern</h2>
+<p>This is the single most important RAG prompt pattern — it prevents hallucination by anchoring the AI to your provided sources:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-label">grounded RAG prompt template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre>You are a [ROLE] answering questions for [AUDIENCE].
 
 Answer the following question using ONLY the information provided in the
 documents below. Do not use any outside knowledge.
@@ -1498,34 +940,30 @@ DOCUMENTS:
 ---
 
 QUESTION: [USER QUESTION]</pre>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('iteration')">← Iteration</button>
-      <button class="nav-btn next" onclick="go('content')">Content & Copy →</button>
-    </div>
-  </div>
-
-  <!-- ═══ CONTENT ═══ -->
-  <div class="lesson" id="lesson-content">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 4 / REAL-WORLD APPLICATIONS</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:25%"></div></div>
-    </div>
-    <div class="lesson-title">Content & Copywriting</div>
-    <div class="lesson-subtitle">Professional prompts for the most common real-world use case.</div>
-
-    <h2>Content Types & Templates</h2>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Blog Post</span>
-        <span class="scenario-title">SEO Article — Full Production Prompt</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">SEO blog prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre>You are an SEO content strategist and senior writer.
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('iteration')">← Iteration</button>
+<button class="nav-btn next" onclick="go('content')">Content &amp; Copy →</button>
+</div>
+</div>
+<!-- ═══ CONTENT ═══ -->
+<div class="lesson" id="lesson-content">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 4 / REAL-WORLD APPLICATIONS</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:25%"></div></div>
+</div>
+<div class="lesson-title">Content &amp; Copywriting</div>
+<div class="lesson-subtitle">Professional prompts for the most common real-world use case.</div>
+<h2>Content Types &amp; Templates</h2>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Blog Post</span>
+<span class="scenario-title">SEO Article — Full Production Prompt</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">SEO blog prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre>You are an SEO content strategist and senior writer.
 
 Write a 1,200-word blog post targeting the keyword "best project management software for small teams."
 
@@ -1543,19 +981,18 @@ Requirements:
 
 Target audience: Operations managers and founders at companies of 5–30 people
 who are currently using spreadsheets or a tool they've outgrown.</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Email</span>
-        <span class="scenario-title">Cold Outreach Email — B2B Sales</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">cold email prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">You are a B2B sales development representative (SDR) who specializes in 
+</div>
+</div>
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Email</span>
+<span class="scenario-title">Cold Outreach Email — B2B Sales</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">cold email prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a B2B sales development representative (SDR) who specializes in 
 writing cold emails with above-average reply rates.
 
 Write a cold outreach email to [PROSPECT NAME], [TITLE] at [COMPANY].
@@ -1569,20 +1006,19 @@ Email rules:
 - Social proof: One sentence, reference a similar company we helped
 - CTA: One specific ask (15-min call, not "let me know your thoughts")
 - Length: Under 90 words total (not counting subject line)
-- No attachments, no links in first email</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Social Media</span>
-        <span class="scenario-title">LinkedIn Thought Leadership Post</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">LinkedIn post prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">You are a ghostwriter for senior tech executives writing LinkedIn content.
+- No attachments, no links in first email
+</pre"></div>
+</div>
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Social Media</span>
+<span class="scenario-title">LinkedIn Thought Leadership Post</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">LinkedIn post prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a ghostwriter for senior tech executives writing LinkedIn content.
 
 Write a LinkedIn post for a VP of Engineering sharing a lesson learned
 from their last product launch. The lesson: shipping fast without cutting
@@ -1596,33 +1032,29 @@ Post requirements:
 - End with a question to drive comments
 - Tone: Humble but authoritative. Vulnerable but professional.
 - 200-250 words
-- No hashtags in body. 3-4 hashtags at the very end only.</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('rag')">← RAG</button>
-      <button class="nav-btn next" onclick="go('code')">Coding With AI →</button>
-    </div>
-  </div>
-
-  <!-- ═══ CODE ═══ -->
-  <div class="lesson" id="lesson-code">
-    <div class="lesson-title">Coding With AI</div>
-    <div class="lesson-subtitle">Prompt patterns every developer needs — from code generation to debugging.</div>
-
-    <h2>The Developer's Prompt Toolkit</h2>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Code Generation</span>
-        <span class="scenario-title">Writing a New Function</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">code generation prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">Language: Python 3.11
+- No hashtags in body. 3-4 hashtags at the very end only.
+</pre"></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('rag')">← RAG</button>
+<button class="nav-btn next" onclick="go('code')">Coding With AI →</button>
+</div>
+</div>
+<!-- ═══ CODE ═══ -->
+<div class="lesson" id="lesson-code">
+<div class="lesson-title">Coding With AI</div>
+<div class="lesson-subtitle">Prompt patterns every developer needs — from code generation to debugging.</div>
+<h2>The Developer's Prompt Toolkit</h2>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Code Generation</span>
+<span class="scenario-title">Writing a New Function</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">code generation prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">Language: Python 3.11
 Framework context: FastAPI, using Pydantic v2 models
 
 Write a function that:
@@ -1635,20 +1067,19 @@ Requirements:
 - Type hints on all parameters and return value
 - Docstring with Args, Returns, Raises sections
 - Unit tests using pytest for: happy path, empty input, invalid date, missing key
-- Do NOT use pandas — use only stdlib + pydantic</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Debugging</span>
-        <span class="scenario-title">Diagnosing a Bug</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">debug prompt structure</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">I have a bug in my [LANGUAGE] code. Here's the context:
+- Do NOT use pandas — use only stdlib + pydantic
+</pre"></div>
+</div>
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Debugging</span>
+<span class="scenario-title">Diagnosing a Bug</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">debug prompt structure</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">I have a bug in my [LANGUAGE] code. Here's the context:
 
 WHAT IT SHOULD DO: [Describe expected behavior]
 
@@ -1668,20 +1099,19 @@ Please:
 1. Identify the root cause
 2. Explain WHY this causes the bug (not just what to change)
 3. Show the fixed code
-4. Flag any other issues you notice while reading it</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Code Review</span>
-        <span class="scenario-title">Getting a Professional Review</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">code review prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">You are a senior software engineer conducting a code review.
+4. Flag any other issues you notice while reading it
+</pre"></div>
+</div>
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Code Review</span>
+<span class="scenario-title">Getting a Professional Review</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">code review prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a senior software engineer conducting a code review.
 Be thorough and direct — this is going to production.
 
 Review the following [LANGUAGE] code for:
@@ -1697,31 +1127,28 @@ For each issue found, provide:
 - What's wrong (explain the risk, not just the fix)
 - Suggested fix with example code
 
-[PASTE CODE]</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('content')">← Content</button>
-      <button class="nav-btn next" onclick="go('data')">Data Analysis →</button>
-    </div>
-  </div>
-
-  <!-- ═══ DATA ═══ -->
-  <div class="lesson" id="lesson-data">
-    <div class="lesson-title">Data Analysis & Research</div>
-    <div class="lesson-subtitle">Using AI to process, interpret, and report on complex information.</div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Data Analysis</span>
-        <span class="scenario-title">Interpreting Survey Results</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">data interpretation prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">You are a data analyst specializing in customer research.
+[PASTE CODE]
+</pre"></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('content')">← Content</button>
+<button class="nav-btn next" onclick="go('data')">Data Analysis →</button>
+</div>
+</div>
+<!-- ═══ DATA ═══ -->
+<div class="lesson" id="lesson-data">
+<div class="lesson-title">Data Analysis &amp; Research</div>
+<div class="lesson-subtitle">Using AI to process, interpret, and report on complex information.</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Data Analysis</span>
+<span class="scenario-title">Interpreting Survey Results</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">data interpretation prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a data analyst specializing in customer research.
 
 Below is raw data from a 200-person customer satisfaction survey.
 [PASTE DATA]
@@ -1738,20 +1165,19 @@ Rules:
 - Only report what the data shows — do not invent trends
 - Flag any data quality issues you notice (gaps, outliers, inconsistencies)
 - Use plain language — this goes to non-technical leadership
-- Express confidence levels where appropriate</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenario">
-      <div class="scenario-head">
-        <span class="scenario-tag">Research</span>
-        <span class="scenario-title">Competitive Analysis</span>
-      </div>
-      <div class="scenario-body">
-        <div class="code-block">
-          <div class="code-header"><span class="code-label">research synthesis prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-          <pre">You are a market research analyst preparing a competitive brief.
+- Express confidence levels where appropriate
+</pre"></div>
+</div>
+</div>
+<div class="scenario">
+<div class="scenario-head">
+<span class="scenario-tag">Research</span>
+<span class="scenario-title">Competitive Analysis</span>
+</div>
+<div class="scenario-body">
+<div class="code-block">
+<div class="code-header"><span class="code-label">research synthesis prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre">You are a market research analyst preparing a competitive brief.
 
 I'll paste information about 4 competitors below. Based ONLY on this information
 (do not add outside knowledge that may be outdated), create:
@@ -1764,52 +1190,47 @@ I'll paste information about 4 competitors below. Based ONLY on this information
 Flag clearly if any comparison point has insufficient data.
 
 COMPETITOR DATA:
-[PASTE COMPETITOR RESEARCH]</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('code')">← Coding</button>
-      <button class="nav-btn next" onclick="go('agents')">AI Agents →</button>
-    </div>
-  </div>
-
-  <!-- ═══ AGENTS ═══ -->
-  <div class="lesson" id="lesson-agents">
-    <div class="lesson-title">AI Agents & Automation</div>
-    <div class="lesson-subtitle">The frontier: multi-step AI systems that take actions, not just produce text.</div>
-
-    <p>An AI agent is a system where an LLM can take actions — browse the web, run code, send emails, query databases — based on a task, making decisions along the way. Prompt engineering for agents is different from prompt engineering for chat because you're programming autonomous behavior.</p>
-
-    <h2>Key Concepts</h2>
-    <div class="technique-grid">
-      <div class="technique-card">
-        <div class="technique-icon">🔧</div>
-        <div class="technique-name">Tools / Functions</div>
-        <div class="technique-desc">Actions the agent can call: search_web(), run_python(), send_email(), query_db(). You define what tools exist and the agent decides when to use them.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🧭</div>
-        <div class="technique-name">Planning Prompts</div>
-        <div class="technique-desc">Instructing the agent to create an action plan before executing. "Before taking any action, output a numbered plan. Wait for confirmation."</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🔁</div>
-        <div class="technique-name">ReAct Pattern</div>
-        <div class="technique-desc">Reason → Act → Observe → Repeat. The agent thinks, acts, sees what happened, then plans the next step. Most robust pattern for complex tasks.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🛡️</div>
-        <div class="technique-name">Safety Rails</div>
-        <div class="technique-desc">Always build in: confirmation before irreversible actions, rate limits, scope constraints, and human-in-the-loop checkpoints.</div>
-      </div>
-    </div>
-
-    <h2>Agent System Prompt Template</h2>
-    <div class="code-block">
-      <div class="code-header"><span class="code-label">agent system prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-      <pre"><span class="hl-role">## Role</span>
+[PASTE COMPETITOR RESEARCH]
+</pre"></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('code')">← Coding</button>
+<button class="nav-btn next" onclick="go('agents')">AI Agents →</button>
+</div>
+</div>
+<!-- ═══ AGENTS ═══ -->
+<div class="lesson" id="lesson-agents">
+<div class="lesson-title">AI Agents &amp; Automation</div>
+<div class="lesson-subtitle">The frontier: multi-step AI systems that take actions, not just produce text.</div>
+<p>An AI agent is a system where an LLM can take actions — browse the web, run code, send emails, query databases — based on a task, making decisions along the way. Prompt engineering for agents is different from prompt engineering for chat because you're programming autonomous behavior.</p>
+<h2>Key Concepts</h2>
+<div class="technique-grid">
+<div class="technique-card">
+<div class="technique-icon">🔧</div>
+<div class="technique-name">Tools / Functions</div>
+<div class="technique-desc">Actions the agent can call: search_web(), run_python(), send_email(), query_db(). You define what tools exist and the agent decides when to use them.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🧭</div>
+<div class="technique-name">Planning Prompts</div>
+<div class="technique-desc">Instructing the agent to create an action plan before executing. "Before taking any action, output a numbered plan. Wait for confirmation."</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🔁</div>
+<div class="technique-name">ReAct Pattern</div>
+<div class="technique-desc">Reason → Act → Observe → Repeat. The agent thinks, acts, sees what happened, then plans the next step. Most robust pattern for complex tasks.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🛡️</div>
+<div class="technique-name">Safety Rails</div>
+<div class="technique-desc">Always build in: confirmation before irreversible actions, rate limits, scope constraints, and human-in-the-loop checkpoints.</div>
+</div>
+</div>
+<h2>Agent System Prompt Template</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-label">agent system prompt</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+<pre"><span class="hl-role">## Role</span>
 You are a research assistant agent. Your job is to answer questions
 by searching for current information, synthesizing findings, and
 producing structured reports.
@@ -1829,220 +1250,192 @@ producing structured reports.
 <span class="hl-comment">## Constraints</span>
 - Do not access URLs that require login
 - Do not save files without confirming the filename with the user
-- If you encounter an error twice, stop and report the issue</pre>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('data')">← Data Analysis</button>
-      <button class="nav-btn next" onclick="go('models')">Model Landscape →</button>
-    </div>
-  </div>
-
-  <!-- ═══ MODELS ═══ -->
-  <div class="lesson" id="lesson-models">
-    <div class="module-progress">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 5 / JOB READINESS</div>
-      <div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
-    </div>
-    <div class="lesson-title">The Model Landscape</div>
-    <div class="lesson-subtitle">Know your tools — the major AI platforms and when to use each one.</div>
-
-    <table>
-      <thead><tr><th>Model Family</th><th>Made By</th><th>Strengths</th><th>Best For</th></tr></thead>
-      <tbody>
-        <tr><td>GPT-4o / o1 / o3</td><td>OpenAI</td><td>Broad capability, multimodal, tool use, huge ecosystem</td><td>General use, coding, vision tasks, DALL-E integration</td></tr>
-        <tr><td>Claude 3/4 Series</td><td>Anthropic</td><td>Long context (200k tokens), nuanced writing, safety, document analysis</td><td>Long documents, careful reasoning, writing quality</td></tr>
-        <tr><td>Gemini 1.5 / 2.0</td><td>Google DeepMind</td><td>Huge context (1M tokens), Google Workspace integration, multimodal</td><td>Massive documents, Google ecosystem, video analysis</td></tr>
-        <tr><td>Llama 3 / 3.1</td><td>Meta (Open Source)</td><td>Free, self-hostable, no data leaves your infrastructure</td><td>Privacy-sensitive apps, custom fine-tuning, cost-sensitive scale</td></tr>
-        <tr><td>Mistral / Mixtral</td><td>Mistral AI</td><td>European data compliance, efficient, open weights</td><td>EU-regulated industries, edge deployment</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Choosing the Right Model</h2>
-    <div class="technique-grid">
-      <div class="technique-card">
-        <div class="technique-icon">💰</div>
-        <div class="technique-name">Budget-Sensitive</div>
-        <div class="technique-desc">Use GPT-4o-mini, Claude Haiku, or Gemini Flash for high-volume tasks. Save the expensive models for high-stakes outputs.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🔒</div>
-        <div class="technique-name">Privacy Required</div>
-        <div class="technique-desc">Use self-hosted Llama or Mistral when data cannot leave your infrastructure. Enterprise API tiers of OpenAI/Anthropic also offer no-training agreements.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">📄</div>
-        <div class="technique-name">Long Documents</div>
-        <div class="technique-desc">Claude 3.7 (200k) or Gemini 1.5 Pro (1M) for processing entire codebases, legal contracts, or research archives.</div>
-      </div>
-      <div class="technique-card">
-        <div class="technique-icon">🖼️</div>
-        <div class="technique-name">Vision / Multimodal</div>
-        <div class="technique-desc">GPT-4o or Gemini for image analysis, diagram reading, screenshot processing. Claude also handles images and PDFs natively.</div>
-      </div>
-    </div>
-
-    <div class="callout info">
-      <div class="callout-title">💡 Prompt Portability</div>
-      <p>Well-structured prompts using frameworks like COSTAR or RISEN work across all major models. The concepts you've learned in this course apply whether you're using GPT, Claude, or Gemini. Always test your prompts on your target model — behavior varies.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('agents')">← Agents</button>
-      <button class="nav-btn next" onclick="go('ethics')">Ethics & Safety →</button>
-    </div>
-  </div>
-
-  <!-- ═══ ETHICS ═══ -->
-  <div class="lesson" id="lesson-ethics">
-    <div class="lesson-title">Ethics, Safety & Bias</div>
-    <div class="lesson-subtitle">Professional responsibility in the age of AI — what every practitioner needs to know.</div>
-
-    <p>As a prompt engineer, you're not just a user of AI — you're a designer of AI behavior. That comes with professional responsibility. Companies are increasingly held accountable for AI outputs that cause harm, discriminate, or mislead.</p>
-
-    <h2>Bias in AI Systems</h2>
-    <p>LLMs inherit biases from their training data. As a prompt engineer, you can reduce bias through careful design:</p>
-    <table>
-      <thead><tr><th>Bias Type</th><th>Example</th><th>Mitigation</th></tr></thead>
-      <tbody>
-        <tr><td>Representation bias</td><td>AI consistently generates male names for leadership roles</td><td>Explicitly specify demographic diversity in outputs; audit results</td></tr>
-        <tr><td>Confirmation bias</td><td>AI agrees with your premise even when wrong</td><td>Ask for counterarguments: "What's the strongest case against this?"</td></tr>
-        <tr><td>Recency bias</td><td>AI over-weights recent events in its training data</td><td>Specify date ranges; verify facts for historical claims</td></tr>
-        <tr><td>Cultural bias</td><td>AI assumes Western cultural norms by default</td><td>Specify target region/culture explicitly in prompts</td></tr>
-      </tbody>
-    </table>
-
-    <h2>The Prompt Engineer's Responsibility Checklist</h2>
-    <ul class="checklist">
-      <li>Disclose when content is AI-generated where required by law or platform policy</li>
-      <li>Never use AI to generate misleading information, fake reviews, or impersonate real people</li>
-      <li>Test AI outputs for demographic bias before deploying to users</li>
-      <li>Build in human review for high-stakes decisions (hiring, medical, legal, financial)</li>
-      <li>Respect copyright — AI can reproduce copyrighted content; always review outputs</li>
-      <li>Protect user data — never include PII in prompts sent to third-party APIs without consent</li>
-      <li>Document your prompts — treat them like code (version control, testing, review)</li>
-    </ul>
-
-    <div class="callout danger">
-      <div class="callout-title">⚠️ Legal & Compliance Landmines</div>
-      <p>In regulated industries (finance, healthcare, legal, HR), AI outputs may carry liability. "The AI wrote it" is not a defense. If you're deploying AI in these contexts, involve legal counsel and always include human review in the loop before outputs affect decisions.</p>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('models')">← Model Landscape</button>
-      <button class="nav-btn next" onclick="go('portfolio')">Portfolio & Career →</button>
-    </div>
-  </div>
-
-  <!-- ═══ PORTFOLIO ═══ -->
-  <div class="lesson" id="lesson-portfolio">
-    <div class="lesson-title">Portfolio & Career Path</div>
-    <div class="lesson-subtitle">How to turn this course into a job — what to build, where to apply, and what to say.</div>
-
-    <h2>Roles That Hire Prompt Engineers</h2>
-    <div class="job-card">
-      <div class="job-title">AI/Prompt Engineer <span class="salary-badge">$85k–$140k</span></div>
-      <p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Dedicated roles at AI companies, tech startups, and consulting firms. Responsible for building, testing, and optimizing prompt libraries for products.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Prompt frameworks</span><span class="skill-tag">API integration</span>
-        <span class="skill-tag">Evaluation/testing</span><span class="skill-tag">Python basics</span>
-        <span class="skill-tag">LLM APIs</span>
-      </div>
-    </div>
-    <div class="job-card">
-      <div class="job-title">AI Product Manager <span class="salary-badge">$110k–$175k</span></div>
-      <p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Defines AI features, writes specifications that include prompt behavior, and bridges between engineering and business teams.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">System prompts</span><span class="skill-tag">Evaluation frameworks</span>
-        <span class="skill-tag">Product thinking</span><span class="skill-tag">User research</span>
-      </div>
-    </div>
-    <div class="job-card">
-      <div class="job-title">AI Content Strategist <span class="salary-badge">$65k–$110k</span></div>
-      <p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Uses AI to scale content production. Builds prompt libraries, maintains brand voice guides for AI, and manages editorial review workflows.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Few-shot examples</span><span class="skill-tag">Brand voice</span>
-        <span class="skill-tag">Content strategy</span><span class="skill-tag">SEO basics</span>
-      </div>
-    </div>
-    <div class="job-card">
-      <div class="job-title">AI Automation Specialist <span class="salary-badge">$70k–$120k</span></div>
-      <p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Builds workflows using tools like Zapier, Make, n8n, or custom code to automate business processes with AI at the center.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Agent prompting</span><span class="skill-tag">Workflow tools</span>
-        <span class="skill-tag">API basics</span><span class="skill-tag">Business analysis</span>
-      </div>
-    </div>
-
-    <h2>Portfolio: What to Build</h2>
-    <ul class="checklist">
-      <li><strong>Prompt Library:</strong> A GitHub repo with 20+ documented prompts across 5+ categories, each with example inputs/outputs. Show your before/after comparisons.</li>
-      <li><strong>AI-Powered Tool:</strong> A simple web app (even on Replit or CodePen) that uses the OpenAI or Anthropic API. A content generator, a resume reviewer, a classification tool.</li>
-      <li><strong>Case Study:</strong> Document a real problem you solved with prompt engineering. Show the iteration process: failed prompt → diagnosis → fix → result.</li>
-      <li><strong>System Prompt Design:</strong> Design and document a complete system prompt for a fictional product (customer support bot, writing assistant, code reviewer). Include evaluation criteria.</li>
-      <li><strong>Evaluation Framework:</strong> A spreadsheet or tool that scores prompt variants. Shows you think systematically, not just creatively.</li>
-    </ul>
-
-    <h2>Job Search Keywords</h2>
-    <p>Search for these titles in addition to "Prompt Engineer": AI Specialist, LLM Engineer, AI Product Manager, Conversational AI Designer, AI Content Strategist, Generative AI Engineer, AI Automation Engineer.</p>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('ethics')">← Ethics</button>
-      <button class="nav-btn next" onclick="go('capstone')">Capstone Project →</button>
-    </div>
-  </div>
-
-  <!-- ═══ CAPSTONE ═══ -->
-  <div class="lesson" id="lesson-capstone">
-    <div class="lesson-title">Capstone Project</div>
-    <div class="lesson-subtitle">Build something real. This is the final step between student and practitioner.</div>
-
-    <div class="callout success">
-      <div class="callout-title">✦ Congratulations — You've Reached the Capstone</div>
-      <p>You've covered every major technique in professional prompt engineering. Now it's time to synthesize everything into a single project that you can include in your portfolio.</p>
-    </div>
-
-    <h2>The Capstone: Build an AI-Powered Product Feature</h2>
-    <p>Choose a business domain below and design a complete AI system for it. Your deliverable is a documented prompt engineering spec — the kind you'd hand to a developer to implement.</p>
-
-    <h3>Option A — Customer Support Bot</h3>
-    <p>Design a complete support chatbot for a SaaS product of your choice. Include: system prompt, escalation logic, 10 test conversations (with expected responses), and an evaluation rubric.</p>
-
-    <h3>Option B — Content Production Pipeline</h3>
-    <p>Design a series of 5 connected prompts that take a raw topic and produce: research brief → outline → draft → edited version → social media distribution package. Document how each prompt hands off to the next.</p>
-
-    <h3>Option C — AI Code Reviewer</h3>
-    <p>Design a system prompt for an AI that does automated code reviews. Include: role definition, review criteria, severity framework, output format, and 3 example reviews (input code + expected AI output).</p>
-
-    <h2>Deliverable Checklist</h2>
-    <ul class="checklist">
-      <li>System prompt (if applicable) with full documentation of each decision</li>
-      <li>At least 3 prompt templates with COSTAR or RISEN frameworks applied</li>
-      <li>5 test cases with expected vs actual outputs</li>
-      <li>Iteration log: at least 2 rounds of refinement with explanation</li>
-      <li>Evaluation rubric: how you would measure "good" output</li>
-      <li>One-page write-up: the problem, your approach, key decisions made</li>
-    </ul>
-
-    <div class="hero" style="margin-top:40px;">
-      <div class="hero-eyebrow">course complete</div>
-      <h1>You're <em>Job Ready</em>.</h1>
-      <p>You've learned the complete toolkit of professional prompt engineering — from the fundamentals of how LLMs work to advanced techniques like RAG, agents, and system prompt design. Now ship something.</p>
-      <div class="hero-stats">
-        <div><div class="hero-stat-val">18</div><div class="hero-stat-label">Lessons Completed</div></div>
-        <div><div class="hero-stat-val">60+</div><div class="hero-stat-label">Real Examples Studied</div></div>
-        <div><div class="hero-stat-val">∞</div><div class="hero-stat-label">Prompts Yet to Write</div></div>
-      </div>
-    </div>
-
-    <div class="lesson-nav">
-      <button class="nav-btn prev" onclick="go('portfolio')">← Portfolio</button>
-      <button class="nav-btn next" onclick="go('intro')" style="background:var(--green); color:var(--navy);">↺ Restart Course</button>
-    </div>
-  </div>
-
+- If you encounter an error twice, stop and report the issue
+</pre"></div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('data')">← Data Analysis</button>
+<button class="nav-btn next" onclick="go('models')">Model Landscape →</button>
+</div>
+</div>
+<!-- ═══ MODELS ═══ -->
+<div class="lesson" id="lesson-models">
+<div class="module-progress">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">MODULE 5 / JOB READINESS</div>
+<div class="module-progress-bar"><div class="module-progress-fill" style="width:20%"></div></div>
+</div>
+<div class="lesson-title">The Model Landscape</div>
+<div class="lesson-subtitle">Know your tools — the major AI platforms and when to use each one.</div>
+<table>
+<thead><tr><th>Model Family</th><th>Made By</th><th>Strengths</th><th>Best For</th></tr></thead>
+<tbody>
+<tr><td>GPT-4o / o1 / o3</td><td>OpenAI</td><td>Broad capability, multimodal, tool use, huge ecosystem</td><td>General use, coding, vision tasks, DALL-E integration</td></tr>
+<tr><td>Claude 3/4 Series</td><td>Anthropic</td><td>Long context (200k tokens), nuanced writing, safety, document analysis</td><td>Long documents, careful reasoning, writing quality</td></tr>
+<tr><td>Gemini 1.5 / 2.0</td><td>Google DeepMind</td><td>Huge context (1M tokens), Google Workspace integration, multimodal</td><td>Massive documents, Google ecosystem, video analysis</td></tr>
+<tr><td>Llama 3 / 3.1</td><td>Meta (Open Source)</td><td>Free, self-hostable, no data leaves your infrastructure</td><td>Privacy-sensitive apps, custom fine-tuning, cost-sensitive scale</td></tr>
+<tr><td>Mistral / Mixtral</td><td>Mistral AI</td><td>European data compliance, efficient, open weights</td><td>EU-regulated industries, edge deployment</td></tr>
+</tbody>
+</table>
+<h2>Choosing the Right Model</h2>
+<div class="technique-grid">
+<div class="technique-card">
+<div class="technique-icon">💰</div>
+<div class="technique-name">Budget-Sensitive</div>
+<div class="technique-desc">Use GPT-4o-mini, Claude Haiku, or Gemini Flash for high-volume tasks. Save the expensive models for high-stakes outputs.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🔒</div>
+<div class="technique-name">Privacy Required</div>
+<div class="technique-desc">Use self-hosted Llama or Mistral when data cannot leave your infrastructure. Enterprise API tiers of OpenAI/Anthropic also offer no-training agreements.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">📄</div>
+<div class="technique-name">Long Documents</div>
+<div class="technique-desc">Claude 3.7 (200k) or Gemini 1.5 Pro (1M) for processing entire codebases, legal contracts, or research archives.</div>
+</div>
+<div class="technique-card">
+<div class="technique-icon">🖼️</div>
+<div class="technique-name">Vision / Multimodal</div>
+<div class="technique-desc">GPT-4o or Gemini for image analysis, diagram reading, screenshot processing. Claude also handles images and PDFs natively.</div>
+</div>
+</div>
+<div class="callout info">
+<div class="callout-title">💡 Prompt Portability</div>
+<p>Well-structured prompts using frameworks like COSTAR or RISEN work across all major models. The concepts you've learned in this course apply whether you're using GPT, Claude, or Gemini. Always test your prompts on your target model — behavior varies.</p>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('agents')">← Agents</button>
+<button class="nav-btn next" onclick="go('ethics')">Ethics &amp; Safety →</button>
+</div>
+</div>
+<!-- ═══ ETHICS ═══ -->
+<div class="lesson" id="lesson-ethics">
+<div class="lesson-title">Ethics, Safety &amp; Bias</div>
+<div class="lesson-subtitle">Professional responsibility in the age of AI — what every practitioner needs to know.</div>
+<p>As a prompt engineer, you're not just a user of AI — you're a designer of AI behavior. That comes with professional responsibility. Companies are increasingly held accountable for AI outputs that cause harm, discriminate, or mislead.</p>
+<h2>Bias in AI Systems</h2>
+<p>LLMs inherit biases from their training data. As a prompt engineer, you can reduce bias through careful design:</p>
+<table>
+<thead><tr><th>Bias Type</th><th>Example</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td>Representation bias</td><td>AI consistently generates male names for leadership roles</td><td>Explicitly specify demographic diversity in outputs; audit results</td></tr>
+<tr><td>Confirmation bias</td><td>AI agrees with your premise even when wrong</td><td>Ask for counterarguments: "What's the strongest case against this?"</td></tr>
+<tr><td>Recency bias</td><td>AI over-weights recent events in its training data</td><td>Specify date ranges; verify facts for historical claims</td></tr>
+<tr><td>Cultural bias</td><td>AI assumes Western cultural norms by default</td><td>Specify target region/culture explicitly in prompts</td></tr>
+</tbody>
+</table>
+<h2>The Prompt Engineer's Responsibility Checklist</h2>
+<ul class="checklist">
+<li>Disclose when content is AI-generated where required by law or platform policy</li>
+<li>Never use AI to generate misleading information, fake reviews, or impersonate real people</li>
+<li>Test AI outputs for demographic bias before deploying to users</li>
+<li>Build in human review for high-stakes decisions (hiring, medical, legal, financial)</li>
+<li>Respect copyright — AI can reproduce copyrighted content; always review outputs</li>
+<li>Protect user data — never include PII in prompts sent to third-party APIs without consent</li>
+<li>Document your prompts — treat them like code (version control, testing, review)</li>
+</ul>
+<div class="callout danger">
+<div class="callout-title">⚠️ Legal &amp; Compliance Landmines</div>
+<p>In regulated industries (finance, healthcare, legal, HR), AI outputs may carry liability. "The AI wrote it" is not a defense. If you're deploying AI in these contexts, involve legal counsel and always include human review in the loop before outputs affect decisions.</p>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('models')">← Model Landscape</button>
+<button class="nav-btn next" onclick="go('portfolio')">Portfolio &amp; Career →</button>
+</div>
+</div>
+<!-- ═══ PORTFOLIO ═══ -->
+<div class="lesson" id="lesson-portfolio">
+<div class="lesson-title">Portfolio &amp; Career Path</div>
+<div class="lesson-subtitle">How to turn this course into a job — what to build, where to apply, and what to say.</div>
+<h2>Roles That Hire Prompt Engineers</h2>
+<div class="job-card">
+<div class="job-title">AI/Prompt Engineer <span class="salary-badge">$85k–$140k</span></div>
+<p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Dedicated roles at AI companies, tech startups, and consulting firms. Responsible for building, testing, and optimizing prompt libraries for products.</p>
+<div class="skill-tags">
+<span class="skill-tag">Prompt frameworks</span><span class="skill-tag">API integration</span>
+<span class="skill-tag">Evaluation/testing</span><span class="skill-tag">Python basics</span>
+<span class="skill-tag">LLM APIs</span>
+</div>
+</div>
+<div class="job-card">
+<div class="job-title">AI Product Manager <span class="salary-badge">$110k–$175k</span></div>
+<p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Defines AI features, writes specifications that include prompt behavior, and bridges between engineering and business teams.</p>
+<div class="skill-tags">
+<span class="skill-tag">System prompts</span><span class="skill-tag">Evaluation frameworks</span>
+<span class="skill-tag">Product thinking</span><span class="skill-tag">User research</span>
+</div>
+</div>
+<div class="job-card">
+<div class="job-title">AI Content Strategist <span class="salary-badge">$65k–$110k</span></div>
+<p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Uses AI to scale content production. Builds prompt libraries, maintains brand voice guides for AI, and manages editorial review workflows.</p>
+<div class="skill-tags">
+<span class="skill-tag">Few-shot examples</span><span class="skill-tag">Brand voice</span>
+<span class="skill-tag">Content strategy</span><span class="skill-tag">SEO basics</span>
+</div>
+</div>
+<div class="job-card">
+<div class="job-title">AI Automation Specialist <span class="salary-badge">$70k–$120k</span></div>
+<p style="font-size:14px; color:var(--muted); margin-bottom:8px;">Builds workflows using tools like Zapier, Make, n8n, or custom code to automate business processes with AI at the center.</p>
+<div class="skill-tags">
+<span class="skill-tag">Agent prompting</span><span class="skill-tag">Workflow tools</span>
+<span class="skill-tag">API basics</span><span class="skill-tag">Business analysis</span>
+</div>
+</div>
+<h2>Portfolio: What to Build</h2>
+<ul class="checklist">
+<li><strong>Prompt Library:</strong> A GitHub repo with 20+ documented prompts across 5+ categories, each with example inputs/outputs. Show your before/after comparisons.</li>
+<li><strong>AI-Powered Tool:</strong> A simple web app (even on Replit or CodePen) that uses the OpenAI or Anthropic API. A content generator, a resume reviewer, a classification tool.</li>
+<li><strong>Case Study:</strong> Document a real problem you solved with prompt engineering. Show the iteration process: failed prompt → diagnosis → fix → result.</li>
+<li><strong>System Prompt Design:</strong> Design and document a complete system prompt for a fictional product (customer support bot, writing assistant, code reviewer). Include evaluation criteria.</li>
+<li><strong>Evaluation Framework:</strong> A spreadsheet or tool that scores prompt variants. Shows you think systematically, not just creatively.</li>
+</ul>
+<h2>Job Search Keywords</h2>
+<p>Search for these titles in addition to "Prompt Engineer": AI Specialist, LLM Engineer, AI Product Manager, Conversational AI Designer, AI Content Strategist, Generative AI Engineer, AI Automation Engineer.</p>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('ethics')">← Ethics</button>
+<button class="nav-btn next" onclick="go('capstone')">Capstone Project →</button>
+</div>
+</div>
+<!-- ═══ CAPSTONE ═══ -->
+<div class="lesson" id="lesson-capstone">
+<div class="lesson-title">Capstone Project</div>
+<div class="lesson-subtitle">Build something real. This is the final step between student and practitioner.</div>
+<div class="callout success">
+<div class="callout-title">✦ Congratulations — You've Reached the Capstone</div>
+<p>You've covered every major technique in professional prompt engineering. Now it's time to synthesize everything into a single project that you can include in your portfolio.</p>
+</div>
+<h2>The Capstone: Build an AI-Powered Product Feature</h2>
+<p>Choose a business domain below and design a complete AI system for it. Your deliverable is a documented prompt engineering spec — the kind you'd hand to a developer to implement.</p>
+<h3>Option A — Customer Support Bot</h3>
+<p>Design a complete support chatbot for a SaaS product of your choice. Include: system prompt, escalation logic, 10 test conversations (with expected responses), and an evaluation rubric.</p>
+<h3>Option B — Content Production Pipeline</h3>
+<p>Design a series of 5 connected prompts that take a raw topic and produce: research brief → outline → draft → edited version → social media distribution package. Document how each prompt hands off to the next.</p>
+<h3>Option C — AI Code Reviewer</h3>
+<p>Design a system prompt for an AI that does automated code reviews. Include: role definition, review criteria, severity framework, output format, and 3 example reviews (input code + expected AI output).</p>
+<h2>Deliverable Checklist</h2>
+<ul class="checklist">
+<li>System prompt (if applicable) with full documentation of each decision</li>
+<li>At least 3 prompt templates with COSTAR or RISEN frameworks applied</li>
+<li>5 test cases with expected vs actual outputs</li>
+<li>Iteration log: at least 2 rounds of refinement with explanation</li>
+<li>Evaluation rubric: how you would measure "good" output</li>
+<li>One-page write-up: the problem, your approach, key decisions made</li>
+</ul>
+<div class="hero" style="margin-top:40px;">
+<div class="hero-eyebrow">course complete</div>
+<h1>You're <em>Job Ready</em>.</h1>
+<p>You've learned the complete toolkit of professional prompt engineering — from the fundamentals of how LLMs work to advanced techniques like RAG, agents, and system prompt design. Now ship something.</p>
+<div class="hero-stats">
+<div><div class="hero-stat-val">18</div><div class="hero-stat-label">Lessons Completed</div></div>
+<div><div class="hero-stat-val">60+</div><div class="hero-stat-label">Real Examples Studied</div></div>
+<div><div class="hero-stat-val">∞</div><div class="hero-stat-label">Prompts Yet to Write</div></div>
+</div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn prev" onclick="go('portfolio')">← Portfolio</button>
+<button class="nav-btn next" onclick="go('intro')" style="background:var(--green); color:var(--navy);">↺ Restart Course</button>
+</div>
+</div>
 </main>
-
 <script>
   const lessons = [
     'intro','foundations','how-llms-work','anatomy','frameworks','roles',
@@ -2142,5 +1535,10 @@ producing structured reports.
     document.getElementById('sidebar').classList.toggle('open');
   }
 </script>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

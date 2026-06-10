@@ -1,68 +1,64 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Before You Code — Java Pre-Course</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/java-pre-course.css">
-
-    <link rel="stylesheet" href="../css/java-pre-course.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../css/java-pre-course.css" rel="stylesheet"/>
+<link href="../css/java-pre-course.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
 <header>
-  <div class="logo">
-    <div class="logo-mark">B</div>
-    <span class="logo-text">Before You <span>Code</span></span>
-  </div>
-  <div class="hdr-right">
-    <span class="badge">Pre-course · No syntax required</span>
-    <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
-      <span class="prog-pct" id="pPct">0%</span>
-    </div>
-  </div>
+<div class="logo">
+<div class="logo-mark">B</div>
+<span class="logo-text">Before You <span>Code</span></span>
+</div>
+<div class="hdr-right">
+<span class="badge">Pre-course · No syntax required</span>
+<div class="prog-wrap">
+<div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+<span class="prog-pct" id="pPct">0%</span>
+</div>
+</div>
 </header>
 <div class="shell">
 <nav class="sidebar">
-  <div class="sb-section">The big ideas</div>
-  <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What a program is</button>
-  <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Storing information</button>
-  <button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Making decisions</button>
-  <button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Repeating things</button>
-  <button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Named instructions</button>
-  <button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>How a computer reads code</button>
-  <div class="sb-section">The bridge</div>
-  <button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>From English to Java</button>
-  <button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>You're ready</button>
+<div class="sb-section">The big ideas</div>
+<button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What a program is</button>
+<button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Storing information</button>
+<button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Making decisions</button>
+<button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Repeating things</button>
+<button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Named instructions</button>
+<button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>How a computer reads code</button>
+<div class="sb-section">The bridge</div>
+<button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>From English to Java</button>
+<button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>You're ready</button>
 </nav>
 <main class="main">
-
 <div class="mobile-nav">
-  <select id="mobileLessonSelect" class="mobile-lesson-select" onchange="go(parseInt(this.value))">
-    <option value="0">1 · What a program is</option>
-    <option value="1">2 · Storing information</option>
-    <option value="2">3 · Making decisions</option>
-    <option value="3">4 · Repeating things</option>
-    <option value="4">5 · Named instructions</option>
-    <option value="5">6 · How a computer reads code</option>
-    <option value="6">7 · From English to Java</option>
-    <option value="7">8 · You're ready</option>
-  </select>
+<select class="mobile-lesson-select" id="mobileLessonSelect" onchange="go(parseInt(this.value))">
+<option value="0">1 · What a program is</option>
+<option value="1">2 · Storing information</option>
+<option value="2">3 · Making decisions</option>
+<option value="3">4 · Repeating things</option>
+<option value="4">5 · Named instructions</option>
+<option value="5">6 · How a computer reads code</option>
+<option value="6">7 · From English to Java</option>
+<option value="7">8 · You're ready</option>
+</select>
 </div>
-
 <!-- L0: What a program is -->
 <div class="lesson active" id="L0">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 1</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>What a program <em>actually is</em></h2>
 <p class="lesson-intro">Before writing a single line of code, let's make sure you understand what a program is. Not in a technical way — in a human way. Everything else builds from this.</p>
-
 <div class="prose">
 <p>A program is just a list of instructions that a computer follows, one at a time, in order. That's it. There's no magic. The computer does exactly what you tell it to do — no more, no less. If something goes wrong, it's because the instructions were wrong, not because the computer made a mistake.</p>
 <p>You already write programs every day — you just call them recipes, directions, or checklists.</p>
 </div>
-
 <div class="analogy">
 <span class="analogy-ico">🍳</span>
 <div class="analogy-body">
@@ -70,28 +66,23 @@
 <p>A recipe tells you: get two eggs, crack them into a bowl, add salt, whisk, pour into a hot pan, wait 2 minutes, flip. The instructions are in order. Each step depends on the previous one. If you skip step 3, the output (the omelette) is wrong. A computer program works exactly the same way.</p>
 </div>
 </div>
-
 <div class="prose">
 <h3>The four things every program does</h3>
 <p>No matter how complex — a video game, a banking app, a social network — every program boils down to just four kinds of actions:</p>
 </div>
-
 <div class="concept-row">
 <div class="concept-cell"><div class="concept-cell-label ccl--accent">Input</div><h4>Take something in</h4><p>Read from a keyboard, a file, a sensor, the internet. Something enters the program.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--warm">Process</div><h4>Do something with it</h4><p>Calculate, compare, transform, sort. This is the logic — the brain of the program.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--blue">Store</div><h4>Remember it</h4><p>Keep values in memory while the program runs, or save them to a file for later.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--accent">Output</div><h4>Show the result</h4><p>Print to a screen, write to a file, send over a network. Something leaves the program.</p></div>
 </div>
-
 <div class="prose">
 <p>Your Java Task Manager from the beginner course does all four: it <strong>reads</strong> your keyboard input, <strong>processes</strong> tasks (add, delete, complete), <strong>stores</strong> them in a file, and <strong>outputs</strong> a list to the screen.</p>
 <h3>The computer is very literal</h3>
 <p>This is the most important mindset shift for new programmers. Computers do <em>exactly</em> what you say — they don't infer what you meant, they don't fill in gaps, and they don't use common sense. If you tell it to do something impossible or contradictory, it crashes and tells you why.</p>
 <p>This feels frustrating at first. Eventually it becomes one of your favourite things about programming — the computer is perfectly honest. If it's wrong, the instructions are wrong.</p>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>there is no magic</strong><p>When a program seems to "know" something or "decide" something on its own, it's because a programmer wrote instructions that covered that case. The computer never surprises itself. Neither will you — you write the instructions, you know what they do.</p></div></div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">A user types their name into an app and it appears on screen personalised. Which two of the four actions are happening?</div>
 <div class="quiz-opts">
@@ -99,15 +90,13 @@
 <button class="quiz-opt" onclick="Q(this,true)">Input (keyboard) and Output (screen display)</button>
 <button class="quiz-opt" onclick="Q(this,false)">Store and Process</button>
 </div><div class="quiz-fb" id="qf0"></div></div>
-<div class="lesson-nav"><button class="btn btn-prev" disabled>← back</button><button class="btn btn-next" onclick="go(1)">next →</button></div>
+<div class="lesson-nav"><button class="btn btn-prev" disabled="">← back</button><button class="btn btn-next" onclick="go(1)">next →</button></div>
 </div>
-
 <!-- L1: Variables -->
 <div class="lesson" id="L1">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 2</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>Storing <em>information</em></h2>
 <p class="lesson-intro">Programs need to remember things while they run. A variable is a named box in memory that holds a piece of information. You give the box a name, put something in it, and refer to it by name whenever you need it.</p>
-
 <div class="analogy">
 <span class="analogy-ico">📦</span>
 <div class="analogy-body">
@@ -115,7 +104,6 @@
 <p>Imagine a shelf of cardboard boxes. You write "player's score" on one box and put the number 0 in it. Every time the player earns points, you open that box and increase the number. The box exists in memory for as long as the program runs. Other parts of the program can look inside it whenever they need the score.</p>
 </div>
 </div>
-
 <div class="prose">
 <h3>A variable has three parts</h3>
 <ul>
@@ -126,22 +114,18 @@
 <h3>Types of information</h3>
 <p>In real life you naturally know the difference between a number and a person's name. Computers need you to be explicit about this. Java has a few basic types:</p>
 </div>
-
 <div class="concept-row">
 <div class="concept-cell"><div class="concept-cell-label ccl--warm">Whole numbers</div><h4>Age, score, count</h4><p>25, 0, -7, 1000000. No decimal point. Called <code>int</code> in Java.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--blue">Decimal numbers</div><h4>Price, temperature</h4><p>14.99, 3.14, -0.5. Has a decimal point. Called <code>double</code> in Java.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--accent">Text</div><h4>Names, messages</h4><p>"Alice", "Hello!", "task-001". Any sequence of characters. Called <code>String</code> in Java.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--muted">True or false</div><h4>On/off, yes/no</h4><p>Only two possible values: true or false. Called <code>boolean</code> in Java.</p></div>
 </div>
-
 <div class="interactive-box">
 <div class="ib-label">Try it — name these variables</div>
 <p class="ib-desc">For each piece of information below, which type fits best?</p>
-<div id="typeQuiz" class="tq-list"></div>
+<div class="tq-list" id="typeQuiz"></div>
 </div>
-
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>the box changes, the name stays</strong><p>A variable's <em>name</em> never changes — <code>playerScore</code> is always <code>playerScore</code>. But the <em>value</em> inside it can change as many times as you want. That's why it's called a <em>vari</em>able — its value varies.</p></div></div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">You're building a quiz app. The user has answered 7 out of 10 questions correctly. Which variable holds their score most accurately?</div>
 <div class="quiz-opts">
@@ -151,13 +135,11 @@
 </div><div class="quiz-fb" id="qf1"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(0)">← back</button><button class="btn btn-next" onclick="go(2)">next →</button></div>
 </div>
-
 <!-- L2: Conditions -->
 <div class="lesson" id="L2">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 3</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>Making <em>decisions</em></h2>
 <p class="lesson-intro">A program that does the same thing every time isn't very useful. Conditions let your program ask a question and do different things depending on the answer. This is where logic lives.</p>
-
 <div class="analogy">
 <span class="analogy-ico">🚦</span>
 <div class="analogy-body">
@@ -165,21 +147,17 @@
 <p>When you approach traffic lights: <em>if</em> the light is green, drive forward. <em>Otherwise</em>, stop. The light's colour is the condition. "Drive" or "stop" are the two possible actions. The program checks the condition and chooses the right path. Every second of every day, computers are doing millions of these.</p>
 </div>
 </div>
-
 <div class="prose">
 <h3>The IF / OTHERWISE pattern</h3>
 <p>In plain English, a condition looks like this:</p>
 </div>
-
 <div class="plain-block">
 <span class="eng">IF [something is true]</span>
 <span class="code">  do this thing</span>
 <span class="eng">OTHERWISE</span>
 <span class="code">  do this other thing instead</span>
 </div>
-
 <div class="prose"><p>You can also chain multiple conditions:</p></div>
-
 <div class="plain-block">
 <span class="eng">IF the score is 90 or above</span>
 <span class="code">  grade = "A"</span>
@@ -190,7 +168,6 @@
 <span class="eng">OTHERWISE</span>
 <span class="code">  grade = "F"</span>
 </div>
-
 <div class="prose">
 <h3>Combining conditions</h3>
 <p>You can combine multiple conditions with <strong>AND</strong> or <strong>OR</strong>:</p>
@@ -200,28 +177,26 @@
 <li><strong>NOT</strong> — flips it. "If NOT raining → no umbrella needed"</li>
 </ul>
 </div>
-
 <!-- interactive condition builder -->
 <div class="interactive-box">
 <div class="ib-label">Try it — condition builder</div>
 <p class="ib-desc">A cinema has different ticket prices. Drag the sliders and see which condition fires:</p>
 <div class="ib-controls">
-  <div class="ib-row">
-    <label class="ib-lbl">Age</label>
-    <input type="range" min="1" max="80" value="25" id="ageSlider" class="ib-range" oninput="updateTicket()">
-    <span id="ageVal" class="ib-val">25</span>
-  </div>
-  <div class="ib-row">
-    <label class="ib-lbl">Day</label>
-    <select id="daySelect" onchange="updateTicket()" class="ib-select">
-      <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
-      <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
-    </select>
-  </div>
-  <div id="ticketResult" class="ticket-result"></div>
+<div class="ib-row">
+<label class="ib-lbl">Age</label>
+<input class="ib-range" id="ageSlider" max="80" min="1" oninput="updateTicket()" type="range" value="25"/>
+<span class="ib-val" id="ageVal">25</span>
+</div>
+<div class="ib-row">
+<label class="ib-lbl">Day</label>
+<select class="ib-select" id="daySelect" onchange="updateTicket()">
+<option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+<option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+</select>
+</div>
+<div class="ticket-result" id="ticketResult"></div>
 </div>
 </div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">A website checks: <em>"IF the user is logged in AND has a premium account → show full video."</em> A user is logged in but has a free account. What happens?</div>
 <div class="quiz-opts">
@@ -231,13 +206,11 @@
 </div><div class="quiz-fb" id="qf2"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(1)">← back</button><button class="btn btn-next" onclick="go(3)">next →</button></div>
 </div>
-
 <!-- L3: Loops -->
 <div class="lesson" id="L3">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 4</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>Repeating <em>things</em></h2>
 <p class="lesson-intro">What if you need to do something a hundred times? Or an unknown number of times? Writing the same instructions over and over would be ridiculous. Loops let you repeat a block of instructions automatically.</p>
-
 <div class="analogy">
 <span class="analogy-ico">🔁</span>
 <div class="analogy-body">
@@ -245,15 +218,12 @@
 <p>When you wash dishes, you don't write out: "wash plate 1, wash plate 2, wash plate 3...". You think: <em>keep washing plates until the pile is empty</em>. That's a loop. Check the condition (is there still a dirty plate?). If yes, wash one more. If no, stop.</p>
 </div>
 </div>
-
 <div class="prose"><h3>Two kinds of loops</h3>
 <p>Almost every loop you ever write fits into one of two patterns:</p></div>
-
 <div class="concept-row">
 <div class="concept-cell"><div class="concept-cell-label ccl--accent">Count loops</div><h4>"Do this 10 times"</h4><p>You know in advance how many times to repeat. Print all 30 students. Send 5 reminder emails.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--warm">Condition loops</div><h4>"Keep going until..."</h4><p>You don't know how many repetitions. Keep asking for a password until it's correct. Keep reading lines until the file ends.</p></div>
 </div>
-
 <div class="plain-block">
 <span class="eng">Count loop — do this a specific number of times:</span>
 <span class="code">  REPEAT 10 times:</span>
@@ -265,27 +235,24 @@
 <span class="code">    do the task</span>
 <span class="code">    remove it from the list</span>
 </div>
-
 <div class="prose">
 <h3>The danger: infinite loops</h3>
 <p>A loop that never stops is called an <strong>infinite loop</strong>. It happens when the condition you're checking can never become false. The program runs forever (or until your computer runs out of memory). This is a real mistake beginners make often. The fix: always make sure something changes inside the loop that will eventually make the condition false.</p>
 </div>
-
 <div class="interactive-box">
 <div class="ib-label">Visualise a loop</div>
 <p class="ib-desc">Watch a count loop run step by step. How many times?</p>
 <div class="ib-row ib-row--mb">
-  <input type="range" min="1" max="8" value="4" id="loopCount" class="ib-range" oninput="resetLoop()">
-  <span id="loopCountVal" class="ib-val">4 times</span>
+<input class="ib-range" id="loopCount" max="8" min="1" oninput="resetLoop()" type="range" value="4"/>
+<span class="ib-val" id="loopCountVal">4 times</span>
 </div>
-<div id="loopViz" class="loop-viz"></div>
+<div class="loop-viz" id="loopViz"></div>
 <div class="ib-btn-row">
-  <button onclick="stepLoop()" id="stepBtn" class="ib-btn ib-btn--accent">Step →</button>
-  <button onclick="resetLoop()" class="ib-btn ib-btn--ghost">Reset</button>
+<button class="ib-btn ib-btn--accent" id="stepBtn" onclick="stepLoop()">Step →</button>
+<button class="ib-btn ib-btn--ghost" onclick="resetLoop()">Reset</button>
 </div>
-<div id="loopMsg" class="loop-msg"></div>
+<div class="loop-msg" id="loopMsg"></div>
 </div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">You're writing a program to find the first even number in a list. You don't know where in the list it is. Which loop type fits?</div>
 <div class="quiz-opts">
@@ -295,13 +262,11 @@
 </div><div class="quiz-fb" id="qf3"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(2)">← back</button><button class="btn btn-next" onclick="go(4)">next →</button></div>
 </div>
-
 <!-- L4: Functions -->
 <div class="lesson" id="L4">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 5</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>Named <em>instructions</em></h2>
 <p class="lesson-intro">What if you need to do the same set of steps in multiple places? You don't copy-paste them. You give that set of steps a name, and call it by name whenever you need it. This is a function — or in Java, a method.</p>
-
 <div class="analogy">
 <span class="analogy-ico">📋</span>
 <div class="analogy-body">
@@ -309,12 +274,10 @@
 <p>A chef doesn't rewrite the recipe for béchamel sauce every time they need it. They write it on a card called "make béchamel", and whenever a dish needs it, they follow that card. If the recipe ever changes, they update one card and every dish that uses it gets the update automatically. Functions work the same way.</p>
 </div>
 </div>
-
 <div class="prose">
 <h3>Functions can take inputs and give back outputs</h3>
 <p>The most useful functions accept information (called <strong>parameters</strong>) and hand back a result (called a <strong>return value</strong>). Think of it like a vending machine: you put money in and press a button (inputs), and a snack comes out (output).</p>
 </div>
-
 <div class="plain-block">
 <span class="eng">A function with no inputs, no output:</span>
 <span class="code">  FUNCTION greetEveryone:</span>
@@ -332,7 +295,6 @@
 <span class="code">  result = double(5)   ← result is now 10</span>
 <span class="code">  result = double(21)  ← result is now 42</span>
 </div>
-
 <div class="prose">
 <h3>Why bother with functions?</h3>
 <ul>
@@ -342,9 +304,7 @@
 <li><strong>Easier to test</strong> — you can test each function independently</li>
 </ul>
 </div>
-
 <div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>programs are made of functions calling functions</strong><p>A real program isn't one giant list of instructions. It's dozens or hundreds of small, named, focused functions that call each other. Each function does one thing. Together they do everything. This idea — breaking big problems into small named pieces — is the most important skill in programming.</p></div></div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">You have a function called <code>calculateTax(price)</code> that you use in 40 places. The tax rate changes from 8% to 10%. How many places do you need to update?</div>
 <div class="quiz-opts">
@@ -354,31 +314,26 @@
 </div><div class="quiz-fb" id="qf4"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(3)">← back</button><button class="btn btn-next" onclick="go(5)">next →</button></div>
 </div>
-
-
 <!-- L5: How a computer reads code -->
 <div class="lesson" id="L5">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 6</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
 <h2>How a computer <em>reads code</em></h2>
 <p class="lesson-intro">Understanding the order in which your instructions run — called the flow of execution — will save you hours of confusion when your program does something unexpected.</p>
-
 <div class="prose">
 <h3>Top to bottom, left to right</h3>
 <p>By default, a computer reads your code exactly like you read this sentence: top to bottom, one line at a time, left to right. It starts at the first instruction, finishes it completely, then moves to the next. It doesn't jump ahead, skip around, or multitask.</p>
 <p>This means the order of your instructions matters enormously. Swapping two lines can completely change what the program does — or break it entirely.</p>
 </div>
-
 <div class="interactive-box">
 <div class="ib-label">Trace the execution order</div>
 <p class="ib-desc">Click each step to see the computer execute it in order. Notice how the variable's value changes over time.</p>
-<div id="traceSteps" class="trace-steps"></div>
+<div class="trace-steps" id="traceSteps"></div>
 <div class="ib-btn-row ib-btn-row--gap">
-  <button onclick="nextTrace()" id="traceBtn" class="ib-btn ib-btn--accent">Execute next line →</button>
-  <button onclick="resetTrace()" class="ib-btn ib-btn--ghost">Reset</button>
-  <span id="memBox" class="mem-box"></span>
+<button class="ib-btn ib-btn--accent" id="traceBtn" onclick="nextTrace()">Execute next line →</button>
+<button class="ib-btn ib-btn--ghost" onclick="resetTrace()">Reset</button>
+<span class="mem-box" id="memBox"></span>
 </div>
 </div>
-
 <div class="prose">
 <h3>Three things that change the flow</h3>
 <p>Three structures break the "just go top to bottom" rule:</p>
@@ -389,11 +344,9 @@
 </ul>
 <p>You already know all three of these. Now you know how they fit into the computer's reading order.</p>
 </div>
-
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>when debugging, become the computer</strong><p>The most reliable debugging technique is to mentally (or literally, with a piece of paper) trace through your code line by line, tracking what each variable contains at each step. Most bugs become obvious within a few lines. Professional developers do this constantly.</p></div></div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
-<div class="quiz-q">You have these two instructions:<br><code>score = score + 10</code><br><code>score = 0</code><br>What is <code>score</code> at the end if it started at 5?</div>
+<div class="quiz-q">You have these two instructions:<br/><code>score = score + 10</code><br/><code>score = 0</code><br/>What is <code>score</code> at the end if it started at 5?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">15 — the +10 is the last meaningful action</button>
 <button class="quiz-opt" onclick="Q(this,true)">0 — the computer runs top to bottom; adding 10 first gives 15, then setting to 0 overwrites it</button>
@@ -401,15 +354,12 @@
 </div><div class="quiz-fb" id="qf5"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(4)">← back</button><button class="btn btn-next" onclick="go(6)">next →</button></div>
 </div>
-
 <!-- L6: Bridge to Java -->
 <div class="lesson" id="L6">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 7</span><span class="ey-dot"></span><span class="ey-cat">The bridge</span></div>
 <h2>From English <em>to Java</em></h2>
 <p class="lesson-intro">You now understand every concept Java uses. This lesson is nothing new — it just shows you how the ideas you already know look when written in Java's particular notation.</p>
-
 <div class="prose"><p>Every language has its own spelling for the same concepts. Java's spelling can look intimidating at first — but the ideas underneath are what you just learned. Read the English version, then look at the Java version. They say the same thing.</p></div>
-
 <div class="bridge">
 <div class="br-label">Storing information → Java variables</div>
 <span class="br-eng">// A whole-number box labelled "score" containing 0</span>
@@ -421,7 +371,6 @@
 <span class="br-eng">// A true/false box labelled "isLoggedIn" set to true</span>
 <span class="br-java"><span class="br-kw">boolean</span> isLoggedIn = <span class="br-kw">true</span>;</span>
 </div>
-
 <div class="bridge">
 <div class="br-label">Making decisions → if/else</div>
 <span class="br-eng">// IF the score is 90 or above → grade = "A"</span>
@@ -433,12 +382,11 @@
 <span class="br-java">    grade = <span class="br-str">"F"</span>;</span>
 <span class="br-java">}</span>
 </div>
-
 <div class="bridge">
 <div class="br-label">Repeating things → loops</div>
 <span class="br-eng">// Count loop: repeat exactly 5 times</span>
 <span class="br-java"><span class="br-kw">for</span> (<span class="br-kw">int</span> i = <span class="br-num">1</span>; i &lt;= <span class="br-num">5</span>; i++) {</span>
-<span class="br-java">    <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello!"</span>);</span>
+<span class="br-java"> <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello!"</span>);</span>
 <span class="br-java">}</span>
 <span class="br-eng"> </span>
 <span class="br-eng">// Condition loop: keep going while score is above 0</span>
@@ -446,22 +394,19 @@
 <span class="br-java">    score = score - <span class="br-num">10</span>;</span>
 <span class="br-java">}</span>
 </div>
-
 <div class="bridge">
 <div class="br-label">Named instructions → methods</div>
 <span class="br-eng">// FUNCTION greet(personName): print "Hello, " + name</span>
 <span class="br-java"><span class="br-kw">public static void</span> <span class="br-fn">greet</span>(<span class="br-cl">String</span> personName) {</span>
-<span class="br-java">    <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello, "</span> + personName + <span class="br-str">"!"</span>);</span>
+<span class="br-java"> <span class="br-cl">System</span>.out.<span class="br-fn">println</span>(<span class="br-str">"Hello, "</span> + personName + <span class="br-str">"!"</span>);</span>
 <span class="br-java">}</span>
 <span class="br-eng"> </span>
 <span class="br-eng">// FUNCTION double(number): RETURN number × 2</span>
 <span class="br-java"><span class="br-kw">public static int</span> <span class="br-fn">double</span>(<span class="br-kw">int</span> number) {</span>
-<span class="br-java">    <span class="br-kw">return</span> number * <span class="br-num">2</span>;</span>
+<span class="br-java"> <span class="br-kw">return</span> number * <span class="br-num">2</span>;</span>
 <span class="br-java">}</span>
 </div>
-
 <div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>the extra syntax will make sense soon</strong><p>You'll notice words like <code>public static void</code> in the Java versions. Don't worry about those yet — the beginner course explains each one carefully when you need it. For now, just notice that the core logic — the variable, the condition, the loop, the function — is exactly what you already learned.</p></div></div>
-
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
 <div class="quiz-q">In Java you see: <code>while (livesRemaining &gt; 0) {</code>. Without knowing Java syntax, what does this mean in plain English?</div>
 <div class="quiz-opts">
@@ -471,17 +416,14 @@
 </div><div class="quiz-fb" id="qf6"></div></div>
 <div class="lesson-nav"><button class="btn btn-prev" onclick="go(5)">← back</button><button class="btn btn-next" onclick="go(7)">next →</button></div>
 </div>
-
 <!-- L7: You're ready -->
 <div class="lesson" id="L7">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 8</span><span class="ey-dot"></span><span class="ey-cat">The bridge</span></div>
 <h2>You're <em>ready</em></h2>
 <p class="lesson-intro">You came in knowing nothing about programming. You leave this pre-course with the mental models every programmer uses. The beginner course will give those models their Java clothing — but the ideas are already yours.</p>
-
 <div class="prose">
 <h3>What you now understand</h3>
 </div>
-
 <div class="concept-row">
 <div class="concept-cell"><div class="concept-cell-label ccl--accent">Programs</div><h4>A list of instructions</h4><p>Computers follow them in order, literally. Input → Process → Store → Output.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--warm">Variables</div><h4>Labelled boxes in memory</h4><p>Hold information that can change. Have a type (number, text, true/false).</p></div>
@@ -490,19 +432,15 @@
 <div class="concept-cell"><div class="concept-cell-label ccl--warm">Functions</div><h4>Named instructions</h4><p>Write once, call anywhere. Take inputs, give back outputs. Break big problems into small pieces.</p></div>
 <div class="concept-cell"><div class="concept-cell-label ccl--blue">Execution flow</div><h4>Top to bottom</h4><p>Order matters. Conditions, loops, and function calls are the only things that change the flow.</p></div>
 </div>
-
 <div class="prose">
 <h3>A word of encouragement</h3>
 <p>Learning to program feels uncomfortable at first — not because you're not smart enough, but because it's a genuinely new way of thinking. Your brain is building new pathways. The discomfort you feel when something doesn't work isn't failure; it's learning happening.</p>
 <p>Every professional developer you've ever heard of started exactly where you are right now. Every single one of them hit bugs they couldn't understand, wrote code that didn't work, and felt confused at 2am. What made them developers was that they kept going anyway.</p>
 <p>The beginner course starts with exactly what you'd expect after this: Java's syntax for variables, printing output, and the structure of a program. You already understand what all of it means. Now you're just learning how Java spells it.</p>
 </div>
-
 <div class="callout good"><span class="callout-ico">🎯</span><div class="callout-body"><strong>what to do when you get stuck</strong><p>Read the error message — Java tells you exactly what went wrong and on which line. Trace through your code manually like a computer, line by line. Search the exact error message in quotes. Ask a question explaining what you expected to happen and what happened instead. These four steps solve 95% of beginner problems.</p></div></div>
-
-<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← back</button><button class="btn btn-next" disabled>Start the Java course →</button></div>
+<div class="lesson-nav"><button class="btn btn-prev" onclick="go(6)">← back</button><button class="btn btn-next" disabled="">Start the Java course →</button></div>
 </div>
-
 </main>
 </div>
 <script>
@@ -685,10 +623,10 @@ buildTrace();
 
 updateProgress();
 </script>
-  <a href="../index.html" class="back-link">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a class="back-link" href="../index.html">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

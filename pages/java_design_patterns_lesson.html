@@ -1,160 +1,144 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Design Patterns — Core Java Mastery</title>
-
-    <link rel="stylesheet" href="../css/java_design_patterns_lesson.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="../css/java_design_patterns_lesson.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
-<nav id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-course-tag">Core Java · Phase 2</div>
-    <div class="sidebar-title">Design Patterns</div>
-  </div>
-  <div class="sidebar-progress-wrap">
-    <div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  </div>
-  <div class="sidebar-nav">
-    <div class="nav-section-label">Introduction</div>
-    <a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> What Are Design Patterns?</a>
-    <div class="nav-section-label">Creational</div>
-    <a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> Singleton</a>
-    <a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Factory Method</a>
-    <a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Builder</a>
-    <div class="nav-section-label">Structural</div>
-    <a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> Decorator</a>
-    <a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> Strategy</a>
-    <div class="nav-section-label">Behavioural</div>
-    <a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Observer</a>
-    <a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Template Method</a>
-    <div class="nav-section-label">Finish</div>
-    <a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Patterns in the Wild</a>
-    <a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
-  </div>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-course-tag">Core Java · Phase 2</div>
+<div class="sidebar-title">Design Patterns</div>
+</div>
+<div class="sidebar-progress-wrap">
+<div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section-label">Introduction</div>
+<a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> What Are Design Patterns?</a>
+<div class="nav-section-label">Creational</div>
+<a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> Singleton</a>
+<a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Factory Method</a>
+<a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Builder</a>
+<div class="nav-section-label">Structural</div>
+<a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> Decorator</a>
+<a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> Strategy</a>
+<div class="nav-section-label">Behavioural</div>
+<a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Observer</a>
+<a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Template Method</a>
+<div class="nav-section-label">Finish</div>
+<a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Patterns in the Wild</a>
+<a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
+</div>
 </nav>
-
-<main id="main">
-
+<main class="main" id="main">
 <!-- ══ S0: WHAT ARE DESIGN PATTERNS ══ -->
 <section class="lesson-section active" id="section-0">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 1 of 10</div>
-  <h1 class="lesson-title">What Are Design Patterns?</h1>
-  <p class="lesson-subtitle">Design patterns are proven, named solutions to recurring design problems. They're not code you copy — they're vocabulary and blueprints for structuring code well.</p>
-
-  <div class="lesson-meta">
-    <div class="meta-pill"><span class="dot" style="background:var(--amber)"></span> Intermediate</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~10 min read</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
-  </div>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>A blueprint for a fire escape doesn't tell architects <em>exactly</em> how to build one — it gives them a proven structural idea that they adapt to their building. Design patterns work the same way. The <strong>name</strong> carries the idea; the <strong>implementation</strong> adapts to your problem.</p>
-  </div>
-
-  <h2>The Gang of Four</h2>
-  <p>In 1994, four authors — Gamma, Helm, Johnson, Vlissides (the "Gang of Four") — catalogued 23 patterns in <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>. It remains the foundational reference. Patterns are organised into three categories:</p>
-
-  <div class="pattern-overview-grid">
-    <div class="pattern-card">
-      <div class="pc-cat creational">Creational</div>
-      <div class="pc-name">How objects are created</div>
-      <div class="pc-desc">Decouple object creation from usage. Examples: Singleton, Factory, Builder, Prototype, Abstract Factory.</div>
-    </div>
-    <div class="pattern-card">
-      <div class="pc-cat structural">Structural</div>
-      <div class="pc-name">How objects are composed</div>
-      <div class="pc-desc">Combine classes and objects into larger structures. Examples: Decorator, Adapter, Facade, Composite, Proxy.</div>
-    </div>
-    <div class="pattern-card">
-      <div class="pc-cat behavioral">Behavioural</div>
-      <div class="pc-name">How objects communicate</div>
-      <div class="pc-desc">Define how objects interact and distribute responsibility. Examples: Observer, Strategy, Template Method, Command, Iterator.</div>
-    </div>
-  </div>
-
-  <h2>Why Learn Them?</h2>
-  <div class="step-list">
-    <div class="step-item">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">Shared vocabulary</div>
-        <div class="step-desc">Say "use the Builder pattern" in a code review and every Java developer knows exactly what you mean. Patterns are communication tools.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">Interview currency</div>
-        <div class="step-desc">Singleton, Factory, Builder, Observer, and Strategy appear in virtually every Java interview at mid-level and above.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">You already use them</div>
-        <div class="step-desc">Java's own APIs are built on patterns: <code>Iterator</code>, <code>Collections.sort</code> (Strategy), <code>InputStream</code> decorators, <code>Observable</code> in Swing. Knowing the pattern unlocks the API.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <div class="step-title">Better design instincts</div>
-        <div class="step-desc">Patterns encode decades of hard-won OOP wisdom. Studying them trains you to spot better solutions faster.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout warning">
-    <div class="callout-title">⚠ Don't Over-Pattern</div>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 1 of 10</div>
+<h1 class="lesson-title">What Are Design Patterns?</h1>
+<p class="lesson-subtitle">Design patterns are proven, named solutions to recurring design problems. They're not code you copy — they're vocabulary and blueprints for structuring code well.</p>
+<div class="lesson-meta">
+<div class="meta-pill"><span class="dot" style="background:var(--amber)"></span> Intermediate</div>
+<div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~10 min read</div>
+<div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
+</div>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>A blueprint for a fire escape doesn't tell architects <em>exactly</em> how to build one — it gives them a proven structural idea that they adapt to their building. Design patterns work the same way. The <strong>name</strong> carries the idea; the <strong>implementation</strong> adapts to your problem.</p>
+</div>
+<h2>The Gang of Four</h2>
+<p>In 1994, four authors — Gamma, Helm, Johnson, Vlissides (the "Gang of Four") — catalogued 23 patterns in <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>. It remains the foundational reference. Patterns are organised into three categories:</p>
+<div class="pattern-overview-grid">
+<div class="pattern-card">
+<div class="pc-cat creational">Creational</div>
+<div class="pc-name">How objects are created</div>
+<div class="pc-desc">Decouple object creation from usage. Examples: Singleton, Factory, Builder, Prototype, Abstract Factory.</div>
+</div>
+<div class="pattern-card">
+<div class="pc-cat structural">Structural</div>
+<div class="pc-name">How objects are composed</div>
+<div class="pc-desc">Combine classes and objects into larger structures. Examples: Decorator, Adapter, Facade, Composite, Proxy.</div>
+</div>
+<div class="pattern-card">
+<div class="pc-cat behavioral">Behavioural</div>
+<div class="pc-name">How objects communicate</div>
+<div class="pc-desc">Define how objects interact and distribute responsibility. Examples: Observer, Strategy, Template Method, Command, Iterator.</div>
+</div>
+</div>
+<h2>Why Learn Them?</h2>
+<div class="step-list">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Shared vocabulary</div>
+<div class="step-desc">Say "use the Builder pattern" in a code review and every Java developer knows exactly what you mean. Patterns are communication tools.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Interview currency</div>
+<div class="step-desc">Singleton, Factory, Builder, Observer, and Strategy appear in virtually every Java interview at mid-level and above.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">You already use them</div>
+<div class="step-desc">Java's own APIs are built on patterns: <code>Iterator</code>, <code>Collections.sort</code> (Strategy), <code>InputStream</code> decorators, <code>Observable</code> in Swing. Knowing the pattern unlocks the API.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">4</div>
+<div class="step-content">
+<div class="step-title">Better design instincts</div>
+<div class="step-desc">Patterns encode decades of hard-won OOP wisdom. Studying them trains you to spot better solutions faster.</div>
+</div>
+</div>
+</div>
+<div class="callout warning">
+<div class="callout-title">⚠ Don't Over-Pattern</div>
     Patterns are solutions to problems — not decorations. Applying a Singleton when you don't need one, or building a Factory for a class with no variants, adds complexity without benefit. The best engineers reach for patterns when the problem fits, not to show off.
   </div>
-
-  <h2>This Lesson Covers Six Patterns</h2>
-  <p>We'll cover the six most commonly used and interviewed patterns in depth, with real Java implementations: <strong>Singleton</strong>, <strong>Factory Method</strong>, <strong>Builder</strong>, <strong>Decorator</strong>, <strong>Strategy</strong>, and <strong>Observer</strong> — plus Template Method as a bonus. Each gets a full section with before/after code and a real-world use case.</p>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" disabled>← Previous</button>
-    <span class="section-indicator">Section 1 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(1)">Singleton →</button>
-  </div>
+<h2>This Lesson Covers Six Patterns</h2>
+<p>We'll cover the six most commonly used and interviewed patterns in depth, with real Java implementations: <strong>Singleton</strong>, <strong>Factory Method</strong>, <strong>Builder</strong>, <strong>Decorator</strong>, <strong>Strategy</strong>, and <strong>Observer</strong> — plus Template Method as a bonus. Each gets a full section with before/after code and a real-world use case.</p>
+<div class="lesson-nav">
+<button class="nav-btn" disabled="">← Previous</button>
+<span class="section-indicator">Section 1 of 10</span>
+<button class="nav-btn primary" onclick="goTo(1)">Singleton →</button>
+</div>
 </section>
-
 <!-- ══ S1: SINGLETON ══ -->
 <section class="lesson-section" id="section-1">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 2 of 10</div>
-  <div class="pattern-badge">Singleton <span class="cat">· Creational</span></div>
-  <h1 class="lesson-title">Singleton</h1>
-  <p class="lesson-subtitle">Ensure a class has exactly one instance and provide a global point of access to it.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"There should be exactly one instance of this class in the entire JVM, created on demand, accessible from anywhere."</div>
-  </div>
-
-  <h2>When to Use It</h2>
-  <p>Use Singleton when a single shared instance makes logical sense and duplicates would be wasteful or incorrect: database connection pools, configuration managers, logging systems, caches.</p>
-
-  <div class="singleton-viz">
-    <div class="sv-row">
-      <div class="sv-caller">ServiceA.getInstance()</div>
-      <div class="sv-arrow">→</div>
-      <div class="sv-instance">Config — single instance</div>
-      <div class="sv-arrow">←</div>
-      <div class="sv-caller">ServiceB.getInstance()</div>
-    </div>
-    <div class="sv-label">All callers receive the same object</div>
-  </div>
-
-  <h2>The Classic Implementation</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-bad">⚠ Not Thread-Safe</span></div>
-    <pre><span class="kw">public class</span> <span class="type">Config</span> {
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 2 of 10</div>
+<div class="pattern-badge">Singleton <span class="cat">· Creational</span></div>
+<h1 class="lesson-title">Singleton</h1>
+<p class="lesson-subtitle">Ensure a class has exactly one instance and provide a global point of access to it.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"There should be exactly one instance of this class in the entire JVM, created on demand, accessible from anywhere."</div>
+</div>
+<h2>When to Use It</h2>
+<p>Use Singleton when a single shared instance makes logical sense and duplicates would be wasteful or incorrect: database connection pools, configuration managers, logging systems, caches.</p>
+<div class="singleton-viz">
+<div class="sv-row">
+<div class="sv-caller">ServiceA.getInstance()</div>
+<div class="sv-arrow">→</div>
+<div class="sv-instance">Config — single instance</div>
+<div class="sv-arrow">←</div>
+<div class="sv-caller">ServiceB.getInstance()</div>
+</div>
+<div class="sv-label">All callers receive the same object</div>
+</div>
+<h2>The Classic Implementation</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-bad">⚠ Not Thread-Safe</span></div>
+<pre><span class="kw">public class</span> <span class="type">Config</span> {
     <span class="kw">private static</span> <span class="type">Config</span> instance;   <span class="comment">// starts null</span>
 
     <span class="kw">private</span> <span class="type">Config</span>() {}               <span class="comment">// private — no external new Config()</span>
@@ -166,12 +150,11 @@
         <span class="kw">return</span> instance;
     }
 }</pre>
-  </div>
-
-  <h2>Thread-Safe: Double-Checked Locking</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-good">✓ Thread-Safe</span></div>
-    <pre><span class="kw">public class</span> <span class="type">Config</span> {
+</div>
+<h2>Thread-Safe: Double-Checked Locking</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-good">✓ Thread-Safe</span></div>
+<pre><span class="kw">public class</span> <span class="type">Config</span> {
     <span class="comment">// volatile ensures visibility across threads</span>
     <span class="kw">private static volatile</span> <span class="type">Config</span> instance;
 
@@ -196,12 +179,11 @@
 
     <span class="kw">public</span> <span class="type">String</span> <span class="method">get</span>(<span class="type">String</span> key) { <span class="kw">return</span> settings.<span class="method">get</span>(key); }
 }</pre>
-  </div>
-
-  <h2>Modern Java: Enum Singleton (Best Practice)</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-good">✓ Enum Singleton — Simplest &amp; Safest</span></div>
-    <pre><span class="kw">public enum</span> <span class="type">Config</span> {
+</div>
+<h2>Modern Java: Enum Singleton (Best Practice)</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Config.java</span><span class="code-tag tag-good">✓ Enum Singleton — Simplest &amp; Safest</span></div>
+<pre><span class="kw">public enum</span> <span class="type">Config</span> {
     <span class="iface">INSTANCE</span>;
 
     <span class="kw">private final</span> <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">String</span>&gt; settings = <span class="kw">new</span> <span class="type">HashMap</span>&lt;&gt;();
@@ -215,59 +197,52 @@
 
 <span class="comment">// Usage:</span>
 <span class="type">String</span> url = <span class="type">Config</span>.<span class="iface">INSTANCE</span>.<span class="method">get</span>(<span class="str">"db.url"</span>);</pre>
-  </div>
-
-  <div class="callout amber">
-    <div class="callout-title">🔑 Why Enum Singleton?</div>
+</div>
+<div class="callout amber">
+<div class="callout-title">🔑 Why Enum Singleton?</div>
     The enum approach is thread-safe by the JVM spec, serialization-safe (won't create a second instance on deserialization), and reflection-safe. Josh Bloch (author of Effective Java) calls it the best Singleton implementation. The only downside is that it can't extend a class.
   </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">What makes the classic lazy Singleton not thread-safe?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> The constructor is private</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">B</span> Two threads can both see <code>instance == null</code> and each create a new instance</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">C</span> The static field causes memory leaks</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> getInstance() must be non-static</button>
-    </div>
-    <div class="quiz-feedback" id="q1-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(0)">← What Are Design Patterns?</button>
-    <span class="section-indicator">Section 2 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(2)">Factory Method →</button>
-  </div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">What makes the classic lazy Singleton not thread-safe?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> The constructor is private</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">B</span> Two threads can both see <code>instance == null</code> and each create a new instance</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">C</span> The static field causes memory leaks</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> getInstance() must be non-static</button>
+</div>
+<div class="quiz-feedback" id="q1-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(0)">← What Are Design Patterns?</button>
+<span class="section-indicator">Section 2 of 10</span>
+<button class="nav-btn primary" onclick="goTo(2)">Factory Method →</button>
+</div>
 </section>
-
 <!-- ══ S2: FACTORY METHOD ══ -->
 <section class="lesson-section" id="section-2">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 3 of 10</div>
-  <div class="pattern-badge">Factory Method <span class="cat">· Creational</span></div>
-  <h1 class="lesson-title">Factory Method</h1>
-  <p class="lesson-subtitle">Define an interface for creating an object, but let subclasses — or a factory method — decide which class to instantiate.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"Instead of calling <code>new ConcreteClass()</code> everywhere, delegate object creation to a method or factory class. The caller doesn't need to know which concrete type it gets."</div>
-  </div>
-
-  <h2>The Problem: Hardcoded new</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Before.java</span><span class="code-tag tag-bad">⚠ Tightly Coupled Creation</span></div>
-    <pre><span class="comment">// Client decides exactly which class to create</span>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 3 of 10</div>
+<div class="pattern-badge">Factory Method <span class="cat">· Creational</span></div>
+<h1 class="lesson-title">Factory Method</h1>
+<p class="lesson-subtitle">Define an interface for creating an object, but let subclasses — or a factory method — decide which class to instantiate.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"Instead of calling <code>new ConcreteClass()</code> everywhere, delegate object creation to a method or factory class. The caller doesn't need to know which concrete type it gets."</div>
+</div>
+<h2>The Problem: Hardcoded new</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Before.java</span><span class="code-tag tag-bad">⚠ Tightly Coupled Creation</span></div>
+<pre><span class="comment">// Client decides exactly which class to create</span>
 <span class="type">Shape</span> s;
 <span class="kw">if</span> (type.<span class="method">equals</span>(<span class="str">"circle"</span>))    s = <span class="kw">new</span> <span class="type">Circle</span>(radius);
 <span class="kw">else if</span> (type.<span class="method">equals</span>(<span class="str">"square"</span>)) s = <span class="kw">new</span> <span class="type">Square</span>(side);
 <span class="kw">else if</span> (type.<span class="method">equals</span>(<span class="str">"triangle"</span>)) s = <span class="kw">new</span> <span class="type">Triangle</span>(base, height);
 <span class="comment">// Adding a new shape means changing THIS code everywhere it appears</span></pre>
-  </div>
-
-  <h2>Factory Method — Simple Static Factory</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">ShapeFactory.java</span><span class="code-tag tag-good">✓ Factory Pattern</span></div>
-    <pre><span class="kw">public interface</span> <span class="iface">Shape</span> {
+</div>
+<h2>Factory Method — Simple Static Factory</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">ShapeFactory.java</span><span class="code-tag tag-good">✓ Factory Pattern</span></div>
+<pre><span class="kw">public interface</span> <span class="iface">Shape</span> {
     <span class="kw">double</span> <span class="method">area</span>();
     <span class="kw">void</span>   <span class="method">draw</span>();
 }
@@ -290,9 +265,9 @@
 <span class="kw">public class</span> <span class="type">ShapeFactory</span> {
     <span class="kw">public static</span> <span class="iface">Shape</span> <span class="method">create</span>(<span class="type">String</span> type, <span class="kw">double</span>... args) {
         <span class="kw">return switch</span> (type.<span class="method">toLowerCase</span>()) {
-            <span class="kw">case</span> <span class="str">"circle"</span>    -> <span class="kw">new</span> <span class="type">Circle</span>(args[<span class="num">0</span>]);
-            <span class="kw">case</span> <span class="str">"rectangle"</span> -> <span class="kw">new</span> <span class="type">Rectangle</span>(args[<span class="num">0</span>], args[<span class="num">1</span>]);
-            <span class="kw">default</span>          -> <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Unknown: "</span> + type);
+            <span class="kw">case</span> <span class="str">"circle"</span>    -&gt; <span class="kw">new</span> <span class="type">Circle</span>(args[<span class="num">0</span>]);
+            <span class="kw">case</span> <span class="str">"rectangle"</span> -&gt; <span class="kw">new</span> <span class="type">Rectangle</span>(args[<span class="num">0</span>], args[<span class="num">1</span>]);
+            <span class="kw">default</span>          -&gt; <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Unknown: "</span> + type);
         };
     }
 }
@@ -303,12 +278,11 @@
 
 s1.<span class="method">draw</span>();  <span class="comment">// Drawing Circle r=5.0</span>
 <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"Area: %.2f%n"</span>, s2.<span class="method">area</span>());  <span class="comment">// Area: 24.00</span></pre>
-  </div>
-
-  <h2>Real-World Factory: Payment Provider</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">PaymentFactory.java</span><span class="code-tag tag-example">Practical Example</span></div>
-    <pre><span class="kw">public interface</span> <span class="iface">PaymentProcessor</span> {
+</div>
+<h2>Real-World Factory: Payment Provider</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">PaymentFactory.java</span><span class="code-tag tag-example">Practical Example</span></div>
+<pre><span class="kw">public interface</span> <span class="iface">PaymentProcessor</span> {
     <span class="kw">void</span> <span class="method">processPayment</span>(<span class="kw">double</span> amount);
 }
 
@@ -319,10 +293,10 @@ s1.<span class="method">draw</span>();  <span class="comment">// Drawing Circle 
 <span class="kw">public class</span> <span class="type">PaymentFactory</span> {
     <span class="kw">public static</span> <span class="iface">PaymentProcessor</span> <span class="method">getProcessor</span>(<span class="type">String</span> provider) {
         <span class="kw">return switch</span> (provider) {
-            <span class="kw">case</span> <span class="str">"stripe"</span> -> <span class="kw">new</span> <span class="type">StripeProcessor</span>();
-            <span class="kw">case</span> <span class="str">"paypal"</span> -> <span class="kw">new</span> <span class="type">PayPalProcessor</span>();
-            <span class="kw">case</span> <span class="str">"crypto"</span> -> <span class="kw">new</span> <span class="type">CryptoProcessor</span>();
-            <span class="kw">default</span>      -> <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Unknown provider"</span>);
+            <span class="kw">case</span> <span class="str">"stripe"</span> -&gt; <span class="kw">new</span> <span class="type">StripeProcessor</span>();
+            <span class="kw">case</span> <span class="str">"paypal"</span> -&gt; <span class="kw">new</span> <span class="type">PayPalProcessor</span>();
+            <span class="kw">case</span> <span class="str">"crypto"</span> -&gt; <span class="kw">new</span> <span class="type">CryptoProcessor</span>();
+            <span class="kw">default</span>      -&gt; <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Unknown provider"</span>);
         };
     }
 }
@@ -330,43 +304,37 @@ s1.<span class="method">draw</span>();  <span class="comment">// Drawing Circle 
 <span class="comment">// From a config value — no concrete class name in business logic</span>
 <span class="iface">PaymentProcessor</span> p = <span class="type">PaymentFactory</span>.<span class="method">getProcessor</span>(config.<span class="method">get</span>(<span class="str">"payment.provider"</span>));
 p.<span class="method">processPayment</span>(<span class="num">99.99</span>);</pre>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ The Key Benefit</div>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ The Key Benefit</div>
     The client code works against the <strong>interface</strong> (<code>PaymentProcessor</code>), not the concrete class. Swap providers by changing config — zero client code changes. Adding a new provider means adding one class and one case in the factory.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(1)">← Singleton</button>
-    <span class="section-indicator">Section 3 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(3)">Builder →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(1)">← Singleton</button>
+<span class="section-indicator">Section 3 of 10</span>
+<button class="nav-btn primary" onclick="goTo(3)">Builder →</button>
+</div>
 </section>
-
 <!-- ══ S3: BUILDER ══ -->
 <section class="lesson-section" id="section-3">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 4 of 10</div>
-  <div class="pattern-badge">Builder <span class="cat">· Creational</span></div>
-  <h1 class="lesson-title">Builder</h1>
-  <p class="lesson-subtitle">Construct complex objects step by step. Separate the construction of an object from its representation so you can produce different representations using the same process.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"Build an object piece by piece using a fluent chain of calls instead of a constructor with many parameters."</div>
-  </div>
-
-  <h2>The Problem: Telescoping Constructor</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">TelescopingConstructor.java</span><span class="code-tag tag-bad">⚠ Unreadable</span></div>
-    <pre><span class="comment">// Which argument is which? Which are optional?</span>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 4 of 10</div>
+<div class="pattern-badge">Builder <span class="cat">· Creational</span></div>
+<h1 class="lesson-title">Builder</h1>
+<p class="lesson-subtitle">Construct complex objects step by step. Separate the construction of an object from its representation so you can produce different representations using the same process.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"Build an object piece by piece using a fluent chain of calls instead of a constructor with many parameters."</div>
+</div>
+<h2>The Problem: Telescoping Constructor</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TelescopingConstructor.java</span><span class="code-tag tag-bad">⚠ Unreadable</span></div>
+<pre><span class="comment">// Which argument is which? Which are optional?</span>
 <span class="type">User</span> user = <span class="kw">new</span> <span class="type">User</span>(<span class="str">"Alice"</span>, <span class="str">"alice@example.com"</span>, <span class="num">30</span>, <span class="str">"London"</span>, <span class="kw">true</span>, <span class="kw">false</span>, <span class="num">5</span>);</pre>
-  </div>
-
-  <h2>Builder Solution</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">User.java</span><span class="code-tag tag-good">✓ Builder Pattern</span></div>
-    <pre><span class="kw">public class</span> <span class="type">User</span> {
+</div>
+<h2>Builder Solution</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">User.java</span><span class="code-tag tag-good">✓ Builder Pattern</span></div>
+<pre><span class="kw">public class</span> <span class="type">User</span> {
     <span class="comment">// All fields final — immutable once built</span>
     <span class="kw">private final</span> <span class="type">String</span>  name;
     <span class="kw">private final</span> <span class="type">String</span>  email;
@@ -422,58 +390,50 @@ p.<span class="method">processPayment</span>(<span class="num">99.99</span>);</p
 
 <span class="type">User</span> bob = <span class="kw">new</span> <span class="type">User</span>.<span class="type">Builder</span>(<span class="str">"Bob"</span>, <span class="str">"bob@example.com"</span>)
     .<span class="method">build</span>();  <span class="comment">// minimum required fields only</span></pre>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ You Already Know This</div>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ You Already Know This</div>
     Java's <code>StringBuilder</code> is a classic Builder. Spring's <code>MockMvcRequestBuilders</code>, Lombok's <code>@Builder</code>, and practically every HTTP client (<code>HttpRequest.newBuilder()</code>) all use this pattern. If you've chained method calls to build something, you've used Builder.
   </div>
-
-  <div class="callout amber">
-    <div class="callout-title">💡 Lombok @Builder</div>
+<div class="callout amber">
+<div class="callout-title">💡 Lombok @Builder</div>
     In practice, most Java projects use <a href="https://projectlombok.org" style="color:var(--amber)">Lombok</a>'s <code>@Builder</code> annotation which generates all this boilerplate automatically. Understanding the pattern manually first is essential — Lombok just eliminates the typing.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(2)">← Factory Method</button>
-    <span class="section-indicator">Section 4 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(4)">Decorator →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(2)">← Factory Method</button>
+<span class="section-indicator">Section 4 of 10</span>
+<button class="nav-btn primary" onclick="goTo(4)">Decorator →</button>
+</div>
 </section>
-
 <!-- ══ S4: DECORATOR ══ -->
 <section class="lesson-section" id="section-4">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 5 of 10</div>
-  <div class="pattern-badge">Decorator <span class="cat">· Structural</span></div>
-  <h1 class="lesson-title">Decorator</h1>
-  <p class="lesson-subtitle">Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"Wrap an object in another object that adds behaviour before or after delegating to the original — without changing the original class or the interface."</div>
-  </div>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>A <strong>coffee order</strong>: you start with espresso, then "decorate" it — add milk (becomes latte), add sugar, add syrup. Each addition wraps the previous, adding its behaviour without changing the underlying coffee. The final object is still a coffee — just with extra responsibilities stacked on top.</p>
-  </div>
-
-  <h2>Java's Own Decorator: InputStream</h2>
-  <p>Before writing your own, notice that Java's I/O system is entirely built on Decorator:</p>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">JavaIO.java</span><span class="code-tag tag-example">Decorator in the JDK</span></div>
-    <pre><span class="comment">// Each wraps the previous — pure Decorator pattern</span>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 5 of 10</div>
+<div class="pattern-badge">Decorator <span class="cat">· Structural</span></div>
+<h1 class="lesson-title">Decorator</h1>
+<p class="lesson-subtitle">Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"Wrap an object in another object that adds behaviour before or after delegating to the original — without changing the original class or the interface."</div>
+</div>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>A <strong>coffee order</strong>: you start with espresso, then "decorate" it — add milk (becomes latte), add sugar, add syrup. Each addition wraps the previous, adding its behaviour without changing the underlying coffee. The final object is still a coffee — just with extra responsibilities stacked on top.</p>
+</div>
+<h2>Java's Own Decorator: InputStream</h2>
+<p>Before writing your own, notice that Java's I/O system is entirely built on Decorator:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">JavaIO.java</span><span class="code-tag tag-example">Decorator in the JDK</span></div>
+<pre><span class="comment">// Each wraps the previous — pure Decorator pattern</span>
 <span class="type">InputStream</span> raw       = <span class="kw">new</span> <span class="type">FileInputStream</span>(<span class="str">"data.txt"</span>);
 <span class="type">InputStream</span> buffered  = <span class="kw">new</span> <span class="type">BufferedInputStream</span>(raw);     <span class="comment">// adds buffering</span>
 <span class="type">DataInputStream</span> typed = <span class="kw">new</span> <span class="type">DataInputStream</span>(buffered);  <span class="comment">// adds typed reads</span>
 
 <span class="kw">int</span> value = typed.<span class="method">readInt</span>();  <span class="comment">// reads int, buffered, from file</span></pre>
-  </div>
-
-  <h2>Building Your Own Decorator</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Coffee.java</span><span class="code-tag tag-good">✓ Decorator Pattern</span></div>
-    <pre><span class="comment">// Component interface</span>
+</div>
+<h2>Building Your Own Decorator</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Coffee.java</span><span class="code-tag tag-good">✓ Decorator Pattern</span></div>
+<pre><span class="comment">// Component interface</span>
 <span class="kw">public interface</span> <span class="iface">Coffee</span> {
     <span class="type">String</span> <span class="method">getDescription</span>();
     <span class="kw">double</span> <span class="method">getCost</span>();
@@ -508,31 +468,27 @@ p.<span class="method">processPayment</span>(<span class="num">99.99</span>);</p
 <span class="iface">Coffee</span> order = <span class="kw">new</span> <span class="type">Syrup</span>(<span class="kw">new</span> <span class="type">Milk</span>(<span class="kw">new</span> <span class="type">Espresso</span>()));
 <span class="type">System</span>.out.<span class="method">println</span>(order.<span class="method">getDescription</span>());  <span class="comment">// Espresso, Milk, Syrup</span>
 <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"%.2f%n"</span>, order.<span class="method">getCost</span>());  <span class="comment">// 2.30</span></pre>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(3)">← Builder</button>
-    <span class="section-indicator">Section 5 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(5)">Strategy →</button>
-  </div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(3)">← Builder</button>
+<span class="section-indicator">Section 5 of 10</span>
+<button class="nav-btn primary" onclick="goTo(5)">Strategy →</button>
+</div>
 </section>
-
 <!-- ══ S5: STRATEGY ══ -->
 <section class="lesson-section" id="section-5">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 6 of 10</div>
-  <div class="pattern-badge">Strategy <span class="cat">· Behavioural</span></div>
-  <h1 class="lesson-title">Strategy</h1>
-  <p class="lesson-subtitle">Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"Extract an algorithm into its own class behind an interface. Swap algorithms at runtime without changing the class that uses them."</div>
-  </div>
-
-  <h2>The Problem: Behaviour Hard-Coded with if/else</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">SortService.java</span><span class="code-tag tag-bad">⚠ Hard-Coded Algorithm</span></div>
-    <pre><span class="kw">public void</span> <span class="method">sort</span>(<span class="type">List</span>&lt;<span class="type">Integer</span>&gt; data, <span class="type">String</span> algo) {
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 6 of 10</div>
+<div class="pattern-badge">Strategy <span class="cat">· Behavioural</span></div>
+<h1 class="lesson-title">Strategy</h1>
+<p class="lesson-subtitle">Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"Extract an algorithm into its own class behind an interface. Swap algorithms at runtime without changing the class that uses them."</div>
+</div>
+<h2>The Problem: Behaviour Hard-Coded with if/else</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">SortService.java</span><span class="code-tag tag-bad">⚠ Hard-Coded Algorithm</span></div>
+<pre><span class="kw">public void</span> <span class="method">sort</span>(<span class="type">List</span>&lt;<span class="type">Integer</span>&gt; data, <span class="type">String</span> algo) {
     <span class="kw">if</span> (algo.<span class="method">equals</span>(<span class="str">"bubble"</span>)) {
         <span class="comment">// 20 lines of bubble sort</span>
     } <span class="kw">else if</span> (algo.<span class="method">equals</span>(<span class="str">"quick"</span>)) {
@@ -542,12 +498,11 @@ p.<span class="method">processPayment</span>(<span class="num">99.99</span>);</p
     }
     <span class="comment">// Adding new algorithm = touching this method = risk of breaking existing</span>
 }</pre>
-  </div>
-
-  <h2>Strategy Pattern</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">SortStrategy.java</span><span class="code-tag tag-good">✓ Strategy Pattern</span></div>
-    <pre><span class="comment">// Strategy interface</span>
+</div>
+<h2>Strategy Pattern</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">SortStrategy.java</span><span class="code-tag tag-good">✓ Strategy Pattern</span></div>
+<pre><span class="comment">// Strategy interface</span>
 <span class="kw">public interface</span> <span class="iface">SortStrategy</span> {
     <span class="kw">void</span> <span class="method">sort</span>(<span class="type">List</span>&lt;<span class="type">Integer</span>&gt; data);
 }
@@ -590,55 +545,48 @@ sorter.<span class="method">setStrategy</span>(<span class="kw">new</span> <span
 sorter.<span class="method">sort</span>(data);   <span class="comment">// Quick sorting...</span>
 
 <span class="comment">// With lambdas — strategy as a lambda (Strategy = functional interface)</span>
-sorter.<span class="method">setStrategy</span>(list -> <span class="type">Collections</span>.<span class="method">reverse</span>(list));
+sorter.<span class="method">setStrategy</span>(list -&gt; <span class="type">Collections</span>.<span class="method">reverse</span>(list));
 sorter.<span class="method">sort</span>(data);   <span class="comment">// reverses instead</span></pre>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ Strategy Is Everywhere</div>
+<code>Comparator</code> IS the Strategy pattern — you pass a different comparison strategy to <code>sort()</code> each time. <code>Collections.sort(list, comparator)</code> is a Strategy call. Every time you pass a lambda to <code>sort()</code>, you're applying the Strategy pattern.
   </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ Strategy Is Everywhere</div>
-    <code>Comparator</code> IS the Strategy pattern — you pass a different comparison strategy to <code>sort()</code> each time. <code>Collections.sort(list, comparator)</code> is a Strategy call. Every time you pass a lambda to <code>sort()</code>, you're applying the Strategy pattern.
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">A <code>Comparator</code> passed to <code>Collections.sort()</code> is an example of which pattern?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> Singleton</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">B</span> Observer</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">C</span> Strategy</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> Factory</button>
-    </div>
-    <div class="quiz-feedback" id="q2-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(4)">← Decorator</button>
-    <span class="section-indicator">Section 6 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(6)">Observer →</button>
-  </div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">A <code>Comparator</code> passed to <code>Collections.sort()</code> is an example of which pattern?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> Singleton</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">B</span> Observer</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">C</span> Strategy</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> Factory</button>
+</div>
+<div class="quiz-feedback" id="q2-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(4)">← Decorator</button>
+<span class="section-indicator">Section 6 of 10</span>
+<button class="nav-btn primary" onclick="goTo(6)">Observer →</button>
+</div>
 </section>
-
 <!-- ══ S6: OBSERVER ══ -->
 <section class="lesson-section" id="section-6">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 7 of 10</div>
-  <div class="pattern-badge">Observer <span class="cat">· Behavioural</span></div>
-  <h1 class="lesson-title">Observer</h1>
-  <p class="lesson-subtitle">Define a one-to-many dependency so that when one object changes state, all its dependents are notified and updated automatically.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"An object (the subject) maintains a list of dependents (observers) and notifies them automatically of state changes — without knowing who they are."</div>
-  </div>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>A <strong>YouTube channel</strong> and its subscribers. When a video is uploaded (event), every subscriber gets notified. The channel doesn't know who its subscribers are — it just calls <code>notify()</code>. Subscribers decide what to do with the notification.</p>
-  </div>
-
-  <h2>Implementation</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Observer.java</span><span class="code-tag tag-good">✓ Observer Pattern</span></div>
-    <pre><span class="comment">// Observer interface — what observers must implement</span>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 7 of 10</div>
+<div class="pattern-badge">Observer <span class="cat">· Behavioural</span></div>
+<h1 class="lesson-title">Observer</h1>
+<p class="lesson-subtitle">Define a one-to-many dependency so that when one object changes state, all its dependents are notified and updated automatically.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"An object (the subject) maintains a list of dependents (observers) and notifies them automatically of state changes — without knowing who they are."</div>
+</div>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>A <strong>YouTube channel</strong> and its subscribers. When a video is uploaded (event), every subscriber gets notified. The channel doesn't know who its subscribers are — it just calls <code>notify()</code>. Subscribers decide what to do with the notification.</p>
+</div>
+<h2>Implementation</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Observer.java</span><span class="code-tag tag-good">✓ Observer Pattern</span></div>
+<pre><span class="comment">// Observer interface — what observers must implement</span>
 <span class="kw">public interface</span> <span class="iface">StockObserver</span> {
     <span class="kw">void</span> <span class="method">onPriceChange</span>(<span class="type">String</span> symbol, <span class="kw">double</span> newPrice);
 }
@@ -657,7 +605,7 @@ sorter.<span class="method">sort</span>(data);   <span class="comment">// revers
     }
 
     <span class="kw">private void</span> <span class="method">notifyObservers</span>(<span class="type">String</span> symbol, <span class="kw">double</span> price) {
-        observers.<span class="method">forEach</span>(o -> o.<span class="method">onPriceChange</span>(symbol, price));
+        observers.<span class="method">forEach</span>(o -&gt; o.<span class="method">onPriceChange</span>(symbol, price));
     }
 }
 
@@ -683,41 +631,36 @@ sorter.<span class="method">sort</span>(data);   <span class="comment">// revers
 market.<span class="method">subscribe</span>(<span class="kw">new</span> <span class="type">PriceAlertBot</span>(<span class="num">150.0</span>));
 market.<span class="method">subscribe</span>(<span class="kw">new</span> <span class="type">PortfolioTracker</span>());
 market.<span class="method">subscribe</span>(                        <span class="comment">// lambda observer</span>
-    (sym, p) -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Log: "</span> + sym + <span class="str">"="</span> + p));
+    (sym, p) -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Log: "</span> + sym + <span class="str">"="</span> + p));
 
 market.<span class="method">setPrice</span>(<span class="str">"AAPL"</span>, <span class="num">155.50</span>);
 <span class="comment">// ALERT: AAPL hit $155.5</span>
 <span class="comment">// Portfolio update: AAPL = $155.50</span>
 <span class="comment">// Log: AAPL=155.5</span></pre>
+</div>
+<div class="callout info">
+<div class="callout-title">📐 Observer in Modern Java</div>
+    Java's event listeners (Swing, JavaFX), Spring's <code>ApplicationEvent</code> system, and reactive libraries (RxJava, Project Reactor) are all built on Observer. When you call <code>button.addActionListener(e -&gt; ...)</code> in Swing, you're registering an observer.
   </div>
-
-  <div class="callout info">
-    <div class="callout-title">📐 Observer in Modern Java</div>
-    Java's event listeners (Swing, JavaFX), Spring's <code>ApplicationEvent</code> system, and reactive libraries (RxJava, Project Reactor) are all built on Observer. When you call <code>button.addActionListener(e -> ...)</code> in Swing, you're registering an observer.
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(5)">← Strategy</button>
-    <span class="section-indicator">Section 7 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(7)">Template Method →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(5)">← Strategy</button>
+<span class="section-indicator">Section 7 of 10</span>
+<button class="nav-btn primary" onclick="goTo(7)">Template Method →</button>
+</div>
 </section>
-
 <!-- ══ S7: TEMPLATE METHOD ══ -->
 <section class="lesson-section" id="section-7">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 8 of 10</div>
-  <div class="pattern-badge">Template Method <span class="cat">· Behavioural</span></div>
-  <h1 class="lesson-title">Template Method</h1>
-  <p class="lesson-subtitle">Define the skeleton of an algorithm in a base class, deferring some steps to subclasses. Let subclasses redefine certain steps without changing the algorithm's structure.</p>
-
-  <div class="intent-box">
-    <div class="intent-label">Intent</div>
-    <div class="intent-text">"The base class owns the algorithm's structure. Subclasses fill in the specific steps."</div>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">DataProcessor.java</span><span class="code-tag tag-good">✓ Template Method</span></div>
-    <pre><span class="comment">// Abstract class defines the template</span>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 8 of 10</div>
+<div class="pattern-badge">Template Method <span class="cat">· Behavioural</span></div>
+<h1 class="lesson-title">Template Method</h1>
+<p class="lesson-subtitle">Define the skeleton of an algorithm in a base class, deferring some steps to subclasses. Let subclasses redefine certain steps without changing the algorithm's structure.</p>
+<div class="intent-box">
+<div class="intent-label">Intent</div>
+<div class="intent-text">"The base class owns the algorithm's structure. Subclasses fill in the specific steps."</div>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">DataProcessor.java</span><span class="code-tag tag-good">✓ Template Method</span></div>
+<pre><span class="comment">// Abstract class defines the template</span>
 <span class="kw">public abstract class</span> <span class="type">DataProcessor</span> {
 
     <span class="comment">// Template method — the algorithm skeleton (final = no override)</span>
@@ -750,153 +693,139 @@ market.<span class="method">setPrice</span>(<span class="str">"AAPL"</span>, <sp
 <span class="comment">// Usage — same process() call, different behaviour</span>
 <span class="kw">new</span> <span class="type">CsvProcessor</span>().<span class="method">process</span>();   <span class="comment">// CSV: raw | csv | data</span>
 <span class="kw">new</span> <span class="type">JsonProcessor</span>().<span class="method">process</span>();  <span class="comment">// JSON: {"KEY":"VALUE"}</span></pre>
+</div>
+<div class="callout amber">
+<div class="callout-title">🔑 Template Method in the JDK</div>
+<code>AbstractList</code>, <code>AbstractMap</code>, <code>AbstractSet</code> — all of Java's abstract collection classes use Template Method. They implement most methods in terms of a few abstract ones (<code>get()</code>, <code>size()</code>) that subclasses provide. Spring's <code>JdbcTemplate</code>, <code>RestTemplate</code> — same idea.
   </div>
-
-  <div class="callout amber">
-    <div class="callout-title">🔑 Template Method in the JDK</div>
-    <code>AbstractList</code>, <code>AbstractMap</code>, <code>AbstractSet</code> — all of Java's abstract collection classes use Template Method. They implement most methods in terms of a few abstract ones (<code>get()</code>, <code>size()</code>) that subclasses provide. Spring's <code>JdbcTemplate</code>, <code>RestTemplate</code> — same idea.
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(6)">← Observer</button>
-    <span class="section-indicator">Section 8 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(8)">Patterns in the Wild →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(6)">← Observer</button>
+<span class="section-indicator">Section 8 of 10</span>
+<button class="nav-btn primary" onclick="goTo(8)">Patterns in the Wild →</button>
+</div>
 </section>
-
 <!-- ══ S8: PATTERNS IN THE WILD ══ -->
 <section class="lesson-section" id="section-8">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 9 of 10</div>
-  <h1 class="lesson-title">Patterns in the Wild</h1>
-  <p class="lesson-subtitle">Every pattern you've learned is already all over the Java ecosystem. Here's where to spot them.</p>
-
-  <table class="compare-table">
-    <tr><th>Pattern</th><th>In the JDK</th><th>In Frameworks</th></tr>
-    <tr>
-      <td><strong>Singleton</strong></td>
-      <td><code>Runtime.getRuntime()</code>, <code>System.console()</code></td>
-      <td>Spring beans (default scope), Hibernate SessionFactory</td>
-    </tr>
-    <tr>
-      <td><strong>Factory</strong></td>
-      <td><code>Calendar.getInstance()</code>, <code>NumberFormat.getInstance()</code>, <code>List.of()</code></td>
-      <td>Spring <code>BeanFactory</code>, JDBC <code>DriverManager.getConnection()</code></td>
-    </tr>
-    <tr>
-      <td><strong>Builder</strong></td>
-      <td><code>StringBuilder</code>, <code>HttpRequest.newBuilder()</code>, <code>Stream.Builder</code></td>
-      <td>Lombok <code>@Builder</code>, Spring <code>MockMvcRequestBuilders</code>, Hibernate Criteria API</td>
-    </tr>
-    <tr>
-      <td><strong>Decorator</strong></td>
-      <td><code>BufferedReader(FileReader)</code>, <code>Collections.unmodifiableList()</code>, <code>Collections.synchronizedList()</code></td>
-      <td>Spring AOP (method interceptors), Servlet filters</td>
-    </tr>
-    <tr>
-      <td><strong>Strategy</strong></td>
-      <td><code>Comparator</code>, <code>Runnable</code>, <code>Callable</code>, all functional interfaces</td>
-      <td>Spring <code>ResourceLoader</code>, Jackson <code>SerializerFactory</code></td>
-    </tr>
-    <tr>
-      <td><strong>Observer</strong></td>
-      <td><code>java.util.Observer</code> (deprecated but notable), all Swing listeners</td>
-      <td>Spring <code>ApplicationEvent</code>, RxJava, Kafka consumer groups</td>
-    </tr>
-    <tr>
-      <td><strong>Template Method</strong></td>
-      <td><code>AbstractList</code>, <code>AbstractMap</code>, <code>HttpServlet.service()</code></td>
-      <td>Spring <code>JdbcTemplate</code>, <code>RestTemplate</code>, <code>AbstractController</code></td>
-    </tr>
-  </table>
-
-  <h2>Quick Decision Guide</h2>
-  <div class="concept-row">
-    <div class="concept-tile"><div class="concept-tile-label">Use Singleton</div><div class="concept-tile-text">One shared resource — config, connection pool, logger. Careful: overused Singletons make testing hard.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Use Factory</div><div class="concept-tile-text">You need to create objects but the exact type depends on runtime data or config. Centralises creation logic.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Use Builder</div><div class="concept-tile-text">A class has 4+ constructor params, especially optional ones. Makes construction readable and safe.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Use Decorator</div><div class="concept-tile-text">You need to add behaviour to objects without modifying the original class. Stack behaviours at runtime.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Use Strategy</div><div class="concept-tile-text">You have a family of algorithms and need to swap them. Replaces if/else chains over algorithm choice.</div></div>
-    <div class="concept-tile"><div class="concept-tile-label">Use Observer</div><div class="concept-tile-text">One event should trigger multiple independent reactions. Decouples the event source from its handlers.</div></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(7)">← Template Method</button>
-    <span class="section-indicator">Section 9 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
-  </div>
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 9 of 10</div>
+<h1 class="lesson-title">Patterns in the Wild</h1>
+<p class="lesson-subtitle">Every pattern you've learned is already all over the Java ecosystem. Here's where to spot them.</p>
+<table class="compare-table">
+<tr><th>Pattern</th><th>In the JDK</th><th>In Frameworks</th></tr>
+<tr>
+<td><strong>Singleton</strong></td>
+<td><code>Runtime.getRuntime()</code>, <code>System.console()</code></td>
+<td>Spring beans (default scope), Hibernate SessionFactory</td>
+</tr>
+<tr>
+<td><strong>Factory</strong></td>
+<td><code>Calendar.getInstance()</code>, <code>NumberFormat.getInstance()</code>, <code>List.of()</code></td>
+<td>Spring <code>BeanFactory</code>, JDBC <code>DriverManager.getConnection()</code></td>
+</tr>
+<tr>
+<td><strong>Builder</strong></td>
+<td><code>StringBuilder</code>, <code>HttpRequest.newBuilder()</code>, <code>Stream.Builder</code></td>
+<td>Lombok <code>@Builder</code>, Spring <code>MockMvcRequestBuilders</code>, Hibernate Criteria API</td>
+</tr>
+<tr>
+<td><strong>Decorator</strong></td>
+<td><code>BufferedReader(FileReader)</code>, <code>Collections.unmodifiableList()</code>, <code>Collections.synchronizedList()</code></td>
+<td>Spring AOP (method interceptors), Servlet filters</td>
+</tr>
+<tr>
+<td><strong>Strategy</strong></td>
+<td><code>Comparator</code>, <code>Runnable</code>, <code>Callable</code>, all functional interfaces</td>
+<td>Spring <code>ResourceLoader</code>, Jackson <code>SerializerFactory</code></td>
+</tr>
+<tr>
+<td><strong>Observer</strong></td>
+<td><code>java.util.Observer</code> (deprecated but notable), all Swing listeners</td>
+<td>Spring <code>ApplicationEvent</code>, RxJava, Kafka consumer groups</td>
+</tr>
+<tr>
+<td><strong>Template Method</strong></td>
+<td><code>AbstractList</code>, <code>AbstractMap</code>, <code>HttpServlet.service()</code></td>
+<td>Spring <code>JdbcTemplate</code>, <code>RestTemplate</code>, <code>AbstractController</code></td>
+</tr>
+</table>
+<h2>Quick Decision Guide</h2>
+<div class="concept-row">
+<div class="concept-tile"><div class="concept-tile-label">Use Singleton</div><div class="concept-tile-text">One shared resource — config, connection pool, logger. Careful: overused Singletons make testing hard.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Use Factory</div><div class="concept-tile-text">You need to create objects but the exact type depends on runtime data or config. Centralises creation logic.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Use Builder</div><div class="concept-tile-text">A class has 4+ constructor params, especially optional ones. Makes construction readable and safe.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Use Decorator</div><div class="concept-tile-text">You need to add behaviour to objects without modifying the original class. Stack behaviours at runtime.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Use Strategy</div><div class="concept-tile-text">You have a family of algorithms and need to swap them. Replaces if/else chains over algorithm choice.</div></div>
+<div class="concept-tile"><div class="concept-tile-label">Use Observer</div><div class="concept-tile-text">One event should trigger multiple independent reactions. Decouples the event source from its handlers.</div></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(7)">← Template Method</button>
+<span class="section-indicator">Section 9 of 10</span>
+<button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
+</div>
 </section>
-
 <!-- ══ S9: QUIZ & CHALLENGE ══ -->
 <section class="lesson-section" id="section-9">
-  <div class="lesson-eyebrow">Core Java · Design Patterns · Section 10 of 10</div>
-  <h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
-
-  <h2>Final Quiz</h2>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 1 of 4</div>
-    <div class="quiz-q">You need to build an HTTP request object with a URL (required), optional headers, optional timeout, and optional body. Which pattern fits best?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> Factory — it creates different request types</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">B</span> Builder — fluent construction with required and optional fields</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">C</span> Singleton — there's only one HTTP request at a time</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> Observer — the request reacts to responses</button>
-    </div>
-    <div class="quiz-feedback" id="fq1-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 2 of 4</div>
-    <div class="quiz-q">A notification system sends emails, SMS, and push notifications whenever an order ships. Which pattern describes this?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">A</span> Strategy — the notification algorithm varies</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">B</span> Observer — one event (ship) notifies multiple handlers</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> Decorator — adds notification capabilities to an order</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> Singleton — there's one notification service</button>
-    </div>
-    <div class="quiz-feedback" id="fq2-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 3 of 4</div>
-    <div class="quiz-q">Which pattern does <code>Collections.unmodifiableList(list)</code> implement?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> Factory — it creates a new type of List</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> Strategy — it changes the list algorithm</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> Decorator — wraps the original list adding "unmodifiable" behaviour</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Singleton — returns the same list instance</button>
-    </div>
-    <div class="quiz-feedback" id="fq3-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 4 of 4</div>
-    <div class="quiz-q">Your app supports multiple discount algorithms: percentage off, buy-one-get-one, fixed amount off. New discount types may be added. Which pattern is ideal?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">A</span> Template Method — each discount extends a base class</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq4')"><span class="option-letter">B</span> Strategy — algorithms are interchangeable, injected at runtime</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">C</span> Decorator — discounts are stacked on top of each other</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">D</span> Singleton — one discount applies at a time</button>
-    </div>
-    <div class="quiz-feedback" id="fq4-feedback"></div>
-  </div>
-
-  <h2>Coding Challenge</h2>
-
-  <div class="challenge-card">
-    <div class="challenge-label">🏋🏋 Challenge — Put It All Together</div>
-    <div class="challenge-title">Order Processing System</div>
-    <div class="challenge-desc">Build a mini order system using at least three of the patterns from this lesson.</div>
-    <div class="challenge-task"><span class="task-num">01</span>Create an <code>Order</code> class using the <strong>Builder</strong> pattern — fields: customerId, items (List), discountCode (optional), expedited (optional, default false)</div>
-    <div class="challenge-task"><span class="task-num">02</span>Create a <strong>Strategy</strong> interface <code>DiscountStrategy</code> with <code>double apply(double total)</code>. Implement: <code>NoDiscount</code>, <code>PercentageOff</code> (takes a %), <code>FixedOff</code> (takes a fixed amount)</div>
-    <div class="challenge-task"><span class="task-num">03</span>Create an <code>OrderProcessor</code> that holds a <code>DiscountStrategy</code> and an <strong>Observer</strong> list — observers get notified with the final price when an order is processed</div>
-    <div class="challenge-task"><span class="task-num">04</span>Register two observers: one that logs the order, one that sends a (simulated) email</div>
-    <div class="challenge-task"><span class="task-num">05</span>Process two orders with different discount strategies and verify both observers fire</div>
-    <button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
-    <div class="reveal-content" id="sol1">
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">OrderSystem.java</span><span class="code-tag tag-good">Solution</span></div>
-        <pre><span class="kw">import</span> java.util.*;
+<div class="lesson-eyebrow">Core Java · Design Patterns · Section 10 of 10</div>
+<h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
+<h2>Final Quiz</h2>
+<div class="quiz-card">
+<div class="quiz-label">Question 1 of 4</div>
+<div class="quiz-q">You need to build an HTTP request object with a URL (required), optional headers, optional timeout, and optional body. Which pattern fits best?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> Factory — it creates different request types</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">B</span> Builder — fluent construction with required and optional fields</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">C</span> Singleton — there's only one HTTP request at a time</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> Observer — the request reacts to responses</button>
+</div>
+<div class="quiz-feedback" id="fq1-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 2 of 4</div>
+<div class="quiz-q">A notification system sends emails, SMS, and push notifications whenever an order ships. Which pattern describes this?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">A</span> Strategy — the notification algorithm varies</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">B</span> Observer — one event (ship) notifies multiple handlers</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> Decorator — adds notification capabilities to an order</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> Singleton — there's one notification service</button>
+</div>
+<div class="quiz-feedback" id="fq2-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 3 of 4</div>
+<div class="quiz-q">Which pattern does <code>Collections.unmodifiableList(list)</code> implement?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> Factory — it creates a new type of List</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> Strategy — it changes the list algorithm</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> Decorator — wraps the original list adding "unmodifiable" behaviour</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Singleton — returns the same list instance</button>
+</div>
+<div class="quiz-feedback" id="fq3-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 4 of 4</div>
+<div class="quiz-q">Your app supports multiple discount algorithms: percentage off, buy-one-get-one, fixed amount off. New discount types may be added. Which pattern is ideal?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">A</span> Template Method — each discount extends a base class</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq4')"><span class="option-letter">B</span> Strategy — algorithms are interchangeable, injected at runtime</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">C</span> Decorator — discounts are stacked on top of each other</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq4')"><span class="option-letter">D</span> Singleton — one discount applies at a time</button>
+</div>
+<div class="quiz-feedback" id="fq4-feedback"></div>
+</div>
+<h2>Coding Challenge</h2>
+<div class="challenge-card">
+<div class="challenge-label">🏋🏋 Challenge — Put It All Together</div>
+<div class="challenge-title">Order Processing System</div>
+<div class="challenge-desc">Build a mini order system using at least three of the patterns from this lesson.</div>
+<div class="challenge-task"><span class="task-num">01</span>Create an <code>Order</code> class using the <strong>Builder</strong> pattern — fields: customerId, items (List), discountCode (optional), expedited (optional, default false)</div>
+<div class="challenge-task"><span class="task-num">02</span>Create a <strong>Strategy</strong> interface <code>DiscountStrategy</code> with <code>double apply(double total)</code>. Implement: <code>NoDiscount</code>, <code>PercentageOff</code> (takes a %), <code>FixedOff</code> (takes a fixed amount)</div>
+<div class="challenge-task"><span class="task-num">03</span>Create an <code>OrderProcessor</code> that holds a <code>DiscountStrategy</code> and an <strong>Observer</strong> list — observers get notified with the final price when an order is processed</div>
+<div class="challenge-task"><span class="task-num">04</span>Register two observers: one that logs the order, one that sends a (simulated) email</div>
+<div class="challenge-task"><span class="task-num">05</span>Process two orders with different discount strategies and verify both observers fire</div>
+<button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
+<div class="reveal-content" id="sol1">
+<div class="code-block">
+<div class="code-header"><span class="code-filename">OrderSystem.java</span><span class="code-tag tag-good">Solution</span></div>
+<pre><span class="kw">import</span> java.util.*;
 
 <span class="comment">// BUILDER — Order</span>
 <span class="kw">class</span> <span class="type">Order</span> {
@@ -952,14 +881,14 @@ market.<span class="method">setPrice</span>(<span class="str">"AAPL"</span>, <sp
 
     <span class="kw">void</span> <span class="method">process</span>(<span class="type">Order</span> order, <span class="kw">double</span> baseTotal) {
         <span class="kw">double</span> final$ = strategy.<span class="method">apply</span>(baseTotal);
-        observers.<span class="method">forEach</span>(o -> o.<span class="method">onOrderProcessed</span>(order, final$));
+        observers.<span class="method">forEach</span>(o -&gt; o.<span class="method">onOrderProcessed</span>(order, final$));
     }
 }
 
 <span class="comment">// Main</span>
 <span class="type">OrderProcessor</span> proc = <span class="kw">new</span> <span class="type">OrderProcessor</span>(<span class="kw">new</span> <span class="type">PercentageOff</span>(<span class="num">10</span>));
-proc.<span class="method">subscribe</span>((o, p) -> <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"LOG: Order for %s — $%.2f%n"</span>, o.customerId, p));
-proc.<span class="method">subscribe</span>((o, p) -> <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"EMAIL: Hi %s, your order total is $%.2f%n"</span>, o.customerId, p));
+proc.<span class="method">subscribe</span>((o, p) -&gt; <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"LOG: Order for %s — $%.2f%n"</span>, o.customerId, p));
+proc.<span class="method">subscribe</span>((o, p) -&gt; <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"EMAIL: Hi %s, your order total is $%.2f%n"</span>, o.customerId, p));
 
 <span class="type">Order</span> o1 = <span class="kw">new</span> <span class="type">Order</span>.<span class="type">Builder</span>(<span class="str">"C001"</span>)
     .<span class="method">items</span>(<span class="type">List</span>.<span class="method">of</span>(<span class="str">"Keyboard"</span>, <span class="str">"Mouse"</span>))
@@ -968,25 +897,21 @@ proc.<span class="method">subscribe</span>((o, p) -> <span class="type">System</
 proc.<span class="method">process</span>(o1, <span class="num">150.00</span>);
 <span class="comment">// LOG: Order for C001 — $135.00</span>
 <span class="comment">// EMAIL: Hi C001, your order total is $135.00</span></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ Phase 2 Complete — What You've Learned Across All Six Lessons</div>
-    <strong>Generics</strong> — type-safe reuse · <strong>Lambdas &amp; Streams</strong> — functional processing · <strong>Enums &amp; Records</strong> — cleaner data types · <strong>Optional</strong> — null-safe code · <strong>Concurrency</strong> — threads and ExecutorService · <strong>Design Patterns</strong> — Singleton, Factory, Builder, Decorator, Strategy, Observer, Template Method.<br><br>
+</div>
+</div>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ Phase 2 Complete — What You've Learned Across All Six Lessons</div>
+<strong>Generics</strong> — type-safe reuse · <strong>Lambdas &amp; Streams</strong> — functional processing · <strong>Enums &amp; Records</strong> — cleaner data types · <strong>Optional</strong> — null-safe code · <strong>Concurrency</strong> — threads and ExecutorService · <strong>Design Patterns</strong> — Singleton, Factory, Builder, Decorator, Strategy, Observer, Template Method.<br/><br/>
     You now have the full Phase 2 toolkit. Next up: <strong>Phase 3 — Build Things</strong>.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(8)">← Patterns in the Wild</button>
-    <span class="section-indicator">Section 10 of 10</span>
-    <button class="nav-btn primary" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)" onclick="alert('Phase 2 complete! Ready for Phase 3 — Build Things.')">✓ Phase 2 Complete</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(8)">← Patterns in the Wild</button>
+<span class="section-indicator">Section 10 of 10</span>
+<button class="nav-btn primary" onclick="alert('Phase 2 complete! Ready for Phase 3 — Build Things.')" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)">✓ Phase 2 Complete</button>
+</div>
 </section>
-
 </main>
-
 <script>
   let cur=0;const total=10;const visited=new Set([0]);
   function goTo(n){
@@ -1025,10 +950,10 @@ proc.<span class="method">process</span>(o1, <span class="num">150.00</span>);
   }
   document.querySelectorAll('.nav-item').forEach((el,i)=>el.addEventListener('click',()=>goTo(i)));
 </script>
-  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

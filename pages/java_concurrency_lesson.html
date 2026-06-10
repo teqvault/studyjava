@@ -1,137 +1,123 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Concurrency Basics — Core Java Mastery</title>
-
-    <link rel="stylesheet" href="../css/java_concurrency_lesson.css">
-    <link rel="stylesheet" href="../css/mobile-fixes.css">
+<link href="../css/java_concurrency_lesson.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
 </head>
 <body>
-
-<nav id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-course-tag">Core Java · Phase 2</div>
-    <div class="sidebar-title">Concurrency Basics</div>
-  </div>
-  <div class="sidebar-progress-wrap">
-    <div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  </div>
-  <div class="sidebar-nav">
-    <div class="nav-section-label">Threads</div>
-    <a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> What Is Concurrency?</a>
-    <a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> Creating Threads</a>
-    <a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Thread Lifecycle</a>
-    <a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Race Conditions</a>
-    <a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> synchronized &amp; Locks</a>
-    <div class="nav-section-label">ExecutorService</div>
-    <a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> Why ExecutorService?</a>
-    <a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Thread Pools</a>
-    <a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Callable &amp; Future</a>
-    <a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Common Pitfalls</a>
-    <a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
-  </div>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-course-tag">Core Java · Phase 2</div>
+<div class="sidebar-title">Concurrency Basics</div>
+</div>
+<div class="sidebar-progress-wrap">
+<div class="progress-label"><span>Lesson progress</span><span id="progress-pct">0%</span></div>
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section-label">Threads</div>
+<a class="nav-item active" onclick="goTo(0)"><span class="nav-dot"></span> What Is Concurrency?</a>
+<a class="nav-item" onclick="goTo(1)"><span class="nav-dot"></span> Creating Threads</a>
+<a class="nav-item" onclick="goTo(2)"><span class="nav-dot"></span> Thread Lifecycle</a>
+<a class="nav-item" onclick="goTo(3)"><span class="nav-dot"></span> Race Conditions</a>
+<a class="nav-item" onclick="goTo(4)"><span class="nav-dot"></span> synchronized &amp; Locks</a>
+<div class="nav-section-label">ExecutorService</div>
+<a class="nav-item" onclick="goTo(5)"><span class="nav-dot"></span> Why ExecutorService?</a>
+<a class="nav-item" onclick="goTo(6)"><span class="nav-dot"></span> Thread Pools</a>
+<a class="nav-item" onclick="goTo(7)"><span class="nav-dot"></span> Callable &amp; Future</a>
+<a class="nav-item" onclick="goTo(8)"><span class="nav-dot"></span> Common Pitfalls</a>
+<a class="nav-item" onclick="goTo(9)"><span class="nav-dot"></span> Quiz &amp; Challenge</a>
+</div>
 </nav>
-
-<main id="main">
-
+<main class="main" id="main">
 <!-- ══ S0: WHAT IS CONCURRENCY ══ -->
 <section class="lesson-section active" id="section-0">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 1 of 10</div>
-  <h1 class="lesson-title">What Is Concurrency?</h1>
-  <p class="lesson-subtitle">Concurrency means doing multiple things at the same time — or at least making it look that way. Understanding it is essential for writing programs that are fast and responsive.</p>
-
-  <div class="lesson-meta">
-    <div class="meta-pill"><span class="dot" style="background:var(--cyan)"></span> Intermediate</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~10 min read</div>
-    <div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
-  </div>
-
-  <h2>The Single-Threaded World</h2>
-  <p>By default, every Java program runs on a single thread — the <strong>main thread</strong>. Instructions execute one after another, in order. This is simple, predictable, and safe.</p>
-
-  <p>But it has a hard limit: one thing at a time. If your program downloads a file, it can't respond to user input while waiting. If it processes a large dataset, the whole application freezes. This is where threads come in.</p>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>A restaurant with <strong>one chef</strong> (single-threaded): takes order → cooks → serves → takes next order. Fast customers suffer while one table's food is being plated.<br><br>
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 1 of 10</div>
+<h1 class="lesson-title">What Is Concurrency?</h1>
+<p class="lesson-subtitle">Concurrency means doing multiple things at the same time — or at least making it look that way. Understanding it is essential for writing programs that are fast and responsive.</p>
+<div class="lesson-meta">
+<div class="meta-pill"><span class="dot" style="background:var(--cyan)"></span> Intermediate</div>
+<div class="meta-pill"><span class="dot" style="background:var(--yellow)"></span> ~10 min read</div>
+<div class="meta-pill"><span class="dot" style="background:var(--green)"></span> 10 sections</div>
+</div>
+<h2>The Single-Threaded World</h2>
+<p>By default, every Java program runs on a single thread — the <strong>main thread</strong>. Instructions execute one after another, in order. This is simple, predictable, and safe.</p>
+<p>But it has a hard limit: one thing at a time. If your program downloads a file, it can't respond to user input while waiting. If it processes a large dataset, the whole application freezes. This is where threads come in.</p>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>A restaurant with <strong>one chef</strong> (single-threaded): takes order → cooks → serves → takes next order. Fast customers suffer while one table's food is being plated.<br/><br/>
     A restaurant with <strong>many chefs</strong> (multi-threaded): orders taken simultaneously, multiple dishes cooking in parallel. Much faster — but now the chefs have to coordinate so they don't grab the same ingredient at the same time.</p>
-  </div>
-
-  <h2>What Is a Thread?</h2>
-  <p>A <strong>thread</strong> is an independent path of execution within a program. Multiple threads share the same memory (heap), but each has its own call stack. The JVM and OS schedule threads, switching between them rapidly to create the illusion of true parallelism — even on a single CPU core.</p>
-
-  <div class="concept-row">
-    <div class="concept-tile">
-      <div class="concept-tile-label">Concurrency</div>
-      <div class="concept-tile-text">Multiple tasks making progress — not necessarily at the exact same instant. One CPU rapidly switching between threads.</div>
-    </div>
-    <div class="concept-tile">
-      <div class="concept-tile-label">Parallelism</div>
-      <div class="concept-tile-text">Multiple tasks running at the <em>same instant</em> on multiple CPU cores. True simultaneous execution.</div>
-    </div>
-    <div class="concept-tile">
-      <div class="concept-tile-label">Thread Safety</div>
-      <div class="concept-tile-text">Code that behaves correctly when multiple threads run it simultaneously — no corrupted data, no crashes.</div>
-    </div>
-  </div>
-
-  <h2>Why It Matters in Real Code</h2>
-  <div class="step-list">
-    <div class="step-item">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">Responsiveness</div>
-        <div class="step-desc">Web servers handle thousands of requests concurrently. Without threads, every user would queue behind the previous one.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">Performance</div>
-        <div class="step-desc">Modern CPUs have 8–32 cores. Single-threaded code uses 1 of them. Concurrency unlocks the rest.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">I/O Overlap</div>
-        <div class="step-desc">While one thread waits for a database response, another can be serving a different request. Threads let you use idle wait time.</div>
-      </div>
-    </div>
-    <div class="step-item">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <div class="step-title">Job Market</div>
-        <div class="step-desc">Concurrency basics are asked in virtually every Java backend interview. Understanding threads and ExecutorService is expected.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout warning">
-    <div class="callout-title">⚠ Concurrency Is Hard</div>
+</div>
+<h2>What Is a Thread?</h2>
+<p>A <strong>thread</strong> is an independent path of execution within a program. Multiple threads share the same memory (heap), but each has its own call stack. The JVM and OS schedule threads, switching between them rapidly to create the illusion of true parallelism — even on a single CPU core.</p>
+<div class="concept-row">
+<div class="concept-tile">
+<div class="concept-tile-label">Concurrency</div>
+<div class="concept-tile-text">Multiple tasks making progress — not necessarily at the exact same instant. One CPU rapidly switching between threads.</div>
+</div>
+<div class="concept-tile">
+<div class="concept-tile-label">Parallelism</div>
+<div class="concept-tile-text">Multiple tasks running at the <em>same instant</em> on multiple CPU cores. True simultaneous execution.</div>
+</div>
+<div class="concept-tile">
+<div class="concept-tile-label">Thread Safety</div>
+<div class="concept-tile-text">Code that behaves correctly when multiple threads run it simultaneously — no corrupted data, no crashes.</div>
+</div>
+</div>
+<h2>Why It Matters in Real Code</h2>
+<div class="step-list">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Responsiveness</div>
+<div class="step-desc">Web servers handle thousands of requests concurrently. Without threads, every user would queue behind the previous one.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Performance</div>
+<div class="step-desc">Modern CPUs have 8–32 cores. Single-threaded code uses 1 of them. Concurrency unlocks the rest.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">I/O Overlap</div>
+<div class="step-desc">While one thread waits for a database response, another can be serving a different request. Threads let you use idle wait time.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">4</div>
+<div class="step-content">
+<div class="step-title">Job Market</div>
+<div class="step-desc">Concurrency basics are asked in virtually every Java backend interview. Understanding threads and ExecutorService is expected.</div>
+</div>
+</div>
+</div>
+<div class="callout warning">
+<div class="callout-title">⚠ Concurrency Is Hard</div>
     Multi-threaded bugs are among the most difficult to reproduce and fix — they may only appear under specific timing conditions, on specific hardware, or under heavy load. This lesson gives you a solid foundation and shows you the right tools to avoid the worst problems.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" disabled>← Previous</button>
-    <span class="section-indicator">Section 1 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(1)">Creating Threads →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" disabled="">← Previous</button>
+<span class="section-indicator">Section 1 of 10</span>
+<button class="nav-btn primary" onclick="goTo(1)">Creating Threads →</button>
+</div>
 </section>
-
 <!-- ══ S1: CREATING THREADS ══ -->
 <section class="lesson-section" id="section-1">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 2 of 10</div>
-  <h1 class="lesson-title">Creating Threads</h1>
-  <p class="lesson-subtitle">Java gives you three ways to create a thread. The modern approach uses lambdas and is the one you'll write most often.</p>
-
-  <h2>Method 1: Extend Thread</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">ExtendThread.java</span><span class="code-tag tag-example">Approach 1</span></div>
-    <pre><span class="kw">public class</span> <span class="type">MyThread</span> <span class="kw">extends</span> <span class="type">Thread</span> {
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 2 of 10</div>
+<h1 class="lesson-title">Creating Threads</h1>
+<p class="lesson-subtitle">Java gives you three ways to create a thread. The modern approach uses lambdas and is the one you'll write most often.</p>
+<h2>Method 1: Extend Thread</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">ExtendThread.java</span><span class="code-tag tag-example">Approach 1</span></div>
+<pre><span class="kw">public class</span> <span class="type">MyThread</span> <span class="kw">extends</span> <span class="type">Thread</span> {
     <span class="anno">@Override</span>
     <span class="kw">public void</span> <span class="method">run</span>() {
         <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Running in: "</span> + <span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">getName</span>());
@@ -142,12 +128,11 @@
 <span class="type">MyThread</span> t = <span class="kw">new</span> <span class="type">MyThread</span>();
 t.<span class="method">start</span>();  <span class="comment">// spawns new thread, calls run() on it</span>
 <span class="comment">// t.run()  ← DON'T: runs on current thread, no new thread created</span></pre>
-  </div>
-
-  <h2>Method 2: Implement Runnable</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">RunnableThread.java</span><span class="code-tag tag-example">Approach 2 — Preferred over extending</span></div>
-    <pre><span class="kw">public class</span> <span class="type">MyTask</span> <span class="kw">implements</span> <span class="type">Runnable</span> {
+</div>
+<h2>Method 2: Implement Runnable</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">RunnableThread.java</span><span class="code-tag tag-example">Approach 2 — Preferred over extending</span></div>
+<pre><span class="kw">public class</span> <span class="type">MyTask</span> <span class="kw">implements</span> <span class="type">Runnable</span> {
     <span class="anno">@Override</span>
     <span class="kw">public void</span> <span class="method">run</span>() {
         <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Task running in: "</span> + <span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">getName</span>());
@@ -156,50 +141,45 @@ t.<span class="method">start</span>();  <span class="comment">// spawns new thre
 
 <span class="type">Thread</span> t = <span class="kw">new</span> <span class="type">Thread</span>(<span class="kw">new</span> <span class="type">MyTask</span>());
 t.<span class="method">start</span>();</pre>
-  </div>
-
-  <h2>Method 3: Lambda (Modern — Use This)</h2>
-  <p><code>Runnable</code> is a functional interface — one abstract method. That means you can pass a lambda directly.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">LambdaThread.java</span><span class="code-tag tag-good">✓ Modern Style</span></div>
-    <pre><span class="comment">// Inline lambda — most common in modern code</span>
-<span class="type">Thread</span> t1 = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+</div>
+<h2>Method 3: Lambda (Modern — Use This)</h2>
+<p><code>Runnable</code> is a functional interface — one abstract method. That means you can pass a lambda directly.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">LambdaThread.java</span><span class="code-tag tag-good">✓ Modern Style</span></div>
+<pre><span class="comment">// Inline lambda — most common in modern code</span>
+<span class="type">Thread</span> t1 = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Hello from thread: "</span> + <span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">getName</span>());
 });
 t1.<span class="method">start</span>();
 
 <span class="comment">// Named thread — helps with debugging</span>
-<span class="type">Thread</span> t2 = <span class="kw">new</span> <span class="type">Thread</span>(() -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Worker running"</span>), <span class="str">"worker-1"</span>);
+<span class="type">Thread</span> t2 = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Worker running"</span>), <span class="str">"worker-1"</span>);
 t2.<span class="method">start</span>();
 
 <span class="comment">// Multiple threads running concurrently</span>
 <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {
     <span class="kw">final int</span> id = i;
-    <span class="kw">new</span> <span class="type">Thread</span>(() -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Thread "</span> + id)).<span class="method">start</span>();
+    <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Thread "</span> + id)).<span class="method">start</span>();
 }</pre>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Output (one possible ordering)</span><span class="code-tag tag-output">Console</span></div>
-    <pre>Thread 2
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Output (one possible ordering)</span><span class="code-tag tag-output">Console</span></div>
+<pre>Thread 2
 Thread 0
 Thread 4
 Thread 1
 Thread 3
 <span class="comment">// Order is non-deterministic — OS decides scheduling</span></pre>
+</div>
+<div class="callout danger">
+<div class="callout-title">⚡ start() vs run() — Critical Distinction</div>
+<strong>Always call <code>start()</code></strong> — this creates a new OS thread and eventually calls <code>run()</code> on it.<br/><br/>
+<strong>Never call <code>run()</code> directly</strong> — this just invokes the method on the <em>current</em> thread like a normal function call. No new thread is created. No concurrency happens. This is a very common beginner mistake.
   </div>
-
-  <div class="callout danger">
-    <div class="callout-title">⚡ start() vs run() — Critical Distinction</div>
-    <strong>Always call <code>start()</code></strong> — this creates a new OS thread and eventually calls <code>run()</code> on it.<br><br>
-    <strong>Never call <code>run()</code> directly</strong> — this just invokes the method on the <em>current</em> thread like a normal function call. No new thread is created. No concurrency happens. This is a very common beginner mistake.
-  </div>
-
-  <h2>Thread Names and Current Thread</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">ThreadInfo.java</span><span class="code-tag tag-example">Useful Thread Methods</span></div>
-    <pre><span class="type">Thread</span> t = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+<h2>Thread Names and Current Thread</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">ThreadInfo.java</span><span class="code-tag tag-example">Useful Thread Methods</span></div>
+<pre><span class="type">Thread</span> t = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="type">Thread</span> current = <span class="type">Thread</span>.<span class="method">currentThread</span>();
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Name: "</span>     + current.<span class="method">getName</span>());
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"ID: "</span>       + current.<span class="method">getId</span>());
@@ -210,51 +190,45 @@ Thread 3
 t.<span class="method">start</span>();
 t.<span class="method">join</span>();  <span class="comment">// wait for t to finish before continuing</span>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Main thread continues"</span>);</pre>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(0)">← What Is Concurrency?</button>
-    <span class="section-indicator">Section 2 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(2)">Thread Lifecycle →</button>
-  </div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(0)">← What Is Concurrency?</button>
+<span class="section-indicator">Section 2 of 10</span>
+<button class="nav-btn primary" onclick="goTo(2)">Thread Lifecycle →</button>
+</div>
 </section>
-
 <!-- ══ S2: THREAD LIFECYCLE ══ -->
 <section class="lesson-section" id="section-2">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 3 of 10</div>
-  <h1 class="lesson-title">Thread Lifecycle</h1>
-  <p class="lesson-subtitle">A thread moves through defined states from creation to termination. Understanding these states helps you reason about what your threads are doing.</p>
-
-  <h2>The Six States</h2>
-
-  <div class="lifecycle">
-    <div class="lc-state"><div class="lc-name">NEW</div><div class="lc-desc">created, not started</div></div>
-    <div class="lc-arrow">→</div>
-    <div class="lc-state active-lc"><div class="lc-name">RUNNABLE</div><div class="lc-desc">running / ready</div></div>
-    <div class="lc-arrow">→</div>
-    <div class="lc-state"><div class="lc-name">BLOCKED</div><div class="lc-desc">waiting for lock</div></div>
-    <div class="lc-arrow">↔</div>
-    <div class="lc-state"><div class="lc-name">WAITING</div><div class="lc-desc">indefinitely</div></div>
-    <div class="lc-arrow">↔</div>
-    <div class="lc-state"><div class="lc-name">TIMED_WAIT</div><div class="lc-desc">with timeout</div></div>
-    <div class="lc-arrow">→</div>
-    <div class="lc-state"><div class="lc-name">TERMINATED</div><div class="lc-desc">done</div></div>
-  </div>
-
-  <table class="compare-table">
-    <tr><th>State</th><th>What It Means</th><th>How You Get There</th></tr>
-    <tr><td><code>NEW</code></td><td>Thread created but <code>start()</code> not yet called</td><td><code>new Thread(...)</code></td></tr>
-    <tr><td><code>RUNNABLE</code></td><td>Running on CPU or ready to run (waiting for CPU slice)</td><td><code>thread.start()</code></td></tr>
-    <tr><td><code>BLOCKED</code></td><td>Waiting to acquire a <code>synchronized</code> lock held by another thread</td><td>trying to enter synchronized block</td></tr>
-    <tr><td><code>WAITING</code></td><td>Waiting indefinitely for another thread to signal</td><td><code>wait()</code>, <code>join()</code> with no timeout</td></tr>
-    <tr><td><code>TIMED_WAITING</code></td><td>Waiting for a specific amount of time</td><td><code>sleep(ms)</code>, <code>join(ms)</code>, <code>wait(ms)</code></td></tr>
-    <tr><td><code>TERMINATED</code></td><td>run() completed or threw an exception</td><td>run() returns or throws</td></tr>
-  </table>
-
-  <h2>Key Thread Methods</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">ThreadMethods.java</span><span class="code-tag tag-example">sleep, join, interrupt</span></div>
-    <pre><span class="comment">// sleep — pause current thread for N milliseconds (TIMED_WAITING)</span>
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 3 of 10</div>
+<h1 class="lesson-title">Thread Lifecycle</h1>
+<p class="lesson-subtitle">A thread moves through defined states from creation to termination. Understanding these states helps you reason about what your threads are doing.</p>
+<h2>The Six States</h2>
+<div class="lifecycle">
+<div class="lc-state"><div class="lc-name">NEW</div><div class="lc-desc">created, not started</div></div>
+<div class="lc-arrow">→</div>
+<div class="lc-state active-lc"><div class="lc-name">RUNNABLE</div><div class="lc-desc">running / ready</div></div>
+<div class="lc-arrow">→</div>
+<div class="lc-state"><div class="lc-name">BLOCKED</div><div class="lc-desc">waiting for lock</div></div>
+<div class="lc-arrow">↔</div>
+<div class="lc-state"><div class="lc-name">WAITING</div><div class="lc-desc">indefinitely</div></div>
+<div class="lc-arrow">↔</div>
+<div class="lc-state"><div class="lc-name">TIMED_WAIT</div><div class="lc-desc">with timeout</div></div>
+<div class="lc-arrow">→</div>
+<div class="lc-state"><div class="lc-name">TERMINATED</div><div class="lc-desc">done</div></div>
+</div>
+<table class="compare-table">
+<tr><th>State</th><th>What It Means</th><th>How You Get There</th></tr>
+<tr><td><code>NEW</code></td><td>Thread created but <code>start()</code> not yet called</td><td><code>new Thread(...)</code></td></tr>
+<tr><td><code>RUNNABLE</code></td><td>Running on CPU or ready to run (waiting for CPU slice)</td><td><code>thread.start()</code></td></tr>
+<tr><td><code>BLOCKED</code></td><td>Waiting to acquire a <code>synchronized</code> lock held by another thread</td><td>trying to enter synchronized block</td></tr>
+<tr><td><code>WAITING</code></td><td>Waiting indefinitely for another thread to signal</td><td><code>wait()</code>, <code>join()</code> with no timeout</td></tr>
+<tr><td><code>TIMED_WAITING</code></td><td>Waiting for a specific amount of time</td><td><code>sleep(ms)</code>, <code>join(ms)</code>, <code>wait(ms)</code></td></tr>
+<tr><td><code>TERMINATED</code></td><td>run() completed or threw an exception</td><td>run() returns or throws</td></tr>
+</table>
+<h2>Key Thread Methods</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">ThreadMethods.java</span><span class="code-tag tag-example">sleep, join, interrupt</span></div>
+<pre><span class="comment">// sleep — pause current thread for N milliseconds (TIMED_WAITING)</span>
 <span class="kw">try</span> {
     <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">1000</span>);  <span class="comment">// sleep 1 second</span>
 } <span class="kw">catch</span> (<span class="type">InterruptedException</span> e) {
@@ -262,7 +236,7 @@ t.<span class="method">join</span>();  <span class="comment">// wait for t to fi
 }
 
 <span class="comment">// join — make current thread WAIT until another thread finishes</span>
-<span class="type">Thread</span> worker = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+<span class="type">Thread</span> worker = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Working..."</span>);
 });
 worker.<span class="method">start</span>();
@@ -270,7 +244,7 @@ worker.<span class="method">join</span>();  <span class="comment">// main thread
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Worker done, continuing"</span>);
 
 <span class="comment">// interrupt — signal a thread to stop what it's doing</span>
-<span class="type">Thread</span> t = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+<span class="type">Thread</span> t = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="kw">while</span> (!<span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">isInterrupted</span>()) {
         <span class="comment">// do work...</span>
     }
@@ -279,44 +253,38 @@ worker.<span class="method">join</span>();  <span class="comment">// main thread
 t.<span class="method">start</span>();
 <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">500</span>);
 t.<span class="method">interrupt</span>();  <span class="comment">// signal the thread to stop</span></pre>
-  </div>
-
-  <div class="callout info">
-    <div class="callout-title">📐 InterruptedException</div>
+</div>
+<div class="callout info">
+<div class="callout-title">📐 InterruptedException</div>
     Methods like <code>sleep()</code> and <code>join()</code> throw <code>InterruptedException</code> — a checked exception. This is Java's way of saying "someone interrupted you while you were waiting." Always handle it properly: either propagate it or restore the interrupted flag with <code>Thread.currentThread().interrupt()</code>.
   </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">What's the difference between calling <code>thread.run()</code> and <code>thread.start()</code>?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> They are identical — both create a new thread</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">B</span> <code>start()</code> creates a new thread; <code>run()</code> executes on the current thread — no concurrency</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">C</span> <code>run()</code> creates a new thread; <code>start()</code> is for restarting stopped threads</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> <code>start()</code> is deprecated — use <code>run()</code></button>
-    </div>
-    <div class="quiz-feedback" id="q1-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(1)">← Creating Threads</button>
-    <span class="section-indicator">Section 3 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(3)">Race Conditions →</button>
-  </div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">What's the difference between calling <code>thread.run()</code> and <code>thread.start()</code>?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">A</span> They are identical — both create a new thread</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q1')"><span class="option-letter">B</span> <code>start()</code> creates a new thread; <code>run()</code> executes on the current thread — no concurrency</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">C</span> <code>run()</code> creates a new thread; <code>start()</code> is for restarting stopped threads</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q1')"><span class="option-letter">D</span> <code>start()</code> is deprecated — use <code>run()</code></button>
+</div>
+<div class="quiz-feedback" id="q1-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(1)">← Creating Threads</button>
+<span class="section-indicator">Section 3 of 10</span>
+<button class="nav-btn primary" onclick="goTo(3)">Race Conditions →</button>
+</div>
 </section>
-
 <!-- ══ S3: RACE CONDITIONS ══ -->
 <section class="lesson-section" id="section-3">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 4 of 10</div>
-  <h1 class="lesson-title">Race Conditions</h1>
-  <p class="lesson-subtitle">When two threads access shared data at the same time without coordination, the result depends on who gets there first. This is a race condition — and it produces silent, unpredictable bugs.</p>
-
-  <h2>The Classic Example: Counter</h2>
-  <p>Incrementing a counter seems trivially safe. It isn't.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">RaceCounter.java</span><span class="code-tag tag-danger">⚡ Race Condition</span></div>
-    <pre><span class="kw">public class</span> <span class="type">Counter</span> {
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 4 of 10</div>
+<h1 class="lesson-title">Race Conditions</h1>
+<p class="lesson-subtitle">When two threads access shared data at the same time without coordination, the result depends on who gets there first. This is a race condition — and it produces silent, unpredictable bugs.</p>
+<h2>The Classic Example: Counter</h2>
+<p>Incrementing a counter seems trivially safe. It isn't.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">RaceCounter.java</span><span class="code-tag tag-danger">⚡ Race Condition</span></div>
+<pre><span class="kw">public class</span> <span class="type">Counter</span> {
     <span class="kw">private int</span> count = <span class="num">0</span>;
 
     <span class="kw">public void</span> <span class="method">increment</span>() {
@@ -334,67 +302,60 @@ t.<span class="method">interrupt</span>();  <span class="comment">// signal the 
     threads.<span class="method">add</span>(<span class="kw">new</span> <span class="type">Thread</span>(counter::<span class="method">increment</span>));
 }
 threads.<span class="method">forEach</span>(<span class="type">Thread</span>::<span class="method">start</span>);
-threads.<span class="method">forEach</span>(t -> { <span class="kw">try</span> { t.<span class="method">join</span>(); } <span class="kw">catch</span> (<span class="type">InterruptedException</span> e) {} });
+threads.<span class="method">forEach</span>(t -&gt; { <span class="kw">try</span> { t.<span class="method">join</span>(); } <span class="kw">catch</span> (<span class="type">InterruptedException</span> e) {} });
 
 <span class="type">System</span>.out.<span class="method">println</span>(counter.<span class="method">getCount</span>());
 <span class="comment">// Expected: 1000. Actual: could be 947, 998, 1000 — unpredictable</span></pre>
-  </div>
-
-  <h2>Why count++ Is Not Atomic</h2>
-  <p>The expression <code>count++</code> compiles to three separate CPU instructions:</p>
-
-  <div class="race-viz">
-    <div class="race-label">⚡ What Can Go Wrong (count starts at 5)</div>
-    <div class="race-step">
-      <span class="race-thread t1">Thread-1:</span>
-      <span class="race-action">READ count → gets 5</span>
-      <span class="race-state"></span>
-    </div>
-    <div class="race-step">
-      <span class="race-thread t2">Thread-2:</span>
-      <span class="race-action">READ count → gets 5 (context switch!)</span>
-      <span class="race-state"></span>
-    </div>
-    <div class="race-step">
-      <span class="race-thread t1">Thread-1:</span>
-      <span class="race-action">ADD 1 → 6, WRITE count = 6</span>
-      <span class="race-state">count = 6</span>
-    </div>
-    <div class="race-step">
-      <span class="race-thread t2">Thread-2:</span>
-      <span class="race-action">ADD 1 → 6, WRITE count = 6 (overwrites!)</span>
-      <span class="race-state" style="color:var(--red)">count = 6 ← should be 7!</span>
-    </div>
-  </div>
-
-  <p>Both threads read the same value (5), both compute 6, and both write 6. One increment is lost. At scale, with 1000 threads, many increments are lost.</p>
-
-  <div class="callout danger">
-    <div class="callout-title">⚡ Shared Mutable State = Danger</div>
-    A race condition requires all three of these:<br>
-    1. <strong>Shared</strong> — multiple threads access the same data<br>
-    2. <strong>Mutable</strong> — at least one thread writes to it<br>
-    3. <strong>Uncoordinated</strong> — no synchronisation mechanism<br><br>
+</div>
+<h2>Why count++ Is Not Atomic</h2>
+<p>The expression <code>count++</code> compiles to three separate CPU instructions:</p>
+<div class="race-viz">
+<div class="race-label">⚡ What Can Go Wrong (count starts at 5)</div>
+<div class="race-step">
+<span class="race-thread t1">Thread-1:</span>
+<span class="race-action">READ count → gets 5</span>
+<span class="race-state"></span>
+</div>
+<div class="race-step">
+<span class="race-thread t2">Thread-2:</span>
+<span class="race-action">READ count → gets 5 (context switch!)</span>
+<span class="race-state"></span>
+</div>
+<div class="race-step">
+<span class="race-thread t1">Thread-1:</span>
+<span class="race-action">ADD 1 → 6, WRITE count = 6</span>
+<span class="race-state">count = 6</span>
+</div>
+<div class="race-step">
+<span class="race-thread t2">Thread-2:</span>
+<span class="race-action">ADD 1 → 6, WRITE count = 6 (overwrites!)</span>
+<span class="race-state" style="color:var(--red)">count = 6 ← should be 7!</span>
+</div>
+</div>
+<p>Both threads read the same value (5), both compute 6, and both write 6. One increment is lost. At scale, with 1000 threads, many increments are lost.</p>
+<div class="callout danger">
+<div class="callout-title">⚡ Shared Mutable State = Danger</div>
+    A race condition requires all three of these:<br/>
+    1. <strong>Shared</strong> — multiple threads access the same data<br/>
+    2. <strong>Mutable</strong> — at least one thread writes to it<br/>
+    3. <strong>Uncoordinated</strong> — no synchronisation mechanism<br/><br/>
     Remove any one of these and you're safe. The next sections show you how.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(2)">← Thread Lifecycle</button>
-    <span class="section-indicator">Section 4 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(4)">synchronized &amp; Locks →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(2)">← Thread Lifecycle</button>
+<span class="section-indicator">Section 4 of 10</span>
+<button class="nav-btn primary" onclick="goTo(4)">synchronized &amp; Locks →</button>
+</div>
 </section>
-
 <!-- ══ S4: SYNCHRONIZED ══ -->
 <section class="lesson-section" id="section-4">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 5 of 10</div>
-  <h1 class="lesson-title">synchronized &amp; Locks</h1>
-  <p class="lesson-subtitle">Java's built-in answer to race conditions. <code>synchronized</code> ensures only one thread can execute a block of code at a time.</p>
-
-  <h2>synchronized Method</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">SyncCounter.java</span><span class="code-tag tag-good">✓ Thread-Safe</span></div>
-    <pre><span class="kw">public class</span> <span class="type">SyncCounter</span> {
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 5 of 10</div>
+<h1 class="lesson-title">synchronized &amp; Locks</h1>
+<p class="lesson-subtitle">Java's built-in answer to race conditions. <code>synchronized</code> ensures only one thread can execute a block of code at a time.</p>
+<h2>synchronized Method</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">SyncCounter.java</span><span class="code-tag tag-good">✓ Thread-Safe</span></div>
+<pre><span class="kw">public class</span> <span class="type">SyncCounter</span> {
     <span class="kw">private int</span> count = <span class="num">0</span>;
 
     <span class="comment">// synchronized — only one thread at a time can call this</span>
@@ -407,14 +368,12 @@ threads.<span class="method">forEach</span>(t -> { <span class="kw">try</span> {
     }
 }
 <span class="comment">// Now 1000 threads → always 1000. Guaranteed.</span></pre>
-  </div>
-
-  <h2>synchronized Block — Finer Control</h2>
-  <p>Synchronising an entire method can be too broad. A synchronized block lets you protect only the critical section:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">SyncBlock.java</span><span class="code-tag tag-example">Synchronized Block</span></div>
-    <pre><span class="kw">public class</span> <span class="type">BankAccount</span> {
+</div>
+<h2>synchronized Block — Finer Control</h2>
+<p>Synchronising an entire method can be too broad. A synchronized block lets you protect only the critical section:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">SyncBlock.java</span><span class="code-tag tag-example">Synchronized Block</span></div>
+<pre><span class="kw">public class</span> <span class="type">BankAccount</span> {
     <span class="kw">private double</span> balance;
     <span class="kw">private final</span> <span class="type">Object</span> lock = <span class="kw">new</span> <span class="type">Object</span>();  <span class="comment">// dedicated lock object</span>
 
@@ -436,14 +395,12 @@ threads.<span class="method">forEach</span>(t -> { <span class="kw">try</span> {
 
     <span class="kw">public synchronized double</span> <span class="method">getBalance</span>() { <span class="kw">return</span> balance; }
 }</pre>
-  </div>
-
-  <h2>AtomicInteger — Simpler for Counters</h2>
-  <p>For simple numeric operations, Java provides atomic classes in <code>java.util.concurrent.atomic</code> that are lock-free and faster than <code>synchronized</code>:</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">AtomicCounter.java</span><span class="code-tag tag-good">✓ Lock-Free Counter</span></div>
-    <pre><span class="kw">import</span> java.util.concurrent.atomic.AtomicInteger;
+</div>
+<h2>AtomicInteger — Simpler for Counters</h2>
+<p>For simple numeric operations, Java provides atomic classes in <code>java.util.concurrent.atomic</code> that are lock-free and faster than <code>synchronized</code>:</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">AtomicCounter.java</span><span class="code-tag tag-good">✓ Lock-Free Counter</span></div>
+<pre><span class="kw">import</span> java.util.concurrent.atomic.AtomicInteger;
 
 <span class="kw">public class</span> <span class="type">AtomicCounter</span> {
     <span class="kw">private final</span> <span class="type">AtomicInteger</span> count = <span class="kw">new</span> <span class="type">AtomicInteger</span>(<span class="num">0</span>);
@@ -459,35 +416,31 @@ ai.<span class="method">getAndIncrement</span>();   <span class="comment">// ret
 ai.<span class="method">incrementAndGet</span>();   <span class="comment">// increments to 12, returns 12</span>
 ai.<span class="method">addAndGet</span>(<span class="num">5</span>);        <span class="comment">// adds 5, returns 17</span>
 ai.<span class="method">compareAndSet</span>(<span class="num">17</span>, <span class="num">0</span>); <span class="comment">// if value is 17, set to 0 — atomic swap</span></pre>
-  </div>
-
-  <div class="callout cyan">
-    <div class="callout-title">🔑 volatile — Visibility Without Locking</div>
-    The <code>volatile</code> keyword ensures that writes to a variable are immediately visible to all threads — without using a lock. It doesn't make compound operations (like <code>count++</code>) atomic. Use it for simple flags:<br><br>
-    <code>private volatile boolean running = true;</code><br><br>
+</div>
+<div class="callout cyan">
+<div class="callout-title">🔑 volatile — Visibility Without Locking</div>
+    The <code>volatile</code> keyword ensures that writes to a variable are immediately visible to all threads — without using a lock. It doesn't make compound operations (like <code>count++</code>) atomic. Use it for simple flags:<br/><br/>
+<code>private volatile boolean running = true;</code><br/><br/>
     One thread writes, others read — <code>volatile</code> ensures they see the latest value without cache issues.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(3)">← Race Conditions</button>
-    <span class="section-indicator">Section 5 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(5)">Why ExecutorService? →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(3)">← Race Conditions</button>
+<span class="section-indicator">Section 5 of 10</span>
+<button class="nav-btn primary" onclick="goTo(5)">Why ExecutorService? →</button>
+</div>
 </section>
-
 <!-- ══ S5: WHY EXECUTORSERVICE ══ -->
 <section class="lesson-section" id="section-5">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 6 of 10</div>
-  <h1 class="lesson-title">Why ExecutorService?</h1>
-  <p class="lesson-subtitle">Creating threads manually works for toy examples. In real applications, you use <code>ExecutorService</code> — a higher-level framework that manages threads for you.</p>
-
-  <h2>The Problem with Raw Threads</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">RawThreadProblems.java</span><span class="code-tag tag-bad">⚠ Problems with new Thread()</span></div>
-    <pre><span class="comment">// Problem 1: Thread creation is expensive</span>
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 6 of 10</div>
+<h1 class="lesson-title">Why ExecutorService?</h1>
+<p class="lesson-subtitle">Creating threads manually works for toy examples. In real applications, you use <code>ExecutorService</code> — a higher-level framework that manages threads for you.</p>
+<h2>The Problem with Raw Threads</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">RawThreadProblems.java</span><span class="code-tag tag-bad">⚠ Problems with new Thread()</span></div>
+<pre><span class="comment">// Problem 1: Thread creation is expensive</span>
 <span class="comment">// Creating 10,000 threads for 10,000 tasks burns memory and CPU</span>
 <span class="kw">for</span> (<span class="type">Request</span> req : requests) {
-    <span class="kw">new</span> <span class="type">Thread</span>(() -> <span class="method">handle</span>(req)).<span class="method">start</span>();  <span class="comment">// ❌ new OS thread per request</span>
+    <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; <span class="method">handle</span>(req)).<span class="method">start</span>();  <span class="comment">// ❌ new OS thread per request</span>
 }
 
 <span class="comment">// Problem 2: No return values</span>
@@ -495,32 +448,29 @@ ai.<span class="method">compareAndSet</span>(<span class="num">17</span>, <span 
 
 <span class="comment">// Problem 3: No lifecycle management</span>
 <span class="comment">// No built-in way to wait for all tasks, handle errors, or shut down cleanly</span></pre>
-  </div>
-
-  <div class="analogy-card">
-    <div class="analogy-label">Analogy</div>
-    <p>Raw threads are like <strong>hiring a new employee for each task, then firing them</strong> the moment it's done. ExecutorService is like having a <strong>pool of permanent employees</strong> — when a task arrives, you hand it to an available worker. When they finish, they wait for the next task. No constant hiring and firing.</p>
-  </div>
-
-  <h2>ExecutorService Solves All Three Problems</h2>
-  <div class="concept-row">
-    <div class="concept-tile">
-      <div class="concept-tile-label">Thread Reuse</div>
-      <div class="concept-tile-text">A pool of threads is created once and reused across many tasks. No repeated thread creation overhead.</div>
-    </div>
-    <div class="concept-tile">
-      <div class="concept-tile-label">Return Values</div>
-      <div class="concept-tile-text"><code>Callable</code> tasks can return a value via <code>Future&lt;T&gt;</code>. Retrieve it later with <code>future.get()</code>.</div>
-    </div>
-    <div class="concept-tile">
-      <div class="concept-tile-label">Lifecycle</div>
-      <div class="concept-tile-text">Clean shutdown with <code>shutdown()</code>, wait for all tasks with <code>awaitTermination()</code>, submit many at once with <code>invokeAll()</code>.</div>
-    </div>
-  </div>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">BasicExecutor.java</span><span class="code-tag tag-good">✓ ExecutorService</span></div>
-    <pre><span class="kw">import</span> java.util.concurrent.*;
+</div>
+<div class="analogy-card">
+<div class="analogy-label">Analogy</div>
+<p>Raw threads are like <strong>hiring a new employee for each task, then firing them</strong> the moment it's done. ExecutorService is like having a <strong>pool of permanent employees</strong> — when a task arrives, you hand it to an available worker. When they finish, they wait for the next task. No constant hiring and firing.</p>
+</div>
+<h2>ExecutorService Solves All Three Problems</h2>
+<div class="concept-row">
+<div class="concept-tile">
+<div class="concept-tile-label">Thread Reuse</div>
+<div class="concept-tile-text">A pool of threads is created once and reused across many tasks. No repeated thread creation overhead.</div>
+</div>
+<div class="concept-tile">
+<div class="concept-tile-label">Return Values</div>
+<div class="concept-tile-text"><code>Callable</code> tasks can return a value via <code>Future&lt;T&gt;</code>. Retrieve it later with <code>future.get()</code>.</div>
+</div>
+<div class="concept-tile">
+<div class="concept-tile-label">Lifecycle</div>
+<div class="concept-tile-text">Clean shutdown with <code>shutdown()</code>, wait for all tasks with <code>awaitTermination()</code>, submit many at once with <code>invokeAll()</code>.</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">BasicExecutor.java</span><span class="code-tag tag-good">✓ ExecutorService</span></div>
+<pre><span class="kw">import</span> java.util.concurrent.*;
 
 <span class="comment">// Create a pool of 4 threads</span>
 <span class="type">ExecutorService</span> executor = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">4</span>);
@@ -528,7 +478,7 @@ ai.<span class="method">compareAndSet</span>(<span class="num">17</span>, <span 
 <span class="comment">// Submit 10 tasks — pool handles scheduling</span>
 <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">10</span>; i++) {
     <span class="kw">final int</span> taskId = i;
-    executor.<span class="method">submit</span>(() -> {
+    executor.<span class="method">submit</span>(() -&gt; {
         <span class="type">System</span>.out.<span class="method">printf</span>(<span class="str">"Task %d on %s%n"</span>, taskId,
             <span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">getName</span>());
     });
@@ -541,54 +491,50 @@ executor.<span class="method">shutdown</span>();
 <span class="kw">if</span> (!executor.<span class="method">awaitTermination</span>(<span class="num">10</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>)) {
     executor.<span class="method">shutdownNow</span>();  <span class="comment">// force stop if still running</span>
 }</pre>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(4)">← synchronized &amp; Locks</button>
-    <span class="section-indicator">Section 6 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(6)">Thread Pools →</button>
-  </div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(4)">← synchronized &amp; Locks</button>
+<span class="section-indicator">Section 6 of 10</span>
+<button class="nav-btn primary" onclick="goTo(6)">Thread Pools →</button>
+</div>
 </section>
-
 <!-- ══ S6: THREAD POOLS ══ -->
 <section class="lesson-section" id="section-6">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 7 of 10</div>
-  <h1 class="lesson-title">Thread Pools</h1>
-  <p class="lesson-subtitle">Java's <code>Executors</code> factory provides ready-made thread pool configurations for different workload patterns.</p>
-
-  <div class="exec-grid">
-    <div class="exec-card">
-      <h4>newFixedThreadPool(n)</h4>
-      <div class="sig">Executors.newFixedThreadPool(int n)</div>
-      <p>Exactly N threads. Tasks queue up if all threads are busy. <strong>Best general-purpose choice.</strong></p>
-    </div>
-    <div class="exec-card">
-      <h4>newSingleThreadExecutor()</h4>
-      <div class="sig">Executors.newSingleThreadExecutor()</div>
-      <p>One thread, sequential execution. Useful when tasks must run in order without concurrency issues.</p>
-    </div>
-    <div class="exec-card">
-      <h4>newCachedThreadPool()</h4>
-      <div class="sig">Executors.newCachedThreadPool()</div>
-      <p>Creates threads as needed, reuses idle ones. Good for many short-lived tasks. Dangerous for long tasks — can create thousands of threads.</p>
-    </div>
-    <div class="exec-card">
-      <h4>newScheduledThreadPool(n)</h4>
-      <div class="sig">Executors.newScheduledThreadPool(int n)</div>
-      <p>Runs tasks on a schedule — after a delay or at fixed intervals. Like a built-in cron job.</p>
-    </div>
-  </div>
-
-  <h2>Fixed Pool — Most Common</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">FixedPool.java</span><span class="code-tag tag-example">Fixed Thread Pool</span></div>
-    <pre><span class="kw">int</span> cores = <span class="type">Runtime</span>.<span class="method">getRuntime</span>().<span class="method">availableProcessors</span>();
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 7 of 10</div>
+<h1 class="lesson-title">Thread Pools</h1>
+<p class="lesson-subtitle">Java's <code>Executors</code> factory provides ready-made thread pool configurations for different workload patterns.</p>
+<div class="exec-grid">
+<div class="exec-card">
+<h4>newFixedThreadPool(n)</h4>
+<div class="sig">Executors.newFixedThreadPool(int n)</div>
+<p>Exactly N threads. Tasks queue up if all threads are busy. <strong>Best general-purpose choice.</strong></p>
+</div>
+<div class="exec-card">
+<h4>newSingleThreadExecutor()</h4>
+<div class="sig">Executors.newSingleThreadExecutor()</div>
+<p>One thread, sequential execution. Useful when tasks must run in order without concurrency issues.</p>
+</div>
+<div class="exec-card">
+<h4>newCachedThreadPool()</h4>
+<div class="sig">Executors.newCachedThreadPool()</div>
+<p>Creates threads as needed, reuses idle ones. Good for many short-lived tasks. Dangerous for long tasks — can create thousands of threads.</p>
+</div>
+<div class="exec-card">
+<h4>newScheduledThreadPool(n)</h4>
+<div class="sig">Executors.newScheduledThreadPool(int n)</div>
+<p>Runs tasks on a schedule — after a delay or at fixed intervals. Like a built-in cron job.</p>
+</div>
+</div>
+<h2>Fixed Pool — Most Common</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">FixedPool.java</span><span class="code-tag tag-example">Fixed Thread Pool</span></div>
+<pre><span class="kw">int</span> cores = <span class="type">Runtime</span>.<span class="method">getRuntime</span>().<span class="method">availableProcessors</span>();
 <span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(cores);
 
 <span class="type">List</span>&lt;<span class="type">String</span>&gt; urls = <span class="type">List</span>.<span class="method">of</span>(<span class="str">"url1"</span>, <span class="str">"url2"</span>, <span class="str">"url3"</span>, <span class="str">"url4"</span>, <span class="str">"url5"</span>);
 
 <span class="kw">for</span> (<span class="type">String</span> url : urls) {
-    pool.<span class="method">submit</span>(() -> {
+    pool.<span class="method">submit</span>(() -&gt; {
         <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Fetching: "</span> + url + <span class="str">" on "</span>
             + <span class="type">Thread</span>.<span class="method">currentThread</span>().<span class="method">getName</span>());
         <span class="comment">// simulate network call</span>
@@ -598,65 +544,59 @@ executor.<span class="method">shutdown</span>();
 
 pool.<span class="method">shutdown</span>();
 pool.<span class="method">awaitTermination</span>(<span class="num">30</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>);</pre>
-  </div>
-
-  <h2>Scheduled Pool — Repeating Tasks</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Scheduled.java</span><span class="code-tag tag-example">ScheduledExecutorService</span></div>
-    <pre><span class="type">ScheduledExecutorService</span> scheduler = <span class="type">Executors</span>.<span class="method">newScheduledThreadPool</span>(<span class="num">2</span>);
+</div>
+<h2>Scheduled Pool — Repeating Tasks</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Scheduled.java</span><span class="code-tag tag-example">ScheduledExecutorService</span></div>
+<pre><span class="type">ScheduledExecutorService</span> scheduler = <span class="type">Executors</span>.<span class="method">newScheduledThreadPool</span>(<span class="num">2</span>);
 
 <span class="comment">// Run once after 2 second delay</span>
-scheduler.<span class="method">schedule</span>(() -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Delayed task"</span>),
+scheduler.<span class="method">schedule</span>(() -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Delayed task"</span>),
     <span class="num">2</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>);
 
 <span class="comment">// Run every 5 seconds after initial 1 second delay</span>
-scheduler.<span class="method">scheduleAtFixedRate</span>(() -> {
+scheduler.<span class="method">scheduleAtFixedRate</span>(() -&gt; {
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Heartbeat: "</span> + <span class="type">System</span>.<span class="method">currentTimeMillis</span>());
 }, <span class="num">1</span>, <span class="num">5</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>);
 
 <span class="comment">// Let it run for 20 seconds then shut down</span>
 <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">20_000</span>);
 scheduler.<span class="method">shutdown</span>();</pre>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ How Many Threads?</div>
+    A common rule of thumb:<br/>
+<strong>CPU-bound tasks</strong> (heavy computation): <code>Runtime.getRuntime().availableProcessors()</code> threads — one per core.<br/>
+<strong>I/O-bound tasks</strong> (network, disk): more threads, often 2× or 4× core count — threads spend most time waiting, not computing.
   </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ How Many Threads?</div>
-    A common rule of thumb:<br>
-    <strong>CPU-bound tasks</strong> (heavy computation): <code>Runtime.getRuntime().availableProcessors()</code> threads — one per core.<br>
-    <strong>I/O-bound tasks</strong> (network, disk): more threads, often 2× or 4× core count — threads spend most time waiting, not computing.
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(5)">← Why ExecutorService?</button>
-    <span class="section-indicator">Section 7 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(7)">Callable &amp; Future →</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(5)">← Why ExecutorService?</button>
+<span class="section-indicator">Section 7 of 10</span>
+<button class="nav-btn primary" onclick="goTo(7)">Callable &amp; Future →</button>
+</div>
 </section>
-
 <!-- ══ S7: CALLABLE & FUTURE ══ -->
 <section class="lesson-section" id="section-7">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 8 of 10</div>
-  <h1 class="lesson-title">Callable &amp; Future</h1>
-  <p class="lesson-subtitle"><code>Runnable</code> tasks can't return values or throw checked exceptions. <code>Callable</code> solves both. <code>Future</code> lets you retrieve the result when it's ready.</p>
-
-  <h2>Callable vs Runnable</h2>
-  <table class="compare-table">
-    <tr><th></th><th>Runnable</th><th>Callable&lt;V&gt;</th></tr>
-    <tr><td>Method</td><td><code>void run()</code></td><td><code>V call() throws Exception</code></td></tr>
-    <tr><td>Return value</td><td class="td-bad">None (void)</td><td class="td-good">Returns V</td></tr>
-    <tr><td>Checked exceptions</td><td class="td-bad">Cannot throw</td><td class="td-good">Can throw Exception</td></tr>
-    <tr><td>Submit via</td><td><code>execute()</code> or <code>submit()</code></td><td><code>submit()</code> only</td></tr>
-    <tr><td>Result handle</td><td>None</td><td><code>Future&lt;V&gt;</code></td></tr>
-  </table>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">CallableFuture.java</span><span class="code-tag tag-example">Callable + Future</span></div>
-    <pre><span class="kw">import</span> java.util.concurrent.*;
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 8 of 10</div>
+<h1 class="lesson-title">Callable &amp; Future</h1>
+<p class="lesson-subtitle"><code>Runnable</code> tasks can't return values or throw checked exceptions. <code>Callable</code> solves both. <code>Future</code> lets you retrieve the result when it's ready.</p>
+<h2>Callable vs Runnable</h2>
+<table class="compare-table">
+<tr><th></th><th>Runnable</th><th>Callable&lt;V&gt;</th></tr>
+<tr><td>Method</td><td><code>void run()</code></td><td><code>V call() throws Exception</code></td></tr>
+<tr><td>Return value</td><td class="td-bad">None (void)</td><td class="td-good">Returns V</td></tr>
+<tr><td>Checked exceptions</td><td class="td-bad">Cannot throw</td><td class="td-good">Can throw Exception</td></tr>
+<tr><td>Submit via</td><td><code>execute()</code> or <code>submit()</code></td><td><code>submit()</code> only</td></tr>
+<tr><td>Result handle</td><td>None</td><td><code>Future&lt;V&gt;</code></td></tr>
+</table>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">CallableFuture.java</span><span class="code-tag tag-example">Callable + Future</span></div>
+<pre><span class="kw">import</span> java.util.concurrent.*;
 
 <span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">3</span>);
 
 <span class="comment">// Callable — returns a value</span>
-<span class="type">Callable</span>&lt;<span class="type">Integer</span>&gt; task = () -> {
+<span class="type">Callable</span>&lt;<span class="type">Integer</span>&gt; task = () -&gt; {
     <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">500</span>);       <span class="comment">// simulate work</span>
     <span class="kw">return</span> <span class="num">42</span>;               <span class="comment">// return the result</span>
 };
@@ -672,12 +612,11 @@ scheduler.<span class="method">shutdown</span>();</pre>
 <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Result: "</span> + result);  <span class="comment">// Result: 42</span>
 
 pool.<span class="method">shutdown</span>();</pre>
-  </div>
-
-  <h2>Future Methods</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">FutureMethods.java</span><span class="code-tag tag-example">Future API</span></div>
-    <pre><span class="type">Future</span>&lt;<span class="type">String</span>&gt; f = pool.<span class="method">submit</span>(() -> <span class="str">"hello"</span>);
+</div>
+<h2>Future Methods</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">FutureMethods.java</span><span class="code-tag tag-example">Future API</span></div>
+<pre><span class="type">Future</span>&lt;<span class="type">String</span>&gt; f = pool.<span class="method">submit</span>(() -&gt; <span class="str">"hello"</span>);
 
 <span class="comment">// isDone() — non-blocking check</span>
 <span class="kw">if</span> (f.<span class="method">isDone</span>()) {
@@ -694,15 +633,14 @@ pool.<span class="method">shutdown</span>();</pre>
     <span class="comment">// Task threw an exception — wrapped in ExecutionException</span>
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Task failed: "</span> + e.<span class="method">getCause</span>().<span class="method">getMessage</span>());
 }</pre>
-  </div>
-
-  <h2>invokeAll — Submit Many, Get All Results</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">InvokeAll.java</span><span class="code-tag tag-example">Batch Processing</span></div>
-    <pre><span class="type">List</span>&lt;<span class="type">Callable</span>&lt;<span class="type">Integer</span>&gt;&gt; tasks = <span class="type">List</span>.<span class="method">of</span>(
-    () -> <span class="method">computeExpensiveResult</span>(<span class="num">1</span>),
-    () -> <span class="method">computeExpensiveResult</span>(<span class="num">2</span>),
-    () -> <span class="method">computeExpensiveResult</span>(<span class="num">3</span>)
+</div>
+<h2>invokeAll — Submit Many, Get All Results</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">InvokeAll.java</span><span class="code-tag tag-example">Batch Processing</span></div>
+<pre><span class="type">List</span>&lt;<span class="type">Callable</span>&lt;<span class="type">Integer</span>&gt;&gt; tasks = <span class="type">List</span>.<span class="method">of</span>(
+    () -&gt; <span class="method">computeExpensiveResult</span>(<span class="num">1</span>),
+    () -&gt; <span class="method">computeExpensiveResult</span>(<span class="num">2</span>),
+    () -&gt; <span class="method">computeExpensiveResult</span>(<span class="num">3</span>)
 );
 
 <span class="comment">// Submit all, wait for all to complete</span>
@@ -712,89 +650,81 @@ pool.<span class="method">shutdown</span>();</pre>
 <span class="kw">for</span> (<span class="type">Future</span>&lt;<span class="type">Integer</span>&gt; future : futures) {
     <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Result: "</span> + future.<span class="method">get</span>());
 }</pre>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">🧠 Quick Check</div>
-    <div class="quiz-q">What happens when you call <code>future.get()</code> before the task has finished?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> It returns null immediately</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">B</span> The calling thread blocks until the task completes</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">C</span> It throws an exception immediately</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> It cancels the task</button>
-    </div>
-    <div class="quiz-feedback" id="q2-feedback"></div>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(6)">← Thread Pools</button>
-    <span class="section-indicator">Section 8 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(8)">Common Pitfalls →</button>
-  </div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">🧠 Quick Check</div>
+<div class="quiz-q">What happens when you call <code>future.get()</code> before the task has finished?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">A</span> It returns null immediately</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'q2')"><span class="option-letter">B</span> The calling thread blocks until the task completes</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">C</span> It throws an exception immediately</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'q2')"><span class="option-letter">D</span> It cancels the task</button>
+</div>
+<div class="quiz-feedback" id="q2-feedback"></div>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(6)">← Thread Pools</button>
+<span class="section-indicator">Section 8 of 10</span>
+<button class="nav-btn primary" onclick="goTo(8)">Common Pitfalls →</button>
+</div>
 </section>
-
 <!-- ══ S8: COMMON PITFALLS ══ -->
 <section class="lesson-section" id="section-8">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 9 of 10</div>
-  <h1 class="lesson-title">Common Pitfalls</h1>
-  <p class="lesson-subtitle">Concurrency bugs are subtle and dangerous. Here are the most important ones to recognise and avoid.</p>
-
-  <h2>Pitfall 1: Not Shutting Down the Executor</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">NoShutdown.java</span><span class="code-tag tag-bad">❌ JVM Never Exits</span></div>
-    <pre><span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">4</span>);
-pool.<span class="method">submit</span>(() -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"done"</span>));
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 9 of 10</div>
+<h1 class="lesson-title">Common Pitfalls</h1>
+<p class="lesson-subtitle">Concurrency bugs are subtle and dangerous. Here are the most important ones to recognise and avoid.</p>
+<h2>Pitfall 1: Not Shutting Down the Executor</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">NoShutdown.java</span><span class="code-tag tag-bad">❌ JVM Never Exits</span></div>
+<pre><span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">4</span>);
+pool.<span class="method">submit</span>(() -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"done"</span>));
 <span class="comment">// ❌ No shutdown() — pool threads are non-daemon, JVM hangs forever</span></pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">WithShutdown.java</span><span class="code-tag tag-good">✓ Always Shut Down</span></div>
-    <pre><span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">4</span>);
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">WithShutdown.java</span><span class="code-tag tag-good">✓ Always Shut Down</span></div>
+<pre><span class="type">ExecutorService</span> pool = <span class="type">Executors</span>.<span class="method">newFixedThreadPool</span>(<span class="num">4</span>);
 <span class="kw">try</span> {
-    pool.<span class="method">submit</span>(() -> <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"done"</span>));
+    pool.<span class="method">submit</span>(() -&gt; <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"done"</span>));
 } <span class="kw">finally</span> {
     pool.<span class="method">shutdown</span>();  <span class="comment">// always in finally block</span>
 }</pre>
-  </div>
-
-  <h2>Pitfall 2: Deadlock</h2>
-  <p>Thread A holds Lock 1 and waits for Lock 2. Thread B holds Lock 2 and waits for Lock 1. Both wait forever.</p>
-
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">Deadlock.java</span><span class="code-tag tag-danger">⚡ Deadlock</span></div>
-    <pre><span class="type">Object</span> lock1 = <span class="kw">new</span> <span class="type">Object</span>();
+</div>
+<h2>Pitfall 2: Deadlock</h2>
+<p>Thread A holds Lock 1 and waits for Lock 2. Thread B holds Lock 2 and waits for Lock 1. Both wait forever.</p>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">Deadlock.java</span><span class="code-tag tag-danger">⚡ Deadlock</span></div>
+<pre><span class="type">Object</span> lock1 = <span class="kw">new</span> <span class="type">Object</span>();
 <span class="type">Object</span> lock2 = <span class="kw">new</span> <span class="type">Object</span>();
 
-<span class="type">Thread</span> t1 = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+<span class="type">Thread</span> t1 = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="kw">synchronized</span>(lock1) {
         <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">50</span>);
         <span class="kw">synchronized</span>(lock2) { <span class="comment">/* ... */</span> }  <span class="comment">// waits for lock2</span>
     }
 });
 
-<span class="type">Thread</span> t2 = <span class="kw">new</span> <span class="type">Thread</span>(() -> {
+<span class="type">Thread</span> t2 = <span class="kw">new</span> <span class="type">Thread</span>(() -&gt; {
     <span class="kw">synchronized</span>(lock2) {
         <span class="type">Thread</span>.<span class="method">sleep</span>(<span class="num">50</span>);
         <span class="kw">synchronized</span>(lock1) { <span class="comment">/* ... */</span> }  <span class="comment">// waits for lock1 ← DEADLOCK</span>
     }
 });
 <span class="comment">// Fix: always acquire locks in the same order in every thread</span></pre>
-  </div>
-
-  <h2>Pitfall 3: Calling get() Without a Timeout</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">InfiniteWait.java</span><span class="code-tag tag-bad">❌ Blocks Forever if Task Hangs</span></div>
-    <pre><span class="type">Future</span>&lt;<span class="type">String</span>&gt; f = pool.<span class="method">submit</span>(() -> <span class="method">riskyNetworkCall</span>());
+</div>
+<h2>Pitfall 3: Calling get() Without a Timeout</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">InfiniteWait.java</span><span class="code-tag tag-bad">❌ Blocks Forever if Task Hangs</span></div>
+<pre><span class="type">Future</span>&lt;<span class="type">String</span>&gt; f = pool.<span class="method">submit</span>(() -&gt; <span class="method">riskyNetworkCall</span>());
 <span class="type">String</span> result = f.<span class="method">get</span>();  <span class="comment">// ❌ hangs if network never responds</span></pre>
-  </div>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">TimedGet.java</span><span class="code-tag tag-good">✓ Always Use a Timeout</span></div>
-    <pre"><span class="type">String</span> result = f.<span class="method">get</span>(<span class="num">5</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>);  <span class="comment">// ✓ fail fast after 5s</span></pre>
-  </div>
-
-  <h2>Pitfall 4: Sharing Mutable State Without Synchronisation</h2>
-  <div class="code-block">
-    <div class="code-header"><span class="code-filename">SharedState.java</span><span class="code-tag tag-good">✓ Three Safe Approaches</span></div>
-    <pre"><span class="comment">// Option 1: Use thread-safe collections</span>
+</div>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">TimedGet.java</span><span class="code-tag tag-good">✓ Always Use a Timeout</span></div>
+<pre"><span class="type">String</span> result = f.<span class="method">get</span>(<span class="num">5</span>, <span class="type">TimeUnit</span>.<span class="enum-const">SECONDS</span>);  <span class="comment">// ✓ fail fast after 5s</span>
+</pre"></div>
+<h2>Pitfall 4: Sharing Mutable State Without Synchronisation</h2>
+<div class="code-block">
+<div class="code-header"><span class="code-filename">SharedState.java</span><span class="code-tag tag-good">✓ Three Safe Approaches</span></div>
+<pre"><span class="comment">// Option 1: Use thread-safe collections</span>
 <span class="type">List</span>&lt;<span class="type">String</span>&gt; safe = <span class="kw">new</span> <span class="type">CopyOnWriteArrayList</span>&lt;&gt;();
 <span class="type">Map</span>&lt;<span class="type">String</span>,<span class="type">Integer</span>&gt; safeMap = <span class="kw">new</span> <span class="type">ConcurrentHashMap</span>&lt;&gt;();
 
@@ -803,85 +733,76 @@ pool.<span class="method">submit</span>(() -> <span class="type">System</span>.o
 <span class="type">AtomicLong</span>    total   = <span class="kw">new</span> <span class="type">AtomicLong</span>(<span class="num">0L</span>);
 
 <span class="comment">// Option 3: Don't share — give each thread its own data</span>
-<span class="type">ThreadLocal</span>&lt;<span class="type">SimpleDateFormat</span>&gt; fmt = <span class="type">ThreadLocal</span>.<span class="method">withInitial</span>(<span class="type">SimpleDateFormat</span>::<span class="kw">new</span>);</pre>
-  </div>
-
-  <div class="callout warning">
-    <div class="callout-title">⚠ Concurrency Checklist</div>
-    □ &nbsp;Always call <code>shutdown()</code> on executors — use try/finally<br>
-    □ &nbsp;Always use a timeout on <code>future.get()</code><br>
-    □ &nbsp;Never share mutable state without synchronisation<br>
-    □ &nbsp;Acquire locks in a consistent order to avoid deadlock<br>
-    □ &nbsp;Prefer <code>ConcurrentHashMap</code> / <code>AtomicInteger</code> over raw <code>synchronized</code> where possible<br>
-    □ &nbsp;Don't call <code>thread.run()</code> — always <code>thread.start()</code>
-  </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(7)">← Callable &amp; Future</button>
-    <span class="section-indicator">Section 9 of 10</span>
-    <button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
-  </div>
+<span class="type">ThreadLocal</span>&lt;<span class="type">SimpleDateFormat</span>&gt; fmt = <span class="type">ThreadLocal</span>.<span class="method">withInitial</span>(<span class="type">SimpleDateFormat</span>::<span class="kw">new</span>);
+</pre"></div>
+<div class="callout warning">
+<div class="callout-title">⚠ Concurrency Checklist</div>
+    □  Always call <code>shutdown()</code> on executors — use try/finally<br/>
+    □  Always use a timeout on <code>future.get()</code><br/>
+    □  Never share mutable state without synchronisation<br/>
+    □  Acquire locks in a consistent order to avoid deadlock<br/>
+    □  Prefer <code>ConcurrentHashMap</code> / <code>AtomicInteger</code> over raw <code>synchronized</code> where possible<br/>
+    □  Don't call <code>thread.run()</code> — always <code>thread.start()</code>
+</div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(7)">← Callable &amp; Future</button>
+<span class="section-indicator">Section 9 of 10</span>
+<button class="nav-btn primary" onclick="goTo(9)">Quiz &amp; Challenge →</button>
+</div>
 </section>
-
 <!-- ══ S9: QUIZ & CHALLENGE ══ -->
 <section class="lesson-section" id="section-9">
-  <div class="lesson-eyebrow">Core Java · Concurrency · Section 10 of 10</div>
-  <h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
-
-  <h2>Final Quiz</h2>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 1 of 3</div>
-    <div class="quiz-q">You have 1000 tasks that each make a network request (I/O-bound). What pool size is most appropriate?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> 1 thread — tasks must be sequential</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">B</span> Exactly the number of CPU cores — one per core</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">C</span> More than the number of cores — I/O-bound tasks spend most time waiting, so more threads can run</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> 1000 threads — one per task</button>
-    </div>
-    <div class="quiz-feedback" id="fq1-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 2 of 3</div>
-    <div class="quiz-q">What is a race condition?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">A</span> When a thread runs faster than expected</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">B</span> When two threads access shared mutable data without coordination, producing unpredictable results</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> When the executor runs out of threads in its pool</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> When a Future never completes</button>
-    </div>
-    <div class="quiz-feedback" id="fq2-feedback"></div>
-  </div>
-
-  <div class="quiz-card">
-    <div class="quiz-label">Question 3 of 3</div>
-    <div class="quiz-q">What is the difference between <code>Runnable</code> and <code>Callable</code>?</div>
-    <div class="quiz-options">
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> Runnable runs on multiple threads; Callable runs on one</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> They are identical — just different names</button>
-      <button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> Callable returns a value and can throw checked exceptions; Runnable does neither</button>
-      <button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Callable is older; Runnable was added in Java 8</button>
-    </div>
-    <div class="quiz-feedback" id="fq3-feedback"></div>
-  </div>
-
-  <h2>Coding Challenges</h2>
-
-  <div class="challenge-card">
-    <div class="challenge-label">🏋 Challenge 1 — Beginner</div>
-    <div class="challenge-title">Parallel Sum</div>
-    <div class="challenge-desc">Split a large list of numbers into chunks and sum each chunk in parallel using Callable and Future.</div>
-    <div class="challenge-task"><span class="task-num">01</span>Create a list of 1,000,000 integers (1 to 1,000,000)</div>
-    <div class="challenge-task"><span class="task-num">02</span>Split into 4 equal chunks</div>
-    <div class="challenge-task"><span class="task-num">03</span>Submit each chunk as a <code>Callable&lt;Long&gt;</code> that sums its slice</div>
-    <div class="challenge-task"><span class="task-num">04</span>Collect all 4 Futures and add their results</div>
-    <div class="challenge-task"><span class="task-num">05</span>Verify: total should be 500,000,500,000</div>
-    <button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
-    <div class="reveal-content" id="sol1">
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">ParallelSum.java</span><span class="code-tag tag-good">Solution</span></div>
-        <pre><span class="kw">import</span> java.util.*;
+<div class="lesson-eyebrow">Core Java · Concurrency · Section 10 of 10</div>
+<h1 class="lesson-title">Quiz &amp; Coding Challenge</h1>
+<h2>Final Quiz</h2>
+<div class="quiz-card">
+<div class="quiz-label">Question 1 of 3</div>
+<div class="quiz-q">You have 1000 tasks that each make a network request (I/O-bound). What pool size is most appropriate?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">A</span> 1 thread — tasks must be sequential</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">B</span> Exactly the number of CPU cores — one per core</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq1')"><span class="option-letter">C</span> More than the number of cores — I/O-bound tasks spend most time waiting, so more threads can run</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq1')"><span class="option-letter">D</span> 1000 threads — one per task</button>
+</div>
+<div class="quiz-feedback" id="fq1-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 2 of 3</div>
+<div class="quiz-q">What is a race condition?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">A</span> When a thread runs faster than expected</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq2')"><span class="option-letter">B</span> When two threads access shared mutable data without coordination, producing unpredictable results</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">C</span> When the executor runs out of threads in its pool</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq2')"><span class="option-letter">D</span> When a Future never completes</button>
+</div>
+<div class="quiz-feedback" id="fq2-feedback"></div>
+</div>
+<div class="quiz-card">
+<div class="quiz-label">Question 3 of 3</div>
+<div class="quiz-q">What is the difference between <code>Runnable</code> and <code>Callable</code>?</div>
+<div class="quiz-options">
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">A</span> Runnable runs on multiple threads; Callable runs on one</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">B</span> They are identical — just different names</button>
+<button class="quiz-option" onclick="checkQuiz(this,true,'fq3')"><span class="option-letter">C</span> Callable returns a value and can throw checked exceptions; Runnable does neither</button>
+<button class="quiz-option" onclick="checkQuiz(this,false,'fq3')"><span class="option-letter">D</span> Callable is older; Runnable was added in Java 8</button>
+</div>
+<div class="quiz-feedback" id="fq3-feedback"></div>
+</div>
+<h2>Coding Challenges</h2>
+<div class="challenge-card">
+<div class="challenge-label">🏋 Challenge 1 — Beginner</div>
+<div class="challenge-title">Parallel Sum</div>
+<div class="challenge-desc">Split a large list of numbers into chunks and sum each chunk in parallel using Callable and Future.</div>
+<div class="challenge-task"><span class="task-num">01</span>Create a list of 1,000,000 integers (1 to 1,000,000)</div>
+<div class="challenge-task"><span class="task-num">02</span>Split into 4 equal chunks</div>
+<div class="challenge-task"><span class="task-num">03</span>Submit each chunk as a <code>Callable&lt;Long&gt;</code> that sums its slice</div>
+<div class="challenge-task"><span class="task-num">04</span>Collect all 4 Futures and add their results</div>
+<div class="challenge-task"><span class="task-num">05</span>Verify: total should be 500,000,500,000</div>
+<button class="reveal-btn" onclick="toggleReveal('sol1')">Show solution</button>
+<div class="reveal-content" id="sol1">
+<div class="code-block">
+<div class="code-header"><span class="code-filename">ParallelSum.java</span><span class="code-tag tag-good">Solution</span></div>
+<pre><span class="kw">import</span> java.util.*;
 <span class="kw">import</span> java.util.concurrent.*;
 <span class="kw">import</span> java.util.stream.*;
 
@@ -900,7 +821,7 @@ pool.<span class="method">submit</span>(() -> <span class="type">System</span>.o
             <span class="kw">final int</span> from = i * size;
             <span class="kw">final int</span> to   = (i == chunks - <span class="num">1</span>) ? numbers.<span class="method">size</span>() : from + size;
             <span class="type">List</span>&lt;<span class="type">Long</span>&gt; chunk = numbers.<span class="method">subList</span>(from, to);
-            futures.<span class="method">add</span>(pool.<span class="method">submit</span>(() ->
+            futures.<span class="method">add</span>(pool.<span class="method">submit</span>(() -&gt;
                 chunk.<span class="method">stream</span>().<span class="method">mapToLong</span>(<span class="type">Long</span>::<span class="method">longValue</span>).<span class="method">sum</span>()
             ));
         }
@@ -912,23 +833,22 @@ pool.<span class="method">submit</span>(() -> <span class="type">System</span>.o
         <span class="type">System</span>.out.<span class="method">println</span>(<span class="str">"Total: "</span> + total);  <span class="comment">// 500000500000</span>
     }
 }</pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="challenge-card">
-    <div class="challenge-label">🏋🏋 Challenge 2 — Intermediate</div>
-    <div class="challenge-title">Thread-Safe Word Counter</div>
-    <div class="challenge-desc">Count word frequencies from a large list of sentences using multiple threads safely.</div>
-    <div class="challenge-task"><span class="task-num">01</span>Start with a <code>List&lt;String&gt;</code> of at least 10 sentences</div>
-    <div class="challenge-task"><span class="task-num">02</span>Split sentences across 4 threads, each counting words in its slice</div>
-    <div class="challenge-task"><span class="task-num">03</span>Merge results using <code>ConcurrentHashMap</code> or by collecting Futures into partial maps</div>
-    <div class="challenge-task"><span class="task-num">04</span>Print the top 5 most frequent words</div>
-    <button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution</button>
-    <div class="reveal-content" id="sol2">
-      <div class="code-block">
-        <div class="code-header"><span class="code-filename">WordCounter.java</span><span class="code-tag tag-good">Solution</span></div>
-        <pre><span class="kw">import</span> java.util.*;
+</div>
+</div>
+</div>
+<div class="challenge-card">
+<div class="challenge-label">🏋🏋 Challenge 2 — Intermediate</div>
+<div class="challenge-title">Thread-Safe Word Counter</div>
+<div class="challenge-desc">Count word frequencies from a large list of sentences using multiple threads safely.</div>
+<div class="challenge-task"><span class="task-num">01</span>Start with a <code>List&lt;String&gt;</code> of at least 10 sentences</div>
+<div class="challenge-task"><span class="task-num">02</span>Split sentences across 4 threads, each counting words in its slice</div>
+<div class="challenge-task"><span class="task-num">03</span>Merge results using <code>ConcurrentHashMap</code> or by collecting Futures into partial maps</div>
+<div class="challenge-task"><span class="task-num">04</span>Print the top 5 most frequent words</div>
+<button class="reveal-btn" onclick="toggleReveal('sol2')">Show solution</button>
+<div class="reveal-content" id="sol2">
+<div class="code-block">
+<div class="code-header"><span class="code-filename">WordCounter.java</span><span class="code-tag tag-good">Solution</span></div>
+<pre><span class="kw">import</span> java.util.*;
 <span class="kw">import</span> java.util.concurrent.*;
 <span class="kw">import</span> java.util.stream.*;
 
@@ -950,43 +870,39 @@ pool.<span class="method">submit</span>(() -> <span class="type">System</span>.o
         <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; chunks; i++) {
             <span class="kw">final</span> <span class="type">List</span>&lt;<span class="type">String</span>&gt; slice = sentences.<span class="method">subList</span>(
                 i * size, Math.<span class="method">min</span>((i+<span class="num">1</span>)*size, sentences.<span class="method">size</span>()));
-            futures.<span class="method">add</span>(pool.<span class="method">submit</span>(() ->
+            futures.<span class="method">add</span>(pool.<span class="method">submit</span>(() -&gt;
                 slice.<span class="method">stream</span>()
-                    .<span class="method">flatMap</span>(s -> <span class="type">Arrays</span>.<span class="method">stream</span>(s.<span class="method">split</span>(<span class="str">" "</span>)))
-                    .<span class="method">collect</span>(<span class="type">Collectors</span>.<span class="method">groupingBy</span>(w -> w, <span class="type">Collectors</span>.<span class="method">counting</span>()))
+                    .<span class="method">flatMap</span>(s -&gt; <span class="type">Arrays</span>.<span class="method">stream</span>(s.<span class="method">split</span>(<span class="str">" "</span>)))
+                    .<span class="method">collect</span>(<span class="type">Collectors</span>.<span class="method">groupingBy</span>(w -&gt; w, <span class="type">Collectors</span>.<span class="method">counting</span>()))
             ));
         }
 
         <span class="type">Map</span>&lt;<span class="type">String</span>,<span class="type">Long</span>&gt; total = <span class="kw">new</span> <span class="type">HashMap</span>&lt;&gt;();
         <span class="kw">for</span> (<span class="kw">var</span> f : futures)
-            f.<span class="method">get</span>().<span class="method">forEach</span>((k,v) -> total.<span class="method">merge</span>(k, v, <span class="type">Long</span>::<span class="method">sum</span>));
+            f.<span class="method">get</span>().<span class="method">forEach</span>((k,v) -&gt; total.<span class="method">merge</span>(k, v, <span class="type">Long</span>::<span class="method">sum</span>));
 
         total.<span class="method">entrySet</span>().<span class="method">stream</span>()
             .<span class="method">sorted</span>(<span class="type">Map</span>.<span class="type">Entry</span>.&lt;<span class="type">String</span>,<span class="type">Long</span>&gt;<span class="method">comparingByValue</span>().<span class="method">reversed</span>())
             .<span class="method">limit</span>(<span class="num">5</span>)
-            .<span class="method">forEach</span>(e -> <span class="type">System</span>.out.<span class="method">println</span>(e.<span class="method">getKey</span>() + <span class="str">": "</span> + e.<span class="method">getValue</span>()));
+            .<span class="method">forEach</span>(e -&gt; <span class="type">System</span>.out.<span class="method">println</span>(e.<span class="method">getKey</span>() + <span class="str">": "</span> + e.<span class="method">getValue</span>()));
 
         pool.<span class="method">shutdown</span>();
     }
 }</pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-title">✓ What You've Learned</div>
+</div>
+</div>
+</div>
+<div class="callout tip">
+<div class="callout-title">✓ What You've Learned</div>
     Concurrency vs parallelism · Creating threads three ways (extend, Runnable, lambda) · start() vs run() · Thread lifecycle and states · Race conditions and why they happen · synchronized methods/blocks and AtomicInteger · Why ExecutorService beats raw threads · Fixed, cached, scheduled, and single-thread pools · Callable + Future for result-returning tasks · invokeAll for batch work · Deadlock, missing shutdown, infinite get() — and how to avoid them.
   </div>
-
-  <div class="lesson-nav">
-    <button class="nav-btn" onclick="goTo(8)">← Common Pitfalls</button>
-    <span class="section-indicator">Section 10 of 10</span>
-    <button class="nav-btn primary" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)" onclick="alert('Lesson complete! One more: Design Patterns.')">✓ Mark Complete</button>
-  </div>
+<div class="lesson-nav">
+<button class="nav-btn" onclick="goTo(8)">← Common Pitfalls</button>
+<span class="section-indicator">Section 10 of 10</span>
+<button class="nav-btn primary" onclick="alert('Lesson complete! One more: Design Patterns.')" style="background:var(--green-dim);border-color:var(--green);color:var(--green-bright)">✓ Mark Complete</button>
+</div>
 </section>
-
 </main>
-
 <script>
   let cur=0;const total=10;const visited=new Set([0]);
   function goTo(n){
@@ -1024,10 +940,10 @@ pool.<span class="method">submit</span>(() -> <span class="type">System</span>.o
   }
   document.querySelectorAll('.nav-item').forEach((el,i)=>el.addEventListener('click',()=>goTo(i)));
 </script>
-<a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+<a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
+<script defer="" src="../scripts/main.js"></script>
 </body>
 </html>

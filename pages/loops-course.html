@@ -168,7 +168,7 @@
           <div class="code-hdr"><span class="code-fname"><span class="code-dot"></span>BossSpawn.java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
           <pre><span class="typ">System</span>.out.println(<span class="str">"⚔️ BOSS SPAWNING IN:"</span>);
 
-<span class="kw">for</span> (<span class="kw">int</span> seconds = <span class="num">10</span>; seconds >= <span class="num">1</span>; seconds--) {
+<span class="kw">for</span> (<span class="kw">int</span> seconds = <span class="num">10</span>; seconds &gt;= <span class="num">1</span>; seconds--) {
     <span class="typ">System</span>.out.println(seconds + <span class="str">"..."</span>);
     <span class="cm">// Thread.sleep(1000); // Uncomment for real delay</span>
 }
@@ -214,7 +214,7 @@
           <ul>
             <li>Print: <code>Fireball: 3s cooldown</code> (one per spell)</li>
             <li>Use <code>String[]</code> for names, <code>int[]</code> for cooldowns</li>
-            <li>Bonus: mark spells with cooldown > 10 as "LONG"</li>
+            <li>Bonus: mark spells with cooldown &gt; 10 as "LONG"</li>
           </ul>
         </div>
       </div>
@@ -259,7 +259,7 @@
           <pre><span class="typ">Scanner</span> scanner = <span class="kw">new</span> <span class="typ">Scanner</span>(<span class="typ">System</span>.in);
 <span class="kw">int</span> choice = -<span class="num">1</span>;
 
-<span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">4</span>) {
+<span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice &gt; <span class="num">4</span>) {
     <span class="typ">System</span>.out.println(<span class="str">"""
         === MAIN MENU ===
         1. New Game
@@ -270,7 +270,7 @@
     
     <span class="kw">if</span> (scanner.hasNextInt()) {
         choice = scanner.nextInt();
-        <span class="kw">if</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">4</span>)
+        <span class="kw">if</span> (choice &lt; <span class="num">1</span> || choice &gt; <span class="num">4</span>)
             <span class="typ">System</span>.out.println(<span class="str">"❌ Invalid! Enter 1-4."</span>);
     } <span class="kw">else</span> {
         <span class="typ">System</span>.out.println(<span class="str">"❌ Numbers only!"</span>);
@@ -295,7 +295,7 @@
     <span class="typ">System</span>.out.printf(<span class="str">"Gold: %,d | Workers: %d%n"</span>, gold, workers);
     
     <span class="cm">// Hire more workers at milestones</span>
-    <span class="kw">if</span> (gold >= <span class="num">500</span> && workers == <span class="num">3</span>) {
+    <span class="kw">if</span> (gold &gt;= <span class="num">500</span> && workers == <span class="num">3</span>) {
         workers = <span class="num">5</span>;
         <span class="typ">System</span>.out.println(<span class="str">"🎉 Hired 2 more workers!"</span>);
     }
@@ -474,7 +474,7 @@
 
 <span class="kw">for</span> (<span class="kw">int</span> damage : hits) {
     totalDamage += damage;
-    <span class="kw">if</span> (damage >= <span class="num">25</span>) critCount++;
+    <span class="kw">if</span> (damage &gt;= <span class="num">25</span>) critCount++;
     <span class="typ">System</span>.out.println(<span class="str">"  Hit: "</span> + damage + <span class="str">" dmg"</span>);
 }
 
@@ -787,7 +787,7 @@ searchLoop: <span class="cm">// Label the OUTER loop</span>
                 
                 <span class="cm">// ════ INPUT VALIDATION (while) ════</span>
                 <span class="kw">int</span> choice = -<span class="num">1</span>;
-                <span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice > <span class="num">3</span>) {
+                <span class="kw">while</span> (choice &lt; <span class="num">1</span> || choice &gt; <span class="num">3</span>) {
                     <span class="typ">System</span>.out.print(<span class="str">"[1] Attack  [2] Heal  [3] Flee: "</span>);
                     <span class="kw">if</span> (sc.hasNextInt()) choice = sc.nextInt();
                     <span class="kw">else</span> sc.next();
@@ -799,10 +799,10 @@ searchLoop: <span class="cm">// Label the OUTER loop</span>
                     <span class="kw">case</span> <span class="num">3</span> -> { <span class="typ">System</span>.out.println(<span class="str">"🏃 You fled!"</span>); gameOver = <span class="kw">true</span>; }
                 }
                 
-                <span class="kw">if</span> (enemy.hp() > <span class="num">0</span> && !gameOver) enemyAttack(enemy, player);
+                <span class="kw">if</span> (enemy.hp() &gt; <span class="num">0</span> && !gameOver) enemyAttack(enemy, player);
                 <span class="kw">if</span> (player.hp() &lt;= <span class="num">0</span>) { <span class="typ">System</span>.out.println(<span class="str">"☠️ YOU DIED."</span>); gameOver = <span class="kw">true</span>; }
                 
-            } <span class="kw">while</span> (enemy.hp() > <span class="num">0</span> && player.hp() > <span class="num">0</span> && !gameOver);
+            } <span class="kw">while</span> (enemy.hp() &gt; <span class="num">0</span> && player.hp() &gt; <span class="num">0</span> && !gameOver);
             
             <span class="kw">if</span> (!gameOver) { <span class="typ">System</span>.out.println(<span class="str">"🎉 Defeated! +50 XP"</span>); wave++; }
         }
