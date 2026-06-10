@@ -881,10 +881,10 @@ none.<span class="method">ifPresentOrElse</span>(
   }
   const exp={
     q1:'<code>ofNullable</code> is the safe bridge from legacy null-returning code. It wraps non-null values in <code>Optional.of()</code> and converts null to <code>Optional.empty()</code> — no NPE risk.',
-    q2:'Use <strong>flatMap</strong> when the mapping function returns an Optional. <code>map</code> would produce <code>Optional&lt;Optional&lt;Address&gt;&gt;</code> — doubly wrapped. <code>flatMap</code> unwraps the inner layer for you.',
+    q2:'Use <strong>flatMap</strong> when the mapping function returns an Optional. <code>map</code> would produce <code>Optional<Optional<Address>></code> — doubly wrapped. <code>flatMap</code> unwraps the inner layer for you.',
     fq1:'<code>orElse</code> always evaluates its argument — even when the Optional has a value. This matters when the default is expensive (a DB call, object construction). <code>orElseGet</code> takes a Supplier that only runs when the Optional is actually empty.',
     fq2:'The correct order is <strong>filter first, then map</strong>. You filter on the User object (checking <code>isAdmin()</code>), then map to the name. Filtering on a String wouldn\'t make sense, and the User object has the <code>isAdmin()</code> method.',
-    fq3:'Optional belongs in <strong>method return types</strong> — it\'s a signal to callers that the result might be absent. Fields should be nullable primitives/objects. Parameters should use overloads or @Nullable. Collections should return empty lists, not Optional&lt;List&gt;.',
+    fq3:'Optional belongs in <strong>method return types</strong> — it\'s a signal to callers that the result might be absent. Fields should be nullable primitives/objects. Parameters should use overloads or @Nullable. Collections should return empty lists, not Optional<List>.',
   };
   function checkQuiz(btn,ok,qId){
     btn.closest('.quiz-card').querySelectorAll('.quiz-option').forEach(o=>o.style.pointerEvents='none');
@@ -903,5 +903,6 @@ none.<span class="method">ifPresentOrElse</span>(
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

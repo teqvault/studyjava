@@ -31,7 +31,7 @@ body {
 
 /* ── HERO ─────────────────────────────────────── */
 .hero {
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +82,7 @@ body {
 
 .hero-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-size: clamp(2rem, 6vw, 4.8rem);
   font-weight: 700;
   line-height: 1.05;
   text-align: center;
@@ -143,12 +143,14 @@ body {
   border-radius: 0 0 10px 10px;
   padding: 20px 22px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
+  font-size: clamp(10px, 2.5vw, 12.5px);
   line-height: 1.9;
   min-height: 160px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.cl { display: block; }
+.cl { display: block; white-space: nowrap; }
 .cl-prompt { color: var(--muted); }
 .cl-kw { color: var(--purple); }
 .cl-cls { color: var(--teal); }
@@ -205,6 +207,8 @@ body {
   animation: fadeUp 0.7s 1.4s forwards;
   position: relative;
   z-index: 2;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .stat { text-align: center; }
@@ -221,7 +225,7 @@ body {
   letter-spacing: 1px;
   margin-top: 2px;
 }
-.stat-div { width: 1px; background: var(--border-hi); }
+.stat-div { width: 1px; background: var(--border-hi); align-self: stretch; }
 
 /* ── ROADMAP SECTION ─────────────────────────── */
 .roadmap-section {
@@ -246,7 +250,7 @@ body {
 
 .section-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
   font-weight: 700;
   color: var(--white);
   letter-spacing: -0.5px;
@@ -264,6 +268,7 @@ body {
   margin-bottom: 1.5rem;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
 }
 
 .phase-num {
@@ -274,6 +279,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 3px 8px;
+  white-space: nowrap;
 }
 
 .phase-name {
@@ -282,9 +288,10 @@ body {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--soft);
+  white-space: nowrap;
 }
 
-.phase-line { flex: 1; height: 1px; background: var(--border); }
+.phase-line { flex: 1; height: 1px; background: var(--border); min-width: 20px; }
 
 /* course cards grid */
 .cards-grid {
@@ -343,6 +350,7 @@ body {
   background: var(--orange);
   border-radius: 50%;
   box-shadow: 0 0 6px var(--orange-glow);
+  flex-shrink: 0;
 }
 
 .card-title {
@@ -417,7 +425,7 @@ body {
 
 .books-title {
   font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
   font-weight: 700;
   color: var(--white);
   letter-spacing: -0.3px;
@@ -523,12 +531,6 @@ body {
   border-radius: 20px;
 }
 
-@media (max-width: 680px) {
-  .books-grid { grid-template-columns: 1fr; }
-  .book-card { flex-direction: column; }
-  .book-cover { width: 56px; min-width: 56px; height: 76px; }
-}
-
 /* ── FOOTER ───────────────────────────────────── */
 .site-footer {
   border-top: 1px solid var(--border);
@@ -557,15 +559,85 @@ body {
 .reveal.visible { opacity: 1; transform: none; }
 
 /* ── RESPONSIVE ───────────────────────────────── */
+
+/* Tablet (≤900px) */
+@media (max-width: 900px) {
+  .roadmap-section { padding: 4rem 1.5rem 6rem; }
+  .section-header { margin-bottom: 3.5rem; }
+  .books-section { padding: 4rem 1.5rem; }
+}
+
+/* Phablet (≤680px) */
 @media (max-width: 680px) {
+  /* Hero */
+  .hero { padding: 5rem 1.25rem 4rem; }
+  .hero-sub { font-size: 0.95rem; }
+
+  /* Terminal */
+  .compile-body { padding: 14px 16px; }
+
+  /* Stats */
+  .stats-row { gap: 1.5rem; }
+  .stat-num { font-size: 1.3rem; }
+
+  /* Roadmap */
+  .roadmap-section { padding: 3.5rem 1.25rem 5rem; }
+  .phase { margin-bottom: 3.5rem; }
   .cards-grid { grid-template-columns: 1fr; }
   .course-card.featured { grid-column: span 1; }
   .featured-inner { grid-template-columns: 1fr; }
   .featured-badge { width: fit-content; }
-  .stats-row { gap: 1.5rem; }
-  .stat-num { font-size: 1.3rem; }
+
+  /* Books */
+  .books-section { padding: 3.5rem 1.25rem; }
+  .books-grid { grid-template-columns: 1fr; }
+  .book-card { flex-direction: column; }
+  .book-cover { width: 56px; min-width: 56px; height: 76px; }
+}
+
+/* Small mobile (≤400px) */
+@media (max-width: 400px) {
+  .hero-eyebrow { font-size: 9px; letter-spacing: 1.5px; }
+  .compile-label { display: none; }
+
+  /* Collapse stats to a tighter row, hide dividers */
+  .stat-div { display: none; }
+  .stats-row { gap: 1.25rem; }
+  .stat-num { font-size: 1.2rem; }
+  .stat-label { font-size: 10px; }
+
+  /* Phase header: let it stack naturally */
+  .phase-line { display: none; }
+
+  .cta-btn { padding: 11px 20px; font-size: 12px; }
+
+  .compile-body { font-size: 10px; padding: 12px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+    .shell, .layout { 
+        flex-direction: column !important; 
+    }
+    .sidebar { 
+        width: 100% !important; 
+        position: static !important;
+        margin-bottom: 20px;
+    }
+    .main { 
+        width: 100% !important; 
+        padding: 15px !important;
+    }
+    .lesson-nav { 
+        flex-direction: column; 
+        gap: 10px; 
+    }
+    button, .nav-btn, .btn { 
+        min-height: 44px !important; 
+        padding: 12px !important;
+    }
 }

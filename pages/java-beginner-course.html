@@ -11,6 +11,9 @@
 <body>
 
 <header>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+    <span></span><span></span><span></span>
+  </button>
   <a class="logo" href="#">
     <div class="logo-icon">{ }</div>
     <span class="logo-text">Learn<span>Java</span></span>
@@ -26,7 +29,13 @@
 
 <div class="shell">
 
-<nav class="sidebar">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-close">
+    <span>Navigation</span>
+    <button id="sidebarClose" aria-label="Close navigation">✕</button>
+  </div>
   <div class="sb-section">Getting Started</div>
   <button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What is Java?</button>
   <button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>Your First Program</button>
@@ -1735,69 +1744,116 @@ score <span class="op">=</span> <span class="num">100</span>;
 
 </main>
 </div>
-
 <script>
-const TOTAL = 16;
-const done = new Set([0]);
-let current = 0;
+(function() {
+    // Configuration
+    const TOTAL = 16;
+    const done = new Set([0]);
+    let current = 0;
 
-function go(idx) {
-  document.getElementById('L' + current).classList.remove('active');
-  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
-  current = idx;
-  done.add(idx);
-  document.getElementById('L' + idx).classList.add('active');
-  const btns = document.querySelectorAll('.nav-btn');
-  btns[idx].classList.add('active');
-  done.forEach(i => { if (i !== idx) btns[i].classList.add('done'); });
-  updateProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    // Ensure functions are globally accessible
+    window.go = function(idx) {
+        const oldLesson = document.getElementById('L' + current);
+        const newLesson = document.getElementById('L' + idx);
+        
+        if (!newLesson) {
+            console.error("Lesson not found: L" + idx);
+            return;
+        }
 
-function updateProgress() {
-  const pct = Math.round((done.size / TOTAL) * 100);
-  document.getElementById('pFill').style.width = pct + '%';
-  document.getElementById('pPct').textContent = pct + '%';
-}
+        // Visual toggle
+        if (oldLesson) oldLesson.classList.remove('active');
+        newLesson.classList.add('active');
 
-const explanations = {
-  0: 'The JVM is the key to Java\'s cross-platform capability — one compiled file runs identically on any device with a JVM installed.',
-  1: 'Java always looks for exactly <code>public static void main(String[] args)</code> as the program\'s entry point. The signature must match precisely.',
-  2: '<code>double</code> stores decimal numbers, making it ideal for prices. <code>int</code> only holds whole numbers; <code>boolean</code> holds true/false; <code>char</code> holds a single character.',
-  3: '17 ÷ 5 = 3 remainder 2. The modulo operator (%) returns only the remainder. It\'s useful for checking divisibility: if n % 2 == 0, n is even.',
-  4: '<code>&&</code> (AND) requires BOTH conditions to be true. <code>||</code> (OR) requires at least one. So age &gt;= 18 AND hasLicense means both must be satisfied.',
-  5: '<code>break</code> exits the entire loop immediately. <code>continue</code> skips only the rest of the current iteration and moves to the next one.',
-  6: 'The return type in the method signature (here <code>int</code>) dictates that the method must return an int value using the <code>return</code> keyword.',
-  7: 'Arrays are zero-indexed. Index 0 = 10, index 1 = 20, index 2 = 30, index 3 = 40, index 4 = 50. So <code>nums[3]</code> is 40.',
-  8: 'ArrayList.add() appends to the end and the size increases. Starting size was 3, after add it becomes 4.',
-  9: 'Always use <code>.equals()</code> for String content comparison. <code>==</code> checks memory references, not content, and can give incorrect results.',
-  10: 'The constructor runs when you use <code>new ClassName()</code>. Its job is to initialise the object\'s fields into a valid starting state.',
-  11: '<code>super(name, age)</code> calls the parent class\'s constructor to initialise the inherited fields. It must be the first statement in a subclass constructor.',
-  12: 'Using the interface as a parameter type means the method works with any class that implements it — now and in the future — making code flexible and extensible.',
-  13: '<code>finally</code> always executes regardless of whether an exception occurred. It\'s the right place to close files, release connections, or clean up resources.',
-  14: 'Try-with-resources guarantees the resource (file, connection, etc.) is closed when the block ends — even if an exception is thrown — preventing resource leaks.'
-};
+        // Sidebar update
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns[current].classList.remove('active');
+        navBtns[idx].classList.add('active');
+        
+        done.add(idx);
+        navBtns.forEach((btn, i) => {
+            if (done.has(i)) btn.classList.add('done');
+        });
 
-function Q(btn, correct) {
-  const block = btn.closest('.quiz');
-  block.querySelectorAll('.quiz-opt').forEach(b => {
-    b.disabled = true;
-    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('true')) {
-      b.classList.add('correct');
+        current = idx;
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.Q = function(btn, correct) {
+        const block = btn.closest('.quiz');
+        const opts = block.querySelectorAll('.quiz-opt');
+        opts.forEach(b => b.disabled = true);
+        
+        if (!correct) btn.classList.add('wrong');
+        
+        const lessonDiv = btn.closest('.lesson');
+        const li = lessonDiv.id.replace('L', '');
+        const fb = document.getElementById('qf' + li);
+        
+        if (fb) {
+            fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'bad');
+            fb.textContent = (correct ? '✓ Correct! ' : '✗ Not quite. ');
+        }
+    };
+
+    function updateProgress() {
+        const pct = Math.round((done.size / TOTAL) * 100);
+        const fill = document.getElementById('pFill');
+        const pctTxt = document.getElementById('pPct');
+        if (fill) fill.style.width = pct + '%';
+        if (pctTxt) pctTxt.textContent = pct + '%';
     }
-  });
-  if (!correct) btn.classList.add('wrong');
-  const li = parseInt(btn.closest('.lesson').id.replace('L', ''));
-  const fb = document.getElementById('qf' + li);
-  fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'bad');
-  fb.innerHTML = (correct ? '✓ Correct! ' : '✗ Not quite. ') + (explanations[li] || '');
-}
 
-updateProgress();
+    // ── Mobile drawer ──────────────────────────────
+    (function() {
+        const toggle   = document.getElementById('menuToggle');
+        const sidebar  = document.getElementById('sidebar');
+        const overlay  = document.getElementById('sidebarOverlay');
+        const closeBtn = document.getElementById('sidebarClose');
+
+        function openDrawer() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+            toggle.classList.add('open');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDrawer() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            toggle.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', function() {
+            sidebar.classList.contains('open') ? closeDrawer() : openDrawer();
+        });
+        overlay.addEventListener('click', closeDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+
+        // Close drawer when a lesson is selected on mobile
+        sidebar.addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-btn') && window.innerWidth <= 860) {
+                closeDrawer();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeDrawer();
+        });
+    })();
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', updateProgress);
+})();
 </script>
     <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

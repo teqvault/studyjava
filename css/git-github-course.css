@@ -185,3 +185,26 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
 @media(max-width:860px){.sidebar{display:none}.main{padding:28px 20px 60px}header{padding:0 16px}}
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+    .shell, .layout { 
+        flex-direction: column !important; 
+    }
+    .sidebar { 
+        width: 100% !important; 
+        position: static !important;
+        margin-bottom: 20px;
+    }
+    .main { 
+        width: 100% !important; 
+        padding: 15px !important;
+    }
+    .lesson-nav { 
+        flex-direction: column; 
+        gap: 10px; 
+    }
+    button, .nav-btn, .btn { 
+        min-height: 44px !important; 
+        padding: 12px !important;
+    }
+}

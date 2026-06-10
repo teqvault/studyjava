@@ -183,14 +183,14 @@ names.<span class="fn">add</span>(<span class="kw">new</span> <span class="cl">T
 <span class="cl">String</span> oops <span class="op">=</span> (<span class="cl">String</span>) names.<span class="fn">get</span>(<span class="num">1</span>); <span class="cm">// ClassCastException at RUNTIME</span>
 
 <span class="cm">// With generics (Java 5+)</span>
-<span class="cl">ArrayList</span>&lt;<span class="cl">String</span>&gt; names2 <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
+<span class="cl">ArrayList</span><<span class="cl">String</span>> names2 <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span><>();
 names2.<span class="fn">add</span>(<span class="str">"Alice"</span>);
 names2.<span class="fn">add</span>(<span class="num">42</span>);   <span class="cm">// COMPILE ERROR — caught immediately</span>
 
 <span class="cl">String</span> s <span class="op">=</span> names2.<span class="fn">get</span>(<span class="num">0</span>); <span class="cm">// no cast needed — compiler guarantees type</span></pre></div>
 <div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>generics = compile-time safety</strong><p>The entire point of generics is to catch type mismatches at compile time rather than at runtime. A compile error is infinitely better than a ClassCastException crashing a production server at 2am.</p></div></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
-<div class="quiz-q">What is the main benefit of <code>ArrayList&lt;String&gt;</code> over a plain <code>ArrayList</code>?</div>
+<div class="quiz-q">What is the main benefit of <code>ArrayList<String></code> over a plain <code>ArrayList</code>?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">It runs faster because strings are smaller than objects</button>
 <button class="quiz-opt" onclick="Q(this,true)">The compiler enforces that only Strings can be added — type errors are caught before the program runs</button>
@@ -206,7 +206,7 @@ names2.<span class="fn">add</span>(<span class="num">42</span>);   <span class="
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Box.java</span><span class="code-tag">A generic class — the simplest example</span></div>
 <pre><span class="cm">// T is a type parameter — a placeholder for a real type
 // Convention: T=Type, E=Element, K=Key, V=Value, N=Number</span>
-<span class="kw">public class</span> <span class="cl">Box</span>&lt;T&gt; {
+<span class="kw">public class</span> <span class="cl">Box</span><T> {
 
     <span class="kw">private</span> T contents;
 
@@ -226,17 +226,17 @@ names2.<span class="fn">add</span>(<span class="num">42</span>);   <span class="
 }
 
 <span class="cm">// Usage — T is resolved at the call site</span>
-<span class="cl">Box</span>&lt;<span class="cl">String</span>&gt;  strBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="str">"Hello"</span>);
-<span class="cl">Box</span>&lt;<span class="cl">Integer</span>&gt; intBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="num">42</span>);
-<span class="cl">Box</span>&lt;<span class="cl">Task</span>&gt;    taskBox <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span>&lt;&gt;(<span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Write tests"</span>));
+<span class="cl">Box</span><<span class="cl">String</span>>  strBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span><>(<span class="str">"Hello"</span>);
+<span class="cl">Box</span><<span class="cl">Integer</span>> intBox  <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span><>(<span class="num">42</span>);
+<span class="cl">Box</span><<span class="cl">Task</span>>    taskBox <span class="op">=</span> <span class="kw">new</span> <span class="cl">Box</span><>(<span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Write tests"</span>));
 
 <span class="cl">String</span>  s <span class="op">=</span> strBox.<span class="fn">get</span>();   <span class="cm">// returns String — no cast</span>
 <span class="cl">Integer</span> n <span class="op">=</span> intBox.<span class="fn">get</span>();   <span class="cm">// returns Integer — no cast</span>
 
-strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm">// COMPILE ERROR — Box&lt;String&gt; only accepts Strings</span></pre></div>
+strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm">// COMPILE ERROR — Box<String> only accepts Strings</span></pre></div>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Pair.java</span><span class="code-tag">Multiple type parameters</span></div>
 <pre><span class="cm">// Two independent type parameters</span>
-<span class="kw">public class</span> <span class="cl">Pair</span>&lt;A, B&gt; {
+<span class="kw">public class</span> <span class="cl">Pair</span><A, B> {
     <span class="kw">private final</span> A first;
     <span class="kw">private final</span> B second;
 
@@ -255,10 +255,10 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 }
 
 <span class="cm">// A function that returns a name + score</span>
-<span class="cl">Pair</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; result <span class="op">=</span> <span class="kw">new</span> <span class="cl">Pair</span>&lt;&gt;(<span class="str">"Alice"</span>, <span class="num">95</span>);
+<span class="cl">Pair</span><<span class="cl">String</span>, <span class="cl">Integer</span>> result <span class="op">=</span> <span class="kw">new</span> <span class="cl">Pair</span><>(<span class="str">"Alice"</span>, <span class="num">95</span>);
 <span class="cl">System</span>.out.<span class="fn">println</span>(result.<span class="fn">getFirst</span>() <span class="op">+</span> <span class="str">": "</span> <span class="op">+</span> result.<span class="fn">getSecond</span>()); <span class="cm">// Alice: 95</span></pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
-<div class="quiz-q">You declare <code>Box&lt;Integer&gt; box = new Box&lt;&gt;(10)</code>. What does <code>box.get()</code> return — and do you need to cast it?</div>
+<div class="quiz-q">You declare <code>Box<Integer> box = new Box<>(10)</code>. What does <code>box.get()</code> return — and do you need to cast it?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">An Object — you must cast it to Integer</button>
 <button class="quiz-opt" onclick="Q(this,true)">An Integer — no cast needed because T was resolved to Integer at declaration</button>
@@ -272,9 +272,9 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 <h2>Bounded <em style="color:var(--m0)">Type Parameters</em></h2>
 <p class="lesson-intro" style="border-color:var(--m0)">Sometimes you need T to be a specific kind of thing — not just any type. Bounded type parameters let you constrain what T can be, which also unlocks methods on that type inside your generic class.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">NumberBox.java</span><span class="code-tag">Upper bound — T must be a Number or subclass</span></div>
-<pre><span class="cm">// &lt;T extends Number&gt; means T can be Integer, Double, Float, Long, etc.
+<pre><span class="cm">// <T extends Number> means T can be Integer, Double, Float, Long, etc.
 // Inside the class, we can call Number methods on T</span>
-<span class="kw">public class</span> <span class="cl">NumberBox</span>&lt;T <span class="kw">extends</span> <span class="cl">Number</span>&gt; {
+<span class="kw">public class</span> <span class="cl">NumberBox</span><T <span class="kw">extends</span> <span class="cl">Number</span>> {
 
     <span class="kw">private</span> T value;
 
@@ -282,41 +282,41 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 
     <span class="cm">// We can call .doubleValue() because T is guaranteed to be a Number</span>
     <span class="kw">public double</span> <span class="fn">doubleValue</span>() { <span class="kw">return</span> value.<span class="fn">doubleValue</span>(); }
-    <span class="kw">public boolean</span> <span class="fn">isPositive</span>() { <span class="kw">return</span> value.<span class="fn">doubleValue</span>() <span class="op">&gt;</span> <span class="num">0</span>; }
+    <span class="kw">public boolean</span> <span class="fn">isPositive</span>() { <span class="kw">return</span> value.<span class="fn">doubleValue</span>() <span class="op">></span> <span class="num">0</span>; }
 }
 
-<span class="cl">NumberBox</span>&lt;<span class="cl">Integer</span>&gt; i <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span>&lt;&gt;(<span class="num">42</span>);
-<span class="cl">NumberBox</span>&lt;<span class="cl">Double</span>&gt;  d <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span>&lt;&gt;(<span class="num">3.14</span>);
-<span class="cm">// NumberBox&lt;String&gt; s = new NumberBox&lt;&gt;("hello"); // COMPILE ERROR</span>
+<span class="cl">NumberBox</span><<span class="cl">Integer</span>> i <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span><>(<span class="num">42</span>);
+<span class="cl">NumberBox</span><<span class="cl">Double</span>>  d <span class="op">=</span> <span class="kw">new</span> <span class="cl">NumberBox</span><>(<span class="num">3.14</span>);
+<span class="cm">// NumberBox<String> s = new NumberBox<>("hello"); // COMPILE ERROR</span>
 
 <span class="cm">// Multiple bounds — T must extend Comparable AND implement Serializable</span>
-<span class="kw">public class</span> <span class="cl">SortedBox</span>&lt;T <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;T&gt; <span class="op">&amp;</span> <span class="cl">Serializable</span>&gt; { <span class="cm">/*...*/</span> }</pre></div>
+<span class="kw">public class</span> <span class="cl">SortedBox</span><T <span class="kw">extends</span> <span class="cl">Comparable</span><T> <span class="op">&</span> <span class="cl">Serializable</span>> { <span class="cm">/*...*/</span> }</pre></div>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Repository.java</span><span class="code-tag">Practical bounded generic — reusable data store</span></div>
 <pre><span class="cm">// T must have an getId() method — enforced via interface bound</span>
 <span class="kw">public interface</span> <span class="cl">Identifiable</span> {
     <span class="kw">int</span> <span class="fn">getId</span>();
 }
 
-<span class="kw">public class</span> <span class="cl">Repository</span>&lt;T <span class="kw">extends</span> <span class="cl">Identifiable</span>&gt; {
+<span class="kw">public class</span> <span class="cl">Repository</span><T <span class="kw">extends</span> <span class="cl">Identifiable</span>> {
 
-    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">Integer</span>, T&gt; store <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+    <span class="kw">private final</span> <span class="cl">Map</span><<span class="cl">Integer</span>, T> store <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span><>();
 
     <span class="kw">public void</span> <span class="fn">save</span>(T entity) {
         store.<span class="fn">put</span>(entity.<span class="fn">getId</span>(), entity); <span class="cm">// getId() available because T extends Identifiable</span>
     }
 
     <span class="kw">public</span> T <span class="fn">findById</span>(<span class="kw">int</span> id)      { <span class="kw">return</span> store.<span class="fn">get</span>(id); }
-    <span class="kw">public</span> <span class="cl">List</span>&lt;T&gt; <span class="fn">findAll</span>()        { <span class="kw">return new</span> <span class="cl">ArrayList</span>&lt;&gt;(store.<span class="fn">values</span>()); }
+    <span class="kw">public</span> <span class="cl">List</span><T> <span class="fn">findAll</span>()        { <span class="kw">return new</span> <span class="cl">ArrayList</span><>(store.<span class="fn">values</span>()); }
     <span class="kw">public void</span> <span class="fn">delete</span>(<span class="kw">int</span> id)       { store.<span class="fn">remove</span>(id); }
     <span class="kw">public int</span> <span class="fn">count</span>()               { <span class="kw">return</span> store.<span class="fn">size</span>(); }
 }
 
 <span class="cm">// Works with ANY class implementing Identifiable</span>
-<span class="cl">Repository</span>&lt;<span class="cl">Task</span>&gt;    tasks    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();
-<span class="cl">Repository</span>&lt;<span class="cl">User</span>&gt;    users    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();
-<span class="cl">Repository</span>&lt;<span class="cl">Product</span>&gt; products <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span>&lt;&gt;();</pre></div>
+<span class="cl">Repository</span><<span class="cl">Task</span>>    tasks    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span><>();
+<span class="cl">Repository</span><<span class="cl">User</span>>    users    <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span><>();
+<span class="cl">Repository</span><<span class="cl">Product</span>> products <span class="op">=</span> <span class="kw">new</span> <span class="cl">Repository</span><>();</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
-<div class="quiz-q">You declare <code>class MathUtil&lt;T extends Number&gt;</code>. Can you call <code>T.doubleValue()</code> inside the class?</div>
+<div class="quiz-q">You declare <code>class MathUtil<T extends Number></code>. Can you call <code>T.doubleValue()</code> inside the class?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,true)">Yes — because the bound guarantees T is a Number, and Number has doubleValue()</button>
 <button class="quiz-opt" onclick="Q(this,false)">No — T is erased at runtime so no methods can be called on it</button>
@@ -327,24 +327,24 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
       title:'Generic Methods & Wildcards',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m0)">Generics</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 5</span></div>
-<h2>Generic Methods <em style="color:var(--m0)">&amp; Wildcards</em></h2>
+<h2>Generic Methods <em style="color:var(--m0)">& Wildcards</em></h2>
 <p class="lesson-intro" style="border-color:var(--m0)">Generic methods let you add type-safe flexibility to any method, not just generic classes. Wildcards (<code>?</code>) handle the trickier case: accepting a collection of any type.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">GenericMethods.java</span><span class="code-tag">Generic static methods</span></div>
 <pre><span class="kw">public class</span> <span class="cl">Utils</span> {
 
-    <span class="cm">// The &lt;T&gt; before the return type declares this as a generic method</span>
-    <span class="kw">public static</span> &lt;T&gt; <span class="cl">List</span>&lt;T&gt; <span class="fn">repeat</span>(T item, <span class="kw">int</span> times) {
-        <span class="cl">List</span>&lt;T&gt; list <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
-        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> times; i<span class="op">++</span>) list.<span class="fn">add</span>(item);
+    <span class="cm">// The <T> before the return type declares this as a generic method</span>
+    <span class="kw">public static</span> <T> <span class="cl">List</span><T> <span class="fn">repeat</span>(T item, <span class="kw">int</span> times) {
+        <span class="cl">List</span><T> list <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span><>();
+        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> times; i<span class="op">++</span>) list.<span class="fn">add</span>(item);
         <span class="kw">return</span> list;
     }
 
     <span class="cm">// T must be Comparable so we can use compareTo</span>
-    <span class="kw">public static</span> &lt;T <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;T&gt;&gt; T <span class="fn">max</span>(T a, T b) {
-        <span class="kw">return</span> a.<span class="fn">compareTo</span>(b) <span class="op">&gt;=</span> <span class="num">0</span> ? a : b;
+    <span class="kw">public static</span> <T <span class="kw">extends</span> <span class="cl">Comparable</span><T>> T <span class="fn">max</span>(T a, T b) {
+        <span class="kw">return</span> a.<span class="fn">compareTo</span>(b) <span class="op">>=</span> <span class="num">0</span> ? a : b;
     }
 
-    <span class="kw">public static</span> &lt;T&gt; <span class="kw">void</span> <span class="fn">swap</span>(T[] arr, <span class="kw">int</span> i, <span class="kw">int</span> j) {
+    <span class="kw">public static</span> <T> <span class="kw">void</span> <span class="fn">swap</span>(T[] arr, <span class="kw">int</span> i, <span class="kw">int</span> j) {
         T temp  <span class="op">=</span> arr[i];
         arr[i]  <span class="op">=</span> arr[j];
         arr[j]  <span class="op">=</span> temp;
@@ -352,39 +352,39 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 }
 
 <span class="cm">// Type inferred automatically from arguments</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt;  words   <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="str">"hello"</span>, <span class="num">3</span>);   <span class="cm">// ["hello","hello","hello"]</span>
-<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; numbers <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="num">42</span>, <span class="num">5</span>);        <span class="cm">// [42,42,42,42,42]</span>
+<span class="cl">List</span><<span class="cl">String</span>>  words   <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="str">"hello"</span>, <span class="num">3</span>);   <span class="cm">// ["hello","hello","hello"]</span>
+<span class="cl">List</span><<span class="cl">Integer</span>> numbers <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">repeat</span>(<span class="num">42</span>, <span class="num">5</span>);        <span class="cm">// [42,42,42,42,42]</span>
 <span class="cl">String</span>        bigger  <span class="op">=</span> <span class="cl">Utils</span>.<span class="fn">max</span>(<span class="str">"apple"</span>, <span class="str">"banana"</span>); <span class="cm">// "banana"</span></pre></div>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Wildcards.java</span><span class="code-tag">? extends T · ? super T · unbounded ?</span></div>
-<pre><span class="cm">// Problem: List&lt;Integer&gt; is NOT a subtype of List&lt;Number&gt; in Java!
+<pre><span class="cm">// Problem: List<Integer> is NOT a subtype of List<Number> in Java!
 // This is where wildcards come in.</span>
 
 <span class="cm">// Upper-bounded wildcard: accept a List of Number or any subtype</span>
-<span class="kw">public static double</span> <span class="fn">sumList</span>(<span class="cl">List</span>&lt;? <span class="kw">extends</span> <span class="cl">Number</span>&gt; list) {
+<span class="kw">public static double</span> <span class="fn">sumList</span>(<span class="cl">List</span><? <span class="kw">extends</span> <span class="cl">Number</span>> list) {
     <span class="kw">double</span> total <span class="op">=</span> <span class="num">0</span>;
     <span class="kw">for</span> (<span class="cl">Number</span> n : list) total <span class="op">+=</span> n.<span class="fn">doubleValue</span>();
     <span class="kw">return</span> total;
 }
-<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Integer</span>&gt;());  <span class="cm">// ✓</span>
-<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Double</span>&gt;());   <span class="cm">// ✓</span>
-<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">Number</span>&gt;());   <span class="cm">// ✓</span>
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span><<span class="cl">Integer</span>>());  <span class="cm">// ✓</span>
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span><<span class="cl">Double</span>>());   <span class="cm">// ✓</span>
+<span class="fn">sumList</span>(<span class="kw">new</span> <span class="cl">ArrayList</span><<span class="cl">Number</span>>());   <span class="cm">// ✓</span>
 
 <span class="cm">// Lower-bounded wildcard: accept a List of Number or any supertype
 // Use this when you need to ADD elements to the list</span>
-<span class="kw">public static void</span> <span class="fn">addNumbers</span>(<span class="cl">List</span>&lt;? <span class="kw">super</span> <span class="cl">Integer</span>&gt; list) {
-    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">1</span>; i <span class="op">&lt;=</span> <span class="num">5</span>; i<span class="op">++</span>) list.<span class="fn">add</span>(i);
+<span class="kw">public static void</span> <span class="fn">addNumbers</span>(<span class="cl">List</span><? <span class="kw">super</span> <span class="cl">Integer</span>> list) {
+    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">1</span>; i <span class="op"><=</span> <span class="num">5</span>; i<span class="op">++</span>) list.<span class="fn">add</span>(i);
 }
 <span class="cm">// Unbounded: accepts any List regardless of type (read-only operations)</span>
-<span class="kw">public static void</span> <span class="fn">printList</span>(<span class="cl">List</span>&lt;?&gt; list) {
+<span class="kw">public static void</span> <span class="fn">printList</span>(<span class="cl">List</span><?> list) {
     list.<span class="fn">forEach</span>(<span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>);
 }</pre></div>
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>the PECS rule</strong><p>Producer Extends, Consumer Super. If a collection <em>produces</em> values you read: use <code>? extends T</code>. If it <em>consumes</em> values you add: use <code>? super T</code>. If both: use a concrete type parameter <code>T</code>.</p></div></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
 <div class="quiz-q">A method needs to accept a <code>List</code> of integers, doubles, or any other numbers and sum them. Which parameter type is correct?</div>
 <div class="quiz-opts">
-<button class="quiz-opt" onclick="Q(this,false)"><code>List&lt;Number&gt;</code> — Number is the parent of all number types</button>
-<button class="quiz-opt" onclick="Q(this,true)"><code>List&lt;? extends Number&gt;</code> — accepts List of Number or any subtype including Integer and Double</button>
-<button class="quiz-opt" onclick="Q(this,false)"><code>List&lt;?&gt;</code> — fully unbounded, accepts anything</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>List<Number></code> — Number is the parent of all number types</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>List<? extends Number></code> — accepts List of Number or any subtype including Integer and Double</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>List<?></code> — fully unbounded, accepts anything</button>
 </div><div class="quiz-fb" id="qf_0_3"></div></div>`
     },
     {
@@ -394,9 +394,9 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 <h2>Generics <em style="color:var(--m0)">in Practice</em></h2>
 <p class="lesson-intro" style="border-color:var(--m0)">Put it all together. Here's how generics appear in real-world Java code — from utility classes to event systems to result types.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Result.java</span><span class="code-tag">Generic Result type — operations that can fail</span></div>
-<pre><span class="cm">// A Result&lt;T&gt; holds either a success value or an error message
+<pre><span class="cm">// A Result<T> holds either a success value or an error message
 // This pattern avoids exceptions for expected failures</span>
-<span class="kw">public class</span> <span class="cl">Result</span>&lt;T&gt; {
+<span class="kw">public class</span> <span class="cl">Result</span><T> {
 
     <span class="kw">private final</span> T       value;
     <span class="kw">private final</span> <span class="cl">String</span> error;
@@ -406,11 +406,11 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
         <span class="kw">this</span>.value <span class="op">=</span> value; <span class="kw">this</span>.error <span class="op">=</span> error; <span class="kw">this</span>.success <span class="op">=</span> success;
     }
 
-    <span class="kw">public static</span> &lt;T&gt; <span class="cl">Result</span>&lt;T&gt; <span class="fn">success</span>(T value) {
-        <span class="kw">return new</span> <span class="cl">Result</span>&lt;&gt;(value, <span class="kw">null</span>, <span class="kw">true</span>);
+    <span class="kw">public static</span> <T> <span class="cl">Result</span><T> <span class="fn">success</span>(T value) {
+        <span class="kw">return new</span> <span class="cl">Result</span><>(value, <span class="kw">null</span>, <span class="kw">true</span>);
     }
-    <span class="kw">public static</span> &lt;T&gt; <span class="cl">Result</span>&lt;T&gt; <span class="fn">failure</span>(<span class="cl">String</span> error) {
-        <span class="kw">return new</span> <span class="cl">Result</span>&lt;&gt;(<span class="kw">null</span>, error, <span class="kw">false</span>);
+    <span class="kw">public static</span> <T> <span class="cl">Result</span><T> <span class="fn">failure</span>(<span class="cl">String</span> error) {
+        <span class="kw">return new</span> <span class="cl">Result</span><>(<span class="kw">null</span>, error, <span class="kw">false</span>);
     }
 
     <span class="kw">public boolean</span> <span class="fn">isSuccess</span>() { <span class="kw">return</span> success; }
@@ -419,32 +419,32 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 }
 
 <span class="cm">// Usage — much cleaner than try/catch for expected failures</span>
-<span class="kw">public</span> <span class="cl">Result</span>&lt;<span class="cl">User</span>&gt; <span class="fn">findUser</span>(<span class="kw">int</span> id) {
+<span class="kw">public</span> <span class="cl">Result</span><<span class="cl">User</span>> <span class="fn">findUser</span>(<span class="kw">int</span> id) {
     <span class="cl">User</span> user <span class="op">=</span> db.<span class="fn">query</span>(id);
     <span class="kw">if</span> (user <span class="op">==</span> <span class="kw">null</span>) <span class="kw">return</span> <span class="cl">Result</span>.<span class="fn">failure</span>(<span class="str">"User not found: "</span> <span class="op">+</span> id);
     <span class="kw">return</span> <span class="cl">Result</span>.<span class="fn">success</span>(user);
 }
 
-<span class="cl">Result</span>&lt;<span class="cl">User</span>&gt; r <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>);
+<span class="cl">Result</span><<span class="cl">User</span>> r <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>);
 <span class="kw">if</span> (r.<span class="fn">isSuccess</span>()) { <span class="fn">display</span>(r.<span class="fn">getValue</span>()); }
 <span class="kw">else</span>                { <span class="fn">showError</span>(r.<span class="fn">getError</span>()); }</pre></div>
 <div class="challenge" style="background:var(--m0d);border-color:var(--m0b)">
 <div class="ch-lbl" style="color:var(--m0)">Module Challenge</div>
 <h4>Build a Generic Stack</h4>
-<p>Implement a <code>Stack&lt;T&gt;</code> class using an <code>ArrayList&lt;T&gt;</code> internally:</p>
+<p>Implement a <code>Stack<T></code> class using an <code>ArrayList<T></code> internally:</p>
 <ul>
 <li><code>push(T item)</code> — add to top</li>
 <li><code>pop()</code> — remove and return top item; throw <code>EmptyStackException</code> if empty</li>
 <li><code>peek()</code> — return top without removing; throw if empty</li>
 <li><code>isEmpty()</code>, <code>size()</code></li>
 </ul>
-<p>Then write a generic static method <code>reverse(List&lt;T&gt; list)</code> that uses your Stack to reverse any list in-place. Test with <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code>.</p>
+<p>Then write a generic static method <code>reverse(List<T> list)</code> that uses your Stack to reverse any list in-place. Test with <code>List<String></code> and <code>List<Integer></code>.</p>
 </div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m0)">Quick Check</div>
-<div class="quiz-q">Type erasure means that at runtime, <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code> are both just <code>List</code>. What is the implication?</div>
+<div class="quiz-q">Type erasure means that at runtime, <code>List<String></code> and <code>List<Integer></code> are both just <code>List</code>. What is the implication?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">Generic code is slower than raw Object code at runtime</button>
-<button class="quiz-opt" onclick="Q(this,true)">You cannot use <code>instanceof</code> to check a generic type at runtime — e.g. <code>x instanceof List&lt;String&gt;</code> is a compile error</button>
+<button class="quiz-opt" onclick="Q(this,true)">You cannot use <code>instanceof</code> to check a generic type at runtime — e.g. <code>x instanceof List<String></code> is a compile error</button>
 <button class="quiz-opt" onclick="Q(this,false)">Generic types can only hold reference types, not primitives — and this is why</button>
 </div><div class="quiz-fb" id="qf_0_4"></div></div>`
     }
@@ -471,31 +471,31 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 };
 
 <span class="cm">// LAMBDA: same thing, 1 line</span>
-<span class="cl">Runnable</span> r2 <span class="op">=</span> () <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello!"</span>);
+<span class="cl">Runnable</span> r2 <span class="op">=</span> () <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello!"</span>);
 
 <span class="cm">// ─── Lambda syntax variations ─────────────────────────────</span>
 <span class="cm">// No parameters</span>
-<span class="cl">Runnable</span> noParams <span class="op">=</span> () <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi"</span>);
+<span class="cl">Runnable</span> noParams <span class="op">=</span> () <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi"</span>);
 
 <span class="cm">// One parameter — parentheses optional</span>
-<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; greet <span class="op">=</span> name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name);
+<span class="cl">Consumer</span><<span class="cl">String</span>> greet <span class="op">=</span> name <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name);
 
 <span class="cm">// Two parameters</span>
-<span class="cl">Comparator</span>&lt;<span class="cl">Integer</span>&gt; compare <span class="op">=</span> (a, b) <span class="op">-&gt;</span> a <span class="op">-</span> b;
+<span class="cl">Comparator</span><<span class="cl">Integer</span>> compare <span class="op">=</span> (a, b) <span class="op">-></span> a <span class="op">-</span> b;
 
 <span class="cm">// With explicit types (usually inferred)</span>
-<span class="cl">Comparator</span>&lt;<span class="cl">String</span>&gt; byLength <span class="op">=</span> (<span class="cl">String</span> a, <span class="cl">String</span> b) <span class="op">-&gt;</span> a.<span class="fn">length</span>() <span class="op">-</span> b.<span class="fn">length</span>();
+<span class="cl">Comparator</span><<span class="cl">String</span>> byLength <span class="op">=</span> (<span class="cl">String</span> a, <span class="cl">String</span> b) <span class="op">-></span> a.<span class="fn">length</span>() <span class="op">-</span> b.<span class="fn">length</span>();
 
 <span class="cm">// Multi-line: use curly braces and explicit return</span>
-<span class="cl">Function</span>&lt;<span class="cl">Integer</span>, <span class="cl">String</span>&gt; describe <span class="op">=</span> n <span class="op">-&gt;</span> {
-    <span class="kw">if</span> (n <span class="op">&gt;</span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"positive"</span>;
-    <span class="kw">if</span> (n <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"negative"</span>;
+<span class="cl">Function</span><<span class="cl">Integer</span>, <span class="cl">String</span>> describe <span class="op">=</span> n <span class="op">-></span> {
+    <span class="kw">if</span> (n <span class="op">></span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"positive"</span>;
+    <span class="kw">if</span> (n <span class="op"><</span> <span class="num">0</span>) <span class="kw">return</span> <span class="str">"negative"</span>;
     <span class="kw">return</span> <span class="str">"zero"</span>;
 };
 
 <span class="cm">// Method reference — even shorter when the lambda just calls a method</span>
-<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; print <span class="op">=</span> <span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>; <span class="cm">// same as s -> System.out.println(s)</span>
-<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; len <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;  <span class="cm">// same as s -> s.length()</span></pre></div>
+<span class="cl">Consumer</span><<span class="cl">String</span>> print <span class="op">=</span> <span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>; <span class="cm">// same as s -> System.out.println(s)</span>
+<span class="cl">Function</span><<span class="cl">String</span>, <span class="cl">Integer</span>> len <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;  <span class="cm">// same as s -> s.length()</span></pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
 <div class="quiz-q">Which lambda correctly represents a function that takes a String and returns its length as an int?</div>
 <div class="quiz-opts">
@@ -513,45 +513,45 @@ strBox.<span class="fn">set</span>(<span class="num">99</span>); <span class="cm
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">FunctionalInterfaces.java</span><span class="code-tag">The four most important functional interfaces</span></div>
 <pre><span class="kw">import</span> java.util.function.*;
 
-<span class="cm">// ── Predicate&lt;T&gt;: takes T, returns boolean ──────────────────</span>
-<span class="cl">Predicate</span>&lt;<span class="cl">String</span>&gt; isLong <span class="op">=</span> s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">5</span>;
-<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEven <span class="op">=</span> n <span class="op">-&gt;</span> n <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>;
+<span class="cm">// ── Predicate<T>: takes T, returns boolean ──────────────────</span>
+<span class="cl">Predicate</span><<span class="cl">String</span>> isLong <span class="op">=</span> s <span class="op">-></span> s.<span class="fn">length</span>() <span class="op">></span> <span class="num">5</span>;
+<span class="cl">Predicate</span><<span class="cl">Integer</span>> isEven <span class="op">=</span> n <span class="op">-></span> n <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>;
 
 isLong.<span class="fn">test</span>(<span class="str">"Hello"</span>);         <span class="cm">// false</span>
 isLong.<span class="fn">test</span>(<span class="str">"Hello World"</span>);   <span class="cm">// true</span>
 
 <span class="cm">// Predicates can be combined</span>
-<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEvenAndPositive <span class="op">=</span> isEven.<span class="fn">and</span>(n <span class="op">-&gt;</span> n <span class="op">&gt;</span> <span class="num">0</span>);
-<span class="cl">Predicate</span>&lt;<span class="cl">Integer</span>&gt; isEvenOrNegative  <span class="op">=</span> isEven.<span class="fn">or</span>(n <span class="op">-&gt;</span> n <span class="op">&lt;</span> <span class="num">0</span>);
+<span class="cl">Predicate</span><<span class="cl">Integer</span>> isEvenAndPositive <span class="op">=</span> isEven.<span class="fn">and</span>(n <span class="op">-></span> n <span class="op">></span> <span class="num">0</span>);
+<span class="cl">Predicate</span><<span class="cl">Integer</span>> isEvenOrNegative  <span class="op">=</span> isEven.<span class="fn">or</span>(n <span class="op">-></span> n <span class="op"><</span> <span class="num">0</span>);
 
-<span class="cm">// ── Function&lt;T, R&gt;: takes T, returns R ──────────────────────</span>
-<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; strToLen  <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;
-<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">String</span>&gt;  toUpper   <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>;
+<span class="cm">// ── Function<T, R>: takes T, returns R ──────────────────────</span>
+<span class="cl">Function</span><<span class="cl">String</span>, <span class="cl">Integer</span>> strToLen  <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">length</span>;
+<span class="cl">Function</span><<span class="cl">String</span>, <span class="cl">String</span>>  toUpper   <span class="op">=</span> <span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>;
 
 <span class="cm">// Chain functions with andThen</span>
-<span class="cl">Function</span>&lt;<span class="cl">String</span>, <span class="cl">String</span>&gt; trim_upper <span class="op">=</span> (<span class="cl">String</span><span class="op">::</span><span class="fn">trim</span>).<span class="fn">andThen</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>);
+<span class="cl">Function</span><<span class="cl">String</span>, <span class="cl">String</span>> trim_upper <span class="op">=</span> (<span class="cl">String</span><span class="op">::</span><span class="fn">trim</span>).<span class="fn">andThen</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>);
 trim_upper.<span class="fn">apply</span>(<span class="str">"  hello  "</span>); <span class="cm">// "HELLO"</span>
 
-<span class="cm">// ── Consumer&lt;T&gt;: takes T, returns nothing ──────────────────</span>
-<span class="cl">Consumer</span>&lt;<span class="cl">String</span>&gt; log <span class="op">=</span> msg <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"[LOG] "</span> <span class="op">+</span> msg);
+<span class="cm">// ── Consumer<T>: takes T, returns nothing ──────────────────</span>
+<span class="cl">Consumer</span><<span class="cl">String</span>> log <span class="op">=</span> msg <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"[LOG] "</span> <span class="op">+</span> msg);
 log.<span class="fn">accept</span>(<span class="str">"Task added"</span>); <span class="cm">// [LOG] Task added</span>
 
-<span class="cm">// ── Supplier&lt;T&gt;: takes nothing, returns T ──────────────────</span>
-<span class="cl">Supplier</span>&lt;<span class="cl">String</span>&gt; greeting  <span class="op">=</span> () <span class="op">-&gt;</span> <span class="str">"Hello, World!"</span>;
-<span class="cl">Supplier</span>&lt;<span class="cl">Task</span>&gt;   newTask   <span class="op">=</span> () <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Default"</span>);
+<span class="cm">// ── Supplier<T>: takes nothing, returns T ──────────────────</span>
+<span class="cl">Supplier</span><<span class="cl">String</span>> greeting  <span class="op">=</span> () <span class="op">-></span> <span class="str">"Hello, World!"</span>;
+<span class="cl">Supplier</span><<span class="cl">Task</span>>   newTask   <span class="op">=</span> () <span class="op">-></span> <span class="kw">new</span> <span class="cl">Task</span>(<span class="str">"Default"</span>);
 greeting.<span class="fn">get</span>(); <span class="cm">// "Hello, World!" — called lazily</span>
 
 <span class="cm">// ── BiFunction, BiPredicate, BiConsumer — two inputs ───────</span>
-<span class="cl">BiFunction</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>, <span class="cl">String</span>&gt; repeat <span class="op">=</span>
-    (s, n) <span class="op">-&gt;</span> s.<span class="fn">repeat</span>(n);   <span class="cm">// Java 11+</span>
+<span class="cl">BiFunction</span><<span class="cl">String</span>, <span class="cl">Integer</span>, <span class="cl">String</span>> repeat <span class="op">=</span>
+    (s, n) <span class="op">-></span> s.<span class="fn">repeat</span>(n);   <span class="cm">// Java 11+</span>
 repeat.<span class="fn">apply</span>(<span class="str">"ha"</span>, <span class="num">3</span>); <span class="cm">// "hahaha"</span></pre></div>
 <div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>your own functional interfaces</strong><p>Any interface with exactly one abstract method is a functional interface. Mark it with <code>@FunctionalInterface</code> to get a compile error if you accidentally add a second method. You use your own lambdas and the built-in types interchangeably.</p></div></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
 <div class="quiz-q">A method needs to take a <code>String</code> and return a <code>Boolean</code>. Which functional interface is the right type?</div>
 <div class="quiz-opts">
-<button class="quiz-opt" onclick="Q(this,false)"><code>Consumer&lt;String&gt;</code> — consumes a String</button>
-<button class="quiz-opt" onclick="Q(this,false)"><code>Supplier&lt;Boolean&gt;</code> — supplies a Boolean</button>
-<button class="quiz-opt" onclick="Q(this,true)"><code>Predicate&lt;String&gt;</code> (or <code>Function&lt;String, Boolean&gt;</code>) — takes a String, returns a boolean</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>Consumer<String></code> — consumes a String</button>
+<button class="quiz-opt" onclick="Q(this,false)"><code>Supplier<Boolean></code> — supplies a Boolean</button>
+<button class="quiz-opt" onclick="Q(this,true)"><code>Predicate<String></code> (or <code>Function<String, Boolean></code>) — takes a String, returns a boolean</button>
 </div><div class="quiz-fb" id="qf_1_1"></div></div>`
     },
     {
@@ -563,39 +563,39 @@ repeat.<span class="fn">apply</span>(<span class="str">"ha"</span>, <span class=
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Streams.java</span><span class="code-tag">Stream operations — filter, map, collect, forEach</span></div>
 <pre><span class="kw">import</span> java.util.stream.*;
 
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; names <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Anna"</span>, <span class="str">"Dave"</span>);
+<span class="cl">List</span><<span class="cl">String</span>> names <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Anna"</span>, <span class="str">"Dave"</span>);
 
 <span class="cm">// forEach: do something with each element (terminal)</span>
 names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span class="cl">System</span>.out<span class="op">::</span><span class="fn">println</span>);
 
 <span class="cm">// filter: keep only elements matching a condition (intermediate)</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; aNames <span class="op">=</span> names.<span class="fn">stream</span>()
-    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
+<span class="cl">List</span><<span class="cl">String</span>> aNames <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-></span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 <span class="cm">// ["Alice", "Anna"]</span>
 
 <span class="cm">// map: transform each element to something else (intermediate)</span>
-<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; lengths <span class="op">=</span> names.<span class="fn">stream</span>()
+<span class="cl">List</span><<span class="cl">Integer</span>> lengths <span class="op">=</span> names.<span class="fn">stream</span>()
     .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>)
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 <span class="cm">// [5, 3, 7, 4, 4]</span>
 
 <span class="cm">// Chain operations — find names starting with A, uppercase them, sorted</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; result <span class="op">=</span> names.<span class="fn">stream</span>()
-    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
+<span class="cl">List</span><<span class="cl">String</span>> result <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-></span> n.<span class="fn">startsWith</span>(<span class="str">"A"</span>))
     .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>)
     .<span class="fn">sorted</span>()
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 <span class="cm">// ["ALICE", "ANNA"]</span>
 
 <span class="cm">// count, min, max, sum — numeric reductions</span>
-<span class="kw">long</span>  count  <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">4</span>).<span class="fn">count</span>();     <span class="cm">// 2</span>
+<span class="kw">long</span>  count  <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">filter</span>(n <span class="op">-></span> n.<span class="fn">length</span>() <span class="op">></span> <span class="num">4</span>).<span class="fn">count</span>();     <span class="cm">// 2</span>
 <span class="kw">int</span>   total  <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">mapToInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>).<span class="fn">sum</span>();           <span class="cm">// 23</span>
 <span class="kw">double</span> avg   <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">mapToInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>).<span class="fn">average</span>().<span class="fn">orElse</span>(<span class="num">0</span>);
 
 <span class="cm">// anyMatch, allMatch, noneMatch — predicate checks</span>
-<span class="kw">boolean</span> hasLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">anyMatch</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">6</span>); <span class="cm">// true (Charlie)</span>
-<span class="kw">boolean</span> allLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">allMatch</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">2</span>); <span class="cm">// true</span></pre></div>
+<span class="kw">boolean</span> hasLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">anyMatch</span>(n <span class="op">-></span> n.<span class="fn">length</span>() <span class="op">></span> <span class="num">6</span>); <span class="cm">// true (Charlie)</span>
+<span class="kw">boolean</span> allLong <span class="op">=</span> names.<span class="fn">stream</span>().<span class="fn">allMatch</span>(n <span class="op">-></span> n.<span class="fn">length</span>() <span class="op">></span> <span class="num">2</span>); <span class="cm">// true</span></pre></div>
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>streams are lazy and one-use</strong><p>Intermediate operations (filter, map, sorted) don't execute until a terminal operation (collect, forEach, count) is called. Also: once a stream is consumed by a terminal operation it's done — you can't reuse it. Create a new stream from the source collection if you need another pass.</p></div></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
 <div class="quiz-q">In a stream pipeline with <code>.filter().map().collect()</code>, which operations are "intermediate" and which is "terminal"?</div>
@@ -609,12 +609,12 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
       title:'Collectors & Grouping',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 6</span></div>
-<h2>Collectors <em style="color:var(--m1)">&amp; Grouping</em></h2>
+<h2>Collectors <em style="color:var(--m1)">& Grouping</em></h2>
 <p class="lesson-intro" style="border-color:var(--m1)">Collectors determine what you get at the end of a stream pipeline. Beyond just collecting to a list, you can group, partition, join strings, count by category, and build maps — all without a single loop.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Collectors.java</span><span class="code-tag">groupingBy · partitioningBy · joining · toMap</span></div>
 <pre><span class="kw">record</span> <span class="cl">Employee</span>(<span class="cl">String</span> name, <span class="cl">String</span> dept, <span class="kw">double</span> salary) {}
 
-<span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; staff <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+<span class="cl">List</span><<span class="cl">Employee</span>> staff <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
     <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Alice"</span>, <span class="str">"Eng"</span>, <span class="num">120_000</span>),
     <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Bob"</span>,   <span class="str">"Eng"</span>,  <span class="num">95_000</span>),
     <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Carol"</span>, <span class="str">"HR"</span>,   <span class="num">80_000</span>),
@@ -622,27 +622,27 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
     <span class="kw">new</span> <span class="cl">Employee</span>(<span class="str">"Eve"</span>,   <span class="str">"HR"</span>,   <span class="num">90_000</span>)
 );
 
-<span class="cm">// Group by department → Map&lt;String, List&lt;Employee&gt;&gt;</span>
-<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt;&gt; byDept <span class="op">=</span>
+<span class="cm">// Group by department → Map<String, List<Employee>></span>
+<span class="cl">Map</span><<span class="cl">String</span>, <span class="cl">List</span><<span class="cl">Employee</span>>> byDept <span class="op">=</span>
     staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>));
 <span class="cm">// {Eng: [Alice, Bob, Dave], HR: [Carol, Eve]}</span>
 
 <span class="cm">// Count per department</span>
-<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Long</span>&gt; countByDept <span class="op">=</span>
+<span class="cl">Map</span><<span class="cl">String</span>, <span class="cl">Long</span>> countByDept <span class="op">=</span>
     staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(
         <span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>, <span class="cl">Collectors</span>.<span class="fn">counting</span>()
     ));
 <span class="cm">// {Eng: 3, HR: 2}</span>
 
 <span class="cm">// Average salary per department</span>
-<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; avgByDept <span class="op">=</span>
+<span class="cl">Map</span><<span class="cl">String</span>, <span class="cl">Double</span>> avgByDept <span class="op">=</span>
     staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">groupingBy</span>(
         <span class="cl">Employee</span><span class="op">::</span><span class="fn">dept</span>, <span class="cl">Collectors</span>.<span class="fn">averagingDouble</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>)
     ));
 
 <span class="cm">// partitioningBy: splits into true/false groups</span>
-<span class="cl">Map</span>&lt;<span class="cl">Boolean</span>, <span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt;&gt; highEarners <span class="op">=</span>
-    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">partitioningBy</span>(e <span class="op">-&gt;</span> e.<span class="fn">salary</span>() <span class="op">&gt;</span> <span class="num">100_000</span>));
+<span class="cl">Map</span><<span class="cl">Boolean</span>, <span class="cl">List</span><<span class="cl">Employee</span>>> highEarners <span class="op">=</span>
+    staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">partitioningBy</span>(e <span class="op">-></span> e.<span class="fn">salary</span>() <span class="op">></span> <span class="num">100_000</span>));
 <span class="cm">// {true: [Alice, Dave], false: [Bob, Carol, Eve]}</span>
 
 <span class="cm">// joining: concatenate strings</span>
@@ -652,10 +652,10 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
 <span class="cm">// "[Alice, Bob, Carol, Dave, Eve]"</span>
 
 <span class="cm">// toMap: collect into a Map</span>
-<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Double</span>&gt; salaryMap <span class="op">=</span>
+<span class="cl">Map</span><<span class="cl">String</span>, <span class="cl">Double</span>> salaryMap <span class="op">=</span>
     staff.<span class="fn">stream</span>().<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toMap</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">name</span>, <span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>));</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
-<div class="quiz-q">You have a list of tasks and want a <code>Map&lt;String, List&lt;Task&gt;&gt;</code> where the key is the priority ("HIGH", "MEDIUM", "LOW"). Which collector do you use?</div>
+<div class="quiz-q">You have a list of tasks and want a <code>Map<String, List<Task>></code> where the key is the priority ("HIGH", "MEDIUM", "LOW"). Which collector do you use?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)"><code>Collectors.toMap(Task::getPriority, task -> task)</code></button>
 <button class="quiz-opt" onclick="Q(this,true)"><code>Collectors.groupingBy(Task::getPriority)</code></button>
@@ -666,46 +666,46 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
       title:'flatMap, reduce, & More',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m1)">Lambdas & Streams</span><span class="ey-dot"></span><span class="ey-num">Lesson 5 of 6</span></div>
-<h2>flatMap, reduce <em style="color:var(--m1)">&amp; More</em></h2>
+<h2>flatMap, reduce <em style="color:var(--m1)">& More</em></h2>
 <p class="lesson-intro" style="border-color:var(--m1)">Beyond the basics: flatMap flattens nested collections, reduce folds a stream into a single value, and sorted/distinct handle ordering and uniqueness.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">AdvancedStreams.java</span><span class="code-tag">flatMap · reduce · distinct · sorted · peek</span></div>
 <pre><span class="cm">// flatMap: flatten a stream of collections into one stream</span>
-<span class="cl">List</span>&lt;<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt;&gt; nested <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
+<span class="cl">List</span><<span class="cl">List</span><<span class="cl">Integer</span>>> nested <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
     <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>),
     <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">4</span>, <span class="num">5</span>),
     <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">6</span>)
 );
-<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; flat <span class="op">=</span> nested.<span class="fn">stream</span>()
+<span class="cl">List</span><<span class="cl">Integer</span>> flat <span class="op">=</span> nested.<span class="fn">stream</span>()
     .<span class="fn">flatMap</span>(<span class="cl">List</span><span class="op">::</span><span class="fn">stream</span>)   <span class="cm">// each inner List becomes individual elements</span>
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 <span class="cm">// [1, 2, 3, 4, 5, 6]</span>
 
 <span class="cm">// Real use: get all tags across all blog posts</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; allTags <span class="op">=</span> posts.<span class="fn">stream</span>()
-    .<span class="fn">flatMap</span>(post <span class="op">-&gt;</span> post.<span class="fn">getTags</span>().<span class="fn">stream</span>())
+<span class="cl">List</span><<span class="cl">String</span>> allTags <span class="op">=</span> posts.<span class="fn">stream</span>()
+    .<span class="fn">flatMap</span>(post <span class="op">-></span> post.<span class="fn">getTags</span>().<span class="fn">stream</span>())
     .<span class="fn">distinct</span>()              <span class="cm">// remove duplicates</span>
     .<span class="fn">sorted</span>()
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 
 <span class="cm">// reduce: fold the stream into a single value</span>
-<span class="cl">List</span>&lt;<span class="cl">Integer</span>&gt; nums <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>);
+<span class="cl">List</span><<span class="cl">Integer</span>> nums <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>);
 <span class="kw">int</span> sum     <span class="op">=</span> nums.<span class="fn">stream</span>().<span class="fn">reduce</span>(<span class="num">0</span>, Integer<span class="op">::</span><span class="fn">sum</span>);         <span class="cm">// 15</span>
-<span class="kw">int</span> product <span class="op">=</span> nums.<span class="fn">stream</span>().<span class="fn">reduce</span>(<span class="num">1</span>, (a, b) <span class="op">-&gt;</span> a <span class="op">*</span> b);    <span class="cm">// 120</span>
+<span class="kw">int</span> product <span class="op">=</span> nums.<span class="fn">stream</span>().<span class="fn">reduce</span>(<span class="num">1</span>, (a, b) <span class="op">-></span> a <span class="op">*</span> b);    <span class="cm">// 120</span>
 
 <span class="cm">// sorted with custom Comparator</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; sortedByLen <span class="op">=</span> names.<span class="fn">stream</span>()
+<span class="cl">List</span><<span class="cl">String</span>> sortedByLen <span class="op">=</span> names.<span class="fn">stream</span>()
     .<span class="fn">sorted</span>(<span class="cl">Comparator</span>.<span class="fn">comparingInt</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>)
                        .<span class="fn">thenComparing</span>(<span class="cl">Comparator</span>.<span class="fn">naturalOrder</span>()))
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 
 <span class="cm">// peek: inspect elements mid-pipeline (great for debugging)</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt; debug <span class="op">=</span> names.<span class="fn">stream</span>()
-    .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">4</span>)
-    .<span class="fn">peek</span>(n <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"After filter: "</span> <span class="op">+</span> n))
+<span class="cl">List</span><<span class="cl">String</span>> debug <span class="op">=</span> names.<span class="fn">stream</span>()
+    .<span class="fn">filter</span>(n <span class="op">-></span> n.<span class="fn">length</span>() <span class="op">></span> <span class="num">4</span>)
+    .<span class="fn">peek</span>(n <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"After filter: "</span> <span class="op">+</span> n))
     .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>)
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m1)">Quick Check</div>
-<div class="quiz-q">You have a <code>List&lt;Order&gt;</code> where each Order has a <code>List&lt;Item&gt; getItems()</code>. How do you get a single flat list of all items across all orders?</div>
+<div class="quiz-q">You have a <code>List<Order></code> where each Order has a <code>List<Item> getItems()</code>. How do you get a single flat list of all items across all orders?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)"><code>orders.stream().map(Order::getItems).collect(toList())</code></button>
 <button class="quiz-opt" onclick="Q(this,true)"><code>orders.stream().flatMap(o -> o.getItems().stream()).collect(toList())</code></button>
@@ -720,22 +720,22 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
 <p class="lesson-intro" style="border-color:var(--m1)">Real-world stream patterns. This lesson shows the kinds of pipelines that appear regularly in production Java code.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">StreamPatterns.java</span><span class="code-tag">Common real-world patterns</span></div>
 <pre><span class="cm">// ── 1. Find the top 3 highest-paid employees ───────────────</span>
-<span class="cl">List</span>&lt;<span class="cl">Employee</span>&gt; top3 <span class="op">=</span> staff.<span class="fn">stream</span>()
+<span class="cl">List</span><<span class="cl">Employee</span>> top3 <span class="op">=</span> staff.<span class="fn">stream</span>()
     .<span class="fn">sorted</span>(<span class="cl">Comparator</span>.<span class="fn">comparingDouble</span>(<span class="cl">Employee</span><span class="op">::</span><span class="fn">salary</span>).<span class="fn">reversed</span>())
     .<span class="fn">limit</span>(<span class="num">3</span>)
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());
 
 <span class="cm">// ── 2. Check if any task is overdue ────────────────────────</span>
 <span class="kw">boolean</span> hasOverdue <span class="op">=</span> tasks.<span class="fn">stream</span>()
-    .<span class="fn">anyMatch</span>(t <span class="op">-&gt;</span> t.<span class="fn">getDueDate</span>().<span class="fn">isBefore</span>(<span class="cl">LocalDate</span>.<span class="fn">now</span>()) <span class="op">&amp;&amp;</span> !t.<span class="fn">isCompleted</span>());
+    .<span class="fn">anyMatch</span>(t <span class="op">-></span> t.<span class="fn">getDueDate</span>().<span class="fn">isBefore</span>(<span class="cl">LocalDate</span>.<span class="fn">now</span>()) <span class="op">&&</span> !t.<span class="fn">isCompleted</span>());
 
 <span class="cm">// ── 3. Convert list to map: id → object ────────────────────</span>
-<span class="cl">Map</span>&lt;<span class="cl">Integer</span>, <span class="cl">Task</span>&gt; taskById <span class="op">=</span> tasks.<span class="fn">stream</span>()
-    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toMap</span>(<span class="cl">Task</span><span class="op">::</span><span class="fn">getId</span>, t <span class="op">-&gt;</span> t));
+<span class="cl">Map</span><<span class="cl">Integer</span>, <span class="cl">Task</span>> taskById <span class="op">=</span> tasks.<span class="fn">stream</span>()
+    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toMap</span>(<span class="cl">Task</span><span class="op">::</span><span class="fn">getId</span>, t <span class="op">-></span> t));
 
 <span class="cm">// ── 4. Calculate statistics ────────────────────────────────</span>
 <span class="cl">IntSummaryStatistics</span> stats <span class="op">=</span> employees.<span class="fn">stream</span>()
-    .<span class="fn">mapToInt</span>(e <span class="op">-&gt;</span> (<span class="kw">int</span>) e.<span class="fn">salary</span>())
+    .<span class="fn">mapToInt</span>(e <span class="op">-></span> (<span class="kw">int</span>) e.<span class="fn">salary</span>())
     .<span class="fn">summaryStatistics</span>();
 <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"Min: %d, Max: %d, Avg: %.0f%n"</span>,
     stats.<span class="fn">getMin</span>(), stats.<span class="fn">getMax</span>(), stats.<span class="fn">getAverage</span>());
@@ -743,7 +743,7 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
 <span class="cm">// ── 5. Build a summary string ──────────────────────────────</span>
 <span class="cl">String</span> summary <span class="op">=</span> tasks.<span class="fn">stream</span>()
     .<span class="fn">filter</span>(<span class="cl">Task</span><span class="op">::</span><span class="fn">isCompleted</span>)
-    .<span class="fn">map</span>(t <span class="op">-&gt;</span> <span class="str">"✓ "</span> <span class="op">+</span> t.<span class="fn">getTitle</span>())
+    .<span class="fn">map</span>(t <span class="op">-></span> <span class="str">"✓ "</span> <span class="op">+</span> t.<span class="fn">getTitle</span>())
     .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">joining</span>(<span class="str">"\n"</span>));</pre></div>
 <div class="challenge" style="background:var(--m1d);border-color:var(--m1b)">
 <div class="ch-lbl" style="color:var(--m1)">Module Challenge</div>
@@ -787,9 +787,9 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
 
 <span class="cm">// switch on an enum (exhaustive check in newer Java)</span>
 <span class="kw">switch</span> (p) {
-    <span class="kw">case</span> HIGH   <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do now"</span>);
-    <span class="kw">case</span> MEDIUM <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do soon"</span>);
-    <span class="kw">case</span> LOW    <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"When time allows"</span>);
+    <span class="kw">case</span> HIGH   <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do now"</span>);
+    <span class="kw">case</span> MEDIUM <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Do soon"</span>);
+    <span class="kw">case</span> LOW    <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"When time allows"</span>);
 }
 
 <span class="cm">// ── Enum with fields and methods ───────────────────────────</span>
@@ -812,7 +812,7 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
     <span class="kw">public</span> <span class="cl">String</span> <span class="fn">getIcon</span>()  { <span class="kw">return</span> icon;  }
 
     <span class="kw">public boolean</span> <span class="fn">isHigherThan</span>(<span class="cl">Priority</span> other) {
-        <span class="kw">return this</span>.level <span class="op">&gt;</span> other.level;
+        <span class="kw">return this</span>.level <span class="op">></span> other.level;
     }
 }
 
@@ -834,20 +834,20 @@ names.<span class="fn">stream</span>().<span class="fn">forEach</span>(<span cla
       title:'EnumMap, EnumSet & Patterns',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 4</span></div>
-<h2>EnumMap, EnumSet <em style="color:var(--m2)">&amp; Patterns</em></h2>
+<h2>EnumMap, EnumSet <em style="color:var(--m2)">& Patterns</em></h2>
 <p class="lesson-intro" style="border-color:var(--m2)">EnumMap and EnumSet are highly optimised collections specifically for enum keys. And abstract methods on enums let each constant implement its own behaviour.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">EnumCollections.java</span><span class="code-tag">EnumMap · EnumSet · abstract enum methods</span></div>
 <pre><span class="cm">// EnumMap — faster than HashMap when keys are enum values</span>
-<span class="cl">EnumMap</span>&lt;<span class="cl">Priority</span>, <span class="cl">List</span>&lt;<span class="cl">Task</span>&gt;&gt; tasksByPriority <span class="op">=</span>
-    <span class="kw">new</span> <span class="cl">EnumMap</span>&lt;&gt;(<span class="cl">Priority</span>.<span class="kw">class</span>);
+<span class="cl">EnumMap</span><<span class="cl">Priority</span>, <span class="cl">List</span><<span class="cl">Task</span>>> tasksByPriority <span class="op">=</span>
+    <span class="kw">new</span> <span class="cl">EnumMap</span><>(<span class="cl">Priority</span>.<span class="kw">class</span>);
 
 tasksByPriority.<span class="fn">put</span>(<span class="cl">Priority</span>.HIGH,   highTasks);
 tasksByPriority.<span class="fn">put</span>(<span class="cl">Priority</span>.MEDIUM, medTasks);
 
 <span class="cm">// EnumSet — compact, fast set of enum constants</span>
-<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; urgent  <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">of</span>(<span class="cl">Priority</span>.HIGH);
-<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; nonUrgent <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">complementOf</span>(urgent); <span class="cm">// {MEDIUM, LOW}</span>
-<span class="cl">EnumSet</span>&lt;<span class="cl">Priority</span>&gt; all      <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">allOf</span>(<span class="cl">Priority</span>.<span class="kw">class</span>);
+<span class="cl">EnumSet</span><<span class="cl">Priority</span>> urgent  <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">of</span>(<span class="cl">Priority</span>.HIGH);
+<span class="cl">EnumSet</span><<span class="cl">Priority</span>> nonUrgent <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">complementOf</span>(urgent); <span class="cm">// {MEDIUM, LOW}</span>
+<span class="cl">EnumSet</span><<span class="cl">Priority</span>> all      <span class="op">=</span> <span class="cl">EnumSet</span>.<span class="fn">allOf</span>(<span class="cl">Priority</span>.<span class="kw">class</span>);
 
 <span class="cm">// Abstract method per constant — Strategy Pattern via enum</span>
 <span class="kw">public enum</span> <span class="cl">Operation</span> {
@@ -872,7 +872,7 @@ tasksByPriority.<span class="fn">put</span>(<span class="cl">Priority</span>.MED
     <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%.1f %s %.1f = %.1f%n"</span>, x, op, y, op.<span class="fn">apply</span>(x, y));
 }</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m2)">Quick Check</div>
-<div class="quiz-q">Why use <code>EnumMap&lt;Priority, List&lt;Task&gt;&gt;</code> instead of <code>HashMap&lt;Priority, List&lt;Task&gt;&gt;</code>?</div>
+<div class="quiz-q">Why use <code>EnumMap<Priority, List<Task>></code> instead of <code>HashMap<Priority, List<Task>></code>?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">EnumMap supports more key types than HashMap</button>
 <button class="quiz-opt" onclick="Q(this,true)">EnumMap uses a compact array internally — it's faster and uses less memory when keys are enum constants</button>
@@ -912,7 +912,7 @@ p;          <span class="cm">// Point[x=3.0, y=4.0]</span>
 <span class="cm">// Compact constructor — validate without repeating field assignment</span>
 <span class="kw">public record</span> <span class="cl">Money</span>(<span class="kw">double</span> amount, <span class="cl">String</span> currency) {
     <span class="fn">Money</span> {  <span class="cm">// compact constructor — no parameter list</span>
-        <span class="kw">if</span> (amount <span class="op">&lt;</span> <span class="num">0</span>)    <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Amount can't be negative"</span>);
+        <span class="kw">if</span> (amount <span class="op"><</span> <span class="num">0</span>)    <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Amount can't be negative"</span>);
         <span class="kw">if</span> (currency <span class="op">==</span> <span class="kw">null</span>) <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Currency required"</span>);
         currency <span class="op">=</span> currency.<span class="fn">toUpperCase</span>(); <span class="cm">// normalise before storing</span>
     }
@@ -944,7 +944,7 @@ p;          <span class="cm">// Point[x=3.0, y=4.0]</span>
       title:'Sealed Classes & Pattern Matching',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m2)">Enums & Records</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 4</span></div>
-<h2>Sealed Classes <em style="color:var(--m2)">&amp; Pattern Matching</em></h2>
+<h2>Sealed Classes <em style="color:var(--m2)">& Pattern Matching</em></h2>
 <p class="lesson-intro" style="border-color:var(--m2)">Sealed classes (Java 17+) restrict which classes can extend them — giving you an exhaustive, compiler-checked set of subtypes. Combined with pattern matching instanceof, they're one of the most elegant features in modern Java.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Shape.java</span><span class="code-tag">Sealed classes · pattern matching switch</span></div>
 <pre><span class="cm">// sealed: only these specific classes may extend Shape</span>
@@ -958,9 +958,9 @@ p;          <span class="cm">// Point[x=3.0, y=4.0]</span>
 <span class="cm">// Pattern matching switch — compiler knows these are exhaustive</span>
 <span class="kw">public static double</span> <span class="fn">area</span>(<span class="cl">Shape</span> shape) {
     <span class="kw">return switch</span> (shape) {
-        <span class="kw">case</span> <span class="cl">Circle</span>    c <span class="op">-&gt;</span> <span class="cl">Math</span>.PI <span class="op">*</span> c.<span class="fn">radius</span>() <span class="op">*</span> c.<span class="fn">radius</span>();
-        <span class="kw">case</span> <span class="cl">Rectangle</span> r <span class="op">-&gt;</span> r.<span class="fn">width</span>() <span class="op">*</span> r.<span class="fn">height</span>();
-        <span class="kw">case</span> <span class="cl">Triangle</span>  t <span class="op">-&gt;</span> <span class="num">0.5</span> <span class="op">*</span> t.<span class="fn">base</span>() <span class="op">*</span> t.<span class="fn">height</span>();
+        <span class="kw">case</span> <span class="cl">Circle</span>    c <span class="op">-></span> <span class="cl">Math</span>.PI <span class="op">*</span> c.<span class="fn">radius</span>() <span class="op">*</span> c.<span class="fn">radius</span>();
+        <span class="kw">case</span> <span class="cl">Rectangle</span> r <span class="op">-></span> r.<span class="fn">width</span>() <span class="op">*</span> r.<span class="fn">height</span>();
+        <span class="kw">case</span> <span class="cl">Triangle</span>  t <span class="op">-></span> <span class="num">0.5</span> <span class="op">*</span> t.<span class="fn">base</span>() <span class="op">*</span> t.<span class="fn">height</span>();
         <span class="cm">// No default needed — the compiler knows all cases are covered!</span>
     };
 }
@@ -970,7 +970,7 @@ p;          <span class="cm">// Point[x=3.0, y=4.0]</span>
 <span class="kw">var</span> shapes <span class="op">=</span> <span class="cl">List</span>.<span class="fn">of</span>(
     <span class="kw">new</span> <span class="cl">Circle</span>(<span class="num">5</span>), <span class="kw">new</span> <span class="cl">Rectangle</span>(<span class="num">4</span>, <span class="num">6</span>), <span class="kw">new</span> <span class="cl">Triangle</span>(<span class="num">3</span>, <span class="num">8</span>)
 );
-shapes.<span class="fn">forEach</span>(s <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s area: %.2f%n"</span>, s, <span class="fn">area</span>(s)));</pre></div>
+shapes.<span class="fn">forEach</span>(s <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s area: %.2f%n"</span>, s, <span class="fn">area</span>(s)));</pre></div>
 <div class="challenge" style="background:var(--m2d);border-color:var(--m2b)">
 <div class="ch-lbl" style="color:var(--m2)">Module Challenge</div>
 <h4>Upgrade the Task Manager</h4>
@@ -978,7 +978,7 @@ shapes.<span class="fn">forEach</span>(s <span class="op">-&gt;</span> <span cla
 <li>Replace the <code>String priority</code> field in Task with a <code>Priority</code> enum that has a level (int) and an emoji icon (String)</li>
 <li>Replace the <code>String status</code> with a <code>Status</code> enum: PENDING, IN_PROGRESS, COMPLETED, CANCELLED</li>
 <li>Create a <code>TaskSummary</code> record with fields: totalCount, completedCount, pendingCount, completionPct</li>
-<li>Write a <code>getSummary(List&lt;Task&gt; tasks)</code> method that returns a TaskSummary using streams</li>
+<li>Write a <code>getSummary(List<Task> tasks)</code> method that returns a TaskSummary using streams</li>
 <li>Use a pattern matching switch on Priority to print different messages for each level</li>
 </ul>
 </div>
@@ -1025,14 +1025,14 @@ shapes.<span class="fn">forEach</span>(s <span class="op">-&gt;</span> <span cla
 }
 
 <span class="cm">// With Optional: the method signature declares it may not exist</span>
-<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">User</span>&gt; <span class="fn">findUserById</span>(<span class="kw">int</span> id) {
+<span class="kw">public</span> <span class="cl">Optional</span><<span class="cl">User</span>> <span class="fn">findUserById</span>(<span class="kw">int</span> id) {
     <span class="cl">User</span> user <span class="op">=</span> db.<span class="fn">query</span>(id);
     <span class="kw">return</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(user); <span class="cm">// wraps null or a value</span>
 }
 <span class="cm">// Now the caller CANNOT forget to handle the absent case —
 // they get an Optional, not a User, so they must deal with it.</span></pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
-<div class="quiz-q">A method returns <code>Optional&lt;User&gt;</code> instead of <code>User</code>. What does this communicate to callers?</div>
+<div class="quiz-q">A method returns <code>Optional<User></code> instead of <code>User</code>. What does this communicate to callers?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">The method might throw an exception instead of returning a user</button>
 <button class="quiz-opt" onclick="Q(this,true)">The user might not exist — the caller must explicitly handle both the present and absent cases</button>
@@ -1043,13 +1043,13 @@ shapes.<span class="fn">forEach</span>(s <span class="op">-&gt;</span> <span cla
       title:'Creating & Unwrapping Optionals',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m3)">Optional</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 4</span></div>
-<h2>Creating <em style="color:var(--m3)">&amp; Unwrapping</em> Optionals</h2>
+<h2>Creating <em style="color:var(--m3)">& Unwrapping</em> Optionals</h2>
 <p class="lesson-intro" style="border-color:var(--m3)">Three ways to create Optionals. Many ways to safely get the value out — each expressing a different intent about what to do when it's absent.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalUsage.java</span><span class="code-tag">Creating · checking · extracting safely</span></div>
 <pre><span class="cm">// ── Creating Optionals ──────────────────────────────────────</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; present <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>);   <span class="cm">// throws NPE if null passed</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; empty   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">empty</span>();        <span class="cm">// explicitly absent</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; maybe   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(val); <span class="cm">// null → empty, else present</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> present <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>);   <span class="cm">// throws NPE if null passed</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> empty   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">empty</span>();        <span class="cm">// explicitly absent</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> maybe   <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(val); <span class="cm">// null → empty, else present</span>
 
 <span class="cm">// ── Checking ────────────────────────────────────────────────</span>
 present.<span class="fn">isPresent</span>();  <span class="cm">// true</span>
@@ -1064,23 +1064,23 @@ empty.<span class="fn">isEmpty</span>();     <span class="cm">// true (Java 11+)
 <span class="cl">String</span> val2 <span class="op">=</span> empty.<span class="fn">orElse</span>(<span class="str">"Unknown"</span>);            <span class="cm">// "Unknown"</span>
 
 <span class="cm">// orElseGet — default from a Supplier (lazy — only called if empty)</span>
-<span class="cl">String</span> val3 <span class="op">=</span> empty.<span class="fn">orElseGet</span>(() <span class="op">-&gt;</span> <span class="fn">loadDefault</span>()); <span class="cm">// called lazily</span>
+<span class="cl">String</span> val3 <span class="op">=</span> empty.<span class="fn">orElseGet</span>(() <span class="op">-></span> <span class="fn">loadDefault</span>()); <span class="cm">// called lazily</span>
 
 <span class="cm">// orElseThrow — throw a specific exception if absent</span>
-<span class="cl">String</span> val4 <span class="op">=</span> maybe.<span class="fn">orElseThrow</span>(() <span class="op">-&gt;</span>
+<span class="cl">String</span> val4 <span class="op">=</span> maybe.<span class="fn">orElseThrow</span>(() <span class="op">-></span>
     <span class="kw">new</span> <span class="cl">UserNotFoundException</span>(<span class="str">"User not found"</span>));
 
 <span class="cm">// ifPresent — run code only if a value exists</span>
-present.<span class="fn">ifPresent</span>(name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Found: "</span> <span class="op">+</span> name));
+present.<span class="fn">ifPresent</span>(name <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Found: "</span> <span class="op">+</span> name));
 
 <span class="cm">// ifPresentOrElse — run one of two branches</span>
 maybe.<span class="fn">ifPresentOrElse</span>(
-    name <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name),
-    ()   <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Anonymous user"</span>)
+    name <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello, "</span> <span class="op">+</span> name),
+    ()   <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Anonymous user"</span>)
 );</pre></div>
 <div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>don't use Optional like nullable — don't use it as a field type</strong><p>Optional is designed for method return types to signal "this might not exist." Don't store Optionals in class fields, use them as method parameters, or put them in collections. Those uses break serialization and violate the intent. For fields, use null with good documentation.</p></div></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
-<div class="quiz-q">You have an <code>Optional&lt;Config&gt;</code> and want to load a default config if it's absent, but loading is expensive. Which method avoids unnecessary loading?</div>
+<div class="quiz-q">You have an <code>Optional<Config></code> and want to load a default config if it's absent, but loading is expensive. Which method avoids unnecessary loading?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)"><code>orElse(loadDefaultConfig())</code> — the default is ready</button>
 <button class="quiz-opt" onclick="Q(this,true)"><code>orElseGet(() -> loadDefaultConfig())</code> — the Supplier is only called if the Optional is empty</button>
@@ -1095,34 +1095,34 @@ maybe.<span class="fn">ifPresentOrElse</span>(
 <p class="lesson-intro" style="border-color:var(--m3)">The real power of Optional is chaining — transforming and filtering the value without ever breaking the chain to check for null. This replaces deeply nested null-checks with a clean pipeline.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalChaining.java</span><span class="code-tag">map · flatMap · filter · or</span></div>
 <pre><span class="cm">// map: transform the value if present</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; upper <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"alice"</span>)
+<span class="cl">Optional</span><<span class="cl">String</span>> upper <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"alice"</span>)
     .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">toUpperCase</span>);   <span class="cm">// Optional["ALICE"]</span>
 
-<span class="cl">Optional</span>&lt;<span class="cl">Integer</span>&gt; len <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"hello"</span>)
+<span class="cl">Optional</span><<span class="cl">Integer</span>> len <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"hello"</span>)
     .<span class="fn">map</span>(<span class="cl">String</span><span class="op">::</span><span class="fn">length</span>);          <span class="cm">// Optional[5]</span>
 
 <span class="cm">// filter: keep only if a condition is met</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; longName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>)
-    .<span class="fn">filter</span>(s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">3</span>); <span class="cm">// Optional["Alice"]</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; shortName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Bo"</span>)
-    .<span class="fn">filter</span>(s <span class="op">-&gt;</span> s.<span class="fn">length</span>() <span class="op">&gt;</span> <span class="num">3</span>); <span class="cm">// Optional.empty</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> longName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Alice"</span>)
+    .<span class="fn">filter</span>(s <span class="op">-></span> s.<span class="fn">length</span>() <span class="op">></span> <span class="num">3</span>); <span class="cm">// Optional["Alice"]</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> shortName <span class="op">=</span> <span class="cl">Optional</span>.<span class="fn">of</span>(<span class="str">"Bo"</span>)
+    .<span class="fn">filter</span>(s <span class="op">-></span> s.<span class="fn">length</span>() <span class="op">></span> <span class="num">3</span>); <span class="cm">// Optional.empty</span>
 
 <span class="cm">// flatMap: use when the mapping function also returns an Optional
-// (avoids Optional&lt;Optional&lt;T&gt;&gt;)</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; city <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>)            <span class="cm">// Optional&lt;User&gt;</span>
-    .<span class="fn">flatMap</span>(<span class="cl">User</span><span class="op">::</span><span class="fn">getAddress</span>)                    <span class="cm">// Optional&lt;Address&gt;</span>
-    .<span class="fn">flatMap</span>(<span class="cl">Address</span><span class="op">::</span><span class="fn">getCity</span>);                   <span class="cm">// Optional&lt;String&gt;</span>
+// (avoids Optional<Optional<T>>)</span>
+<span class="cl">Optional</span><<span class="cl">String</span>> city <span class="op">=</span> <span class="fn">findUser</span>(<span class="num">42</span>)            <span class="cm">// Optional<User></span>
+    .<span class="fn">flatMap</span>(<span class="cl">User</span><span class="op">::</span><span class="fn">getAddress</span>)                    <span class="cm">// Optional<Address></span>
+    .<span class="fn">flatMap</span>(<span class="cl">Address</span><span class="op">::</span><span class="fn">getCity</span>);                   <span class="cm">// Optional<String></span>
 <span class="cm">// vs. the null-check version — same logic, way cleaner</span>
 
 <span class="cm">// Real example: parse an int from a String that might be null</span>
-<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">Integer</span>&gt; <span class="fn">parseId</span>(<span class="cl">String</span> input) {
+<span class="kw">public</span> <span class="cl">Optional</span><<span class="cl">Integer</span>> <span class="fn">parseId</span>(<span class="cl">String</span> input) {
     <span class="kw">return</span> <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(input)
-        .<span class="fn">filter</span>(s <span class="op">-&gt;</span> !s.<span class="fn">isBlank</span>())
-        .<span class="fn">map</span>(s <span class="op">-&gt;</span> { <span class="kw">try</span> { <span class="kw">return</span> <span class="cl">Integer</span>.<span class="fn">parseInt</span>(s); } <span class="kw">catch</span> (<span class="cl">NumberFormatException</span> e) { <span class="kw">return null</span>; } })
-        .<span class="fn">filter</span>(n <span class="op">-&gt;</span> n <span class="op">&gt;</span> <span class="num">0</span>);
+        .<span class="fn">filter</span>(s <span class="op">-></span> !s.<span class="fn">isBlank</span>())
+        .<span class="fn">map</span>(s <span class="op">-></span> { <span class="kw">try</span> { <span class="kw">return</span> <span class="cl">Integer</span>.<span class="fn">parseInt</span>(s); } <span class="kw">catch</span> (<span class="cl">NumberFormatException</span> e) { <span class="kw">return null</span>; } })
+        .<span class="fn">filter</span>(n <span class="op">-></span> n <span class="op">></span> <span class="num">0</span>);
 }</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
-<div class="quiz-q">You have <code>Optional&lt;User&gt;</code> and <code>User.getAddress()</code> returns <code>Optional&lt;Address&gt;</code>. Which chaining method avoids getting <code>Optional&lt;Optional&lt;Address&gt;&gt;</code>?</div>
+<div class="quiz-q">You have <code>Optional<User></code> and <code>User.getAddress()</code> returns <code>Optional<Address></code>. Which chaining method avoids getting <code>Optional<Optional<Address>></code>?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)"><code>map(User::getAddress)</code></button>
 <button class="quiz-opt" onclick="Q(this,true)"><code>flatMap(User::getAddress)</code> — flattens the nested Optional automatically</button>
@@ -1137,13 +1137,13 @@ maybe.<span class="fn">ifPresentOrElse</span>(
 <p class="lesson-intro" style="border-color:var(--m3)">Optional can be misused. These rules separate the correct patterns from the anti-patterns — and show how Optional integrates with streams.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">OptionalPatterns.java</span><span class="code-tag">DO and DON'T — real-world patterns</span></div>
 <pre><span class="cm">// ✅ DO: return Optional from methods that might have no result</span>
-<span class="kw">public</span> <span class="cl">Optional</span>&lt;<span class="cl">Task</span>&gt; <span class="fn">findById</span>(<span class="kw">int</span> id) {
-    <span class="kw">return</span> tasks.<span class="fn">stream</span>().<span class="fn">filter</span>(t <span class="op">-&gt;</span> t.<span class="fn">getId</span>() <span class="op">==</span> id).<span class="fn">findFirst</span>();
+<span class="kw">public</span> <span class="cl">Optional</span><<span class="cl">Task</span>> <span class="fn">findById</span>(<span class="kw">int</span> id) {
+    <span class="kw">return</span> tasks.<span class="fn">stream</span>().<span class="fn">filter</span>(t <span class="op">-></span> t.<span class="fn">getId</span>() <span class="op">==</span> id).<span class="fn">findFirst</span>();
 }
 
 <span class="cm">// ✅ DO: use Optional with streams — stream() on Optional (Java 9+)</span>
-<span class="cl">List</span>&lt;<span class="cl">Optional</span>&lt;<span class="cl">User</span>&gt;&gt; maybeUsers <span class="op">=</span> ids.<span class="fn">stream</span>().<span class="fn">map</span>(<span class="kw">this</span><span class="op">::</span><span class="fn">findById</span>).<span class="fn">toList</span>();
-<span class="cl">List</span>&lt;<span class="cl">User</span>&gt; users <span class="op">=</span> maybeUsers.<span class="fn">stream</span>()
+<span class="cl">List</span><<span class="cl">Optional</span><<span class="cl">User</span>>> maybeUsers <span class="op">=</span> ids.<span class="fn">stream</span>().<span class="fn">map</span>(<span class="kw">this</span><span class="op">::</span><span class="fn">findById</span>).<span class="fn">toList</span>();
+<span class="cl">List</span><<span class="cl">User</span>> users <span class="op">=</span> maybeUsers.<span class="fn">stream</span>()
     .<span class="fn">flatMap</span>(<span class="cl">Optional</span><span class="op">::</span><span class="fn">stream</span>)   <span class="cm">// unwraps present values, discards empties</span>
     .<span class="fn">toList</span>();
 
@@ -1153,7 +1153,7 @@ maybe.<span class="fn">ifPresentOrElse</span>(
     .<span class="fn">orElse</span>(<span class="str">"Guest"</span>);
 
 <span class="cm">// ❌ DON'T: use Optional as a method parameter (use overloading instead)</span>
-<span class="kw">void</span> <span class="fn">process</span>(<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; name) {} <span class="cm">// bad — callers can pass null to Optional</span>
+<span class="kw">void</span> <span class="fn">process</span>(<span class="cl">Optional</span><<span class="cl">String</span>> name) {} <span class="cm">// bad — callers can pass null to Optional</span>
 <span class="kw">void</span> <span class="fn">process</span>(<span class="cl">String</span> name) {}            <span class="cm">// good</span>
 <span class="kw">void</span> <span class="fn">process</span>()             {}            <span class="cm">// good — overload for the absent case</span>
 
@@ -1162,23 +1162,23 @@ maybe.<span class="fn">ifPresentOrElse</span>(
 opt.<span class="fn">ifPresent</span>(<span class="kw">this</span><span class="op">::</span><span class="fn">use</span>);                  <span class="cm">// good</span>
 
 <span class="cm">// ❌ DON'T: store Optional in fields or collections</span>
-<span class="kw">private</span> <span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; name; <span class="cm">// bad — breaks serialization</span>
+<span class="kw">private</span> <span class="cl">Optional</span><<span class="cl">String</span>> name; <span class="cm">// bad — breaks serialization</span>
 <span class="kw">private</span> <span class="cl">String</span> name;           <span class="cm">// good — null is fine for fields</span></pre></div>
 <div class="challenge" style="background:var(--m3d);border-color:var(--m3b)">
 <div class="ch-lbl" style="color:var(--m3)">Module Challenge</div>
 <h4>Null-safe Task Lookup Service</h4>
-<p>Write a <code>TaskLookupService</code> that wraps a <code>List&lt;Task&gt;</code>:</p>
+<p>Write a <code>TaskLookupService</code> that wraps a <code>List<Task></code>:</p>
 <ul>
-<li><code>findById(int id)</code> → <code>Optional&lt;Task&gt;</code></li>
-<li><code>findByTitle(String title)</code> → <code>Optional&lt;Task&gt;</code> (case-insensitive)</li>
-<li><code>getFirstHighPriority()</code> → <code>Optional&lt;Task&gt;</code></li>
+<li><code>findById(int id)</code> → <code>Optional<Task></code></li>
+<li><code>findByTitle(String title)</code> → <code>Optional<Task></code> (case-insensitive)</li>
+<li><code>getFirstHighPriority()</code> → <code>Optional<Task></code></li>
 <li><code>getCompletedCount()</code> → int (use stream + Optional)</li>
 <li>A method that takes a list of IDs and returns only the tasks that were found (use <code>flatMap(Optional::stream)</code>)</li>
 </ul>
 <p>Never use <code>.get()</code> without first checking <code>.isPresent()</code> — use the functional API throughout.</p>
 </div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m3)">Quick Check</div>
-<div class="quiz-q">You have <code>List&lt;Optional&lt;User&gt;&gt;</code> and want only the present users as a <code>List&lt;User&gt;</code>. Which is the cleanest approach?</div>
+<div class="quiz-q">You have <code>List<Optional<User>></code> and want only the present users as a <code>List<User></code>. Which is the cleanest approach?</div>
 <div class="quiz-opts">
 <button class="quiz-opt" onclick="Q(this,false)">Loop through, check isPresent(), add to a new list manually</button>
 <button class="quiz-opt" onclick="Q(this,true)"><code>list.stream().flatMap(Optional::stream).toList()</code></button>
@@ -1195,7 +1195,7 @@ opt.<span class="fn">ifPresent</span>(<span class="kw">this</span><span class="o
       title:'Threads & Runnable',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 5</span></div>
-<h2>Threads <em style="color:var(--m4)">&amp; Runnable</em></h2>
+<h2>Threads <em style="color:var(--m4)">& Runnable</em></h2>
 <p class="lesson-intro" style="border-color:var(--m4)">A thread is an independent path of execution. Your Java program starts with one thread (main). You can create more to do multiple things simultaneously — downloading a file while updating a UI, processing requests in parallel.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Threads.java</span><span class="code-tag">Creating threads — 3 approaches</span></div>
 <pre><span class="cm">// ── Approach 1: Extend Thread ──────────────────────────────</span>
@@ -1203,15 +1203,15 @@ opt.<span class="fn">ifPresent</span>(<span class="kw">this</span><span class="o
     <span class="kw">private final</span> <span class="cl">String</span> message;
     <span class="cl">PrintThread</span>(<span class="cl">String</span> msg) { <span class="kw">this</span>.message <span class="op">=</span> msg; }
     <span class="ann">@Override</span> <span class="kw">public void</span> <span class="fn">run</span>() {
-        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">5</span>; i<span class="op">++</span>)
+        <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> <span class="num">5</span>; i<span class="op">++</span>)
             <span class="cl">System</span>.out.<span class="fn">println</span>(message <span class="op">+</span> <span class="str">" - "</span> <span class="op">+</span> i);
     }
 }
 <span class="kw">new</span> <span class="cl">PrintThread</span>(<span class="str">"Hello"</span>).<span class="fn">start</span>(); <span class="cm">// start(), NOT run()!</span>
 
 <span class="cm">// ── Approach 2: Implement Runnable (preferred — no extends lock) ─</span>
-<span class="cl">Runnable</span> task <span class="op">=</span> () <span class="op">-&gt;</span> {
-    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">5</span>; i<span class="op">++</span>)
+<span class="cl">Runnable</span> task <span class="op">=</span> () <span class="op">-></span> {
+    <span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> <span class="num">5</span>; i<span class="op">++</span>)
         <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="cl">Thread</span>.<span class="fn">currentThread</span>().<span class="fn">getName</span>() <span class="op">+</span> <span class="str">": "</span> <span class="op">+</span> i);
 };
 <span class="kw">new</span> <span class="cl">Thread</span>(task, <span class="str">"Worker-1"</span>).<span class="fn">start</span>();
@@ -1238,7 +1238,7 @@ t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by d
       title:'Race Conditions & Shared State',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 5</span></div>
-<h2>Race Conditions <em style="color:var(--m4)">&amp; Shared State</em></h2>
+<h2>Race Conditions <em style="color:var(--m4)">& Shared State</em></h2>
 <p class="lesson-intro" style="border-color:var(--m4)">The hardest part of concurrency isn't making things run in parallel — it's making them share data safely. When two threads read and write the same variable simultaneously, you get race conditions: unpredictable, intermittent bugs that are nearly impossible to reproduce.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">RaceCondition.java</span><span class="code-tag">The classic counter bug — and the fix</span></div>
 <pre><span class="cm">// BROKEN: two threads both increment a shared counter</span>
@@ -1283,7 +1283,7 @@ t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by d
       title:'synchronized & Locks',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 5</span></div>
-<h2>synchronized <em style="color:var(--m4)">&amp; Locks</em></h2>
+<h2>synchronized <em style="color:var(--m4)">& Locks</em></h2>
 <p class="lesson-intro" style="border-color:var(--m4)">Synchronization ensures only one thread executes a block at a time. Java has two mechanisms: the built-in <code>synchronized</code> keyword and the more flexible <code>ReentrantLock</code>.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Synchronization.java</span><span class="code-tag">synchronized blocks · ReentrantLock · deadlock</span></div>
 <pre><span class="cm">// synchronized method — locks on 'this'</span>
@@ -1316,8 +1316,8 @@ t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by d
 }
 
 <span class="cm">// Thread-safe collections — use these instead of ArrayList/HashMap</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt;       safeList <span class="op">=</span> <span class="kw">new</span> <span class="cl">CopyOnWriteArrayList</span>&lt;&gt;();
-<span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">Integer</span>&gt; safeMap <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span>&lt;&gt;();</pre></div>
+<span class="cl">List</span><<span class="cl">String</span>>       safeList <span class="op">=</span> <span class="kw">new</span> <span class="cl">CopyOnWriteArrayList</span><>();
+<span class="cl">Map</span><<span class="cl">String</span>, <span class="cl">Integer</span>> safeMap <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span><>();</pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
 <div class="quiz-q">Why must <code>lock.unlock()</code> always be called in a <code>finally</code> block when using <code>ReentrantLock</code>?</div>
 <div class="quiz-opts">
@@ -1330,7 +1330,7 @@ t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by d
       title:'ExecutorService & Thread Pools',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m4)">Concurrency</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 5</span></div>
-<h2>ExecutorService <em style="color:var(--m4)">&amp; Thread Pools</em></h2>
+<h2>ExecutorService <em style="color:var(--m4)">& Thread Pools</em></h2>
 <p class="lesson-intro" style="border-color:var(--m4)">Creating a new Thread for every task is expensive. Thread pools reuse a fixed set of threads. <code>ExecutorService</code> is the professional way to run concurrent work — it's what real applications use.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Executors.java</span><span class="code-tag">Thread pools · Callable · Future · CompletableFuture</span></div>
 <pre><span class="kw">import</span> java.util.concurrent.*;
@@ -1339,14 +1339,14 @@ t.<span class="fn">getName</span>();         <span class="cm">// "Thread-0" by d
 <span class="cl">ExecutorService</span> pool <span class="op">=</span> <span class="cl">Executors</span>.<span class="fn">newFixedThreadPool</span>(<span class="num">4</span>);
 
 <span class="cm">// Submit a Runnable (fire-and-forget)</span>
-pool.<span class="fn">submit</span>(() <span class="op">-&gt;</span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Task running in thread pool"</span>));
+pool.<span class="fn">submit</span>(() <span class="op">-></span> <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Task running in thread pool"</span>));
 
 <span class="cm">// Submit a Callable — like Runnable but returns a value</span>
-<span class="cl">Callable</span>&lt;<span class="cl">Integer</span>&gt; computation <span class="op">=</span> () <span class="op">-&gt;</span> {
+<span class="cl">Callable</span><<span class="cl">Integer</span>> computation <span class="op">=</span> () <span class="op">-></span> {
     <span class="cl">Thread</span>.<span class="fn">sleep</span>(<span class="num">1000</span>);
     <span class="kw">return</span> <span class="num">42</span>;
 };
-<span class="cl">Future</span>&lt;<span class="cl">Integer</span>&gt; future <span class="op">=</span> pool.<span class="fn">submit</span>(computation);
+<span class="cl">Future</span><<span class="cl">Integer</span>> future <span class="op">=</span> pool.<span class="fn">submit</span>(computation);
 
 <span class="cm">// Do other work while computation runs in the pool...</span>
 <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Doing other work"</span>);
@@ -1359,10 +1359,10 @@ pool.<span class="fn">shutdown</span>();
 pool.<span class="fn">awaitTermination</span>(<span class="num">10</span>, <span class="cl">TimeUnit</span>.SECONDS);
 
 <span class="cm">// ── CompletableFuture — modern, non-blocking (Java 8+) ─────</span>
-<span class="cl">CompletableFuture</span>.<span class="fn">supplyAsync</span>(() <span class="op">-&gt;</span> <span class="fn">fetchData</span>(<span class="str">"url"</span>))
-    .<span class="fn">thenApply</span>(data   <span class="op">-&gt;</span> <span class="fn">parseJson</span>(data))
-    .<span class="fn">thenAccept</span>(parsed <span class="op">-&gt;</span> <span class="fn">displayResult</span>(parsed))
-    .<span class="fn">exceptionally</span>(ex  <span class="op">-&gt;</span> { <span class="fn">logError</span>(ex); <span class="kw">return null</span>; });
+<span class="cl">CompletableFuture</span>.<span class="fn">supplyAsync</span>(() <span class="op">-></span> <span class="fn">fetchData</span>(<span class="str">"url"</span>))
+    .<span class="fn">thenApply</span>(data   <span class="op">-></span> <span class="fn">parseJson</span>(data))
+    .<span class="fn">thenAccept</span>(parsed <span class="op">-></span> <span class="fn">displayResult</span>(parsed))
+    .<span class="fn">exceptionally</span>(ex  <span class="op">-></span> { <span class="fn">logError</span>(ex); <span class="kw">return null</span>; });
 <span class="cm">// Entire chain runs asynchronously — main thread never blocks!</span></pre></div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m4)">Quick Check</div>
 <div class="quiz-q">What is the advantage of <code>ExecutorService</code> with a fixed thread pool over creating <code>new Thread()</code> for every task?</div>
@@ -1384,9 +1384,9 @@ pool.<span class="fn">awaitTermination</span>(<span class="num">10</span>, <span
 <span class="kw">public final class</span> <span class="cl">ImmutableConfig</span> {
     <span class="kw">private final</span> <span class="cl">String</span>  host;
     <span class="kw">private final int</span>     port;
-    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; settings;
+    <span class="kw">private final</span> <span class="cl">Map</span><<span class="cl">String</span>,<span class="cl">String</span>> settings;
 
-    <span class="kw">public</span> <span class="fn">ImmutableConfig</span>(<span class="cl">String</span> host, <span class="kw">int</span> port, <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; settings) {
+    <span class="kw">public</span> <span class="fn">ImmutableConfig</span>(<span class="cl">String</span> host, <span class="kw">int</span> port, <span class="cl">Map</span><<span class="cl">String</span>,<span class="cl">String</span>> settings) {
         <span class="kw">this</span>.host     <span class="op">=</span> host; <span class="kw">this</span>.port <span class="op">=</span> port;
         <span class="kw">this</span>.settings <span class="op">=</span> <span class="cl">Map</span>.<span class="fn">copyOf</span>(settings); <span class="cm">// defensive copy — unmodifiable</span>
     }
@@ -1395,8 +1395,8 @@ pool.<span class="fn">awaitTermination</span>(<span class="num">10</span>, <span
 
 <span class="cm">// ✅ Best practice 2: use concurrent collections
 // Never use ArrayList or HashMap in multi-threaded code</span>
-<span class="cl">ConcurrentHashMap</span>&lt;<span class="cl">String</span>,<span class="cl">Integer</span>&gt; map <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span>&lt;&gt;();
-map.<span class="fn">computeIfAbsent</span>(<span class="str">"key"</span>, k <span class="op">-&gt;</span> <span class="num">1</span>);     <span class="cm">// atomic: check + put in one step</span>
+<span class="cl">ConcurrentHashMap</span><<span class="cl">String</span>,<span class="cl">Integer</span>> map <span class="op">=</span> <span class="kw">new</span> <span class="cl">ConcurrentHashMap</span><>();
+map.<span class="fn">computeIfAbsent</span>(<span class="str">"key"</span>, k <span class="op">-></span> <span class="num">1</span>);     <span class="cm">// atomic: check + put in one step</span>
 map.<span class="fn">merge</span>(<span class="str">"key"</span>, <span class="num">1</span>, <span class="cl">Integer</span><span class="op">::</span><span class="fn">sum</span>);       <span class="cm">// atomic increment</span>
 
 <span class="cm">// ✅ Best practice 3: minimize lock scope</span>
@@ -1415,7 +1415,7 @@ map.<span class="fn">merge</span>(<span class="str">"key"</span>, <span class="n
 <h4>Thread-safe Task Queue</h4>
 <p>Build a <code>TaskQueue</code> that multiple threads can use safely:</p>
 <ul>
-<li>Uses a <code>LinkedBlockingQueue&lt;Task&gt;</code> internally</li>
+<li>Uses a <code>LinkedBlockingQueue<Task></code> internally</li>
 <li><code>addTask(Task t)</code> — adds to queue (producer)</li>
 <li><code>processNext()</code> — takes and "processes" the next task (consumer), blocks if empty</li>
 <li>Create 2 producer threads that each add 5 tasks</li>
@@ -1491,12 +1491,12 @@ map.<span class="fn">merge</span>(<span class="str">"key"</span>, <span class="n
 
 <span class="kw">public class</span> <span class="cl">NotificationFactory</span> {
 
-    <span class="kw">public static</span> <span class="cl">Notification</span> <span class="fn">create</span>(<span class="cl">String</span> type, <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; config) {
+    <span class="kw">public static</span> <span class="cl">Notification</span> <span class="fn">create</span>(<span class="cl">String</span> type, <span class="cl">Map</span><<span class="cl">String</span>,<span class="cl">String</span>> config) {
         <span class="kw">return switch</span> (type.<span class="fn">toLowerCase</span>()) {
-            <span class="kw">case</span> <span class="str">"email"</span> <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">EmailNotification</span>(config.<span class="fn">get</span>(<span class="str">"address"</span>));
-            <span class="kw">case</span> <span class="str">"sms"</span>   <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">SmsNotification</span>(config.<span class="fn">get</span>(<span class="str">"phone"</span>));
-            <span class="kw">case</span> <span class="str">"push"</span>  <span class="op">-&gt;</span> <span class="kw">new</span> <span class="cl">PushNotification</span>(config.<span class="fn">get</span>(<span class="str">"deviceId"</span>));
-            <span class="kw">default</span>      <span class="op">-&gt;</span> <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Unknown type: "</span> <span class="op">+</span> type);
+            <span class="kw">case</span> <span class="str">"email"</span> <span class="op">-></span> <span class="kw">new</span> <span class="cl">EmailNotification</span>(config.<span class="fn">get</span>(<span class="str">"address"</span>));
+            <span class="kw">case</span> <span class="str">"sms"</span>   <span class="op">-></span> <span class="kw">new</span> <span class="cl">SmsNotification</span>(config.<span class="fn">get</span>(<span class="str">"phone"</span>));
+            <span class="kw">case</span> <span class="str">"push"</span>  <span class="op">-></span> <span class="kw">new</span> <span class="cl">PushNotification</span>(config.<span class="fn">get</span>(<span class="str">"deviceId"</span>));
+            <span class="kw">default</span>      <span class="op">-></span> <span class="kw">throw new</span> <span class="cl">IllegalArgumentException</span>(<span class="str">"Unknown type: "</span> <span class="op">+</span> type);
         };
     }
 }
@@ -1519,7 +1519,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
       title:'Singleton & Builder Patterns',
       html:`
 <div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m5)">Design Patterns</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 4</span></div>
-<h2>Singleton <em style="color:var(--m5)">&amp; Builder</em> Patterns</h2>
+<h2>Singleton <em style="color:var(--m5)">& Builder</em> Patterns</h2>
 <p class="lesson-intro" style="border-color:var(--m5)">Singleton ensures exactly one instance exists. Builder constructs complex objects step by step, replacing telescoping constructors with readable, validated construction.</p>
 <div class="code-wrap"><div class="code-hdr"><span class="code-fname">Singleton.java</span><span class="code-tag">Thread-safe Singleton — enum approach (best)</span></div>
 <pre><span class="cm">// ── Singleton via enum — simplest, thread-safe, serialization-safe</span>
@@ -1547,7 +1547,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
 <span class="kw">public class</span> <span class="cl">HttpRequest</span> {
     <span class="kw">private final</span> <span class="cl">String</span>             url;
     <span class="kw">private final</span> <span class="cl">String</span>             method;
-    <span class="kw">private final</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt; headers;
+    <span class="kw">private final</span> <span class="cl">Map</span><<span class="cl">String</span>,<span class="cl">String</span>> headers;
     <span class="kw">private final</span> <span class="cl">String</span>             body;
     <span class="kw">private final int</span>                timeoutMs;
 
@@ -1560,7 +1560,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
     <span class="kw">public static class</span> <span class="cl">Builder</span> {
         <span class="kw">private final</span> <span class="cl">String</span>             url;
         <span class="kw">private</span> <span class="cl">String</span>                    method    <span class="op">=</span> <span class="str">"GET"</span>;
-        <span class="kw">private</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">String</span>&gt;        headers   <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
+        <span class="kw">private</span> <span class="cl">Map</span><<span class="cl">String</span>,<span class="cl">String</span>>        headers   <span class="op">=</span> <span class="kw">new</span> <span class="cl">HashMap</span><>();
         <span class="kw">private</span> <span class="cl">String</span>                    body      <span class="op">=</span> <span class="kw">null</span>;
         <span class="kw">private int</span>                        timeoutMs <span class="op">=</span> <span class="num">5000</span>;
 
@@ -1615,7 +1615,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
 
 <span class="cm">// ── Builder — in real APIs ──────────────────────────────────</span>
 <span class="cm">// Java 8's Stream.Builder</span>
-<span class="cl">Stream</span>&lt;<span class="cl">String</span>&gt; stream <span class="op">=</span> <span class="cl">Stream</span>.&lt;<span class="cl">String</span>&gt;<span class="fn">builder</span>()
+<span class="cl">Stream</span><<span class="cl">String</span>> stream <span class="op">=</span> <span class="cl">Stream</span>.<<span class="cl">String</span>><span class="fn">builder</span>()
     .<span class="fn">add</span>(<span class="str">"one"</span>).<span class="fn">add</span>(<span class="str">"two"</span>).<span class="fn">add</span>(<span class="str">"three"</span>).<span class="fn">build</span>();
 
 <span class="cm">// StringBuilder — the original Java Builder</span>
@@ -1632,11 +1632,11 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
 <h4>Refactor the Task Manager with all 6 modules</h4>
 <p>This is the capstone challenge for the entire portal. Apply what you've learned across all modules:</p>
 <ul>
-<li><strong>Generics</strong> — create a generic <code>Repository&lt;T extends Identifiable&gt;</code> that TaskManager uses</li>
+<li><strong>Generics</strong> — create a generic <code>Repository<T extends Identifiable></code> that TaskManager uses</li>
 <li><strong>Streams</strong> — rewrite all filtering, searching, and reporting methods using the Stream API</li>
 <li><strong>Enums</strong> — replace String priority/status fields with proper enums that have fields and methods</li>
 <li><strong>Records</strong> — create a <code>TaskSummary</code> record for statistics output</li>
-<li><strong>Optional</strong> — all find methods return <code>Optional&lt;Task&gt;</code>; never return null</li>
+<li><strong>Optional</strong> — all find methods return <code>Optional<Task></code>; never return null</li>
 <li><strong>Concurrency</strong> — make TaskManager thread-safe using <code>CopyOnWriteArrayList</code> and demonstrate two threads adding/reading tasks simultaneously</li>
 <li><strong>Factory</strong> — create a <code>TaskFactory</code> that creates tasks from a config map</li>
 <li><strong>Builder</strong> — create a <code>Task.Builder</code> for constructing tasks with many optional fields</li>
@@ -1846,7 +1846,7 @@ function updateProgress() {
     }
     const card = document.getElementById('card' + m.id);
     if (card) {
-      if (state.visited[m.id].size &gt; 0) {
+      if (state.visited[m.id].size > 0) {
         card.style.borderColor = m.accent ? 'rgba(124,92,191,0.35)' : '';
       }
     }
@@ -1857,5 +1857,6 @@ function updateProgress() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

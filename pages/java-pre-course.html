@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Before You Code — Java Pre-Course</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/java-pre-course.css">
 
     <link rel="stylesheet" href="../css/java-pre-course.css">
 </head>
@@ -37,6 +38,19 @@
 </nav>
 <main class="main">
 
+<div class="mobile-nav">
+  <select id="mobileLessonSelect" class="mobile-lesson-select" onchange="go(parseInt(this.value))">
+    <option value="0">1 · What a program is</option>
+    <option value="1">2 · Storing information</option>
+    <option value="2">3 · Making decisions</option>
+    <option value="3">4 · Repeating things</option>
+    <option value="4">5 · Named instructions</option>
+    <option value="5">6 · How a computer reads code</option>
+    <option value="6">7 · From English to Java</option>
+    <option value="7">8 · You're ready</option>
+  </select>
+</div>
+
 <!-- L0: What a program is -->
 <div class="lesson active" id="L0">
 <div class="lesson-eyebrow"><span class="ey-num">Lesson 1</span><span class="ey-dot"></span><span class="ey-cat">The big ideas</span></div>
@@ -62,10 +76,10 @@
 </div>
 
 <div class="concept-row">
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Input</div><h4>Take something in</h4><p>Read from a keyboard, a file, a sensor, the internet. Something enters the program.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Process</div><h4>Do something with it</h4><p>Calculate, compare, transform, sort. This is the logic — the brain of the program.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Store</div><h4>Remember it</h4><p>Keep values in memory while the program runs, or save them to a file for later.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Output</div><h4>Show the result</h4><p>Print to a screen, write to a file, send over a network. Something leaves the program.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Input</div><h4>Take something in</h4><p>Read from a keyboard, a file, a sensor, the internet. Something enters the program.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--warm">Process</div><h4>Do something with it</h4><p>Calculate, compare, transform, sort. This is the logic — the brain of the program.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--blue">Store</div><h4>Remember it</h4><p>Keep values in memory while the program runs, or save them to a file for later.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Output</div><h4>Show the result</h4><p>Print to a screen, write to a file, send over a network. Something leaves the program.</p></div>
 </div>
 
 <div class="prose">
@@ -113,16 +127,16 @@
 </div>
 
 <div class="concept-row">
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Whole numbers</div><h4>Age, score, count</h4><p>25, 0, -7, 1000000. No decimal point. Called <code>int</code> in Java.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Decimal numbers</div><h4>Price, temperature</h4><p>14.99, 3.14, -0.5. Has a decimal point. Called <code>double</code> in Java.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Text</div><h4>Names, messages</h4><p>"Alice", "Hello!", "task-001". Any sequence of characters. Called <code>String</code> in Java.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--muted)">True or false</div><h4>On/off, yes/no</h4><p>Only two possible values: true or false. Called <code>boolean</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--warm">Whole numbers</div><h4>Age, score, count</h4><p>25, 0, -7, 1000000. No decimal point. Called <code>int</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--blue">Decimal numbers</div><h4>Price, temperature</h4><p>14.99, 3.14, -0.5. Has a decimal point. Called <code>double</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Text</div><h4>Names, messages</h4><p>"Alice", "Hello!", "task-001". Any sequence of characters. Called <code>String</code> in Java.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--muted">True or false</div><h4>On/off, yes/no</h4><p>Only two possible values: true or false. Called <code>boolean</code> in Java.</p></div>
 </div>
 
 <div class="interactive-box">
 <div class="ib-label">Try it — name these variables</div>
-<p style="font-size:.89rem;color:var(--body);margin-bottom:16px">For each piece of information below, which type fits best?</p>
-<div id="typeQuiz" style="display:flex;flex-direction:column;gap:10px"></div>
+<p class="ib-desc">For each piece of information below, which type fits best?</p>
+<div id="typeQuiz" class="tq-list"></div>
 </div>
 
 <div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>the box changes, the name stays</strong><p>A variable's <em>name</em> never changes — <code>playerScore</code> is always <code>playerScore</code>. But the <em>value</em> inside it can change as many times as you want. That's why it's called a <em>vari</em>able — its value varies.</p></div></div>
@@ -189,21 +203,21 @@
 <!-- interactive condition builder -->
 <div class="interactive-box">
 <div class="ib-label">Try it — condition builder</div>
-<p style="font-size:.89rem;color:var(--body);margin-bottom:14px">A cinema has different ticket prices. Drag the sliders and see which condition fires:</p>
-<div style="display:flex;flex-direction:column;gap:14px">
-  <div style="display:flex;align-items:center;gap:12px">
-    <label style="font-size:13px;color:var(--muted);min-width:60px">Age</label>
-    <input type="range" min="1" max="80" value="25" id="ageSlider" style="flex:1" oninput="updateTicket()">
-    <span id="ageVal" style="font-size:13px;font-weight:600;color:var(--ink);min-width:28px;text-align:right">25</span>
+<p class="ib-desc">A cinema has different ticket prices. Drag the sliders and see which condition fires:</p>
+<div class="ib-controls">
+  <div class="ib-row">
+    <label class="ib-lbl">Age</label>
+    <input type="range" min="1" max="80" value="25" id="ageSlider" class="ib-range" oninput="updateTicket()">
+    <span id="ageVal" class="ib-val">25</span>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <label style="font-size:13px;color:var(--muted);min-width:60px">Day</label>
-    <select id="daySelect" onchange="updateTicket()" style="flex:1;font-family:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border2);border-radius:6px;background:var(--bg);color:var(--text)">
+  <div class="ib-row">
+    <label class="ib-lbl">Day</label>
+    <select id="daySelect" onchange="updateTicket()" class="ib-select">
       <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
       <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
     </select>
   </div>
-  <div id="ticketResult" style="background:var(--accent-light);border:1px solid var(--accent-border);border-radius:7px;padding:14px 16px;font-size:.9rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace"></div>
+  <div id="ticketResult" class="ticket-result"></div>
 </div>
 </div>
 
@@ -235,8 +249,8 @@
 <p>Almost every loop you ever write fits into one of two patterns:</p></div>
 
 <div class="concept-row">
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Count loops</div><h4>"Do this 10 times"</h4><p>You know in advance how many times to repeat. Print all 30 students. Send 5 reminder emails.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Condition loops</div><h4>"Keep going until..."</h4><p>You don't know how many repetitions. Keep asking for a password until it's correct. Keep reading lines until the file ends.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Count loops</div><h4>"Do this 10 times"</h4><p>You know in advance how many times to repeat. Print all 30 students. Send 5 reminder emails.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--warm">Condition loops</div><h4>"Keep going until..."</h4><p>You don't know how many repetitions. Keep asking for a password until it's correct. Keep reading lines until the file ends.</p></div>
 </div>
 
 <div class="plain-block">
@@ -258,17 +272,17 @@
 
 <div class="interactive-box">
 <div class="ib-label">Visualise a loop</div>
-<p style="font-size:.89rem;color:var(--body);margin-bottom:14px">Watch a count loop run step by step. How many times?</p>
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-  <input type="range" min="1" max="8" value="4" id="loopCount" style="flex:1" oninput="resetLoop()">
-  <span id="loopCountVal" style="font-size:13px;font-weight:600;min-width:50px;color:var(--ink)">4 times</span>
+<p class="ib-desc">Watch a count loop run step by step. How many times?</p>
+<div class="ib-row ib-row--mb">
+  <input type="range" min="1" max="8" value="4" id="loopCount" class="ib-range" oninput="resetLoop()">
+  <span id="loopCountVal" class="ib-val">4 times</span>
 </div>
-<div id="loopViz" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
-<div style="display:flex;gap:10px">
-  <button onclick="stepLoop()" id="stepBtn" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer">Step →</button>
-  <button onclick="resetLoop()" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--surface);color:var(--muted);border:1px solid var(--border2);border-radius:6px;cursor:pointer">Reset</button>
+<div id="loopViz" class="loop-viz"></div>
+<div class="ib-btn-row">
+  <button onclick="stepLoop()" id="stepBtn" class="ib-btn ib-btn--accent">Step →</button>
+  <button onclick="resetLoop()" class="ib-btn ib-btn--ghost">Reset</button>
 </div>
-<div id="loopMsg" style="margin-top:12px;font-size:.87rem;color:var(--muted);font-family:'JetBrains Mono',monospace"></div>
+<div id="loopMsg" class="loop-msg"></div>
 </div>
 
 <div class="quiz"><div class="quiz-label">Check your understanding</div>
@@ -355,12 +369,12 @@
 
 <div class="interactive-box">
 <div class="ib-label">Trace the execution order</div>
-<p style="font-size:.89rem;color:var(--body);margin-bottom:16px">Click each step to see the computer execute it in order. Notice how the variable's value changes over time.</p>
-<div id="traceSteps" style="display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:.84rem"></div>
-<div style="margin-top:14px;display:flex;gap:10px;align-items:center">
-  <button onclick="nextTrace()" id="traceBtn" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer">Execute next line →</button>
-  <button onclick="resetTrace()" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;background:var(--surface);color:var(--muted);border:1px solid var(--border2);border-radius:6px;cursor:pointer">Reset</button>
-  <span id="memBox" style="font-size:.82rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-left:8px"></span>
+<p class="ib-desc">Click each step to see the computer execute it in order. Notice how the variable's value changes over time.</p>
+<div id="traceSteps" class="trace-steps"></div>
+<div class="ib-btn-row ib-btn-row--gap">
+  <button onclick="nextTrace()" id="traceBtn" class="ib-btn ib-btn--accent">Execute next line →</button>
+  <button onclick="resetTrace()" class="ib-btn ib-btn--ghost">Reset</button>
+  <span id="memBox" class="mem-box"></span>
 </div>
 </div>
 
@@ -468,12 +482,12 @@
 </div>
 
 <div class="concept-row">
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Programs</div><h4>A list of instructions</h4><p>Computers follow them in order, literally. Input → Process → Store → Output.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Variables</div><h4>Labelled boxes in memory</h4><p>Hold information that can change. Have a type (number, text, true/false).</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Conditions</div><h4>Decision forks</h4><p>IF this → do that. ELSE → do something different. AND / OR for combining.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--accent)">Loops</div><h4>Repeat instructions</h4><p>Count loops for a known number of times. Condition loops for "until done".</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--warm)">Functions</div><h4>Named instructions</h4><p>Write once, call anywhere. Take inputs, give back outputs. Break big problems into small pieces.</p></div>
-<div class="concept-cell"><div class="concept-cell-label" style="color:var(--blue)">Execution flow</div><h4>Top to bottom</h4><p>Order matters. Conditions, loops, and function calls are the only things that change the flow.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Programs</div><h4>A list of instructions</h4><p>Computers follow them in order, literally. Input → Process → Store → Output.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--warm">Variables</div><h4>Labelled boxes in memory</h4><p>Hold information that can change. Have a type (number, text, true/false).</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--blue">Conditions</div><h4>Decision forks</h4><p>IF this → do that. ELSE → do something different. AND / OR for combining.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--accent">Loops</div><h4>Repeat instructions</h4><p>Count loops for a known number of times. Condition loops for "until done".</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--warm">Functions</div><h4>Named instructions</h4><p>Write once, call anywhere. Take inputs, give back outputs. Break big problems into small pieces.</p></div>
+<div class="concept-cell"><div class="concept-cell-label ccl--blue">Execution flow</div><h4>Top to bottom</h4><p>Order matters. Conditions, loops, and function calls are the only things that change the flow.</p></div>
 </div>
 
 <div class="prose">
@@ -497,13 +511,22 @@ let current = 0;
 
 function go(idx) {
   document.getElementById('L'+current).classList.remove('active');
-  document.querySelectorAll('.nav-btn')[current].classList.remove('active');
   current = idx;
   done.add(idx);
   document.getElementById('L'+idx).classList.add('active');
+  // sidebar nav buttons — only touch them if the sidebar is visible
   const btns = document.querySelectorAll('.nav-btn');
-  btns[idx].classList.add('active');
-  done.forEach(i => { if(i!==idx) btns[i].classList.add('done'); });
+  if(btns.length) {
+    btns.forEach((b,i) => {
+      b.classList.remove('active');
+      if(done.has(i) && i !== idx) b.classList.add('done');
+      else if(i !== idx) b.classList.remove('done');
+    });
+    btns[idx].classList.add('active');
+  }
+  // keep mobile select in sync
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
   updateProgress();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -521,7 +544,7 @@ const expl = {
   3:'You don\'t know where the first even number is, so you can\'t set a fixed count. A condition loop — keep checking until you find it — is exactly right. Stop as soon as you do.',
   4:'Functions centralise logic in one place. Change the function once and all 40 callers get the updated behaviour automatically. This is one of the most powerful ideas in programming.',
   5:'Top to bottom: the program first adds 10 (score becomes 15), then sets score to 0. The second instruction overwrites the first. Order matters — swap them and you get 10 instead.',
-  6:'while means "keep going while this condition is true". livesRemaining &gt; 0 is the condition. So: repeat everything inside the braces for as long as livesRemaining is greater than zero.',
+  6:'while means "keep going while this condition is true". livesRemaining > 0 is the condition. So: repeat everything inside the braces for as long as livesRemaining is greater than zero.',
 };
 
 function Q(btn, correct) {
@@ -549,12 +572,12 @@ function buildTypeQuiz() {
   const el = document.getElementById('typeQuiz');
   if(!el) return;
   el.innerHTML = typeItems.map((item,i) => `
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:14px 16px">
-      <div style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:10px">${item.label}</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${item.opts.map(o=>`<button onclick="checkType(${i},this,'${o}')" style="font-family:'Inter',sans-serif;font-size:12px;padding:5px 12px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer">${o}</button>`).join('')}
+    <div class="tq-item">
+      <div class="tq-label">${item.label}</div>
+      <div class="tq-opts">
+        ${item.opts.map(o=>`<button onclick="checkType(${i},this,'${o}')" class="tq-btn">${o}</button>`).join('')}
       </div>
-      <div id="tqfb${i}" style="font-size:.82rem;margin-top:8px;display:none"></div>
+      <div id="tqfb${i}" class="tq-fb"></div>
     </div>
   `).join('');
 }
@@ -563,15 +586,11 @@ function checkType(i, btn, choice) {
   typeAnswered[i] = true;
   const item = typeItems[i];
   const correct = choice === item.answer;
-  btn.style.background = correct ? 'var(--accent-dim)' : 'var(--red-dim)';
-  btn.style.borderColor = correct ? 'var(--accent-border)' : 'var(--red-border)';
-  btn.style.color = correct ? 'var(--accent)' : 'var(--red)';
+  btn.classList.add(correct ? 'tq-btn--correct' : 'tq-btn--wrong');
   const fb = document.getElementById('tqfb'+i);
-  fb.style.display = 'block';
-  fb.style.color = correct ? 'var(--accent)' : 'var(--red)';
+  fb.classList.add('tq-fb--show', correct ? 'tq-fb--ok' : 'tq-fb--bad');
   fb.textContent = correct ? '✓ Correct!' : '✗ The best fit is: '+item.answer;
-  // disable all buttons for this question
-  btn.closest('.flex-wrap, div').querySelectorAll('button').forEach(b=>b.disabled=true);
+  btn.closest('.tq-item').querySelectorAll('.tq-btn').forEach(b=>b.disabled=true);
 }
 buildTypeQuiz();
 
@@ -581,9 +600,9 @@ function updateTicket() {
   const day = document.getElementById('daySelect').value;
   document.getElementById('ageVal').textContent = age;
   let price, rule;
-  if(age &lt; 12)       { price=8.00;  rule='Under 12'; }
-  else if(age &lt;= 17) { price=10.00; rule='Age 12–17'; }
-  else if(age &gt;= 65) { price=9.00;  rule='Age 65+'; }
+  if(age < 12)       { price=8.00;  rule='Under 12'; }
+  else if(age <= 17) { price=10.00; rule='Age 12–17'; }
+  else if(age >= 65) { price=9.00;  rule='Age 65+'; }
   else               { price=14.00; rule='Adult (18–64)'; }
   const isTuesday = day === 'Tuesday';
   if(isTuesday) { price = Math.max(0, price - 3); }
@@ -599,18 +618,18 @@ function resetLoop() {
   const n = parseInt(document.getElementById('loopCount').value);
   document.getElementById('loopCountVal').textContent = n+' times';
   const viz = document.getElementById('loopViz');
-  viz.innerHTML = Array.from({length:n},(_,i)=>`<div id="lbox${i}" style="width:44px;height:44px;border-radius:7px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--dim)">${i+1}</div>`).join('');
+  viz.innerHTML = Array.from({length:n},(_,i)=>`<div id="lbox${i}" class="loop-box">${i+1}</div>`).join('');
   document.getElementById('loopMsg').textContent = `Loop ready. ${n} iterations to go.`;
   document.getElementById('stepBtn').disabled = false;
 }
 function stepLoop() {
   const n = parseInt(document.getElementById('loopCount').value);
-  if(loopStep &gt;= n) return;
+  if(loopStep >= n) return;
   const box = document.getElementById('lbox'+loopStep);
-  if(box) { box.style.background='var(--accent)'; box.style.color='#fff'; box.style.borderColor='var(--accent)'; }
+  if(box) { box.classList.add('loop-box--done'); }
   loopStep++;
   const remaining = n - loopStep;
-  if(remaining &gt; 0) {
+  if(remaining > 0) {
     document.getElementById('loopMsg').textContent = `Executed iteration ${loopStep}. ${remaining} more to go.`;
   } else {
     document.getElementById('loopMsg').textContent = `All ${n} iterations complete. Loop exits.`;
@@ -631,9 +650,9 @@ const traceData = [
 let traceIdx = 0;
 function buildTrace() {
   document.getElementById('traceSteps').innerHTML = traceData.map((t,i)=>`
-    <div id="tr${i}" style="display:flex;gap:10px;padding:8px 10px;border-radius:5px;opacity:${i===0?1:.35};transition:all .25s">
-      <span style="color:var(--dim);min-width:20px;font-size:.82rem">${i+1}</span>
-      <span style="color:var(--ink)">${t.line}</span>
+    <div id="tr${i}" class="trace-step${i===0?' trace-step--active':''}">
+      <span class="trace-num">${i+1}</span>
+      <span class="trace-line">${t.line}</span>
     </div>`).join('');
   renderMemory({});
 }
@@ -645,13 +664,11 @@ function nextTrace() {
   if(traceIdx>=traceData.length) return;
   const t = traceData[traceIdx];
   const el = document.getElementById('tr'+traceIdx);
+  el.classList.add('trace-step--active');
   el.style.opacity = '1';
-  el.style.background = 'var(--accent-dim)';
-  el.style.borderLeft = '3px solid var(--accent)';
   if(traceIdx>0) {
     const prev = document.getElementById('tr'+(traceIdx-1));
-    prev.style.background = 'transparent';
-    prev.style.borderLeft = 'none';
+    prev.classList.remove('trace-step--active');
     prev.style.opacity = '0.7';
   }
   renderMemory(t.mem);
@@ -667,9 +684,10 @@ buildTrace();
 
 updateProgress();
 </script>
-  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+  <a href="../index.html" class="back-link">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

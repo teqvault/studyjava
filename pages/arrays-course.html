@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Arrays & ArrayLists</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<script src="../scripts/main.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Intermediate · Java</div>
+  <h1>Java Arrays & ArrayLists</h1>
+  <p>Game Dev Focused — From Fixed Inventories to Dynamic Loot Systems</p>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="go(0, 7)" href="#">1. Arrays vs ArrayLists</a>
+    <a class="nav-item" onclick="go(1, 7)" href="#">2. Arrays Deep Dive</a>
+    <a class="nav-item" onclick="go(2, 7)" href="#">3. ArrayLists Unleashed</a>
+    <a class="nav-item" onclick="go(3, 7)" href="#">4. Common Operations</a>
+    <a class="nav-item" onclick="go(4, 7)" href="#">5. 2D & Jagged Arrays</a>
+    <a class="nav-item" onclick="go(5, 7)" href="#">6. Performance</a>
+    <a class="nav-item" onclick="go(6, 7)" href="#">7. Capstone</a>
+  </nav>
+
+  <main class="main">
+    <div class="lesson active" id="L0">
+      <h2>1. Arrays vs ArrayLists</h2>
+      <p><strong>Mental Model:</strong> ARRAY = Fixed locker row; ARRAYLIST = Expanding backpack.</p>
+      <h3>Quick Decision Guide</h3>
+      <table>
+        <tr><th>Scenario</th><th>Use</th><th>Why</th></tr>
+        <tr><td>Known max size</td><td>Array</td><td>Zero overhead</td></tr>
+        <tr><td>Unknown size</td><td>ArrayList</td><td>Auto-resize</td></tr>
+      </table>
+    </div>
+
+    <div class="lesson" id="L1">
+      <h2>2. Arrays Deep Dive</h2>
+      <p>Example: Tile Map</p>
+      <pre><code>int[][] dungeonFloor = {{1,1,1}, {1,0,1}, {1,1,1}};</code></pre>
+    </div>
+
+    <div class="lesson" id="L2">
+      <h2>3. ArrayLists Unleashed</h2>
+      <p>Dynamic collections for Quest logs and Particle systems.</p>
+    </div>
+
+    <div class="lesson" id="L3">
+      <h2>4. Common Operations</h2>
+      <p>Search, Sort, and Transform collections.</p>
+    </div>
+
+    <div class="lesson" id="L4">
+      <h2>5. 2D & Jagged Arrays</h2>
+      <p>Grids, Matrices, and Uneven Data structures.</p>
+    </div>
+
+    <div class="lesson" id="L5">
+      <h2>6. Performance & Memory</h2>
+      <p>Under the hood: Object pooling and memory layout.</p>
+    </div>
+
+    <div class="lesson" id="L6">
+      <h2>7. Capstone</h2>
+      <p>RPG Inventory Manager: Combining all concepts.</p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

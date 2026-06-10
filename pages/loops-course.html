@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Loops Course</title>
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<script src="../scripts/main.js" defer></script>
+</head>
+<body>
+
+<header>
+  <h1>Java Loops Course</h1>
+  <p>Designed for Game Developers & Software Engineers</p>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="go(0, 8)" href="#">1. Why Loops?</a>
+    <a class="nav-item" onclick="go(1, 8)" href="#">2. for Loop</a>
+    <a class="nav-item" onclick="go(2, 8)" href="#">3. while Loop</a>
+    <a class="nav-item" onclick="go(3, 8)" href="#">4. do-while Loop</a>
+    <a class="nav-item" onclick="go(4, 8)" href="#">5. Enhanced for</a>
+    <a class="nav-item" onclick="go(5, 8)" href="#">6. Nested Loops</a>
+    <a class="nav-item" onclick="go(6, 8)" href="#">7. Loop Control</a>
+    <a class="nav-item" onclick="go(7, 8)" href="#">8. Capstone</a>
+  </nav>
+
+  <main class="main">
+    <div class="lesson active" id="L0">
+      <h2>1. Why Loops? — The Game Loop Concept</h2>
+      <p>A loop is "repeat until done." The Game Loop is the heartbeat of every game engine.</p>
+      <pre><code>while (gameIsRunning) {
+    processInput();
+    updateState();
+    renderFrame();
+}</code></pre>
+    </div>
+
+    <div class="lesson" id="L1">
+      <h2>2. for Loop — Counted Iterations</h2>
+      <p>Used for inventory initialization and countdown timers.</p>
+    </div>
+
+    <div class="lesson" id="L2">
+      <h2>3. while Loop — Condition-Driven</h2>
+      <p>Used for input validation and resource gathering.</p>
+    </div>
+
+    <div class="lesson" id="L3">
+      <h2>4. do-while Loop — Guaranteed Execution</h2>
+      <p>Perfect for retry logic and menu systems.</p>
+    </div>
+
+    <div class="lesson" id="L4">
+      <h2>5. Enhanced for Loop</h2>
+      <p>Clean syntax for iterating over collections and arrays.</p>
+    </div>
+
+    <div class="lesson" id="L5">
+      <h2>6. Nested Loops</h2>
+      <p>Essential for Grids, Matrices, and Tile Maps.</p>
+    </div>
+
+    <div class="lesson" id="L6">
+      <h2>7. Loop Control</h2>
+      <p>Mastering <code>break</code>, <code>continue</code>, and labels.</p>
+    </div>
+
+    <div class="lesson" id="L7">
+      <h2>8. Capstone Project</h2>
+      <p>Mini Game Engine: Turn-based combat prototype.</p>
+    </div>
+  </main>
+</div>
+</body>
+</html>
