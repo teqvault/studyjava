@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python in 2026 — The Honest Roadmap | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #0f0e17;
+  --surface:  #1a1830;
+  --card:     #221f38;
+  --border:   #2e2b4a;
+  --text:     #fffffe;
+  --muted:    #a7a9be;
+  --code-bg:  #13111f;
+
+  --py-gold:  #ffd166;
+  --py-blue:  #4db8ff;
+  --accent1:  #ff6b6b;
+  --accent3:  #06d6a0;
+  --accent5:  #c77dff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ─────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 8vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 40%, rgba(255,209,102,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 70%, rgba(77,184,255,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 10%, rgba(199,125,255,0.07) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* floating code fragments in background */
+.hero-bg-code {
+  position: absolute;
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: rgba(255,209,102,0.06);
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-left { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,209,102,0.1);
+  border: 1px solid rgba(255,209,102,0.25);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--py-gold);
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow::before {
+  content: '🐍';
+  font-size: 14px;
+}
+
+.hero-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.hero-title .line-1 { color: var(--text); }
+.hero-title .line-2 {
+  background: linear-gradient(135deg, var(--py-gold), var(--py-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-title .line-3 { color: var(--muted); font-size: 0.65em; }
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 480px;
+  margin-bottom: 36px;
+  line-height: 1.8;
+}
+
+.hero-sub strong { color: var(--py-gold); }
+
+.hero-cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--py-gold), #ffaa33);
+  color: #0f0e17;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255,209,102,0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--py-gold); color: var(--py-gold); }
+
+/* ── REPL WIDGET ─────────────────────────── */
+.hero-right { position: relative; z-index: 2; }
+
+.repl-widget {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,209,102,0.08);
+}
+
+.repl-bar {
+  background: #1c1929;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.repl-dots { display: flex; gap: 6px; }
+.repl-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.repl-dots span:nth-child(1) { background: #ff5f56; }
+.repl-dots span:nth-child(2) { background: #ffbd2e; }
+.repl-dots span:nth-child(3) { background: #27c93f; }
+
+.repl-title {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  flex: 1;
+  text-align: center;
+}
+
+.repl-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--py-gold);
+  background: rgba(255,209,102,0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.repl-tabs {
+  display: flex;
+  background: #161422;
+  border-bottom: 1px solid var(--border);
+}
+
+.repl-tab {
+  padding: 9px 18px;
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  user-select: none;
+}
+.repl-tab.active { color: var(--py-gold); border-bottom-color: var(--py-gold); background: rgba(255,209,102,0.05); }
+.repl-tab:hover:not(.active) { color: var(--text); }
+
+.repl-body {
+  padding: 24px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.84rem;
+  line-height: 2;
+  min-height: 280px;
+  position: relative;
+}
+
+.repl-panel { display: none; }
+.repl-panel.active { display: block; }
+
+/* Syntax */
+.kw  { color: #c77dff; }
+.fn  { color: #06d6a0; }
+.str { color: #ffaa6b; }
+.cm  { color: #4a4870; font-style: italic; }
+.num { color: #ff6b9d; }
+.cls { color: #ffd166; }
+.out { color: #a7f3d0; opacity: 0.8; }
+.prompt { color: #4db8ff; }
+
+.type-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--py-gold);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.repl-run-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(255,209,102,0.12);
+  border: 1px solid rgba(255,209,102,0.3);
+  color: var(--py-gold);
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.repl-run-btn:hover { background: rgba(255,209,102,0.2); transform: translateY(-1px); }
+
+.repl-output {
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.82rem;
+  min-height: 56px;
+  background: rgba(0,0,0,0.2);
+}
+
+/* ── STATS ROW ───────────────────────────── */
+.stats-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 28px 8vw;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--py-gold), var(--py-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── SECTION SHARED ──────────────────────── */
+.section {
+  padding: 100px 8vw;
+}
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--py-gold);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin-bottom: 60px;
+  line-height: 1.8;
+}
+
+/* ── ADVICE SECTION ──────────────────────── */
+.advice-section { background: var(--bg); }
+
+.advice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 60px;
+}
+
+.advice-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.advice-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent, linear-gradient(90deg, var(--py-gold), var(--py-blue)));
+}
+.advice-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.advice-card .card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.advice-card h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.advice-card .card-meta {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--py-gold);
+  margin-bottom: 14px;
+}
+
+.advice-card p {
+  font-size: 0.95rem;
+  color: #c8c8dc;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.advice-card p:last-child { margin-bottom: 0; }
+
+.advice-card .highlight {
+  color: var(--py-gold);
+  font-weight: 700;
+}
+.advice-card .highlight-blue { color: var(--py-blue); font-weight: 700; }
+.advice-card .highlight-teal { color: var(--accent3); font-weight: 700; }
+.advice-card .highlight-purple { color: var(--accent5); font-weight: 700; }
+
+.advice-card.featured-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #1e1a35, #1a2035);
+  border-color: rgba(255,209,102,0.2);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.advice-card.featured-card::before {
+  background: linear-gradient(90deg, var(--py-gold), var(--py-blue), var(--accent5));
+}
+
+.featured-quote {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.4;
+  color: var(--text);
+}
+.featured-quote em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--py-gold), var(--py-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── LANG TIER SECTION ───────────────────── */
+.lang-section { background: var(--surface); }
+
+.tiers { display: flex; flex-direction: column; gap: 20px; max-width: 860px; }
+
+.tier {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.tier:hover { transform: translateX(6px); }
+
+.tier-label {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tier-rank {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.tier-lang {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.tier-body {
+  padding: 28px 32px;
+  border-left: 1px solid var(--border);
+  background: var(--card);
+}
+
+.tier-body h4 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.tier-body p {
+  font-size: 0.92rem;
+  color: #c0c0d8;
+  line-height: 1.75;
+}
+
+.tier-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.tier-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.tier-1 .tier-label { background: linear-gradient(135deg, #1f1c00, #2a2400); }
+.tier-1 .tier-rank  { color: var(--py-gold); }
+.tier-1 .tier-lang  { color: var(--py-gold); }
+.tier-1             { border-color: rgba(255,209,102,0.3); }
+
+.tier-2 .tier-label { background: linear-gradient(135deg, #001a2a, #001f35); }
+.tier-2 .tier-rank  { color: var(--py-blue); }
+.tier-2 .tier-lang  { color: var(--py-blue); }
+.tier-2             { border-color: rgba(77,184,255,0.25); }
+
+.tier-3 .tier-label { background: linear-gradient(135deg, #1a0a2e, #200e38); }
+.tier-3 .tier-rank  { color: var(--accent5); }
+.tier-3 .tier-lang  { color: var(--accent5); }
+.tier-3             { border-color: rgba(199,125,255,0.25); }
+
+.tier-keep .tier-label { background: linear-gradient(135deg, #0a1e15, #0c2019); }
+.tier-keep .tier-rank  { color: var(--accent3); }
+.tier-keep .tier-lang  { color: var(--accent3); font-size: 1.2rem; }
+.tier-keep             { border-color: rgba(6,214,160,0.2); }
+
+/* ── ROADMAP SECTION ─────────────────────── */
+.roadmap-section { background: var(--bg); }
+
+.roadmap-track {
+  position: relative;
+  padding-left: 48px;
+  max-width: 900px;
+}
+
+.roadmap-track::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--py-gold), var(--py-blue), var(--accent5), var(--accent3), var(--py-gold));
+}
+
+.roadmap-phase {
+  position: relative;
+  margin-bottom: 44px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.roadmap-phase.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.roadmap-phase::before {
+  content: '';
+  position: absolute;
+  left: -38px;
+  top: 20px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--phase-color, var(--py-gold));
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--phase-color, var(--py-gold));
+  z-index: 2;
+}
+
+.phase-inner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  cursor: pointer;
+  transition: all 0.25s;
+  border-left: 3px solid var(--phase-color, var(--py-gold));
+}
+.phase-inner:hover { transform: translateX(4px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+.phase-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.phase-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.phase-num {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--phase-color, var(--py-gold));
+  background: rgba(255,209,102,0.08);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.phase-duration {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.phase-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.phase-tagline {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 560px;
+}
+
+.phase-expand-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.phase-expand-btn:hover { border-color: var(--py-gold); color: var(--py-gold); }
+.phase-expand-btn.open { transform: rotate(180deg); }
+
+.phase-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.phase-details.open { max-height: 600px; }
+
+.phase-details-inner {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+.phase-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.topic-chip {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: #d0d0e8;
+  transition: all 0.2s;
+}
+.topic-chip:hover { background: rgba(255,209,102,0.08); border-color: rgba(255,209,102,0.3); color: var(--py-gold); }
+
+.phase-project {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255,209,102,0.05);
+  border: 1px solid rgba(255,209,102,0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.phase-project-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+.phase-project-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--py-gold);
+  margin-bottom: 3px;
+}
+.phase-project-desc { font-size: 0.88rem; color: #c8c8dc; }
+
+.phase-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  color: var(--py-gold);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+.phase-cta-link:hover { gap: 10px; }
+
+/* ── META SKILLS SECTION ─────────────────── */
+.meta-section { background: var(--surface); }
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  transition: transform 0.2s;
+}
+.meta-card:hover { transform: translateY(-5px); }
+
+.meta-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
+
+.meta-card h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.meta-card p {
+  font-size: 0.9rem;
+  color: #c0c0d8;
+  line-height: 1.75;
+}
+
+/* ── BOTTOM CTA ──────────────────────────── */
+.bottom-cta {
+  padding: 120px 8vw;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.bottom-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255,209,102,0.08) 0%, transparent 65%);
+}
+
+.bottom-cta h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.bottom-cta h2 span {
+  background: linear-gradient(135deg, var(--py-gold), var(--py-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bottom-cta p {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.bottom-cta .cta-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* ── FOOTER ──────────────────────────────── */
+footer {
+  padding: 28px 8vw;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-brand {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--py-gold);
+}
+
+.footer-note {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── REVEAL ANIMATIONS ───────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 60px 6vw; gap: 40px; }
+  .advice-grid { grid-template-columns: 1fr; }
+  .advice-card.featured-card { grid-template-columns: 1fr; }
+  .tier { grid-template-columns: 1fr; }
+  .tier-body { border-left: none; border-top: 1px solid var(--border); }
+  .stat-item { padding: 12px 20px; }
+}
+
+@media (max-width: 600px) {
+  .section { padding: 70px 5vw; }
+  .hero { padding: 50px 5vw; }
+  .stats-strip { flex-direction: column; gap: 16px; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); width: 100%; text-align: center; }
+  .stat-item:last-child { border-bottom: none; }
+}
+</style>
+  
+</head>
+<body>
+
+<!-- background code fragments -->
+<div class="hero-bg-code" style="top:12%;left:55%;opacity:1">def future():<br>    return "yours"</div>
+<div class="hero-bg-code" style="top:65%;left:58%;opacity:1">import ambition<br>import discipline</div>
+<div class="hero-bg-code" style="top:30%;left:2%;opacity:1">while learning:<br>    compound()</div>
+
+<!-- ── HERO ─────────────────────────────── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Teqvault.study — 2026 Advice</div>
+
+    <h1 class="hero-title">
+      <span class="line-1">The honest answer</span><br>
+      <span class="line-2">to the hardest question</span><br>
+      <span class="line-3">in tech right now.</span>
+    </h1>
+
+    <p class="hero-sub">
+      What should you actually learn in 2026 and beyond?
+      Not the hype answer. The <strong>structurally honest</strong> one —
+      based on durable forces, not trending tweets.
+      And then the full Python roadmap to act on it.
+    </p>
+
+    <div class="hero-cta-row">
+      <a href="#advice" class="btn-primary">Read the advice ↓</a>
+      <a href="#roadmap" class="btn-secondary">Jump to roadmap</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="repl-widget">
+      <div class="repl-bar">
+        <div class="repl-dots"><span></span><span></span><span></span></div>
+        <div class="repl-title">python3 — teqvault</div>
+        <div class="repl-tag">Live Demo</div>
+      </div>
+      <div class="repl-tabs">
+        <div class="repl-tab active" onclick="switchTab('py')">python_2026.py</div>
+        <div class="repl-tab" onclick="switchTab('java')">same_in_java.java</div>
+        <div class="repl-tab" onclick="switchTab('why')">why_it_matters.py</div>
+      </div>
+
+      <!-- Python tab -->
+      <div class="repl-body">
+        <div class="repl-panel active" id="panel-py">
+<span class="cm"># Python — read it like English</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> typing <span class="kw">import</span> List
+
+<span class="kw">@</span><span class="fn">dataclass</span>
+<span class="kw">class</span> <span class="cls">Developer</span>:
+    name: <span class="cls">str</span>
+    skills: List[<span class="cls">str</span>]
+    years_exp: <span class="cls">int</span>
+
+    <span class="kw">def</span> <span class="fn">is_future_proof</span>(<span class="kw">self</span>) -> <span class="cls">bool</span>:
+        <span class="kw">return</span> <span class="str">"python"</span> <span class="kw">in</span> <span class="kw">self</span>.skills
+
+jude = <span class="cls">Developer</span>(<span class="str">"Jude"</span>, [<span class="str">"java"</span>, <span class="str">"c#"</span>, <span class="str">"python"</span>], <span class="num">3</span>)
+<span class="fn">print</span>(jude.<span class="fn">is_future_proof</span>())
+        </div>
+
+        <!-- Java tab -->
+        <div class="repl-panel" id="panel-java">
+<span class="cm">// Java — same thing, more ceremony</span>
+<span class="kw">import</span> java.util.List;
+
+<span class="kw">public class</span> <span class="cls">Developer</span> {
+    <span class="kw">private final</span> <span class="cls">String</span> name;
+    <span class="kw">private final</span> List&lt;<span class="cls">String</span>&gt; skills;
+    <span class="kw">private final int</span> yearsExp;
+
+    <span class="kw">public</span> <span class="cls">Developer</span>(<span class="cls">String</span> n, List&lt;<span class="cls">String</span>&gt; s, <span class="kw">int</span> y) {
+        <span class="kw">this</span>.name = n; <span class="kw">this</span>.skills = s; <span class="kw">this</span>.yearsExp = y;
+    }
+    <span class="kw">public boolean</span> <span class="fn">isFutureProof</span>() {
+        <span class="kw">return</span> skills.<span class="fn">contains</span>(<span class="str">"python"</span>);
+    }
+    <span class="cm">// + getters, toString, equals, hashCode...</span>
+    <span class="cm">// Python handles all of this with @dataclass</span>
+}
+        </div>
+
+        <!-- Why tab -->
+        <div class="repl-panel" id="panel-why">
+<span class="cm"># Why Python wins in 2026</span>
+reasons = {
+    <span class="str">"AI/ML ecosystem"</span>:   <span class="str">"lives here"</span>,
+    <span class="str">"automation"</span>:        <span class="str">"lingua franca"</span>,
+    <span class="str">"AI tool fluency"</span>:   <span class="str">"tightest loop"</span>,
+    <span class="str">"data"</span>:             <span class="str">"won that war"</span>,
+    <span class="str">"readability"</span>:      <span class="str">"feature not bug"</span>,
+}
+
+<span class="kw">for</span> domain, verdict <span class="kw">in</span> reasons.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  {domain:22} → {verdict}"</span>)
+
+<span class="cm"># Three independent reasons, not one trend.</span>
+<span class="cm"># That's called a durable structural force.</span>
+        </div>
+
+        <button class="repl-run-btn" onclick="runCode()">▶ Run</button>
+      </div>
+      <div class="repl-output" id="repl-out">
+        <span style="color:#4a4870;font-family:'Fira Code',monospace;font-size:0.8rem">// click ▶ Run to execute</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ──────────────────────────────── -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">~19 wks</div>
+    <div class="stat-label">To Job-Ready</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">8</div>
+    <div class="stat-label">Phases</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Project (End-to-End)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">#1</div>
+    <div class="stat-label">Language for AI</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Compounding Return</div>
+  </div>
+</div>
+
+<!-- ── ADVICE ─────────────────────────────── -->
+<section class="section advice-section" id="advice">
+  <div class="reveal">
+    <div class="section-eyebrow">// the_honest_read</div>
+    <h2 class="section-title">What the actual future looks like</h2>
+    <p class="section-sub">Not trend-chasing. Structural forces that have already set in motion — and what they mean for someone in your position right now.</p>
+  </div>
+
+  <div class="advice-grid reveal">
+
+    <div class="advice-card" style="--card-accent: linear-gradient(90deg, var(--py-gold), #ffaa33);">
+      <span class="card-icon">🔀</span>
+      <div class="card-meta">The Uncomfortable Truth</div>
+      <h3>The question is shifting</h3>
+      <p>In 2026, <span class="highlight">"which language"</span> matters less than <span class="highlight">"what layer do I own."</span> AI writes boilerplate fluently in every major language.</p>
+      <p>What AI still does poorly: reason about architecture, debug novel failures, understand business context, make judgment calls under ambiguity. <span class="highlight-blue">That's where you build your moat.</span></p>
+    </div>
+
+    <div class="advice-card" style="--card-accent: linear-gradient(90deg, var(--py-blue), var(--accent3));">
+      <span class="card-icon">⚠️</span>
+      <div class="card-meta">The Warning</div>
+      <h3>The programmer being replaced</h3>
+      <p>The developer who prompts their way through features, accepts the first AI output, and can't explain <em>why</em> something is slow, broken, or architecturally bad.</p>
+      <p><span class="highlight-blue">That profile is genuinely at risk.</span> Not eventually — now. The gap between "uses AI" and "directs AI" is already the most important gap in the field.</p>
+    </div>
+
+    <div class="advice-card" style="--card-accent: linear-gradient(90deg, var(--accent3), var(--py-blue));">
+      <span class="card-icon">🛡️</span>
+      <div class="card-meta">The Moat</div>
+      <h3>What makes you irreplaceable</h3>
+      <p>Deep systems thinking. The ability to <span class="highlight-teal">read unfamiliar code fast.</span> Knowing when architecture decisions compound badly — before you write the code, not after.</p>
+      <p>And crucially: <span class="highlight-teal">taste</span>. Knowing what's worth building, what's over-engineered, and what will hurt you in six months.</p>
+    </div>
+
+    <div class="advice-card" style="--card-accent: linear-gradient(90deg, var(--accent5), #ff6b6b);">
+      <span class="card-icon">📍</span>
+      <div class="card-meta">Your Position</div>
+      <h3>Where you actually stand</h3>
+      <p>Java OOP depth. C# and Unity. OpenGL and graphics pipeline — <span class="highlight-purple">very few people have this.</span> Project-driven learning. Building something real.</p>
+      <p>You're not starting from zero. You have a stronger base than most CS graduates. What you're missing isn't languages — it's <span class="highlight-purple">specific layers</span> that compound everything else.</p>
+    </div>
+
+    <div class="advice-card featured-card">
+      <div class="featured-quote">
+        "The future belongs to people who can <em>think precisely,</em> build end to end, and <em>direct AI</em> without being directed by it."
+      </div>
+      <div>
+        <div class="card-meta" style="margin-bottom:14px">The Core Principle</div>
+        <p style="color:#c8c8dc;font-size:0.95rem;line-height:1.85">This isn't about memorizing syntax. It's about building the kind of depth that makes you the person <span class="highlight">in the room who understands why.</span> Python is the fastest path into the AI ecosystem. Systems thinking is what keeps you relevant once you're in it.</p>
+        <p style="color:#c8c8dc;font-size:0.95rem;line-height:1.85;margin-top:12px">The roadmap below is built around that principle — not "learn Python" but <span class="highlight-blue">"become the developer who can build anything with Python as a weapon."</span></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── LANGUAGE TIERS ─────────────────────── -->
+<section class="section lang-section" id="languages">
+  <div class="reveal">
+    <div class="section-eyebrow">// language_priority_stack</div>
+    <h2 class="section-title">The honest language ranking</h2>
+    <p class="section-sub">Not alphabetical. Not by GitHub stars. Ordered by the return on your time given where the industry is actually going.</p>
+  </div>
+
+  <div class="tiers reveal">
+
+    <div class="tier tier-1">
+      <div class="tier-label">
+        <div class="tier-rank">Priority #1 · Learn Now</div>
+        <div class="tier-lang">Python 🐍</div>
+      </div>
+      <div class="tier-body">
+        <h4>Not because it's elegant. Because it's everywhere that matters.</h4>
+        <p>Sits at the intersection of every durable force — AI/ML, automation, data, scripting, backend. The feedback loop between you and an AI coding assistant is tightest in Python. It's the glue language of whatever the next paradigm is. Won the data science war, the ML war, and is winning the automation war. Three independent reasons, not one trend.</p>
+        <div class="tier-tags">
+          <span class="tier-tag">AI/ML Ecosystem</span>
+          <span class="tier-tag">Automation</span>
+          <span class="tier-tag">FastAPI</span>
+          <span class="tier-tag">Data</span>
+          <span class="tier-tag">Scripting</span>
+          <span class="tier-tag">Tightest AI Loop</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier tier-2">
+      <div class="tier-label">
+        <div class="tier-rank">Priority #2 · Learn Next</div>
+        <div class="tier-lang">TypeScript 📘</div>
+      </div>
+      <div class="tier-body">
+        <h4>JavaScript won the web. TypeScript makes it serious.</h4>
+        <p>Full-stack with one language. Massive ecosystem. Skills transfer to whatever framework replaces the current ones because the fundamentals stay the same. If you want to build things people actually use — apps, tools, SaaS — TypeScript is probably the highest ROI language in 2026. Your Java background makes the type system feel familiar immediately.</p>
+        <div class="tier-tags">
+          <span class="tier-tag">Full-Stack</span>
+          <span class="tier-tag">React / Next.js</span>
+          <span class="tier-tag">Node</span>
+          <span class="tier-tag">SaaS Products</span>
+          <span class="tier-tag">Huge Ecosystem</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier tier-3">
+      <div class="tier-label">
+        <div class="tier-rank">Priority #3 · 12–24 Months</div>
+        <div class="tier-lang">Rust 🦀</div>
+      </div>
+      <div class="tier-body">
+        <h4>The contrarian pick. Hard to learn — that's exactly the point.</h4>
+        <p>Growing in systems, WebAssembly, game engines, embedded, Linux kernel, Windows, Android. AI is weakest at Rust because the borrow checker requires semantic reasoning that models consistently get wrong. A good Rust programmer in 2028 is harder to replace than a good Python programmer — not because Python is dying, but because Rust expertise is scarce and structurally resistant to AI substitution.</p>
+        <div class="tier-tags">
+          <span class="tier-tag">Systems Programming</span>
+          <span class="tier-tag">WebAssembly</span>
+          <span class="tier-tag">AI-Resistant</span>
+          <span class="tier-tag">Linux Kernel</span>
+          <span class="tier-tag">Game Engines</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier tier-keep">
+      <div class="tier-label">
+        <div class="tier-rank">Keep Sharpening · Already Yours</div>
+        <div class="tier-lang">Java + C# ✓</div>
+      </div>
+      <div class="tier-body">
+        <h4>Not a detour. A foundation that transfers cleanly.</h4>
+        <p>C# is Unity. Unity isn't going anywhere in mobile and indie. Java is Spring Boot and enterprise — still behind most of the backend jobs on the market. The OOP depth, systems thinking, and type discipline you built here makes learning Python and TypeScript dramatically faster. Keep these sharp through real projects, not through rote study.</p>
+        <div class="tier-tags">
+          <span class="tier-tag">Unity / Game Dev</span>
+          <span class="tier-tag">Spring Boot</span>
+          <span class="tier-tag">Enterprise</span>
+          <span class="tier-tag">Death Road 🎮</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ROADMAP ─────────────────────────────── -->
+<section class="section roadmap-section" id="roadmap">
+  <div class="reveal">
+    <div class="section-eyebrow">// python_mastery_roadmap</div>
+    <h2 class="section-title">The full Python path</h2>
+    <p class="section-sub">8 phases. One project that grows through all of them. ~19 weeks part-time. Fully job-ready — not "junior role" ready, but "has a deployed AI-integrated product" ready.</p>
+  </div>
+
+  <div class="roadmap-track">
+
+    <div class="roadmap-phase" data-phase="0" style="--phase-color: #ffd166">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(255,209,102,0.1);color:#ffd166">Phase 01</span>
+              <span class="phase-duration">1–2 weeks</span>
+            </div>
+            <div class="phase-title">Python Fast Track</div>
+            <div class="phase-tagline">For programmers. This is translation, not learning from scratch.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">Python vs Java mindset</span>
+              <span class="topic-chip">The REPL as a thinking tool</span>
+              <span class="topic-chip">Dynamic typing</span>
+              <span class="topic-chip">First-class functions</span>
+              <span class="topic-chip">List comprehensions</span>
+              <span class="topic-chip">Unpacking & slicing</span>
+              <span class="topic-chip">f-strings</span>
+              <span class="topic-chip">*args & **kwargs</span>
+              <span class="topic-chip">Python's object model</span>
+              <span class="topic-chip">Standard Library tour</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🔨</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Rewrite a Java program you already know in Python. Feel the difference — count the lines, measure the readability.</div>
+              </div>
+            </div>
+            <a href="pages/python-phase1.html" class="phase-cta-link">Start Phase 1 → <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="1" style="--phase-color: #ffaa33">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(255,170,51,0.1);color:#ffaa33">Phase 02</span>
+              <span class="phase-duration">2–3 weeks</span>
+            </div>
+            <div class="phase-title">Pythonic Thinking</div>
+            <div class="phase-tagline">Where most courses skip. Why most Python code looks like Java in disguise.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">What "Pythonic" means</span>
+              <span class="topic-chip">Dunder methods</span>
+              <span class="topic-chip">Decorators from scratch</span>
+              <span class="topic-chip">Context managers</span>
+              <span class="topic-chip">Generators & yield</span>
+              <span class="topic-chip">Itertools</span>
+              <span class="topic-chip">Error handling done right</span>
+              <span class="topic-chip">Type hints (3.10+)</span>
+              <span class="topic-chip">Dataclasses</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">⚙️</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Build the task manager core of the Command Center using only stdlib, dataclasses, and Pythonic patterns. No frameworks yet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="2" style="--phase-color: #4db8ff">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(77,184,255,0.1);color:#4db8ff">Phase 03</span>
+              <span class="phase-duration">2 weeks</span>
+            </div>
+            <div class="phase-title">The Ecosystem</div>
+            <div class="phase-tagline">Libraries are half of Python's value. Learn the ones that appear everywhere.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">venv & pip</span>
+              <span class="topic-chip">pyproject.toml</span>
+              <span class="topic-chip">Requests</span>
+              <span class="topic-chip">Rich (terminal UI)</span>
+              <span class="topic-chip">Typer / Click</span>
+              <span class="topic-chip">Pydantic</span>
+              <span class="topic-chip">Pandas basics</span>
+              <span class="topic-chip">Pathlib</span>
+              <span class="topic-chip">Project structure</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🌐</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Add a live API integration to the Command Center — pull weather, GitHub stats, or news on demand via the terminal.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="3" style="--phase-color: #06d6a0">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(6,214,160,0.1);color:#06d6a0">Phase 04</span>
+              <span class="phase-duration">2 weeks</span>
+            </div>
+            <div class="phase-title">Files, Data & Automation</div>
+            <div class="phase-tagline">Where Python pays dividends immediately. Automate things you do manually today.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">JSON / CSV / TOML / XML</span>
+              <span class="topic-chip">File system at scale</span>
+              <span class="topic-chip">Regex</span>
+              <span class="topic-chip">BeautifulSoup scraping</span>
+              <span class="topic-chip">APScheduler</span>
+              <span class="topic-chip">.env & secrets</span>
+              <span class="topic-chip">Subprocess</span>
+              <span class="topic-chip">Structured logging</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🤖</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Automate something real in your life. A file organizer, a daily scrape, a scheduled report. Something you'll actually keep running.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="4" style="--phase-color: #c77dff">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(199,125,255,0.1);color:#c77dff">Phase 05</span>
+              <span class="phase-duration">3 weeks</span>
+            </div>
+            <div class="phase-title">APIs & Backend</div>
+            <div class="phase-tagline">Job-relevant territory. FastAPI, PostgreSQL, auth, and testing.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">How HTTP really works</span>
+              <span class="topic-chip">FastAPI</span>
+              <span class="topic-chip">Pydantic models</span>
+              <span class="topic-chip">Dependency injection</span>
+              <span class="topic-chip">PostgreSQL + SQLModel</span>
+              <span class="topic-chip">JWT auth</span>
+              <span class="topic-chip">pytest</span>
+              <span class="topic-chip">OpenAPI docs</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🔌</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Turn the Command Center into a real REST API. Tasks, users, authentication. Something you could demo in an interview.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="5" style="--phase-color: #ff6b6b">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(255,107,107,0.1);color:#ff6b6b">Phase 06</span>
+              <span class="phase-duration">2–3 weeks</span>
+            </div>
+            <div class="phase-title">AI Integration</div>
+            <div class="phase-tagline">The layer that makes everything else 10x more powerful.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">LLM API fundamentals</span>
+              <span class="topic-chip">Anthropic SDK</span>
+              <span class="topic-chip">OpenAI SDK</span>
+              <span class="topic-chip">Dynamic prompt building</span>
+              <span class="topic-chip">Streaming responses</span>
+              <span class="topic-chip">Tool / function calling</span>
+              <span class="topic-chip">LangChain basics</span>
+              <span class="topic-chip">Simple RAG system</span>
+              <span class="topic-chip">Token counting & costs</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🧠</div>
+              <div>
+                <div class="phase-project-label">Phase Project — Portfolio Centerpiece</div>
+                <div class="phase-project-desc">Add an AI layer to the Command Center. Natural language task creation, daily summaries, ask-it-a-question-about-your-data. This is what you show employers.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="6" style="--phase-color: #4db8ff">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(77,184,255,0.1);color:#4db8ff">Phase 07</span>
+              <span class="phase-duration">2 weeks</span>
+            </div>
+            <div class="phase-title">Testing, Quality & Professionalism</div>
+            <div class="phase-tagline">The gap between hobbyist and professional Python.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">pytest deeply</span>
+              <span class="topic-chip">Fixtures & mocking</span>
+              <span class="topic-chip">Ruff (linter)</span>
+              <span class="topic-chip">mypy type checking</span>
+              <span class="topic-chip">Pre-commit hooks</span>
+              <span class="topic-chip">Structured logging</span>
+              <span class="topic-chip">Profiling</span>
+              <span class="topic-chip">Good docstrings</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">✅</div>
+              <div>
+                <div class="phase-project-label">Phase Project</div>
+                <div class="phase-project-desc">Retrofit full test coverage onto the Command Center. Add type checking, linting pipeline, and pre-commit hooks. Make it genuinely production-quality.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" data-phase="7" style="--phase-color: #06d6a0">
+      <div class="phase-inner">
+        <div class="phase-top">
+          <div>
+            <div class="phase-meta">
+              <span class="phase-num" style="background:rgba(6,214,160,0.1);color:#06d6a0">Phase 08</span>
+              <span class="phase-duration">2 weeks</span>
+            </div>
+            <div class="phase-title">Deployment & Production</div>
+            <div class="phase-tagline">Code that only runs on your machine isn't finished.</div>
+          </div>
+          <button class="phase-expand-btn" onclick="togglePhase(this)">▼</button>
+        </div>
+        <div class="phase-details">
+          <div class="phase-details-inner">
+            <div class="phase-topics">
+              <span class="topic-chip">Docker</span>
+              <span class="topic-chip">12-factor app</span>
+              <span class="topic-chip">GitHub Actions CI/CD</span>
+              <span class="topic-chip">Railway / Render deploy</span>
+              <span class="topic-chip">Basic monitoring</span>
+              <span class="topic-chip">asyncio & async/await</span>
+              <span class="topic-chip">Security basics</span>
+              <span class="topic-chip">CORS & HTTPS</span>
+            </div>
+            <div class="phase-project">
+              <div class="phase-project-icon">🚀</div>
+              <div>
+                <div class="phase-project-label">Final Project — Ship It</div>
+                <div class="phase-project-desc">Deploy the full Command Center live — API, AI layer, database, scheduled jobs — with a real URL you can share. This is the portfolio item.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── META SKILLS ────────────────────────── -->
+<section class="section meta-section">
+  <div class="reveal">
+    <div class="section-eyebrow">// beyond_syntax</div>
+    <h2 class="section-title">The skills nobody puts in roadmaps</h2>
+    <p class="section-sub">These compound harder than any language choice. The developers who have them are the ones who seem to "get lucky" repeatedly.</p>
+  </div>
+
+  <div class="meta-grid reveal">
+    <div class="meta-card">
+      <span class="meta-icon">🏗️</span>
+      <h3>Build in Public</h3>
+      <p>Document Death Road's development. Write about what you learn. Not for clout — for the compounding effect of articulating what you know. Writing forces clarity you don't get from just doing.</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-icon">🚢</span>
+      <h3>Ship Things</h3>
+      <p>A finished bad thing beats an unfinished good thing every time. The discipline of actually getting something out the door is rarer than technical skill and compounds harder than any course.</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-icon">📚</span>
+      <h3>Read Outside Tech</h3>
+      <p>The best technologists read history, psychology, economics, biology. Systems thinking isn't a programming concept — it's a general cognitive skill. More domains = better at novel problems.</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-icon">🎮</span>
+      <h3>Own a Domain Deeply</h3>
+      <p>Game development for you. Someone who understands both the code and the domain — how games feel, what players want — is worth more than someone who only knows the tech. Death Road isn't a side project. It's proof of domain expertise.</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-icon">🤝</span>
+      <h3>Direct AI, Don't Follow It</h3>
+      <p>Write precise specifications. Develop taste for AI output — when is it subtly wrong? When is the architecture bad even though the code compiles? This is a learnable skill that separates the irreplaceable from the replaceable.</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-icon">🔍</span>
+      <h3>Read Code You Didn't Write</h3>
+      <p>Open source projects, library source code, anything unfamiliar. Reading foreign code fast is the skill that separates senior from junior more reliably than anything on a résumé.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOTTOM CTA ─────────────────────────── -->
+<section class="bottom-cta">
+  <h2 class="reveal">Ready to start <span>Phase One?</span></h2>
+  <p class="reveal">You've read the honest advice. You have the roadmap. The only question left is whether you start today or tomorrow.</p>
+  <div class="cta-row reveal">
+    <a href="pages/python-phase1.html" class="btn-primary">Start Phase 1 — Python Fast Track →</a>
+    <a href="index.html" class="btn-secondary">← Back to all courses</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Teqvault.study</div>
+  <div class="footer-note">// python-roadmap — built for the 2026 stack</div>
+</footer>
+
+<script>
+/* ── REPL TABS ─────────────────────────── */
+const outputs = {
+  py:   `<span class="out">True</span>\n<span style="color:#4a4870;font-size:0.8rem">Process finished with exit code 0</span>`,
+  java: `<span style="color:#4a4870">// Compare line counts: Python = 12 lines, Java = 18+ lines</span>\n<span class="out">// And Java's version needs getters, toString, equals, hashCode too.</span>`,
+  why:  `<span class="out">  AI/ML ecosystem        → lives here</span>\n<span class="out">  automation             → lingua franca</span>\n<span class="out">  AI tool fluency        → tightest loop</span>\n<span class="out">  data                   → won that war</span>\n<span class="out">  readability            → feature not bug</span>`
+};
+
+let activeTab = 'py';
+
+function switchTab(id) {
+  document.querySelectorAll('.repl-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['py','java','why'][i] === id);
+  });
+  document.querySelectorAll('.repl-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('repl-out').innerHTML =
+    `<span style="color:#4a4870;font-family:'Fira Code',monospace;font-size:0.8rem">// click ▶ Run to execute</span>`;
+  activeTab = id;
+}
+
+function runCode() {
+  const out = document.getElementById('repl-out');
+  out.innerHTML = `<span style="color:#4a4870;font-family:'Fira Code',monospace;font-size:0.8rem">Running...</span>`;
+  setTimeout(() => { out.innerHTML = outputs[activeTab]; }, 420);
+}
+
+/* ── PHASE EXPAND ──────────────────────── */
+function togglePhase(btn) {
+  const details = btn.closest('.phase-inner').querySelector('.phase-details');
+  const isOpen  = details.classList.contains('open');
+  details.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? '▼' : '▲';
+}
+
+/* ── SCROLL REVEAL ─────────────────────── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal, .roadmap-phase').forEach(el => io.observe(el));
+
+/* ── STAGGER ROADMAP PHASES ─────────────── */
+const phaseObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const delay = parseInt(e.target.dataset.phase) * 80;
+      setTimeout(() => e.target.classList.add('visible'), delay);
+      phaseObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.roadmap-phase').forEach(el => phaseObs.observe(el));
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

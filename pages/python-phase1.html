@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 1 — Fast Track | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<style>
+/* ── Python Phase 1 accent: warm gold/amber ── */
+:root {
+  --py:      #ffd166;
+  --py-dim:  #ffaa33;
+  --py-blue: #4db8ff;
+  --py-glow: rgba(255,209,102,0.15);
+}
+
+.header-badge { background: linear-gradient(90deg, var(--py), var(--py-blue)); color: #0f0e17; }
+
+header {
+  background: linear-gradient(135deg, #1a1500 0%, #0f0e17 50%, #001628 100%);
+}
+header::before {
+  background:
+    radial-gradient(circle at 25% 55%, rgba(255,209,102,0.18) 0%, transparent 55%),
+    radial-gradient(circle at 78% 30%, rgba(77,184,255,0.12) 0%, transparent 50%);
+}
+header h1 {
+  background: linear-gradient(135deg, #fff 20%, var(--py) 55%, var(--py-blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.nav-item.active { border-left-color: var(--py); color: var(--text); }
+.lesson-num      { color: var(--py); }
+
+/* streak bar */
+.streak-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.streak-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.streak-node {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.streak-node.done {
+  background: var(--py);
+  border-color: var(--py);
+  box-shadow: 0 0 8px rgba(255,209,102,0.6);
+}
+.streak-node.current {
+  background: transparent;
+  border-color: var(--py);
+  animation: pulse-node 1.5s ease-in-out infinite;
+}
+@keyframes pulse-node {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,209,102,0.4); }
+  50%      { box-shadow: 0 0 0 5px rgba(255,209,102,0); }
+}
+
+/* python-specific components */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 18px 0;
+}
+.compare-col { }
+.compare-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+}
+.compare-label.java-lbl  { background: rgba(255,107,107,0.12); color: #ff6b6b; }
+.compare-label.python-lbl { background: rgba(255,209,102,0.12); color: var(--py); }
+.compare-col .code-block { margin-top: 0; border-radius: 0 0 12px 12px; border-top: none; }
+
+.insight-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.insight-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  border-top: 2px solid var(--py);
+  transition: transform 0.2s;
+}
+.insight-card:hover { transform: translateY(-3px); }
+.insight-card .ic-icon { font-size: 1.6rem; margin-bottom: 10px; }
+.insight-card h5 { font-family: 'Fredoka One', cursive; font-size: 0.95rem; margin-bottom: 6px; color: var(--py); }
+.insight-card p  { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+.repl-mini {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 18px 0;
+}
+.repl-mini-bar {
+  background: #1c1929;
+  padding: 8px 14px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.repl-mini-dots { display: flex; gap: 5px; }
+.repl-mini-dots span { width: 8px; height: 8px; border-radius: 50%; }
+.repl-mini-dots span:nth-child(1) { background: #ff5f56; }
+.repl-mini-dots span:nth-child(2) { background: #ffbd2e; }
+.repl-mini-dots span:nth-child(3) { background: #27c93f; }
+.repl-mini-title { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); }
+.repl-mini pre  { padding: 16px 20px; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.9; overflow-x: auto; }
+
+.try-it {
+  background: linear-gradient(135deg, rgba(255,209,102,0.06), rgba(77,184,255,0.04));
+  border: 1px solid rgba(255,209,102,0.2);
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin: 22px 0;
+}
+.try-it-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--py); margin-bottom: 10px;
+}
+.try-it h4 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 8px; }
+.try-it p, .try-it li { font-size: 0.92rem; color: #ccc; }
+.try-it ul { padding-left: 18px; }
+.try-it li { margin-bottom: 5px; }
+
+/* syntax */
+.kw  { color: #c77dff; }
+.fn  { color: #06d6a0; }
+.str { color: #ffaa6b; }
+.cm  { color: #4a4870; font-style: italic; }
+.num { color: #ff6b9d; }
+.cls { color: #ffd166; }
+.bi  { color: #4db8ff; }
+.out { color: #a7f3d0; }
+.dec { color: #ff6b6b; }
+
+.step-list { counter-reset: step; list-style: none; padding: 0; }
+.step-list li {
+  counter-increment: step;
+  display: flex; gap: 14px;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.95rem; color: #d4d4e8;
+}
+.step-list li::before {
+  content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--py), var(--py-blue));
+  color: #0f0e17; font-weight: 900; font-size: 12px;
+  border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+}
+
+.pill {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+}
+.pill-gold   { background: rgba(255,209,102,0.12); color: var(--py); border: 1px solid rgba(255,209,102,0.3); }
+.pill-blue   { background: rgba(77,184,255,0.12);  color: var(--py-blue); border: 1px solid rgba(77,184,255,0.3); }
+.pill-green  { background: rgba(6,214,160,0.12);   color: #06d6a0; border: 1px solid rgba(6,214,160,0.3); }
+.pill-red    { background: rgba(255,107,107,0.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.3); }
+
+@media (max-width: 680px) {
+  .compare-grid { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 22px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 1: Python Fast Track</h1>
+  <p>You already code. This is translation, not learning from scratch — cover Python's fundamentals in 1–2 weeks and start thinking in the language.</p>
+  <div class="header-stars">🐍 ⚡ 🔥 ✨ 🚀</div>
+</header>
+
+<!-- Progress bar -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 1 — Lessons</div>
+
+  <!-- streak nodes -->
+  <div class="streak-bar">
+    <span class="streak-label">🔥</span>
+    <div id="streak-nodes"></div>
+  </div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🐍</span> Why Python? <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">⚡</span> The REPL <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">🔀</span> Dynamic Typing <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🧩</span> Functions as Citizens <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">📋</span> Lists & Comprehensions <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">📦</span> Unpacking & Slicing <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">💬</span> Strings & f-strings <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🎛️</span> *args & **kwargs <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🏛️</span> Python's Object Model <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">📚</span> Modules & Stdlib Tour <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk10"></span></div>
+
+  <div style="padding: 20px 8px 0; border-top: 1px solid var(--border); margin-top: 16px;">
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:all 0.2s;" onmouseover="this.style.color='#ffd166'" onmouseout="this.style.color=''">
+      ← Full Roadmap
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══ L0: WHY PYTHON ═══ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>Why Python, Honestly</h2>
+    <p class="lesson-intro">Not because it's trendy. Three structurally independent reasons it's the right language to add in 2026 — and what makes it feel different from Java.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🐍 The Real Reasons</div>
+    <p>Most "why learn Python" articles give you one reason dressed up as ten. Here are three genuinely independent ones:</p>
+    <div class="insight-row">
+      <div class="insight-card">
+        <div class="ic-icon">🤖</div>
+        <h5>AI Ecosystem</h5>
+        <p>The entire ML/AI stack — PyTorch, TensorFlow, LangChain, Anthropic SDK, OpenAI SDK — is Python-first. Not Python-compatible. Python-first.</p>
+      </div>
+      <div class="insight-card">
+        <div class="ic-icon">🔁</div>
+        <h5>Automation Language</h5>
+        <p>When a sysadmin, data analyst, or researcher needs to automate something, they reach for Python. It's become the universal scripting language across every field.</p>
+      </div>
+      <div class="insight-card">
+        <div class="ic-icon">🔗</div>
+        <h5>Tightest AI Loop</h5>
+        <p>AI coding assistants are best at Python — more training data, more community examples, better completions. The feedback loop between you and AI is fastest here.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Python vs Java — The Philosophy Gap</div>
+    <p>Java is designed around <strong>explicitness and ceremony</strong> — you declare types, visibility, and structure up front. Python is designed around <strong>readability and speed of expression</strong> — the structure is still there, it's just not mandatory noise.</p>
+    <p style="margin-top:10px">Neither is better. They optimize for different things. Understanding the trade-off is what makes you dangerous with both.</p>
+
+    <div class="compare-grid" style="margin-top:18px">
+      <div class="compare-col">
+        <div class="compare-label java-lbl">Java — explicit ceremony</div>
+        <div class="code-block">
+          <pre><span class="kw">public class</span> <span class="cls">Greeter</span> {
+  <span class="kw">private final</span> <span class="cls">String</span> name;
+
+  <span class="kw">public</span> <span class="cls">Greeter</span>(<span class="cls">String</span> name) {
+    <span class="kw">this</span>.name = name;
+  }
+
+  <span class="kw">public</span> <span class="cls">String</span> <span class="fn">greet</span>() {
+    <span class="kw">return</span> <span class="str">"Hello, "</span> + name + <span class="str">"!"</span>;
+  }
+}</pre>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label python-lbl">Python — expressive brevity</div>
+        <div class="code-block">
+          <pre><span class="kw">class</span> <span class="cls">Greeter</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="kw">self</span>.name = name
+
+    <span class="kw">def</span> <span class="fn">greet</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"Hello, {self.name}!"</span>
+
+<span class="cm"># Same class. Half the lines.</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ What's the Same vs What's Different</div>
+    <table>
+      <tr><th>Concept</th><th>Java</th><th>Python</th></tr>
+      <tr><td>Variables</td><td><code>String name = "Jude";</code></td><td><code>name = "Jude"</code></td></tr>
+      <tr><td>Types</td><td>Declared, checked at compile time</td><td>Inferred, checked at runtime (optionally hinted)</td></tr>
+      <tr><td>Classes</td><td><code>public class Foo { }</code></td><td><code>class Foo:</code></td></tr>
+      <tr><td>Methods</td><td><code>public void foo() { }</code></td><td><code>def foo(self):</code></td></tr>
+      <tr><td>Arrays/Lists</td><td><code>List&lt;String&gt; items</code></td><td><code>items = []</code> (dynamic, mixed types)</td></tr>
+      <tr><td>For-each</td><td><code>for (String s : list)</code></td><td><code>for s in list:</code></td></tr>
+      <tr><td>Null</td><td><code>null</code></td><td><code>None</code></td></tr>
+      <tr><td>Print</td><td><code>System.out.println(x)</code></td><td><code>print(x)</code></td></tr>
+      <tr><td>Entry point</td><td><code>public static void main()</code></td><td>Just… run the file. Or <code>if __name__ == "__main__":</code></td></tr>
+      <tr><td>Semicolons</td><td>Required</td><td>None. Indentation IS the block structure.</td></tr>
+    </table>
+    <div class="callout warn" style="margin-top:18px">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The Indentation Rule</strong>Python uses indentation (4 spaces, not tabs) to define code blocks instead of curly braces. This isn't optional formatting — it's syntax. Mis-indent and you get a bug, not a style warning.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">In Python, what defines a code block (like the body of a function or if statement)?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Curly braces { }</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">Consistent indentation (4 spaces)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Semicolons at the end of each line</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The <code>begin</code> and <code>end</code> keywords</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Start</button>
+    <button class="btn btn-next" onclick="next(0)">The REPL →</button>
+  </div>
+</section>
+
+<!-- ═══ L1: THE REPL ═══ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>The REPL — Your New Best Tool</h2>
+    <p class="lesson-intro">The Read-Eval-Print Loop is Python's secret weapon for learning and exploration. It changes how you think about writing code.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ What the REPL Is</div>
+    <p>In Java, your feedback loop is: write → compile → run → read output → repeat. Each cycle takes seconds to minutes.</p>
+    <p style="margin-top:10px">In Python, you open a terminal, type <code>python3</code>, and you're instantly in a live environment where every line executes immediately. No compile step. No main method. Just instant feedback.</p>
+    <div class="repl-mini">
+      <div class="repl-mini-bar">
+        <div class="repl-mini-dots"><span></span><span></span><span></span></div>
+        <div class="repl-mini-title">Terminal — python3</div>
+      </div>
+      <pre><span class="bi">>>> </span><span class="num">2</span> + <span class="num">2</span>
+<span class="out">4</span>
+<span class="bi">>>> </span>name = <span class="str">"Jude"</span>
+<span class="bi">>>> </span><span class="fn">f</span><span class="str">"Hello {name}, you're learning Python"</span>
+<span class="out">'Hello Jude, you're learning Python'</span>
+<span class="bi">>>> </span>cities = [<span class="str">"Bossier City"</span>, <span class="str">"New Orleans"</span>, <span class="str">"Austin"</span>]
+<span class="bi">>>> </span>[c.<span class="fn">upper</span>() <span class="kw">for</span> c <span class="kw">in</span> cities]
+<span class="out">['BOSSIER CITY', 'NEW ORLEANS', 'AUSTIN']</span>
+<span class="bi">>>> </span><span class="fn">len</span>(cities)
+<span class="out">3</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠️ How to Use the REPL Effectively</div>
+    <ol class="step-list">
+      <li>Open a terminal and type <code>python3</code> (macOS/Linux) or <code>python</code> (Windows). You'll see <code>>>></code> — that's the prompt.</li>
+      <li>Use the REPL to <strong>experiment with any syntax you're unsure about</strong> before using it in real code. Faster than googling, faster than writing a test file.</li>
+      <li>Use <code>help()</code> for any object: <code>help(str)</code> shows all string methods. <code>help("".upper)</code> explains that specific method. Built-in documentation, always available.</li>
+      <li>Use <code>dir(obj)</code> to see every method and attribute an object has: <code>dir([])</code> shows everything a list can do.</li>
+      <li>Use <strong>IPython</strong> or <strong>Jupyter Notebook</strong> for a more powerful REPL experience — tab completion, syntax highlighting, persistent history.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The REPL Mental Model</strong>Every Java developer who picks up Python should spend their first hour just in the REPL. Type things. Break things. See what happens. The fast feedback loop is what makes Python so fast to learn — use it deliberately.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 REPL Exploration Techniques</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python REPL — Exploration Commands</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># What type is this object?</span>
+<span class="fn">type</span>(<span class="str">"hello"</span>)          <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">type</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])        <span class="cm"># &lt;class 'list'&gt;</span>
+<span class="fn">type</span>(<span class="num">42</span>)               <span class="cm"># &lt;class 'int'&gt;</span>
+
+<span class="cm"># What can I do with this object?</span>
+<span class="fn">dir</span>(<span class="str">"hello"</span>)          <span class="cm"># shows ALL string methods</span>
+
+<span class="cm"># What does this method do?</span>
+<span class="fn">help</span>(<span class="str">""</span>.split)         <span class="cm"># full docstring</span>
+
+<span class="cm"># Is this what I think it is?</span>
+<span class="fn">isinstance</span>(<span class="num">42</span>, <span class="bi">int</span>)    <span class="cm"># True</span>
+<span class="fn">isinstance</span>(<span class="str">"hi"</span>, <span class="bi">str</span>)  <span class="cm"># True</span>
+
+<span class="cm"># Quick test: does this list method modify in place or return?</span>
+nums = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">2</span>]
+result = nums.<span class="fn">sort</span>()
+<span class="fn">print</span>(result)           <span class="cm"># None — sort() modifies in place!</span>
+<span class="fn">print</span>(nums)             <span class="cm"># [1, 2, 3] — the list changed</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Why Python</button>
+    <button class="btn btn-next" onclick="next(1)">Dynamic Typing →</button>
+  </div>
+</section>
+
+<!-- ═══ L2: DYNAMIC TYPING ═══ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>Dynamic Typing — Feature, Not Bug</h2>
+    <p class="lesson-intro">Python doesn't require type declarations. That's not sloppiness — it's a deliberate design choice. Here's what it means in practice.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔀 Static vs Dynamic Typing</div>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label java-lbl">Java — type at declaration</div>
+        <div class="code-block">
+          <pre><span class="cm">// Type declared at compile time</span>
+<span class="cls">String</span> name = <span class="str">"Jude"</span>;
+<span class="bi">int</span> age = <span class="num">25</span>;
+<span class="cm">// name = 42; ← compile error</span>
+
+<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; tags = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+tags.<span class="fn">add</span>(<span class="str">"python"</span>);
+<span class="cm">// tags.add(42); ← compile error</span></pre>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label python-lbl">Python — type at runtime</div>
+        <div class="code-block">
+          <pre><span class="cm"># Type inferred, checked at runtime</span>
+name = <span class="str">"Jude"</span>
+age  = <span class="num">25</span>
+<span class="cm"># name = 42  ← works! (variable rebinds)</span>
+
+tags = [<span class="str">"python"</span>, <span class="str">"unity"</span>, <span class="num">42</span>]
+<span class="cm"># Mixed types in lists are allowed</span>
+<span class="cm"># (usually a design smell, but possible)</span></pre>
+        </div>
+      </div>
+    </div>
+    <div class="callout fun">
+      <span class="callout-emoji">🧠</span>
+      <div class="callout-body"><strong>Duck Typing</strong>"If it walks like a duck and quacks like a duck, it's a duck." Python doesn't care what <em>type</em> an object is — it cares whether it has the <em>method</em> you're trying to call. This is the mental model shift that unlocks Python's flexibility.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✍️ Type Hints — Optional but Recommended</div>
+    <p>Python 3.5+ supports optional type annotations. They don't enforce anything at runtime but make your code readable and enable tools like <code>mypy</code> to catch errors before you run the code.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Type Hints (use these)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Without hints — valid Python, but hard to read at scale</span>
+<span class="kw">def</span> <span class="fn">process</span>(data, multiplier):
+    <span class="kw">return</span> data * multiplier
+
+<span class="cm"># With hints — self-documenting</span>
+<span class="kw">def</span> <span class="fn">process</span>(data: <span class="bi">list</span>[<span class="bi">int</span>], multiplier: <span class="bi">float</span>) -> <span class="bi">list</span>[<span class="bi">float</span>]:
+    <span class="kw">return</span> [x * multiplier <span class="kw">for</span> x <span class="kw">in</span> data]
+
+<span class="cm"># Common built-in types</span>
+name:    <span class="bi">str</span>
+age:     <span class="bi">int</span>
+score:   <span class="bi">float</span>
+active:  <span class="bi">bool</span>
+items:   <span class="bi">list</span>[<span class="bi">str</span>]
+scores:  <span class="bi">dict</span>[<span class="bi">str</span>, <span class="bi">int</span>]
+maybe:   <span class="bi">str</span> | <span class="kw">None</span>        <span class="cm"># Python 3.10+ union syntax</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Start with hints immediately</strong>Even as a beginner, write type hints on every function signature. It forces you to think about what your function actually does, and it makes every course example more readable. This is a habit that separates professional Python from script-kiddie Python.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧪 Python's Basic Types</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Core Types</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Numbers</span>
+x  = <span class="num">42</span>          <span class="cm"># int — arbitrary precision!</span>
+y  = <span class="num">3.14</span>        <span class="cm"># float</span>
+z  = <span class="num">2</span> + <span class="num">3</span>j      <span class="cm"># complex (rarely needed)</span>
+
+<span class="cm"># Strings — immutable sequences of characters</span>
+s1 = <span class="str">'single quotes'</span>
+s2 = <span class="str">"double quotes"</span>  <span class="cm"># same thing</span>
+s3 = <span class="str">"""triple quotes
+span multiple lines"""</span>
+
+<span class="cm"># Booleans — note the capitalization</span>
+t = <span class="kw">True</span>
+f = <span class="kw">False</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))   <span class="cm"># &lt;class 'bool'&gt;</span>
+<span class="fn">print</span>(<span class="bi">int</span>(<span class="kw">True</span>))    <span class="cm"># 1 — bool is a subclass of int!</span>
+
+<span class="cm"># None — Python's null</span>
+result = <span class="kw">None</span>
+<span class="fn">print</span>(result <span class="kw">is</span> <span class="kw">None</span>)  <span class="cm"># True (use 'is', not '==')</span>
+
+<span class="cm"># Truthiness — Python evaluates many things as bool</span>
+<span class="fn">bool</span>(<span class="num">0</span>)       <span class="cm"># False</span>
+<span class="fn">bool</span>(<span class="str">""</span>)      <span class="cm"># False — empty string is falsy</span>
+<span class="fn">bool</span>([])      <span class="cm"># False — empty list is falsy</span>
+<span class="fn">bool</span>(<span class="kw">None</span>)    <span class="cm"># False</span>
+<span class="fn">bool</span>(<span class="num">42</span>)      <span class="cm"># True — any non-zero number</span>
+<span class="fn">bool</span>(<span class="str">"hi"</span>)    <span class="cm"># True — any non-empty string</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Which of these evaluates to <code>False</code> in Python?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>"False"</code> (the string)</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')"><code>[]</code> (empty list)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>-1</code> (negative one)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>"0"</code> (the string zero)</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← The REPL</button>
+    <button class="btn btn-next" onclick="next(2)">Functions as Citizens →</button>
+  </div>
+</section>
+
+<!-- ═══ L3: FUNCTIONS ═══ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Functions as First-Class Citizens</h2>
+    <p class="lesson-intro">In Python, functions are objects. You can store them in variables, pass them as arguments, return them from other functions. This changes everything.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Python Functions vs Java Methods</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Function Fundamentals</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Basic function — no access modifiers, no return type required</span>
+<span class="kw">def</span> <span class="fn">add</span>(a: <span class="bi">int</span>, b: <span class="bi">int</span>) -> <span class="bi">int</span>:
+    <span class="kw">return</span> a + b
+
+<span class="cm"># Default arguments (like Java overloading, but simpler)</span>
+<span class="kw">def</span> <span class="fn">greet</span>(name: <span class="bi">str</span>, greeting: <span class="bi">str</span> = <span class="str">"Hello"</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"{greeting}, {name}!"</span>
+
+<span class="fn">greet</span>(<span class="str">"Jude"</span>)                   <span class="cm"># "Hello, Jude!"</span>
+<span class="fn">greet</span>(<span class="str">"Jude"</span>, <span class="str">"What's good"</span>)    <span class="cm"># "What's good, Jude!"</span>
+
+<span class="cm"># Keyword arguments — call by name, any order</span>
+<span class="fn">greet</span>(greeting=<span class="str">"Yo"</span>, name=<span class="str">"Jude"</span>)  <span class="cm"># "Yo, Jude!"</span>
+
+<span class="cm"># Multiple return values (Java can't do this natively)</span>
+<span class="kw">def</span> <span class="fn">min_max</span>(numbers: <span class="bi">list</span>[<span class="bi">int</span>]) -> <span class="bi">tuple</span>[<span class="bi">int</span>, <span class="bi">int</span>]:
+    <span class="kw">return</span> <span class="fn">min</span>(numbers), <span class="fn">max</span>(numbers)
+
+lo, hi = <span class="fn">min_max</span>([<span class="num">3</span>, <span class="num">1</span>, <span class="num">7</span>, <span class="num">2</span>])   <span class="cm"># lo=1, hi=7</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 Functions as Objects — The Key Shift</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Higher-Order Functions</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Functions are objects — store them in variables</span>
+<span class="kw">def</span> <span class="fn">shout</span>(text: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> text.<span class="fn">upper</span>() + <span class="str">"!!!"</span>
+
+transform = shout         <span class="cm"># no () — storing the function itself</span>
+<span class="fn">print</span>(<span class="fn">transform</span>(<span class="str">"hello"</span>))  <span class="cm"># "HELLO!!!"</span>
+
+<span class="cm"># Pass functions as arguments</span>
+<span class="kw">def</span> <span class="fn">apply_to_list</span>(items: <span class="bi">list</span>, func) -> <span class="bi">list</span>:
+    <span class="kw">return</span> [<span class="fn">func</span>(item) <span class="kw">for</span> item <span class="kw">in</span> items]
+
+words = [<span class="str">"python"</span>, <span class="str">"java"</span>, <span class="str">"rust"</span>]
+<span class="fn">apply_to_list</span>(words, str.<span class="fn">upper</span>)
+<span class="cm"># ['PYTHON', 'JAVA', 'RUST']</span>
+
+<span class="cm"># Lambda — anonymous function for simple one-liners</span>
+<span class="cm"># (like Java's lambda but more concise)</span>
+square = <span class="kw">lambda</span> x: x ** <span class="num">2</span>
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))              <span class="cm"># 25</span>
+
+<span class="cm"># Sort by custom key using lambda</span>
+players = [(<span class="str">"Jude"</span>, <span class="num">42</span>), (<span class="str">"Ana"</span>, <span class="num">87</span>), (<span class="str">"Max"</span>, <span class="num">15</span>)]
+players.<span class="fn">sort</span>(key=<span class="kw">lambda</span> p: p[<span class="num">1</span>], reverse=<span class="kw">True</span>)
+<span class="cm"># [('Ana', 87), ('Jude', 42), ('Max', 15)]</span></pre>
+    </div>
+    <div class="callout fun">
+      <span class="callout-emoji">🧠</span>
+      <div class="callout-body"><strong>Why This Matters</strong>First-class functions are the foundation of Python's style. <code>map()</code>, <code>filter()</code>, <code>sorted()</code> — all take functions as arguments. Decorators (Phase 2) are functions that wrap functions. This mental model unlocks half of the Python ecosystem.</div>
+    </div>
+  </div>
+
+  <div class="try-it">
+    <div class="try-it-label">🔨 Try It</div>
+    <h4>Function Practice</h4>
+    <ul>
+      <li>Write a function <code>clamp(value, lo, hi)</code> that returns value clamped between lo and hi.</li>
+      <li>Write a function that takes a list of strings and a function, and returns only the strings where the function returns True.</li>
+      <li>Sort a list of dicts by a specific key using a lambda.</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Dynamic Typing</button>
+    <button class="btn btn-next" onclick="next(3)">Lists & Comprehensions →</button>
+  </div>
+</section>
+
+<!-- ═══ L4: LISTS & COMPREHENSIONS ═══ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>Lists &amp; Comprehensions</h2>
+    <p class="lesson-intro">Python's most iconic syntax. List comprehensions collapse loops into single expressive lines — once you see it, you can't unsee it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Python's Collection Types</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Four Core Collections</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># List — ordered, mutable, allows duplicates</span>
+skills = [<span class="str">"java"</span>, <span class="str">"python"</span>, <span class="str">"unity"</span>]
+skills.<span class="fn">append</span>(<span class="str">"rust"</span>)
+skills[<span class="num">0</span>]           <span class="cm"># "java"</span>
+skills[-<span class="num">1</span>]          <span class="cm"># "rust" — negative indexing!</span>
+
+<span class="cm"># Tuple — ordered, IMMUTABLE, allows duplicates</span>
+point = (<span class="num">3.0</span>, <span class="num">7.5</span>)   <span class="cm"># x, y coordinate — won't change</span>
+x, y = point         <span class="cm"># unpack into variables</span>
+
+<span class="cm"># Dict — key-value pairs, ordered (Python 3.7+)</span>
+player = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"hp"</span>: <span class="num">100</span>, <span class="str">"level"</span>: <span class="num">5</span>}
+player[<span class="str">"hp"</span>]         <span class="cm"># 100</span>
+player.<span class="fn">get</span>(<span class="str">"mp"</span>, <span class="num">0</span>)  <span class="cm"># 0 — safe access with default</span>
+
+<span class="cm"># Set — unordered, unique values only</span>
+seen = {<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"a"</span>, <span class="str">"c"</span>}
+<span class="fn">print</span>(seen)           <span class="cm"># {'a', 'b', 'c'} — deduplicated</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ List Comprehensions — Python's Superpower</div>
+    <p>A list comprehension creates a new list by applying an expression to each item in an iterable, optionally filtered by a condition. All on one line.</p>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label java-lbl">Java — verbose loop</div>
+        <div class="code-block">
+          <pre><span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; squares =
+    <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+<span class="kw">for</span> (<span class="bi">int</span> n : numbers) {
+    <span class="kw">if</span> (n % <span class="num">2</span> == <span class="num">0</span>) {
+        squares.<span class="fn">add</span>(n * n);
+    }
+}</pre>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label python-lbl">Python — comprehension</div>
+        <div class="code-block">
+          <pre>squares = [
+    n * n
+    <span class="kw">for</span> n <span class="kw">in</span> numbers
+    <span class="kw">if</span> n % <span class="num">2</span> == <span class="num">0</span>
+]
+
+<span class="cm"># Or on one line:</span>
+squares = [n*n <span class="kw">for</span> n <span class="kw">in</span> numbers <span class="kw">if</span> n%<span class="num">2</span>==<span class="num">0</span>]</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔥 Comprehension Patterns You'll Use Every Day</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Comprehension Patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># 1. Transform every item</span>
+names   = [<span class="str">"jude"</span>, <span class="str">"ana"</span>, <span class="str">"max"</span>]
+upper   = [n.<span class="fn">upper</span>() <span class="kw">for</span> n <span class="kw">in</span> names]
+<span class="cm"># ['JUDE', 'ANA', 'MAX']</span>
+
+<span class="cm"># 2. Filter items</span>
+numbers  = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>]
+evens    = [n <span class="kw">for</span> n <span class="kw">in</span> numbers <span class="kw">if</span> n % <span class="num">2</span> == <span class="num">0</span>]
+<span class="cm"># [2, 4, 6]</span>
+
+<span class="cm"># 3. Transform and filter together</span>
+long_upper = [n.<span class="fn">upper</span>() <span class="kw">for</span> n <span class="kw">in</span> names <span class="kw">if</span> <span class="fn">len</span>(n) > <span class="num">3</span>]
+<span class="cm"># ['JUDE']</span>
+
+<span class="cm"># 4. Dict comprehension — same idea, for dicts</span>
+scores   = {<span class="str">"jude"</span>: <span class="num">85</span>, <span class="str">"ana"</span>: <span class="num">92</span>, <span class="str">"max"</span>: <span class="num">78</span>}
+passing  = {k: v <span class="kw">for</span> k, v <span class="kw">in</span> scores.<span class="fn">items</span>() <span class="kw">if</span> v >= <span class="num">80</span>}
+<span class="cm"># {'jude': 85, 'ana': 92}</span>
+
+<span class="cm"># 5. Set comprehension — unique results</span>
+words    = [<span class="str">"python"</span>, <span class="str">"PYTHON"</span>, <span class="str">"Java"</span>, <span class="str">"java"</span>]
+unique_lower = {w.<span class="fn">lower</span>() <span class="kw">for</span> w <span class="kw">in</span> words}
+<span class="cm"># {'python', 'java'}</span>
+
+<span class="cm"># 6. Flatten nested list</span>
+matrix   = [[<span class="num">1</span>,<span class="num">2</span>], [<span class="num">3</span>,<span class="num">4</span>], [<span class="num">5</span>,<span class="num">6</span>]]
+flat     = [x <span class="kw">for</span> row <span class="kw">in</span> matrix <span class="kw">for</span> x <span class="kw">in</span> row]
+<span class="cm"># [1, 2, 3, 4, 5, 6]</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What does <code>[x**2 for x in range(5) if x % 2 != 0]</code> produce?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">[0, 1, 4, 9, 16]</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">[1, 4, 9]</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">[1, 9]</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">[0, 4, 16]</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Functions</button>
+    <button class="btn btn-next" onclick="next(4)">Unpacking & Slicing →</button>
+  </div>
+</section>
+
+<!-- ═══ L5: UNPACKING ═══ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Unpacking &amp; Slicing</h2>
+    <p class="lesson-intro">Two Python idioms that make data manipulation feel effortless once you internalize them.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Unpacking — Destructuring on Steroids</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Unpacking Patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Basic tuple unpacking</span>
+x, y = <span class="num">10</span>, <span class="num">20</span>
+first, second, third = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>]
+
+<span class="cm"># Swap without temp variable</span>
+a, b = <span class="num">1</span>, <span class="num">2</span>
+a, b = b, a    <span class="cm"># a=2, b=1 — Pythonic!</span>
+
+<span class="cm"># * operator — collect the rest</span>
+first, *rest     = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="cm"># first=1, rest=[2, 3, 4, 5]</span>
+
+*head, last      = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="cm"># head=[1,2,3,4], last=5</span>
+
+first, *mid, last = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="cm"># first=1, mid=[2,3,4], last=5</span>
+
+<span class="cm"># Unpack in for loop</span>
+pairs = [(<span class="str">"Jude"</span>, <span class="num">85</span>), (<span class="str">"Ana"</span>, <span class="num">92</span>), (<span class="str">"Max"</span>, <span class="num">78</span>)]
+<span class="kw">for</span> name, score <span class="kw">in</span> pairs:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{name}: {score}"</span>)
+
+<span class="cm"># Unpack dict into function</span>
+<span class="kw">def</span> <span class="fn">make_player</span>(name, hp, level):
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"{name} (HP:{hp} LVL:{level})"</span>
+
+data = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"hp"</span>: <span class="num">100</span>, <span class="str">"level"</span>: <span class="num">5</span>}
+<span class="fn">make_player</span>(**data)   <span class="cm"># ** unpacks dict as kwargs</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔪 Slicing — Extract Any Subsequence</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Slicing Syntax: [start:stop:step]</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>items = [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>]
+
+items[<span class="num">2</span>:<span class="num">5</span>]        <span class="cm"># [2, 3, 4]     — index 2 up to (not including) 5</span>
+items[:<span class="num">3</span>]         <span class="cm"># [0, 1, 2]     — start to index 3</span>
+items[<span class="num">5</span>:]         <span class="cm"># [5, 6, 7]     — index 5 to end</span>
+items[-<span class="num">3</span>:]        <span class="cm"># [5, 6, 7]     — last 3 items</span>
+items[::-<span class="num">1</span>]       <span class="cm"># [7,6,5,4,3,2,1,0] — reverse!</span>
+items[::<span class="num">2</span>]        <span class="cm"># [0, 2, 4, 6]  — every 2nd item</span>
+items[<span class="num">1</span>:<span class="num">6</span>:<span class="num">2</span>]      <span class="cm"># [1, 3, 5]     — every 2nd from 1 to 6</span>
+
+<span class="cm"># Works on strings too!</span>
+s = <span class="str">"Hello, World!"</span>
+s[<span class="num">7</span>:<span class="num">12</span>]     <span class="cm"># "World"</span>
+s[::-<span class="num">1</span>]     <span class="cm"># "!dlroW ,olleH"</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Lists</button>
+    <button class="btn btn-next" onclick="next(5)">Strings & f-strings →</button>
+  </div>
+</section>
+
+<!-- ═══ L6: STRINGS ═══ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>Strings &amp; f-strings</h2>
+    <p class="lesson-intro">Python strings are immutable sequences with a rich built-in API. f-strings make string formatting so clean you'll never want to go back.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 f-strings — Python's Best String Feature</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — f-string Syntax (Python 3.6+)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Basic embedding</span>
+name  = <span class="str">"Jude"</span>
+level = <span class="num">5</span>
+<span class="fn">f</span><span class="str">"{name} is level {level}"</span>     <span class="cm"># "Jude is level 5"</span>
+
+<span class="cm"># Expressions inside braces</span>
+<span class="fn">f</span><span class="str">"{2 ** 10}"</span>                    <span class="cm"># "1024"</span>
+<span class="fn">f</span><span class="str">"{name.upper()}"</span>               <span class="cm"># "JUDE"</span>
+<span class="fn">f</span><span class="str">"{level * 100} XP to next"</span>    <span class="cm"># "500 XP to next"</span>
+
+<span class="cm"># Number formatting</span>
+score = <span class="num">98765.4321</span>
+<span class="fn">f</span><span class="str">"{score:,.2f}"</span>                 <span class="cm"># "98,765.43"</span>
+<span class="fn">f</span><span class="str">"{score:>12.1f}"</span>               <span class="cm"># right-align in 12 chars</span>
+<span class="fn">f</span><span class="str">"{level:03d}"</span>                  <span class="cm"># "005" — zero-padded</span>
+
+<span class="cm"># Debug trick — Python 3.8+ self-documenting</span>
+x = <span class="num">42</span>
+<span class="fn">f</span><span class="str">"{x = }"</span>                       <span class="cm"># "x = 42"  ← prints name AND value</span>
+
+<span class="cm"># Multiline f-strings</span>
+report = (<span class="fn">f</span><span class="str">"Player: {name}\n"</span>
+          <span class="fn">f</span><span class="str">"Level:  {level}\n"</span>
+          <span class="fn">f</span><span class="str">"Score:  {score:,.0f}"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠️ Essential String Methods</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — String Methods You'll Use Daily</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>s = <span class="str">"  Hello, World!  "</span>
+
+<span class="cm"># Clean up</span>
+s.<span class="fn">strip</span>()          <span class="cm"># "Hello, World!"     — remove whitespace</span>
+s.<span class="fn">lower</span>()          <span class="cm"># "  hello, world!  " — lowercase</span>
+s.<span class="fn">upper</span>()          <span class="cm"># "  HELLO, WORLD!  "</span>
+
+<span class="cm"># Search</span>
+s.<span class="fn">startswith</span>(<span class="str">"  H"</span>) <span class="cm"># True</span>
+s.<span class="fn">endswith</span>(<span class="str">"!  "</span>)  <span class="cm"># True</span>
+s.<span class="fn">find</span>(<span class="str">"World"</span>)     <span class="cm"># 9 (index), or -1 if not found</span>
+<span class="str">"World"</span> <span class="kw">in</span> s       <span class="cm"># True — membership test</span>
+
+<span class="cm"># Transform</span>
+s.<span class="fn">replace</span>(<span class="str">"World"</span>, <span class="str">"Python"</span>)  <span class="cm"># "  Hello, Python!  "</span>
+
+<span class="cm"># Split and join</span>
+<span class="str">"a,b,c"</span>.<span class="fn">split</span>(<span class="str">","</span>)             <span class="cm"># ['a', 'b', 'c']</span>
+<span class="str">", "</span>.<span class="fn">join</span>([<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>])    <span class="cm"># "a, b, c"</span>
+
+<span class="cm"># Lines</span>
+<span class="str">"a\nb\nc"</span>.<span class="fn">splitlines</span>()          <span class="cm"># ['a', 'b', 'c']</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Unpacking</button>
+    <button class="btn btn-next" onclick="next(6)">*args & **kwargs →</button>
+  </div>
+</section>
+
+<!-- ═══ L7: ARGS/KWARGS ═══ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>*args &amp; **kwargs</h2>
+    <p class="lesson-intro">You'll see these in every Python library signature. Once you understand them, all those cryptic function definitions become readable.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ *args — Variable Positional Arguments</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — *args</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># *args collects extra positional arguments into a TUPLE</span>
+<span class="kw">def</span> <span class="fn">total</span>(*numbers: <span class="bi">int</span>) -> <span class="bi">int</span>:
+    <span class="kw">return</span> <span class="fn">sum</span>(numbers)
+
+<span class="fn">total</span>(<span class="num">1</span>, <span class="num">2</span>)              <span class="cm"># 3</span>
+<span class="fn">total</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)    <span class="cm"># 15</span>
+<span class="fn">total</span>()                  <span class="cm"># 0 — empty tuple, sum=0</span>
+
+<span class="cm"># Mix required and *args</span>
+<span class="kw">def</span> <span class="fn">log</span>(level: <span class="bi">str</span>, *messages: <span class="bi">str</span>) -> <span class="kw">None</span>:
+    <span class="kw">for</span> msg <span class="kw">in</span> messages:
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{level}] {msg}"</span>)
+
+<span class="fn">log</span>(<span class="str">"INFO"</span>, <span class="str">"Server started"</span>, <span class="str">"Port: 8000"</span>)
+<span class="cm"># [INFO] Server started</span>
+<span class="cm"># [INFO] Port: 8000</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ **kwargs — Variable Keyword Arguments</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — **kwargs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># **kwargs collects extra keyword arguments into a DICT</span>
+<span class="kw">def</span> <span class="fn">create_player</span>(name: <span class="bi">str</span>, **stats) -> <span class="bi">dict</span>:
+    <span class="kw">return</span> {<span class="str">"name"</span>: name, **stats}
+
+<span class="fn">create_player</span>(<span class="str">"Jude"</span>, hp=<span class="num">100</span>, mp=<span class="num">50</span>, level=<span class="num">5</span>)
+<span class="cm"># {'name': 'Jude', 'hp': 100, 'mp': 50, 'level': 5}</span>
+
+<span class="cm"># The full signature order (must always be in this order):</span>
+<span class="kw">def</span> <span class="fn">full_example</span>(
+    pos1,               <span class="cm"># required positional</span>
+    pos2,               <span class="cm"># required positional</span>
+    default=<span class="str">"value"</span>,   <span class="cm"># optional with default</span>
+    *args,              <span class="cm"># extra positional → tuple</span>
+    **kwargs            <span class="cm"># extra keyword → dict</span>
+):
+    <span class="fn">print</span>(pos1, pos2, default, args, kwargs)
+
+<span class="cm"># You see this CONSTANTLY in frameworks:</span>
+<span class="cm"># def __init__(self, *args, **kwargs):</span>
+<span class="cm">#     super().__init__(*args, **kwargs)</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Strings</button>
+    <button class="btn btn-next" onclick="next(7)">Python's Object Model →</button>
+  </div>
+</section>
+
+<!-- ═══ L8: OBJECT MODEL ═══ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 09</div>
+    <h2>Python's Object Model</h2>
+    <p class="lesson-intro">Classes in Python feel familiar coming from Java, but there are key differences. Here's what transfers, what changes, and what Python can do that Java can't.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏛️ Classes — Java vs Python</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Class Fundamentals</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cls">Character</span>:
+    <span class="cm"># Class variable — shared across ALL instances</span>
+    game_version: <span class="bi">str</span> = <span class="str">"1.0"</span>
+
+    <span class="cm"># __init__ is Python's constructor</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name: <span class="bi">str</span>, hp: <span class="bi">int</span> = <span class="num">100</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>.name = name   <span class="cm"># instance variable</span>
+        <span class="kw">self</span>.hp   = hp
+        <span class="kw">self</span>._alive = <span class="kw">True</span>  <span class="cm"># _ prefix = "private by convention"</span>
+
+    <span class="cm"># Regular method — always takes self</span>
+    <span class="kw">def</span> <span class="fn">take_damage</span>(<span class="kw">self</span>, amount: <span class="bi">int</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>.hp = <span class="fn">max</span>(<span class="num">0</span>, <span class="kw">self</span>.hp - amount)
+        <span class="kw">if</span> <span class="kw">self</span>.hp == <span class="num">0</span>:
+            <span class="kw">self</span>._alive = <span class="kw">False</span>
+
+    <span class="cm"># @property — getter without calling .get_hp()</span>
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">is_alive</span>(<span class="kw">self</span>) -> <span class="bi">bool</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._alive
+
+    <span class="cm"># __str__ — what print(obj) shows (like toString())</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        status = <span class="str">"alive"</span> <span class="kw">if</span> <span class="kw">self</span>._alive <span class="kw">else</span> <span class="str">"dead"</span>
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"{self.name} [{self.hp} HP] ({status})"</span>
+
+<span class="cm"># Usage</span>
+hero = <span class="cls">Character</span>(<span class="str">"Jude"</span>)
+hero.<span class="fn">take_damage</span>(<span class="num">30</span>)
+<span class="fn">print</span>(hero)             <span class="cm"># Jude [70 HP] (alive)</span>
+<span class="fn">print</span>(hero.is_alive)    <span class="cm"># True — property, not method call</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔑 Key Differences From Java OOP</div>
+    <table>
+      <tr><th>Java</th><th>Python</th></tr>
+      <tr><td><code>private</code>, <code>protected</code>, <code>public</code></td><td>All public. <code>_name</code> = "don't touch". <code>__name</code> = name mangled (harder to reach)</td></tr>
+      <tr><td><code>this</code></td><td><code>self</code> — must be explicit as first param</td></tr>
+      <tr><td><code>interface</code></td><td>No interfaces — use Abstract Base Classes or just duck typing</td></tr>
+      <tr><td><code>extends</code> one class</td><td>Multiple inheritance supported (use carefully)</td></tr>
+      <tr><td><code>super()</code></td><td><code>super().__init__()</code> — same idea, different syntax</td></tr>
+      <tr><td>Overloading by signature</td><td>No overloading — use default args or <code>*args</code></td></tr>
+      <tr><td>Checked exceptions</td><td>No checked exceptions — all unchecked</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← *args/**kwargs</button>
+    <button class="btn btn-next" onclick="next(8)">Modules & Stdlib →</button>
+  </div>
+</section>
+
+<!-- ═══ L9: MODULES ═══ -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 10</div>
+    <h2>Modules &amp; The Standard Library</h2>
+    <p class="lesson-intro">Python ships with "batteries included." The standard library handles most common tasks without installing anything extra — know what's in it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 Imports — How Python Finds Code</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Import Patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Import whole module — access via namespace</span>
+<span class="kw">import</span> math
+<span class="fn">math</span>.<span class="fn">sqrt</span>(<span class="num">16</span>)       <span class="cm"># 4.0</span>
+<span class="fn">math</span>.pi             <span class="cm"># 3.141592...</span>
+
+<span class="cm"># Import specific names — no namespace needed</span>
+<span class="kw">from</span> math <span class="kw">import</span> sqrt, pi, ceil
+<span class="fn">sqrt</span>(<span class="num">25</span>)            <span class="cm"># 5.0 — direct access</span>
+
+<span class="cm"># Import with alias — long module names</span>
+<span class="kw">import</span> datetime <span class="kw">as</span> dt
+<span class="fn">dt</span>.<span class="fn">datetime</span>.<span class="fn">now</span>()
+
+<span class="cm"># Your own modules: just other .py files</span>
+<span class="cm"># my_utils.py in same folder</span>
+<span class="kw">from</span> my_utils <span class="kw">import</span> format_name
+
+<span class="cm"># __name__ == "__main__" guard</span>
+<span class="cm"># Code inside only runs when THIS file is the entry point</span>
+<span class="cm"># Not when it's imported by another module</span>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">print</span>(<span class="str">"Running directly"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔋 Standard Library — The Most Useful Modules</div>
+    <div class="insight-row">
+      <div class="insight-card"><div class="ic-icon">📁</div><h5>pathlib</h5><p>Modern file system. <code>Path("data") / "file.txt"</code>. Replaces <code>os.path</code> entirely.</p></div>
+      <div class="insight-card"><div class="ic-icon">📄</div><h5>json</h5><p><code>json.dumps(obj)</code> and <code>json.loads(text)</code>. Dict in, JSON out. JSON in, dict out.</p></div>
+      <div class="insight-card"><div class="ic-icon">📅</div><h5>datetime</h5><p>Dates, times, timedeltas. Essential for any real application.</p></div>
+      <div class="insight-card"><div class="ic-icon">🔀</div><h5>collections</h5><p><code>defaultdict</code>, <code>Counter</code>, <code>deque</code>, <code>namedtuple</code>. Reach for these often.</p></div>
+      <div class="insight-card"><div class="ic-icon">🔄</div><h5>itertools</h5><p>Infinite iterators, combinations, permutations, chaining. Functional magic.</p></div>
+      <div class="insight-card"><div class="ic-icon">🔍</div><h5>re</h5><p>Regular expressions. <code>re.findall()</code>, <code>re.sub()</code>, <code>re.match()</code>.</p></div>
+      <div class="insight-card"><div class="ic-icon">⚙️</div><h5>os / sys</h5><p>Environment variables, command-line args, process info, file operations.</p></div>
+      <div class="insight-card"><div class="ic-icon">📊</div><h5>csv</h5><p>Read and write CSV files properly — handles quoting, delimiters, headers.</p></div>
+      <div class="insight-card"><div class="ic-icon">🔐</div><h5>hashlib / secrets</h5><p>Hashing (SHA256, MD5), cryptographically secure random values.</p></div>
+    </div>
+    <div class="code-block" style="margin-top:18px">
+      <div class="code-header"><span class="code-lang">Python — stdlib Quickfire Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> collections <span class="kw">import</span> Counter
+<span class="kw">import</span> json, datetime
+
+<span class="cm"># pathlib — read all .py files in current directory</span>
+py_files = <span class="fn">list</span>(Path(<span class="str">"."</span>).<span class="fn">glob</span>(<span class="str">"**/*.py"</span>))
+
+<span class="cm"># Counter — most common words</span>
+words   = [<span class="str">"python"</span>, <span class="str">"java"</span>, <span class="str">"python"</span>, <span class="str">"rust"</span>, <span class="str">"python"</span>]
+counts  = <span class="fn">Counter</span>(words)
+counts.<span class="fn">most_common</span>(<span class="num">2</span>)  <span class="cm"># [('python', 3), ('java', 1)]</span>
+
+<span class="cm"># json — instant serialization</span>
+data    = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"unity"</span>]}
+s       = json.<span class="fn">dumps</span>(data, indent=<span class="num">2</span>)
+back    = json.<span class="fn">loads</span>(s)
+
+<span class="cm"># datetime — time arithmetic</span>
+now     = datetime.datetime.<span class="fn">now</span>()
+in_week = now + datetime.timedelta(days=<span class="num">7</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"One week from now: {in_week:%Y-%m-%d}"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Object Model</button>
+    <button class="btn btn-next" onclick="next(9)">Phase Project →</button>
+  </div>
+</section>
+
+<!-- ═══ L10: PHASE PROJECT ═══ -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Rewrite Something You Know</h2>
+    <p class="lesson-intro">The best way to feel Python is to take a program you already understand in Java and rebuild it in Python. The contrast teaches you more than any tutorial.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 The Challenge</div>
+    <p>Take the simplest version of a task manager (tasks with a title, status, and priority) that you could write in Java in 15 minutes — and rebuild it in Python, deliberately using everything from Phase 1.</p>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body"><strong>Requirements</strong>A task manager that: creates tasks, lists them, marks them complete, filters by status, and saves/loads from a JSON file. No frameworks, no libraries beyond stdlib.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Reference Solution — Study After Attempting</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Task Manager (Phase 1 Style)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> enum        <span class="kw">import</span> Enum, auto
+<span class="kw">from</span> pathlib     <span class="kw">import</span> Path
+<span class="kw">import</span> json, datetime
+
+<span class="kw">class</span> <span class="cls">Priority</span>(<span class="cls">Enum</span>):
+    LOW    = auto()
+    MEDIUM = auto()
+    HIGH   = auto()
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Task</span>:
+    title:     <span class="bi">str</span>
+    priority:  <span class="cls">Priority</span>    = <span class="cls">Priority</span>.MEDIUM
+    done:      <span class="bi">bool</span>         = <span class="kw">False</span>
+    created:   <span class="bi">str</span>          = field(
+        default_factory=<span class="kw">lambda</span>: datetime.datetime.<span class="fn">now</span>().<span class="fn">isoformat</span>()
+    )
+
+    <span class="kw">def</span> <span class="fn">complete</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>.done = <span class="kw">True</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        status = <span class="str">"✓"</span> <span class="kw">if</span> <span class="kw">self</span>.done <span class="kw">else</span> <span class="str">"○"</span>
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"[{status}] {self.title} ({self.priority.name})"</span>
+
+<span class="kw">class</span> <span class="cls">TaskManager</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, filepath: <span class="bi">str</span> = <span class="str">"tasks.json"</span>):
+        <span class="kw">self</span>._path  = <span class="cls">Path</span>(filepath)
+        <span class="kw">self</span>._tasks: <span class="bi">list</span>[<span class="cls">Task</span>] = <span class="kw">self</span>.<span class="fn">_load</span>()
+
+    <span class="kw">def</span> <span class="fn">add</span>(<span class="kw">self</span>, title: <span class="bi">str</span>, priority: <span class="cls">Priority</span> = <span class="cls">Priority</span>.MEDIUM) -> <span class="cls">Task</span>:
+        task = <span class="cls">Task</span>(title, priority)
+        <span class="kw">self</span>._tasks.<span class="fn">append</span>(task)
+        <span class="kw">self</span>.<span class="fn">_save</span>()
+        <span class="kw">return</span> task
+
+    <span class="kw">def</span> <span class="fn">pending</span>(<span class="kw">self</span>) -> <span class="bi">list</span>[<span class="cls">Task</span>]:
+        <span class="kw">return</span> [t <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>._tasks <span class="kw">if</span> <span class="kw">not</span> t.done]
+
+    <span class="kw">def</span> <span class="fn">complete</span>(<span class="kw">self</span>, title: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+        matches = [t <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>._tasks <span class="kw">if</span> title.<span class="fn">lower</span>() <span class="kw">in</span> t.title.<span class="fn">lower</span>()]
+        <span class="kw">if not</span> matches: <span class="kw">return</span> <span class="kw">False</span>
+        matches[<span class="num">0</span>].<span class="fn">complete</span>()
+        <span class="kw">self</span>.<span class="fn">_save</span>()
+        <span class="kw">return</span> <span class="kw">True</span>
+
+    <span class="kw">def</span> <span class="fn">_save</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        data = [
+            {<span class="str">"title"</span>: t.title, <span class="str">"priority"</span>: t.priority.name,
+             <span class="str">"done"</span>: t.done,  <span class="str">"created"</span>: t.created}
+            <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>._tasks
+        ]
+        <span class="kw">self</span>._path.<span class="fn">write_text</span>(json.<span class="fn">dumps</span>(data, indent=<span class="num">2</span>))
+
+    <span class="kw">def</span> <span class="fn">_load</span>(<span class="kw">self</span>) -> <span class="bi">list</span>[<span class="cls">Task</span>]:
+        <span class="kw">if not</span> <span class="kw">self</span>._path.<span class="fn">exists</span>(): <span class="kw">return</span> []
+        data = json.<span class="fn">loads</span>(<span class="kw">self</span>._path.<span class="fn">read_text</span>())
+        <span class="kw">return</span> [
+            <span class="cls">Task</span>(d[<span class="str">"title"</span>], <span class="cls">Priority</span>[d[<span class="str">"priority"</span>]], d[<span class="str">"done"</span>], d[<span class="str">"created"</span>])
+            <span class="kw">for</span> d <span class="kw">in</span> data
+        ]
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    mgr = <span class="cls">TaskManager</span>()
+    mgr.<span class="fn">add</span>(<span class="str">"Learn Python Phase 2"</span>, <span class="cls">Priority</span>.HIGH)
+    mgr.<span class="fn">add</span>(<span class="str">"Finish Death Road prototype"</span>, <span class="cls">Priority</span>.HIGH)
+    mgr.<span class="fn">add</span>(<span class="str">"Read The Pragmatic Programmer"</span>)
+    <span class="kw">for</span> task <span class="kw">in</span> mgr.<span class="fn">pending</span>():
+        <span class="fn">print</span>(task)</pre>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the baseline works, try these extensions:</h4>
+    <ul>
+      <li>Add a <code>due_date</code> field with a <code>is_overdue</code> property</li>
+      <li>Sort pending tasks by priority using a list comprehension and <code>sorted()</code></li>
+      <li>Add a <code>search(query)</code> method that filters by any field using a comprehension</li>
+      <li>Pretty-print the task list using f-strings with formatting (aligned columns)</li>
+    </ul>
+  </div>
+
+  <div class="callout tip" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>You've completed Phase 1.</strong> Count the lines of your Python version vs what this would take in Java. Notice how much you naturally used: f-strings, list comprehensions, dataclasses, unpacking, stdlib modules. That instinct is what Phase 2 (Pythonic Thinking) sharpens into something dangerous.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Modules</button>
+    <button class="btn btn-next" onclick="goRoadmap()">Phase 2 on Roadmap →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 11;
+const done  = new Set();
+let   cur   = 0;
+
+/* build streak nodes */
+const snContainer = document.getElementById('streak-nodes');
+for (let i = 0; i < TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snContainer.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'   + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'   + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)     { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)     { go(Math.max(i - 1, 0)); }
+function goRoadmap() { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+
+  for (let i = 0; i < TOTAL; i++) {
+    const chk = document.getElementById('chk' + i);
+    const sn  = document.getElementById('sn'  + i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  /* set current node */
+  const snCur = document.getElementById('sn' + cur);
+  if (snCur && !done.has(cur)) { snCur.classList.add('current'); }
+}
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msgs = {
+    qfb0: { ok: '✅ Correct! Indentation (4 spaces) defines blocks in Python. Mis-indent and you have a bug, not just a style issue.', bad: '❌ Not quite. Python uses consistent indentation — 4 spaces — to define code blocks. This replaces curly braces entirely.' },
+    qfb2: { ok: '✅ Correct! Empty containers ([], {}, "") and zero-like values (0, None, False) are all falsy in Python. The string "False" is non-empty, so it\'s truthy. -1 is non-zero, so it\'s truthy.', bad: '❌ Not quite. Empty list [] evaluates to False. The string "False" is truthy (non-empty), -1 is truthy (non-zero), and "0" is truthy (non-empty string).' },
+    qfb4: { ok: '✅ Correct! range(5) gives [0,1,2,3,4]. The condition filters to odd numbers [1,3]. Squaring gives [1,9].', bad: '❌ Think through it: range(5) → [0,1,2,3,4]. The filter keeps odd numbers (x % 2 != 0) → [1,3]. Then x**2 → [1,9].' },
+  };
+  const id = fb.id;
+  if (msgs[id]) fb.textContent = msgs[id][result === 'correct' ? 'ok' : 'bad'];
+}
+
+done.add(0);
+updateProgress();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
