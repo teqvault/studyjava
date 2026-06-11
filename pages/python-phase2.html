@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 2 — Pythonic Thinking | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="../css/python-phase2.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 2: Pythonic Thinking</h1>
+  <p>Stop writing Java with Python syntax. Learn the idioms, patterns, and power tools that make Python code actually feel like Python — and unlock the whole ecosystem.</p>
+  <div class="header-stars">🧠 🔮 ⚙️ 🌀 ✨</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 2 — Lessons</div>
+  <div class="streak-bar">
+    <span class="streak-label">🔥</span>
+    <div id="streak-nodes"></div>
+  </div>
+
+  <div class="nav-item active" onclick="go(0)"  id="nav0" ><span class="nav-icon">🧠</span> What Is Pythonic? <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item"        onclick="go(1)"  id="nav1" ><span class="nav-icon">🔮</span> Dunder Methods <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item"        onclick="go(2)"  id="nav2" ><span class="nav-icon">🎀</span> Decorators <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item"        onclick="go(3)"  id="nav3" ><span class="nav-icon">🏠</span> Properties <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item"        onclick="go(4)"  id="nav4" ><span class="nav-icon">🚪</span> Context Managers <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item"        onclick="go(5)"  id="nav5" ><span class="nav-icon">🌀</span> Generators &amp; yield <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item"        onclick="go(6)"  id="nav6" ><span class="nav-icon">⚙️</span> Itertools <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item"        onclick="go(7)"  id="nav7" ><span class="nav-icon">🛡️</span> Error Handling <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item"        onclick="go(8)"  id="nav8" ><span class="nav-icon">📝</span> Type Hints Deep Dive <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item"        onclick="go(9)"  id="nav9" ><span class="nav-icon">📦</span> Dataclasses <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item"        onclick="go(10)" id="nav10"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk10"></span></div>
+
+  <div style="padding:20px 8px 0;border-top:1px solid var(--border);margin-top:16px">
+    <a href="python-phase1.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#c77dff'" onmouseout="this.style.color=''">← Phase 1</a>
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#c77dff'" onmouseout="this.style.color=''">↑ Full Roadmap</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<!-- ═══════════════════════════════════════════════
+     L0 — WHAT IS PYTHONIC?
+════════════════════════════════════════════════ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>What Does "Pythonic" Actually Mean?</h2>
+    <p class="lesson-intro">Every language has an idiomatic way of doing things. Java code and Python code can both work — but only one of them looks like it belongs. This lesson explains the difference and why it matters.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 The Core Idea</div>
+    <p>"Pythonic" means code that uses Python's features the way they were <em>designed</em> to be used — not just code that runs in Python. It's the difference between a tourist who can speak the language and a local who thinks in it.</p>
+    <p style="margin-top:10px">Pythonic code is:</p>
+    <div class="insight-row">
+      <div class="insight-card"><div class="ic-icon">📖</div><h5>Readable</h5><p>A stranger should be able to read your function and understand what it does without comments.</p></div>
+      <div class="insight-card"><div class="ic-icon">✂️</div><h5>Concise</h5><p>Not short for the sake of cleverness — short because the language handles the boilerplate.</p></div>
+      <div class="insight-card"><div class="ic-icon">🎯</div><h5>Expressive</h5><p>Code that says <em>what</em> it does, not <em>how</em> it does it. The how should be invisible.</p></div>
+      <div class="insight-card"><div class="ic-icon">🏗️</div><h5>Uses the Language</h5><p>Uses built-ins, standard library, and Python's own protocols rather than reinventing them.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Pythonic vs Non-Pythonic — Real Examples</div>
+    <p>These both work. One is Pythonic. Understanding <em>why</em> is the whole lesson.</p>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad-lbl">❌ Non-Pythonic</div>
+        <div class="code-block"><pre><span class="cm"># Checking if a list is empty</span>
+<span class="kw">if</span> <span class="fn">len</span>(my_list) == <span class="num">0</span>:
+    <span class="fn">print</span>(<span class="str">"empty"</span>)
+
+<span class="cm"># Looping with index manually</span>
+i = <span class="num">0</span>
+<span class="kw">while</span> i &lt; <span class="fn">len</span>(items):
+    <span class="fn">print</span>(items[i])
+    i += <span class="num">1</span>
+
+<span class="cm"># Getting index + value</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(items)):
+    <span class="fn">print</span>(i, items[i])
+
+<span class="cm"># Swapping two values</span>
+temp = a
+a = b
+b = temp</pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good-lbl">✅ Pythonic</div>
+        <div class="code-block"><pre><span class="cm"># Checking if a list is empty</span>
+<span class="kw">if not</span> my_list:
+    <span class="fn">print</span>(<span class="str">"empty"</span>)
+
+<span class="cm"># Looping — Python handles iteration</span>
+<span class="kw">for</span> item <span class="kw">in</span> items:
+    <span class="fn">print</span>(item)
+
+<span class="cm"># Getting index + value</span>
+<span class="kw">for</span> i, item <span class="kw">in</span> <span class="fn">enumerate</span>(items):
+    <span class="fn">print</span>(i, item)
+
+<span class="cm"># Swapping two values</span>
+a, b = b, a</pre></div>
+      </div>
+    </div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 Why it matters beyond style</div>
+      <h4>The <code>if not my_list</code> difference</h4>
+      <p>Python objects have a concept called <strong>truthiness</strong> — every object knows whether it "counts as True" in a boolean context. Empty lists, empty strings, empty dicts, <code>None</code>, and zero all evaluate to <code>False</code>. When you write <code>if not my_list</code>, you're using Python's built-in protocol. When you write <code>if len(my_list) == 0</code>, you're fighting it. The Pythonic version is shorter AND works correctly with any sequence-like object, not just lists.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 The Zen of Python — The Guiding Principles</div>
+    <p>Python ships with a built-in philosophy document. Type <code>import this</code> in any Python REPL and it prints. These aren't just quotes — they're design decisions baked into the language.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">The Zen of Python (most relevant lines)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm">Beautiful is better than ugly.</span>
+<span class="cm">Explicit is better than implicit.</span>
+<span class="cm">Simple is better than complex.</span>
+<span class="cm">Readability counts.</span>
+<span class="cm">Special cases aren't special enough to break the rules.</span>
+<span class="cm">Errors should never pass silently.</span>
+<span class="cm">There should be one obvious way to do it.</span>
+<span class="cm">If the implementation is hard to explain, it's a bad idea.</span>
+<span class="cm">If the implementation is easy to explain, it may be a good idea.</span></pre>
+    </div>
+    <p style="margin-top:12px;color:#c8c8dc;font-size:0.95rem">You'll make better design decisions in every language if you internalize these. "Errors should never pass silently" is why we'll talk about proper exception handling in Lesson 08.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Phase 1</button>
+    <button class="btn btn-next" onclick="next(0)">Dunder Methods →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L1 — DUNDER METHODS
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>Dunder Methods — The Magic Protocol</h2>
+    <p class="lesson-intro">Methods with double underscores on both sides — <code>__init__</code>, <code>__str__</code>, <code>__len__</code> — are how Python lets your objects plug into the language itself. This is one of Python's most powerful features.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔮 What "Dunder" Really Means</div>
+    <p>"Dunder" is short for <strong>Double UNDERscore</strong>. These methods are also called <strong>magic methods</strong> or <strong>special methods</strong>. They're not magic — they're a protocol. When Python evaluates an expression like <code>len(my_obj)</code>, it calls <code>my_obj.__len__()</code> behind the scenes. When you write <code>a + b</code>, Python calls <code>a.__add__(b)</code>.</p>
+    <p style="margin-top:10px">This means: <strong>if you define these methods on your class, your objects behave like built-in Python objects.</strong> Your custom class can support <code>len()</code>, iteration, comparison, arithmetic, indexing, and the <code>with</code> statement — just by implementing the right dunder methods.</p>
+
+    <div class="hood">
+      <div class="hood-label">⚙️ Under the Hood</div>
+      Python uses dunder methods to implement its <strong>data model</strong>. Every operator, every built-in function, and several language constructs (like <code>for</code> loops and <code>with</code> statements) ultimately call a dunder method on an object. This is why Python's syntax is so clean — the language itself delegates to your objects rather than hard-coding behavior for specific types.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Most Important Dunders</div>
+    <table>
+      <tr><th>Method</th><th>Called when…</th><th>Java equivalent</th></tr>
+      <tr><td><code>__init__</code></td><td>Object is created: <code>Foo()</code></td><td>Constructor</td></tr>
+      <tr><td><code>__str__</code></td><td><code>print(obj)</code> or <code>str(obj)</code></td><td><code>toString()</code></td></tr>
+      <tr><td><code>__repr__</code></td><td>REPL display, debugging, <code>repr(obj)</code></td><td>No direct equiv — more detailed toString</td></tr>
+      <tr><td><code>__len__</code></td><td><code>len(obj)</code></td><td>No direct equiv — implement <code>.size()</code></td></tr>
+      <tr><td><code>__eq__</code></td><td><code>obj1 == obj2</code></td><td><code>equals()</code></td></tr>
+      <tr><td><code>__lt__</code></td><td><code>obj1 &lt; obj2</code></td><td><code>compareTo()</code></td></tr>
+      <tr><td><code>__add__</code></td><td><code>obj1 + obj2</code></td><td>No direct equiv</td></tr>
+      <tr><td><code>__contains__</code></td><td><code>x in obj</code></td><td>No direct equiv — implement <code>.contains()</code></td></tr>
+      <tr><td><code>__iter__</code></td><td><code>for x in obj</code></td><td>Implement <code>Iterable</code></td></tr>
+      <tr><td><code>__getitem__</code></td><td><code>obj[key]</code></td><td>No direct equiv</td></tr>
+      <tr><td><code>__enter__</code> / <code>__exit__</code></td><td><code>with obj as x:</code></td><td>Try-with-resources (partial)</td></tr>
+      <tr><td><code>__call__</code></td><td><code>obj(args)</code> — call the object like a function!</td><td>No equivalent</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Building a Class That Uses the Language</div>
+    <p>Let's build a <code>Hand</code> class for a card game. By implementing the right dunders, it works natively with <code>len()</code>, <code>in</code>, <code>for</code>, <code>print()</code>, and comparison — all without calling any methods explicitly.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Dunder Methods in Practice</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Card</span>:
+    suit:  <span class="bi">str</span>
+    value: <span class="bi">int</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        <span class="cm"># print(card) → "A♠" not "Card(suit='spades', value=14)"</span>
+        symbols = {<span class="str">'spades'</span>:<span class="str">'♠'</span>, <span class="str">'hearts'</span>:<span class="str">'♥'</span>, <span class="str">'clubs'</span>:<span class="str">'♣'</span>, <span class="str">'diamonds'</span>:<span class="str">'♦'</span>}
+        names   = {<span class="num">11</span>:<span class="str">'J'</span>, <span class="num">12</span>:<span class="str">'Q'</span>, <span class="num">13</span>:<span class="str">'K'</span>, <span class="num">14</span>:<span class="str">'A'</span>}
+        face    = names.<span class="fn">get</span>(<span class="kw">self</span>.value, <span class="bi">str</span>(<span class="kw">self</span>.value))
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"{face}{symbols[self.suit]}"</span>
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        <span class="cm"># repr() is for developers — unambiguous, reproducible</span>
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"Card(suit={self.suit!r}, value={self.value})"</span>
+
+    <span class="kw">def</span> <span class="fn">__lt__</span>(<span class="kw">self</span>, other: <span class="str">'Card'</span>) -> <span class="bi">bool</span>:
+        <span class="cm"># Makes cards sortable with sorted() and min()/max()</span>
+        <span class="kw">return</span> <span class="kw">self</span>.value &lt; other.value
+
+
+<span class="kw">class</span> <span class="cls">Hand</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, cards: <span class="bi">list</span>[<span class="cls">Card</span>] = <span class="kw">None</span>):
+        <span class="kw">self</span>._cards = cards <span class="kw">or</span> []
+
+    <span class="cm"># len(hand) → number of cards</span>
+    <span class="kw">def</span> <span class="fn">__len__</span>(<span class="kw">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="fn">len</span>(<span class="kw">self</span>._cards)
+
+    <span class="cm"># card in hand → True/False</span>
+    <span class="kw">def</span> <span class="fn">__contains__</span>(<span class="kw">self</span>, card: <span class="cls">Card</span>) -> <span class="bi">bool</span>:
+        <span class="kw">return</span> card <span class="kw">in</span> <span class="kw">self</span>._cards
+
+    <span class="cm"># for card in hand: ... → iterate naturally</span>
+    <span class="kw">def</span> <span class="fn">__iter__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> <span class="fn">iter</span>(<span class="kw">self</span>._cards)
+
+    <span class="cm"># hand[0] → first card</span>
+    <span class="kw">def</span> <span class="fn">__getitem__</span>(<span class="kw">self</span>, index: <span class="bi">int</span>) -> <span class="cls">Card</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._cards[index]
+
+    <span class="cm"># print(hand) → readable representation</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        <span class="kw">return</span> <span class="str">" | "</span>.<span class="fn">join</span>(<span class="bi">str</span>(c) <span class="kw">for</span> c <span class="kw">in</span> <span class="kw">self</span>._cards)
+
+    <span class="kw">def</span> <span class="fn">add</span>(<span class="kw">self</span>, card: <span class="cls">Card</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>._cards.<span class="fn">append</span>(card)
+
+
+<span class="cm"># ── Now your class works like a built-in type ──</span>
+hand = <span class="cls">Hand</span>([
+    <span class="cls">Card</span>(<span class="str">'spades'</span>, <span class="num">14</span>),
+    <span class="cls">Card</span>(<span class="str">'hearts'</span>, <span class="num">7</span>),
+    <span class="cls">Card</span>(<span class="str">'clubs'</span>,  <span class="num">11</span>),
+])
+
+<span class="fn">print</span>(hand)                           <span class="cm"># A♠ | 7♥ | J♣</span>
+<span class="fn">print</span>(<span class="fn">len</span>(hand))                       <span class="cm"># 3</span>
+<span class="fn">print</span>(<span class="cls">Card</span>(<span class="str">'spades'</span>, <span class="num">14</span>) <span class="kw">in</span> hand)     <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">sorted</span>(hand))                    <span class="cm"># sorted by value — works!</span>
+<span class="fn">print</span>(<span class="fn">max</span>(hand))                       <span class="cm"># highest card — works!</span>
+<span class="kw">for</span> card <span class="kw">in</span> hand:                      <span class="cm"># for loop — works!</span>
+    <span class="fn">print</span>(card)</pre>
+    </div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 __str__ vs __repr__ — The Rule</div>
+      <h4>When to use which one</h4>
+      <p><code>__str__</code> is for humans — it's what <code>print()</code> shows. Make it readable and friendly. <code>__repr__</code> is for developers and debugging — it should be unambiguous and ideally reproducible (i.e., you could paste the output back into Python and recreate the object). The rule: <strong>always define <code>__repr__</code> on any custom class.</strong> If you only define one, Python falls back to <code>__repr__</code> for both, so it's the more important one.</p>
+      <ul>
+        <li><code>print(card)</code> → calls <code>__str__</code> → <code>"A♠"</code></li>
+        <li>REPL: just type <code>card</code> → calls <code>__repr__</code> → <code>Card(suit='spades', value=14)</code></li>
+        <li><code>f"{card!r}"</code> → forces <code>__repr__</code> even inside f-strings</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📞 __call__ — Making Objects Callable</div>
+    <p>The <code>__call__</code> dunder lets you call an object like a function. This sounds weird until you see where it's useful — validators, middleware, configured function wrappers.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — __call__ Example</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cls">Multiplier</span>:
+    <span class="str">"""A configured callable — like a function with state."""</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, factor: <span class="bi">int</span>):
+        <span class="kw">self</span>.factor = factor
+
+    <span class="kw">def</span> <span class="fn">__call__</span>(<span class="kw">self</span>, value: <span class="bi">int</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> value * <span class="kw">self</span>.factor
+
+<span class="cm"># Create configured callable objects</span>
+double = <span class="cls">Multiplier</span>(<span class="num">2</span>)
+triple = <span class="cls">Multiplier</span>(<span class="num">3</span>)
+
+<span class="fn">print</span>(<span class="fn">double</span>(<span class="num">5</span>))    <span class="cm"># 10  — called like a function!</span>
+<span class="fn">print</span>(<span class="fn">triple</span>(<span class="num">7</span>))    <span class="cm"># 21</span>
+
+<span class="cm"># Can pass them anywhere a function is expected</span>
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="fn">map</span>(double, nums)))  <span class="cm"># [2, 4, 6, 8]</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You write <code>len(my_obj)</code>. What does Python actually call behind the scenes?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>my_obj.length()</code></button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>my_obj.size()</code></button>
+      <button class="quiz-option" onclick="quiz(this,'correct')"><code>my_obj.__len__()</code></button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Python counts items internally without calling any method</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← What Is Pythonic?</button>
+    <button class="btn btn-next" onclick="next(1)">Decorators →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L2 — DECORATORS
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>Decorators — Functions That Wrap Functions</h2>
+    <p class="lesson-intro">You've seen <code>@property</code> and <code>@staticmethod</code>. Now understand what decorators actually are, how to write your own, and why they're everywhere in Python frameworks.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎀 Building Up To Decorators Step by Step</div>
+    <p>Decorators build on two things you already know: functions are objects, and functions can take other functions as arguments. Let's build the concept from scratch.</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Step 1 — Functions returning functions</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Functions can return other functions</span>
+<span class="kw">def</span> <span class="fn">make_greeter</span>(greeting: <span class="bi">str</span>):
+    <span class="kw">def</span> <span class="fn">greet</span>(name: <span class="bi">str</span>) -> <span class="bi">str</span>:
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"{greeting}, {name}!"</span>
+    <span class="kw">return</span> greet   <span class="cm"># return the function itself, not a call</span>
+
+hello = <span class="fn">make_greeter</span>(<span class="str">"Hello"</span>)
+yo    = <span class="fn">make_greeter</span>(<span class="str">"Yo"</span>)
+
+<span class="fn">print</span>(<span class="fn">hello</span>(<span class="str">"Jude"</span>))   <span class="cm"># "Hello, Jude!"</span>
+<span class="fn">print</span>(<span class="fn">yo</span>(<span class="str">"Jude"</span>))      <span class="cm"># "Yo, Jude!"</span>
+<span class="cm"># greet() "closes over" the greeting variable — this is a CLOSURE</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Step 2 — A function that wraps another function</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># A wrapper adds behavior before/after calling the original</span>
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="kw">import</span> time
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        start  = time.<span class="fn">time</span>()
+        result = <span class="fn">func</span>(*args, **kwargs)   <span class="cm"># call the original</span>
+        end    = time.<span class="fn">time</span>()
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{func.__name__} took {end-start:.4f}s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="kw">def</span> <span class="fn">slow_add</span>(a, b):
+    <span class="kw">import</span> time; time.<span class="fn">sleep</span>(<span class="num">0.1</span>)
+    <span class="kw">return</span> a + b
+
+<span class="cm"># Manually wrap it</span>
+slow_add = <span class="fn">timer</span>(slow_add)
+<span class="fn">slow_add</span>(<span class="num">3</span>, <span class="num">4</span>)
+<span class="cm"># slow_add took 0.1003s</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Step 3 — The @ syntax (syntactic sugar)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># @timer is EXACTLY the same as: slow_add = timer(slow_add)</span>
+<span class="cm"># It's just syntactic sugar — cleaner to read</span>
+
+<span class="dec">@timer</span>
+<span class="kw">def</span> <span class="fn">slow_add</span>(a: <span class="bi">int</span>, b: <span class="bi">int</span>) -> <span class="bi">int</span>:
+    <span class="kw">import</span> time; time.<span class="fn">sleep</span>(<span class="num">0.1</span>)
+    <span class="kw">return</span> a + b
+
+<span class="fn">slow_add</span>(<span class="num">3</span>, <span class="num">4</span>)    <span class="cm"># automatically timed, every call</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ The functools.wraps Fix — Always Use This</div>
+    <p>When you wrap a function, the wrapper replaces it — including its name and docstring. This breaks debugging, logging, and documentation tools. Fix it with <code>@functools.wraps</code>.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — The Correct Decorator Pattern</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> functools
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="dec">@functools.wraps</span>(func)   <span class="cm"># ← ALWAYS add this to your wrappers</span>
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="kw">import</span> time
+        start  = time.<span class="fn">time</span>()
+        result = <span class="fn">func</span>(*args, **kwargs)
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{func.__name__} took {time.time()-start:.4f}s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+<span class="cm"># Without @functools.wraps:</span>
+<span class="cm"># slow_add.__name__ → "wrapper"  ← BAD</span>
+<span class="cm"># With @functools.wraps:</span>
+<span class="cm"># slow_add.__name__ → "slow_add" ← CORRECT</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Real-World Decorator Examples</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Decorators You'll Write and See Everywhere</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> functools, time
+
+<span class="cm"># ── 1. Retry decorator — re-runs on failure ──</span>
+<span class="kw">def</span> <span class="fn">retry</span>(times: <span class="bi">int</span> = <span class="num">3</span>, delay: <span class="bi">float</span> = <span class="num">1.0</span>):
+    <span class="kw">def</span> <span class="fn">decorator</span>(func):
+        <span class="dec">@functools.wraps</span>(func)
+        <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+            <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, times + <span class="num">1</span>):
+                <span class="kw">try</span>:
+                    <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+                <span class="kw">except</span> <span class="cls">Exception</span> <span class="kw">as</span> e:
+                    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Attempt {attempt} failed: {e}"</span>)
+                    <span class="kw">if</span> attempt &lt; times:
+                        time.<span class="fn">sleep</span>(delay)
+            <span class="kw">raise</span> <span class="cls">RuntimeError</span>(<span class="fn">f</span><span class="str">"{func.__name__} failed after {times} attempts"</span>)
+        <span class="kw">return</span> wrapper
+    <span class="kw">return</span> decorator
+
+<span class="dec">@retry</span>(times=<span class="num">3</span>, delay=<span class="num">0.5</span>)
+<span class="kw">def</span> <span class="fn">fetch_data</span>(url: <span class="bi">str</span>) -> <span class="bi">dict</span>:
+    <span class="cm"># Automatically retried 3 times on any exception</span>
+    <span class="kw">import</span> requests
+    <span class="kw">return</span> requests.<span class="fn">get</span>(url).<span class="fn">json</span>()
+
+<span class="cm"># ── 2. Cache/memoize — remember expensive results ──</span>
+<span class="kw">from</span> functools <span class="kw">import</span> lru_cache
+
+<span class="dec">@lru_cache</span>(maxsize=<span class="num">128</span>)   <span class="cm"># built into Python stdlib!</span>
+<span class="kw">def</span> <span class="fn">fibonacci</span>(n: <span class="bi">int</span>) -> <span class="bi">int</span>:
+    <span class="kw">if</span> n &lt; <span class="num">2</span>: <span class="kw">return</span> n
+    <span class="kw">return</span> <span class="fn">fibonacci</span>(n - <span class="num">1</span>) + <span class="fn">fibonacci</span>(n - <span class="num">2</span>)
+    <span class="cm"># Without @lru_cache: fib(40) calls itself ~100 million times</span>
+    <span class="cm"># With @lru_cache:    fib(40) calls itself 40 times</span>
+
+<span class="cm"># ── 3. Validate arguments ──</span>
+<span class="kw">def</span> <span class="fn">require_positive</span>(func):
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        <span class="kw">for</span> arg <span class="kw">in</span> args:
+            <span class="kw">if</span> <span class="fn">isinstance</span>(arg, (<span class="bi">int</span>, <span class="bi">float</span>)) <span class="kw">and</span> arg &lt;= <span class="num">0</span>:
+                <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="fn">f</span><span class="str">"All arguments must be positive, got {arg}"</span>)
+        <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+    <span class="kw">return</span> wrapper
+
+<span class="dec">@require_positive</span>
+<span class="kw">def</span> <span class="fn">calculate_area</span>(width: <span class="bi">float</span>, height: <span class="bi">float</span>) -> <span class="bi">float</span>:
+    <span class="kw">return</span> width * height</pre>
+    </div>
+  </div>
+
+  <div class="try-it">
+    <div class="try-it-label">🔨 Try It</div>
+    <h4>Write a <code>@log_calls</code> decorator</h4>
+    <p>Create a decorator that prints the function name, its arguments, and its return value every time it's called. Example output:</p>
+    <ul>
+      <li><code>→ add(3, 4)</code></li>
+      <li><code>← add returned 7</code></li>
+    </ul>
+    <p>Then add a parameter so you can do <code>@log_calls(level="DEBUG")</code> and the output includes the log level.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Dunder Methods</button>
+    <button class="btn btn-next" onclick="next(2)">Properties →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L3 — PROPERTIES
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Properties — Smart Attribute Access</h2>
+    <p class="lesson-intro">In Java you write <code>getAge()</code> and <code>setAge()</code> for every field. Python's <code>@property</code> decorator lets you access attributes like data while running code behind the scenes.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏠 The Problem Properties Solve</div>
+    <p>You start with a simple class. Later you need to add validation, computation, or caching to an attribute. In Java, this requires changing your public API from a field to getter/setter methods — a breaking change for all callers. In Python, you add <code>@property</code> and nothing that calls your class changes at all.</p>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label java-lbl">Java — forced ceremony</div>
+        <div class="code-block"><pre><span class="kw">public class</span> <span class="cls">Circle</span> {
+    <span class="kw">private double</span> radius;
+
+    <span class="kw">public double</span> <span class="fn">getRadius</span>() {
+        <span class="kw">return</span> radius;
+    }
+    <span class="kw">public void</span> <span class="fn">setRadius</span>(<span class="kw">double</span> r) {
+        <span class="kw">if</span> (r &lt; <span class="num">0</span>) <span class="kw">throw new</span>
+            <span class="cls">IllegalArgumentException</span>();
+        <span class="kw">this</span>.radius = r;
+    }
+    <span class="cm">// always was getRadius() even</span>
+    <span class="cm">// before validation existed</span>
+}</pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label python-lbl">Python — clean access, smart behavior</div>
+        <div class="code-block"><pre><span class="kw">class</span> <span class="cls">Circle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, radius: <span class="bi">float</span>):
+        <span class="kw">self</span>.radius = radius  <span class="cm"># uses setter</span>
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(<span class="kw">self</span>) -> <span class="bi">float</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._radius
+
+    <span class="dec">@radius.setter</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(<span class="kw">self</span>, value: <span class="bi">float</span>):
+        <span class="kw">if</span> value &lt; <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">"negative"</span>)
+        <span class="kw">self</span>._radius = value
+    <span class="cm"># callers write: c.radius = 5</span></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Full Property Pattern with Computed Properties</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Properties in Practice</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> math
+
+<span class="kw">class</span> <span class="cls">Circle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, radius: <span class="bi">float</span>):
+        <span class="kw">self</span>.radius = radius   <span class="cm"># this calls the setter below</span>
+
+    <span class="cm"># ── radius: validated read/write ──</span>
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(<span class="kw">self</span>) -> <span class="bi">float</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._radius
+
+    <span class="dec">@radius.setter</span>
+    <span class="kw">def</span> <span class="fn">radius</span>(<span class="kw">self</span>, value: <span class="bi">float</span>) -> <span class="kw">None</span>:
+        <span class="kw">if</span> value &lt; <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="fn">f</span><span class="str">"Radius must be ≥ 0, got {value}"</span>)
+        <span class="kw">self</span>._radius = value
+
+    <span class="cm"># ── computed properties — read-only, no setter ──</span>
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">area</span>(<span class="kw">self</span>) -> <span class="bi">float</span>:
+        <span class="cm"># Calculated on demand — not stored</span>
+        <span class="kw">return</span> math.pi * <span class="kw">self</span>._radius ** <span class="num">2</span>
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">circumference</span>(<span class="kw">self</span>) -> <span class="bi">float</span>:
+        <span class="kw">return</span> <span class="num">2</span> * math.pi * <span class="kw">self</span>._radius
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">diameter</span>(<span class="kw">self</span>) -> <span class="bi">float</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._radius * <span class="num">2</span>
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"Circle(radius={self._radius})"</span>
+
+
+<span class="cm"># ── Usage — reads like attribute access, runs like methods ──</span>
+c = <span class="cls">Circle</span>(<span class="num">5</span>)
+<span class="fn">print</span>(c.radius)          <span class="cm"># 5          — property getter</span>
+<span class="fn">print</span>(c.area)            <span class="cm"># 78.54...   — computed, no ()!</span>
+<span class="fn">print</span>(c.circumference)   <span class="cm"># 31.41...</span>
+c.radius = <span class="num">10</span>           <span class="cm"># property setter — validates</span>
+<span class="fn">print</span>(c.area)            <span class="cm"># 314.15...  — automatically updated</span>
+c.radius = <span class="num">-1</span>           <span class="cm"># ValueError: Radius must be ≥ 0, got -1</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The Naming Convention</strong>The private backing variable is <code>_radius</code> (single underscore). The public property is <code>radius</code>. The underscore signals "don't touch this directly" to other developers — it's a convention, not enforcement. This is how Python handles encapsulation: trust, not locks.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Decorators</button>
+    <button class="btn btn-next" onclick="next(3)">Context Managers →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L4 — CONTEXT MANAGERS
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>Context Managers — Guaranteed Cleanup</h2>
+    <p class="lesson-intro">The <code>with</code> statement is Python's answer to "always clean up, even if something goes wrong." Files, database connections, locks, timers — anything that needs setup and teardown belongs in a context manager.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚪 The Problem — Cleanup That Might Never Run</div>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad-lbl">❌ Fragile — leak if exception occurs</div>
+        <div class="code-block"><pre><span class="cm"># If process_data() raises,</span>
+<span class="cm"># the file never closes!</span>
+f = <span class="fn">open</span>(<span class="str">"data.txt"</span>)
+data = f.<span class="fn">read</span>()
+<span class="fn">process_data</span>(data)
+f.<span class="fn">close</span>()   <span class="cm"># might never run</span></pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good-lbl">✅ Safe — always closes</div>
+        <div class="code-block"><pre><span class="cm"># File ALWAYS closes —</span>
+<span class="cm"># even if an exception is raised</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.txt"</span>) <span class="kw">as</span> f:
+    data = f.<span class="fn">read</span>()
+    <span class="fn">process_data</span>(data)
+<span class="cm"># f.close() called automatically</span></pre></div>
+      </div>
+    </div>
+    <div class="hood">
+      <div class="hood-label">⚙️ What <code>with</code> Actually Does</div>
+      When Python enters a <code>with</code> block, it calls <code>obj.__enter__()</code> and assigns the result to the <code>as</code> variable. When the block exits — for any reason, including exceptions — it calls <code>obj.__exit__(exc_type, exc_val, exc_tb)</code>. If <code>__exit__</code> returns <code>True</code>, the exception is suppressed. If it returns <code>None</code> or <code>False</code>, the exception propagates. This guarantee is what makes context managers safe.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Writing Your Own Context Manager (Class-Based)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — __enter__ and __exit__</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> time
+
+<span class="kw">class</span> <span class="cls">Timer</span>:
+    <span class="str">"""Context manager that measures elapsed time."""</span>
+
+    <span class="kw">def</span> <span class="fn">__enter__</span>(<span class="kw">self</span>) -> <span class="str">'Timer'</span>:
+        <span class="cm"># Called when entering the with block</span>
+        <span class="kw">self</span>.start   = time.<span class="fn">perf_counter</span>()
+        <span class="kw">self</span>.elapsed = <span class="num">0.0</span>
+        <span class="kw">return</span> <span class="kw">self</span>    <span class="cm"># this becomes the 'as' variable</span>
+
+    <span class="kw">def</span> <span class="fn">__exit__</span>(<span class="kw">self</span>, exc_type, exc_val, exc_tb) -> <span class="bi">bool</span>:
+        <span class="cm"># Called when leaving the with block (always)</span>
+        <span class="kw">self</span>.elapsed = time.<span class="fn">perf_counter</span>() - <span class="kw">self</span>.start
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Elapsed: {self.elapsed:.4f}s"</span>)
+        <span class="kw">return</span> <span class="kw">False</span>   <span class="cm"># don't suppress exceptions</span>
+
+
+<span class="cm"># Usage</span>
+<span class="kw">with</span> <span class="cls">Timer</span>() <span class="kw">as</span> t:
+    time.<span class="fn">sleep</span>(<span class="num">0.25</span>)
+    <span class="fn">print</span>(<span class="str">"doing work..."</span>)
+<span class="cm"># Elapsed: 0.2502s  (printed automatically)</span>
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"Total was: {t.elapsed:.4f}s"</span>)   <span class="cm"># accessible after block</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ The Easier Way — @contextmanager</div>
+    <p>Python's <code>contextlib</code> module gives you a decorator that turns a generator function into a context manager. One function, no class needed — everything before <code>yield</code> is setup, everything after is cleanup.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — contextlib.contextmanager</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> contextlib <span class="kw">import</span> contextmanager
+<span class="kw">import</span> sqlite3
+
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">database_connection</span>(db_path: <span class="bi">str</span>):
+    <span class="str">"""Manage a SQLite connection — auto-commit or rollback."""</span>
+    conn = sqlite3.<span class="fn">connect</span>(db_path)
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> conn          <span class="cm"># ← everything above is __enter__</span>
+        conn.<span class="fn">commit</span>()       <span class="cm">  # only reached if no exception</span>
+    <span class="kw">except</span> <span class="cls">Exception</span>:
+        conn.<span class="fn">rollback</span>()     <span class="cm"># roll back on error</span>
+        <span class="kw">raise</span>               <span class="cm"># re-raise the exception</span>
+    <span class="kw">finally</span>:
+        conn.<span class="fn">close</span>()        <span class="cm"># ← everything in finally is __exit__</span>
+
+
+<span class="cm"># Clean, safe database operations</span>
+<span class="kw">with</span> <span class="fn">database_connection</span>(<span class="str">"game.db"</span>) <span class="kw">as</span> conn:
+    conn.<span class="fn">execute</span>(<span class="str">"INSERT INTO players VALUES (?, ?)"</span>, (<span class="str">"Jude"</span>, <span class="num">100</span>))
+<span class="cm"># auto-committed if success, auto-rolled-back if error, always closed</span>
+
+
+<span class="cm"># Another example — temporarily change directory</span>
+<span class="kw">import</span> os
+
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">working_directory</span>(path: <span class="bi">str</span>):
+    original = os.<span class="fn">getcwd</span>()
+    <span class="kw">try</span>:
+        os.<span class="fn">chdir</span>(path)
+        <span class="kw">yield</span>
+    <span class="kw">finally</span>:
+        os.<span class="fn">chdir</span>(original)   <span class="cm"># ALWAYS restore, even on error</span>
+
+<span class="kw">with</span> <span class="fn">working_directory</span>(<span class="str">"/tmp"</span>):
+    <span class="fn">print</span>(os.<span class="fn">getcwd</span>())   <span class="cm"># /tmp</span>
+<span class="cm"># Back to original directory automatically</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Properties</button>
+    <button class="btn btn-next" onclick="next(4)">Generators & yield →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L5 — GENERATORS
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Generators &amp; yield — Lazy Sequences</h2>
+    <p class="lesson-intro">A generator produces values one at a time, on demand, without building the whole sequence in memory. Once you understand this, you'll never build a million-item list again.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌀 The Problem Generators Solve</div>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad-lbl">❌ Builds entire list in memory</div>
+        <div class="code-block"><pre><span class="kw">def</span> <span class="fn">first_n_squares</span>(n):
+    results = []
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        results.<span class="fn">append</span>(i ** <span class="num">2</span>)
+    <span class="kw">return</span> results
+
+<span class="cm"># 1 million squares = ~8MB of RAM</span>
+nums = <span class="fn">first_n_squares</span>(<span class="num">1_000_000</span>)</pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good-lbl">✅ Produces one value at a time</div>
+        <div class="code-block"><pre><span class="kw">def</span> <span class="fn">first_n_squares</span>(n):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        <span class="kw">yield</span> i ** <span class="num">2</span>
+
+<span class="cm"># ~200 bytes regardless of n!</span>
+<span class="cm"># Each value computed only when needed</span>
+nums = <span class="fn">first_n_squares</span>(<span class="num">1_000_000</span>)</pre></div>
+      </div>
+    </div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 How yield works under the hood</div>
+      <h4>Generator functions are pauseable</h4>
+      <p>When Python sees <code>yield</code> in a function, it turns that function into a <strong>generator factory</strong>. Calling the function returns a generator object — it doesn't run any code yet. Each time you call <code>next()</code> on the generator (which a <code>for</code> loop does automatically), the function runs until the next <code>yield</code>, produces that value, and then <em>pauses</em> — preserving all its local variables exactly where it left off. The next <code>next()</code> call resumes from that exact point. When the function returns or runs out of yields, it raises <code>StopIteration</code> and the for loop exits.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Generator Patterns You'll Use Constantly</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Generator Patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># ── 1. Reading large files line by line ──</span>
+<span class="kw">def</span> <span class="fn">read_large_file</span>(filepath: <span class="bi">str</span>):
+    <span class="str">"""Read a file one line at a time — no matter how big it is."""</span>
+    <span class="kw">with</span> <span class="fn">open</span>(filepath) <span class="kw">as</span> f:
+        <span class="kw">for</span> line <span class="kw">in</span> f:
+            <span class="kw">yield</span> line.<span class="fn">strip</span>()
+
+<span class="cm"># Process a 10GB log file with constant memory:</span>
+<span class="kw">for</span> line <span class="kw">in</span> <span class="fn">read_large_file</span>(<span class="str">"huge.log"</span>):
+    <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">in</span> line:
+        <span class="fn">print</span>(line)
+
+
+<span class="cm"># ── 2. Infinite sequence ──</span>
+<span class="kw">def</span> <span class="fn">counter</span>(start: <span class="bi">int</span> = <span class="num">0</span>):
+    <span class="str">"""Count forever — only compute what you ask for."""</span>
+    n = start
+    <span class="kw">while True</span>:
+        <span class="kw">yield</span> n
+        n += <span class="num">1</span>
+
+<span class="kw">from</span> itertools <span class="kw">import</span> islice
+first_10 = <span class="fn">list</span>(<span class="fn">islice</span>(<span class="fn">counter</span>(<span class="num">5</span>), <span class="num">10</span>))
+<span class="cm"># [5, 6, 7, 8, 9, 10, 11, 12, 13, 14]</span>
+
+
+<span class="cm"># ── 3. Generator expression (like list comprehension, but lazy) ──</span>
+<span class="cm"># List comprehension — builds all results NOW</span>
+squares_list = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1_000_000</span>)]   <span class="cm"># uses ~8MB</span>
+
+<span class="cm"># Generator expression — computes on demand</span>
+squares_gen  = (x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1_000_000</span>))   <span class="cm"># uses ~200 bytes!</span>
+<span class="cm"># Note: parentheses instead of brackets</span>
+
+<span class="cm"># Both work identically in a for loop or sum()</span>
+total = <span class="fn">sum</span>(x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1_000_000</span>))  <span class="cm"># no brackets needed inside ()</span>
+
+
+<span class="cm"># ── 4. Pipeline — chain generators together ──</span>
+<span class="kw">def</span> <span class="fn">parse_logs</span>(lines):
+    <span class="kw">for</span> line <span class="kw">in</span> lines:
+        <span class="kw">yield</span> line.<span class="fn">split</span>(<span class="str">" | "</span>)
+
+<span class="kw">def</span> <span class="fn">filter_errors</span>(records):
+    <span class="kw">for</span> record <span class="kw">in</span> records:
+        <span class="kw">if</span> <span class="fn">len</span>(record) &gt; <span class="num">1</span> <span class="kw">and</span> record[<span class="num">0</span>] == <span class="str">"ERROR"</span>:
+            <span class="kw">yield</span> record
+
+<span class="cm"># Each stage only processes one item at a time — memory stays flat</span>
+lines   = <span class="fn">read_large_file</span>(<span class="str">"app.log"</span>)
+records = <span class="fn">parse_logs</span>(lines)
+errors  = <span class="fn">filter_errors</span>(records)
+<span class="kw">for</span> err <span class="kw">in</span> errors:
+    <span class="fn">print</span>(err)</pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What is the key memory difference between <code>[x**2 for x in range(1000000)]</code> and <code>(x**2 for x in range(1000000))</code>?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">There is no difference — both store all values in memory</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">The list builds all 1M values immediately; the generator computes one value at a time on demand</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The generator is faster but uses the same memory</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The list can be iterated; the generator cannot</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Context Managers</button>
+    <button class="btn btn-next" onclick="next(5)">Itertools →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L6 — ITERTOOLS
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>Itertools — The Most Underused Module</h2>
+    <p class="lesson-intro">Python's <code>itertools</code> module is a toolkit of lazy, memory-efficient iterators. Most Python developers don't know it well — which means knowing it well sets you apart.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ The Essential Itertools Functions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — itertools You'll Reach For</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> itertools <span class="kw">import</span> (
+    chain, islice, groupby, product,
+    combinations, permutations,
+    takewhile, dropwhile, cycle, repeat
+)
+
+<span class="cm"># ── chain — flatten multiple iterables into one ──</span>
+a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+b = [<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>]
+c = [<span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>]
+<span class="fn">list</span>(<span class="fn">chain</span>(a, b, c))
+<span class="out"># [1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+
+<span class="cm"># ── islice — take first N items from any iterable ──</span>
+<span class="fn">list</span>(<span class="fn">islice</span>(<span class="fn">range</span>(<span class="num">1000</span>), <span class="num">5</span>))
+<span class="out"># [0, 1, 2, 3, 4]</span>
+
+<span class="cm"># ── groupby — group consecutive items by a key ──</span>
+<span class="cm"># IMPORTANT: input must be sorted by the key first!</span>
+data = [
+    {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"dept"</span>: <span class="str">"eng"</span>},
+    {<span class="str">"name"</span>: <span class="str">"Bob"</span>,   <span class="str">"dept"</span>: <span class="str">"eng"</span>},
+    {<span class="str">"name"</span>: <span class="str">"Carol"</span>, <span class="str">"dept"</span>: <span class="str">"hr"</span>},
+    {<span class="str">"name"</span>: <span class="str">"Dave"</span>,  <span class="str">"dept"</span>: <span class="str">"hr"</span>},
+]
+data.<span class="fn">sort</span>(key=<span class="kw">lambda</span> x: x[<span class="str">"dept"</span>])
+<span class="kw">for</span> dept, members <span class="kw">in</span> <span class="fn">groupby</span>(data, key=<span class="kw">lambda</span> x: x[<span class="str">"dept"</span>]):
+    names = [m[<span class="str">"name"</span>] <span class="kw">for</span> m <span class="kw">in</span> members]
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{dept}: {names}"</span>)
+<span class="out"># eng: ['Alice', 'Bob']</span>
+<span class="out"># hr:  ['Carol', 'Dave']</span>
+
+<span class="cm"># ── product — cartesian product (nested loops collapsed) ──</span>
+colors = [<span class="str">"red"</span>, <span class="str">"blue"</span>]
+sizes  = [<span class="str">"S"</span>, <span class="str">"M"</span>, <span class="str">"L"</span>]
+<span class="fn">list</span>(<span class="fn">product</span>(colors, sizes))
+<span class="out"># [('red','S'), ('red','M'), ('red','L'), ('blue','S'), ...]</span>
+
+<span class="cm"># ── combinations — all unique pairs ──</span>
+players = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>, <span class="str">"Dave"</span>]
+<span class="fn">list</span>(<span class="fn">combinations</span>(players, <span class="num">2</span>))
+<span class="out"># All possible 2-player matchups — 6 pairs</span>
+
+<span class="cm"># ── takewhile / dropwhile — conditional slicing ──</span>
+data = [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>]
+<span class="fn">list</span>(<span class="fn">takewhile</span>(<span class="kw">lambda</span> x: x % <span class="num">2</span> == <span class="num">0</span>, data))  <span class="cm"># [2, 4, 6]  — stops at 7</span>
+<span class="fn">list</span>(<span class="fn">dropwhile</span>(<span class="kw">lambda</span> x: x % <span class="num">2</span> == <span class="num">0</span>, data))  <span class="cm"># [7, 8, 10] — skips until 7</span>
+
+<span class="cm"># ── cycle — repeat an iterable forever ──</span>
+colors_cycle = <span class="fn">cycle</span>([<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>])
+<span class="fn">list</span>(<span class="fn">islice</span>(colors_cycle, <span class="num">7</span>))
+<span class="out"># ['red', 'green', 'blue', 'red', 'green', 'blue', 'red']</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Generators</button>
+    <button class="btn btn-next" onclick="next(6)">Error Handling →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L7 — ERROR HANDLING
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>Error Handling Done Right</h2>
+    <p class="lesson-intro">Most Python developers either catch too broadly (hiding bugs) or not at all (crashing users). Here's the correct mental model — custom exceptions, exception chaining, and when NOT to catch.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Python's Exception Hierarchy</div>
+    <p>Python exceptions form a tree. When you catch a parent, you catch all its children. This matters for deciding what to catch.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Exception Hierarchy (partial)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cls">BaseException</span>
+├── <span class="cls">SystemExit</span>           <span class="cm"># sys.exit() — don't catch this</span>
+├── <span class="cls">KeyboardInterrupt</span>    <span class="cm"># Ctrl+C — don't catch this either</span>
+└── <span class="cls">Exception</span>            <span class="cm"># catch this or its children</span>
+    ├── <span class="cls">ValueError</span>       <span class="cm"># wrong value type/range</span>
+    ├── <span class="cls">TypeError</span>        <span class="cm"># wrong type entirely</span>
+    ├── <span class="cls">KeyError</span>         <span class="cm"># dict key not found</span>
+    ├── <span class="cls">IndexError</span>       <span class="cm"># list index out of range</span>
+    ├── <span class="cls">AttributeError</span>   <span class="cm"># attribute doesn't exist on object</span>
+    ├── <span class="cls">FileNotFoundError</span><span class="cm"># subclass of OSError</span>
+    ├── <span class="cls">PermissionError</span>  <span class="cm"># subclass of OSError</span>
+    ├── <span class="cls">RuntimeError</span>     <span class="cm"># generic runtime error</span>
+    └── <span class="cls">StopIteration</span>    <span class="cm"># iterator exhausted (don't catch)</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ The Correct Exception Handling Pattern</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Full try/except/else/finally</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">def</span> <span class="fn">load_config</span>(path: <span class="bi">str</span>) -> <span class="bi">dict</span>:
+    <span class="kw">try</span>:
+        <span class="kw">with</span> <span class="fn">open</span>(path) <span class="kw">as</span> f:
+            data = json.<span class="fn">load</span>(f)
+
+    <span class="kw">except</span> <span class="cls">FileNotFoundError</span>:
+        <span class="cm"># Specific — file doesn't exist</span>
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Config not found: {path}. Using defaults."</span>)
+        <span class="kw">return</span> {}
+
+    <span class="kw">except</span> json.<span class="cls">JSONDecodeError</span> <span class="kw">as</span> e:
+        <span class="cm"># Specific — file exists but isn't valid JSON</span>
+        <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="fn">f</span><span class="str">"Config file corrupt: {path}"</span>) <span class="kw">from</span> e
+        <span class="cm"># ↑ "from e" attaches the original exception — keeps context</span>
+
+    <span class="kw">except</span> <span class="cls">PermissionError</span>:
+        <span class="cm"># Can't recover — re-raise with more info</span>
+        <span class="kw">raise</span> <span class="cls">PermissionError</span>(<span class="fn">f</span><span class="str">"Cannot read config: {path}"</span>)
+
+    <span class="kw">else</span>:
+        <span class="cm"># Runs ONLY if no exception was raised — often overlooked!</span>
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Config loaded: {len(data)} keys"</span>)
+        <span class="kw">return</span> data
+
+    <span class="kw">finally</span>:
+        <span class="cm"># Runs ALWAYS — with or without exception</span>
+        <span class="fn">print</span>(<span class="str">"load_config complete"</span>)
+
+
+<span class="cm"># ── What NOT to do ──────────────────────────────────</span>
+<span class="cm"># NEVER do this — hides ALL errors including bugs</span>
+<span class="kw">try</span>:
+    <span class="fn">do_something</span>()
+<span class="kw">except</span>:            <span class="cm"># bare except catches EVERYTHING, even SystemExit</span>
+    <span class="kw">pass</span>
+
+<span class="cm"># NEVER do this — too broad</span>
+<span class="kw">try</span>:
+    <span class="fn">do_something</span>()
+<span class="kw">except</span> <span class="cls">Exception</span>:  <span class="cm"># hides bugs disguised as "errors"</span>
+    <span class="fn">print</span>(<span class="str">"something went wrong"</span>)  <span class="cm"># no info, no re-raise</span></pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The Golden Rule</strong>Only catch exceptions you know how to handle. If you catch an exception just to print it and move on, you're hiding a bug. If you need to catch broadly for a user-facing error message, <em>log the full traceback</em> and re-raise or exit cleanly. Silent failures are the hardest bugs to find.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Custom Exception Hierarchy</div>
+    <p>For any real application, define your own exception classes. This lets callers catch your errors specifically and gives you meaningful error messages with structured data.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Custom Exceptions</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Define a hierarchy for your app</span>
+<span class="kw">class</span> <span class="cls">AppError</span>(<span class="cls">Exception</span>):
+    <span class="str">"""Base exception for all app errors."""</span>
+    <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="cls">ValidationError</span>(<span class="cls">AppError</span>):
+    <span class="str">"""Raised when input data fails validation."""</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, field: <span class="bi">str</span>, message: <span class="bi">str</span>):
+        <span class="kw">self</span>.field   = field
+        <span class="kw">self</span>.message = message
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="fn">f</span><span class="str">"Validation failed for '{field}': {message}"</span>)
+
+<span class="kw">class</span> <span class="cls">NotFoundError</span>(<span class="cls">AppError</span>):
+    <span class="str">"""Raised when a requested resource doesn't exist."""</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, resource: <span class="bi">str</span>, identifier):
+        <span class="kw">self</span>.resource   = resource
+        <span class="kw">self</span>.identifier = identifier
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="fn">f</span><span class="str">"{resource} '{identifier}' not found"</span>)
+
+
+<span class="cm"># ── Usage ──</span>
+<span class="kw">def</span> <span class="fn">get_player</span>(player_id: <span class="bi">int</span>) -> <span class="bi">dict</span>:
+    <span class="kw">if not</span> <span class="fn">isinstance</span>(player_id, <span class="bi">int</span>) <span class="kw">or</span> player_id &lt;= <span class="num">0</span>:
+        <span class="kw">raise</span> <span class="cls">ValidationError</span>(<span class="str">"player_id"</span>, <span class="str">"must be a positive integer"</span>)
+    player = db.<span class="fn">find</span>(player_id)
+    <span class="kw">if not</span> player:
+        <span class="kw">raise</span> <span class="cls">NotFoundError</span>(<span class="str">"Player"</span>, player_id)
+    <span class="kw">return</span> player
+
+<span class="cm"># ── Callers can be very specific ──</span>
+<span class="kw">try</span>:
+    player = <span class="fn">get_player</span>(<span class="num">42</span>)
+<span class="kw">except</span> <span class="cls">ValidationError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Bad input: {e.field}"</span>)
+<span class="kw">except</span> <span class="cls">NotFoundError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Missing: {e.resource} {e.identifier}"</span>)
+<span class="kw">except</span> <span class="cls">AppError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"App error: {e}"</span>)   <span class="cm"># catches all app errors</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Itertools</button>
+    <button class="btn btn-next" onclick="next(7)">Type Hints Deep Dive →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L8 — TYPE HINTS DEEP DIVE
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 09</div>
+    <h2>Type Hints Deep Dive</h2>
+    <p class="lesson-intro">Phase 1 introduced basic type hints. Now go deeper — Union types, TypeVar, Protocols, TypedDict, Literal, and how to use mypy to catch bugs before runtime.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Advanced Type Hint Patterns</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Type Hints You Need to Know</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> typing <span class="kw">import</span> (
+    Optional, Union, Any, TypeVar,
+    Callable, Sequence, Mapping,
+    TypedDict, Protocol, Literal, Final
+)
+
+<span class="cm"># ── Optional — value or None (very common) ──</span>
+<span class="kw">def</span> <span class="fn">find_user</span>(user_id: <span class="bi">int</span>) -> Optional[<span class="bi">dict</span>]:
+    <span class="cm"># Python 3.10+ cleaner syntax: dict | None</span>
+    <span class="kw">return</span> db.<span class="fn">get</span>(user_id)   <span class="cm"># might be None</span>
+
+<span class="cm"># ── Union — one of several types ──</span>
+<span class="kw">def</span> <span class="fn">parse_id</span>(raw: Union[<span class="bi">str</span>, <span class="bi">int</span>]) -> <span class="bi">int</span>:
+    <span class="cm"># Python 3.10+: str | int</span>
+    <span class="kw">return</span> <span class="bi">int</span>(raw)
+
+<span class="cm"># ── Callable — a function type ──</span>
+<span class="kw">def</span> <span class="fn">apply</span>(
+    func: Callable[[<span class="bi">int</span>, <span class="bi">int</span>], <span class="bi">int</span>],   <span class="cm"># takes 2 ints, returns int</span>
+    a: <span class="bi">int</span>, b: <span class="bi">int</span>
+) -> <span class="bi">int</span>:
+    <span class="kw">return</span> <span class="fn">func</span>(a, b)
+
+<span class="cm"># ── TypeVar — generic functions ──</span>
+T = TypeVar(<span class="str">'T'</span>)
+
+<span class="kw">def</span> <span class="fn">first</span>(items: <span class="bi">list</span>[T]) -> T:
+    <span class="cm"># Return type is same T as element type</span>
+    <span class="kw">return</span> items[<span class="num">0</span>]
+
+<span class="fn">first</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])         <span class="cm"># inferred: int</span>
+<span class="fn">first</span>([<span class="str">"a"</span>, <span class="str">"b"</span>])       <span class="cm"># inferred: str</span>
+
+<span class="cm"># ── TypedDict — dict with a known shape ──</span>
+<span class="kw">class</span> <span class="cls">PlayerData</span>(TypedDict):
+    name:    <span class="bi">str</span>
+    hp:      <span class="bi">int</span>
+    level:   <span class="bi">int</span>
+    alive:   <span class="bi">bool</span>
+
+<span class="kw">def</span> <span class="fn">display_player</span>(p: <span class="cls">PlayerData</span>) -> <span class="kw">None</span>:
+    <span class="cm"># mypy knows p["name"] is a str, p["hp"] is an int</span>
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{p['name']} — {p['hp']} HP"</span>)
+
+<span class="cm"># ── Literal — only specific values allowed ──</span>
+Direction = Literal[<span class="str">"north"</span>, <span class="str">"south"</span>, <span class="str">"east"</span>, <span class="str">"west"</span>]
+
+<span class="kw">def</span> <span class="fn">move</span>(direction: Direction) -> <span class="kw">None</span>:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Moving {direction}"</span>)
+
+<span class="fn">move</span>(<span class="str">"north"</span>)   <span class="cm"># ✅ valid</span>
+<span class="fn">move</span>(<span class="str">"up"</span>)      <span class="cm"># mypy error: not a valid Direction</span>
+
+<span class="cm"># ── Protocol — structural subtyping ("duck typing with types") ──</span>
+<span class="kw">class</span> <span class="cls">Drawable</span>(Protocol):
+    <span class="kw">def</span> <span class="fn">draw</span>(<span class="kw">self</span>) -> <span class="kw">None</span>: ...
+
+<span class="kw">def</span> <span class="fn">render_all</span>(objects: <span class="bi">list</span>[<span class="cls">Drawable</span>]) -> <span class="kw">None</span>:
+    <span class="kw">for</span> obj <span class="kw">in</span> objects:
+        obj.<span class="fn">draw</span>()
+
+<span class="cm"># Any class with a draw() method satisfies Drawable</span>
+<span class="cm"># — no explicit inheritance needed. True duck typing + types.</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Running mypy — Catch Bugs Before Runtime</div>
+    <ol class="step-list">
+      <li>Install: <code>pip install mypy</code></li>
+      <li>Run on a file: <code>mypy your_file.py</code></li>
+      <li>Run strictly: <code>mypy --strict your_file.py</code> — catches more issues, requires all annotations</li>
+      <li>Add a <code>mypy.ini</code> or <code>pyproject.toml</code> section to configure per-project settings</li>
+      <li>In VS Code: install the Pylance extension — gives you mypy-like feedback inline as you type</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Don't annotate everything at once</strong>If you're adding types to an existing project, start with function signatures only. Annotate return types first (most valuable), then parameters. Use <code># type: ignore</code> sparingly for things you'll fix later. Progress over perfection.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Error Handling</button>
+    <button class="btn btn-next" onclick="next(8)">Dataclasses →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L9 — DATACLASSES
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 10</div>
+    <h2>Dataclasses — Structured Data Without Boilerplate</h2>
+    <p class="lesson-intro"><code>@dataclass</code> is Python's answer to Java Records — auto-generates <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code> and more from your field declarations. Use them constantly.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 What @dataclass Generates For You</div>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad-lbl">Without @dataclass — all manual</div>
+        <div class="code-block"><pre><span class="kw">class</span> <span class="cls">Player</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name, hp, level):
+        <span class="kw">self</span>.name  = name
+        <span class="kw">self</span>.hp    = hp
+        <span class="kw">self</span>.level = level
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> (<span class="fn">f</span><span class="str">"Player(name={self.name!r},"</span>
+                <span class="fn">f</span><span class="str">" hp={self.hp},"</span>
+                <span class="fn">f</span><span class="str">" level={self.level})"</span>)
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(<span class="kw">self</span>, other):
+        <span class="kw">if not isinstance</span>(other, <span class="cls">Player</span>):
+            <span class="kw">return</span> NotImplemented
+        <span class="kw">return</span> (<span class="kw">self</span>.name == other.name <span class="kw">and</span>
+                <span class="kw">self</span>.hp   == other.hp   <span class="kw">and</span>
+                <span class="kw">self</span>.level == other.level)</pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good-lbl">With @dataclass — auto-generated</div>
+        <div class="code-block"><pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Player</span>:
+    name:  <span class="bi">str</span>
+    hp:    <span class="bi">int</span>
+    level: <span class="bi">int</span>
+
+<span class="cm"># That's it. Python generates:</span>
+<span class="cm"># ✅ __init__(self, name, hp, level)</span>
+<span class="cm"># ✅ __repr__ with all fields</span>
+<span class="cm"># ✅ __eq__ comparing all fields</span>
+<span class="cm"># All correct. All free.</span></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Advanced Dataclass Features</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Dataclasses in Full</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field, asdict, astuple
+<span class="kw">from</span> typing <span class="kw">import</span> ClassVar
+<span class="kw">import</span> datetime
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Task</span>:
+    <span class="cm"># Required fields (no default) must come before optional ones</span>
+    title:    <span class="bi">str</span>
+    priority: <span class="bi">int</span>
+
+    <span class="cm"># Optional fields with defaults</span>
+    done:     <span class="bi">bool</span>    = <span class="kw">False</span>
+    tags:     <span class="bi">list</span>[<span class="bi">str</span>] = field(default_factory=<span class="bi">list</span>)
+    <span class="cm"># ↑ NEVER use default=[] — mutable defaults are shared!</span>
+    <span class="cm">#   default_factory creates a NEW list for each instance</span>
+
+    <span class="cm"># Auto-set field — not in __init__ signature</span>
+    created:  <span class="bi">str</span>    = field(
+        default_factory=<span class="kw">lambda</span>: datetime.datetime.<span class="fn">now</span>().<span class="fn">isoformat</span>(),
+        init=<span class="kw">False</span>    <span class="cm"># excluded from constructor</span>
+    )
+
+    <span class="cm"># Class variable (shared, not per-instance)</span>
+    MAX_PRIORITY: ClassVar[<span class="bi">int</span>] = <span class="num">5</span>
+
+    <span class="cm"># You can still add methods normally</span>
+    <span class="kw">def</span> <span class="fn">complete</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>.done = <span class="kw">True</span>
+
+    <span class="cm"># __post_init__ — runs after the generated __init__</span>
+    <span class="kw">def</span> <span class="fn">__post_init__</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">if not</span> <span class="num">1</span> &lt;= <span class="kw">self</span>.priority &lt;= <span class="kw">self</span>.MAX_PRIORITY:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(
+                <span class="fn">f</span><span class="str">"Priority must be 1–{self.MAX_PRIORITY}, got {self.priority}"</span>
+            )
+        <span class="kw">self</span>.title = <span class="kw">self</span>.title.<span class="fn">strip</span>()   <span class="cm"># clean up input</span>
+
+
+<span class="cm"># ── Frozen dataclass — immutable (like Java record) ──</span>
+<span class="dec">@dataclass</span>(frozen=<span class="kw">True</span>)
+<span class="kw">class</span> <span class="cls">Point</span>:
+    x: <span class="bi">float</span>
+    y: <span class="bi">float</span>
+    <span class="cm"># frozen=True: auto-generates __hash__, prevents mutation</span>
+    <span class="cm"># Can be used in sets and as dict keys</span>
+
+p = <span class="cls">Point</span>(<span class="num">3.0</span>, <span class="num">4.0</span>)
+<span class="fn">print</span>(<span class="fn">asdict</span>(p))      <span class="cm"># {'x': 3.0, 'y': 4.0} — to dict, free!</span>
+<span class="cm"># p.x = 5  ← FrozenInstanceError — immutable</span>
+
+
+<span class="cm"># ── Ordered dataclass — sortable ──</span>
+<span class="dec">@dataclass</span>(order=<span class="kw">True</span>)
+<span class="kw">class</span> <span class="cls">Score</span>:
+    value:      <span class="bi">int</span>
+    player_name: <span class="bi">str</span>
+
+scores = [<span class="cls">Score</span>(<span class="num">85</span>, <span class="str">"Jude"</span>), <span class="cls">Score</span>(<span class="num">92</span>, <span class="str">"Ana"</span>), <span class="cls">Score</span>(<span class="num">78</span>, <span class="str">"Max"</span>)]
+<span class="fn">print</span>(<span class="fn">sorted</span>(scores))  <span class="cm"># sorted by value, then name — free!</span></pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The Mutable Default Trap</strong>Never write <code>tags: list = []</code> in a dataclass. That single <code>[]</code> is created once at class definition time and shared between ALL instances — modifying one modifies all. Always use <code>field(default_factory=list)</code> for mutable defaults like lists and dicts.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why should you use <code>field(default_factory=list)</code> instead of <code>= []</code> for a list field in a dataclass?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">It runs faster at runtime</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">A plain <code>= []</code> creates one list shared across ALL instances; <code>default_factory</code> creates a fresh list for each instance</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">It enables type checking with mypy</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">There is no difference — both work correctly</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Type Hints</button>
+    <button class="btn btn-next" onclick="next(9)">Phase Project →</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     L10 — PHASE PROJECT
+════════════════════════════════════════════════ -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Rebuild the Task Manager — Pythonically</h2>
+    <p class="lesson-intro">Take the Phase 1 task manager and rebuild it from scratch using every concept from Phase 2. Same functionality, dramatically better code.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 What to Build</div>
+    <p>The Phase 1 project was functional. This version should be <em>Pythonic</em>. Every lesson from Phase 2 should appear somewhere in the final code.</p>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body"><strong>Requirements Checklist</strong>
+        <br>✅ <strong>Dataclasses</strong> — Task, Tag, Priority using <code>@dataclass</code> with proper defaults
+        <br>✅ <strong>Properties</strong> — validated <code>priority</code> setter, computed <code>is_overdue</code> property
+        <br>✅ <strong>Dunder methods</strong> — <code>__str__</code>, <code>__repr__</code>, <code>__eq__</code>, <code>__lt__</code> on Task so they sort naturally
+        <br>✅ <strong>Context manager</strong> — file-based persistence using <code>@contextmanager</code>
+        <br>✅ <strong>Generator</strong> — <code>pending_tasks()</code> yields tasks lazily
+        <br>✅ <strong>Custom exceptions</strong> — <code>TaskNotFoundError</code>, <code>ValidationError</code>
+        <br>✅ <strong>Decorators</strong> — <code>@log_calls</code> on mutating methods
+        <br>✅ <strong>Type hints</strong> — full annotation including <code>Optional</code>, <code>Literal</code>, and <code>TypedDict</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Reference Solution — Study After Attempting</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Pythonic Task Manager (Phase 2)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> __future__  <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field, asdict
+<span class="kw">from</span> contextlib  <span class="kw">import</span> contextmanager
+<span class="kw">from</span> typing      <span class="kw">import</span> Iterator, Literal, Optional
+<span class="kw">from</span> pathlib     <span class="kw">import</span> Path
+<span class="kw">import</span> json, datetime, functools, logging
+
+logging.<span class="fn">basicConfig</span>(level=logging.INFO,
+                    format=<span class="str">"%(levelname)s %(message)s"</span>)
+log = logging.<span class="fn">getLogger</span>(__name__)
+
+
+<span class="cm"># ─── Custom Exceptions ───────────────────────────</span>
+<span class="kw">class</span> <span class="cls">TaskError</span>(<span class="cls">Exception</span>): <span class="kw">pass</span>
+<span class="kw">class</span> <span class="cls">TaskNotFoundError</span>(<span class="cls">TaskError</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, task_id: <span class="bi">str</span>):
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="fn">f</span><span class="str">"Task not found: {task_id!r}"</span>)
+<span class="kw">class</span> <span class="cls">ValidationError</span>(<span class="cls">TaskError</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, field_name: <span class="bi">str</span>, msg: <span class="bi">str</span>):
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="fn">f</span><span class="str">"{field_name}: {msg}"</span>)
+
+
+<span class="cm"># ─── Logging decorator ──────────────────────────</span>
+<span class="kw">def</span> <span class="fn">log_mutation</span>(func):
+    <span class="dec">@functools.wraps</span>(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        result = <span class="fn">func</span>(*args, **kwargs)
+        log.<span class="fn">info</span>(<span class="fn">f</span><span class="str">"{func.__name__} called"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper
+
+
+<span class="cm"># ─── Priority type ───────────────────────────────</span>
+Priority = Literal[<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+PRIORITY_LABELS = {<span class="num">1</span>:<span class="str">"low"</span>, <span class="num">2</span>:<span class="str">"normal"</span>, <span class="num">3</span>:<span class="str">"high"</span>, <span class="num">4</span>:<span class="str">"urgent"</span>, <span class="num">5</span>:<span class="str">"critical"</span>}
+
+
+<span class="cm"># ─── Task dataclass ──────────────────────────────</span>
+<span class="dec">@dataclass</span>(order=<span class="kw">True</span>)
+<span class="kw">class</span> <span class="cls">Task</span>:
+    title:    <span class="bi">str</span>
+    _priority: <span class="bi">int</span>          = field(default=<span class="num">2</span>, repr=<span class="kw">False</span>)
+    done:     <span class="bi">bool</span>           = field(default=<span class="kw">False</span>, compare=<span class="kw">False</span>)
+    tags:     <span class="bi">list</span>[<span class="bi">str</span>]      = field(default_factory=<span class="bi">list</span>, compare=<span class="kw">False</span>)
+    due:      Optional[<span class="bi">str</span>]  = field(default=<span class="kw">None</span>, compare=<span class="kw">False</span>)
+    created:  <span class="bi">str</span>            = field(
+        default_factory=<span class="kw">lambda</span>: datetime.date.<span class="fn">today</span>().<span class="fn">isoformat</span>(),
+        init=<span class="kw">False</span>, compare=<span class="kw">False</span>
+    )
+
+    <span class="kw">def</span> <span class="fn">__post_init__</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">if not</span> <span class="kw">self</span>.title.<span class="fn">strip</span>():
+            <span class="kw">raise</span> <span class="cls">ValidationError</span>(<span class="str">"title"</span>, <span class="str">"cannot be blank"</span>)
+        <span class="kw">self</span>.title = <span class="kw">self</span>.title.<span class="fn">strip</span>()
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">priority</span>(<span class="kw">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="kw">self</span>._priority
+
+    <span class="dec">@priority.setter</span>
+    <span class="kw">def</span> <span class="fn">priority</span>(<span class="kw">self</span>, value: <span class="bi">int</span>) -> <span class="kw">None</span>:
+        <span class="kw">if not</span> <span class="num">1</span> &lt;= value &lt;= <span class="num">5</span>:
+            <span class="kw">raise</span> <span class="cls">ValidationError</span>(<span class="str">"priority"</span>, <span class="str">"must be 1–5"</span>)
+        <span class="kw">self</span>._priority = value
+
+    <span class="dec">@property</span>
+    <span class="kw">def</span> <span class="fn">is_overdue</span>(<span class="kw">self</span>) -> <span class="bi">bool</span>:
+        <span class="kw">if not</span> <span class="kw">self</span>.due: <span class="kw">return</span> <span class="kw">False</span>
+        <span class="kw">return</span> datetime.date.<span class="fn">fromisoformat</span>(<span class="kw">self</span>.due) &lt; datetime.date.<span class="fn">today</span>()
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:
+        status  = <span class="str">"✓"</span> <span class="kw">if</span> <span class="kw">self</span>.done <span class="kw">else</span> (<span class="str">"!"</span> <span class="kw">if</span> <span class="kw">self</span>.is_overdue <span class="kw">else</span> <span class="str">"○"</span>)
+        plabel  = PRIORITY_LABELS[<span class="kw">self</span>._priority]
+        due_str = <span class="fn">f</span><span class="str">" due:{self.due}"</span> <span class="kw">if</span> <span class="kw">self</span>.due <span class="kw">else</span> <span class="str">""</span>
+        <span class="kw">return</span> <span class="fn">f</span><span class="str">"[{status}] {self.title} [{plabel}]{due_str}"</span>
+
+
+<span class="cm"># ─── Context manager for file I/O ────────────────</span>
+<span class="dec">@contextmanager</span>
+<span class="kw">def</span> <span class="fn">task_store</span>(path: <span class="cls">Path</span>) -> Iterator[<span class="bi">list</span>[<span class="cls">Task</span>]]:
+    tasks: <span class="bi">list</span>[<span class="cls">Task</span>] = []
+    <span class="kw">if</span> path.<span class="fn">exists</span>():
+        raw = json.<span class="fn">loads</span>(path.<span class="fn">read_text</span>())
+        tasks = [<span class="cls">Task</span>(**r) <span class="kw">for</span> r <span class="kw">in</span> raw]
+    <span class="kw">try</span>:
+        <span class="kw">yield</span> tasks
+    <span class="kw">finally</span>:
+        path.<span class="fn">write_text</span>(json.<span class="fn">dumps</span>([<span class="fn">asdict</span>(t) <span class="kw">for</span> t <span class="kw">in</span> tasks], indent=<span class="num">2</span>))
+
+
+<span class="cm"># ─── TaskManager ─────────────────────────────────</span>
+<span class="kw">class</span> <span class="cls">TaskManager</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, path: <span class="bi">str</span> = <span class="str">"tasks.json"</span>):
+        <span class="kw">self</span>._path  = <span class="cls">Path</span>(path)
+        <span class="kw">self</span>._tasks: <span class="bi">list</span>[<span class="cls">Task</span>] = <span class="kw">self</span>.<span class="fn">_load</span>()
+
+    <span class="kw">def</span> <span class="fn">_load</span>(<span class="kw">self</span>) -> <span class="bi">list</span>[<span class="cls">Task</span>]:
+        <span class="kw">if not</span> <span class="kw">self</span>._path.<span class="fn">exists</span>(): <span class="kw">return</span> []
+        <span class="kw">return</span> [<span class="cls">Task</span>(**r) <span class="kw">for</span> r <span class="kw">in</span> json.<span class="fn">loads</span>(<span class="kw">self</span>._path.<span class="fn">read_text</span>())]
+
+    <span class="kw">def</span> <span class="fn">_save</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>._path.<span class="fn">write_text</span>(
+            json.<span class="fn">dumps</span>([<span class="fn">asdict</span>(t) <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>._tasks], indent=<span class="num">2</span>))
+
+    <span class="dec">@log_mutation</span>
+    <span class="kw">def</span> <span class="fn">add</span>(<span class="kw">self</span>, title: <span class="bi">str</span>, priority: <span class="bi">int</span> = <span class="num">2</span>,
+            tags: <span class="bi">list</span>[<span class="bi">str</span>] = <span class="kw">None</span>, due: Optional[<span class="bi">str</span>] = <span class="kw">None</span>) -> <span class="cls">Task</span>:
+        task = <span class="cls">Task</span>(title=title, _priority=priority,
+                    tags=tags <span class="kw">or</span> [], due=due)
+        <span class="kw">self</span>._tasks.<span class="fn">append</span>(task)
+        <span class="kw">self</span>.<span class="fn">_save</span>()
+        <span class="kw">return</span> task
+
+    <span class="kw">def</span> <span class="fn">pending</span>(<span class="kw">self</span>) -> Iterator[<span class="cls">Task</span>]:
+        <span class="str">"""Generator — yields pending tasks by priority (highest first)."""</span>
+        <span class="kw">for</span> task <span class="kw">in</span> <span class="fn">sorted</span>(<span class="kw">self</span>._tasks, reverse=<span class="kw">True</span>):
+            <span class="kw">if not</span> task.done:
+                <span class="kw">yield</span> task
+
+    <span class="kw">def</span> <span class="fn">overdue</span>(<span class="kw">self</span>) -> Iterator[<span class="cls">Task</span>]:
+        <span class="str">"""Generator — yields only overdue pending tasks."""</span>
+        <span class="kw">return</span> (t <span class="kw">for</span> t <span class="kw">in</span> <span class="kw">self</span>.<span class="fn">pending</span>() <span class="kw">if</span> t.is_overdue)
+
+    <span class="kw">def</span> <span class="fn">__len__</span>(<span class="kw">self</span>) -> <span class="bi">int</span>:      <span class="kw">return</span> <span class="fn">len</span>(<span class="kw">self</span>._tasks)
+    <span class="kw">def</span> <span class="fn">__iter__</span>(<span class="kw">self</span>):             <span class="kw">return</span> <span class="fn">iter</span>(<span class="kw">self</span>._tasks)
+    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="kw">self</span>) -> <span class="bi">str</span>:      <span class="kw">return</span> <span class="fn">f</span><span class="str">"TaskManager({len(self)} tasks)"</span>
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    mgr = <span class="cls">TaskManager</span>()
+    mgr.<span class="fn">add</span>(<span class="str">"Learn Phase 3 — The Ecosystem"</span>, priority=<span class="num">5</span>)
+    mgr.<span class="fn">add</span>(<span class="str">"Ship Death Road prototype"</span>,     priority=<span class="num">4</span>, due=<span class="str">"2026-07-01"</span>)
+    mgr.<span class="fn">add</span>(<span class="str">"Read The Pragmatic Programmer"</span>,  priority=<span class="num">2</span>)
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"\n{mgr}\n"</span>)
+    <span class="kw">for</span> task <span class="kw">in</span> mgr.<span class="fn">pending</span>():
+        <span class="fn">print</span>(task)</pre>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the baseline works, push further:</h4>
+    <ul>
+      <li>Add a <code>search(query: str)</code> method that uses a generator to filter across title and tags</li>
+      <li>Add a <code>@dataclass</code> <code>TaskStats</code> with computed fields (total, done, pending, overdue counts) using <code>itertools</code></li>
+      <li>Write a <code>bulk_complete(*titles: str)</code> method using <code>*args</code> — mark multiple tasks done at once</li>
+      <li>Add a <code>@retry(times=3)</code> decorator to the <code>_save()</code> method to handle I/O failures gracefully</li>
+    </ul>
+  </div>
+
+  <div class="callout tip" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>Phase 2 Complete.</strong> Compare your code to the Phase 1 version. It does the same thing — but now it speaks Python natively. Decorators, generators, properties, context managers, dataclasses, custom exceptions. Every tool has a reason. That's Pythonic thinking. Phase 3 is The Ecosystem — <code>requests</code>, <code>pydantic</code>, <code>typer</code>, and the libraries that make Python fast to ship with.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Type Hints</button>
+    <button class="btn btn-next" onclick="goPhase3()">Phase 3 — The Ecosystem →</button>
+  </div>
+</section>
+
+</main>
+</div><!-- /layout -->
+
+<script>
+const TOTAL = 11;
+const done  = new Set();
+let   cur   = 0;
+
+/* build streak nodes */
+const snWrap = document.getElementById('streak-nodes');
+for (let i = 0; i &lt; TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snWrap.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'   + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'   + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)     { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)     { go(Math.max(i - 1, 0)); }
+function goPhase3()  { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  for (let i = 0; i &lt; TOTAL; i++) {
+    const chk = document.getElementById('chk' + i);
+    const sn  = document.getElementById('sn'  + i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  const snCur = document.getElementById('sn' + cur);
+  if (snCur && !done.has(cur)) snCur.classList.add('current');
+}
+
+const quizAnswers = {
+  qfb1: {
+    ok:  '✅ Correct! Python\'s len() calls __len__() on the object. This is the data model — every operator and built-in function delegates to a dunder method, which is why your custom classes can integrate with the language itself.',
+    bad: '❌ Not quite. Python calls __len__() behind the scenes. This is the data model — you implement dunder methods so your objects work with Python\'s built-in operators and functions.'
+  },
+  qfb5: {
+    ok:  '✅ Correct! The list comprehension evaluates all 1M squares immediately and stores them in memory (~8MB). The generator expression stores only the recipe for computing them — each value is computed on demand, using ~200 bytes regardless of size.',
+    bad: '❌ The key difference is memory timing. The list builds everything now. The generator expression computes one value at a time when asked — so it uses constant memory no matter how large the range.'
+  },
+  qfb9: {
+    ok:  '✅ Correct! Mutable default arguments are created once at class definition and shared between all instances. field(default_factory=list) calls list() fresh for each new instance, giving each its own independent list.',
+    bad: '❌ This is one of the most common Python bugs. A plain = [] creates one list at class definition time — every instance shares it. Modifying one task\'s tags would affect all tasks. default_factory creates a new list per instance.'
+  }
+};
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const answers = quizAnswers[fb.id];
+  if (answers) fb.textContent = answers[result === 'correct' ? 'ok' : 'bad'];
+}
+
+done.add(0);
+updateProgress();
+</script>
+<script src="../scripts/main.js" defer></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

@@ -630,7 +630,7 @@ const expl = {
   4:'sout is a live template — IntelliJ expands it to System.out.println() when you press Tab. The cursor lands inside the parentheses ready to type. This alone saves minutes per day.',
   5:'Rename refactoring (Shift+F6) updates every usage across the entire project atomically. Find/Replace is a blunt instrument — it matches text patterns, not code symbols, and can rename things it shouldn\'t.',
   6:'Redirecting stdin from a file in the Run Configuration means every run automatically feeds the same input. Much faster than retyping the same test sequence manually.',
-  7:'A conditional breakpoint with condition i >= 398 lets the program run at full speed until it\'s near the bug. Manually pressing F8 hundreds of times is exhausting and error-prone.',
+  7:'A conditional breakpoint with condition i &gt;= 398 lets the program run at full speed until it\'s near the bug. Manually pressing F8 hundreds of times is exhausting and error-prone.',
   8:'The Commit dialog (Ctrl+K) shows all changed files with checkboxes. Only checked files are staged and committed. This is equivalent to git add for specific files.',
   9:'Unresolved symbol errors almost always mean the project SDK isn\'t set. File → Project Structure → Project → SDK. Disabling inspections would just hide the real problem.',
 };
@@ -666,7 +666,7 @@ let stScore = 0;
 let stAnswered = false;
 
 function renderST() {
-  if(stIdx >= stData.length) {
+  if(stIdx &gt;= stData.length) {
     document.querySelector('.st-card').innerHTML = `<div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">Done! ${stScore}/${stData.length} correct</div><div style="font-size:.88rem;color:var(--muted)">Refresh the trainer to try again.</div>`;
     document.getElementById('stProg').textContent = `Final score: ${stScore} / ${stData.length}`;
     return;

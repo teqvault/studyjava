@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phase 4 — Files, Data & Automation | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="../css/python-phase4.css">
+</head>
+<body>
+
+<!-- ── SIDEBAR ─────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="phase-badge">🤖 Phase 04</div>
+    <div class="sidebar-title">Files, Data &amp; Automation</div>
+    <div class="sidebar-sub">// where python pays immediately</div>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-label">Your Progress</div>
+    <div class="progress-dots" id="dots"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="pbar"></div>
+    </div>
+    <div class="progress-text" id="ptext">0 / 9 lessons complete</div>
+  </div>
+
+  <nav class="sidebar-nav" id="nav"></nav>
+
+  <div class="sidebar-footer">
+    <div class="phase-links">
+      <a href="python-phase3.html" class="phase-link">← Phase 3</a>
+      <a href="python-phase5.html" class="phase-link next">Phase 5 →</a>
+    </div>
+  </div>
+</aside>
+
+<!-- ── LESSONS ─────────────────────────── -->
+<main class="main" id="main"></main>
+
+<script>
+/* ─────────────────────────────────────────
+   LESSON DATA
+───────────────────────────────────────── */
+const lessons = [
+  {
+    id: 'l1',
+    title: 'JSON, CSV, TOML & XML',
+    eyebrow: 'Lesson 01 · Data Formats',
+    pills: ['~40 min', 'Practical', 'json · csv · toml'],
+    body: `
+<h2>Why data formats matter</h2>
+<p>Every real program exchanges data — with files, APIs, databases, other programs. Python has built-in or near-built-in support for every major format. Knowing which to reach for, and the gotchas in each, is one of the most immediately practical skills you'll use.</p>
+
+<div class="tag-row">
+  <span class="tag">json</span><span class="tag">csv</span><span class="tag">toml</span><span class="tag">xml</span><span class="tag">pickle</span>
+</div>
+
+<h2>JSON — the universal format</h2>
+<p>JSON is everywhere. REST APIs, config files, databases, logs. Python's <span class="hl">json</span> module is in the standard library and handles everything you need.</p>
+
+<h3>The four operations</h3>
+<pre><code><span class="kw">import</span> json
+
+<span class="cm"># 1. Python dict → JSON string</span>
+data = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"java"</span>], <span class="str">"level"</span>: <span class="num">3</span>}
+json_string = json.dumps(data, indent=<span class="num">2</span>)
+<span class="fn">print</span>(json_string)
+<span class="cm"># {
+#   "name": "Jude",
+#   "skills": ["python", "java"],
+#   "level": 3
+# }</span>
+
+<span class="cm"># 2. JSON string → Python dict</span>
+back = json.loads(json_string)
+<span class="fn">print</span>(back[<span class="str">"skills"</span>])  <span class="cm"># ['python', 'java']</span>
+
+<span class="cm"># 3. Write JSON to a file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    json.dump(data, f, indent=<span class="num">2</span>)
+
+<span class="cm"># 4. Read JSON from a file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>) <span class="kw">as</span> f:
+    loaded = json.load(f)</code></pre>
+<div class="code-label">json basics</div>
+
+<div class="callout callout-warn">
+  <strong>⚠ The non-serializable trap</strong>
+  json.dumps() will crash on Python types it doesn't know: datetime, Decimal, Path, custom classes, numpy arrays. You need a custom encoder.
+</div>
+
+<h3>Handling non-serializable types</h3>
+<pre><code><span class="kw">import</span> json
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, date
+<span class="kw">from</span> decimal <span class="kw">import</span> Decimal
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">class</span> <span class="cls">SmartEncoder</span>(json.JSONEncoder):
+    <span class="kw">def</span> <span class="fn">default</span>(self, obj):
+        <span class="kw">if</span> <span class="fn">isinstance</span>(obj, (datetime, date)):
+            <span class="kw">return</span> obj.isoformat()
+        <span class="kw">if</span> <span class="fn">isinstance</span>(obj, Decimal):
+            <span class="kw">return</span> <span class="fn">float</span>(obj)
+        <span class="kw">if</span> <span class="fn">isinstance</span>(obj, Path):
+            <span class="kw">return</span> <span class="fn">str</span>(obj)
+        <span class="kw">return</span> <span class="fn">super</span>().<span class="fn">default</span>(obj)
+
+data = {
+    <span class="str">"created"</span>: datetime.now(),
+    <span class="str">"price"</span>: Decimal(<span class="str">"9.99"</span>),
+    <span class="str">"config"</span>: Path(<span class="str">"/etc/app.conf"</span>),
+}
+
+<span class="cm"># Pass cls= to use your custom encoder</span>
+print(json.dumps(data, cls=SmartEncoder, indent=2))
+<span class="cm"># {
+#   "created": "2026-06-11T14:30:00",
+#   "price": 9.99,
+#   "config": "/etc/app.conf"
+# }</span></code></pre>
+
+<h2>CSV — tables as text</h2>
+<p>CSV is how spreadsheet data travels. Every database, Excel file, and analytics tool can export/import CSV. Python's built-in <span class="hl">csv</span> module handles the edge cases that trip up naive string splitting (quoted fields with commas, newlines inside fields, etc).</p>
+
+<div class="callout callout-danger">
+  <strong>🚫 Never do this</strong>
+  Don't split CSV lines on commas yourself: <code>line.split(",")</code> breaks the moment a field contains a comma inside quotes. Always use the csv module.
+</div>
+
+<h3>Reading and writing CSV</h3>
+<pre><code><span class="kw">import</span> csv
+
+<span class="cm"># ── Writing ──────────────────────────────</span>
+tasks = [
+    {<span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"title"</span>: <span class="str">"Learn CSV"</span>, <span class="str">"done"</span>: <span class="str">"False"</span>},
+    {<span class="str">"id"</span>: <span class="num">2</span>, <span class="str">"title"</span>: <span class="str">"Build automation"</span>, <span class="str">"done"</span>: <span class="str">"False"</span>},
+    {<span class="str">"id"</span>: <span class="num">3</span>, <span class="str">"title"</span>: <span class="str">'Fix bug: "edge case"'</span>, <span class="str">"done"</span>: <span class="str">"True"</span>},
+]
+
+<span class="cm"># ALWAYS use newline="" on Windows to avoid blank rows</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"tasks.csv"</span>, <span class="str">"w"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+    writer = csv.<span class="fn">DictWriter</span>(f, fieldnames=[<span class="str">"id"</span>, <span class="str">"title"</span>, <span class="str">"done"</span>])
+    writer.<span class="fn">writeheader</span>()
+    writer.<span class="fn">writerows</span>(tasks)
+
+<span class="cm"># ── Reading ──────────────────────────────</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"tasks.csv"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+    reader = csv.<span class="fn">DictReader</span>(f)
+    <span class="kw">for</span> row <span class="kw">in</span> reader:
+        <span class="cm"># Values are ALWAYS strings — you must convert types yourself</span>
+        task_id = <span class="fn">int</span>(row[<span class="str">"id"</span>])
+        done = row[<span class="str">"done"</span>] == <span class="str">"True"</span>
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{task_id}: {row['title']} ({'✓' if done else '○'})"</span>)
+<span class="cm"># 1: Learn CSV (○)
+# 2: Build automation (○)
+# 3: Fix bug: "edge case" (✓)</span></code></pre>
+
+<div class="callout callout-tip">
+  <strong>💡 Large CSV files</strong>
+  DictReader is lazy — it reads one row at a time. You can process a 10GB CSV file with almost no memory because you never load it all at once. Don't use pandas for reading if you only need to iterate.
+</div>
+
+<h2>TOML — the config format Python chose</h2>
+<p>As of Python 3.11, <span class="hl">tomllib</span> is in the standard library (3.10 had it as tomlib). TOML is the format used by <span class="hl">pyproject.toml</span> — Python's own tooling config. It's typed unlike INI files, simpler than YAML, and less verbose than JSON.</p>
+
+<pre><code><span class="cm"># config.toml</span>
+<span class="cm"># [app]</span>
+<span class="cm"># name = "Command Center"</span>
+<span class="cm"># version = "1.0.0"</span>
+<span class="cm"># debug = false</span>
+<span class="cm"># </span>
+<span class="cm"># [database]</span>
+<span class="cm"># host = "localhost"</span>
+<span class="cm"># port = 5432</span>
+<span class="cm"># </span>
+<span class="cm"># [features]</span>
+<span class="cm"># enabled = ["weather", "tasks", "ai"]</span>
+
+<span class="kw">import</span> tomllib  <span class="cm"># Python 3.11+, or install tomli for 3.10</span>
+
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"config.toml"</span>, <span class="str">"rb"</span>) <span class="kw">as</span> f:  <span class="cm"># Note: "rb" not "r"</span>
+    config = tomllib.<span class="fn">load</span>(f)
+
+<span class="fn">print</span>(config[<span class="str">"app"</span>][<span class="str">"name"</span>])         <span class="cm"># Command Center</span>
+<span class="fn">print</span>(config[<span class="str">"database"</span>][<span class="str">"port"</span>])   <span class="cm"># 5432  ← integer, not string!</span>
+<span class="fn">print</span>(config[<span class="str">"app"</span>][<span class="str">"debug"</span>])       <span class="cm"># False ← boolean, not string!</span>
+<span class="fn">print</span>(config[<span class="str">"features"</span>][<span class="str">"enabled"</span>]) <span class="cm"># ['weather', 'tasks', 'ai']</span></code></pre>
+
+<div class="callout callout-info">
+  <strong>ℹ TOML vs JSON vs YAML for config</strong>
+  Use TOML for app config (pyproject.toml proves the Python community agrees). Use JSON for API data exchange. Avoid YAML in new projects — its flexibility makes it subtly error-prone (indentation bugs are silent killers).
+</div>
+
+<h2>XML — legacy but everywhere</h2>
+<p>You'll encounter XML in enterprise systems, Android resources, RSS feeds, and SOAP APIs. You don't need to love it, but you need to be able to read it.</p>
+
+<pre><code><span class="kw">import</span> xml.etree.ElementTree <span class="kw">as</span> ET
+
+xml_data = <span class="str">"""
+<tasks>
+  <task id="1" priority="high">
+    <title>Learn XML parsing</title>
+    <done>false</done>
+  </task>
+  <task id="2" priority="low">
+    <title>Automate everything</title>
+    <done>true</done>
+  </task>
+</tasks>
+"""</span>
+
+root = ET.<span class="fn">fromstring</span>(xml_data)
+
+<span class="kw">for</span> task <span class="kw">in</span> root.<span class="fn">findall</span>(<span class="str">"task"</span>):
+    task_id  = task.<span class="fn">get</span>(<span class="str">"id"</span>)
+    priority = task.<span class="fn">get</span>(<span class="str">"priority"</span>)
+    title    = task.<span class="fn">find</span>(<span class="str">"title"</span>).text
+    done     = task.<span class="fn">find</span>(<span class="str">"done"</span>).text == <span class="str">"true"</span>
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{task_id}] {title} ({priority}) {'✓' if done else '○'}"</span>)
+<span class="cm"># [1] Learn XML parsing (high) ○
+# [2] Automate everything (low) ✓</span></code></pre>
+`
+  },
+  {
+    id: 'l2',
+    title: 'File System at Scale',
+    eyebrow: 'Lesson 02 · Pathlib & Batch Ops',
+    pills: ['~45 min', 'Practical', 'pathlib · os · shutil'],
+    body: `
+<h2>Pathlib — the modern way</h2>
+<p>Before Python 3.6, working with file paths was string manipulation hell mixed with <span class="hl-coral">os.path</span> calls. Pathlib gives you path objects that know they're paths — with methods, operators, and properties that make file system work feel natural.</p>
+
+<div class="compare">
+  <div class="compare-box">
+    <div class="compare-label bad">❌ Old Way (os.path)</div>
+    <pre><code><span class="kw">import</span> os
+
+base = <span class="str">"/home/jude/projects"</span>
+full = os.path.<span class="fn">join</span>(base, <span class="str">"app"</span>, <span class="str">"config.json"</span>)
+name = os.path.<span class="fn">basename</span>(full)
+ext  = os.path.<span class="fn">splitext</span>(name)[<span class="num">1</span>]
+exists = os.path.<span class="fn">exists</span>(full)</code></pre>
+  </div>
+  <div class="compare-box">
+    <div class="compare-label good">✓ Pathlib Way</div>
+    <pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+base = Path(<span class="str">"/home/jude/projects"</span>)
+full = base / <span class="str">"app"</span> / <span class="str">"config.json"</span>
+name = full.name       <span class="cm"># "config.json"</span>
+ext  = full.suffix     <span class="cm"># ".json"</span>
+exists = full.<span class="fn">exists</span>()</code></pre>
+  </div>
+</div>
+
+<h3>The full Path API you'll actually use</h3>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+p = Path(<span class="str">"/home/jude/projects/app/config.json"</span>)
+
+<span class="cm"># ── Inspection ────────────────────────────</span>
+p.name        <span class="cm"># "config.json"       — filename + ext</span>
+p.stem        <span class="cm"># "config"            — filename without ext</span>
+p.suffix      <span class="cm"># ".json"             — extension</span>
+p.parent      <span class="cm"># .../projects/app    — parent directory</span>
+p.parts       <span class="cm"># ('/', 'home', 'jude', 'projects', 'app', 'config.json')</span>
+p.<span class="fn">exists</span>()    <span class="cm"># True/False</span>
+p.<span class="fn">is_file</span>()   <span class="cm"># True</span>
+p.<span class="fn">is_dir</span>()    <span class="cm"># False</span>
+p.<span class="fn">stat</span>().st_size  <span class="cm"># file size in bytes</span>
+
+<span class="cm"># ── Navigation ────────────────────────────</span>
+p.parent / <span class="str">"settings.toml"</span>  <span class="cm"># sibling file</span>
+p.parents[<span class="num">1</span>]                 <span class="cm"># /home/jude/projects</span>
+
+<span class="cm"># ── Reading and Writing ───────────────────</span>
+text = p.<span class="fn">read_text</span>(encoding=<span class="str">"utf-8"</span>)
+p.<span class="fn">write_text</span>(<span class="str">"new content"</span>, encoding=<span class="str">"utf-8"</span>)
+data = p.<span class="fn">read_bytes</span>()
+
+<span class="cm"># ── Creating ──────────────────────────────</span>
+Path(<span class="str">"logs/app"</span>).<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+<span class="cm"># parents=True creates all intermediate dirs like mkdir -p</span>
+<span class="cm"># exist_ok=True doesn't crash if it already exists</span>
+
+<span class="cm"># ── Finding files ─────────────────────────</span>
+list(Path(<span class="str">"."</span>).<span class="fn">glob</span>(<span class="str">"*.py"</span>))          <span class="cm"># .py files in current dir</span>
+list(Path(<span class="str">"."</span>).<span class="fn">rglob</span>(<span class="str">"*.py"</span>))         <span class="cm"># .py files in ALL subdirs</span>
+list(Path(<span class="str">"."</span>).<span class="fn">iterdir</span>())             <span class="cm"># everything in current dir</span>
+
+<span class="cm"># ── Home directory ────────────────────────</span>
+config_dir = Path.<span class="fn">home</span>() / <span class="str">".config"</span> / <span class="str">"myapp"</span>
+config_dir.<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)</code></pre>
+
+<h2>Batch file operations — real scripts</h2>
+<p>This is where pathlib becomes genuinely powerful. These are scripts you'll actually use and adapt.</p>
+
+<h3>Script 1: Rename files with date prefix</h3>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">import</span> shutil
+
+<span class="kw">def</span> <span class="fn">prefix_files_with_date</span>(folder: Path, pattern: str = <span class="str">"*"</span>) -> <span class="fn">list</span>[Path]:
+    <span class="str">"""Add YYYY-MM-DD- prefix to all matching files."""</span>
+    renamed = []
+    today = datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"%Y-%m-%d"</span>)
+
+    <span class="kw">for</span> path <span class="kw">in</span> Path(folder).<span class="fn">glob</span>(pattern):
+        <span class="kw">if</span> path.<span class="fn">is_file</span>() <span class="kw">and not</span> path.name.<span class="fn">startswith</span>(today):
+            new_name = path.parent / <span class="fn">f</span><span class="str">"{today}-{path.name}"</span>
+            path.<span class="fn">rename</span>(new_name)
+            renamed.<span class="fn">append</span>(new_name)
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  {path.name} → {new_name.name}"</span>)
+
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Renamed {len(renamed)} files."</span>)
+    <span class="kw">return</span> renamed
+
+<span class="cm"># Usage</span>
+<span class="fn">prefix_files_with_date</span>(Path(<span class="str">"./reports"</span>), pattern=<span class="str">"*.pdf"</span>)</code></pre>
+
+<h3>Script 2: Organize a Downloads folder</h3>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">import</span> shutil
+
+<span class="cm"># Map extensions to folder names</span>
+CATEGORIES = {
+    <span class="str">"images"</span>:    [<span class="str">".jpg"</span>, <span class="str">".jpeg"</span>, <span class="str">".png"</span>, <span class="str">".gif"</span>, <span class="str">".webp"</span>, <span class="str">".svg"</span>],
+    <span class="str">"documents"</span>: [<span class="str">".pdf"</span>, <span class="str">".docx"</span>, <span class="str">".xlsx"</span>, <span class="str">".txt"</span>, <span class="str">".md"</span>],
+    <span class="str">"code"</span>:      [<span class="str">".py"</span>, <span class="str">".js"</span>, <span class="str">".ts"</span>, <span class="str">".java"</span>, <span class="str">".html"</span>, <span class="str">".css"</span>],
+    <span class="str">"archives"</span>:  [<span class="str">".zip"</span>, <span class="str">".tar"</span>, <span class="str">".gz"</span>, <span class="str">".rar"</span>, <span class="str">".7z"</span>],
+    <span class="str">"video"</span>:     [<span class="str">".mp4"</span>, <span class="str">".mkv"</span>, <span class="str">".mov"</span>, <span class="str">".avi"</span>],
+    <span class="str">"audio"</span>:     [<span class="str">".mp3"</span>, <span class="str">".wav"</span>, <span class="str">".flac"</span>, <span class="str">".ogg"</span>],
+}
+
+<span class="cm"># Invert: ext → folder</span>
+EXT_MAP = {ext: folder <span class="kw">for</span> folder, exts <span class="kw">in</span> CATEGORIES.<span class="fn">items</span>() <span class="kw">for</span> ext <span class="kw">in</span> exts}
+
+<span class="kw">def</span> <span class="fn">organize_downloads</span>(downloads_dir: Path, dry_run: bool = <span class="kw">True</span>):
+    moved = <span class="num">0</span>
+    skipped = <span class="num">0</span>
+
+    <span class="kw">for</span> f <span class="kw">in</span> downloads_dir.<span class="fn">iterdir</span>():
+        <span class="kw">if not</span> f.<span class="fn">is_file</span>():
+            <span class="kw">continue</span>
+
+        folder_name = EXT_MAP.<span class="fn">get</span>(f.suffix.<span class="fn">lower</span>(), <span class="str">"other"</span>)
+        dest_dir = downloads_dir / folder_name
+        dest     = dest_dir / f.name
+
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{'[DRY RUN] ' if dry_run else ''}{f.name} → {folder_name}/"</span>)
+
+        <span class="kw">if not</span> dry_run:
+            dest_dir.<span class="fn">mkdir</span>(exist_ok=<span class="kw">True</span>)
+            shutil.<span class="fn">move</span>(<span class="fn">str</span>(f), dest)
+            moved += <span class="num">1</span>
+
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"\n{'Would move' if dry_run else 'Moved'} {moved or '?'} files"</span>)
+
+<span class="cm"># Always dry_run=True first to preview</span>
+<span class="fn">organize_downloads</span>(Path.<span class="fn">home</span>() / <span class="str">"Downloads"</span>, dry_run=<span class="kw">True</span>)</code></pre>
+
+<h3>Script 3: Find large files recursively</h3>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> collections <span class="kw">import</span> namedtuple
+
+FileInfo = <span class="fn">namedtuple</span>(<span class="str">"FileInfo"</span>, [<span class="str">"path"</span>, <span class="str">"size_mb"</span>])
+
+<span class="kw">def</span> <span class="fn">find_large_files</span>(root: Path, min_mb: float = <span class="num">50</span>, skip: <span class="fn">list</span>[str] = None) -> <span class="fn">list</span>[FileInfo]:
+    skip = skip <span class="kw">or</span> [<span class="str">".git"</span>, <span class="str">".venv"</span>, <span class="str">"node_modules"</span>, <span class="str">"__pycache__"</span>]
+    results = []
+
+    <span class="kw">for</span> path <span class="kw">in</span> root.<span class="fn">rglob</span>(<span class="str">"*"</span>):
+        <span class="cm"># Skip ignored directories</span>
+        <span class="kw">if any</span>(part <span class="kw">in</span> skip <span class="kw">for</span> part <span class="kw">in</span> path.parts):
+            <span class="kw">continue</span>
+        <span class="kw">if not</span> path.<span class="fn">is_file</span>():
+            <span class="kw">continue</span>
+
+        size_mb = path.<span class="fn">stat</span>().st_size / (1024 ** <span class="num">2</span>)
+        <span class="kw">if</span> size_mb &gt;= min_mb:
+            results.<span class="fn">append</span>(<span class="cls">FileInfo</span>(path, <span class="fn">round</span>(size_mb, <span class="num">1</span>)))
+
+    <span class="kw">return</span> <span class="fn">sorted</span>(results, key=<span class="kw">lambda</span> x: x.size_mb, reverse=<span class="kw">True</span>)
+
+results = <span class="fn">find_large_files</span>(Path(<span class="str">"."</span>), min_mb=<span class="num">10</span>)
+<span class="kw">for</span> f <span class="kw">in</span> results[:20]:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{f.size_mb:8.1f} MB  {f.path}"</span>)</code></pre>
+
+<h3>Script 4: Backup recently modified files</h3>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timedelta
+<span class="kw">import</span> shutil
+
+<span class="kw">def</span> <span class="fn">backup_recent</span>(src: Path, dst: Path, days: int = <span class="num">1</span>) -> <span class="fn">int</span>:
+    <span class="str">"""Copy files modified in the last N days to a backup folder."""</span>
+    cutoff = datetime.<span class="fn">now</span>() - timedelta(days=days)
+    dst.<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+    count = <span class="num">0</span>
+
+    <span class="kw">for</span> f <span class="kw">in</span> src.<span class="fn">rglob</span>(<span class="str">"*"</span>):
+        <span class="kw">if not</span> f.<span class="fn">is_file</span>():
+            <span class="kw">continue</span>
+        modified = datetime.<span class="fn">fromtimestamp</span>(f.<span class="fn">stat</span>().st_mtime)
+        <span class="kw">if</span> modified &gt;= cutoff:
+            <span class="cm"># Preserve relative folder structure in backup</span>
+            rel = f.<span class="fn">relative_to</span>(src)
+            dest_file = dst / rel
+            dest_file.parent.<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+            shutil.<span class="fn">copy2</span>(f, dest_file)
+            count += <span class="num">1</span>
+
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Backed up {count} files to {dst}"</span>)
+    <span class="kw">return</span> count
+
+<span class="cm"># Back up today's work</span>
+<span class="fn">backup_recent</span>(
+    src=Path(<span class="str">"/home/jude/projects"</span>),
+    dst=Path(<span class="str">"/home/jude/backups"</span>) / datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"%Y-%m-%d"</span>),
+    days=<span class="num">1</span>
+)</code></pre>
+`
+  },
+  {
+    id: 'l3',
+    title: 'Regular Expressions',
+    eyebrow: 'Lesson 03 · Pattern Matching',
+    pills: ['~50 min', 'Essential', 're module'],
+    body: `
+<h2>The skill everyone avoids</h2>
+<p>Regex has a reputation for being unreadable. That reputation is partly earned. But the alternative — writing custom string parsing code — is almost always worse. Learn regex once and you'll use it constantly: validation, extraction, log parsing, data cleaning, find-and-replace at scale.</p>
+
+<div class="callout callout-tip">
+  <strong>💡 The mental model</strong>
+  A regex is a pattern that describes a set of strings. You're not finding one string — you're saying "find me anything that looks like this."
+</div>
+
+<h2>The syntax reference</h2>
+<table class="data-table">
+  <thead><tr><th>Pattern</th><th>Matches</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>.</td><td>Any character except newline</td><td>a.c → "abc", "a1c", "a-c"</td></tr>
+    <tr><td>\\d</td><td>Digit [0-9]</td><td>\\d\\d\\d → "123"</td></tr>
+    <tr><td>\\D</td><td>Non-digit</td><td>\\D+ → "hello"</td></tr>
+    <tr><td>\\w</td><td>Word char [a-z A-Z 0-9 _]</td><td>\\w+ → "hello_world"</td></tr>
+    <tr><td>\\s</td><td>Whitespace</td><td>\\s+ → spaces, tabs, newlines</td></tr>
+    <tr><td>\\S</td><td>Non-whitespace</td><td></td></tr>
+    <tr><td>^</td><td>Start of string</td><td>^Hello → only at start</td></tr>
+    <tr><td>$</td><td>End of string</td><td>world$ → only at end</td></tr>
+    <tr><td>*</td><td>0 or more</td><td>ab* → "a", "ab", "abbb"</td></tr>
+    <tr><td>+</td><td>1 or more</td><td>ab+ → "ab", "abbb" (not "a")</td></tr>
+    <tr><td>?</td><td>0 or 1 (optional)</td><td>colou?r → "color", "colour"</td></tr>
+    <tr><td>{n,m}</td><td>n to m repetitions</td><td>\\d{2,4} → "12", "1234"</td></tr>
+    <tr><td>[abc]</td><td>Character class</td><td>[aeiou] → any vowel</td></tr>
+    <tr><td>[^abc]</td><td>Negated class</td><td>[^0-9] → non-digit</td></tr>
+    <tr><td>(abc)</td><td>Capture group</td><td>(\\d+) captures the digits</td></tr>
+    <tr><td>a|b</td><td>a or b</td><td>cat|dog → "cat" or "dog"</td></tr>
+  </tbody>
+</table>
+
+<h2>The five re functions</h2>
+<pre><code><span class="kw">import</span> re
+
+text = <span class="str">"Error 404: Page not found. Error 500: Server error."</span>
+
+<span class="cm"># 1. re.search() — find FIRST match anywhere in string</span>
+m = re.<span class="fn">search</span>(r<span class="str">"Error (\d+)"</span>, text)
+<span class="kw">if</span> m:
+    <span class="fn">print</span>(m.<span class="fn">group</span>())   <span class="cm"># "Error 404"  — full match</span>
+    <span class="fn">print</span>(m.<span class="fn">group</span>(<span class="num">1</span>))  <span class="cm"># "404"        — capture group 1</span>
+    <span class="fn">print</span>(m.<span class="fn">start</span>())  <span class="cm"># 0            — start position</span>
+    <span class="fn">print</span>(m.<span class="fn">end</span>())    <span class="cm"># 9            — end position</span>
+
+<span class="cm"># 2. re.findall() — return ALL matches as a list</span>
+codes = re.<span class="fn">findall</span>(r<span class="str">"Error (\d+)"</span>, text)
+<span class="fn">print</span>(codes)  <span class="cm"># ['404', '500']</span>
+
+<span class="cm"># 3. re.finditer() — ALL matches as iterator (use for large text)</span>
+<span class="kw">for</span> m <span class="kw">in</span> re.<span class="fn">finditer</span>(r<span class="str">"Error (\d+): (.+?)(?:\.|$)"</span>, text):
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Code {m.group(1)}: {m.group(2)}"</span>)
+
+<span class="cm"># 4. re.sub() — replace matches</span>
+clean = re.<span class="fn">sub</span>(r<span class="str">"Error \d+"</span>, <span class="str">"[REDACTED]"</span>, text)
+<span class="fn">print</span>(clean)
+<span class="cm"># "[REDACTED]: Page not found. [REDACTED]: Server error."</span>
+
+<span class="cm"># 5. re.match() — only matches at START of string</span>
+<span class="kw">if</span> re.<span class="fn">match</span>(r<span class="str">"Error"</span>, text):
+    <span class="fn">print</span>(<span class="str">"Starts with Error"</span>)</code></pre>
+
+<h3>Named groups — readable and maintainable</h3>
+<pre><code><span class="kw">import</span> re
+
+log_line = <span class="str">"2026-06-11 14:32:01 ERROR auth_service Failed login for user@example.com"</span>
+
+pattern = re.<span class="fn">compile</span>(
+    r<span class="str">"(?P<date>\d{4}-\d{2}-\d{2})\s+"</span>
+    r<span class="str">"(?P<time>\d{2}:\d{2}:\d{2})\s+"</span>
+    r<span class="str">"(?P<level>\w+)\s+"</span>
+    r<span class="str">"(?P<service>\w+)\s+"</span>
+    r<span class="str">"(?P<message>.+)"</span>
+)
+
+m = pattern.<span class="fn">match</span>(log_line)
+<span class="kw">if</span> m:
+    <span class="fn">print</span>(m.<span class="fn">group</span>(<span class="str">"date"</span>))    <span class="cm"># 2026-06-11</span>
+    <span class="fn">print</span>(m.<span class="fn">group</span>(<span class="str">"level"</span>))   <span class="cm"># ERROR</span>
+    <span class="fn">print</span>(m.<span class="fn">group</span>(<span class="str">"message"</span>)) <span class="cm"># Failed login for user@example.com</span>
+    
+    <span class="cm"># Or get everything as a dict</span>
+    <span class="fn">print</span>(m.<span class="fn">groupdict</span>())
+    <span class="cm"># {'date': '2026-06-11', 'time': '14:32:01',</span>
+    <span class="cm">#  'level': 'ERROR', 'service': 'auth_service', 'message': '...'}</span></code></pre>
+
+<div class="callout callout-warn">
+  <strong>⚠ Always use raw strings</strong>
+  Write regex patterns as r"..." (raw strings). Without the r prefix, Python processes backslashes first — \\d becomes just d, breaking your pattern silently.
+</div>
+
+<h3>Practical pattern library</h3>
+<pre><code><span class="kw">import</span> re
+
+PATTERNS = {
+    <span class="str">"email"</span>:   r<span class="str">"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"</span>,
+    <span class="str">"phone"</span>:   r<span class="str">"\+?1?\s*[\-.]?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}"</span>,
+    <span class="str">"url"</span>:     r<span class="str">"https?://[^\s<>\"']+"</span>,
+    <span class="str">"ipv4"</span>:    r<span class="str">"\b(?:\d{1,3}\.){3}\d{1,3}\b"</span>,
+    <span class="str">"version"</span>: r<span class="str">"\bv?\d+\.\d+(?:\.\d+)?\b"</span>,
+    <span class="str">"hex_color"</span>: r<span class="str">"#(?:[0-9a-fA-F]{3}){1,2}\b"</span>,
+    <span class="str">"date_iso"</span>: r<span class="str">"\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])"</span>,
+}
+
+test = <span class="str">"Contact jude@teqvault.study or visit https://teqvault.study — version v2.1.0"</span>
+
+<span class="kw">for</span> name, pattern <span class="kw">in</span> PATTERNS.<span class="fn">items</span>():
+    matches = re.<span class="fn">findall</span>(pattern, test)
+    <span class="kw">if</span> matches:
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{name}: {matches}"</span>)
+<span class="cm"># email:   ['jude@teqvault.study']
+# url:     ['https://teqvault.study']
+# version: ['v2.1.0']</span></code></pre>
+`
+  },
+  {
+    id: 'l4',
+    title: 'Web Scraping',
+    eyebrow: 'Lesson 04 · BeautifulSoup & httpx',
+    pills: ['~55 min', 'Practical', 'bs4 · httpx · dataclasses'],
+    body: `
+<h2>What scraping is (and when to use it)</h2>
+<p>Web scraping is extracting structured data from websites that don't provide an API. It's a core automation skill — price monitoring, research data collection, content aggregation, testing your own sites.</p>
+
+<div class="callout callout-warn">
+  <strong>⚠ Ethics first</strong>
+  Before scraping: (1) Check robots.txt at example.com/robots.txt. (2) Check if there's an API first — always prefer it. (3) Respect rate limits — add delays. (4) Don't scrape personal data without a legal basis. (5) Check the site's terms of service.
+</div>
+
+<h3>The tool stack</h3>
+<div class="tag-row">
+  <span class="tag">httpx</span><span class="tag">beautifulsoup4</span><span class="tag">lxml</span>
+</div>
+
+<pre><code><span class="cm"># Install once</span>
+<span class="cm"># pip install httpx beautifulsoup4 lxml</span>
+
+<span class="kw">import</span> httpx
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup</code></pre>
+
+<h2>BeautifulSoup fundamentals</h2>
+<pre><code><span class="kw">import</span> httpx
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+<span class="cm"># Fetch a page</span>
+r = httpx.<span class="fn">get</span>(<span class="str">"https://books.toscrape.com"</span>)
+r.<span class="fn">raise_for_status</span>()
+
+<span class="cm"># Parse it — lxml is fastest, html.parser is built-in</span>
+soup = <span class="cls">BeautifulSoup</span>(r.text, <span class="str">"lxml"</span>)
+
+<span class="cm"># ── Selecting elements ───────────────────</span>
+<span class="cm"># By tag</span>
+title = soup.<span class="fn">find</span>(<span class="str">"h1"</span>)
+<span class="fn">print</span>(title.text.<span class="fn">strip</span>())
+
+<span class="cm"># By CSS class</span>
+books = soup.<span class="fn">find_all</span>(<span class="str">"article"</span>, class_=<span class="str">"product_pod"</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"Found {len(books)} books"</span>)
+
+<span class="cm"># CSS selector syntax (often cleaner)</span>
+prices = soup.<span class="fn">select</span>(<span class="str">"p.price_color"</span>)
+ratings = soup.<span class="fn">select</span>(<span class="str">"p.star-rating"</span>)
+
+<span class="cm"># ── Getting attributes ───────────────────</span>
+links = soup.<span class="fn">select</span>(<span class="str">"h3 a"</span>)
+<span class="kw">for</span> link <span class="kw">in</span> links[:3]:
+    <span class="fn">print</span>(link[<span class="str">"href"</span>])        <span class="cm"># attribute access</span>
+    <span class="fn">print</span>(link.<span class="fn">get</span>(<span class="str">"title"</span>))   <span class="cm"># .get() won't crash if missing</span>
+    <span class="fn">print</span>(link.text.<span class="fn">strip</span>())   <span class="cm"># text content</span></code></pre>
+
+<h2>A complete real scraper</h2>
+<p>Let's build a proper scraper for <span class="hl">books.toscrape.com</span> — a safe practice site built for this purpose. It paginates, returns typed data, and handles errors correctly.</p>
+
+<pre><code><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+<span class="kw">import</span> httpx
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+STAR_MAP = {<span class="str">"One"</span>: <span class="num">1</span>, <span class="str">"Two"</span>: <span class="num">2</span>, <span class="str">"Three"</span>: <span class="num">3</span>, <span class="str">"Four"</span>: <span class="num">4</span>, <span class="str">"Five"</span>: <span class="num">5</span>}
+
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Book</span>:
+    title: str
+    price: float
+    rating: int
+    in_stock: bool
+
+<span class="kw">def</span> <span class="fn">parse_page</span>(soup: <span class="cls">BeautifulSoup</span>) -> <span class="fn">list</span>[<span class="cls">Book</span>]:
+    books = []
+    <span class="kw">for</span> article <span class="kw">in</span> soup.<span class="fn">select</span>(<span class="str">"article.product_pod"</span>):
+        title   = article.<span class="fn">select_one</span>(<span class="str">"h3 a"</span>)[<span class="str">"title"</span>]
+        price   = <span class="fn">float</span>(article.<span class="fn">select_one</span>(<span class="str">"p.price_color"</span>).text.<span class="fn">strip</span>()[<span class="num">1</span>:])
+        stars   = article.<span class="fn">select_one</span>(<span class="str">"p.star-rating"</span>)[<span class="str">"class"</span>][<span class="num">1</span>]
+        rating  = STAR_MAP.<span class="fn">get</span>(stars, <span class="num">0</span>)
+        stock   = <span class="str">"In stock"</span> <span class="kw">in</span> article.<span class="fn">select_one</span>(<span class="str">"p.availability"</span>).text
+        books.<span class="fn">append</span>(<span class="cls">Book</span>(title, price, rating, stock))
+    <span class="kw">return</span> books
+
+<span class="kw">def</span> <span class="fn">scrape_books</span>(max_pages: int = <span class="num">3</span>, min_rating: int = <span class="num">4</span>) -> <span class="fn">list</span>[<span class="cls">Book</span>]:
+    base = <span class="str">"https://books.toscrape.com/catalogue"</span>
+    all_books = []
+
+    <span class="kw">for</span> page <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, max_pages + <span class="num">1</span>):
+        url = <span class="fn">f</span><span class="str">"{base}/page-{page}.html"</span>
+        <span class="kw">try</span>:
+            r = httpx.<span class="fn">get</span>(url, timeout=<span class="num">10</span>)
+            r.<span class="fn">raise_for_status</span>()
+        <span class="kw">except</span> httpx.HTTPError <span class="kw">as</span> e:
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Page {page} failed: {e}"</span>)
+            <span class="kw">break</span>
+
+        soup = <span class="cls">BeautifulSoup</span>(r.text, <span class="str">"lxml"</span>)
+        books = <span class="fn">parse_page</span>(soup)
+        all_books.<span class="fn">extend</span>(books)
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Page {page}: {len(books)} books scraped"</span>)
+
+        sleep(<span class="num">0.5</span>)  <span class="cm"># Be polite — don't hammer the server</span>
+
+    <span class="cm"># Filter by rating</span>
+    good = [b <span class="kw">for</span> b <span class="kw">in</span> all_books <span class="kw">if</span> b.rating &gt;= min_rating]
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"\n{len(good)} books rated {min_rating}+ stars:"</span>)
+    <span class="kw">for</span> b <span class="kw">in</span> <span class="fn">sorted</span>(good, key=<span class="kw">lambda</span> x: x.price):
+        stars = <span class="str">"★"</span> * b.rating
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  £{b.price:.2f}  {stars}  {b.title}"</span>)
+    <span class="kw">return</span> good
+
+results = <span class="fn">scrape_books</span>(max_pages=<span class="num">3</span>, min_rating=<span class="num">4</span>)</code></pre>
+`
+  },
+  {
+    id: 'l5',
+    title: 'Scheduling & Automation',
+    eyebrow: 'Lesson 05 · schedule · APScheduler',
+    pills: ['~40 min', 'Automation', 'schedule · APScheduler · cron'],
+    body: `
+<h2>Making things run themselves</h2>
+<p>Automation isn't just writing scripts — it's making scripts run without you. Python gives you several levels of scheduling depending on how serious your use case is.</p>
+
+<table class="data-table">
+  <thead><tr><th>Tool</th><th>Best for</th><th>Complexity</th></tr></thead>
+  <tbody>
+    <tr><td>schedule</td><td>Simple scripts, dev/personal use</td><td>Low</td></tr>
+    <tr><td>APScheduler</td><td>Production apps, background jobs</td><td>Medium</td></tr>
+    <tr><td>cron (Linux/Mac)</td><td>OS-level scheduling, set-and-forget</td><td>Low (config)</td></tr>
+    <tr><td>Windows Task Scheduler</td><td>Windows equivalent of cron</td><td>Low (GUI)</td></tr>
+  </tbody>
+</table>
+
+<h2>schedule — simple and readable</h2>
+<pre><code><span class="cm"># pip install schedule</span>
+<span class="kw">import</span> schedule
+<span class="kw">import</span> time
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+
+<span class="kw">def</span> <span class="fn">daily_report</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{datetime.now():%H:%M}] Generating daily report..."</span>)
+
+<span class="kw">def</span> <span class="fn">check_prices</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{datetime.now():%H:%M}] Checking prices..."</span>)
+
+<span class="kw">def</span> <span class="fn">cleanup_temp</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{datetime.now():%H:%M}] Cleaning temp files..."</span>)
+
+<span class="cm"># Schedule jobs</span>
+schedule.every().<span class="fn">day</span>.<span class="fn">at</span>(<span class="str">"08:00"</span>).<span class="fn">do</span>(daily_report)
+schedule.every(<span class="num">30</span>).minutes.<span class="fn">do</span>(check_prices)
+schedule.every().<span class="fn">monday</span>.<span class="fn">do</span>(cleanup_temp)
+schedule.every(<span class="num">10</span>).seconds.<span class="fn">do</span>(check_prices)  <span class="cm"># for testing</span>
+
+<span class="cm"># Run loop</span>
+<span class="fn">print</span>(<span class="str">"Scheduler running. Press Ctrl+C to stop."</span>)
+<span class="kw">while True</span>:
+    schedule.run_pending()
+    time.<span class="fn">sleep</span>(<span class="num">1</span>)  <span class="cm"># Check every second</span></code></pre>
+
+<div class="callout callout-warn">
+  <strong>⚠ schedule limitation</strong>
+  schedule blocks the main thread and has no persistence — if your script crashes, jobs stop running. For real production use, APScheduler is far more robust.
+</div>
+
+<h2>APScheduler — production-grade</h2>
+<pre><code><span class="cm"># pip install apscheduler</span>
+<span class="kw">from</span> apscheduler.schedulers.background <span class="kw">import</span> BackgroundScheduler
+<span class="kw">from</span> apscheduler.triggers.cron <span class="kw">import</span> CronTrigger
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">import</span> time
+
+scheduler = <span class="cls">BackgroundScheduler</span>()
+
+<span class="kw">def</span> <span class="fn">morning_digest</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{datetime.now():%H:%M:%S}] Morning digest running..."</span>)
+
+<span class="kw">def</span> <span class="fn">heartbeat</span>():
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[{datetime.now():%H:%M:%S}] ♥ alive"</span>)
+
+<span class="cm"># Various trigger types</span>
+scheduler.<span class="fn">add_job</span>(
+    morning_digest,
+    trigger=<span class="cls">CronTrigger</span>(hour=<span class="num">8</span>, minute=<span class="num">0</span>),
+    id=<span class="str">"digest"</span>,
+    name=<span class="str">"Morning Digest"</span>,
+    replace_existing=<span class="kw">True</span>
+)
+
+scheduler.<span class="fn">add_job</span>(
+    heartbeat,
+    trigger=<span class="str">"interval"</span>,
+    seconds=<span class="num">5</span>,
+    id=<span class="str">"heartbeat"</span>
+)
+
+scheduler.<span class="fn">start</span>()
+<span class="fn">print</span>(<span class="str">"APScheduler running in background. Main thread is free."</span>)
+
+<span class="cm"># Your main application continues here — scheduler runs in background</span>
+<span class="kw">try</span>:
+    <span class="kw">while True</span>:
+        time.<span class="fn">sleep</span>(<span class="num">2</span>)
+<span class="kw">except</span> KeyboardInterrupt:
+    scheduler.<span class="fn">shutdown</span>()
+    <span class="fn">print</span>(<span class="str">"Scheduler stopped cleanly."</span>)</code></pre>
+
+<h2>OS-level scheduling (set-and-forget)</h2>
+<p>For scripts that need to survive machine reboots and run without any Python process staying open, use your OS scheduler.</p>
+
+<h3>cron (Linux/Mac)</h3>
+<pre><code><span class="cm"># Edit your crontab</span>
+<span class="cm"># crontab -e</span>
+<span class="cm"># </span>
+<span class="cm"># Format: minute hour day month weekday command</span>
+<span class="cm"># </span>
+<span class="cm"># Run at 8:00 AM every day</span>
+<span class="cm"># 0 8 * * * /usr/bin/python3 /home/jude/scripts/digest.py</span>
+<span class="cm"># </span>
+<span class="cm"># Run every 30 minutes</span>
+<span class="cm"># */30 * * * * /home/jude/.venv/bin/python /home/jude/scripts/check.py</span>
+<span class="cm"># </span>
+<span class="cm"># Run at 9 AM Monday-Friday</span>
+<span class="cm"># 0 9 * * 1-5 /home/jude/.venv/bin/python /home/jude/scripts/work_report.py</span>
+<span class="cm"># </span>
+<span class="cm"># Redirect output to a log file</span>
+<span class="cm"># 0 8 * * * /path/to/python /path/to/script.py >> /var/log/myapp.log 2>&1</span></code></pre>
+
+<div class="callout callout-tip">
+  <strong>💡 Always use full paths in cron</strong>
+  Cron runs in a minimal environment — it doesn't know about your PATH. Always use absolute paths to both Python and your script. Run <code>which python3</code> to find it.
+</div>
+`
+  },
+  {
+    id: 'l6',
+    title: 'Secrets & Environment Variables',
+    eyebrow: 'Lesson 06 · Security & Config',
+    pills: ['~30 min', 'Essential', '.env · pydantic-settings'],
+    body: `
+<h2>The first rule: secrets don't go in code</h2>
+<p>API keys, database passwords, tokens — these should never appear in your source code. Once something is in a git commit, it's potentially in git history forever. This is one of those rules with no exceptions.</p>
+
+<div class="callout callout-danger">
+  <strong>🚫 What gets people fired (or hacked)</strong>
+  Committing API keys to a public GitHub repo. GitHub actively scans for this and alerts providers (Stripe, AWS, etc.) — your key will be revoked within minutes. But by then, someone may have already used it.
+</div>
+
+<div class="compare">
+  <div class="compare-box">
+    <div class="compare-label bad">❌ Never do this</div>
+    <pre><code><span class="cm"># hardcoded in source code</span>
+API_KEY = <span class="str">"sk-ant-abc123..."</span>
+DB_PASS  = <span class="str">"my_password"</span>
+
+response = client.<span class="fn">get</span>(
+    headers={<span class="str">"Authorization"</span>: <span class="fn">f</span><span class="str">"Bearer {API_KEY}"</span>}
+)</code></pre>
+  </div>
+  <div class="compare-box">
+    <div class="compare-label good">✓ Always do this</div>
+    <pre><code><span class="kw">import</span> os
+
+<span class="cm"># Read from environment</span>
+API_KEY = os.<span class="fn">environ</span>[<span class="str">"ANTHROPIC_API_KEY"</span>]
+DB_PASS  = os.<span class="fn">environ</span>[<span class="str">"DB_PASSWORD"</span>]
+
+response = client.<span class="fn">get</span>(
+    headers={<span class="str">"Authorization"</span>: <span class="fn">f</span><span class="str">"Bearer {API_KEY}"</span>}
+)</code></pre>
+  </div>
+</div>
+
+<h2>The .env file workflow</h2>
+<p>The standard approach: store secrets in a <span class="hl">.env</span> file locally, load them at runtime, and <span class="hl-coral">never commit .env to git</span>.</p>
+
+<pre><code><span class="cm"># .env  (NEVER commit this file)</span>
+<span class="cm"># ANTHROPIC_API_KEY=sk-ant-abc123def456</span>
+<span class="cm"># DATABASE_URL=postgresql://user:pass@localhost:5432/mydb</span>
+<span class="cm"># DEBUG=true</span>
+<span class="cm"># APP_PORT=8000</span>
+
+<span class="cm"># .env.example  (DO commit this — it's a template with no real values)</span>
+<span class="cm"># ANTHROPIC_API_KEY=your_key_here</span>
+<span class="cm"># DATABASE_URL=postgresql://user:pass@localhost:5432/mydb</span>
+<span class="cm"># DEBUG=false</span>
+<span class="cm"># APP_PORT=8000</span>
+
+<span class="cm"># .gitignore  (ALWAYS include)</span>
+<span class="cm"># .env</span>
+<span class="cm"># .env.local</span>
+<span class="cm"># *.env</span></code></pre>
+
+<h3>Loading with python-dotenv</h3>
+<pre><code><span class="cm"># pip install python-dotenv</span>
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="kw">import</span> os
+
+load_dotenv()  <span class="cm"># Loads .env into os.environ</span>
+
+api_key = os.<span class="fn">environ</span>[<span class="str">"ANTHROPIC_API_KEY"</span>]  <span class="cm"># KeyError if missing</span>
+debug   = os.<span class="fn">getenv</span>(<span class="str">"DEBUG"</span>, <span class="str">"false"</span>)    <span class="cm"># Returns default if missing</span></code></pre>
+
+<h2>The right way: pydantic-settings</h2>
+<p>For real applications, use <span class="hl">pydantic-settings</span>. It loads from env/files, validates types, gives clear errors if required values are missing, and is a single source of truth for your config.</p>
+
+<pre><code><span class="cm"># pip install pydantic-settings</span>
+<span class="kw">from</span> pydantic_settings <span class="kw">import</span> BaseSettings
+<span class="kw">from</span> pydantic <span class="kw">import</span> Field
+<span class="kw">from</span> functools <span class="kw">import</span> lru_cache
+
+<span class="kw">class</span> <span class="cls">Settings</span>(BaseSettings):
+    <span class="cm"># Required — app will crash clearly if these are missing</span>
+    anthropic_api_key: str
+    database_url: str
+
+    <span class="cm"># Optional with defaults</span>
+    debug: bool = <span class="kw">False</span>
+    app_port: int = <span class="num">8000</span>
+    app_name: str = <span class="str">"Command Center"</span>
+    log_level: str = <span class="cls">Field</span>(default=<span class="str">"INFO"</span>, pattern=<span class="str">r"DEBUG|INFO|WARNING|ERROR"</span>)
+
+    <span class="kw">class</span> <span class="cls">Config</span>:
+        env_file = <span class="str">".env"</span>
+        env_file_encoding = <span class="str">"utf-8"</span>
+        case_sensitive = <span class="kw">False</span>  <span class="cm"># ANTHROPIC_API_KEY = anthropic_api_key</span>
+
+<span class="dec">@lru_cache</span>  <span class="cm"># Load once, reuse everywhere (no repeated disk reads)</span>
+<span class="kw">def</span> <span class="fn">get_settings</span>() -> <span class="cls">Settings</span>:
+    <span class="kw">return</span> <span class="cls">Settings</span>()
+
+<span class="cm"># Usage anywhere in your codebase</span>
+settings = <span class="fn">get_settings</span>()
+<span class="fn">print</span>(settings.app_name)   <span class="cm"># "Command Center"</span>
+<span class="fn">print</span>(settings.debug)      <span class="cm"># False (bool, not string)</span>
+<span class="fn">print</span>(settings.app_port)   <span class="cm"># 8000 (int, not string)</span></code></pre>
+
+<div class="callout callout-tip">
+  <strong>💡 If you accidentally commit a secret</strong>
+  (1) Revoke the key immediately — assume it's already compromised. (2) Remove it from git history with git filter-repo (not just a new commit — it stays in history). (3) Issue a new key. (4) Add the file to .gitignore. Do steps 1 and 2 simultaneously — history cleanup without revocation means the old history is still in forks/clones.
+</div>
+`
+  },
+  {
+    id: 'l7',
+    title: 'Subprocess & System Commands',
+    eyebrow: 'Lesson 07 · subprocess module',
+    pills: ['~35 min', 'Automation', 'subprocess · shell'],
+    body: `
+<h2>Calling the system from Python</h2>
+<p>Sometimes the right tool for a job is another program — git, ffmpeg, ImageMagick, curl, your OS tools. <span class="hl">subprocess</span> lets you call any command-line tool from Python, capture its output, and build it into your automation pipelines.</p>
+
+<div class="callout callout-warn">
+  <strong>⚠ Never use shell=True with user input</strong>
+  shell=True passes the command through your shell — it enables shell injection attacks. Only use shell=True with fully hardcoded strings you wrote yourself.
+</div>
+
+<h2>subprocess.run — the modern way</h2>
+<pre><code><span class="kw">import</span> subprocess
+
+<span class="cm"># ── Basic run ────────────────────────────</span>
+result = subprocess.<span class="fn">run</span>(
+    [<span class="str">"git"</span>, <span class="str">"status"</span>],
+    capture_output=<span class="kw">True</span>,   <span class="cm"># capture stdout and stderr</span>
+    text=<span class="kw">True</span>,             <span class="cm"># decode bytes to strings</span>
+    cwd=<span class="str">"/path/to/repo"</span>    <span class="cm"># working directory</span>
+)
+
+<span class="fn">print</span>(result.stdout)     <span class="cm"># command output as string</span>
+<span class="fn">print</span>(result.returncode) <span class="cm"># 0 = success, non-zero = error</span>
+
+<span class="cm"># Check for errors explicitly</span>
+<span class="kw">if</span> result.returncode != <span class="num">0</span>:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Error: {result.stderr}"</span>)
+
+<span class="cm"># Or let it raise automatically</span>
+result = subprocess.<span class="fn">run</span>(
+    [<span class="str">"git"</span>, <span class="str">"pull"</span>],
+    capture_output=<span class="kw">True</span>,
+    text=<span class="kw">True</span>,
+    check=<span class="kw">True</span>    <span class="cm"># raises CalledProcessError if returncode != 0</span>
+)</code></pre>
+
+<h2>Four real automation scripts</h2>
+
+<h3>Script 1: Git sync helper</h3>
+<pre><code><span class="kw">import</span> subprocess
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">def</span> <span class="fn">git_sync</span>(repo_path: Path, commit_msg: str = <span class="str">"Auto-sync"</span>) -> bool:
+    <span class="str">"""Stage all changes, commit, and push."""</span>
+    <span class="kw">def</span> <span class="fn">run</span>(*cmd):
+        r = subprocess.<span class="fn">run</span>(cmd, capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, cwd=repo_path)
+        <span class="kw">if</span> r.returncode != <span class="num">0</span>:
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"✗ {' '.join(cmd)}\n  {r.stderr.strip()}"</span>)
+            <span class="kw">return False</span>
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"✓ {' '.join(cmd)}"</span>)
+        <span class="kw">return True</span>
+
+    <span class="kw">return</span> (
+        <span class="fn">run</span>(<span class="str">"git"</span>, <span class="str">"add"</span>, <span class="str">"-A"</span>) <span class="kw">and</span>
+        <span class="fn">run</span>(<span class="str">"git"</span>, <span class="str">"commit"</span>, <span class="str">"-m"</span>, commit_msg) <span class="kw">and</span>
+        <span class="fn">run</span>(<span class="str">"git"</span>, <span class="str">"push"</span>)
+    )</code></pre>
+
+<h3>Script 2: Disk usage report</h3>
+<pre><code><span class="kw">import</span> subprocess
+
+<span class="kw">def</span> <span class="fn">disk_usage_report</span>(path: str = <span class="str">"."</span>, top_n: int = <span class="num">10</span>):
+    <span class="str">"""Show top N largest directories."""</span>
+    result = subprocess.<span class="fn">run</span>(
+        [<span class="str">"du"</span>, <span class="str">"-sh"</span>, <span class="str">"--max-depth=1"</span>, path],
+        capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>
+    )
+
+    lines = result.stdout.<span class="fn">strip</span>().<span class="fn">split</span>(<span class="str">"\n"</span>)
+    <span class="cm"># Parse "4.2G  ./downloads" format</span>
+    entries = []
+    <span class="kw">for</span> line <span class="kw">in</span> lines:
+        parts = line.<span class="fn">split</span>(maxsplit=<span class="num">1</span>)
+        <span class="kw">if</span> <span class="fn">len</span>(parts) == <span class="num">2</span>:
+            entries.<span class="fn">append</span>((parts[<span class="num">0</span>], parts[<span class="num">1</span>]))
+
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"\nDisk usage for {path}:"</span>)
+    <span class="kw">for</span> size, name <span class="kw">in</span> entries[:top_n]:
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  {size:>8}  {name}"</span>)
+
+<span class="fn">disk_usage_report</span>(<span class="str">"."</span>)</code></pre>
+
+<h3>Script 3: Mini CI pipeline</h3>
+<pre><code><span class="kw">import</span> subprocess
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">def</span> <span class="fn">run_pipeline</span>(project: Path) -> bool:
+    steps = [
+        (<span class="str">"Lint"</span>,     [<span class="str">"ruff"</span>, <span class="str">"check"</span>, <span class="str">"."</span>]),
+        (<span class="str">"Type check"</span>,[<span class="str">"mypy"</span>, <span class="str">"src/"</span>]),
+        (<span class="str">"Tests"</span>,    [<span class="str">"pytest"</span>, <span class="str">"--tb=short"</span>, <span class="str">"-q"</span>]),
+    ]
+
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"🚀 Running pipeline for {project.name}\n"</span>)
+
+    <span class="kw">for</span> name, cmd <span class="kw">in</span> steps:
+        result = subprocess.<span class="fn">run</span>(cmd, capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, cwd=project)
+        <span class="kw">if</span> result.returncode == <span class="num">0</span>:
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  ✅ {name}"</span>)
+        <span class="kw">else</span>:
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"  ❌ {name}\n{result.stdout}\n{result.stderr}"</span>)
+            <span class="kw">return False</span>  <span class="cm"># Stop on first failure</span>
+
+    <span class="fn">print</span>(<span class="str">"\n✅ All checks passed!"</span>)
+    <span class="kw">return True</span></code></pre>
+`
+  },
+  {
+    id: 'l8',
+    title: 'Structured Logging',
+    eyebrow: 'Lesson 08 · logging module',
+    pills: ['~35 min', 'Professional', 'logging · RotatingFileHandler'],
+    body: `
+<h2>Stop using print()</h2>
+<p>print() is for exploring. logging is for production. The difference: logs have levels, timestamps, sources, file output, rotation, filtering, and can be turned on/off without changing code. Once you adopt proper logging, you'll wonder how you ever debugged without it.</p>
+
+<div class="compare">
+  <div class="compare-box">
+    <div class="compare-label bad">❌ print() for debugging</div>
+    <pre><code><span class="fn">print</span>(<span class="str">"starting..."</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"user={user}"</span>)
+<span class="fn">print</span>(<span class="str">"ERROR: failed!"</span>)
+<span class="fn">print</span>(<span class="str">"done"</span>)
+
+<span class="cm"># No timestamps, no levels,</span>
+<span class="cm"># no file output, noise in prod</span></code></pre>
+  </div>
+  <div class="compare-box">
+    <div class="compare-label good">✓ logging module</div>
+    <pre><code"><span class="kw">import</span> logging
+log = logging.<span class="fn">getLogger</span>(__name__)
+
+log.<span class="fn">debug</span>(<span class="str">"starting..."</span>)
+log.<span class="fn">info</span>(<span class="str">"user=%s"</span>, user)
+log.<span class="fn">error</span>(<span class="str">"failed!"</span>)
+log.<span class="fn">info</span>(<span class="str">"done"</span>)
+
+<span class="cm"># Timestamps, levels, filterable,</span>
+<span class="cm"># goes to file AND console</span></code></pre>
+  </div>
+</div>
+
+<h2>Log levels — understanding the threshold</h2>
+<table class="data-table">
+  <thead><tr><th>Level</th><th>Value</th><th>Use for</th></tr></thead>
+  <tbody>
+    <tr><td>DEBUG</td><td>10</td><td>Detailed diagnostic info — only during development</td></tr>
+    <tr><td>INFO</td><td>20</td><td>Normal operation events — server started, user logged in</td></tr>
+    <tr><td>WARNING</td><td>30</td><td>Something unexpected but handled — disk 80% full, retry attempt</td></tr>
+    <tr><td>ERROR</td><td>40</td><td>Something failed — request failed, database error</td></tr>
+    <tr><td>CRITICAL</td><td>50</td><td>Severe failure — service crashing, data corruption</td></tr>
+  </tbody>
+</table>
+<p>Setting level=INFO means DEBUG messages are silently ignored. In production you typically run INFO or WARNING — DEBUG is too noisy.</p>
+
+<h2>Production-ready setup</h2>
+<pre><code><span class="kw">import</span> logging
+<span class="kw">import</span> logging.handlers
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">def</span> <span class="fn">setup_logging</span>(
+    name: str,
+    log_dir: Path = Path(<span class="str">"logs"</span>),
+    level: int = logging.INFO
+) -> logging.Logger:
+    <span class="str">"""Set up a logger with both console and rotating file output."""</span>
+    log_dir.<span class="fn">mkdir</span>(exist_ok=<span class="kw">True</span>)
+    logger = logging.<span class="fn">getLogger</span>(name)
+    logger.setLevel(level)
+
+    <span class="kw">if</span> logger.handlers:
+        <span class="kw">return</span> logger  <span class="cm"># Avoid duplicate handlers if called twice</span>
+
+    fmt = logging.<span class="cls">Formatter</span>(
+        <span class="str">"%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"</span>,
+        datefmt=<span class="str">"%Y-%m-%d %H:%M:%S"</span>
+    )
+
+    <span class="cm"># Console handler — INFO and above</span>
+    console = logging.<span class="cls">StreamHandler</span>()
+    console.<span class="fn">setLevel</span>(logging.INFO)
+    console.<span class="fn">setFormatter</span>(fmt)
+
+    <span class="cm"># File handler — rotates at 5MB, keeps 5 backups</span>
+    file_h = logging.handlers.<span class="cls">RotatingFileHandler</span>(
+        log_dir / <span class="fn">f</span><span class="str">"{name}.log"</span>,
+        maxBytes=<span class="num">5</span> * <span class="num">1024</span> * <span class="num">1024</span>,  <span class="cm"># 5MB</span>
+        backupCount=<span class="num">5</span>,
+        encoding=<span class="str">"utf-8"</span>
+    )
+    file_h.<span class="fn">setLevel</span>(logging.DEBUG)   <span class="cm"># File gets everything</span>
+    file_h.<span class="fn">setFormatter</span>(fmt)
+
+    logger.<span class="fn">addHandler</span>(console)
+    logger.<span class="fn">addHandler</span>(file_h)
+    <span class="kw">return</span> logger
+
+
+<span class="cm"># In your main module</span>
+log = <span class="fn">setup_logging</span>(<span class="str">"command_center"</span>)
+
+<span class="cm"># In any other module — just getLogger, no setup needed</span>
+<span class="cm"># log = logging.getLogger(__name__)</span>
+
+<span class="cm"># Usage</span>
+log.<span class="fn">info</span>(<span class="str">"App started on port %d"</span>, <span class="num">8000</span>)
+log.<span class="fn">debug</span>(<span class="str">"Config loaded: %s"</span>, settings)
+log.<span class="fn">warning</span>(<span class="str">"Disk usage at %d%%"</span>, <span class="num">87</span>)
+log.<span class="fn">error</span>(<span class="str">"Database connection failed"</span>)
+
+<span class="cm"># Always include exception info on errors</span>
+<span class="kw">try</span>:
+    risky_operation()
+<span class="kw">except</span> Exception:
+    log.<span class="fn">error</span>(<span class="str">"Failed during risky_operation"</span>, exc_info=<span class="kw">True</span>)
+    <span class="cm"># exc_info=True adds full traceback to the log</span>
+
+<span class="cm"># Add extra context (great for APIs — log the user, request ID, etc.)</span>
+log.<span class="fn">info</span>(<span class="str">"Task created"</span>, extra={<span class="str">"user_id"</span>: <span class="num">42</span>, <span class="str">"task_id"</span>: <span class="num">7</span>})</code></pre>
+
+<div class="callout callout-tip">
+  <strong>💡 Use % formatting in log calls</strong>
+  Write log.info("User %s logged in", username) instead of log.info(f"User {username} logged in"). The % version skips string formatting entirely if the message level is below the threshold — a small but meaningful performance win in high-traffic code.
+</div>
+`
+  },
+  {
+    id: 'l9',
+    title: 'Phase Project — Automation System',
+    eyebrow: 'Phase Project · Build Something Real',
+    pills: ['~2 hours', 'Project', 'everything from phase 4'],
+    body: `
+<h2>The Phase 4 project</h2>
+<p>Phase 4's goal is simple: <span class="hl">automate something real in your life.</span> Not a toy project, not a tutorial clone — something that actually runs on a schedule and does something useful. The best projects here are ones that slightly annoy you to do manually.</p>
+
+<div class="project-card">
+  <div class="project-eyebrow">// phase_project</div>
+  <div class="project-title">Command Center: Automation Layer</div>
+  <div class="project-desc">
+    Extend the Command Center you've been building since Phase 2 with a complete automation layer. It should pull live data, process files, run on a schedule, and log everything properly. By the end it should be something that runs on its own and you'd actually miss if it stopped.
+  </div>
+  <ul class="project-requirements">
+    <li>Read/write at least two different data formats (JSON for persistence, CSV for export)</li>
+    <li>Use pathlib for all file operations — no bare open() with string paths</li>
+    <li>Scrape or pull live data from at least one external source</li>
+    <li>Schedule at least one task to run automatically (every X minutes, or daily)</li>
+    <li>All secrets in .env, loaded via pydantic-settings</li>
+    <li>Subprocess integration — call at least one external tool (git, ffmpeg, etc.)</li>
+    <li>Proper logging via setup_logging(), no print() statements in the final version</li>
+    <li>At least one regex for parsing or validation</li>
+  </ul>
+</div>
+
+<h2>Three starter ideas</h2>
+
+<div class="recipe">
+  <div class="recipe-title">🗞️ Option A — Daily Digest</div>
+  <p>Every morning at 8am: scrape a news/tech site, pull weather for your city, check your GitHub notifications, write a nicely formatted digest to a file and print it to terminal. Saves as dated JSON, exports weekly summaries as CSV.</p>
+</div>
+
+<div class="recipe">
+  <div class="recipe-title">📁 Option B — File Organizer + Watcher</div>
+  <p>Watches your Downloads folder every 5 minutes. Organizes new files by type into subfolders. Logs every move. Weekly runs a cleanup of files older than 30 days (with a dry-run preview first). Exports a weekly report CSV of what was moved where.</p>
+</div>
+
+<div class="recipe">
+  <div class="recipe-title">🏥 Option C — Repo Health Monitor</div>
+  <p>Scans all git repos in a folder. For each: checks if it's behind remote (subprocess git fetch), when it was last committed, how many uncommitted changes. Saves a JSON snapshot, exports CSV, logs warnings for repos that haven't been touched in 14+ days.</p>
+</div>
+
+<h2>Reference implementation skeleton</h2>
+<pre><code><span class="cm"># command_center/automation.py</span>
+<span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">import</span> json, csv, logging
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">from</span> apscheduler.schedulers.blocking <span class="kw">import</span> BlockingScheduler
+
+<span class="kw">from</span> .config <span class="kw">import</span> get_settings
+<span class="kw">from</span> .logging_setup <span class="kw">import</span> setup_logging
+
+log = <span class="fn">setup_logging</span>(<span class="str">"automation"</span>)
+settings = <span class="fn">get_settings</span>()
+
+DATA_DIR = Path(<span class="str">"data"</span>)
+DATA_DIR.<span class="fn">mkdir</span>(exist_ok=<span class="kw">True</span>)
+
+
+<span class="kw">def</span> <span class="fn">fetch_data</span>() -> <span class="fn">list</span>[<span class="fn">dict</span>]:
+    <span class="str">"""Pull and return structured data from your chosen source."""</span>
+    log.<span class="fn">info</span>(<span class="str">"Fetching live data..."</span>)
+    <span class="cm"># Your scraping / API call here</span>
+    <span class="kw">return</span> []
+
+
+<span class="kw">def</span> <span class="fn">process_and_save</span>(data: <span class="fn">list</span>[<span class="fn">dict</span>]) -> Path:
+    <span class="str">"""Process data, save to JSON, return file path."""</span>
+    today = datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"%Y-%m-%d"</span>)
+    out = DATA_DIR / <span class="fn">f</span><span class="str">"{today}-data.json"</span>
+    out.<span class="fn">write_text</span>(json.<span class="fn">dumps</span>(data, indent=<span class="num">2</span>), encoding=<span class="str">"utf-8"</span>)
+    log.<span class="fn">info</span>(<span class="str">"Saved %d records to %s"</span>, <span class="fn">len</span>(data), out)
+    <span class="kw">return</span> out
+
+
+<span class="kw">def</span> <span class="fn">export_csv</span>(data: <span class="fn">list</span>[<span class="fn">dict</span>], fields: <span class="fn">list</span>[str]) -> Path:
+    <span class="str">"""Export data to a weekly CSV report."""</span>
+    week = datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"W%W-%Y"</span>)
+    out = DATA_DIR / <span class="fn">f</span><span class="str">"report-{week}.csv"</span>
+    <span class="kw">with</span> <span class="fn">open</span>(out, <span class="str">"w"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+        writer = csv.<span class="cls">DictWriter</span>(f, fieldnames=fields, extrasaction=<span class="str">"ignore"</span>)
+        writer.<span class="fn">writeheader</span>()
+        writer.<span class="fn">writerows</span>(data)
+    log.<span class="fn">info</span>(<span class="str">"Exported CSV to %s"</span>, out)
+    <span class="kw">return</span> out
+
+
+<span class="kw">def</span> <span class="fn">run_daily_job</span>():
+    log.<span class="fn">info</span>(<span class="str">"=== Daily job starting ==="</span>)
+    <span class="kw">try</span>:
+        data = <span class="fn">fetch_data</span>()
+        <span class="fn">process_and_save</span>(data)
+        log.<span class="fn">info</span>(<span class="str">"=== Daily job complete ==="</span>)
+    <span class="kw">except</span> Exception:
+        log.<span class="fn">error</span>(<span class="str">"Daily job failed"</span>, exc_info=<span class="kw">True</span>)
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    scheduler = <span class="cls">BlockingScheduler</span>()
+    scheduler.<span class="fn">add_job</span>(<span class="fn">run_daily_job</span>, <span class="str">"cron"</span>, hour=<span class="num">8</span>, minute=<span class="num">0</span>)
+    <span class="fn">run_daily_job</span>()  <span class="cm"># Run once immediately on start</span>
+    log.<span class="fn">info</span>(<span class="str">"Scheduler running. Next run at 08:00."</span>)
+    scheduler.<span class="fn">start</span>()</code></pre>
+
+<div class="callout callout-tip">
+  <strong>💡 The one rule for this project</strong>
+  It has to actually run for a week. Not just work when you press Run — actually scheduled, actually producing output, actually doing something you notice when it stops. That's the difference between finishing a phase project and finishing a phase.
+</div>
+`
+  }
+];
+
+/* ─────────────────────────────────────────
+   BUILD UI
+───────────────────────────────────────── */
+const nav = document.getElementById('nav');
+const main = document.getElementById('main');
+const dots = document.getElementById('dots');
+const pbar = document.getElementById('pbar');
+const ptext = document.getElementById('ptext');
+
+const completed = new Set(
+  JSON.parse(localStorage.getItem('p4_completed') || '[]')
+);
+
+function saveProgress() {
+  localStorage.setItem('p4_completed', JSON.stringify([...completed]));
+}
+
+function updateProgress() {
+  const n = completed.size;
+  const total = lessons.length;
+  pbar.style.width = (n / total * 100) + '%';
+  ptext.textContent = `${n} / ${total} lessons complete`;
+  document.querySelectorAll('.p-dot').forEach((d, i) => {
+    d.classList.toggle('done', completed.has(lessons[i].id));
+  });
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('completed', completed.has(lessons[i].id));
+    el.querySelector('.nav-check').textContent = completed.has(lessons[i].id) ? '✓' : '';
+  });
+}
+
+let current = 0;
+
+function showLesson(idx) {
+  current = idx;
+  document.querySelectorAll('.lesson').forEach((l, i) => {
+    l.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.p-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx && !completed.has(lessons[i].id));
+  });
+  main.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function markComplete(id, btn) {
+  completed.add(id);
+  saveProgress();
+  updateProgress();
+  btn.textContent = '✓ Lesson Complete';
+  btn.classList.add('done');
+}
+
+// Build dots
+lessons.forEach((l, i) => {
+  const d = document.createElement('div');
+  d.className = 'p-dot' + (completed.has(l.id) ? ' done' : '');
+  d.title = l.title;
+  d.onclick = () => showLesson(i);
+  dots.appendChild(d);
+});
+
+// Build nav
+lessons.forEach((l, i) => {
+  const el = document.createElement('div');
+  el.className = 'nav-item' + (completed.has(l.id) ? ' completed' : '');
+  el.innerHTML = `<span class="nav-num">L${String(i+1).padStart(2,'0')}</span><span>${l.title}</span><span class="nav-check">${completed.has(l.id) ? '✓' : ''}</span>`;
+  el.onclick = () => showLesson(i);
+  nav.appendChild(el);
+});
+
+// Build lessons
+lessons.forEach((l, i) => {
+  const div = document.createElement('div');
+  div.className = 'lesson' + (i === 0 ? ' active' : '');
+  div.id = l.id;
+
+  const nextLesson = lessons[i + 1];
+  const nextBar = nextLesson
+    ? `<a class="next-bar" onclick="showLesson(${i+1})">
+        <div><div class="next-bar-label">Next Lesson</div><div class="next-bar-title">${nextLesson.title}</div></div>
+        <div class="next-bar-arrow">→</div>
+      </a>`
+    : `<a class="next-bar" href="python-phase5.html">
+        <div><div class="next-bar-label">Phase Complete — Up Next</div><div class="next-bar-title">Phase 5 — APIs & Backend →</div></div>
+        <div class="next-bar-arrow">🚀</div>
+      </a>`;
+
+  div.innerHTML = `
+    <div class="lesson-header">
+      <div class="lesson-eyebrow">${l.eyebrow}</div>
+      <div class="lesson-title">${l.title}</div>
+      <div class="lesson-meta">${l.pills.map(p => `<span class="meta-pill ${p.includes('~') ? 'accent' : ''}">${p}</span>`).join('')}</div>
+    </div>
+    <div class="lesson-body">
+      ${l.body}
+      <div class="divider"></div>
+      <button class="complete-btn ${completed.has(l.id) ? 'done' : ''}"
+        onclick="markComplete('${l.id}', this)">
+        ${completed.has(l.id) ? '✓ Lesson Complete' : '✓ Mark Complete & Continue'}
+      </button>
+      ${nextBar}
+    </div>`;
+
+  main.appendChild(div);
+});
+
+updateProgress();
+</script>
+<script src="../scripts/main.js" defer></script>
+      <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 3 — The Ecosystem | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="../css/python-phase3.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 3: The Ecosystem</h1>
+  <p>Libraries are half of Python's power. Learn the tools that appear in every real project — virtual environments, HTTP, CLIs, validation, data, and professional project structure.</p>
+  <div class="header-stars">📦 🌐 🛠️ 📊 🏗️</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 3 — Lessons</div>
+  <div class="streak-bar">
+    <span class="streak-label">🔥</span>
+    <div id="streak-nodes"></div>
+  </div>
+
+  <div class="nav-item active" onclick="go(0)"  id="nav0"><span class="nav-icon">🏠</span> Virtual Environments <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item"        onclick="go(1)"  id="nav1"><span class="nav-icon">📦</span> pip & Dependencies <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item"        onclick="go(2)"  id="nav2"><span class="nav-icon">🌐</span> Requests — HTTP <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item"        onclick="go(3)"  id="nav3"><span class="nav-icon">🎨</span> Rich — Terminal UI <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item"        onclick="go(4)"  id="nav4"><span class="nav-icon">⌨️</span> Typer — CLI Tools <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item"        onclick="go(5)"  id="nav5"><span class="nav-icon">✅</span> Pydantic — Validation <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item"        onclick="go(6)"  id="nav6"><span class="nav-icon">📊</span> Pandas — Data Basics <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item"        onclick="go(7)"  id="nav7"><span class="nav-icon">📁</span> Pathlib — File System <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item"        onclick="go(8)"  id="nav8"><span class="nav-icon">🏗️</span> Project Structure <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item"        onclick="go(9)"  id="nav9"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk9"></span></div>
+
+  <div style="padding:20px 8px 0;border-top:1px solid var(--border);margin-top:16px">
+    <a href="python-phase2.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#06d6a0'" onmouseout="this.style.color=''">← Phase 2</a>
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#06d6a0'" onmouseout="this.style.color=''">↑ Full Roadmap</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<!-- ════════════════════════════════════════
+     L0 — VIRTUAL ENVIRONMENTS
+════════════════════════════════════════ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>Virtual Environments — Your Project's Bubble</h2>
+    <p class="lesson-intro">Every Python project needs its own isolated environment. Without this, you'll spend hours debugging dependency conflicts that have nothing to do with your code.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤔 The Problem — Why Global Installs Break Everything</div>
+    <p>Imagine installing <code>requests 2.28</code> globally for Project A. Then Project B needs <code>requests 2.20</code> because it depends on an older library. You can't have both installed globally at the same time. One project breaks.</p>
+    <p style="margin-top:10px">This is the dependency conflict problem. It happens constantly in real development. Virtual environments solve it by giving each project its own isolated Python installation and package directory — completely separate from everything else on your system.</p>
+
+    <div class="hood">
+      <div class="hood-label">⚙️ What a virtual environment actually is</div>
+      A virtual environment is just a folder (usually called <code>venv/</code> or <code>.venv/</code>) containing a copy of the Python interpreter, a <code>pip</code> executable, and an empty <code>site-packages/</code> directory where packages get installed. When you "activate" it, your terminal temporarily redirects <code>python</code> and <code>pip</code> commands to point inside that folder instead of the global Python. Deactivate it and you're back to global. No magic — just path manipulation.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠️ Creating and Using a Virtual Environment</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — venv workflow</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Step 1 — Create the virtual environment</span>
+<span class="cm"># Run this ONCE per project, in the project root</span>
+<span class="sh">python -m venv .venv</span>
+<span class="cm"># Creates a .venv/ folder. The dot keeps it hidden in file explorers.</span>
+
+<span class="cm"># Step 2 — Activate it</span>
+<span class="cm"># macOS / Linux:</span>
+<span class="sh">source .venv/bin/activate</span>
+
+<span class="cm"># Windows (Command Prompt):</span>
+<span class="sh">.venv\Scripts\activate.bat</span>
+
+<span class="cm"># Windows (PowerShell):</span>
+<span class="sh">.venv\Scripts\Activate.ps1</span>
+
+<span class="cm"># Your prompt changes to show the active env:</span>
+<span class="out">(.venv) PS C:\Users\jayka\projects\my-app></span>
+
+<span class="cm"># Step 3 — Install packages (now go into .venv ONLY)</span>
+<span class="sh">pip install requests rich typer</span>
+
+<span class="cm"># Step 4 — Work on your project normally</span>
+<span class="sh">python main.py</span>
+
+<span class="cm"># Step 5 — Deactivate when done</span>
+<span class="sh">deactivate</span>
+<span class="cm"># Prompt returns to normal. Global Python unaffected.</span></pre>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Always add .venv to .gitignore</strong>The virtual environment folder can be hundreds of MB and is machine-specific. Never commit it. Add <code>.venv/</code> to your <code>.gitignore</code>. Your <code>requirements.txt</code> or <code>pyproject.toml</code> is what other developers use to recreate the environment.</div>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>VS Code tip</strong>Open your project folder in VS Code, then press <code>Ctrl+Shift+P</code> → "Python: Select Interpreter" → choose the one inside <code>.venv/</code>. VS Code will then activate the environment automatically in its integrated terminal, and your IntelliSense will see all installed packages.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why should you never commit your <code>.venv/</code> folder to Git?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Git doesn't support folders that large</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">It's machine-specific, potentially hundreds of MB, and can be recreated from requirements files by any developer</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">It contains your secret API keys</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Virtual environments only work locally and can't be transferred</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Phase 2</button>
+    <button class="btn btn-next" onclick="next(0)">pip & Dependencies →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L1 — PIP & DEPENDENCIES
+════════════════════════════════════════ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>pip &amp; Dependency Management</h2>
+    <p class="lesson-intro">pip is Python's package installer. But knowing pip commands is only half the job — the other half is properly recording and sharing your project's dependencies so anyone can reproduce your environment exactly.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Essential pip Commands</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — pip commands you'll use daily</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Install a package</span>
+<span class="sh">pip install requests</span>
+
+<span class="cm"># Install a specific version</span>
+<span class="sh">pip install requests==2.31.0</span>
+
+<span class="cm"># Install minimum version (common in requirements files)</span>
+<span class="sh">pip install "requests>=2.28"</span>
+
+<span class="cm"># Install multiple packages at once</span>
+<span class="sh">pip install requests rich typer pydantic</span>
+
+<span class="cm"># Upgrade a package to latest</span>
+<span class="sh">pip install --upgrade requests</span>
+
+<span class="cm"># Uninstall</span>
+<span class="sh">pip uninstall requests</span>
+
+<span class="cm"># List everything installed in the current environment</span>
+<span class="sh">pip list</span>
+
+<span class="cm"># See details about one package (version, location, dependencies)</span>
+<span class="sh">pip show requests</span>
+
+<span class="cm"># Search PyPI (the Python Package Index) for packages</span>
+<span class="sh">pip index versions requests</span>
+
+<span class="cm"># Save current environment to requirements.txt</span>
+<span class="sh">pip freeze &gt; requirements.txt</span>
+
+<span class="cm"># Install everything from requirements.txt</span>
+<span class="cm"># (run this after cloning a project to restore the environment)</span>
+<span class="sh">pip install -r requirements.txt</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📄 requirements.txt vs pyproject.toml</div>
+    <p>There are two ways to record dependencies. Both are valid — understand the difference so you use the right one.</p>
+    <table>
+      <tr><th>Format</th><th>Best For</th><th>Created By</th></tr>
+      <tr><td><code>requirements.txt</code></td><td>Simple scripts, quick projects, exact reproducibility</td><td><code>pip freeze &gt; requirements.txt</code></td></tr>
+      <tr><td><code>pyproject.toml</code></td><td>Proper packages, libraries, modern projects</td><td>Manually or with <code>poetry init</code></td></tr>
+    </table>
+
+    <div class="two-col" style="margin-top:18px">
+      <div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">requirements.txt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Exact pinned versions</span>
+<span class="cls">requests</span>==2.31.0
+<span class="cls">rich</span>==13.7.0
+<span class="cls">typer</span>==0.9.0
+<span class="cls">pydantic</span>==2.5.0
+
+<span class="cm"># Recreate with:</span>
+<span class="cm"># pip install -r requirements.txt</span></pre>
+        </div>
+      </div>
+      <div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">pyproject.toml</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+          <pre>[project]
+name = <span class="str">"my-app"</span>
+version = <span class="str">"0.1.0"</span>
+requires-python = <span class="str">">=3.11"</span>
+dependencies = [
+  <span class="str">"requests>=2.28"</span>,
+  <span class="str">"rich>=13.0"</span>,
+  <span class="str">"typer>=0.9"</span>,
+  <span class="str">"pydantic>=2.0"</span>,
+]</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 pip freeze — what it actually does</div>
+      <h4>Why pinned versions matter</h4>
+      <p><code>pip freeze</code> dumps every installed package with its exact version number. This creates a "snapshot" of your working environment. When another developer runs <code>pip install -r requirements.txt</code>, they get exactly the same versions you tested with — not whatever the latest version happens to be that day. This prevents the "works on my machine" problem.</p>
+      <p>The trade-off: pinned versions go stale. Security patches and bug fixes in newer versions won't reach you unless you explicitly update. Make a habit of running <code>pip install --upgrade -r requirements.txt</code> and re-testing periodically.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Finding Good Packages on PyPI</div>
+    <p><a href="https://pypi.org" style="color:var(--accent3)">pypi.org</a> is the Python Package Index — over 500,000 packages. Not all are good. Here's how to evaluate one quickly:</p>
+    <ol class="step-list">
+      <li><strong>Weekly downloads</strong> — millions = trusted. Hundreds = niche but may be fine. Tens = experimental.</li>
+      <li><strong>Last release date</strong> — abandoned for 3+ years is a yellow flag for security. Abandoned for 5+ is a red flag.</li>
+      <li><strong>GitHub stars & open issues</strong> — click the GitHub link. Are issues being responded to?</li>
+      <li><strong>Dependencies</strong> — a package that pulls in 50 sub-dependencies is a liability. Check the dependency count.</li>
+      <li><strong>License</strong> — MIT, Apache 2.0, BSD = use freely. GPL = check if it affects your project's license requirements.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Virtual Environments</button>
+    <button class="btn btn-next" onclick="next(1)">Requests →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L2 — REQUESTS
+════════════════════════════════════════ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>Requests — HTTP for Humans</h2>
+    <p class="lesson-intro"><code>requests</code> is the most downloaded Python package in history. It turns HTTP — normally a tedious low-level protocol — into something you can do in one readable line.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌐 What HTTP Requests Are</div>
+    <p>Every time your browser loads a page, fetches data, or submits a form, it sends an HTTP request. Your Python code can do the same — call weather APIs, GitHub, OpenAI, your own backend, anything with a URL.</p>
+    <table>
+      <tr><th>HTTP Method</th><th>What It Does</th><th>Example</th></tr>
+      <tr><td><code>GET</code></td><td>Retrieve data</td><td>Fetch a user's profile</td></tr>
+      <tr><td><code>POST</code></td><td>Send data, create resource</td><td>Submit a form, create a task</td></tr>
+      <tr><td><code>PUT</code></td><td>Replace a resource</td><td>Update entire user record</td></tr>
+      <tr><td><code>PATCH</code></td><td>Partially update</td><td>Change just the user's name</td></tr>
+      <tr><td><code>DELETE</code></td><td>Remove a resource</td><td>Delete a task</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 Installation &amp; First Request</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install requests</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — your first API call</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> requests
+
+<span class="cm"># GET request — fetch data from a public API</span>
+response = requests.<span class="fn">get</span>(<span class="str">"https://api.github.com/users/torvalds"</span>)
+
+<span class="cm"># The response object contains everything</span>
+<span class="fn">print</span>(response.status_code)    <span class="cm"># 200 = success, 404 = not found, etc.</span>
+<span class="fn">print</span>(response.headers)        <span class="cm"># dict of response headers</span>
+<span class="fn">print</span>(response.text)           <span class="cm"># raw response body as string</span>
+
+<span class="cm"># .json() parses JSON response into a Python dict — use this constantly</span>
+data = response.<span class="fn">json</span>()
+<span class="fn">print</span>(data[<span class="str">"name"</span>])            <span class="cm"># "Linus Torvalds"</span>
+<span class="fn">print</span>(data[<span class="str">"public_repos"</span>])   <span class="cm"># number of public repos</span>
+<span class="fn">print</span>(data[<span class="str">"followers"</span>])      <span class="cm"># follower count</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 The Full Requests Toolkit</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — requests patterns for real projects</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> requests
+
+<span class="cm"># ── Query parameters — appended to URL as ?key=value ──</span>
+params = {<span class="str">"q"</span>: <span class="str">"python"</span>, <span class="str">"sort"</span>: <span class="str">"stars"</span>, <span class="str">"per_page"</span>: <span class="num">5</span>}
+r = requests.<span class="fn">get</span>(<span class="str">"https://api.github.com/search/repositories"</span>, params=params)
+<span class="cm"># Requests builds: ?q=python&sort=stars&per_page=5 — no manual string building</span>
+repos = r.<span class="fn">json</span>()[<span class="str">"items"</span>]
+<span class="kw">for</span> repo <span class="kw">in</span> repos:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">{repo['full_name']:40} ⭐ {repo['stargazers_count']:,}"</span>)
+
+
+<span class="cm"># ── Headers — authentication, content type ──</span>
+headers = {
+    <span class="str">"Authorization"</span>: <span class="str">"Bearer YOUR_TOKEN_HERE"</span>,
+    <span class="str">"Accept"</span>:        <span class="str">"application/vnd.github+json"</span>,
+}
+r = requests.<span class="fn">get</span>(<span class="str">"https://api.github.com/user"</span>, headers=headers)
+
+
+<span class="cm"># ── POST — send JSON data ──</span>
+payload = {<span class="str">"title"</span>: <span class="str">"Learn requests"</span>, <span class="str">"done"</span>: <span class="kw">False</span>}
+r = requests.<span class="fn">post</span>(
+    <span class="str">"https://jsonplaceholder.typicode.com/todos"</span>,
+    json=payload   <span class="cm"># automatically serializes dict to JSON + sets Content-Type</span>
+)
+<span class="fn">print</span>(r.status_code)   <span class="cm"># 201 Created</span>
+<span class="fn">print</span>(r.<span class="fn">json</span>())        <span class="cm"># {'title': 'Learn requests', 'done': False, 'id': 201}</span>
+
+
+<span class="cm"># ── Timeout — always set this in production ──</span>
+<span class="cm"># Without timeout, a hanging server will hang your program forever</span>
+<span class="kw">try</span>:
+    r = requests.<span class="fn">get</span>(<span class="str">"https://api.example.com/data"</span>, timeout=<span class="num">5</span>)
+    <span class="cm"># timeout=5 means: 5 seconds to connect AND 5 seconds to read</span>
+    r.<span class="fn">raise_for_status</span>()  <span class="cm"># raises HTTPError if status is 4xx or 5xx</span>
+    data = r.<span class="fn">json</span>()
+<span class="kw">except</span> requests.<span class="cls">Timeout</span>:
+    <span class="fn">print</span>(<span class="str">"Request timed out"</span>)
+<span class="kw">except</span> requests.<span class="cls">HTTPError</span> <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"HTTP error: {e.response.status_code}"</span>)
+<span class="kw">except</span> requests.<span class="cls">ConnectionError</span>:
+    <span class="fn">print</span>(<span class="str">"No internet / DNS failure"</span>)
+
+
+<span class="cm"># ── Sessions — reuse connections, share headers ──</span>
+<span class="cm"># More efficient when making many calls to the same API</span>
+<span class="kw">with</span> requests.<span class="cls">Session</span>() <span class="kw">as</span> session:
+    session.headers.update({<span class="str">"Authorization"</span>: <span class="str">"Bearer TOKEN"</span>})
+    users  = session.<span class="fn">get</span>(<span class="str">"https://api.example.com/users"</span>).<span class="fn">json</span>()
+    tasks  = session.<span class="fn">get</span>(<span class="str">"https://api.example.com/tasks"</span>).<span class="fn">json</span>()
+    <span class="cm"># Auth header sent automatically on every request in this session</span></pre>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Always check the status code</strong>A request that gets a response isn't necessarily successful. A 404 or 500 still returns a response object — <code>requests</code> won't raise an exception unless you call <code>raise_for_status()</code> or check <code>response.status_code</code> yourself. Never assume success just because you got a response.</div>
+    </div>
+  </div>
+
+  <div class="try-it">
+    <div class="try-it-label">🔨 Try It — Call a Real API</div>
+    <h4>Use the free Open-Meteo weather API (no API key needed)</h4>
+    <ul>
+      <li>URL: <code>https://api.open-meteo.com/v1/forecast</code></li>
+      <li>Params: <code>latitude=32.52</code>, <code>longitude=-93.75</code> (Bossier City), <code>current=temperature_2m,wind_speed_10m</code></li>
+      <li>Parse the response and print the current temperature and wind speed</li>
+      <li>Add proper timeout and error handling</li>
+      <li>Extend it: take latitude/longitude as function arguments so it works for any city</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← pip</button>
+    <button class="btn btn-next" onclick="next(2)">Rich →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L3 — RICH
+════════════════════════════════════════ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Rich — Beautiful Terminal Output</h2>
+    <p class="lesson-intro">Rich turns your terminal output from plain text into something that looks professional — colored syntax, tables, progress bars, panels, and live-updating displays. One import changes everything.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Installation &amp; First Steps</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install rich</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — drop-in print replacement</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> rich <span class="kw">import</span> print   <span class="cm"># shadows built-in print — same API</span>
+
+<span class="cm"># Markup syntax for colors and styles</span>
+<span class="fn">print</span>(<span class="str">"[bold green]✓ Task completed![/bold green]"</span>)
+<span class="fn">print</span>(<span class="str">"[red]✗ Error occurred[/red]"</span>)
+<span class="fn">print</span>(<span class="str">"[bold yellow]⚠ Warning:[/bold yellow] check your config"</span>)
+<span class="fn">print</span>(<span class="str">"[cyan]https://teqvault.study[/cyan]"</span>)
+
+<span class="cm"># Rich auto-highlights Python objects</span>
+data = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"unity"</span>], <span class="str">"level"</span>: <span class="num">5</span>}
+<span class="fn">print</span>(data)   <span class="cm"># dict with colored keys, strings, numbers — automatic</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Tables, Panels, and the Console Object</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Rich components</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> rich.console <span class="kw">import</span> Console
+<span class="kw">from</span> rich.table   <span class="kw">import</span> Table
+<span class="kw">from</span> rich.panel   <span class="kw">import</span> Panel
+<span class="kw">from</span> rich.syntax  <span class="kw">import</span> Syntax
+
+console = <span class="cls">Console</span>()   <span class="cm"># main Rich object — use instead of print()</span>
+
+<span class="cm"># ── Styled panels ──</span>
+console.<span class="fn">print</span>(<span class="cls">Panel</span>(
+    <span class="str">"[bold]Welcome to Teqvault[/bold]\nYour Python learning platform."</span>,
+    title=<span class="str">"[green]Phase 3[/green]"</span>,
+    border_style=<span class="str">"green"</span>
+))
+
+<span class="cm"># ── Tables ──</span>
+table = <span class="cls">Table</span>(title=<span class="str">"Task Manager"</span>, border_style=<span class="str">"bright_black"</span>)
+table.<span class="fn">add_column</span>(<span class="str">"#"</span>,        style=<span class="str">"dim"</span>,         width=<span class="num">4</span>)
+table.<span class="fn">add_column</span>(<span class="str">"Title"</span>,    style=<span class="str">"bold white"</span>)
+table.<span class="fn">add_column</span>(<span class="str">"Priority"</span>, justify=<span class="str">"center"</span>)
+table.<span class="fn">add_column</span>(<span class="str">"Status"</span>,   justify=<span class="str">"center"</span>)
+
+table.<span class="fn">add_row</span>(<span class="str">"1"</span>, <span class="str">"Learn Requests"</span>,   <span class="str">"[yellow]●[/yellow] High"</span>,   <span class="str">"[green]✓ Done[/green]"</span>)
+table.<span class="fn">add_row</span>(<span class="str">"2"</span>, <span class="str">"Ship Death Road"</span>,   <span class="str">"[red]● Critical[/red]"</span>, <span class="str">"[yellow]○ Pending[/yellow]"</span>)
+table.<span class="fn">add_row</span>(<span class="str">"3"</span>, <span class="str">"Read Pragmatic Prog"</span>,<span class="str">"[blue]● Normal[/blue]"</span>,   <span class="str">"[yellow]○ Pending[/yellow]"</span>)
+console.<span class="fn">print</span>(table)
+
+<span class="cm"># ── Syntax highlighting for code output ──</span>
+code = <span class="str">"""
+def fibonacci(n):
+    if n &lt; 2: return n
+    return fibonacci(n-1) + fibonacci(n-2)
+"""</span>
+console.<span class="fn">print</span>(<span class="cls">Syntax</span>(code, <span class="str">"python"</span>, theme=<span class="str">"monokai"</span>, line_numbers=<span class="kw">True</span>))</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏳ Progress Bars &amp; Spinners</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Rich progress tracking</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> rich.progress <span class="kw">import</span> track, Progress, SpinnerColumn, TimeElapsedColumn
+<span class="kw">import</span> time
+
+<span class="cm"># ── Simple — wrap any iterable with track() ──</span>
+<span class="kw">for</span> item <span class="kw">in</span> <span class="fn">track</span>(<span class="fn">range</span>(<span class="num">20</span>), description=<span class="str">"Processing..."</span>):
+    time.<span class="fn">sleep</span>(<span class="num">0.05</span>)
+<span class="cm"># Shows: Processing... ━━━━━━━━━━━━━━━━ 20/20 0:00:01</span>
+
+<span class="cm"># ── Advanced — multiple tasks, custom columns ──</span>
+<span class="kw">with</span> <span class="cls">Progress</span>(
+    <span class="cls">SpinnerColumn</span>(),
+    <span class="str">"[progress.description]{task.description}"</span>,
+    <span class="cls">TimeElapsedColumn</span>(),
+) <span class="kw">as</span> progress:
+    task1 = progress.<span class="fn">add_task</span>(<span class="str">"[green]Fetching data..."</span>,  total=<span class="num">100</span>)
+    task2 = progress.<span class="fn">add_task</span>(<span class="str">"[yellow]Processing..."</span>,    total=<span class="num">100</span>)
+
+    <span class="kw">while not</span> progress.<span class="fn">finished</span>:
+        progress.<span class="fn">update</span>(task1, advance=<span class="num">2</span>)
+        progress.<span class="fn">update</span>(task2, advance=<span class="num">1</span>)
+        time.<span class="fn">sleep</span>(<span class="num">0.05</span>)</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Requests</button>
+    <button class="btn btn-next" onclick="next(3)">Typer →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L4 — TYPER
+════════════════════════════════════════ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>Typer — Real CLI Tools in Minutes</h2>
+    <p class="lesson-intro">Typer turns your Python functions into command-line interfaces automatically — argument parsing, help text, type checking, and tab completion, all from your existing type hints.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⌨️ Why Typer Instead of argparse</div>
+    <p>Python has a built-in <code>argparse</code> module for CLIs. Typer is better for almost everything because it uses type hints you're already writing — no duplicate declarations, much less code, automatic help text, and it integrates perfectly with Rich for colored output.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install "typer[all]"</span>   <span class="cm"># [all] includes rich + shell completion</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 From Function to CLI — Instantly</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — cli.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> typer
+<span class="kw">from</span> rich <span class="kw">import</span> print
+<span class="kw">from</span> typing <span class="kw">import</span> Optional
+
+app = typer.<span class="fn">Typer</span>(help=<span class="str">"Task Manager CLI — manage your tasks from the terminal."</span>)
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">add</span>(
+    title:    <span class="bi">str</span>             = typer.<span class="fn">Argument</span>(..., help=<span class="str">"Task title"</span>),
+    priority: <span class="bi">int</span>             = typer.<span class="fn">Option</span>(<span class="num">2</span>,  help=<span class="str">"Priority 1-5"</span>),
+    due:      Optional[<span class="bi">str</span>]  = typer.<span class="fn">Option</span>(<span class="kw">None</span>, help=<span class="str">"Due date YYYY-MM-DD"</span>),
+):
+    <span class="str">"""Add a new task."""</span>
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[green]✓[/green] Added: [bold]{title}[/bold] (priority {priority})"</span>)
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">list</span>(
+    show_done: <span class="bi">bool</span> = typer.<span class="fn">Option</span>(<span class="kw">False</span>, <span class="str">"--done"</span>, help=<span class="str">"Include completed tasks"</span>),
+):
+    <span class="str">"""List all tasks."""</span>
+    <span class="fn">print</span>(<span class="str">"[bold]Your tasks:[/bold]"</span>)
+    <span class="fn">print</span>(<span class="str">"  [yellow]○[/yellow] Ship Death Road prototype"</span>)
+    <span class="fn">print</span>(<span class="str">"  [yellow]○[/yellow] Learn Phase 4"</span>)
+    <span class="kw">if</span> show_done:
+        <span class="fn">print</span>(<span class="str">"  [green]✓[/green] Complete Phase 3"</span>)
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">complete</span>(title: <span class="bi">str</span> = typer.<span class="fn">Argument</span>(..., help=<span class="str">"Task title to mark done"</span>)):
+    <span class="str">"""Mark a task as complete."""</span>
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[green]✓ Completed:[/green] {title}"</span>)
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">app</span>()</pre>
+    </div>
+    <div class="output-block">python cli.py --help
+<br>
+ Usage: cli.py [OPTIONS] COMMAND [ARGS]...
+<br>
+ Task Manager CLI — manage your tasks from the terminal.
+<br>
+╭─ Commands ───────────────────────────────────────╮
+│ add       Add a new task.                         │
+│ list      List all tasks.                         │
+│ complete  Mark a task as complete.                │
+╰──────────────────────────────────────────────────╯
+<br>
+python cli.py add "Ship Death Road" --priority 5 --due 2026-07-01
+✓ Added: Ship Death Road (priority 5)
+<br>
+python cli.py list --done
+Your tasks:
+  ○ Ship Death Road prototype
+  ✓ Complete Phase 3</div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 Argument vs Option</div>
+      <h4>Two kinds of CLI inputs</h4>
+      <p><strong>Arguments</strong> are positional — the user types them without a flag name: <code>python cli.py add "My Task"</code>. Use <code>typer.Argument()</code>. Required by default.</p>
+      <p><strong>Options</strong> are named with <code>--flag</code>: <code>python cli.py add "My Task" --priority 3</code>. Use <code>typer.Option()</code>. Optional by default, with a default value. Boolean options become <code>--flag</code> / <code>--no-flag</code> pairs automatically.</p>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Rich</button>
+    <button class="btn btn-next" onclick="next(4)">Pydantic →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L5 — PYDANTIC
+════════════════════════════════════════ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Pydantic — Data Validation That Actually Works</h2>
+    <p class="lesson-intro">Pydantic validates data at the boundary of your application — when data comes in from APIs, files, or users — and gives you clear errors when it's wrong. It's the backbone of FastAPI and essential for any serious Python project.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ The Problem Pydantic Solves</div>
+    <p>Data coming from outside your program (API responses, JSON files, form submissions) is untrustworthy. Fields might be missing, wrong types, or invalid values. Without validation, you get cryptic <code>KeyError</code> or <code>TypeError</code> crashes deep in your code — far from where the bad data entered. Pydantic catches it at the door.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install pydantic</span>   <span class="cm"># v2 — current version</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Pydantic BaseModel</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel, Field, EmailStr, validator
+<span class="kw">from</span> typing   <span class="kw">import</span> Optional
+<span class="kw">from</span> datetime <span class="kw">import</span> date
+
+<span class="kw">class</span> <span class="cls">Task</span>(<span class="cls">BaseModel</span>):
+    title:    <span class="bi">str</span>           = <span class="cls">Field</span>(..., min_length=<span class="num">1</span>, max_length=<span class="num">200</span>)
+    priority: <span class="bi">int</span>           = <span class="cls">Field</span>(default=<span class="num">2</span>, ge=<span class="num">1</span>, le=<span class="num">5</span>)  <span class="cm"># ge=≥, le=≤</span>
+    done:     <span class="bi">bool</span>          = <span class="kw">False</span>
+    due:      Optional[date] = <span class="kw">None</span>
+    tags:     <span class="bi">list</span>[<span class="bi">str</span>]     = []
+
+<span class="cm"># ── Valid data — works perfectly ──</span>
+task = <span class="cls">Task</span>(title=<span class="str">"Learn Pydantic"</span>, priority=<span class="num">4</span>, tags=[<span class="str">"python"</span>, <span class="str">"learning"</span>])
+<span class="fn">print</span>(task)
+<span class="cm"># title='Learn Pydantic' priority=4 done=False due=None tags=['python', 'learning']</span>
+
+<span class="cm"># ── Pydantic coerces compatible types automatically ──</span>
+task2 = <span class="cls">Task</span>(title=<span class="str">"Another task"</span>, priority=<span class="str">"3"</span>)  <span class="cm"># "3" → 3, auto-coerced</span>
+
+<span class="cm"># ── Invalid data — immediate, clear error ──</span>
+<span class="kw">try</span>:
+    bad = <span class="cls">Task</span>(title=<span class="str">""</span>, priority=<span class="num">10</span>)   <span class="cm"># empty title, priority &gt; 5</span>
+<span class="kw">except</span> Exception <span class="kw">as</span> e:
+    <span class="fn">print</span>(e)
+<span class="cm"># 2 validation errors for Task</span>
+<span class="cm"># title: String should have at least 1 character [min_length=1]</span>
+<span class="cm"># priority: Input should be less than or equal to 5 [le=5]</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌐 Parsing API Responses with Pydantic</div>
+    <p>The most common real-world use: you get a JSON blob from an API and want structured, validated, typed Python objects instead of raw dicts.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — API response → Pydantic model</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> requests
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel, Field
+<span class="kw">from</span> typing   <span class="kw">import</span> Optional
+
+<span class="cm"># Define the shape of what the API returns</span>
+<span class="kw">class</span> <span class="cls">GitHubUser</span>(<span class="cls">BaseModel</span>):
+    login:        <span class="bi">str</span>
+    name:         Optional[<span class="bi">str</span>]   = <span class="kw">None</span>
+    public_repos: <span class="bi">int</span>
+    followers:    <span class="bi">int</span>
+    bio:          Optional[<span class="bi">str</span>]   = <span class="kw">None</span>
+    html_url:     <span class="bi">str</span>
+
+    <span class="cm"># model_config lets you configure behavior</span>
+    model_config = {<span class="str">"extra"</span>: <span class="str">"ignore"</span>}   <span class="cm"># ignore fields not in the model</span>
+
+<span class="kw">def</span> <span class="fn">get_github_user</span>(username: <span class="bi">str</span>) -> <span class="cls">GitHubUser</span>:
+    r = requests.<span class="fn">get</span>(
+        <span class="fn">f</span><span class="str">"https://api.github.com/users/{username}"</span>,
+        timeout=<span class="num">5</span>
+    )
+    r.<span class="fn">raise_for_status</span>()
+    <span class="cm"># model_validate parses the dict and validates every field</span>
+    <span class="kw">return</span> <span class="cls">GitHubUser</span>.<span class="fn">model_validate</span>(r.<span class="fn">json</span>())
+
+user = <span class="fn">get_github_user</span>(<span class="str">"torvalds"</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"{user.name} — {user.public_repos} repos — {user.followers:,} followers"</span>)
+<span class="cm"># Linus Torvalds — 7 repos — 236,174 followers</span>
+<span class="cm"># user is now a proper GitHubUser object, not a raw dict</span>
+<span class="cm"># user.login, user.followers, etc. all have the right types</span></pre>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Pydantic is FastAPI's foundation</strong>When you reach Phase 5 (APIs & Backend), everything you define in FastAPI uses Pydantic models — request bodies, response schemas, query parameters. Learning it now means Phase 5 is just connecting the pieces you already know.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You define a Pydantic model with <code>priority: int = Field(ge=1, le=5)</code> and pass <code>priority="3"</code> (a string). What happens?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Pydantic raises a ValidationError because "3" is a string, not an int</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">Pydantic automatically coerces "3" to the integer 3 and validation passes</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Python raises a TypeError before Pydantic even sees the value</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The field is set to None because the type doesn't match</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Typer</button>
+    <button class="btn btn-next" onclick="next(5)">Pandas →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L6 — PANDAS
+════════════════════════════════════════ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>Pandas — Working With Tabular Data</h2>
+    <p class="lesson-intro">You don't need to become a data scientist. But every real project eventually touches CSV files, spreadsheets, or structured data. Pandas makes that work feel like nothing.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 The Two Core Objects</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install pandas</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Series and DataFrame</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># Series — a single column with an index</span>
+scores = pd.<span class="cls">Series</span>([<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">96</span>], index=[<span class="str">"Jude"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>])
+<span class="fn">print</span>(scores[<span class="str">"Jude"</span>])     <span class="cm"># 85</span>
+<span class="fn">print</span>(scores.<span class="fn">mean</span>())     <span class="cm"># 87.75</span>
+<span class="fn">print</span>(scores[scores &gt; <span class="num">85</span>]) <span class="cm"># Ana:92, Zoe:96 — boolean indexing</span>
+
+<span class="cm"># DataFrame — a table: multiple columns, each is a Series</span>
+df = pd.<span class="cls">DataFrame</span>({
+    <span class="str">"name"</span>:     [<span class="str">"Jude"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>],
+    <span class="str">"score"</span>:    [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">96</span>],
+    <span class="str">"level"</span>:    [<span class="num">5</span>, <span class="num">7</span>, <span class="num">3</span>, <span class="num">9</span>],
+    <span class="str">"passing"</span>:  [<span class="kw">True</span>, <span class="kw">True</span>, <span class="kw">False</span>, <span class="kw">True</span>],
+})
+<span class="fn">print</span>(df)
+<span class="fn">print</span>(df.<span class="fn">dtypes</span>)       <span class="cm"># column types</span>
+<span class="fn">print</span>(df.<span class="fn">describe</span>())   <span class="cm"># count, mean, std, min, max for numeric columns</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 The Operations You'll Use 90% of the Time</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Pandas essentials</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># ── Reading files — the most common entry point ──</span>
+df = pd.<span class="fn">read_csv</span>(<span class="str">"tasks.csv"</span>)          <span class="cm"># CSV</span>
+df = pd.<span class="fn">read_excel</span>(<span class="str">"data.xlsx"</span>)        <span class="cm"># Excel</span>
+df = pd.<span class="fn">read_json</span>(<span class="str">"data.json"</span>)         <span class="cm"># JSON</span>
+
+<span class="cm"># ── Quick inspection — always do this first ──</span>
+<span class="fn">print</span>(df.<span class="fn">head</span>())              <span class="cm"># first 5 rows</span>
+<span class="fn">print</span>(df.<span class="fn">tail</span>(<span class="num">3</span>))            <span class="cm"># last 3 rows</span>
+<span class="fn">print</span>(df.<span class="fn">shape</span>)              <span class="cm"># (rows, columns)</span>
+<span class="fn">print</span>(df.<span class="fn">columns</span>.<span class="fn">tolist</span>())  <span class="cm"># list of column names</span>
+<span class="fn">print</span>(df.<span class="fn">isnull</span>().<span class="fn">sum</span>())    <span class="cm"># count missing values per column</span>
+
+<span class="cm"># ── Selecting data ──</span>
+df[<span class="str">"score"</span>]                  <span class="cm"># single column → Series</span>
+df[[<span class="str">"name"</span>, <span class="str">"score"</span>]]       <span class="cm"># multiple columns → DataFrame</span>
+df.<span class="fn">iloc</span>[<span class="num">0</span>]                  <span class="cm"># first row by integer index</span>
+df.<span class="fn">loc</span>[df[<span class="str">"name"</span>] == <span class="str">"Jude"</span>] <span class="cm"># rows where name is "Jude"</span>
+
+<span class="cm"># ── Filtering — boolean indexing ──</span>
+passing = df[df[<span class="str">"score"</span>] &gt;= <span class="num">80</span>]
+high_level = df[(df[<span class="str">"level"</span>] &gt; <span class="num">5</span>) &amp; (df[<span class="str">"passing"</span>] == <span class="kw">True</span>)]
+
+<span class="cm"># ── Sorting ──</span>
+df.<span class="fn">sort_values</span>(<span class="str">"score"</span>, ascending=<span class="kw">False</span>)       <span class="cm"># by score descending</span>
+df.<span class="fn">sort_values</span>([<span class="str">"level"</span>, <span class="str">"score"</span>])              <span class="cm"># multi-column sort</span>
+
+<span class="cm"># ── Aggregation ──</span>
+<span class="fn">print</span>(df[<span class="str">"score"</span>].<span class="fn">mean</span>())    <span class="cm"># average score</span>
+<span class="fn">print</span>(df[<span class="str">"score"</span>].<span class="fn">max</span>())     <span class="cm"># highest score</span>
+<span class="fn">print</span>(df.<span class="fn">groupby</span>(<span class="str">"passing"</span>)[<span class="str">"score"</span>].<span class="fn">mean</span>())  <span class="cm"># mean score per group</span>
+
+<span class="cm"># ── Adding/modifying columns ──</span>
+df[<span class="str">"grade"</span>] = df[<span class="str">"score"</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> s: <span class="str">"A"</span> <span class="kw">if</span> s &gt;= <span class="num">90</span> <span class="kw">else</span> <span class="str">"B"</span>)
+df[<span class="str">"bonus_score"</span>] = df[<span class="str">"score"</span>] * <span class="num">1.1</span>   <span class="cm"># vectorized — no loop needed</span>
+
+<span class="cm"># ── Saving results ──</span>
+df.<span class="fn">to_csv</span>(<span class="str">"results.csv"</span>, index=<span class="kw">False</span>)     <span class="cm"># index=False avoids extra column</span>
+df.<span class="fn">to_json</span>(<span class="str">"results.json"</span>, orient=<span class="str">"records"</span>)
+df.<span class="fn">to_excel</span>(<span class="str">"results.xlsx"</span>, index=<span class="kw">False</span>)</pre>
+    </div>
+    <div class="callout info">
+      <span class="callout-emoji">📌</span>
+      <div class="callout-body"><strong>For Phase 3 you only need this much</strong>Pandas goes very deep — entire careers are built on it. For a developer (not a data scientist), what you've seen here covers 90% of what you'll actually encounter: read a file, inspect it, filter it, aggregate it, write it back. Don't go deeper until you hit a problem that requires it.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Pydantic</button>
+    <button class="btn btn-next" onclick="next(6)">Pathlib →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L7 — PATHLIB
+════════════════════════════════════════ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>Pathlib — The Modern File System</h2>
+    <p class="lesson-intro">Python's old <code>os.path</code> module works but it's clunky. <code>pathlib</code> — built into Python since 3.4 — treats file paths as objects with methods. It's cleaner, cross-platform, and the right way to work with files in 2026.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 Path as an Object</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — pathlib basics</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="cm"># Create path objects — note the / operator for joining!</span>
+home    = Path.<span class="fn">home</span>()                         <span class="cm"># /Users/jayka  or  C:/Users/jayka</span>
+project = Path(<span class="str">"."</span>)                            <span class="cm"># current directory</span>
+data    = project / <span class="str">"data"</span> / <span class="str">"tasks.json"</span>    <span class="cm"># join with /</span>
+<span class="cm"># No os.path.join() needed. The / works on all platforms.</span>
+
+<span class="cm"># ── Inspect paths ──</span>
+p = Path(<span class="str">"/home/jayka/projects/app/main.py"</span>)
+<span class="fn">print</span>(p.name)       <span class="cm"># "main.py"       — filename with extension</span>
+<span class="fn">print</span>(p.stem)       <span class="cm"># "main"          — filename without extension</span>
+<span class="fn">print</span>(p.suffix)     <span class="cm"># ".py"           — extension</span>
+<span class="fn">print</span>(p.parent)     <span class="cm"># /home/jayka/projects/app</span>
+<span class="fn">print</span>(p.parts)      <span class="cm"># ('/', 'home', 'jayka', 'projects', 'app', 'main.py')</span>
+
+<span class="cm"># ── Check existence ──</span>
+<span class="fn">print</span>(p.<span class="fn">exists</span>())    <span class="cm"># True / False</span>
+<span class="fn">print</span>(p.<span class="fn">is_file</span>())   <span class="cm"># True if it's a file</span>
+<span class="fn">print</span>(p.<span class="fn">is_dir</span>())    <span class="cm"># True if it's a directory</span>
+
+<span class="cm"># ── Read and write — no open() needed for simple cases ──</span>
+data_file = Path(<span class="str">"tasks.json"</span>)
+content   = data_file.<span class="fn">read_text</span>(encoding=<span class="str">"utf-8"</span>)   <span class="cm"># read whole file as string</span>
+data_file.<span class="fn">write_text</span>(<span class="str">'{"tasks": []}'</span>, encoding=<span class="str">"utf-8"</span>) <span class="cm"># write string to file</span>
+
+<span class="cm"># ── Create directories ──</span>
+output = Path(<span class="str">"output/reports/2026"</span>)
+output.<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+<span class="cm"># parents=True creates all intermediate dirs</span>
+<span class="cm"># exist_ok=True won't error if it already exists</span>
+
+<span class="cm"># ── Find files — glob ──</span>
+project = Path(<span class="str">"."</span>)
+
+<span class="cm"># All Python files in current directory (not recursive)</span>
+py_files = <span class="fn">list</span>(project.<span class="fn">glob</span>(<span class="str">"*.py"</span>))
+
+<span class="cm"># All Python files recursively (** = any depth)</span>
+all_py = <span class="fn">list</span>(project.<span class="fn">glob</span>(<span class="str">"**/*.py"</span>))
+
+<span class="cm"># All JSON files in data/ subdirectory</span>
+json_files = <span class="fn">list</span>((project / <span class="str">"data"</span>).<span class="fn">glob</span>(<span class="str">"*.json"</span>))
+
+<span class="cm"># Iterate a directory</span>
+<span class="kw">for</span> item <span class="kw">in</span> project.<span class="fn">iterdir</span>():
+    <span class="kw">if</span> item.<span class="fn">is_file</span>():
+        <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{item.name:30} {item.stat().st_size:>8} bytes"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Common Pathlib Patterns</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — practical pathlib recipes</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">import</span> shutil, json
+
+<span class="cm"># ── Config file in user's home directory ──</span>
+config_path = Path.<span class="fn">home</span>() / <span class="str">".myapp"</span> / <span class="str">"config.json"</span>
+config_path.parent.<span class="fn">mkdir</span>(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+
+<span class="kw">if not</span> config_path.<span class="fn">exists</span>():
+    config_path.<span class="fn">write_text</span>(json.<span class="fn">dumps</span>({<span class="str">"theme"</span>: <span class="str">"dark"</span>}, indent=<span class="num">2</span>))
+
+config = json.<span class="fn">loads</span>(config_path.<span class="fn">read_text</span>())
+
+<span class="cm"># ── Rename / move a file ──</span>
+old_path = Path(<span class="str">"report.txt"</span>)
+new_path = old_path.<span class="fn">with_name</span>(<span class="str">"final_report.txt"</span>)  <span class="cm"># same dir, new name</span>
+new_ext  = old_path.<span class="fn">with_suffix</span>(<span class="str">".md"</span>)              <span class="cm"># same name, new extension</span>
+
+<span class="cm"># ── Copy file ──</span>
+shutil.<span class="fn">copy2</span>(Path(<span class="str">"source.txt"</span>), Path(<span class="str">"backup.txt"</span>))
+
+<span class="cm"># ── Delete ──</span>
+Path(<span class="str">"temp.txt"</span>).<span class="fn">unlink</span>(missing_ok=<span class="kw">True</span>)  <span class="cm"># delete file, no error if missing</span>
+shutil.<span class="fn">rmtree</span>(Path(<span class="str">"old_folder"</span>))          <span class="cm"># delete entire directory tree</span>
+
+<span class="cm"># ── Get file stats ──</span>
+p = Path(<span class="str">"tasks.json"</span>)
+stat = p.<span class="fn">stat</span>()
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"Size: {stat.st_size} bytes"</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"Modified: {stat.st_mtime}"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Pandas</button>
+    <button class="btn btn-next" onclick="next(7)">Project Structure →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L8 — PROJECT STRUCTURE
+════════════════════════════════════════ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 09</div>
+    <h2>Professional Project Structure</h2>
+    <p class="lesson-intro">How you organize your project is architecture. A bad structure creates friction every day. A good one makes the codebase feel obvious to anyone who opens it — including future you.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ The Standard Python Project Layout</div>
+    <div class="file-tree">
+<span class="ft-dir">my-project/</span>
+├── <span class="ft-file">.env</span>              <span class="ft-note"># secret keys and env vars — NEVER commit</span>
+├── <span class="ft-file">.env.example</span>      <span class="ft-note"># template showing which env vars are needed</span>
+├── <span class="ft-file">.gitignore</span>        <span class="ft-note"># excludes .venv/, .env, __pycache__/, etc.</span>
+├── <span class="ft-file">README.md</span>         <span class="ft-note"># what this is, how to set it up, how to run it</span>
+├── <span class="ft-file">pyproject.toml</span>    <span class="ft-note"># project metadata and dependencies</span>
+├── <span class="ft-file">requirements.txt</span>  <span class="ft-note"># pinned deps for quick setup (or use pyproject.toml)</span>
+│
+├── <span class="ft-pkg">src/</span>               <span class="ft-note"># or just the package name directly</span>
+│   └── <span class="ft-pkg">myapp/</span>
+│       ├── <span class="ft-file">__init__.py</span>   <span class="ft-note"># makes this a package; often empty</span>
+│       ├── <span class="ft-file">main.py</span>       <span class="ft-note"># entry point / CLI</span>
+│       ├── <span class="ft-file">config.py</span>     <span class="ft-note"># settings, env var loading</span>
+│       ├── <span class="ft-file">models.py</span>     <span class="ft-note"># Pydantic models / dataclasses</span>
+│       ├── <span class="ft-file">services.py</span>   <span class="ft-note"># business logic</span>
+│       ├── <span class="ft-file">api.py</span>        <span class="ft-note"># external API calls</span>
+│       └── <span class="ft-file">utils.py</span>      <span class="ft-note"># shared helpers</span>
+│
+├── <span class="ft-dir">tests/</span>
+│   ├── <span class="ft-file">__init__.py</span>
+│   ├── <span class="ft-file">test_models.py</span>
+│   └── <span class="ft-file">test_services.py</span>
+│
+└── <span class="ft-dir">.venv/</span>             <span class="ft-note"># virtual environment — in .gitignore</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Configuration — Loading .env Files</div>
+    <p>Never hardcode API keys, database passwords, or secrets in your code. Load them from environment variables at runtime using <code>python-dotenv</code>.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install python-dotenv</span></pre>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">.env  (never commit)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Real secrets go here</span>
+OPENAI_API_KEY=sk-proj-abc123
+GITHUB_TOKEN=ghp_xyz789
+DATABASE_URL=postgresql://user:pass@localhost/db
+DEBUG=true
+APP_PORT=8000</pre>
+        </div>
+      </div>
+      <div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">.env.example  (commit this)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+          <pre><span class="cm"># Copy to .env and fill in values</span>
+OPENAI_API_KEY=
+GITHUB_TOKEN=
+DATABASE_URL=
+DEBUG=false
+APP_PORT=8000</pre>
+        </div>
+      </div>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — config.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> dotenv  <span class="kw">import</span> load_dotenv
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseSettings   <span class="cm"># pydantic-settings package</span>
+<span class="kw">import</span> os
+
+<span class="fn">load_dotenv</span>()   <span class="cm"># loads .env into os.environ</span>
+
+<span class="cm"># Simple approach — os.environ</span>
+API_KEY = os.<span class="fn">getenv</span>(<span class="str">"OPENAI_API_KEY"</span>)
+<span class="kw">if not</span> API_KEY:
+    <span class="kw">raise</span> <span class="cls">RuntimeError</span>(<span class="str">"OPENAI_API_KEY is not set — check your .env file"</span>)
+
+<span class="cm"># Better approach — Pydantic Settings (validates env vars)</span>
+<span class="kw">from</span> pydantic_settings <span class="kw">import</span> BaseSettings
+
+<span class="kw">class</span> <span class="cls">Settings</span>(<span class="cls">BaseSettings</span>):
+    openai_api_key: <span class="bi">str</span>
+    github_token:   <span class="bi">str</span>
+    debug:          <span class="bi">bool</span>  = <span class="kw">False</span>
+    app_port:       <span class="bi">int</span>   = <span class="num">8000</span>
+
+    <span class="kw">class</span> <span class="cls">Config</span>:
+        env_file = <span class="str">".env"</span>   <span class="cm"># auto-loads from .env</span>
+
+settings = <span class="cls">Settings</span>()     <span class="cm"># raises error if required vars missing</span>
+<span class="fn">print</span>(settings.app_port)  <span class="cm"># 8000 (from .env or default)</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 The Golden .gitignore for Python</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">.gitignore</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Virtual environment</span>
+.venv/
+venv/
+env/
+
+<span class="cm"># Secrets</span>
+.env
+
+<span class="cm"># Python cache</span>
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+<span class="cm"># Testing</span>
+.pytest_cache/
+.coverage
+htmlcov/
+
+<span class="cm"># Editor</span>
+.vscode/
+.idea/
+*.swp
+
+<span class="cm"># Distribution</span>
+dist/
+build/
+*.egg-info/</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Pathlib</button>
+    <button class="btn btn-next" onclick="next(8)">Phase Project →</button>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     L9 — PHASE PROJECT
+════════════════════════════════════════ -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Command Center v3 — Live API Integration</h2>
+    <p class="lesson-intro">Extend the Phase 2 task manager into a real CLI tool that pulls live data from external APIs, uses Rich for beautiful output, and follows professional project structure.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 What to Build</div>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body">
+        <strong>Requirements</strong>
+        <br>✅ <strong>Virtual environment</strong> — project runs in its own <code>.venv/</code>
+        <br>✅ <strong>pyproject.toml or requirements.txt</strong> — all deps recorded
+        <br>✅ <strong>Typer CLI</strong> — commands: <code>add</code>, <code>list</code>, <code>complete</code>, <code>weather</code>, <code>github</code>
+        <br>✅ <strong>Requests</strong> — <code>weather</code> command fetches real weather for your city
+        <br>✅ <strong>Pydantic</strong> — validate API responses and task input
+        <br>✅ <strong>Rich</strong> — all output uses tables, panels, and color
+        <br>✅ <strong>Pathlib</strong> — tasks saved to <code>~/.commandcenter/tasks.json</code>
+        <br>✅ <strong>.env</strong> — GitHub token loaded from environment (for <code>github</code> command)
+        <br>✅ <strong>Project structure</strong> — proper folders, <code>.gitignore</code>, <code>README.md</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Reference Architecture</div>
+    <div class="file-tree">
+<span class="ft-dir">command-center/</span>
+├── <span class="ft-file">.env</span>
+├── <span class="ft-file">.env.example</span>
+├── <span class="ft-file">.gitignore</span>
+├── <span class="ft-file">README.md</span>
+├── <span class="ft-file">requirements.txt</span>          <span class="ft-note"># requests rich typer pydantic python-dotenv</span>
+└── <span class="ft-pkg">commandcenter/</span>
+    ├── <span class="ft-file">__init__.py</span>
+    ├── <span class="ft-file">main.py</span>               <span class="ft-note"># Typer app, all commands</span>
+    ├── <span class="ft-file">models.py</span>             <span class="ft-note"># Task, WeatherData, GitHubUser (Pydantic)</span>
+    ├── <span class="ft-file">storage.py</span>            <span class="ft-note"># load/save tasks via pathlib</span>
+    ├── <span class="ft-file">weather.py</span>            <span class="ft-note"># fetch_weather() using requests</span>
+    ├── <span class="ft-file">github.py</span>             <span class="ft-note"># get_user(), list_repos() using requests</span>
+    └── <span class="ft-file">display.py</span>            <span class="ft-note"># Rich tables, panels, formatting helpers</span>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — main.py skeleton</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> typer
+<span class="kw">from</span> rich.console <span class="kw">import</span> Console
+<span class="kw">from</span> commandcenter <span class="kw">import</span> storage, weather, github, display
+<span class="kw">from</span> commandcenter.models <span class="kw">import</span> Task
+
+app     = typer.<span class="fn">Typer</span>(help=<span class="str">"Command Center — your personal productivity CLI."</span>)
+console = <span class="cls">Console</span>()
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">add</span>(title: <span class="bi">str</span>, priority: <span class="bi">int</span> = <span class="num">2</span>, due: <span class="bi">str</span> = <span class="kw">None</span>):
+    <span class="str">"""Add a new task."""</span>
+    tasks = storage.<span class="fn">load</span>()
+    task  = <span class="cls">Task</span>(title=title, _priority=priority, due=due)
+    tasks.<span class="fn">append</span>(task)
+    storage.<span class="fn">save</span>(tasks)
+    console.<span class="fn">print</span>(display.<span class="fn">task_added</span>(task))
+
+
+<span class="dec">@app.command</span>(name=<span class="str">"list"</span>)
+<span class="kw">def</span> <span class="fn">list_tasks</span>(done: <span class="bi">bool</span> = <span class="kw">False</span>):
+    <span class="str">"""List all tasks."""</span>
+    tasks = storage.<span class="fn">load</span>()
+    console.<span class="fn">print</span>(display.<span class="fn">task_table</span>(tasks, show_done=done))
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">weather_cmd</span>(city: <span class="bi">str</span> = <span class="str">"Bossier City"</span>):
+    <span class="str">"""Show current weather for a city."""</span>
+    data = weather.<span class="fn">fetch</span>(city)
+    console.<span class="fn">print</span>(display.<span class="fn">weather_panel</span>(data))
+
+
+<span class="dec">@app.command</span>()
+<span class="kw">def</span> <span class="fn">gh</span>(username: <span class="bi">str</span>):
+    <span class="str">"""Show a GitHub user's profile."""</span>
+    user = github.<span class="fn">get_user</span>(username)
+    console.<span class="fn">print</span>(display.<span class="fn">github_panel</span>(user))
+
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    <span class="fn">app</span>()</pre>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the baseline works, push further:</h4>
+    <ul>
+      <li>Add a <code>stats</code> command that shows a Rich table: total tasks, pending, overdue, completion rate</li>
+      <li>Add a <code>export</code> command that saves tasks to CSV using pandas</li>
+      <li>Add a <code>--json</code> flag to the <code>list</code> command that outputs raw JSON (useful for piping to other tools)</li>
+      <li>Wrap all API calls in the <code>@retry</code> decorator from Phase 2</li>
+      <li>Add a <code>search</code> command that filters tasks by keyword and uses Rich to highlight matches</li>
+    </ul>
+  </div>
+
+  <div class="callout tip" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>Phase 3 Complete.</strong> You now have a working CLI tool that calls real APIs, validates data with Pydantic, displays beautiful output with Rich, reads and writes files with Pathlib, and follows professional project structure. Phase 4 is Files, Data &amp; Automation — where you'll build things that run on a schedule and process the real world automatically.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Project Structure</button>
+    <button class="btn btn-next" onclick="goPhase4()">Phase 4 — Automation →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 10;
+const done  = new Set();
+let   cur   = 0;
+
+const snWrap = document.getElementById('streak-nodes');
+for (let i = 0; i &lt; TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snWrap.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'   + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'   + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)    { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)    { go(Math.max(i - 1, 0)); }
+function goPhase4() { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  for (let i = 0; i &lt; TOTAL; i++) {
+    const chk = document.getElementById('chk' + i);
+    const sn  = document.getElementById('sn'  + i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  const snCur = document.getElementById('sn' + cur);
+  if (snCur && !done.has(cur)) snCur.classList.add('current');
+}
+
+const quizAnswers = {
+  qfb0: {
+    ok:  '✅ Correct! Virtual environments are machine-specific (they contain absolute paths to your Python install), can be hundreds of MB, and are fully reproducible from a requirements.txt or pyproject.toml. There\'s no reason to commit them.',
+    bad: '❌ The core reason is that virtual environments are machine-specific and massive. They contain absolute paths that only work on your machine, can be hundreds of MB, and every developer can recreate them in seconds from a requirements file.'
+  },
+  qfb5: {
+    ok:  '✅ Correct! Pydantic v2 performs coercion — it tries to convert compatible types before raising an error. A string "3" can be reasonably converted to the integer 3, so it does it automatically. This is called "lax mode" validation.',
+    bad: '❌ Pydantic automatically coerces "3" (string) to 3 (int) when the types are compatible — this is called type coercion. It raises a ValidationError only when coercion is impossible, like trying to convert "hello" to an int.'
+  }
+};
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const answers = quizAnswers[fb.id];
+  if (answers) fb.textContent = answers[result === 'correct' ? 'ok' : 'bad'];
+}
+
+done.add(0);
+updateProgress();
+</script>
+<script src="../scripts/main.js" defer></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

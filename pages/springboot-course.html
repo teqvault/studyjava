@@ -1452,11 +1452,11 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     chk.textContent = '✓';
     document.getElementById('nav-' + current).classList.add('completed');
     updateProgress();
-    if (current < TOTAL - 1) showLesson(current + 1);
+    if (current &lt; TOTAL - 1) showLesson(current + 1);
   }
 
-  function nextLesson() { if (current < TOTAL - 1) showLesson(current + 1); }
-  function prevLesson() { if (current > 0) showLesson(current - 1); }
+  function nextLesson() { if (current &lt; TOTAL - 1) showLesson(current + 1); }
+  function prevLesson() { if (current &gt; 0) showLesson(current - 1); }
 
   function updateProgress() {
     const pct = Math.round((completed.size / TOTAL) * 100);
@@ -1478,5 +1478,6 @@ curl -X DELETE http://localhost:8080/api/tasks/1</pre>
     Roadmap
 </a>
 <script defer="" src="../scripts/main.js"></script>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

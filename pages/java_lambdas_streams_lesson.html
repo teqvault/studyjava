@@ -1087,11 +1087,11 @@ function markDone() {
   const pct = Math.round((done.size / TOTAL) * 100);
   document.getElementById('prog-fill').style.width = pct + '%';
   document.getElementById('prog-text').textContent = done.size + ' / ' + TOTAL;
-  if (cur < TOTAL - 1) show(cur + 1);
+  if (cur &lt; TOTAL - 1) show(cur + 1);
 }
 
-function nextL() { if (cur < TOTAL - 1) show(cur + 1); }
-function prevL() { if (cur > 0) show(cur - 1); }
+function nextL() { if (cur &lt; TOTAL - 1) show(cur + 1); }
+function prevL() { if (cur &gt; 0) show(cur - 1); }
 
 function ans(el, result, qid) {
   const grp = el.closest('.quiz-opts');
@@ -1107,5 +1107,6 @@ function ans(el, result, qid) {
     Roadmap
 </a>
 <script defer="" src="../scripts/main.js"></script>
+<script src="../scripts/main.js" defer></script>
 </body>
 </html>

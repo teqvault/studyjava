@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CLion GUI Development | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+
+    <link rel="stylesheet" href="../css/CLion_GUI_Development_Course.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — IDE Series</div>
+  <h1>CLion GUI Development</h1>
+  <p>A Complete Course for C, C++, and C#. From Toolchain Setup to Shipping GUI Applications. 5 Modules • 25 Lessons • Hands-On Projects.</p>
+  <div class="header-stars">💻 ⚡ 🛠️ ✨ 🚀</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sidebar-title">Modules</div>
+
+  <div class="streak-bar">
+    <span class="streak-label">🔥</span>
+    <div id="streak-nodes"></div>
+  </div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">⚙️</span> Toolchain Setup <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🛠️</span> CMake Config <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">🖼️</span> Frameworks <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🔧</span> CLion Settings <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🚀</span> Debug & Ship <span class="nav-check" id="chk4"></span></div>
+
+  <div style="padding: 20px 8px 0; border-top: 1px solid var(--border); margin-top: 16px;">
+    <a href="roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:all 0.2s;" onmouseover="this.style.color='#ffd166'" onmouseout="this.style.color=''">
+      ← Full Roadmap
+    </a>
+  </div>
+</nav>
+
+<main class="main">
+
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 1</div>
+    <h2>Installation & Toolchain Setup</h2>
+    <p class="lesson-intro">Before writing a single line of GUI code, you need a solid toolchain. This module walks you through installing CLion, configuring your compiler, and verifying everything works before moving forward.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💻 Lesson 1.1 — Installing CLion</div>
+    <p>CLion is JetBrains' cross-platform IDE for C and C++ development. It includes built-in support for CMake, GDB/LLDB debugging, and a growing set of GUI framework integrations.</p>
+    <ul class="step-list">
+      <li>Visit jetbrains.com/toolbox-app and download the JetBrains Toolbox App.</li>
+      <li>Open Toolbox and install CLion from the Available tools list.</li>
+      <li>Toolbox handles updates automatically — no manual downloads needed.</li>
+    </ul>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Tip:</strong> Using the Toolbox App means you can roll back CLion versions instantly if an update breaks your project.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Lesson 1.2 — Compiler Installation by Platform</div>
+    <p>CLion needs an external C/C++ compiler — it does not bundle one. Choose the right one for your operating system.</p>
+    
+    <div class="insight-row">
+      <div class="insight-card">
+        <div class="ic-icon">🪟</div>
+        <h5>Windows</h5>
+        <p>Install MinGW-w64 from winlibs.com — choose the UCRT/MSVCRT x86_64 build. Add the bin folder (e.g. C:\mingw64\bin) to your system PATH. Alternatively, install Visual Studio Build Tools and use MSVC.</p>
+      </div>
+      <div class="insight-card">
+        <div class="ic-icon">🍎</div>
+        <h5>macOS</h5>
+        <p>Run: <code>xcode-select --install</code> in Terminal. This installs Clang, LLDB, and the required system headers. No additional compiler download needed for most projects.</p>
+      </div>
+      <div class="insight-card">
+        <div class="ic-icon">🐧</div>
+        <h5>Linux</h5>
+        <p>Run: <code>sudo apt update && sudo apt install build-essential gdb cmake</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠️ Lessons 1.3 & 1.4 — CMake and Verification</div>
+    <p>CMake is CLion's build system backbone. Download CMake 3.21+ from cmake.org or use your package manager. Verify with <code>cmake --version</code> (should output 3.21.0 or higher).</p>
+    
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Tip:</strong> On Windows, the CMake installer has an option to 'Add CMake to the system PATH for all users' — always check this box.</div>
+    </div>
+
+    <p>After installing all components, open CLion and navigate to Settings → Build, Execution, Deployment → Toolchains. You should see green checkmarks next to CMake, Compiler (C), Compiler (C++), and Debugger.</p>
+    
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Common Issue:</strong> If any item shows a yellow warning, click the field and manually point CLion to the binary. On Windows, this is usually C:\mingw64\bin\gcc.exe.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔷 Lesson 1.5 — C# Setup in CLion</div>
+    <p>Install .NET SDK 8.0 or later from dot.net. In CLion, go to Settings → Plugins → Marketplace, search for 'C#' or '.NET', and install the available plugin. Restart CLion and verify a new .NET project template appears under File → New Project.</p>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Important Note:</strong> CLion's C# support is functional for small projects, but the GUI designer tools (drag-and-drop XAML/WinForms editors) are not available. Consider JetBrains Rider for production C# GUI development.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Start</button>
+    <button class="btn btn-next" onclick="next(0)">CMake Configuration →</button>
+  </div>
+</section>
+
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 2</div>
+    <h2>CMake Project Configuration</h2>
+    <p class="lesson-intro">CMake is the backbone of every CLion project. This module covers building a clean CMakeLists.txt from scratch, linking GUI frameworks, and managing multiple build profiles.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Lesson 2.1 — CMakeLists.txt Anatomy</div>
+    <p>Every CLion project has a CMakeLists.txt at its root. Here is the minimum viable file for a C++ GUI project:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">CMake</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="fn">cmake_minimum_required</span>(VERSION 3.21)
+<span class="fn">project</span>(MyGuiApp)
+
+<span class="fn">set</span>(CMAKE_CXX_STANDARD 17)
+<span class="fn">set</span>(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+<span class="fn">add_executable</span>(MyGuiApp
+  src/main.cpp
+  src/mainwindow.cpp
+)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Lesson 2.2 — Linking a GUI Framework</div>
+    <p>Once your framework is installed, you connect it to your project with <code>find_package()</code> and <code>target_link_libraries()</code>. Here is a Qt6 example:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">CMake — Qt6 Integration</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="fn">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets)
+
+<span class="fn">set</span>(CMAKE_AUTOMOC ON)   <span class="cm"># Runs Qt's meta-object compiler</span>
+<span class="fn">set</span>(CMAKE_AUTORCC ON)   <span class="cm"># Processes .qrc resource files</span>
+<span class="fn">set</span>(CMAKE_AUTOUIC ON)   <span class="cm"># Processes .ui designer files</span>
+
+<span class="fn">target_link_libraries</span>(MyGuiApp PRIVATE Qt6::Widgets)</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Tip:</strong> AUTOMOC, AUTORCC, and AUTOUIC must be set BEFORE the add_executable() call, or Qt's code generation won't run.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📂 Lesson 2.3 & 2.4 — Paths and Profiles</div>
+    <p>If CLion cannot automatically find your GUI framework, add a path flag: <code>-DCMAKE_PREFIX_PATH="C:/Qt/6.7.0/mingw_64"</code>.</p>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Windows Path Note:</strong> Use forward slashes in CMake paths even on Windows, or escape backslashes. Mixing slash styles causes cryptic errors.</div>
+    </div>
+    <p>Maintain separate build configurations: Debug builds include symbols and AddressSanitizer hooks (slower but inspectable). Release builds enable -O2 optimizations (much faster for shipping).</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Toolchain</button>
+    <button class="btn btn-next" onclick="next(1)">GUI Frameworks →</button>
+  </div>
+</section>
+
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 3</div>
+    <h2>GUI Frameworks — Choosing & Installing</h2>
+    <p class="lesson-intro">The right GUI framework depends on your target language, platform, and project type.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Lesson 3.1 — Framework Overview</div>
+    <table>
+      <tr><th>Language</th><th>Framework</th><th>Best For</th></tr>
+      <tr><td>C</td><td>GTK 4</td><td>Linux-first apps with full GNOME integration</td></tr>
+      <tr><td>C++</td><td>Qt 6 ★</td><td>Full-featured desktop apps — best CLion integration</td></tr>
+      <tr><td>C++</td><td>Dear ImGui</td><td>Dev tools, editors, game UI overlays</td></tr>
+      <tr><td>C#</td><td>Avalonia UI ★</td><td>Cross-platform .NET GUI (Linux, macOS, Windows)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🟢 Lesson 3.2 — Qt 6 Setup (Recommended for C++)</div>
+    <p>Qt 6 has the deepest CLion integration of any framework, including a dedicated plugin, AUTOMOC support, autocomplete for signals/slots, and QML file support.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C++ — Minimal Qt6 main.cpp</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">#include</span> <span class="str">&lt;QApplication&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;QMainWindow&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;QLabel&gt;</span>
+
+<span class="bi">int</span> <span class="fn">main</span>(<span class="bi">int</span> argc, <span class="bi">char</span> *argv[]) {
+    <span class="cls">QApplication</span> app(argc, argv);
+    <span class="cls">QMainWindow</span> window;
+    <span class="cls">QLabel</span> label(<span class="str">"Hello, CLion GUI!"</span>, &window);
+    window.<span class="fn">show</span>();
+    <span class="kw">return</span> app.<span class="fn">exec</span>();
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Tip:</strong> Always pass argc and argv to QApplication — Qt uses them internally for platform plugin detection.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← CMake Config</button>
+    <button class="btn btn-next" onclick="next(2)">CLion Configuration →</button>
+  </div>
+</section>
+
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 4</div>
+    <h2>Configuring CLion for GUI Work</h2>
+    <p class="lesson-intro">A properly configured IDE saves hours of frustration. This module covers CLion plugins, code style, static analysis, and productivity settings.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Lesson 4.1 & 4.3 — Essential Plugins & Code Style</div>
+    <table>
+      <tr><th>Plugin / Setting</th><th>Recommendation / Purpose</th></tr>
+      <tr><td>Qt Plugin</td><td>Bundled since CLion 2023.3. Enables Qt-specific autocomplete.</td></tr>
+      <tr><td>Rainbow Brackets</td><td>Color-codes matching brackets — critical for deeply nested CMake.</td></tr>
+      <tr><td>Indentation</td><td>4 spaces (no tabs) — matches Qt and most C++ GUI codebases.</td></tr>
+      <tr><td>Include guards</td><td>Use #pragma once — simpler than ifndef guards for GUI headers.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Lesson 4.4 & 4.5 — Clang-Tidy & AddressSanitizer</div>
+    <p>Clang-Tidy catches bugs before they compile. It's especially valuable in GUI code where signal/slot type mismatches are otherwise silent.</p>
+    <p>AddressSanitizer catches memory issues (leaked signals, dangling pointers) at runtime in debug builds. Add to your CMakeLists.txt:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">CMake</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="fn">if</span>(CMAKE_BUILD_TYPE STREQUAL <span class="str">"Debug"</span>)
+    <span class="fn">target_compile_options</span>(MyGuiApp PRIVATE -fsanitize=address -fno-omit-frame-pointer)
+    <span class="fn">target_link_options</span>(MyGuiApp PRIVATE -fsanitize=address)
+<span class="fn">endif</span>()</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Important:</strong> Do NOT ship a Release build with -fsanitize=address enabled. The sanitizer adds significant overhead and is for development only.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Frameworks</button>
+    <button class="btn btn-next" onclick="next(3)">Debug & Ship →</button>
+  </div>
+</section>
+
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 5</div>
+    <h2>Debug, Run, and Ship</h2>
+    <p class="lesson-intro">The final module covers configuring run profiles, debugging GUI apps effectively, resolving common errors, and preparing for distribution.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">▶️ Lesson 5.1 & 5.2 — Run Configurations & Shortcuts</div>
+    <p>Set Working directory to the project root (not the build folder).</p>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Why working directory matters:</strong> GUI apps load assets relative to where they're launched from. If you run from the build folder, asset paths break.</div>
+    </div>
+    <table>
+      <tr><th>Shortcut</th><th>Action</th></tr>
+      <tr><td>Shift + F10</td><td>Run (last configuration)</td></tr>
+      <tr><td>Shift + F9</td><td>Debug (last configuration)</td></tr>
+      <tr><td>Ctrl/Cmd + Shift + O</td><td>Reload CMake project</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🐞 Lesson 5.3 & 5.4 — Debugging & Common Errors</div>
+    <p>Set breakpoints inside signal/slot handlers and button callbacks. When the breakpoint hits, CLion suspends the GUI thread — the window will freeze until you continue.</p>
+    <table>
+      <tr><th>Error</th><th>Fix</th></tr>
+      <tr><td>CMake can't find Qt</td><td>Add -DCMAKE_PREFIX_PATH in CMake options.</td></tr>
+      <tr><td>App crashes on startup (Windows)</td><td>Qt DLLs are missing. Copy Qt*.dll files next to your .exe, or use windeployqt.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Lesson 5.5 — Preparing for Distribution</div>
+    <p>Shipping a GUI application requires bundling all runtime dependencies with your binary.</p>
+    <ul>
+      <li><strong>Windows (Qt):</strong> <code>windeployqt.exe MyGuiApp.exe</code></li>
+      <li><strong>macOS (Qt):</strong> <code>macdeployqt MyGuiApp.app -dmg</code></li>
+      <li><strong>Linux:</strong> Use linuxdeploy to bundle into an AppImage.</li>
+      <li><strong>C# / .NET:</strong> <code>dotnet publish -c Release -r win-x64 --self-contained true</code></li>
+    </ul>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Tip:</strong> Always test your distributed build on a clean machine that does NOT have your development tools installed. Missing DLLs only show up there.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← CLion Settings</button>
+    <button class="btn btn-next" onclick="alert('Course Complete!')">Finish Course 🏁</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 5;
+const done  = new Set();
+let   cur   = 0;
+
+/* build streak nodes */
+const snContainer = document.getElementById('streak-nodes');
+for (let i = 0; i &lt; TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snContainer.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'   + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'   + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)     { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)     { go(Math.max(i - 1, 0)); }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+
+  for (let i = 0; i &lt; TOTAL; i++) {
+    const chk = document.getElementById('chk' + i);
+    const sn  = document.getElementById('sn'  + i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  /* set current node */
+  const snCur = document.getElementById('sn' + cur);
+  if (snCur && !done.has(cur)) { snCur.classList.add('current'); }
+}
+
+done.add(0);
+updateProgress();
+</script>
+<script src="../scripts/main.js" defer></script>
+</body>
+</html>
