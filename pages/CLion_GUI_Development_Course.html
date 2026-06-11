@@ -337,7 +337,7 @@ let   cur   = 0;
 
 /* build streak nodes */
 const snContainer = document.getElementById('streak-nodes');
-for (let i = 0; i &lt; TOTAL; i++) {
+for (let i = 0; i < TOTAL; i++) {
   const n = document.createElement('div');
   n.className = 'streak-node' + (i === 0 ? ' current' : '');
   n.id = 'sn' + i;
@@ -363,7 +363,7 @@ function updateProgress() {
   document.getElementById('pbar').style.width = pct + '%';
   document.getElementById('ppct').textContent  = pct + '%';
 
-  for (let i = 0; i &lt; TOTAL; i++) {
+  for (let i = 0; i < TOTAL; i++) {
     const chk = document.getElementById('chk' + i);
     const sn  = document.getElementById('sn'  + i);
     if (done.has(i)) {
@@ -379,6 +379,5 @@ function updateProgress() {
 done.add(0);
 updateProgress();
 </script>
-<script src="../scripts/main.js" defer></script>
 </body>
 </html>

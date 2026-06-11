@@ -1056,7 +1056,7 @@ let   cur   = 0;
 
 /* build streak nodes */
 const snContainer = document.getElementById('streak-nodes');
-for (let i = 0; i &lt; TOTAL; i++) {
+for (let i = 0; i < TOTAL; i++) {
   const n = document.createElement('div');
   n.className = 'streak-node' + (i === 0 ? ' current' : '');
   n.id = 'sn' + i;
@@ -1083,7 +1083,7 @@ function updateProgress() {
   document.getElementById('pbar').style.width = pct + '%';
   document.getElementById('ppct').textContent  = pct + '%';
 
-  for (let i = 0; i &lt; TOTAL; i++) {
+  for (let i = 0; i < TOTAL; i++) {
     const chk = document.getElementById('chk' + i);
     const sn  = document.getElementById('sn'  + i);
     if (done.has(i)) {
@@ -1118,6 +1118,5 @@ updateProgress();
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script src="../scripts/main.js" defer></script>
 </body>
 </html>

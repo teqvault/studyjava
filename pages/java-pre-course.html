@@ -483,7 +483,7 @@ const expl = {
   3:'You don\'t know where the first even number is, so you can\'t set a fixed count. A condition loop — keep checking until you find it — is exactly right. Stop as soon as you do.',
   4:'Functions centralise logic in one place. Change the function once and all 40 callers get the updated behaviour automatically. This is one of the most powerful ideas in programming.',
   5:'Top to bottom: the program first adds 10 (score becomes 15), then sets score to 0. The second instruction overwrites the first. Order matters — swap them and you get 10 instead.',
-  6:'while means "keep going while this condition is true". livesRemaining &gt; 0 is the condition. So: repeat everything inside the braces for as long as livesRemaining is greater than zero.',
+  6:'while means "keep going while this condition is true". livesRemaining > 0 is the condition. So: repeat everything inside the braces for as long as livesRemaining is greater than zero.',
 };
 
 function Q(btn, correct) {
@@ -539,9 +539,9 @@ function updateTicket() {
   const day = document.getElementById('daySelect').value;
   document.getElementById('ageVal').textContent = age;
   let price, rule;
-  if(age &lt; 12)       { price=8.00;  rule='Under 12'; }
-  else if(age &lt;= 17) { price=10.00; rule='Age 12–17'; }
-  else if(age &gt;= 65) { price=9.00;  rule='Age 65+'; }
+  if(age < 12)       { price=8.00;  rule='Under 12'; }
+  else if(age <= 17) { price=10.00; rule='Age 12–17'; }
+  else if(age >= 65) { price=9.00;  rule='Age 65+'; }
   else               { price=14.00; rule='Adult (18–64)'; }
   const isTuesday = day === 'Tuesday';
   if(isTuesday) { price = Math.max(0, price - 3); }
@@ -563,12 +563,12 @@ function resetLoop() {
 }
 function stepLoop() {
   const n = parseInt(document.getElementById('loopCount').value);
-  if(loopStep &gt;= n) return;
+  if(loopStep >= n) return;
   const box = document.getElementById('lbox'+loopStep);
   if(box) { box.classList.add('loop-box--done'); }
   loopStep++;
   const remaining = n - loopStep;
-  if(remaining &gt; 0) {
+  if(remaining > 0) {
     document.getElementById('loopMsg').textContent = `Executed iteration ${loopStep}. ${remaining} more to go.`;
   } else {
     document.getElementById('loopMsg').textContent = `All ${n} iterations complete. Loop exits.`;
@@ -627,7 +627,6 @@ updateProgress();
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-<script defer="" src="../scripts/main.js"></script>
-<script src="../scripts/main.js" defer></script>
+
 </body>
 </html>
