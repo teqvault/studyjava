@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 5 — APIs & Backend | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="../css/python-phase5.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 5: APIs &amp; Backend</h1>
+  <p>Build real REST APIs with FastAPI — the framework used at Microsoft, Uber, and Netflix. From first endpoint to authenticated, database-backed, tested, production-ready backend.</p>
+  <div class="header-stars">🚀 🔌 🗄️ 🔐 🧪</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 5 — Lessons</div>
+  <div class="streak-bar"><span class="streak-label">🔥</span><div id="streak-nodes"></div></div>
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🌐</span> How HTTP Really Works <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item"        onclick="go(1)" id="nav1"><span class="nav-icon">⚡</span> FastAPI First Steps <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item"        onclick="go(2)" id="nav2"><span class="nav-icon">📬</span> Routes &amp; Parameters <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item"        onclick="go(3)" id="nav3"><span class="nav-icon">📦</span> Request &amp; Response Bodies <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item"        onclick="go(4)" id="nav4"><span class="nav-icon">🗄️</span> Database with SQLModel <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item"        onclick="go(5)" id="nav5"><span class="nav-icon">🔐</span> Auth — API Keys &amp; JWT <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item"        onclick="go(6)" id="nav6"><span class="nav-icon">⚙️</span> Dependency Injection <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item"        onclick="go(7)" id="nav7"><span class="nav-icon">🧪</span> Testing APIs <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item"        onclick="go(8)" id="nav8"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk8"></span></div>
+  <div style="padding:20px 8px 0;border-top:1px solid var(--border);margin-top:16px">
+    <a href="python-phase4.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#ff6b35'" onmouseout="this.style.color=''">← Phase 4</a>
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#ff6b35'" onmouseout="this.style.color=''">↑ Full Roadmap</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     L0 — HOW HTTP REALLY WORKS
+══════════════════════════════════════ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>How HTTP Really Works</h2>
+    <p class="lesson-intro">Before writing a single line of FastAPI, understand what's actually happening on the wire. Every framework abstracts HTTP — you need to understand what it's abstracting.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌐 The Request-Response Cycle</div>
+    <p>Every API interaction is a <strong>request</strong> from a client and a <strong>response</strong> from a server. That's it. HTTP is a text-based protocol — the actual bytes going across the network are readable text.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Raw HTTP Request (what actually goes over the wire)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># The client sends this text to the server:</span>
+POST /api/tasks HTTP/1.1
+Host: api.myapp.com
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
+Content-Length: 52
+
+{"title": "Learn FastAPI", "priority": 3}
+
+
+<span class="cm"># The server responds with this text:</span>
+HTTP/1.1 201 Created
+Content-Type: application/json
+Location: /api/tasks/42
+
+{"id": 42, "title": "Learn FastAPI", "priority": 3, "done": false}</pre>
+    </div>
+    <p>Every HTTP message has the same structure: a <strong>start line</strong> (method + path + version, or status code), <strong>headers</strong> (key-value metadata), a <strong>blank line</strong>, and an optional <strong>body</strong>. FastAPI handles all of this — but knowing the structure helps you debug anything.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 HTTP Methods — What Each One Means</div>
+    <table>
+      <tr><th>Method</th><th>Meaning</th><th>Has Body?</th><th>Idempotent?</th></tr>
+      <tr><td><span class="http-method method-get">GET</span></td><td>Read a resource — never modify data</td><td>No</td><td>✅ Yes — same result every time</td></tr>
+      <tr><td><span class="http-method method-post">POST</span></td><td>Create a new resource</td><td>Yes</td><td>❌ No — creates new item each call</td></tr>
+      <tr><td><span class="http-method method-put">PUT</span></td><td>Replace entire resource</td><td>Yes</td><td>✅ Yes — result same if called twice</td></tr>
+      <tr><td><span class="http-method method-patch">PATCH</span></td><td>Partially update a resource</td><td>Yes</td><td>Usually yes</td></tr>
+      <tr><td><span class="http-method method-delete">DELETE</span></td><td>Remove a resource</td><td>Rarely</td><td>✅ Yes — deleting twice = same state</td></tr>
+    </table>
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 Idempotency — why it matters</div>
+      <h4>Design your APIs around idempotency</h4>
+      <p>An idempotent operation produces the same result whether called once or ten times. <code>GET /tasks/42</code> always returns the same task. <code>DELETE /tasks/42</code> on a deleted task returns 404 but doesn't break anything. <code>POST /tasks</code> is <em>not</em> idempotent — calling it 10 times creates 10 tasks.</p>
+      <p>This matters for retries. When a network call fails, can you safely retry it? If the endpoint is idempotent, yes. If it's a POST that charges a credit card, no — you need idempotency keys.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Status Codes — The Ones You'll Use</div>
+    <table>
+      <tr><th>Code</th><th>Meaning</th><th>When to Use</th></tr>
+      <tr><td><code>200 OK</code></td><td>Success with body</td><td>Successful GET, PUT, PATCH</td></tr>
+      <tr><td><code>201 Created</code></td><td>New resource created</td><td>Successful POST</td></tr>
+      <tr><td><code>204 No Content</code></td><td>Success, no body</td><td>Successful DELETE</td></tr>
+      <tr><td><code>400 Bad Request</code></td><td>Client sent invalid data</td><td>Validation failures, malformed JSON</td></tr>
+      <tr><td><code>401 Unauthorized</code></td><td>Not authenticated</td><td>Missing or invalid token</td></tr>
+      <tr><td><code>403 Forbidden</code></td><td>Authenticated but no permission</td><td>Accessing another user's data</td></tr>
+      <tr><td><code>404 Not Found</code></td><td>Resource doesn't exist</td><td>Task ID not in database</td></tr>
+      <tr><td><code>409 Conflict</code></td><td>State conflict</td><td>Duplicate username, already completed</td></tr>
+      <tr><td><code>422 Unprocessable Entity</code></td><td>Validation error (FastAPI default)</td><td>Wrong type, missing required field</td></tr>
+      <tr><td><code>500 Internal Server Error</code></td><td>Server crashed</td><td>Unhandled exception — never intentional</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ REST API Design — The Naming Conventions</div>
+    <p>REST (Representational State Transfer) is an architectural style — a set of conventions for designing URLs and using HTTP correctly. Following them makes your API predictable to any developer.</p>
+    <div class="route-row"><span class="http-method method-get">GET</span><span class="route-path">/tasks</span><span class="route-desc">— list all tasks</span></div>
+    <div class="route-row"><span class="http-method method-post">POST</span><span class="route-path">/tasks</span><span class="route-desc">— create a new task</span></div>
+    <div class="route-row"><span class="http-method method-get">GET</span><span class="route-path">/tasks/{id}</span><span class="route-desc">— get one specific task</span></div>
+    <div class="route-row"><span class="http-method method-put">PUT</span><span class="route-path">/tasks/{id}</span><span class="route-desc">— replace entire task</span></div>
+    <div class="route-row"><span class="http-method method-patch">PATCH</span><span class="route-path">/tasks/{id}</span><span class="route-desc">— update fields on a task</span></div>
+    <div class="route-row"><span class="http-method method-delete">DELETE</span><span class="route-path">/tasks/{id}</span><span class="route-desc">— delete a task</span></div>
+    <div class="route-row"><span class="http-method method-get">GET</span><span class="route-path">/tasks/{id}/comments</span><span class="route-desc">— nested resource: comments for a task</span></div>
+    <div class="callout tip" style="margin-top:16px">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>URL conventions</strong>URLs are nouns, never verbs. Not <code>/getTasks</code> or <code>/deleteTask</code> — the HTTP method IS the verb. Use plural nouns for collections (<code>/tasks</code> not <code>/task</code>). Use lowercase with hyphens for multi-word resources (<code>/user-profiles</code>).</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Phase 4</button>
+    <button class="btn btn-next" onclick="next(0)">FastAPI First Steps →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L1 — FASTAPI FIRST STEPS
+══════════════════════════════════════ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>FastAPI — First Steps</h2>
+    <p class="lesson-intro">FastAPI is the modern Python web framework — faster than Flask, cleaner than Django, with automatic API docs, async support, and Pydantic validation built in from day one.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Why FastAPI</div>
+    <table>
+      <tr><th>Feature</th><th>FastAPI</th><th>Flask</th><th>Django</th></tr>
+      <tr><td>Speed (requests/sec)</td><td>Very fast (async)</td><td>Moderate</td><td>Moderate</td></tr>
+      <tr><td>Auto API docs</td><td>✅ Built-in Swagger + ReDoc</td><td>❌ Plugin needed</td><td>❌ Plugin needed</td></tr>
+      <tr><td>Type hints / Pydantic</td><td>✅ First class</td><td>❌ Manual</td><td>❌ Manual</td></tr>
+      <tr><td>Request validation</td><td>✅ Automatic</td><td>❌ Manual</td><td>Partial (forms)</td></tr>
+      <tr><td>Learning curve</td><td>Low</td><td>Very low</td><td>High</td></tr>
+      <tr><td>Best for</td><td>APIs, microservices</td><td>Simple apps</td><td>Full-stack web apps</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 Installation &amp; Your First API</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install "fastapi[standard]"</span>
+<span class="cm"># [standard] includes uvicorn (the server) and extra tools</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — main.py — a complete working API</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+
+app = <span class="cls">FastAPI</span>(
+    title=<span class="str">"Task Manager API"</span>,
+    description=<span class="str">"Manage your tasks via REST"</span>,
+    version=<span class="str">"1.0.0"</span>
+)
+
+<span class="dec">@app.get</span>(<span class="str">"/"</span>)
+<span class="kw">def</span> <span class="fn">root</span>():
+    <span class="kw">return</span> {<span class="str">"message"</span>: <span class="str">"Task Manager API is running"</span>}
+
+<span class="dec">@app.get</span>(<span class="str">"/health"</span>)
+<span class="kw">def</span> <span class="fn">health_check</span>():
+    <span class="kw">return</span> {<span class="str">"status"</span>: <span class="str">"ok"</span>}
+
+<span class="cm"># Run with: uvicorn main:app --reload</span>
+<span class="cm"># --reload restarts the server on every file save (dev mode)</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — run your API</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">uvicorn main:app --reload</span>
+<span class="out">INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process
+INFO:     Application startup complete.</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">🎁</span>
+      <div class="callout-body"><strong>Free interactive docs — no setup needed</strong>The moment your API runs, go to <code>http://127.0.0.1:8000/docs</code> — you get a full Swagger UI where you can test every endpoint in the browser. Also try <code>/redoc</code> for an alternative view. FastAPI generates these from your code automatically — no extra work.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 The ASGI Server — Uvicorn</div>
+    <p>FastAPI is an <strong>ASGI framework</strong> (Asynchronous Server Gateway Interface). It needs an ASGI server to run — that's <strong>uvicorn</strong>. Think of it like Tomcat to Java or Nginx to PHP.</p>
+    <table>
+      <tr><th>Command</th><th>When</th></tr>
+      <tr><td><code>uvicorn main:app --reload</code></td><td>Development — auto-restarts on changes</td></tr>
+      <tr><td><code>uvicorn main:app --host 0.0.0.0 --port 8000</code></td><td>Production — binds to all interfaces</td></tr>
+      <tr><td><code>uvicorn main:app --workers 4</code></td><td>Production — multiple worker processes</td></tr>
+    </table>
+    <p style="margin-top:12px"><code>main:app</code> means: find the file <code>main.py</code>, use the variable <code>app</code> inside it. If your file is <code>api/server.py</code> and the FastAPI instance is named <code>application</code>, you'd write <code>api.server:application</code>.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← HTTP Fundamentals</button>
+    <button class="btn btn-next" onclick="next(1)">Routes &amp; Parameters →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L2 — ROUTES & PARAMETERS
+══════════════════════════════════════ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>Routes &amp; Parameters</h2>
+    <p class="lesson-intro">Path parameters, query parameters, and how FastAPI automatically validates, converts, and documents them — all from your type hints alone.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📬 Three Ways to Pass Data to an Endpoint</div>
+    <table>
+      <tr><th>Type</th><th>In URL</th><th>Example</th><th>FastAPI syntax</th></tr>
+      <tr><td>Path parameter</td><td>Part of the path</td><td><code>/tasks/42</code></td><td><code>{task_id}</code> in route + function arg</td></tr>
+      <tr><td>Query parameter</td><td>After <code>?</code></td><td><code>/tasks?done=false&limit=10</code></td><td>Function arg with default</td></tr>
+      <tr><td>Request body</td><td>Not in URL — in body</td><td>JSON payload</td><td>Pydantic model arg</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Path &amp; Query Parameters in Detail</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — routes.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, Path, Query, HTTPException
+<span class="kw">from</span> typing  <span class="kw">import</span> Optional
+
+app = <span class="cls">FastAPI</span>()
+
+<span class="cm"># ── Path parameter — {task_id} in the route ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/tasks/{task_id}"</span>)
+<span class="kw">def</span> <span class="fn">get_task</span>(
+    task_id: <span class="bi">int</span> = <span class="cls">Path</span>(..., ge=<span class="num">1</span>, description=<span class="str">"The task ID"</span>)
+):
+    <span class="str">"""
+    FastAPI automatically:
+    - converts task_id from string to int
+    - validates it's >= 1
+    - documents it in /docs
+    - returns 422 if it's not an int
+    """</span>
+    task = db.<span class="fn">get_task</span>(task_id)
+    <span class="kw">if not</span> task:
+        <span class="cm"># Raise HTTPException to return proper HTTP error responses</span>
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(status_code=<span class="num">404</span>, detail=<span class="fn">f</span><span class="str">"Task {task_id} not found"</span>)
+    <span class="kw">return</span> task
+
+
+<span class="cm"># ── Query parameters — function args with defaults ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/tasks"</span>)
+<span class="kw">def</span> <span class="fn">list_tasks</span>(
+    done:     Optional[<span class="bi">bool</span>] = <span class="cls">Query</span>(default=<span class="kw">None</span>, description=<span class="str">"Filter by done status"</span>),
+    priority: Optional[<span class="bi">int</span>]  = <span class="cls">Query</span>(default=<span class="kw">None</span>, ge=<span class="num">1</span>, le=<span class="num">5</span>),
+    limit:    <span class="bi">int</span>             = <span class="cls">Query</span>(default=<span class="num">20</span>, le=<span class="num">100</span>),
+    offset:   <span class="bi">int</span>             = <span class="cls">Query</span>(default=<span class="num">0</span>,  ge=<span class="num">0</span>),
+):
+    <span class="str">"""
+    GET /tasks                   → all tasks, first 20
+    GET /tasks?done=false        → only pending
+    GET /tasks?priority=5        → only critical
+    GET /tasks?limit=5&offset=10 → pagination
+    """</span>
+    tasks = db.<span class="fn">all_tasks</span>()
+    <span class="kw">if</span> done <span class="kw">is not None</span>:
+        tasks = [t <span class="kw">for</span> t <span class="kw">in</span> tasks <span class="kw">if</span> t[<span class="str">"done"</span>] == done]
+    <span class="kw">if</span> priority:
+        tasks = [t <span class="kw">for</span> t <span class="kw">in</span> tasks <span class="kw">if</span> t[<span class="str">"priority"</span>] == priority]
+    <span class="kw">return</span> tasks[offset : offset + limit]
+
+
+<span class="cm"># ── Multiple path parameters ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/users/{user_id}/tasks/{task_id}"</span>)
+<span class="kw">def</span> <span class="fn">get_user_task</span>(user_id: <span class="bi">int</span>, task_id: <span class="bi">int</span>):
+    <span class="kw">return</span> {<span class="str">"user_id"</span>: user_id, <span class="str">"task_id"</span>: task_id}
+
+
+<span class="cm"># ── Enum path parameter — only specific string values ──</span>
+<span class="kw">from</span> enum <span class="kw">import</span> Enum
+
+<span class="kw">class</span> <span class="cls">SortField</span>(<span class="bi">str</span>, <span class="cls">Enum</span>):
+    created  = <span class="str">"created"</span>
+    priority = <span class="str">"priority"</span>
+    title    = <span class="str">"title"</span>
+
+<span class="dec">@app.get</span>(<span class="str">"/tasks/sorted/{field}"</span>)
+<span class="kw">def</span> <span class="fn">sorted_tasks</span>(field: <span class="cls">SortField</span>):
+    <span class="cm"># FastAPI validates and documents the allowed values</span>
+    <span class="kw">return</span> {<span class="str">"sorted_by"</span>: field.value}</pre>
+    </div>
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 Why HTTPException is the right way to return errors</div>
+      <h4>Don't return error dicts — raise exceptions</h4>
+      <p>Returning <code>{"error": "not found"}</code> with a 200 status is wrong — the HTTP layer carries status information for a reason. Raising <code>HTTPException(status_code=404, detail="...")</code> returns a proper HTTP 404 with a JSON body. Client libraries, browsers, and logging tools all know how to handle proper status codes. A 404 in the logs means something different from a 500.</p>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">In FastAPI, you define <code>def get_task(task_id: int)</code> for route <code>/tasks/{task_id}</code>. A client requests <code>/tasks/abc</code>. What happens?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Python raises a ValueError and the server crashes</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">FastAPI automatically returns a 422 Unprocessable Entity with a validation error message</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The string "abc" is passed to the function as-is</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">FastAPI returns a 404 Not Found</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← First Steps</button>
+    <button class="btn btn-next" onclick="next(2)">Request &amp; Response Bodies →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L3 — REQUEST & RESPONSE BODIES
+══════════════════════════════════════ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Request &amp; Response Bodies</h2>
+    <p class="lesson-intro">Pydantic models are the contract between your API and its clients. Define them carefully — they drive validation, serialization, documentation, and type safety all at once.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Request Bodies — Receiving Data</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — schemas.py + routes using them</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> pydantic  <span class="kw">import</span> BaseModel, Field
+<span class="kw">from</span> typing    <span class="kw">import</span> Optional
+<span class="kw">from</span> datetime  <span class="kw">import</span> date
+<span class="kw">from</span> fastapi   <span class="kw">import</span> FastAPI
+
+app = <span class="cls">FastAPI</span>()
+
+<span class="cm"># ── Separate schemas for create vs response ──</span>
+<span class="cm"># This is the right pattern — don't reuse one model for everything</span>
+
+<span class="kw">class</span> <span class="cls">TaskCreate</span>(<span class="cls">BaseModel</span>):
+    <span class="str">"""What the client sends when creating a task."""</span>
+    title:    <span class="bi">str</span>           = <span class="cls">Field</span>(..., min_length=<span class="num">1</span>, max_length=<span class="num">200</span>)
+    priority: <span class="bi">int</span>           = <span class="cls">Field</span>(default=<span class="num">2</span>, ge=<span class="num">1</span>, le=<span class="num">5</span>)
+    due:      Optional[date] = <span class="kw">None</span>
+    tags:     <span class="bi">list</span>[<span class="bi">str</span>]     = []
+
+<span class="kw">class</span> <span class="cls">TaskUpdate</span>(<span class="cls">BaseModel</span>):
+    <span class="str">"""What the client sends when updating — all fields optional (PATCH)."""</span>
+    title:    Optional[<span class="bi">str</span>]  = <span class="cls">Field</span>(default=<span class="kw">None</span>, min_length=<span class="num">1</span>)
+    priority: Optional[<span class="bi">int</span>]  = <span class="cls">Field</span>(default=<span class="kw">None</span>, ge=<span class="num">1</span>, le=<span class="num">5</span>)
+    done:     Optional[<span class="bi">bool</span>] = <span class="kw">None</span>
+    due:      Optional[date] = <span class="kw">None</span>
+
+<span class="kw">class</span> <span class="cls">TaskResponse</span>(<span class="cls">BaseModel</span>):
+    <span class="str">"""What the server returns — includes server-generated fields."""</span>
+    id:       <span class="bi">int</span>
+    title:    <span class="bi">str</span>
+    priority: <span class="bi">int</span>
+    done:     <span class="bi">bool</span>
+    due:      Optional[date]
+    tags:     <span class="bi">list</span>[<span class="bi">str</span>]
+    created:  <span class="bi">str</span>           <span class="cm"># server sets this — client doesn't send it</span>
+
+
+<span class="cm"># ── Routes using the schemas ──</span>
+<span class="dec">@app.post</span>(<span class="str">"/tasks"</span>, response_model=<span class="cls">TaskResponse</span>, status_code=<span class="num">201</span>)
+<span class="kw">def</span> <span class="fn">create_task</span>(task: <span class="cls">TaskCreate</span>):
+    <span class="str">"""
+    FastAPI automatically:
+    1. Parses the JSON body
+    2. Validates it against TaskCreate
+    3. Returns 422 if invalid
+    4. Calls your function with a proper TaskCreate object
+    5. Serializes the return value through TaskResponse
+    """</span>
+    new_task = db.<span class="fn">create</span>(task)
+    <span class="kw">return</span> new_task   <span class="cm"># response_model filters to only TaskResponse fields</span>
+
+<span class="dec">@app.patch</span>(<span class="str">"/tasks/{task_id}"</span>, response_model=<span class="cls">TaskResponse</span>)
+<span class="kw">def</span> <span class="fn">update_task</span>(task_id: <span class="bi">int</span>, update: <span class="cls">TaskUpdate</span>):
+    task = db.<span class="fn">get</span>(task_id)
+    <span class="kw">if not</span> task:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">404</span>, <span class="str">"Task not found"</span>)
+    <span class="cm"># model_dump(exclude_unset=True) — only the fields the client sent</span>
+    changes = update.<span class="fn">model_dump</span>(exclude_unset=<span class="kw">True</span>)
+    <span class="kw">return</span> db.<span class="fn">update</span>(task_id, changes)</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>response_model is your API contract</strong>Setting <code>response_model=TaskResponse</code> does two things: it filters the output (so internal fields like passwords are never accidentally returned), and it generates accurate response documentation in <code>/docs</code>. Always set it — never return raw dicts from production endpoints.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Global Exception Handling</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — custom exception handlers</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi           <span class="kw">import</span> Request
+<span class="kw">from</span> fastapi.responses <span class="kw">import</span> JSONResponse
+
+<span class="cm"># Catch any unhandled exception — return JSON, not an HTML crash page</span>
+<span class="dec">@app.exception_handler</span>(<span class="cls">Exception</span>)
+<span class="kw">async def</span> <span class="fn">global_exception_handler</span>(request: <span class="cls">Request</span>, exc: <span class="cls">Exception</span>):
+    <span class="kw">import</span> logging
+    logging.<span class="fn">getLogger</span>(<span class="str">"api"</span>).<span class="fn">error</span>(<span class="str">"Unhandled error"</span>, exc_info=exc)
+    <span class="kw">return</span> <span class="cls">JSONResponse</span>(
+        status_code=<span class="num">500</span>,
+        content={<span class="str">"detail"</span>: <span class="str">"Internal server error"</span>}
+        <span class="cm"># Never expose exc details to clients in production</span>
+    )
+
+<span class="cm"># Custom exception class + handler</span>
+<span class="kw">class</span> <span class="cls">NotFoundError</span>(<span class="cls">Exception</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, resource: <span class="bi">str</span>, id: <span class="bi">int</span>):
+        <span class="kw">self</span>.resource = resource
+        <span class="kw">self</span>.id       = id
+
+<span class="dec">@app.exception_handler</span>(<span class="cls">NotFoundError</span>)
+<span class="kw">async def</span> <span class="fn">not_found_handler</span>(request: <span class="cls">Request</span>, exc: <span class="cls">NotFoundError</span>):
+    <span class="kw">return</span> <span class="cls">JSONResponse</span>(
+        status_code=<span class="num">404</span>,
+        content={<span class="str">"detail"</span>: <span class="fn">f</span><span class="str">"{exc.resource} {exc.id} not found"</span>}
+    )</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Routes &amp; Parameters</button>
+    <button class="btn btn-next" onclick="next(3)">Database with SQLModel →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L4 — DATABASE WITH SQLMODEL
+══════════════════════════════════════ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>Database with SQLModel</h2>
+    <p class="lesson-intro">SQLModel combines SQLAlchemy (the Python database powerhouse) with Pydantic — so your database models and API schemas share the same class. One definition, no duplication.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗄️ Installation &amp; Setup</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install sqlmodel</span>
+<span class="cm"># SQLModel includes SQLAlchemy and Pydantic — no separate installs</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — database.py — connection setup</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> sqlmodel <span class="kw">import</span> create_engine, SQLModel, Session
+
+<span class="cm"># SQLite for development — zero setup, file-based</span>
+DATABASE_URL = <span class="str">"sqlite:///tasks.db"</span>
+
+<span class="cm"># PostgreSQL for production:</span>
+<span class="cm"># DATABASE_URL = "postgresql://user:password@localhost:5432/mydb"</span>
+
+engine = <span class="fn">create_engine</span>(
+    DATABASE_URL,
+    echo=<span class="kw">True</span>,   <span class="cm"># logs every SQL query (disable in production)</span>
+    connect_args={<span class="str">"check_same_thread"</span>: <span class="kw">False</span>}  <span class="cm"># SQLite-only setting</span>
+)
+
+<span class="kw">def</span> <span class="fn">create_db_and_tables</span>():
+    SQLModel.metadata.<span class="fn">create_all</span>(engine)   <span class="cm"># creates tables if they don't exist</span>
+
+<span class="kw">def</span> <span class="fn">get_session</span>():
+    <span class="kw">with</span> <span class="cls">Session</span>(engine) <span class="kw">as</span> session:
+        <span class="kw">yield</span> session   <span class="cm"># FastAPI dependency injection uses this</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Defining Models</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — models.py — SQLModel table definitions</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> sqlmodel  <span class="kw">import</span> SQLModel, Field
+<span class="kw">from</span> typing    <span class="kw">import</span> Optional
+<span class="kw">from</span> datetime  <span class="kw">import</span> date, datetime
+
+<span class="cm"># ── The base fields shared across schemas ──</span>
+<span class="kw">class</span> <span class="cls">TaskBase</span>(<span class="cls">SQLModel</span>):
+    title:    <span class="bi">str</span>           = <span class="cls">Field</span>(min_length=<span class="num">1</span>, max_length=<span class="num">200</span>)
+    priority: <span class="bi">int</span>           = <span class="cls">Field</span>(default=<span class="num">2</span>, ge=<span class="num">1</span>, le=<span class="num">5</span>)
+    done:     <span class="bi">bool</span>          = <span class="kw">False</span>
+    due:      Optional[date] = <span class="kw">None</span>
+
+<span class="cm"># ── The database table — table=True creates the SQL table ──</span>
+<span class="kw">class</span> <span class="cls">Task</span>(<span class="cls">TaskBase</span>, table=<span class="kw">True</span>):
+    id:      Optional[<span class="bi">int</span>] = <span class="cls">Field</span>(default=<span class="kw">None</span>, primary_key=<span class="kw">True</span>)
+    created: datetime       = <span class="cls">Field</span>(default_factory=datetime.<span class="fn">utcnow</span>)
+
+<span class="cm"># ── API schemas — inherit from TaskBase ──</span>
+<span class="kw">class</span> <span class="cls">TaskCreate</span>(<span class="cls">TaskBase</span>):
+    <span class="kw">pass</span>   <span class="cm"># exactly the base fields — no id, no created</span>
+
+<span class="kw">class</span> <span class="cls">TaskUpdate</span>(<span class="cls">SQLModel</span>):
+    title:    Optional[<span class="bi">str</span>]  = <span class="kw">None</span>
+    priority: Optional[<span class="bi">int</span>]  = <span class="kw">None</span>
+    done:     Optional[<span class="bi">bool</span>] = <span class="kw">None</span>
+    due:      Optional[date] = <span class="kw">None</span>
+
+<span class="kw">class</span> <span class="cls">TaskResponse</span>(<span class="cls">TaskBase</span>):
+    id:      <span class="bi">int</span>
+    created: datetime</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 CRUD Operations with Sessions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — full CRUD endpoints with database</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi  <span class="kw">import</span> FastAPI, Depends, HTTPException
+<span class="kw">from</span> sqlmodel  <span class="kw">import</span> Session, select
+<span class="kw">from</span> models    <span class="kw">import</span> Task, TaskCreate, TaskUpdate, TaskResponse
+<span class="kw">from</span> database  <span class="kw">import</span> get_session, create_db_and_tables
+
+app = <span class="cls">FastAPI</span>()
+
+<span class="dec">@app.on_event</span>(<span class="str">"startup"</span>)
+<span class="kw">def</span> <span class="fn">on_startup</span>():
+    <span class="fn">create_db_and_tables</span>()  <span class="cm"># runs once on server start</span>
+
+
+<span class="cm"># ── CREATE ──</span>
+<span class="dec">@app.post</span>(<span class="str">"/tasks"</span>, response_model=<span class="cls">TaskResponse</span>, status_code=<span class="num">201</span>)
+<span class="kw">def</span> <span class="fn">create_task</span>(task_in: <span class="cls">TaskCreate</span>, session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_session)):
+    task = <span class="cls">Task</span>.<span class="fn">model_validate</span>(task_in)  <span class="cm"># create Task from TaskCreate</span>
+    session.<span class="fn">add</span>(task)
+    session.<span class="fn">commit</span>()
+    session.<span class="fn">refresh</span>(task)  <span class="cm"># load server-generated id and created</span>
+    <span class="kw">return</span> task
+
+
+<span class="cm"># ── READ ALL ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/tasks"</span>, response_model=<span class="bi">list</span>[<span class="cls">TaskResponse</span>])
+<span class="kw">def</span> <span class="fn">list_tasks</span>(
+    done:   bool | <span class="kw">None</span> = <span class="kw">None</span>,
+    offset: <span class="bi">int</span>          = <span class="num">0</span>,
+    limit:  <span class="bi">int</span>          = <span class="num">20</span>,
+    session: <span class="cls">Session</span>    = <span class="cls">Depends</span>(get_session)
+):
+    stmt = <span class="fn">select</span>(<span class="cls">Task</span>)
+    <span class="kw">if</span> done <span class="kw">is not None</span>:
+        stmt = stmt.<span class="fn">where</span>(<span class="cls">Task</span>.done == done)
+    <span class="kw">return</span> session.<span class="fn">exec</span>(stmt.<span class="fn">offset</span>(offset).<span class="fn">limit</span>(limit)).<span class="fn">all</span>()
+
+
+<span class="cm"># ── READ ONE ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/tasks/{task_id}"</span>, response_model=<span class="cls">TaskResponse</span>)
+<span class="kw">def</span> <span class="fn">get_task</span>(task_id: <span class="bi">int</span>, session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_session)):
+    task = session.<span class="fn">get</span>(<span class="cls">Task</span>, task_id)
+    <span class="kw">if not</span> task:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">404</span>, <span class="fn">f</span><span class="str">"Task {task_id} not found"</span>)
+    <span class="kw">return</span> task
+
+
+<span class="cm"># ── UPDATE ──</span>
+<span class="dec">@app.patch</span>(<span class="str">"/tasks/{task_id}"</span>, response_model=<span class="cls">TaskResponse</span>)
+<span class="kw">def</span> <span class="fn">update_task</span>(task_id: <span class="bi">int</span>, update: <span class="cls">TaskUpdate</span>, session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_session)):
+    task = session.<span class="fn">get</span>(<span class="cls">Task</span>, task_id)
+    <span class="kw">if not</span> task:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">404</span>, <span class="fn">f</span><span class="str">"Task {task_id} not found"</span>)
+    changes = update.<span class="fn">model_dump</span>(exclude_unset=<span class="kw">True</span>)
+    task.<span class="fn">sqlmodel_update</span>(changes)
+    session.<span class="fn">add</span>(task)
+    session.<span class="fn">commit</span>()
+    session.<span class="fn">refresh</span>(task)
+    <span class="kw">return</span> task
+
+
+<span class="cm"># ── DELETE ──</span>
+<span class="dec">@app.delete</span>(<span class="str">"/tasks/{task_id}"</span>, status_code=<span class="num">204</span>)
+<span class="kw">def</span> <span class="fn">delete_task</span>(task_id: <span class="bi">int</span>, session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_session)):
+    task = session.<span class="fn">get</span>(<span class="cls">Task</span>, task_id)
+    <span class="kw">if not</span> task:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">404</span>, <span class="fn">f</span><span class="str">"Task {task_id} not found"</span>)
+    session.<span class="fn">delete</span>(task)
+    session.<span class="fn">commit</span>()
+    <span class="cm"># Return None — status 204 means "no content"</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Request Bodies</button>
+    <button class="btn btn-next" onclick="next(4)">Auth →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L5 — AUTH
+══════════════════════════════════════ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Authentication — API Keys &amp; JWT</h2>
+    <p class="lesson-intro">Two levels of auth: simple API keys for server-to-server, and JWT tokens for user authentication. Understand both — when to use each and how to implement them properly.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔑 Level 1 — API Key Authentication</div>
+    <p>API keys are the simplest auth pattern — a secret string in a header. Perfect for server-to-server calls, webhooks, and internal tools.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — API key auth</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi           <span class="kw">import</span> Security, HTTPException, status
+<span class="kw">from</span> fastapi.security  <span class="kw">import</span> APIKeyHeader
+<span class="kw">import</span> os, secrets
+
+<span class="cm"># Reads the X-API-Key header from every request</span>
+api_key_scheme = <span class="cls">APIKeyHeader</span>(name=<span class="str">"X-API-Key"</span>)
+
+VALID_API_KEYS = {
+    os.<span class="fn">getenv</span>(<span class="str">"API_KEY_ADMIN"</span>): <span class="str">"admin"</span>,
+    os.<span class="fn">getenv</span>(<span class="str">"API_KEY_READONLY"</span>): <span class="str">"reader"</span>,
+}
+
+<span class="kw">def</span> <span class="fn">get_current_role</span>(api_key: <span class="bi">str</span> = <span class="cls">Security</span>(api_key_scheme)) -> <span class="bi">str</span>:
+    role = VALID_API_KEYS.<span class="fn">get</span>(api_key)
+    <span class="kw">if not</span> role:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=<span class="str">"Invalid or missing API key"</span>
+        )
+    <span class="kw">return</span> role
+
+<span class="cm"># Protect an endpoint — inject the dependency</span>
+<span class="dec">@app.delete</span>(<span class="str">"/tasks/{task_id}"</span>, status_code=<span class="num">204</span>)
+<span class="kw">def</span> <span class="fn">delete_task</span>(
+    task_id: <span class="bi">int</span>,
+    role: <span class="bi">str</span>       = <span class="cls">Depends</span>(get_current_role),  <span class="cm"># auth happens here</span>
+    session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_session)
+):
+    <span class="kw">if</span> role != <span class="str">"admin"</span>:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">403</span>, <span class="str">"Admin role required"</span>)
+    <span class="cm"># ... delete logic</span>
+
+<span class="cm"># Generate a secure API key</span>
+<span class="kw">def</span> <span class="fn">generate_api_key</span>() -> <span class="bi">str</span>:
+    <span class="kw">return</span> secrets.<span class="fn">token_urlsafe</span>(<span class="num">32</span>)   <span class="cm"># 32 bytes = 43 characters, URL-safe</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔐 Level 2 — JWT Token Authentication</div>
+    <p>JWT (JSON Web Token) is the standard for user authentication. Users log in with a username/password, receive a token, and send that token with every subsequent request.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install "python-jose[cryptography]" passlib[bcrypt]</span>
+<span class="cm"># jose = JWT creation/validation  |  passlib = password hashing</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — auth.py — complete JWT implementation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> jose          <span class="kw">import</span> JWTError, jwt
+<span class="kw">from</span> passlib.context <span class="kw">import</span> CryptContext
+<span class="kw">from</span> fastapi        <span class="kw">import</span> Depends, HTTPException, status
+<span class="kw">from</span> fastapi.security <span class="kw">import</span> OAuth2PasswordBearer, OAuth2PasswordRequestForm
+<span class="kw">from</span> datetime       <span class="kw">import</span> datetime, timedelta
+<span class="kw">from</span> pydantic       <span class="kw">import</span> BaseModel
+<span class="kw">import</span> os
+
+SECRET_KEY   = os.<span class="fn">getenv</span>(<span class="str">"JWT_SECRET_KEY"</span>)  <span class="cm"># long random string in .env</span>
+ALGORITHM    = <span class="str">"HS256"</span>
+TOKEN_EXPIRE = <span class="num">30</span>   <span class="cm"># minutes</span>
+
+pwd_ctx = <span class="cls">CryptContext</span>(schemes=[<span class="str">"bcrypt"</span>])
+oauth2  = <span class="cls">OAuth2PasswordBearer</span>(tokenUrl=<span class="str">"token"</span>)
+
+<span class="kw">class</span> <span class="cls">Token</span>(<span class="cls">BaseModel</span>):
+    access_token: <span class="bi">str</span>
+    token_type:   <span class="bi">str</span>
+
+<span class="kw">def</span> <span class="fn">hash_password</span>(plain: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> pwd_ctx.<span class="fn">hash</span>(plain)
+
+<span class="kw">def</span> <span class="fn">verify_password</span>(plain: <span class="bi">str</span>, hashed: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+    <span class="kw">return</span> pwd_ctx.<span class="fn">verify</span>(plain, hashed)
+
+<span class="kw">def</span> <span class="fn">create_access_token</span>(data: <span class="bi">dict</span>) -> <span class="bi">str</span>:
+    payload = data.<span class="fn">copy</span>()
+    payload[<span class="str">"exp"</span>] = datetime.<span class="fn">utcnow</span>() + timedelta(minutes=TOKEN_EXPIRE)
+    <span class="kw">return</span> jwt.<span class="fn">encode</span>(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+<span class="kw">def</span> <span class="fn">get_current_user</span>(token: <span class="bi">str</span> = <span class="cls">Depends</span>(oauth2)):
+    credentials_err = <span class="cls">HTTPException</span>(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=<span class="str">"Could not validate credentials"</span>,
+        headers={<span class="str">"WWW-Authenticate"</span>: <span class="str">"Bearer"</span>},
+    )
+    <span class="kw">try</span>:
+        payload  = jwt.<span class="fn">decode</span>(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.<span class="fn">get</span>(<span class="str">"sub"</span>)
+        <span class="kw">if not</span> username: <span class="kw">raise</span> credentials_err
+    <span class="kw">except</span> <span class="cls">JWTError</span>:
+        <span class="kw">raise</span> credentials_err
+    user = db.<span class="fn">get_user_by_name</span>(username)
+    <span class="kw">if not</span> user: <span class="kw">raise</span> credentials_err
+    <span class="kw">return</span> user
+
+<span class="cm"># ── Login endpoint — returns a JWT ──</span>
+<span class="dec">@app.post</span>(<span class="str">"/token"</span>, response_model=<span class="cls">Token</span>)
+<span class="kw">def</span> <span class="fn">login</span>(form: <span class="cls">OAuth2PasswordRequestForm</span> = <span class="cls">Depends</span>()):
+    user = db.<span class="fn">get_user_by_name</span>(form.username)
+    <span class="kw">if not</span> user <span class="kw">or not</span> <span class="fn">verify_password</span>(form.password, user.hashed_password):
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">401</span>, <span class="str">"Incorrect username or password"</span>)
+    token = <span class="fn">create_access_token</span>({<span class="str">"sub"</span>: user.username})
+    <span class="kw">return</span> {<span class="str">"access_token"</span>: token, <span class="str">"token_type"</span>: <span class="str">"bearer"</span>}
+
+<span class="cm"># ── Protected endpoint ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/me"</span>)
+<span class="kw">def</span> <span class="fn">get_me</span>(current_user = <span class="cls">Depends</span>(get_current_user)):
+    <span class="kw">return</span> current_user</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Database</button>
+    <button class="btn btn-next" onclick="next(5)">Dependency Injection →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L6 — DEPENDENCY INJECTION
+══════════════════════════════════════ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>Dependency Injection</h2>
+    <p class="lesson-intro">FastAPI's <code>Depends()</code> system is one of its most powerful features — it makes authentication, database sessions, configuration, and shared logic reusable and testable with almost no boilerplate.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ What Dependency Injection Does</div>
+    <p>When FastAPI sees <code>Depends(something)</code> in a function signature, it calls <code>something()</code> first, passes the result in, and handles cleanup. This lets you declare "I need a database session" or "I need the current user" without every endpoint knowing how to obtain them.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — dependency patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi <span class="kw">import</span> Depends, FastAPI, Query
+<span class="kw">from</span> sqlmodel <span class="kw">import</span> Session
+
+app = <span class="cls">FastAPI</span>()
+
+<span class="cm"># ── Dependency: database session ──</span>
+<span class="kw">def</span> <span class="fn">get_db</span>() -> Session:
+    <span class="kw">with</span> <span class="cls">Session</span>(engine) <span class="kw">as</span> session:
+        <span class="kw">yield</span> session    <span class="cm"># yield = context manager — cleans up after request</span>
+
+<span class="cm"># ── Dependency: pagination params ──</span>
+<span class="kw">class</span> <span class="cls">Pagination</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>,
+        offset: <span class="bi">int</span> = <span class="cls">Query</span>(<span class="num">0</span>,  ge=<span class="num">0</span>),
+        limit:  <span class="bi">int</span> = <span class="cls">Query</span>(<span class="num">20</span>, le=<span class="num">100</span>)
+    ):
+        <span class="kw">self</span>.offset = offset
+        <span class="kw">self</span>.limit  = limit
+
+<span class="cm"># ── Dependency: current user (from JWT) ──</span>
+<span class="kw">def</span> <span class="fn">get_user</span>(token: <span class="bi">str</span> = <span class="cls">Depends</span>(oauth2_scheme)):
+    <span class="kw">return</span> <span class="fn">decode_and_validate_token</span>(token)
+
+<span class="cm"># ── Chained dependency: admin user ──</span>
+<span class="kw">def</span> <span class="fn">require_admin</span>(user = <span class="cls">Depends</span>(get_user)):
+    <span class="kw">if</span> user.role != <span class="str">"admin"</span>:
+        <span class="kw">raise</span> <span class="cls">HTTPException</span>(<span class="num">403</span>, <span class="str">"Admin access required"</span>)
+    <span class="kw">return</span> user   <span class="cm"># Depends can chain — admin depends on get_user</span>
+
+
+<span class="cm"># ── Endpoints use dependencies — clean and readable ──</span>
+<span class="dec">@app.get</span>(<span class="str">"/tasks"</span>)
+<span class="kw">def</span> <span class="fn">list_tasks</span>(
+    pagination: <span class="cls">Pagination</span> = <span class="cls">Depends</span>(<span class="cls">Pagination</span>),  <span class="cm"># pagination logic</span>
+    session:    <span class="cls">Session</span>    = <span class="cls">Depends</span>(get_db),       <span class="cm"># db session</span>
+    user                    = <span class="cls">Depends</span>(get_user),     <span class="cm"># authentication</span>
+):
+    <span class="cm"># The function body only cares about business logic</span>
+    stmt = <span class="fn">select</span>(<span class="cls">Task</span>).<span class="fn">where</span>(<span class="cls">Task</span>.user_id == user.id)
+    <span class="kw">return</span> session.<span class="fn">exec</span>(stmt.<span class="fn">offset</span>(pagination.offset).<span class="fn">limit</span>(pagination.limit)).<span class="fn">all</span>()
+
+<span class="dec">@app.delete</span>(<span class="str">"/tasks/{id}"</span>, status_code=<span class="num">204</span>)
+<span class="kw">def</span> <span class="fn">delete_task</span>(
+    id:      <span class="bi">int</span>,
+    session: <span class="cls">Session</span> = <span class="cls">Depends</span>(get_db),
+    admin              = <span class="cls">Depends</span>(require_admin),   <span class="cm"># chained: must be admin</span>
+):
+    <span class="cm"># Only admins reach this code</span>
+    task = session.<span class="fn">get</span>(<span class="cls">Task</span>, id)
+    session.<span class="fn">delete</span>(task)
+    session.<span class="fn">commit</span>()</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why DI makes testing easy</strong>In tests, you can override any dependency: <code>app.dependency_overrides[get_db] = get_test_db</code>. This swaps the real database for an in-memory test database without changing a single line of your endpoint code. This is the pattern that makes FastAPI apps so testable.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Auth</button>
+    <button class="btn btn-next" onclick="next(6)">Testing →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L7 — TESTING
+══════════════════════════════════════ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>Testing APIs with pytest</h2>
+    <p class="lesson-intro">FastAPI's <code>TestClient</code> lets you make real HTTP requests to your API in tests — no server needed, no mocking. Combined with dependency overrides, your tests are fast, isolated, and trustworthy.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧪 Test Setup — In-Memory Database</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install httpx pytest pytest-asyncio</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — tests/conftest.py — shared test fixtures</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pytest
+<span class="kw">from</span> fastapi.testclient <span class="kw">import</span> TestClient
+<span class="kw">from</span> sqlmodel            <span class="kw">import</span> create_engine, SQLModel, Session
+<span class="kw">from</span> sqlmodel.pool        <span class="kw">import</span> StaticPool
+
+<span class="kw">from</span> main     <span class="kw">import</span> app
+<span class="kw">from</span> database <span class="kw">import</span> get_session
+
+<span class="cm"># In-memory SQLite — created fresh for each test</span>
+TEST_ENGINE = <span class="fn">create_engine</span>(
+    <span class="str">"sqlite://"</span>,            <span class="cm"># no file — in memory only</span>
+    connect_args={<span class="str">"check_same_thread"</span>: <span class="kw">False</span>},
+    poolclass=<span class="cls">StaticPool</span>,   <span class="cm"># same connection for whole test</span>
+)
+
+<span class="kw">def</span> <span class="fn">get_test_session</span>():
+    <span class="kw">with</span> <span class="cls">Session</span>(TEST_ENGINE) <span class="kw">as</span> session:
+        <span class="kw">yield</span> session
+
+<span class="dec">@pytest.fixture</span>(autouse=<span class="kw">True</span>)
+<span class="kw">def</span> <span class="fn">fresh_db</span>():
+    <span class="str">"""Recreate tables before every test — clean slate."""</span>
+    SQLModel.metadata.<span class="fn">create_all</span>(TEST_ENGINE)
+    <span class="kw">yield</span>
+    SQLModel.metadata.<span class="fn">drop_all</span>(TEST_ENGINE)
+
+<span class="dec">@pytest.fixture</span>
+<span class="kw">def</span> <span class="fn">client</span>():
+    <span class="str">"""TestClient with the real database swapped for test database."""</span>
+    app.dependency_overrides[get_session] = get_test_session
+    <span class="kw">yield</span> <span class="cls">TestClient</span>(app)
+    app.dependency_overrides.<span class="fn">clear</span>()</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Writing Real Tests</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — tests/test_tasks.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pytest
+
+<span class="kw">class</span> <span class="cls">TestCreateTask</span>:
+    <span class="kw">def</span> <span class="fn">test_create_task_success</span>(<span class="kw">self</span>, client):
+        response = client.<span class="fn">post</span>(<span class="str">"/tasks"</span>, json={
+            <span class="str">"title"</span>:    <span class="str">"Learn FastAPI"</span>,
+            <span class="str">"priority"</span>: <span class="num">3</span>
+        })
+        <span class="kw">assert</span> response.status_code == <span class="num">201</span>
+        data = response.<span class="fn">json</span>()
+        <span class="kw">assert</span> data[<span class="str">"title"</span>]    == <span class="str">"Learn FastAPI"</span>
+        <span class="kw">assert</span> data[<span class="str">"priority"</span>] == <span class="num">3</span>
+        <span class="kw">assert</span> data[<span class="str">"done"</span>]     == <span class="kw">False</span>
+        <span class="kw">assert</span> <span class="str">"id"</span>             <span class="kw">in</span> data   <span class="cm"># server assigned an ID</span>
+        <span class="kw">assert</span> <span class="str">"created"</span>        <span class="kw">in</span> data
+
+    <span class="kw">def</span> <span class="fn">test_create_task_empty_title</span>(<span class="kw">self</span>, client):
+        response = client.<span class="fn">post</span>(<span class="str">"/tasks"</span>, json={<span class="str">"title"</span>: <span class="str">""</span>})
+        <span class="kw">assert</span> response.status_code == <span class="num">422</span>   <span class="cm"># validation failure</span>
+
+    <span class="kw">def</span> <span class="fn">test_create_task_invalid_priority</span>(<span class="kw">self</span>, client):
+        response = client.<span class="fn">post</span>(<span class="str">"/tasks"</span>, json={<span class="str">"title"</span>: <span class="str">"Test"</span>, <span class="str">"priority"</span>: <span class="num">10</span>})
+        <span class="kw">assert</span> response.status_code == <span class="num">422</span>
+
+
+<span class="kw">class</span> <span class="cls">TestGetTask</span>:
+    <span class="kw">def</span> <span class="fn">test_get_existing_task</span>(<span class="kw">self</span>, client):
+        <span class="cm"># Create a task first</span>
+        created = client.<span class="fn">post</span>(<span class="str">"/tasks"</span>, json={<span class="str">"title"</span>: <span class="str">"Test"</span>}).<span class="fn">json</span>()
+        task_id = created[<span class="str">"id"</span>]
+
+        response = client.<span class="fn">get</span>(<span class="fn">f</span><span class="str">"/tasks/{task_id}"</span>)
+        <span class="kw">assert</span> response.status_code == <span class="num">200</span>
+        <span class="kw">assert</span> response.<span class="fn">json</span>()[<span class="str">"id"</span>] == task_id
+
+    <span class="kw">def</span> <span class="fn">test_get_nonexistent_task</span>(<span class="kw">self</span>, client):
+        response = client.<span class="fn">get</span>(<span class="str">"/tasks/99999"</span>)
+        <span class="kw">assert</span> response.status_code == <span class="num">404</span>
+
+
+<span class="kw">class</span> <span class="cls">TestUpdateTask</span>:
+    <span class="kw">def</span> <span class="fn">test_partial_update</span>(<span class="kw">self</span>, client):
+        task = client.<span class="fn">post</span>(<span class="str">"/tasks"</span>, json={<span class="str">"title"</span>: <span class="str">"Original"</span>, <span class="str">"priority"</span>: <span class="num">1</span>}).<span class="fn">json</span>()
+
+        response = client.<span class="fn">patch</span>(<span class="fn">f</span><span class="str">"/tasks/{task['id']}"</span>, json={<span class="str">"done"</span>: <span class="kw">True</span>})
+        <span class="kw">assert</span> response.status_code == <span class="num">200</span>
+        updated = response.<span class="fn">json</span>()
+        <span class="kw">assert</span> updated[<span class="str">"done"</span>]     == <span class="kw">True</span>
+        <span class="kw">assert</span> updated[<span class="str">"title"</span>]    == <span class="str">"Original"</span>   <span class="cm"># unchanged</span>
+        <span class="kw">assert</span> updated[<span class="str">"priority"</span>] == <span class="num">1</span>            <span class="cm"># unchanged</span>
+
+
+<span class="cm"># Run all tests:</span>
+<span class="cm"># pytest tests/ -v</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Dependency Injection</button>
+    <button class="btn btn-next" onclick="next(7)">Phase Project →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L8 — PHASE PROJECT
+══════════════════════════════════════ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Task Manager API — Full Stack</h2>
+    <p class="lesson-intro">Build a complete, production-quality REST API — authenticated, database-backed, tested, and documented. This is the centerpiece of your backend portfolio.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ Project Structure</div>
+    <div class="file-tree">
+<span class="ft-dir">task-api/</span>
+├── <span class="ft-file">.env</span>                <span class="ft-note"># JWT_SECRET_KEY, DATABASE_URL</span>
+├── <span class="ft-file">requirements.txt</span>    <span class="ft-note"># fastapi[standard] sqlmodel jose passlib httpx pytest</span>
+├── <span class="ft-file">main.py</span>             <span class="ft-note"># FastAPI app, startup events, router includes</span>
+├── <span class="ft-file">database.py</span>         <span class="ft-note"># engine, get_session dependency</span>
+├── <span class="ft-file">models.py</span>           <span class="ft-note"># SQLModel tables + Pydantic schemas</span>
+├── <span class="ft-file">auth.py</span>             <span class="ft-note"># JWT creation/validation, password hashing</span>
+├── <span class="ft-dir">routers/</span>
+│   ├── <span class="ft-file">tasks.py</span>        <span class="ft-note"># /tasks CRUD endpoints</span>
+│   └── <span class="ft-file">users.py</span>        <span class="ft-note"># /users, /token, /me endpoints</span>
+└── <span class="ft-dir">tests/</span>
+    ├── <span class="ft-file">conftest.py</span>     <span class="ft-note"># fixtures, test client, in-memory DB</span>
+    ├── <span class="ft-file">test_tasks.py</span>   <span class="ft-note"># CRUD tests</span>
+    └── <span class="ft-file">test_auth.py</span>    <span class="ft-note"># login, token, protected routes</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Requirements Checklist</div>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body">
+        <strong>Your API must include:</strong>
+        <br>✅ <strong>Full CRUD</strong> — POST, GET (list + single), PATCH, DELETE for tasks
+        <br>✅ <strong>JWT auth</strong> — register, login returns token, protected endpoints
+        <br>✅ <strong>User ownership</strong> — users can only see/edit their own tasks
+        <br>✅ <strong>Query params</strong> — filter by done, priority; paginate with limit/offset
+        <br>✅ <strong>Proper status codes</strong> — 201, 204, 404, 401, 403, 422
+        <br>✅ <strong>response_model</strong> on every endpoint — no raw dicts
+        <br>✅ <strong>SQLModel + SQLite</strong> — data persists between restarts
+        <br>✅ <strong>10+ tests</strong> — success cases, error cases, auth failures
+        <br>✅ <strong>Auto docs</strong> — /docs works, all endpoints documented
+        <br>✅ <strong>.env</strong> — no secrets in source code
+      </div>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the core API works:</h4>
+    <ul>
+      <li>Add task tags stored as a separate <code>Tag</code> table with a many-to-many relationship</li>
+      <li>Add a <code>GET /tasks/stats</code> endpoint returning counts by status and priority</li>
+      <li>Add rate limiting — max 100 requests per minute per user using a simple in-memory counter</li>
+      <li>Add a <code>GET /tasks/export</code> endpoint that returns the user's tasks as a CSV file download</li>
+      <li>Add CORS middleware so your future React frontend can call this API</li>
+    </ul>
+  </div>
+
+  <div class="callout tip" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>Phase 5 Complete.</strong> You now understand HTTP deeply, can build production-quality REST APIs with FastAPI, connect to databases with SQLModel, implement authentication with JWT, use dependency injection for clean testable code, and write a proper test suite. Phase 6 is AI Integration — where you add an LLM layer on top of everything you've built.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Testing</button>
+    <button class="btn btn-next" onclick="goNext()">Phase 6 — AI Integration →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 9;
+const done  = new Set();
+let   cur   = 0;
+
+const snWrap = document.getElementById('streak-nodes');
+for (let i = 0; i < TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snWrap.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'+cur).classList.remove('active');
+  document.getElementById('nav'+cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'+i).classList.add('active');
+  document.getElementById('nav'+i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+function next(i)  { go(Math.min(i+1, TOTAL-1)); }
+function prev(i)  { go(Math.max(i-1, 0)); }
+function goNext() { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  for (let i = 0; i < TOTAL; i++) {
+    const chk = document.getElementById('chk'+i);
+    const sn  = document.getElementById('sn'+i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  const snCur = document.getElementById('sn'+cur);
+  if (snCur && !done.has(cur)) snCur.classList.add('current');
+}
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  fb.textContent = result === 'correct'
+    ? '✅ Correct! FastAPI validates path parameters against their declared type. Since task_id is typed as int and "abc" cannot be converted to int, FastAPI automatically returns a 422 Unprocessable Entity with a clear error message — your function is never called.'
+    : '❌ FastAPI handles this gracefully. Since task_id is typed as int and "abc" is not a valid int, FastAPI intercepts the request before calling your function and returns a 422 Unprocessable Entity with a detailed validation error. No crash, no manual checking needed.';
+}
+
+done.add(0);
+updateProgress();
+</script>
+  <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Roadmap
+</a>
+</body>
+</html>

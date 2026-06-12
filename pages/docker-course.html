@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker for Beginners — A Course for New Developers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Beginner Friendly · DevOps</div>
+  <h1>Docker for Beginners</h1>
+  <p>A fun, friendly, and hands-on course to learn containerization — no programming experience needed! 🐳</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🚢</span> Welcome to Docker
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">🏗️</span> Images & Containers
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">🏘️</span> Docker vs VMs
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">📝</span> The Dockerfile
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🧠</span> Architecture
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">💾</span> Volumes & Storage
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">🌐</span> Networking
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🎼</span> Docker Compose
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🏆</span> Final Project
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>🚢 Welcome to Docker!</h2>
+        <p class="lesson-intro">Let's find out what Docker is, the massive problem it solves, and why every software developer uses it.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 The "Works on My Machine" Problem</div>
+        <p>Imagine you build a beautiful Lego castle on your bedroom floor. You want to show your friend, so you try to move it to their house. But along the way, pieces fall off, their table is bumpy, and their dog steals a piece. The castle is ruined!</p>
+        <p>In the software world, this happens all the time. A developer writes code on their laptop, and it works perfectly. But when they send it to a server or another teammate, it crashes. Why? Because the environments are different (different software versions, different settings, different operating systems).</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Before the 1950s, putting cargo on a ship was chaos. Workers threw sacks of flour, barrels of oil, and boxes of shoes directly into the ship's hold. It was messy and slow. Then, the <strong>standard shipping container</strong> was invented. Suddenly, everything went into identical steel boxes. Cranes, trucks, and ships didn't need to care what was <em>inside</em> the box; they just knew how to move the box. <strong>Docker does this for software!</strong></p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 What Is Docker?</div>
+        <p>Standardizing your development environments is critical as you progress through your software engineering degree. Much like maintaining base infrastructure and ensuring complex electrical systems run reliably without unexpected failures, Docker ensures software runs perfectly every time, no matter where it's deployed. When preparing for deployments, whether it's an enterprise app or a global rollout for a game like QUETIEMALS, containerization guarantees that your code behaves exactly the same on a local machine in Bossier City as it does on a production server halfway across the world.</p>
+        <p>Docker takes your application and locks it inside an invisible, self-contained box called a <strong>container</strong>. This box includes EVERYTHING the app needs to run: the code, the tools, the settings, and the system libraries.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">🔄</div>
+          <h4>Reproducibility</h4>
+          <p>It runs identically on a Mac, Windows, or Linux machine.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚡</div>
+          <h4>Efficiency</h4>
+          <p>Starts up in milliseconds because it's super lightweight.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🌍</div>
+          <h4>Portability</h4>
+          <p>Move it to Amazon, Google Cloud, or your laptop instantly.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📈</div>
+          <h4>Scalability</h4>
+          <p>Need more power? Just spin up 100 more containers!</p>
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What massive problem does Docker primarily solve?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It makes your computer screen look cooler</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It writes the code for you</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The "It works on my machine but nowhere else" problem</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It repairs broken hardware</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>🏗️ Images and Containers</h2>
+        <p class="lesson-intro">Two of the most important words in Docker! People mix them up all the time, but the difference is actually very simple.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think about a <strong>Blueprint</strong> and a <strong>House</strong>. A blueprint is a piece of paper that tells you exactly how to build a house, but you can't live inside a piece of paper. The house is the real, physical building you create <em>using</em> the blueprint.<br><br>In Docker, the <strong>Image</strong> is the blueprint. The <strong>Container</strong> is the house!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🖼️ What is a Docker Image?</div>
+        <p>A Docker Image is a read-only, unchanging file that acts as a snapshot of your application. It contains the code, the environment, and the instructions. Because it's read-only, it never changes. You can share images with your team or download pre-made images from the internet (like a pre-made image of a database).</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📦 What is a Docker Container?</div>
+        <p>A Container is the live, running instance of an image. If you run a Docker Image, it comes to life and becomes a Container. You can start, stop, restart, and delete containers. And the best part? You can build 50 identical containers from just one single image!</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Command Line — Running Your First Container</span>
+        </div>
+        <pre><span class="cm"># This tells Docker to find the "hello-world" image</span>
+<span class="cm"># and bring it to life as a container!</span>
+
+<span class="kw">docker run</span> <span class="str">hello-world</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># Hello from Docker!</span>
+<span class="cm"># This message shows that your installation appears to be working correctly.</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔑</div>
+        <div class="callout-body">
+          <strong>Key Rule</strong>
+          Images are static files (Blueprints). Containers are running programs (Houses). One image can create infinite containers!
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">If I want to run 3 separate, identical web servers, I need:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, true)">1 Image and 3 Containers</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">3 Images and 1 Container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">3 Images and 3 Containers</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">1 Image and 1 Container</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>🏘️ Docker vs Virtual Machines</h2>
+        <p class="lesson-intro">You might be wondering: "Don't Virtual Machines (VMs) already put things in isolated boxes?" Yes! But Docker does it in a much smarter, faster way.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>A <strong>Virtual Machine</strong> is like building a massive <strong>House</strong>. You have to build the walls, install your own plumbing, run your own electricity lines, and hire your own security guard. It's safe, but it takes up a lot of space and takes forever to build.</p>
+        <p>A <strong>Docker Container</strong> is like renting an <strong>Apartment</strong>. The apartment building (your computer) already has plumbing, electricity, and security. You just bring your furniture (your app). It's incredibly fast to move in, and you can fit hundreds of apartments in the space of a few houses!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚖️ The Technical Difference</div>
+        <p>A Virtual Machine contains a full, heavy Operating System (like installing a whole second copy of Windows inside your computer). A Docker Container <strong>shares</strong> the Operating System kernel of the host machine. It only packs what the app strictly needs.</p>
+        <table>
+          <tr><th>Feature</th><th>Virtual Machine (VM)</th><th>Docker Container</th></tr>
+          <tr><td><strong>Size</strong></td><td>Gigabytes (Heavy)</td><td>Megabytes (Lightweight)</td></tr>
+          <tr><td><strong>Startup Time</strong></td><td>Minutes ⏳</td><td>Milliseconds ⚡</td></tr>
+          <tr><td><strong>OS Included?</strong></td><td><span class="badge badge-red">Yes, an entire OS</span></td><td><span class="badge badge-green">No, shares host OS</span></td></tr>
+        </table>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Why do Docker containers start up so much faster than Virtual Machines?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Because Docker uses magic</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Because they share the host computer's Operating System and don't have to boot up their own</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Because they don't contain any code</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Because VMs only run on older computers</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>📝 The Dockerfile — The Secret Recipe</h2>
+        <p class="lesson-intro">We know that Images are blueprints. But how do we make an Image? We write a simple text file called a Dockerfile!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think of a Dockerfile like a recipe to bake a cake. You write down the steps from top to bottom: "Start with a pre-made crust", "Add sugar", "Mix the batter", "Bake at 350 degrees". Docker reads this recipe line-by-line and bakes your perfect, unchanging Image.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📜 Essential Dockerfile Commands</div>
+        <ul>
+          <li><code>FROM</code> — The foundation. (e.g., "Start with a computer that has Python installed"). <em>Every Dockerfile MUST start with this!</em></li>
+          <li><code>WORKDIR</code> — Creates a folder inside the container for us to work in.</li>
+          <li><code>COPY</code> — Copies files from your real laptop into the container.</li>
+          <li><code>RUN</code> — Runs a command while the image is being built (like installing libraries).</li>
+          <li><code>CMD</code> — The final instruction. What should the container do when it wakes up?</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Building a Game Server</span>
+        </div>
+        <pre><span class="cm"># 1. Start from a foundation that has Node.js installed</span>
+<span class="kw">FROM</span> <span class="str">node:18</span>
+
+<span class="cm"># 2. Set up our workspace folder inside the container</span>
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+
+<span class="cm"># 3. Copy our code files from our laptop to the container</span>
+<span class="kw">COPY</span> <span class="str">. .</span>
+
+<span class="cm"># 4. Install all the tools our app needs</span>
+<span class="kw">RUN</span> <span class="str">npm install</span>
+
+<span class="cm"># 5. Tell the container what to do when it turns on!</span>
+<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🦊</div>
+        <div class="callout-body">
+          <strong>Fun Fact: App Assets</strong>
+          If your app includes specific digital assets—like 3D models for non-humanoid animal characters—they all get packed neatly inside the image layer when you use the <code>COPY</code> command, making them instantly available wherever the container goes!
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which instruction must ALWAYS be the very first thing in your Dockerfile?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">COPY</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">RUN</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">FROM</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">CMD</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🧠 Docker Architecture</h2>
+        <p class="lesson-intro">How does Docker actually work behind the scenes? Docker is a "Client-Server" application, which means it has a few distinct parts talking to each other.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Imagine a busy <strong>Restaurant</strong>:</p>
+        <ul>
+          <li><strong>The Client (You):</strong> You look at the menu and give orders to the waiter.</li>
+          <li><strong>The Daemon (The Chef):</strong> The chef receives your order, grabs ingredients, and cooks the food. They do all the heavy lifting!</li>
+          <li><strong>The Registry (The Grocery Store):</strong> If the chef doesn't have an ingredient, they call the grocery store to have it delivered.</li>
+        </ul>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">🧑‍💻</div>
+          <h4>Docker Client</h4>
+          <p>The terminal/command line where you type commands like <code>docker run</code>.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚙️</div>
+          <h4>Docker Daemon</h4>
+          <p>The invisible engine running in the background building and managing containers.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">☁️</div>
+          <h4>Docker Registry</h4>
+          <p>An online store (like Docker Hub) where millions of pre-built images are saved.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚙️ Putting it Together</div>
+        <p>When you type <code>docker pull ubuntu</code>, you (the Client) are telling the Chef (the Daemon) to go to the Grocery Store (the Registry) and grab the "ubuntu" ingredient (Image)!</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which component does all the heavy lifting (creating, starting, and stopping containers)?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Client</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The Docker Daemon (Engine)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Registry</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Operating System</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>💾 Volumes — Don't Lose Your Data!</h2>
+        <p class="lesson-intro">By default, containers have short memories. If a container gets deleted, everything inside it is completely wiped out forever!</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Imagine a container is like a <strong>School Desk</strong>. When class is over, the janitor wipes the desk completely clean. If you left your homework on the desk, it's gone! But a <strong>Volume</strong> is like a <strong>Backpack</strong>. You can put your homework in your backpack, leave the classroom, and bring that exact same backpack to a completely different classroom the next day.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📁 What is a Volume?</div>
+        <p>A Volume is a special folder managed by Docker that sits safely on your main computer's hard drive, NOT inside the ephemeral (temporary) container. You plug the Volume into the container like a USB flash drive.</p>
+        <p>This is extremely important for things like <strong>Databases</strong>. If your database container crashes, you don't want all your user passwords and high scores to disappear! You save them in a Volume.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Command Line — Using a Volume</span>
+        </div>
+        <pre><span class="cm"># First, create an empty volume (the backpack)</span>
+<span class="kw">docker volume create</span> <span class="str">my-game-data</span>
+
+<span class="cm"># Next, start a container and plug the volume into it!</span>
+<span class="cm"># Everything saved in "/app/data" will actually be saved in "my-game-data"</span>
+<span class="kw">docker run</span> <span class="var">-v</span> <span class="str">my-game-data:/app/data</span> <span class="str">my-cool-game-image</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">If you delete a container that had no Volumes attached, what happens to the files created inside it?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, true)">They are permanently destroyed</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">They are saved on the desktop</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">They are uploaded to the Docker Registry</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">They are emailed to the administrator</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>🌐 Networking — Getting Containers to Talk</h2>
+        <p class="lesson-intro">By default, containers are locked in solitary confinement. They can't see the internet, they can't see your computer, and they can't see each other. Docker Networks fix this.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think of Docker Networks like <strong>Walkie-Talkies</strong>. If two kids (containers) tune their walkie-talkies to the exact same channel (network), they can instantly hear each other and talk securely, without anyone else listening in.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📡 Network Types</div>
+        <table>
+          <tr><th>Network Driver</th><th>What it does</th></tr>
+          <tr><td><span class="badge badge-purple">Bridge</span></td><td>The default! Creates a private internal network so containers on the same computer can chat.</td></tr>
+          <tr><td><span class="badge badge-red">Host</span></td><td>Removes all isolation; the container shares your computer's exact IP address and ports.</td></tr>
+          <tr><td><span class="badge badge-yellow">None</span></td><td>Completely disables networking. The container is totally isolated.</td></tr>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>Port Mapping</strong>
+          If you run a website in a container, you still have to open a "door" to let users in from the outside world. This is called Port Mapping. If you map <code>-p 8080:80</code>, you're telling Docker: "Take any traffic coming to my laptop on port 8080, and tunnel it directly to port 80 inside the container!"
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>🎼 Docker Compose — The Orchestra Conductor</h2>
+        <p class="lesson-intro">What happens when your app needs a Web Server, a Database, and an Analytics tool all running at the same time? Typing individual `docker run` commands for each one gets exhausting.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Imagine an <strong>Orchestra</strong>. You have violins, trumpets, and drums (containers). You <em>could</em> walk up to every single musician one by one and tell them exactly when and how to start playing. Or, you could use a <strong>Conductor</strong> (Docker Compose) who reads from a piece of sheet music and commands everyone to start together perfectly in sync.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📄 What is Docker Compose?</div>
+        <p>Docker Compose is a tool that lets you write a single file (called <code>docker-compose.yml</code>) that describes ALL the containers your app needs. With one single command, Docker Compose spins up the network, creates the volumes, and starts all the containers in the right order.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">YAML — docker-compose.yml</span>
+        </div>
+        <pre><span class="cm"># This file orchestrates TWO containers at once!</span>
+<span class="kw">version:</span> <span class="str">'3.8'</span>
+
+<span class="kw">services:</span>
+  <span class="cm"># Container 1: The web server</span>
+  <span class="cl">web:</span>
+    <span class="kw">image:</span> <span class="str">nginx:latest</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"8080:80"</span>
+
+  <span class="cm"># Container 2: The database</span>
+  <span class="cl">database:</span>
+    <span class="kw">image:</span> <span class="str">postgres:14</span>
+    <span class="kw">environment:</span>
+      <span class="var">-</span> <span class="str">POSTGRES_PASSWORD=supersecret123</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🚀</div>
+        <div class="callout-body">
+          <strong>The Magic Command</strong>
+          Once you write that file, all you have to do is type <code>docker-compose up</code> in your terminal, and watch the magic happen as your entire app stack boots up together!
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9 — Final Wrap Up! 🏆</div>
+        <h2>🏆 You're a Container Captain!</h2>
+        <p class="lesson-intro">You've mastered the concepts that keep the modern tech world running!</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Course Recap</div>
+        <ul>
+          <li>🐋 <strong>Docker</strong> solves the "Works on my machine" problem.</li>
+          <li>🖼️ <strong>Images</strong> are read-only blueprints.</li>
+          <li>📦 <strong>Containers</strong> are live, running instances of images.</li>
+          <li>📝 <strong>Dockerfiles</strong> are the step-by-step recipes to build images.</li>
+          <li>💾 <strong>Volumes</strong> are backpacks that save your data permanently.</li>
+          <li>🎼 <strong>Docker Compose</strong> orchestrates multiple containers at once.</li>
+        </ul>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Next Steps Challenge!</div>
+        <h4>Build Your First Real Container</h4>
+        <p>Now that you know the theory, it's time to try it! Head over to your computer terminal and try these three steps:</p>
+        <ol>
+          <li>Install Docker Desktop (it's free!).</li>
+          <li>Open your terminal and type <code>docker run -d -p 80:80 docker/getting-started</code></li>
+          <li>Open your web browser and go to <code>http://localhost</code>. You just ran a web server inside a container!</li>
+        </ol>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz!</div>
+        <div class="quiz-q">Which tool allows you to define and run multi-container applications (like a web server AND a database) from a single YAML file?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Docker Hub</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Daemon</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Docker Compose</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Volumes</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script.js"></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

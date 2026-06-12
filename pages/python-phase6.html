@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 6 — AI Integration | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="../css/python-phase6.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 6: AI Integration</h1>
+  <p>Add intelligence to everything you've built. Call LLMs from Python, stream responses, build tool-using agents, construct RAG systems, and integrate AI as a component — not a chat window.</p>
+  <div class="header-stars">🧠 🤖 ⚡ 🔗 🪄</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 6 — Lessons</div>
+  <div class="streak-bar"><span class="streak-label">🔥</span><div id="streak-nodes"></div></div>
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🧠</span> How LLMs Actually Work <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item"        onclick="go(1)" id="nav1"><span class="nav-icon">🔑</span> Anthropic SDK <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item"        onclick="go(2)" id="nav2"><span class="nav-icon">🔵</span> OpenAI SDK <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item"        onclick="go(3)" id="nav3"><span class="nav-icon">⚡</span> Streaming Responses <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item"        onclick="go(4)" id="nav4"><span class="nav-icon">💬</span> Prompt Engineering in Code <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item"        onclick="go(5)" id="nav5"><span class="nav-icon">🔧</span> Tool Use &amp; Function Calling <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item"        onclick="go(6)" id="nav6"><span class="nav-icon">📚</span> RAG — Retrieval Augmented Gen <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item"        onclick="go(7)" id="nav7"><span class="nav-icon">💰</span> Cost, Rate Limits &amp; Reliability <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item"        onclick="go(8)" id="nav8"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk8"></span></div>
+  <div style="padding:20px 8px 0;border-top:1px solid var(--border);margin-top:16px">
+    <a href="python-phase5.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#d8b4fe'" onmouseout="this.style.color=''">← Phase 5</a>
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#d8b4fe'" onmouseout="this.style.color=''">↑ Full Roadmap</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     L0 — HOW LLMs ACTUALLY WORK
+══════════════════════════════════════ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>How LLMs Actually Work</h2>
+    <p class="lesson-intro">Before calling an API, understand what you're calling. Tokens, context windows, temperature, and the concepts that determine whether your AI integration works well or fails in production.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔤 Tokens — The Currency of LLMs</div>
+    <p>LLMs don't process words or characters — they process <strong>tokens</strong>. A token is roughly 4 characters or ¾ of a word in English. Every API call costs tokens and is limited by a context window measured in tokens.</p>
+
+    <div class="token-vis">
+      <span class="cm"># How "Hello, I am learning Python!" gets tokenized:</span><br><br>
+      <span class="tok tok-1">Hello</span><span class="tok tok-2">,</span> <span class="tok tok-3"> I</span> <span class="tok tok-4"> am</span> <span class="tok tok-5"> learning</span> <span class="tok tok-1"> Python</span><span class="tok tok-2">!</span>
+      <br><br>
+      <span class="cm"># 7 tokens. Code tokenizes differently — more tokens per line.</span><br>
+      <span class="cm"># Rule of thumb: 1000 tokens ≈ 750 words ≈ 1-2 paragraphs</span>
+    </div>
+
+    <table>
+      <tr><th>What you're counting</th><th>Approx tokens</th></tr>
+      <tr><td>A short sentence ("Hello, how are you?")</td><td>~5 tokens</td></tr>
+      <tr><td>A paragraph (150 words)</td><td>~200 tokens</td></tr>
+      <tr><td>A full page of text</td><td>~500–700 tokens</td></tr>
+      <tr><td>A 10-page document</td><td>~5,000–7,000 tokens</td></tr>
+      <tr><td>A small codebase (20 files)</td><td>~50,000–100,000 tokens</td></tr>
+    </table>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 Context Window — The Model's Working Memory</div>
+      <h4>Everything the model can "see" at once</h4>
+      <p>The <strong>context window</strong> is the total number of tokens a model can process in one call — both input and output combined. If your context window is 200,000 tokens and your prompt uses 150,000, you have 50,000 tokens left for the response.</p>
+      <p>This is the model's entire working memory. It has no memory between separate API calls unless you explicitly include previous conversation history in each new request. Every call starts fresh — your code is responsible for maintaining conversation state.</p>
+      <ul>
+        <li><strong>Claude claude-sonnet-4-6:</strong> 200,000 token context window</li>
+        <li><strong>GPT-4o:</strong> 128,000 token context window</li>
+        <li><strong>Practical implication:</strong> you can fit entire codebases, books, or long documents in a single prompt</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ The Key Parameters You'll Actually Tune</div>
+    <table>
+      <tr><th>Parameter</th><th>What It Does</th><th>Practical Range</th></tr>
+      <tr><td><code>temperature</code></td><td>Randomness / creativity. 0 = deterministic, 1 = creative</td><td>0 for factual/code, 0.7 for creative writing</td></tr>
+      <tr><td><code>max_tokens</code></td><td>Maximum length of the response</td><td>256 for short answers, 4096 for long outputs</td></tr>
+      <tr><td><code>system</code></td><td>Instructions that shape all responses — the model's "persona"</td><td>Set once per session, not per message</td></tr>
+      <tr><td><code>top_p</code></td><td>Nucleus sampling — alternative to temperature</td><td>Leave at default unless you know what you're doing</td></tr>
+      <tr><td><code>stop</code></td><td>Token sequences that stop generation early</td><td>Useful for structured output like JSON</td></tr>
+    </table>
+
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Temperature = 0 is not always best</strong>Temperature 0 makes the model deterministic — same input, same output every time. This is great for code generation and structured data extraction. But for tasks where some variation is acceptable (summarization, paraphrasing), a small temperature (0.3–0.5) often produces better-sounding results. Match temperature to your use case.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📬 The Message Structure</div>
+    <p>Every LLM API uses a conversation structure: a list of messages with roles. Understanding this is the foundation of everything else in this phase.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">The message format used by all major LLM APIs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Three roles — you'll use all three</span>
+messages = [
+    {
+        <span class="str">"role"</span>:    <span class="str">"system"</span>,    <span class="cm"># Instructions for the model's behavior</span>
+        <span class="str">"content"</span>: <span class="str">"You are a helpful Python tutor. Be concise and use examples."</span>
+    },
+    {
+        <span class="str">"role"</span>:    <span class="str">"user"</span>,      <span class="cm"># What the human said</span>
+        <span class="str">"content"</span>: <span class="str">"What is a list comprehension?"</span>
+    },
+    {
+        <span class="str">"role"</span>:    <span class="str">"assistant"</span>, <span class="cm"># What the model said (for multi-turn)</span>
+        <span class="str">"content"</span>: <span class="str">"A list comprehension creates a list from an iterable..."</span>
+    },
+    {
+        <span class="str">"role"</span>:    <span class="str">"user"</span>,
+        <span class="str">"content"</span>: <span class="str">"Show me an example with filtering."</span>
+    }
+    <span class="cm"># The model responds to the last user message,</span>
+    <span class="cm"># with full context of everything above it.</span>
+]</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Phase 5</button>
+    <button class="btn btn-next" onclick="next(0)">Anthropic SDK →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L1 — ANTHROPIC SDK
+══════════════════════════════════════ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>The Anthropic SDK</h2>
+    <p class="lesson-intro">Call Claude directly from Python — no wrappers, no abstraction layers. The raw SDK gives you full control and is what you'll use in any production system.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔑 Setup</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install anthropic</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">.env</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>ANTHROPIC_API_KEY=sk-ant-api03-...</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The SDK reads the key automatically</strong>If <code>ANTHROPIC_API_KEY</code> is set in your environment, the SDK finds it without any extra code. You never need to pass the key explicitly — just <code>client = anthropic.Anthropic()</code> and it works.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 Your First Claude Call</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — basic Claude message</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="fn">load_dotenv</span>()
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+response = client.messages.<span class="fn">create</span>(
+    model=<span class="str">"claude-sonnet-4-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    system=<span class="str">"You are a concise Python tutor. Answer in 2-3 sentences max."</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What is a generator in Python?"</span>}
+    ]
+)
+
+<span class="cm"># The response object — know its structure</span>
+<span class="fn">print</span>(response.content[<span class="num">0</span>].text)    <span class="cm"># the actual text response</span>
+<span class="fn">print</span>(response.model)              <span class="cm"># which model responded</span>
+<span class="fn">print</span>(response.stop_reason)        <span class="cm"># "end_turn" or "max_tokens"</span>
+<span class="fn">print</span>(response.usage.input_tokens)  <span class="cm"># tokens you sent</span>
+<span class="fn">print</span>(response.usage.output_tokens) <span class="cm"># tokens in the response</span></pre>
+    </div>
+    <div class="output-block">A generator is a special function that uses <code>yield</code> to produce values one at a time, pausing execution between each value. Unlike a list, it doesn't compute all values upfront — it generates them lazily on demand, making it memory-efficient for large sequences.
+
+model: claude-sonnet-4-5
+stop_reason: end_turn
+input_tokens: 32
+output_tokens: 47</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 Multi-Turn Conversation</div>
+    <p>The SDK has no built-in memory. You maintain conversation history yourself by appending messages and passing the full list each time.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — stateful conversation manager</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">Conversation</span>:
+    <span class="str">"""Manages a stateful conversation with Claude."""</span>
+    system:   <span class="bi">str</span>              = <span class="str">"You are a helpful assistant."</span>
+    model:    <span class="bi">str</span>              = <span class="str">"claude-sonnet-4-5"</span>
+    history:  <span class="bi">list</span>             = field(default_factory=<span class="bi">list</span>)
+    _client:  anthropic.<span class="cls">Anthropic</span> = field(
+        default_factory=anthropic.<span class="cls">Anthropic</span>, init=<span class="kw">False</span>, repr=<span class="kw">False</span>
+    )
+
+    <span class="kw">def</span> <span class="fn">chat</span>(<span class="kw">self</span>, message: <span class="bi">str</span>) -> <span class="bi">str</span>:
+        <span class="cm"># Add the user message to history</span>
+        <span class="kw">self</span>.history.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message})
+
+        response = <span class="kw">self</span>._client.messages.<span class="fn">create</span>(
+            model=<span class="kw">self</span>.model,
+            max_tokens=<span class="num">2048</span>,
+            system=<span class="kw">self</span>.system,
+            messages=<span class="kw">self</span>.history,  <span class="cm"># send FULL history every time</span>
+        )
+
+        reply = response.content[<span class="num">0</span>].text
+        <span class="cm"># Add Claude's reply to history for the next turn</span>
+        <span class="kw">self</span>.history.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: reply})
+        <span class="kw">return</span> reply
+
+    <span class="kw">def</span> <span class="fn">reset</span>(<span class="kw">self</span>) -> <span class="kw">None</span>:
+        <span class="kw">self</span>.history.<span class="fn">clear</span>()
+
+    <span class="kw">def</span> <span class="fn">token_count</span>(<span class="kw">self</span>) -> <span class="bi">int</span>:
+        <span class="cm"># Rough estimate: 4 chars per token</span>
+        total_chars = <span class="fn">sum</span>(<span class="fn">len</span>(m[<span class="str">"content"</span>]) <span class="kw">for</span> m <span class="kw">in</span> <span class="kw">self</span>.history)
+        <span class="kw">return</span> total_chars // <span class="num">4</span>
+
+
+<span class="cm"># Usage</span>
+conv = <span class="cls">Conversation</span>(system=<span class="str">"You are a Python expert. Be concise."</span>)
+<span class="fn">print</span>(conv.<span class="fn">chat</span>(<span class="str">"What's the difference between a list and a tuple?"</span>))
+<span class="fn">print</span>(conv.<span class="fn">chat</span>(<span class="str">"When would I use one over the other?"</span>))
+<span class="fn">print</span>(conv.<span class="fn">chat</span>(<span class="str">"Give me a real example from a web API."</span>))
+<span class="cm"># All three questions share context — Claude remembers the conversation</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Available Claude Models</div>
+    <div class="model-grid">
+      <div class="model-card"><h5>claude-opus-4-5</h5><p>Most capable. Best reasoning, analysis, complex tasks. Highest cost. Use when quality matters most.</p></div>
+      <div class="model-card"><h5>claude-sonnet-4-5</h5><p>Best balance of capability and speed. The everyday workhorse. Use for most production tasks.</p></div>
+      <div class="model-card"><h5>claude-haiku-4-5</h5><p>Fastest and cheapest. Great for high-volume simple tasks — classification, extraction, short answers.</p></div>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Model selection strategy</strong>Start with Sonnet for development. If quality isn't good enough, move to Opus. If cost or speed is a concern, move to Haiku. Profile your actual use case — many tasks that feel like they need Opus work perfectly on Haiku at 10% of the cost.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← LLM Fundamentals</button>
+    <button class="btn btn-next" onclick="next(1)">OpenAI SDK →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L2 — OPENAI SDK
+══════════════════════════════════════ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>The OpenAI SDK</h2>
+    <p class="lesson-intro">OpenAI's SDK is structurally similar to Anthropic's — same concepts, slightly different syntax. Learn both so you can switch providers or compare outputs.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔵 Setup &amp; First Call</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install openai</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — OpenAI basic call</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> openai  <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv  <span class="kw">import</span> load_dotenv
+<span class="fn">load_dotenv</span>()
+<span class="cm"># Reads OPENAI_API_KEY from environment automatically</span>
+
+client = <span class="cls">OpenAI</span>()
+
+response = client.chat.completions.<span class="fn">create</span>(
+    model=<span class="str">"gpt-4o"</span>,
+    max_tokens=<span class="num">1024</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>,  <span class="str">"content"</span>: <span class="str">"You are a concise Python tutor."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>,    <span class="str">"content"</span>: <span class="str">"What is a generator?"</span>}
+    ]
+)
+
+<span class="cm"># Different attribute path than Anthropic</span>
+text   = response.choices[<span class="num">0</span>].message.content
+reason = response.choices[<span class="num">0</span>].finish_reason   <span class="cm"># "stop" or "length"</span>
+tokens = response.usage.total_tokens</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 Provider-Agnostic Wrapper</div>
+    <p>In production, you often want to switch providers without rewriting all your calling code. A thin abstraction layer makes this trivial.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — llm.py — provider-agnostic interface</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> enum        <span class="kw">import</span> Enum
+<span class="kw">from</span> typing      <span class="kw">import</span> Literal
+
+<span class="kw">class</span> <span class="cls">Provider</span>(<span class="cls">Enum</span>):
+    ANTHROPIC = <span class="str">"anthropic"</span>
+    OPENAI    = <span class="str">"openai"</span>
+
+<span class="kw">def</span> <span class="fn">chat</span>(
+    prompt:   <span class="bi">str</span>,
+    system:   <span class="bi">str</span>  = <span class="str">"You are a helpful assistant."</span>,
+    provider: <span class="cls">Provider</span> = <span class="cls">Provider</span>.ANTHROPIC,
+    model:    <span class="bi">str</span>  = <span class="kw">None</span>,
+    max_tokens: <span class="bi">int</span> = <span class="num">1024</span>,
+    temperature: <span class="bi">float</span> = <span class="num">0.7</span>,
+) -> <span class="bi">str</span>:
+    <span class="str">"""Single function to call any LLM provider."""</span>
+
+    <span class="kw">if</span> provider == <span class="cls">Provider</span>.ANTHROPIC:
+        <span class="kw">import</span> anthropic
+        model = model <span class="kw">or</span> <span class="str">"claude-sonnet-4-5"</span>
+        client = anthropic.<span class="cls">Anthropic</span>()
+        response = client.messages.<span class="fn">create</span>(
+            model=model, max_tokens=max_tokens,
+            system=system,
+            messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt}]
+        )
+        <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+    <span class="kw">elif</span> provider == <span class="cls">Provider</span>.OPENAI:
+        <span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+        model = model <span class="kw">or</span> <span class="str">"gpt-4o"</span>
+        client = <span class="cls">OpenAI</span>()
+        response = client.chat.completions.<span class="fn">create</span>(
+            model=model, max_tokens=max_tokens, temperature=temperature,
+            messages=[
+                {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: system},
+                {<span class="str">"role"</span>: <span class="str">"user"</span>,   <span class="str">"content"</span>: prompt}
+            ]
+        )
+        <span class="kw">return</span> response.choices[<span class="num">0</span>].message.content
+
+<span class="cm"># Use the same function regardless of provider</span>
+result = <span class="fn">chat</span>(<span class="str">"Explain list comprehensions"</span>, provider=<span class="cls">Provider</span>.ANTHROPIC)
+result = <span class="fn">chat</span>(<span class="str">"Explain list comprehensions"</span>, provider=<span class="cls">Provider</span>.OPENAI)
+<span class="cm"># Swap the provider line to compare quality and cost</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You make a second API call in a conversation. The model seems to "forget" the first exchange. What's the most likely cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The model's context window was exceeded</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">You need to enable memory in the API settings</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">You didn't include the previous messages in the second API call — LLMs have no built-in memory between calls</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">The temperature setting wiped the previous context</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Anthropic SDK</button>
+    <button class="btn btn-next" onclick="next(2)">Streaming →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L3 — STREAMING
+══════════════════════════════════════ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Streaming Responses</h2>
+    <p class="lesson-intro">Waiting 10 seconds for a complete response makes your app feel broken. Streaming delivers tokens as they're generated — users see output immediately, just like Claude.ai itself.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Why Streaming Matters</div>
+    <p>Without streaming: your code sends a request, waits (could be 5–30 seconds for long responses), then gets everything at once. To a user, the app looks frozen.</p>
+    <p style="margin-top:8px">With streaming: the first token arrives in ~200ms. The user sees text appearing immediately, reads as it generates, and the interaction feels alive and responsive — even if the total generation time is the same.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌊 Streaming with Anthropic</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — Anthropic streaming</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+<span class="cm"># ── Method 1: stream context manager (recommended) ──</span>
+<span class="kw">with</span> client.messages.<span class="fn">stream</span>(
+    model=<span class="str">"claude-sonnet-4-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Write a haiku about Python."</span>}]
+) <span class="kw">as</span> stream:
+    <span class="kw">for</span> text <span class="kw">in</span> stream.<span class="fn">text_stream</span>:
+        <span class="fn">print</span>(text, end=<span class="str">""</span>, flush=<span class="kw">True</span>)  <span class="cm"># print each token as it arrives</span>
+
+    <span class="cm"># After the loop, get final usage stats</span>
+    message = stream.<span class="fn">get_final_message</span>()
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"\n\nTokens: {message.usage.input_tokens} in, {message.usage.output_tokens} out"</span>)
+
+
+<span class="cm"># ── Method 2: collect the full streamed text ──</span>
+<span class="kw">with</span> client.messages.<span class="fn">stream</span>(
+    model=<span class="str">"claude-sonnet-4-5"</span>,
+    max_tokens=<span class="num">2048</span>,
+    system=<span class="str">"You are a code reviewer."</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Review this function: def add(a,b): return a+b"</span>}]
+) <span class="kw">as</span> stream:
+    full_text = stream.<span class="fn">get_final_text</span>()  <span class="cm"># waits for completion, returns string</span>
+
+<span class="fn">print</span>(full_text)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚀 Streaming in a FastAPI Endpoint</div>
+    <p>Combining FastAPI's <code>StreamingResponse</code> with an LLM stream gives you a real-time API — your frontend receives tokens as they're generated, exactly like ChatGPT's interface.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — FastAPI streaming endpoint</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> fastapi           <span class="kw">import</span> FastAPI
+<span class="kw">from</span> fastapi.responses <span class="kw">import</span> StreamingResponse
+<span class="kw">from</span> pydantic          <span class="kw">import</span> BaseModel
+<span class="kw">import</span> anthropic
+
+app    = <span class="cls">FastAPI</span>()
+client = anthropic.<span class="cls">Anthropic</span>()
+
+<span class="kw">class</span> <span class="cls">ChatRequest</span>(<span class="cls">BaseModel</span>):
+    message: <span class="bi">str</span>
+    system:  <span class="bi">str</span> = <span class="str">"You are a helpful assistant."</span>
+
+<span class="kw">def</span> <span class="fn">token_generator</span>(message: <span class="bi">str</span>, system: <span class="bi">str</span>):
+    <span class="str">"""Generator that yields tokens from Claude as they arrive."""</span>
+    <span class="kw">with</span> client.messages.<span class="fn">stream</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">2048</span>,
+        system=system,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message}]
+    ) <span class="kw">as</span> stream:
+        <span class="kw">for</span> text <span class="kw">in</span> stream.<span class="fn">text_stream</span>:
+            <span class="kw">yield</span> text   <span class="cm"># yield each token to the HTTP response</span>
+
+<span class="dec">@app.post</span>(<span class="str">"/chat/stream"</span>)
+<span class="kw">def</span> <span class="fn">stream_chat</span>(req: <span class="cls">ChatRequest</span>):
+    <span class="kw">return</span> <span class="cls">StreamingResponse</span>(
+        <span class="fn">token_generator</span>(req.message, req.system),
+        media_type=<span class="str">"text/plain"</span>
+    )
+
+<span class="cm"># The client receives a stream of text chunks:</span>
+<span class="cm"># "A" → " list" → " comprehension" → " is" → " a" → " concise" → ...</span>
+<span class="cm"># In a React frontend: fetch with ReadableStream to display token-by-token</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Server-Sent Events for production</strong>For production streaming, use <code>media_type="text/event-stream"</code> with SSE format (<code>data: {token}\n\n</code>). This is the standard that browsers and clients like EventSource support natively. Plain text streaming works for testing but SSE is more robust.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← OpenAI SDK</button>
+    <button class="btn btn-next" onclick="next(3)">Prompt Engineering →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L4 — PROMPT ENGINEERING IN CODE
+══════════════════════════════════════ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>Prompt Engineering in Code</h2>
+    <p class="lesson-intro">Building prompts dynamically — templates, few-shot examples, chain-of-thought, and structured output extraction. The difference between a toy demo and a production AI feature.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Prompt Templates — Separate Prompts from Code</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — prompt_templates.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> string  <span class="kw">import</span> Template
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="cm"># ── Simple f-string templates ──</span>
+<span class="kw">def</span> <span class="fn">summarize_prompt</span>(text: <span class="bi">str</span>, max_words: <span class="bi">int</span> = <span class="num">100</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"""Summarize the following text in {max_words} words or fewer.
+Focus on the key points. Use plain language.
+
+TEXT:
+{text}
+
+SUMMARY:"""</span>
+
+<span class="kw">def</span> <span class="fn">classify_prompt</span>(text: <span class="bi">str</span>, categories: <span class="bi">list</span>[<span class="bi">str</span>]) -> <span class="bi">str</span>:
+    cats = <span class="str">", "</span>.<span class="fn">join</span>(categories)
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"""Classify the following text into exactly one of these categories: {cats}
+
+Respond with ONLY the category name. No explanation.
+
+TEXT: {text}
+
+CATEGORY:"""</span>
+
+<span class="cm"># ── Few-shot template — examples teach the format ──</span>
+<span class="kw">def</span> <span class="fn">extract_tasks_prompt</span>(text: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"""Extract action items from the text as a JSON array.
+Each item has: "task" (string), "owner" (string or null), "due" (date string or null).
+
+EXAMPLE INPUT:
+"John needs to finish the report by Friday. Sarah will review it next week."
+
+EXAMPLE OUTPUT:
+[
+  {{"task": "Finish the report", "owner": "John", "due": "Friday"}},
+  {{"task": "Review the report", "owner": "Sarah", "due": "next week"}}
+]
+
+INPUT:
+{text}
+
+OUTPUT:"""</span>
+
+<span class="cm"># Usage</span>
+<span class="kw">import</span> anthropic, json
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+<span class="kw">def</span> <span class="fn">run_prompt</span>(prompt: <span class="bi">str</span>, system: <span class="bi">str</span> = <span class="str">"You are a helpful assistant."</span>,
+               temperature: <span class="bi">float</span> = <span class="num">0</span>) -> <span class="bi">str</span>:
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">1024</span>,
+        temperature=temperature,
+        system=system,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+<span class="cm"># Extract tasks from a meeting transcript</span>
+transcript = <span class="str">"Jude needs to push the new feature by Thursday. The team will demo it on Friday."</span>
+result = <span class="fn">run_prompt</span>(<span class="fn">extract_tasks_prompt</span>(transcript))
+tasks  = json.<span class="fn">loads</span>(result)
+<span class="fn">print</span>(tasks)
+<span class="cm"># [{"task": "Push the new feature", "owner": "Jude", "due": "Thursday"}, ...]</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Chain-of-Thought — Make the Model Think Step by Step</div>
+    <p>For complex reasoning tasks, asking the model to "think step by step" dramatically improves accuracy. This is called chain-of-thought prompting.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — chain-of-thought prompting</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">def</span> <span class="fn">analyze_code_prompt</span>(code: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="kw">return</span> <span class="fn">f</span><span class="str">"""Analyze the following Python code for bugs and improvements.
+
+Think through this step by step:
+1. First, understand what the code is trying to do
+2. Identify any bugs or errors
+3. Note any performance issues
+4. Suggest improvements to readability or Pythonic style
+5. Give a final summary with a priority-ordered list of changes
+
+CODE:
+```python
+{code}
+```
+
+Begin your analysis:"""</span>
+
+<span class="cm"># Chain-of-thought works because the model "reasons aloud" before answering</span>
+<span class="cm"># This forces it to consider each aspect rather than jumping to a conclusion</span>
+<span class="cm"># Use it for: code review, debugging, complex decisions, data analysis</span>
+
+
+<span class="cm"># ── Structured output — ask for JSON explicitly ──</span>
+<span class="kw">def</span> <span class="fn">extract_structured</span>(text: <span class="bi">str</span>) -> <span class="bi">dict</span>:
+    prompt = <span class="fn">f</span><span class="str">"""Extract information from the text below.
+Respond with ONLY valid JSON. No markdown, no explanation, no backticks.
+
+Required fields:
+- "name": string
+- "email": string or null
+- "phone": string or null
+- "company": string or null
+
+TEXT: {text}"""</span>
+
+    response = <span class="fn">run_prompt</span>(prompt, temperature=<span class="num">0</span>)
+
+    <span class="cm"># Strip any accidental markdown code fences</span>
+    clean = response.<span class="fn">strip</span>().<span class="fn">removeprefix</span>(<span class="str">"```json"</span>).<span class="fn">removeprefix</span>(<span class="str">"```"</span>).<span class="fn">removesuffix</span>(<span class="str">"```"</span>)
+    <span class="kw">return</span> json.<span class="fn">loads</span>(clean)</pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Streaming</button>
+    <button class="btn btn-next" onclick="next(4)">Tool Use →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L5 — TOOL USE / FUNCTION CALLING
+══════════════════════════════════════ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Tool Use &amp; Function Calling</h2>
+    <p class="lesson-intro">Tool use lets the model call your Python functions. Instead of just generating text, Claude can search the web, query your database, run calculations, or interact with any API — and incorporate the results into its response.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 How Tool Use Works</div>
+    <p>The flow has three steps: you define tools → the model decides to use one → you run the function and send the result back.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">The tool use loop</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Step 1: You define available tools as JSON schemas</span>
+tools = [{
+    <span class="str">"name"</span>:        <span class="str">"get_weather"</span>,
+    <span class="str">"description"</span>: <span class="str">"Get the current weather for a city."</span>,
+    <span class="str">"input_schema"</span>: {
+        <span class="str">"type"</span>: <span class="str">"object"</span>,
+        <span class="str">"properties"</span>: {
+            <span class="str">"city"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>, <span class="str">"description"</span>: <span class="str">"City name"</span>},
+        },
+        <span class="str">"required"</span>: [<span class="str">"city"</span>]
+    }
+}]
+
+<span class="cm"># Step 2: The model returns a tool_use block instead of text</span>
+<span class="cm"># response.content[0].type == "tool_use"</span>
+<span class="cm"># response.content[0].name == "get_weather"</span>
+<span class="cm"># response.content[0].input == {"city": "Bossier City"}</span>
+
+<span class="cm"># Step 3: You run the function and send the result back</span>
+<span class="cm"># The model uses the result to form its final response</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Complete Tool Use Implementation</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — full tool use agent loop</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic, json, requests
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+<span class="cm"># ── Define your actual Python functions ──</span>
+<span class="kw">def</span> <span class="fn">get_weather</span>(city: <span class="bi">str</span>) -> <span class="bi">dict</span>:
+    <span class="cm"># Open-Meteo: free, no API key needed</span>
+    geo = requests.<span class="fn">get</span>(
+        <span class="str">"https://geocoding-api.open-meteo.com/v1/search"</span>,
+        params={<span class="str">"name"</span>: city, <span class="str">"count"</span>: <span class="num">1</span>}, timeout=<span class="num">5</span>
+    ).<span class="fn">json</span>()
+    lat = geo[<span class="str">"results"</span>][<span class="num">0</span>][<span class="str">"latitude"</span>]
+    lon = geo[<span class="str">"results"</span>][<span class="num">0</span>][<span class="str">"longitude"</span>]
+    weather = requests.<span class="fn">get</span>(
+        <span class="str">"https://api.open-meteo.com/v1/forecast"</span>,
+        params={<span class="str">"latitude"</span>: lat, <span class="str">"longitude"</span>: lon,
+                <span class="str">"current"</span>: <span class="str">"temperature_2m,wind_speed_10m"</span>}, timeout=<span class="num">5</span>
+    ).<span class="fn">json</span>()
+    current = weather[<span class="str">"current"</span>]
+    <span class="kw">return</span> {<span class="str">"city"</span>: city, <span class="str">"temp_c"</span>: current[<span class="str">"temperature_2m"</span>],
+            <span class="str">"wind_kmh"</span>: current[<span class="str">"wind_speed_10m"</span>]}
+
+<span class="kw">def</span> <span class="fn">calculate</span>(expression: <span class="bi">str</span>) -> <span class="bi">dict</span>:
+    <span class="kw">try</span>:
+        result = <span class="fn">eval</span>(expression, {<span class="str">"__builtins__"</span>: {}})
+        <span class="kw">return</span> {<span class="str">"expression"</span>: expression, <span class="str">"result"</span>: result}
+    <span class="kw">except</span> <span class="cls">Exception</span> <span class="kw">as</span> e:
+        <span class="kw">return</span> {<span class="str">"error"</span>: <span class="bi">str</span>(e)}
+
+<span class="cm"># ── Tool registry — maps tool names to functions ──</span>
+TOOLS_REGISTRY = {
+    <span class="str">"get_weather"</span>: <span class="fn">get_weather</span>,
+    <span class="str">"calculate"</span>:   <span class="fn">calculate</span>,
+}
+
+<span class="cm"># ── Tool schemas — what the model needs to know ──</span>
+TOOLS = [
+    {
+        <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
+        <span class="str">"description"</span>: <span class="str">"Get current temperature and wind speed for a city."</span>,
+        <span class="str">"input_schema"</span>: {
+            <span class="str">"type"</span>: <span class="str">"object"</span>,
+            <span class="str">"properties"</span>: {<span class="str">"city"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>}},
+            <span class="str">"required"</span>: [<span class="str">"city"</span>]
+        }
+    },
+    {
+        <span class="str">"name"</span>: <span class="str">"calculate"</span>,
+        <span class="str">"description"</span>: <span class="str">"Evaluate a mathematical expression. Returns the numeric result."</span>,
+        <span class="str">"input_schema"</span>: {
+            <span class="str">"type"</span>: <span class="str">"object"</span>,
+            <span class="str">"properties"</span>: {<span class="str">"expression"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>}},
+            <span class="str">"required"</span>: [<span class="str">"expression"</span>]
+        }
+    }
+]
+
+
+<span class="kw">def</span> <span class="fn">run_agent</span>(user_message: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="str">"""Run the full tool use loop until the model gives a final response."""</span>
+    messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_message}]
+
+    <span class="kw">while True</span>:
+        response = client.messages.<span class="fn">create</span>(
+            model=<span class="str">"claude-sonnet-4-5"</span>,
+            max_tokens=<span class="num">1024</span>,
+            tools=TOOLS,
+            messages=messages
+        )
+
+        <span class="cm"># If the model is done, return the text response</span>
+        <span class="kw">if</span> response.stop_reason == <span class="str">"end_turn"</span>:
+            <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+        <span class="cm"># The model wants to use a tool</span>
+        <span class="kw">if</span> response.stop_reason == <span class="str">"tool_use"</span>:
+            <span class="cm"># Add model's response (including tool use request) to history</span>
+            messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: response.content})
+
+            <span class="cm"># Process each tool call</span>
+            tool_results = []
+            <span class="kw">for</span> block <span class="kw">in</span> response.content:
+                <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
+                    func    = TOOLS_REGISTRY[block.name]
+                    result  = <span class="fn">func</span>(**block.input)
+                    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"🔧 Called {block.name}({block.input}) → {result}"</span>)
+                    tool_results.<span class="fn">append</span>({
+                        <span class="str">"type"</span>:        <span class="str">"tool_result"</span>,
+                        <span class="str">"tool_use_id"</span>: block.id,
+                        <span class="str">"content"</span>:     json.<span class="fn">dumps</span>(result)
+                    })
+
+            <span class="cm"># Send the tool results back to the model</span>
+            messages.<span class="fn">append</span>({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+
+
+<span class="cm"># Try it</span>
+answer = <span class="fn">run_agent</span>(<span class="str">"What's the weather in Bossier City, and what's 15% of 87?"</span>)
+<span class="fn">print</span>(answer)
+<span class="cm"># 🔧 Called get_weather({'city': 'Bossier City'}) → {'city': 'Bossier City', 'temp_c': 32.1, ...}</span>
+<span class="cm"># 🔧 Called calculate({'expression': '0.15 * 87'}) → {'expression': '0.15 * 87', 'result': 13.05}</span>
+<span class="cm"># "In Bossier City it's currently 32.1°C with wind at 14.2 km/h. 15% of 87 is 13.05."</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Prompt Engineering</button>
+    <button class="btn btn-next" onclick="next(5)">RAG →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L6 — RAG
+══════════════════════════════════════ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>RAG — Retrieval Augmented Generation</h2>
+    <p class="lesson-intro">RAG makes models answer questions about your own data — documents, databases, codebases — without fine-tuning. It's the most practical AI pattern for real products.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 The RAG Problem &amp; Solution</div>
+    <p><strong>The problem:</strong> LLMs are trained on public data up to a cutoff date. They know nothing about your company's documents, your codebase, your users' history, or anything private.</p>
+    <p style="margin-top:8px"><strong>The naive solution:</strong> dump all your documents into the context window. This works for small amounts of data but becomes expensive and slow for large datasets.</p>
+    <p style="margin-top:8px"><strong>RAG:</strong> when a question arrives, search your documents for the most relevant chunks first, then send only those chunks to the model. The model answers based on retrieved context.</p>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 The RAG Pipeline</div>
+      <h4>Four stages that happen in sequence</h4>
+      <ul>
+        <li><strong>Ingest:</strong> load documents, split into chunks (500–1000 tokens each), generate an embedding vector for each chunk, store vectors in a vector database.</li>
+        <li><strong>Query:</strong> user asks a question → generate an embedding for the question → find the N most similar chunk vectors (semantic search) → retrieve those chunks.</li>
+        <li><strong>Augment:</strong> build a prompt that includes the retrieved chunks as context.</li>
+        <li><strong>Generate:</strong> send the augmented prompt to the LLM → it answers based on the provided context, not just training data.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Simple RAG Without a Vector Database</div>
+    <p>For small datasets (&lt;1000 documents), you don't need a full vector database. Use OpenAI or Anthropic embeddings with a simple cosine similarity search in Python.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install numpy</span>  <span class="cm"># for cosine similarity</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — simple RAG implementation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic, json, numpy <span class="kw">as</span> np
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+
+<span class="cm"># ── Step 1: Chunk your documents ──</span>
+<span class="kw">def</span> <span class="fn">chunk_text</span>(text: <span class="bi">str</span>, chunk_size: <span class="bi">int</span> = <span class="num">500</span>, overlap: <span class="bi">int</span> = <span class="num">50</span>) -> <span class="bi">list</span>[<span class="bi">str</span>]:
+    <span class="str">"""Split text into overlapping chunks."""</span>
+    words  = text.<span class="fn">split</span>()
+    chunks = []
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="fn">len</span>(words), chunk_size - overlap):
+        chunk = <span class="str">" "</span>.<span class="fn">join</span>(words[i : i + chunk_size])
+        <span class="kw">if</span> chunk: chunks.<span class="fn">append</span>(chunk)
+    <span class="kw">return</span> chunks
+
+
+<span class="cm"># ── Step 2: Generate embeddings ──</span>
+<span class="kw">def</span> <span class="fn">get_embedding</span>(text: <span class="bi">str</span>) -> <span class="bi">list</span>[<span class="bi">float</span>]:
+    <span class="str">"""Get embedding vector for a text string using OpenAI."""</span>
+    <span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+    oai = <span class="cls">OpenAI</span>()
+    response = oai.embeddings.<span class="fn">create</span>(
+        model=<span class="str">"text-embedding-3-small"</span>,
+        input=text
+    )
+    <span class="kw">return</span> response.data[<span class="num">0</span>].embedding
+
+
+<span class="cm"># ── Step 3: Build the index ──</span>
+<span class="kw">def</span> <span class="fn">build_index</span>(documents: <span class="bi">list</span>[<span class="bi">str</span>]) -> <span class="bi">dict</span>:
+    <span class="str">"""Chunk documents and compute embeddings for each chunk."""</span>
+    all_chunks   = []
+    all_embeddings = []
+    <span class="kw">for</span> doc <span class="kw">in</span> documents:
+        chunks = <span class="fn">chunk_text</span>(doc)
+        <span class="kw">for</span> chunk <span class="kw">in</span> chunks:
+            all_chunks.<span class="fn">append</span>(chunk)
+            all_embeddings.<span class="fn">append</span>(<span class="fn">get_embedding</span>(chunk))
+            <span class="fn">print</span>(<span class="fn">f</span><span class="str">"Indexed chunk {len(all_chunks)}"</span>)
+    <span class="kw">return</span> {<span class="str">"chunks"</span>: all_chunks, <span class="str">"embeddings"</span>: np.<span class="fn">array</span>(all_embeddings)}
+
+
+<span class="cm"># ── Step 4: Semantic search ──</span>
+<span class="kw">def</span> <span class="fn">cosine_similarity</span>(a: np.ndarray, b: np.ndarray) -> <span class="bi">float</span>:
+    <span class="kw">return</span> np.<span class="fn">dot</span>(a, b) / (np.<span class="fn">linalg</span>.<span class="fn">norm</span>(a) * np.<span class="fn">linalg</span>.<span class="fn">norm</span>(b))
+
+<span class="kw">def</span> <span class="fn">search</span>(query: <span class="bi">str</span>, index: <span class="bi">dict</span>, top_k: <span class="bi">int</span> = <span class="num">3</span>) -> <span class="bi">list</span>[<span class="bi">str</span>]:
+    <span class="str">"""Find the most relevant chunks for a query."""</span>
+    query_emb = np.<span class="fn">array</span>(<span class="fn">get_embedding</span>(query))
+    scores = [
+        <span class="fn">cosine_similarity</span>(query_emb, emb)
+        <span class="kw">for</span> emb <span class="kw">in</span> index[<span class="str">"embeddings"</span>]
+    ]
+    top_indices = np.<span class="fn">argsort</span>(scores)[:-top_k-<span class="num">1</span>:-<span class="num">1</span>]
+    <span class="kw">return</span> [index[<span class="str">"chunks"</span>][i] <span class="kw">for</span> i <span class="kw">in</span> top_indices]
+
+
+<span class="cm"># ── Step 5: RAG query ──</span>
+<span class="kw">def</span> <span class="fn">rag_query</span>(question: <span class="bi">str</span>, index: <span class="bi">dict</span>) -> <span class="bi">str</span>:
+    <span class="str">"""Retrieve relevant chunks and ask Claude to answer."""</span>
+    chunks   = <span class="fn">search</span>(question, index, top_k=<span class="num">3</span>)
+    context  = <span class="str">"\n\n---\n\n"</span>.<span class="fn">join</span>(chunks)
+
+    prompt = <span class="fn">f</span><span class="str">"""Answer the question using ONLY the provided context.
+If the answer is not in the context, say "I don't have that information."
+
+CONTEXT:
+{context}
+
+QUESTION: {question}
+
+ANSWER:"""</span>
+
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">1024</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+
+<span class="cm"># ── Put it all together ──</span>
+docs = [
+    Path(<span class="str">"docs/readme.md"</span>).<span class="fn">read_text</span>(),
+    Path(<span class="str">"docs/api_guide.md"</span>).<span class="fn">read_text</span>(),
+]
+index = <span class="fn">build_index</span>(docs)
+answer = <span class="fn">rag_query</span>(<span class="str">"How do I authenticate with the API?"</span>, index)
+<span class="fn">print</span>(answer)</pre>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>When to use a real vector database</strong>For more than ~1000 documents, use a proper vector database: <strong>ChromaDB</strong> (easy, local, open source), <strong>Pinecone</strong> (managed, scalable), or <strong>pgvector</strong> (PostgreSQL extension — keeps everything in one database). All have Python clients that follow the same pattern as above.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Tool Use</button>
+    <button class="btn btn-next" onclick="next(6)">Cost &amp; Reliability →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L7 — COST, RATE LIMITS & RELIABILITY
+══════════════════════════════════════ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>Cost, Rate Limits &amp; Reliability</h2>
+    <p class="lesson-intro">AI APIs fail in ways regular APIs don't — rate limits, timeouts, flapping responses, unexpected costs. Handle all of it like a professional before it bites you in production.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 Understanding Costs</div>
+    <p>LLM APIs charge per token — both input and output. Output tokens typically cost more than input. A single poorly designed prompt can cost 100x more than a well-designed one.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — token counting and cost estimation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic
+
+client = anthropic.<span class="cls">Anthropic</span>()
+
+<span class="cm"># ── Count tokens BEFORE sending (saves money during development) ──</span>
+response = client.messages.<span class="fn">count_tokens</span>(
+    model=<span class="str">"claude-sonnet-4-5"</span>,
+    system=<span class="str">"You are a helpful assistant."</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Summarize the history of Python."</span>}]
+)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"Input tokens: {response.input_tokens}"</span>)
+
+<span class="cm"># ── Cost tracker ──</span>
+<span class="cm"># claude-sonnet-4-5 pricing (check anthropic.com for current rates)</span>
+INPUT_COST_PER_1K  = <span class="num">0.003</span>   <span class="cm"># $0.003 per 1K input tokens</span>
+OUTPUT_COST_PER_1K = <span class="num">0.015</span>   <span class="cm"># $0.015 per 1K output tokens</span>
+
+<span class="kw">def</span> <span class="fn">estimate_cost</span>(input_tokens: <span class="bi">int</span>, output_tokens: <span class="bi">int</span>) -> <span class="bi">float</span>:
+    <span class="kw">return</span> (
+        (input_tokens  / <span class="num">1000</span>) * INPUT_COST_PER_1K +
+        (output_tokens / <span class="num">1000</span>) * OUTPUT_COST_PER_1K
+    )
+
+<span class="cm"># Track costs across your app</span>
+total_cost = <span class="num">0.0</span>
+
+<span class="kw">def</span> <span class="fn">tracked_message</span>(**kwargs) -> anthropic.types.<span class="cls">Message</span>:
+    <span class="kw">global</span> total_cost
+    response = client.messages.<span class="fn">create</span>(**kwargs)
+    cost = <span class="fn">estimate_cost</span>(
+        response.usage.input_tokens,
+        response.usage.output_tokens
+    )
+    total_cost += cost
+    <span class="fn">print</span>(<span class="fn">f</span><span class="str">"[cost] ${cost:.5f} | total: ${total_cost:.4f}"</span>)
+    <span class="kw">return</span> response</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Robust Error Handling &amp; Retry Logic</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — production-grade API caller</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> anthropic, time, logging
+<span class="kw">from</span> functools <span class="kw">import</span> wraps
+
+log = logging.<span class="fn">getLogger</span>(__name__)
+
+<span class="kw">def</span> <span class="fn">with_retry</span>(max_retries: <span class="bi">int</span> = <span class="num">3</span>, base_delay: <span class="bi">float</span> = <span class="num">1.0</span>):
+    <span class="str">"""Decorator for retrying LLM calls with exponential backoff."""</span>
+    <span class="kw">def</span> <span class="fn">decorator</span>(func):
+        <span class="dec">@wraps</span>(func)
+        <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+            <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(max_retries):
+                <span class="kw">try</span>:
+                    <span class="kw">return</span> <span class="fn">func</span>(*args, **kwargs)
+
+                <span class="kw">except</span> anthropic.<span class="cls">RateLimitError</span> <span class="kw">as</span> e:
+                    <span class="cm"># Rate limited — wait and retry</span>
+                    wait = base_delay * (<span class="num">2</span> ** attempt)
+                    log.<span class="fn">warning</span>(<span class="fn">f</span><span class="str">"Rate limited. Waiting {wait}s (attempt {attempt+1}/{max_retries})"</span>)
+                    time.<span class="fn">sleep</span>(wait)
+
+                <span class="kw">except</span> anthropic.<span class="cls">APIStatusError</span> <span class="kw">as</span> e:
+                    <span class="kw">if</span> e.status_code >= <span class="num">500</span>:
+                        <span class="cm"># Server error — retry</span>
+                        wait = base_delay * (<span class="num">2</span> ** attempt)
+                        log.<span class="fn">warning</span>(<span class="fn">f</span><span class="str">"Server error {e.status_code}. Retry in {wait}s"</span>)
+                        time.<span class="fn">sleep</span>(wait)
+                    <span class="kw">else</span>:
+                        <span class="cm"># Client error (400, 401, 403) — don't retry</span>
+                        log.<span class="fn">error</span>(<span class="fn">f</span><span class="str">"Client error {e.status_code}: {e.message}"</span>)
+                        <span class="kw">raise</span>
+
+                <span class="kw">except</span> anthropic.<span class="cls">APIConnectionError</span>:
+                    <span class="cm"># Network issue — retry</span>
+                    wait = base_delay * (<span class="num">2</span> ** attempt)
+                    log.<span class="fn">warning</span>(<span class="fn">f</span><span class="str">"Connection error. Retry in {wait}s"</span>)
+                    time.<span class="fn">sleep</span>(wait)
+
+            <span class="kw">raise</span> <span class="cls">RuntimeError</span>(<span class="fn">f</span><span class="str">"API call failed after {max_retries} attempts"</span>)
+        <span class="kw">return</span> wrapper
+    <span class="kw">return</span> decorator
+
+
+<span class="dec">@with_retry</span>(max_retries=<span class="num">3</span>)
+<span class="kw">def</span> <span class="fn">safe_chat</span>(message: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    client = anthropic.<span class="cls">Anthropic</span>()
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">1024</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: message}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Production AI Checklist</div>
+    <table>
+      <tr><th>Concern</th><th>Solution</th></tr>
+      <tr><td>Rate limits</td><td>Exponential backoff retry decorator</td></tr>
+      <tr><td>Runaway costs</td><td>Set <code>max_tokens</code> always, count tokens before dev calls</td></tr>
+      <tr><td>Unexpected outputs</td><td>Validate/parse response before using it, handle JSON parse failures</td></tr>
+      <tr><td>Slow responses</td><td>Streaming for user-facing calls, async for batch processing</td></tr>
+      <tr><td>Context length exceeded</td><td>Track conversation token count, summarize or trim history</td></tr>
+      <tr><td>Prompt injection</td><td>Sanitize user input, never interpolate raw user text into privileged system prompts</td></tr>
+      <tr><td>No observability</td><td>Log every call: model, tokens, latency, cost, truncated prompt</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your AI feature starts returning 429 errors under load. What is the correct first response?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Upgrade to a more expensive tier immediately</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Cache all responses to avoid API calls entirely</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')">Implement exponential backoff retry logic — wait and retry with increasing delays</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">Switch to a different LLM provider</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← RAG</button>
+    <button class="btn btn-next" onclick="next(7)">Phase Project →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     L8 — PHASE PROJECT
+══════════════════════════════════════ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Command Center — AI Layer</h2>
+    <p class="lesson-intro">Add a full AI layer to the Command Center from Phase 3. Natural language task creation, smart summaries, document Q&A, and a tool-using assistant — all wired into the CLI and the FastAPI backend from Phase 5.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ What to Build</div>
+    <div class="file-tree">
+<span class="ft-dir">command-center/</span>
+├── <span class="ft-file">ai/</span>
+│   ├── <span class="ft-file">client.py</span>       <span class="ft-note"># Anthropic client setup + tracked_message()</span>
+│   ├── <span class="ft-file">prompts.py</span>     <span class="ft-note"># all prompt templates as functions</span>
+│   ├── <span class="ft-file">tools.py</span>       <span class="ft-note"># tool schemas + Python implementations</span>
+│   ├── <span class="ft-file">agent.py</span>       <span class="ft-note"># run_agent() tool use loop</span>
+│   └── <span class="ft-file">rag.py</span>         <span class="ft-note"># document index + rag_query()</span>
+└── <span class="ft-file">main.py</span>          <span class="ft-note"># Typer CLI with new AI commands</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Requirements Checklist</div>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body">
+        <strong>Your AI layer must include:</strong>
+        <br>✅ <strong>Natural language task creation</strong> — <code>cc ai add "remind jude to finish the api by thursday"</code> extracts title, due date, priority and creates the task
+        <br>✅ <strong>Daily summary</strong> — <code>cc ai summary</code> sends pending tasks to Claude and gets a prioritized plain-English summary
+        <br>✅ <strong>Smart complete</strong> — <code>cc ai complete "finish the api"</code> uses fuzzy natural language matching to find and complete the right task
+        <br>✅ <strong>Tool-using assistant</strong> — <code>cc ai ask "what's the weather and do I have anything due today?"</code> uses tool use to answer with real data
+        <br>✅ <strong>Document Q&amp;A</strong> — <code>cc ai ask-docs "how do I deploy this?"</code> runs RAG over your project's markdown files
+        <br>✅ <strong>Streaming output</strong> — long responses stream to the terminal token-by-token
+        <br>✅ <strong>Cost tracking</strong> — every AI call logs estimated cost, running total shown at end of session
+        <br>✅ <strong>Retry logic</strong> — all API calls use the <code>@with_retry</code> decorator
+        <br>✅ <strong>Prompts in templates</strong> — no inline prompt strings in business logic
+      </div>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the baseline works, push further:</h4>
+    <ul>
+      <li>Add a <code>cc ai weekly-review</code> command that analyzes completion patterns and suggests what to tackle next week</li>
+      <li>Add a conversation mode — <code>cc ai chat</code> drops into an interactive REPL where you can have a back-and-forth with context about your tasks</li>
+      <li>Add a FastAPI endpoint <code>POST /ai/chat</code> that accepts a message and streams the response using Server-Sent Events</li>
+      <li>Add a RAG index over your task history — "what tasks did I complete last month related to Python?"</li>
+      <li>Add cost budget enforcement — if daily AI spend exceeds $0.50, stop making calls and log a warning</li>
+    </ul>
+  </div>
+
+  <div class="callout fun" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>Phase 6 Complete.</strong> You now understand how LLMs work at the token level, can call Claude and GPT-4 directly, stream responses, build prompts programmatically, give models tools to call, implement RAG over your own documents, and handle all the production realities of cost, rate limits, and reliability. Two phases left: Phase 7 is Testing &amp; Quality — where you make everything you've built bulletproof. Phase 8 is Deployment — where you ship it.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Cost &amp; Reliability</button>
+    <button class="btn btn-next" onclick="goNext()">Phase 7 — Testing &amp; Quality →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 9;
+const done  = new Set();
+let   cur   = 0;
+
+const snWrap = document.getElementById('streak-nodes');
+for (let i = 0; i < TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snWrap.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'+cur).classList.remove('active');
+  document.getElementById('nav'+cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'+i).classList.add('active');
+  document.getElementById('nav'+i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+function next(i)  { go(Math.min(i+1, TOTAL-1)); }
+function prev(i)  { go(Math.max(i-1, 0)); }
+function goNext() { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  for (let i = 0; i < TOTAL; i++) {
+    const chk = document.getElementById('chk'+i);
+    const sn  = document.getElementById('sn'+i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  const snCur = document.getElementById('sn'+cur);
+  if (snCur && !done.has(cur)) snCur.classList.add('current');
+}
+
+const quizAnswers = {
+  qfb2: {
+    ok:  "✅ Correct! LLMs have zero memory between API calls. Every call is completely stateless. If you want the model to remember previous messages, you must include them in the messages array yourself — that's what the Conversation class in Lesson 2 does.",
+    bad: "❌ LLMs are stateless between calls. There is no 'memory' setting to enable. The context window is per-call only. To maintain a conversation, you must include the full message history in every new API call — the model cannot access previous calls."
+  },
+  qfb7: {
+    ok:  "✅ Correct! A 429 is a rate limit error — you've sent too many requests too quickly. Exponential backoff (wait 1s, then 2s, then 4s between retries) is the standard solution. Switching providers or upgrading your tier are secondary considerations after you've handled it gracefully.",
+    bad: "❌ A 429 means you're hitting the rate limit — too many requests per minute. The correct response is exponential backoff retry logic: wait and retry with increasing delays. Upgrading tiers or switching providers are last resorts, not first responses."
+  }
+};
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const answers = quizAnswers[fb.id];
+  if (answers) fb.textContent = answers[result === 'correct' ? 'ok' : 'bad'];
+}
+
+done.add(0);
+updateProgress();
+</script>
+    <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Roadmap
+</a>
+</body>
+</html>

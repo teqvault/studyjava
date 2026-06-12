@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Mastery: Bash & PowerShell</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Comprehensive · CLI</div>
+  <h1>Terminal Mastery:<br>Bash & PowerShell</h1>
+  <p>Stop relying on the mouse. Learn how to command your computer with absolute precision and speed. ⚡</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Modules</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🧠</span> The CLI Philosophy
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">⚔️</span> Bash vs PowerShell
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">🗺️</span> Navigating the Maze
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">📂</span> File Forging
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🔍</span> Data Detective
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">⚙️</span> Process Control
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">🧑‍💻</span> The Dev Routine
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🏆</span> Final Assessment
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 1 of 8</div>
+        <h2>🧠 The Command Line Philosophy</h2>
+        <p class="lesson-intro">Why write commands when you can just click buttons? Let's talk about power, speed, and why professionals live in the terminal.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Using a Graphical User Interface (GUI) like Windows Explorer or macOS Finder is like ordering from a <strong>restaurant menu</strong>. You can only choose what the chef has decided to put on the page. <br><br>Using the Command Line Interface (CLI) is like walking straight into the <strong>kitchen</strong>. You have access to raw ingredients, all the tools, and can cook exactly what you want, however you want it.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 Why Learn the Terminal?</div>
+        <ul>
+          <li><strong>Speed:</strong> Once you build muscle memory, creating 10 folders with a single command takes 2 seconds. Doing that with a mouse takes a minute.</li>
+          <li><strong>Automation:</strong> You can't schedule a mouse click easily, but you can write a script to back up your Unity project every night at 2 AM automatically.</li>
+          <li><strong>Server Management:</strong> When deploying games or web apps to production servers (like AWS or Google Cloud), there usually is no GUI. It's just you and a blinking text cursor.</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What is the primary advantage of the CLI over a GUI?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It has better graphics and animations.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It provides direct, scriptable control over the system without pre-defined limitations.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It is the only way to browse the internet.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It prevents viruses from installing.</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 2 of 8</div>
+        <h2>⚔️ Bash vs PowerShell</h2>
+        <p class="lesson-intro">The two titans of the terminal world. They look similar, but their underlying architectures are vastly different.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🐧 Bash (Bourne Again Shell)</div>
+        <p>The standard for Linux and macOS. Bash is fundamentally <strong>text-based</strong>. When a command outputs information, it spits out raw text strings. If you want to process that data, you have to cut, slice, and filter that text.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🪟 PowerShell</div>
+        <p>Created by Microsoft for Windows (though now cross-platform). PowerShell is fundamentally <strong>object-oriented</strong>. When a command runs, it doesn't output text; it outputs rich data objects (like C# or Java objects) with properties and methods.</p>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-emoji">🤝</div>
+        <div class="callout-body">
+          <strong>The Good News: Aliases!</strong>
+          PowerShell knows that developers love Bash commands. So, Microsoft built "aliases" into PowerShell. If you type <code>ls</code> (a Bash command) in PowerShell, it secretly translates it to <code>Get-ChildItem</code>. This means much of your muscle memory will work seamlessly across both!
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 3 of 8</div>
+        <h2>🗺️ Navigating the Maze</h2>
+        <p class="lesson-intro">Before you can build anything, you need to know how to move around your computer's file system efficiently.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧭 The Navigation Toolkit</div>
+        <table>
+          <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+          <tr><td><code>pwd</code></td><td><strong>P</strong>rint <strong>W</strong>orking <strong>D</strong>irectory. Tells you exactly where you are.</td><td><code>pwd</code></td></tr>
+          <tr><td><code>ls</code></td><td><strong>L</strong>i<strong>S</strong>t. Shows all files and folders in your current location.</td><td><code>ls -la</code> (shows hidden files)</td></tr>
+          <tr><td><code>cd</code></td><td><strong>C</strong>hange <strong>D</strong>irectory. Moves you into a target folder.</td><td><code>cd Documents/</code></td></tr>
+          <tr><td><code>cd ..</code></td><td>Moves you UP one level in the folder structure.</td><td><code>cd ../../</code> (moves up two levels)</td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Academic Workflow</span>
+        </div>
+        <pre><span class="cm"># Let's navigate to a specific software engineering assignment</span>
+<span class="kw">cd</span> <span class="str">~/SNHU_Projects/CS210_Programming_Languages</span>
+
+<span class="cm"># Check what is currently inside the folder</span>
+<span class="kw">ls</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># Assignment1.py   README.md   Testing_Module/</span>
+
+<span class="cm"># Move into the testing module</span>
+<span class="kw">cd</span> <span class="str">Testing_Module/</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">If you are lost in the terminal and want to know your exact current folder path, which command do you use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">cd</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">pwd</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">find</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">ls</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 4 of 8</div>
+        <h2>📂 File Forging</h2>
+        <p class="lesson-intro">Creating, moving, copying, and destroying files without taking your hands off the keyboard.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔨 The Builder's Toolkit</div>
+        <ul>
+          <li><code>mkdir</code> — <strong>M</strong>a<strong>K</strong>e <strong>DIR</strong>ectory (creates a folder).</li>
+          <li><code>touch</code> — Creates an empty file (Bash). In PowerShell, use <code>ni</code>.</li>
+          <li><code>cp</code> — <strong>C</strong>o<strong>P</strong>y a file. (Use <code>cp -r</code> for folders).</li>
+          <li><code>mv</code> — <strong>M</strong>o<strong>V</strong>e a file. This is also how you rename files!</li>
+          <li><code>rm</code> — <strong>R</strong>e<strong>M</strong>ove a file. <em>Warning: Does not go to the recycle bin!</em></li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Game Studio Workflow</span>
+        </div>
+        <pre><span class="cm"># Scaffolding the asset structure for a new game</span>
+<span class="kw">mkdir</span> <span class="str">QUETIEMALS_Assets</span>
+<span class="kw">cd</span> <span class="str">QUETIEMALS_Assets</span>
+
+<span class="cm"># Creating multiple sub-folders at once</span>
+<span class="kw">mkdir</span> <span class="str">AnimalCharacters BiomeEnvironments Audio</span>
+
+<span class="cm"># Creating an empty C# script for character behavior</span>
+<span class="kw">touch</span> <span class="str">MovementController.cs</span>
+
+<span class="cm"># Moving a newly produced music track into the correct folder</span>
+<span class="kw">mv</span> <span class="str">../Downloads/Towards_The_Light_BGM.wav Audio/</span></pre>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>The Danger Command</strong>
+          Typing <code>rm -rf folder_name</code> will forcefully and recursively delete a folder and everything inside it permanently. Use this command with extreme caution.
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 5 of 8</div>
+        <h2>🔍 Data Detective</h2>
+        <p class="lesson-intro">How to look inside files and search through massive codebases instantly.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔎 Search & View Commands</div>
+        <ul>
+          <li><code>cat</code> — Concatenate. Prints the entire contents of a file directly to the terminal.</li>
+          <li><code>grep</code> (Bash) / <code>sls</code> (PowerShell) — Searches inside files for specific words or patterns.</li>
+          <li><code>find</code> — Searches for files by name across entire directories.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Finding Lost Code</span>
+        </div>
+        <pre><span class="cm"># BASH: You know you wrote a custom shader, but forgot where it is.</span>
+<span class="cm"># Find all files ending in .glsl in the current folder and below.</span>
+<span class="kw">find</span> <span class="str">. -name "*.glsl"</span>
+
+<span class="cm"># POWERSHELL: You need to find exactly where you defined "baseHealth"</span>
+<span class="cm"># Search all C# scripts for that exact word.</span>
+<span class="kw">sls</span> <span class="str">"baseHealth" *.cs</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># AnimalStats.cs:14:    public int baseHealth = 100;</span>
+<span class="cm"># CombatManager.cs:42:  int currentHP = target.baseHealth;</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">If you want to print the contents of a `requirements.txt` file to the screen without opening a text editor, what command do you use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">view requirements.txt</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">print requirements.txt</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">cat requirements.txt</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">grep requirements.txt</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 6 of 8</div>
+        <h2>⚙️ Process Control</h2>
+        <p class="lesson-intro">Taking command of your system's resources, especially when software crashes or networks act up.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🖥️ System Commands</div>
+        <table>
+          <tr><th>Action</th><th>Bash</th><th>PowerShell</th></tr>
+          <tr><td>View running apps</td><td><code>top</code> or <code>htop</code></td><td><code>Get-Process</code> (<code>gps</code>)</td></tr>
+          <tr><td>Force quit an app</td><td><code>kill &lt;PID&gt;</code></td><td><code>Stop-Process -Id &lt;PID&gt;</code></td></tr>
+          <tr><td>Check network info</td><td><code>ifconfig</code></td><td><code>ipconfig</code></td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Unfreezing an IDE</span>
+        </div>
+        <pre><span class="cm"># PyCharm has completely frozen while indexing. Let's kill it via PowerShell.</span>
+<span class="cm"># Step 1: Find the process</span>
+<span class="kw">gps</span> <span class="var">-Name</span> <span class="str">"pycharm*"</span>
+
+<span class="cm"># Output shows the ID is 9042.</span>
+<span class="cm"># Step 2: Terminate it forcefully.</span>
+<span class="kw">Stop-Process</span> <span class="var">-Id</span> <span class="num">9042</span> <span class="var">-Force</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🛑</div>
+        <div class="callout-body">
+          <strong>The Emergency Brake: Ctrl + C</strong>
+          If you run a script that gets stuck in an infinite loop, or you start a local testing server and need to shut it down, press <strong>Ctrl + C</strong>. It sends an interrupt signal to stop whatever is currently running in the terminal.
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 7 of 8</div>
+        <h2>🧑‍💻 The Developer Routine</h2>
+        <p class="lesson-intro">The combinations of commands you will use every single day as a software engineer.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔗 Command Chaining</div>
+        <p>You can tell the terminal to run multiple commands back-to-back using <code>&&</code>. The second command will only run if the first one succeeds.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — The Git Workflow</span>
+        </div>
+        <pre><span class="cm"># The classic sequence to save your code to a repository</span>
+<span class="kw">git</span> <span class="str">status</span>
+<span class="kw">git</span> <span class="str">add .</span>
+<span class="kw">git</span> <span class="str">commit -m "Refactored PyMongo database connection class"</span>
+<span class="kw">git</span> <span class="str">push</span>
+
+<span class="cm"># Doing the same thing in one chained line!</span>
+<span class="kw">git</span> <span class="str">add .</span> <span class="var">&&</span> <span class="kw">git</span> <span class="str">commit -m "Update DB"</span> <span class="var">&&</span> <span class="kw">git</span> <span class="str">push</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Python Virtual Environments</span>
+        </div>
+        <pre><span class="cm"># Setting up an isolated environment for a project</span>
+<span class="kw">python</span> <span class="var">-m</span> <span class="str">venv venv</span>
+
+<span class="cm"># Activating it (Windows PowerShell)</span>
+<span class="kw">.\venv\Scripts\Activate.ps1</span>
+
+<span class="cm"># Installing dependencies</span>
+<span class="kw">pip</span> <span class="str">install pymongo</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🚀</div>
+        <div class="callout-body">
+          <strong>The Greatest Trick: Tab Completion</strong>
+          Never type a full folder or file name again. Type the first few letters (e.g., <code>cd PyM</code>) and hit the <strong>TAB</strong> key. The terminal will auto-complete it to <code>PyMongo_Project/</code>. Use the <strong>Up Arrow</strong> to recall your previous commands!
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Module →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 8 of 8 — Final Assessment 🏆</div>
+        <h2>🏆 Terminal Master!</h2>
+        <p class="lesson-intro">You've learned the philosophy, the syntax, and the real-world applications of the Command Line Interface.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Core Concepts Recap</div>
+        <ul>
+          <li><strong>Navigation:</strong> <code>pwd</code>, <code>ls</code>, <code>cd</code></li>
+          <li><strong>Manipulation:</strong> <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, <code>rm</code></li>
+          <li><strong>Investigation:</strong> <code>cat</code>, <code>grep</code>, <code>find</code></li>
+          <li><strong>Control:</strong> <code>top</code>, <code>kill</code>, <code>Ctrl+C</code></li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz!</div>
+        <div class="quiz-q">You want to move a file named `hero.png` into a folder named `Assets`, and then clear your terminal screen. What chained command does this?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">cp hero.png Assets/ && clear</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">mv hero.png Assets/ && clear</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">rm hero.png Assets/ && cls</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">move hero.png Assets/ & clean</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script-course.js"></script>
+</body>
+</html>

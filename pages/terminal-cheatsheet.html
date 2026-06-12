@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Mastery — Teq Vault Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Quick Reference · CLI</div>
+  <h1>Terminal Mastery</h1>
+  <p>The ultimate side-by-side cheatsheet for Bash and PowerShell, packed with real-world developer examples. ⚡</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📌 Section</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Cheat Sheet Sections</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">📍</span> Navigation
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">📂</span> File Manipulation
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">🔍</span> Search & View
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">⚙️</span> System Processes
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🧑‍💻</span> Dev Workflow
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Section 1 of 5</div>
+        <h2>📍 Navigation & Discovery</h2>
+        <p class="lesson-intro">Orient yourself in the terminal. These are the tools to figure out exactly where you are and what is around you.</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <tr><th>Action</th><th>Bash (Mac/Linux)</th><th>PowerShell (Windows)</th></tr>
+          <tr><td><strong>Print Working Directory</strong></td><td><code>pwd</code></td><td><code>Get-Location</code> (or <code>pwd</code>)</td></tr>
+          <tr><td><strong>List Files & Folders</strong></td><td><code>ls</code></td><td><code>Get-ChildItem</code> (or <code>ls</code> / <code>dir</code>)</td></tr>
+          <tr><td><strong>Change Directory</strong></td><td><code>cd</code></td><td><code>Set-Location</code> (or <code>cd</code>)</td></tr>
+          <tr><td><strong>Go Back One Folder</strong></td><td><code>cd ..</code></td><td><code>cd ..</code></td></tr>
+          <tr><td><strong>Go to Home Directory</strong></td><td><code>cd ~</code></td><td><code>cd ~</code></td></tr>
+          <tr><td><strong>Clear the Screen</strong></td><td><code>clear</code></td><td><code>Clear-Host</code> (or <code>clear</code> / <code>cls</code>)</td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 1: The SNHU Project Deep Dive</span>
+        </div>
+        <pre><span class="cm"># Jump straight from your home directory into your coursework folder</span>
+<span class="kw">cd</span> <span class="str">~/Documents/SNHU_Projects/Software_Engineering</span>
+
+<span class="cm"># Verify exactly where you landed</span>
+<span class="kw">pwd</span>
+
+<span class="cm"># List everything in this folder, including hidden config folders like .git</span>
+<span class="kw">ls</span> <span class="var">-la</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 2: The Fast Escape</span>
+        </div>
+        <pre><span class="cm"># You are 5 folders deep and want to back out quickly</span>
+<span class="cm"># Go up one folder...</span>
+<span class="kw">cd</span> <span class="str">..</span>
+
+<span class="cm"># Go up TWO folders at once!</span>
+<span class="kw">cd</span> <span class="str">../../</span>
+
+<span class="cm"># Terminal getting messy? Wipe it clean.</span>
+<span class="kw">clear</span></pre>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Section →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Section 2 of 5</div>
+        <h2>📂 File & Folder Manipulation</h2>
+        <p class="lesson-intro">The bread and butter of terminal work. Manage your project assets and scripts without ever touching a mouse.</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <tr><th>Action</th><th>Bash (Mac/Linux)</th><th>PowerShell (Windows)</th></tr>
+          <tr><td><strong>Make a Directory</strong></td><td><code>mkdir</code></td><td><code>mkdir</code> (or <code>New-Item -ItemType Directory</code>)</td></tr>
+          <tr><td><strong>Create Empty File</strong></td><td><code>touch</code></td><td><code>ni</code> (or <code>New-Item</code>)</td></tr>
+          <tr><td><strong>Copy a File</strong></td><td><code>cp</code></td><td><code>cp</code> (or <code>Copy-Item</code>)</td></tr>
+          <tr><td><strong>Copy a Folder</strong></td><td><code>cp -r</code></td><td><code>Copy-Item -Recurse</code></td></tr>
+          <tr><td><strong>Move / Rename</strong></td><td><code>mv</code></td><td><code>mv</code> (or <code>Move-Item</code>)</td></tr>
+          <tr><td><strong>Delete a File</strong></td><td><code>rm</code></td><td><code>rm</code> (or <code>Remove-Item</code>)</td></tr>
+          <tr><td><strong>Delete a Folder</strong></td><td><code>rm -rf</code></td><td><code>Remove-Item -Recurse -Force</code></td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 1: Scaffolding a Unity Project</span>
+        </div>
+        <pre><span class="cm"># Create multiple folders at the exact same time</span>
+<span class="kw">mkdir</span> <span class="str">Scripts Prefabs Audio Materials</span>
+
+<span class="cm"># Create two empty C# scripts instantly inside the Scripts folder</span>
+<span class="kw">touch</span> <span class="str">Scripts/GameManager.cs Scripts/AnimalController.cs</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 2: Backups and Organization</span>
+        </div>
+        <pre><span class="cm"># Copy a crucial UI script before making risky changes</span>
+<span class="kw">cp</span> <span class="str">UI_Controller.cs UI_Controller_BACKUP.cs</span>
+
+<span class="cm"># Move a completed track into the Teq Vault music release folder</span>
+<span class="kw">mv</span> <span class="str">Towards_The_Light_Mix1.wav ../Releases/</span>
+
+<span class="cm"># Oops, spelled it wrong. Let's rename it using the move command!</span>
+<span class="kw">mv</span> <span class="str">Towards_The_Light_Mix1.wav Towards_The_Light_Final.wav</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 3: The Danger Zone (Use with caution)</span>
+        </div>
+        <pre><span class="cm"># Delete a single old test build file</span>
+<span class="kw">rm</span> <span class="str">QUETIEMALS_Alpha_v1.apk</span>
+
+<span class="cm"># FORCE delete an entire folder and everything inside it (No undo!)</span>
+<span class="kw">rm</span> <span class="var">-rf</span> <span class="str">Old_Test_Project/</span></pre>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Section →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Section 3 of 5</div>
+        <h2>🔍 Searching & Viewing</h2>
+        <p class="lesson-intro">Quickly find specific lines of code or track down missing scripts directly from the command line without opening your IDE.</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <tr><th>Action</th><th>Bash (Mac/Linux)</th><th>PowerShell (Windows)</th></tr>
+          <tr><td><strong>View File Contents</strong></td><td><code>cat</code></td><td><code>cat</code> (or <code>Get-Content</code>)</td></tr>
+          <tr><td><strong>Search Inside Files</strong></td><td><code>grep</code></td><td><code>sls</code> (or <code>Select-String</code>)</td></tr>
+          <tr><td><strong>Find a File by Name</strong></td><td><code>find . -name</code></td><td><code>Get-ChildItem -Filter -Recurse</code></td></tr>
+          <tr><td><strong>View Log Updates</strong></td><td><code>tail -f</code></td><td><code>Get-Content -Wait</code></td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 1: Reading Files on the Fly</span>
+        </div>
+        <pre><span class="cm"># Check what dependencies your Python project needs without opening VS Code</span>
+<span class="kw">cat</span> <span class="str">requirements.txt</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 2: The Code Detective (grep/sls)</span>
+        </div>
+        <pre><span class="cm"># BASH: Find every line where the word "health" appears in the AnimalManager script</span>
+<span class="kw">grep</span> <span class="str">"health"</span> <span class="var">AnimalManager.cs</span>
+
+<span class="cm"># BASH: Find the word "biome" across ALL scripts in the current folder (case-insensitive)</span>
+<span class="kw">grep</span> <span class="var">-ri</span> <span class="str">"biome"</span> <span class="str">.</span>
+
+<span class="cm"># POWERSHELL equivalent for the above</span>
+<span class="kw">sls</span> <span class="str">"biome"</span> <span class="str">*.cs</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 3: Finding Lost Files</span>
+        </div>
+        <pre><span class="cm"># BASH: Find all custom OpenGL shader files nested anywhere inside this project</span>
+<span class="kw">find</span> <span class="str">. -name "*.glsl"</span>
+
+<span class="cm"># POWERSHELL equivalent for finding files</span>
+<span class="kw">Get-ChildItem</span> <span class="var">-Filter</span> <span class="str">"*.glsl"</span> <span class="var">-Recurse</span></pre>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Section →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Section 4 of 5</div>
+        <h2>⚙️ System & Processes</h2>
+        <p class="lesson-intro">Crucial commands for troubleshooting when an IDE hangs, or a local server port won't close.</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <tr><th>Action</th><th>Bash (Mac/Linux)</th><th>PowerShell (Windows)</th></tr>
+          <tr><td><strong>Show Running Processes</strong></td><td><code>top</code> or <code>htop</code></td><td><code>gps</code> (or <code>Get-Process</code>)</td></tr>
+          <tr><td><strong>Kill a Process</strong></td><td><code>kill &lt;PID&gt;</code></td><td><code>Stop-Process -Id &lt;PID&gt;</code></td></tr>
+          <tr><td><strong>Check Network IP</strong></td><td><code>ifconfig</code> or <code>ip a</code></td><td><code>ipconfig</code></td></tr>
+          <tr><td><strong>Test Connection</strong></td><td><code>ping</code></td><td><code>ping</code> (or <code>Test-Connection</code>)</td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 1: Un-Freezing Your Workspace</span>
+        </div>
+        <pre><span class="cm"># POWERSHELL: PyCharm has totally frozen. Find its process ID (PID)</span>
+<span class="kw">gps</span> <span class="var">-Name</span> <span class="str">"pycharm*"</span>
+
+<span class="cm"># Let's say the PID is 14032. Force quit it.</span>
+<span class="kw">Stop-Process</span> <span class="var">-Id</span> <span class="num">14032</span> <span class="var">-Force</span>
+
+<span class="cm"># BASH: Same thing, finding the process</span>
+<span class="kw">top</span>
+<span class="cm"># Then kill it</span>
+<span class="kw">kill -9</span> <span class="num">14032</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 2: Network Diagnostics</span>
+        </div>
+        <pre><span class="cm"># Find your local IP Address (useful for testing mobile games on your local WiFi)</span>
+<span class="cm"># WINDOWS:</span>
+<span class="kw">ipconfig</span>
+
+<span class="cm"># MAC/LINUX:</span>
+<span class="kw">ifconfig</span>
+
+<span class="cm"># Test if your server (or the internet) is actually responding</span>
+<span class="kw">ping</span> <span class="str">google.com</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🛑</div>
+        <div class="callout-body">
+          <strong>Emergency Stop</strong>
+          If a script is caught in an infinite loop or a local testing server is running and you want to stop it, hit <strong>Ctrl + C</strong>. It acts as the universal emergency brake in the terminal.
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Section →</button>
+      </div>
+    </div>
+
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Section 5 of 5</div>
+        <h2>🧑‍💻 Developer Workflow</h2>
+        <p class="lesson-intro">The daily routines. The most frequent command strings you'll use for version control and virtual environments.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">🐍</div>
+          <h4>Python VENVs</h4>
+          <p><strong>Bash:</strong> <code>source venv/bin/activate</code><br><strong>PS:</strong> <code>.\venv\Scripts\Activate.ps1</code><br><strong>Exit:</strong> <code>deactivate</code></p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📦</div>
+          <h4>Dependencies</h4>
+          <p>Install your project requirements:<br><code>pip install -r requirements.txt</code></p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚡</div>
+          <h4>Pro-Tip: Chaining</h4>
+          <p>Use <code>&&</code> to run commands back-to-back.<br><code>git add . && git status</code></p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 1: The Daily Git Routine</span>
+        </div>
+        <pre><span class="cm"># 1. Check what files you've modified today</span>
+<span class="kw">git</span> <span class="str">status</span>
+
+<span class="cm"># 2. Stage all the changes to be saved</span>
+<span class="kw">git</span> <span class="str">add .</span>
+
+<span class="cm"># 3. Commit the changes with a highly descriptive message</span>
+<span class="kw">git</span> <span class="str">commit -m "Refactored PyMongo CRUD module and updated Jupyter notebook tests"</span>
+
+<span class="cm"># 4. Push to the remote repository (GitHub, GitLab, etc.)</span>
+<span class="kw">git</span> <span class="str">push origin main</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Example 2: Setting up a Python Backend</span>
+        </div>
+        <pre><span class="cm"># 1. Create a brand new virtual environment named "venv"</span>
+<span class="kw">python</span> <span class="var">-m</span> <span class="str">venv venv</span>
+
+<span class="cm"># 2. Turn it on (Windows PowerShell example)</span>
+<span class="kw">.\venv\Scripts\Activate.ps1</span>
+
+<span class="cm"># 3. Install packages safely inside the bubble</span>
+<span class="kw">pip</span> <span class="str">install pymongo</span>
+
+<span class="cm"># 4. Turn it off when you're done for the day</span>
+<span class="kw">deactivate</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">⌨️</div>
+        <div class="callout-body">
+          <strong>Terminal Super-Trick</strong>
+          Never type a full folder name. Type the first few letters (like <code>cd QUE</code>) and hit <strong>TAB</strong>. The terminal will auto-complete it for you. Also, use the <strong>Up Arrow</strong> to cycle through previously typed commands!
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" disabled>🏁 Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script-cheatsheet.js"></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

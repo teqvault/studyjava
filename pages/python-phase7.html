@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Python Phase 7 — Testing, Quality & Professionalism | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:#0f0e17;--surface:#1a1830;--card:#221f38;
+  --accent1:#ff6b6b;--accent2:#ffd166;--accent3:#06d6a0;
+  --accent4:#118ab2;--accent5:#c77dff;
+  --text:#fffffe;--muted:#a7a9be;--code-bg:#13111f;--border:#2e2b4a;
+  --ph7:#22d3ee;--ph7b:#0891b2;--ph7hi:#a5f3fc;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;}
+header{background:linear-gradient(135deg,#001820 0%,#0f0e17 50%,#001020 100%);padding:60px 40px 80px;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 55%,rgba(34,211,238,0.16) 0%,transparent 55%),radial-gradient(circle at 78% 30%,rgba(6,214,160,0.1) 0%,transparent 50%);}
+.header-badge{display:inline-block;background:linear-gradient(90deg,var(--ph7),var(--accent3));color:#0f0e17;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:20px;margin-bottom:20px;}
+header h1{font-family:'Fredoka One',cursive;font-size:clamp(2.4rem,6vw,4.5rem);background:linear-gradient(135deg,#fff 20%,var(--ph7hi) 55%,var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:16px;}
+header p{font-size:1.15rem;color:var(--muted);max-width:580px;margin:0 auto 32px;}
+.header-stars{font-size:1.6rem;letter-spacing:6px;opacity:0.7;}
+.progress-bar-wrap{background:var(--surface);padding:14px 40px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.progress-label{font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;}
+.progress-track{flex:1;height:8px;background:var(--card);border-radius:10px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--ph7),var(--accent3));border-radius:10px;transition:width 0.5s ease;width:0%;}
+.progress-pct{font-size:13px;font-weight:800;color:var(--ph7);}
+.layout{display:flex;max-width:1200px;margin:0 auto;}
+.sidebar{width:270px;flex-shrink:0;padding:30px 20px;position:sticky;top:53px;height:calc(100vh - 53px);overflow-y:auto;border-right:1px solid var(--border);}
+.sidebar-title{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;padding-left:8px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;transition:all 0.2s;margin-bottom:4px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--text);}
+.nav-item.active{background:var(--card);color:var(--text);border-left:3px solid var(--ph7);}
+.nav-item .nav-icon{font-size:18px;flex-shrink:0;}
+.nav-item .nav-check{margin-left:auto;font-size:14px;color:var(--accent3);}
+.main{flex:1;padding:40px 50px;min-width:0;}
+.lesson{display:none;animation:fadeIn 0.4s ease;}
+.lesson.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.lesson-header{margin-bottom:36px;}
+.lesson-num{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ph7);margin-bottom:8px;}
+.lesson h2{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.15;margin-bottom:12px;}
+.lesson-intro{font-size:1.05rem;color:var(--muted);max-width:680px;border-left:3px solid var(--ph7);padding-left:16px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px;}
+.card-title{font-family:'Fredoka One',cursive;font-size:1.25rem;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.card p,.card li{font-size:0.97rem;color:#d4d4e8;margin-bottom:10px;}
+.card ul,.card ol{padding-left:20px;}
+.card li{margin-bottom:6px;}
+.callout{border-radius:14px;padding:20px 24px;margin:20px 0;display:flex;gap:14px;align-items:flex-start;}
+.callout-emoji{font-size:1.5rem;flex-shrink:0;margin-top:2px;}
+.callout-body{font-size:0.95rem;}
+.callout-body strong{display:block;font-size:1rem;margin-bottom:4px;}
+.callout.tip{background:rgba(6,214,160,0.1);border:1px solid rgba(6,214,160,0.25);}
+.callout.tip .callout-body strong{color:var(--accent3);}
+.callout.warn{background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.25);}
+.callout.warn .callout-body strong{color:var(--accent2);}
+.callout.fun{background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.25);}
+.callout.fun .callout-body strong{color:var(--ph7);}
+.callout.info{background:rgba(17,138,178,0.12);border:1px solid rgba(17,138,178,0.3);}
+.callout.info .callout-body strong{color:#5bc4e8;}
+.code-block{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;margin:18px 0;overflow:hidden;}
+.code-header{background:#1c1929;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.code-lang{font-size:12px;font-weight:700;color:var(--ph7);letter-spacing:1px;text-transform:uppercase;}
+.code-dots{display:flex;gap:6px;}
+.code-dots span{width:10px;height:10px;border-radius:50%;}
+.code-dots span:nth-child(1){background:#ff5f56;}
+.code-dots span:nth-child(2){background:#ffbd2e;}
+.code-dots span:nth-child(3){background:#27c93f;}
+pre{padding:20px 22px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:0.88rem;line-height:1.8;}
+.quiz-block{background:linear-gradient(135deg,#001820,#001018);border:1px solid var(--ph7);border-radius:16px;padding:28px;margin:28px 0;}
+.quiz-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--ph7);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.quiz-q{font-size:1rem;font-weight:700;margin-bottom:16px;}
+.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.quiz-option{background:var(--card);border:2px solid var(--border);border-radius:10px;padding:12px 18px;cursor:pointer;font-size:0.95rem;font-weight:600;transition:all 0.2s;text-align:left;color:var(--text);font-family:'Nunito',sans-serif;}
+.quiz-option:hover{border-color:var(--ph7);background:rgba(34,211,238,0.07);}
+.quiz-option.correct{border-color:var(--accent3);background:rgba(6,214,160,0.12);color:var(--accent3);}
+.quiz-option.wrong{border-color:var(--accent1);background:rgba(255,107,107,0.1);color:var(--accent1);}
+.quiz-feedback{margin-top:14px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:0.95rem;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:rgba(6,214,160,0.15);color:var(--accent3);border:1px solid var(--accent3);}
+.quiz-feedback.bad{background:rgba(255,107,107,0.1);color:var(--accent1);border:1px solid var(--accent1);}
+.challenge{background:linear-gradient(135deg,rgba(34,211,238,0.07),rgba(6,214,160,0.05));border:1px solid rgba(34,211,238,0.22);border-radius:14px;padding:24px 28px;margin:24px 0;}
+.challenge-label{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ph7);margin-bottom:8px;}
+.challenge h4{font-size:1.05rem;margin-bottom:10px;}
+.challenge p,.challenge li{font-size:0.95rem;color:#ccc;}
+.challenge ul{padding-left:20px;}
+.challenge li{margin-bottom:6px;}
+.lesson-nav{display:flex;justify-content:space-between;margin-top:50px;padding-top:28px;border-top:1px solid var(--border);}
+.btn{padding:12px 28px;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-next{background:linear-gradient(135deg,var(--ph7),var(--ph7b));color:#0f0e17;}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,211,238,0.35);}
+.btn-prev{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+.btn-prev:hover{color:var(--text);border-color:var(--ph7);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;transform:none!important;box-shadow:none!important;}
+table{width:100%;border-collapse:collapse;font-size:0.92rem;margin:16px 0;}
+th{background:var(--surface);color:var(--ph7);font-weight:800;padding:12px 16px;text-align:left;border-bottom:2px solid var(--border);}
+td{padding:11px 16px;border-bottom:1px solid var(--border);color:#d4d4e8;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+@media(max-width:768px){.sidebar{display:none;}.main{padding:24px 20px;}.progress-bar-wrap{padding:10px 20px;}header{padding:40px 20px 60px;}}
+.streak-bar{display:flex;align-items:center;gap:6px;padding:12px 20px 18px;border-bottom:1px solid var(--border);}
+.streak-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:4px;}
+.streak-node{width:10px;height:10px;border-radius:50%;background:var(--border);border:2px solid var(--border);transition:all 0.3s;flex-shrink:0;}
+.streak-node.done{background:var(--ph7);border-color:var(--ph7);box-shadow:0 0 8px rgba(34,211,238,0.6);}
+.streak-node.current{background:transparent;border-color:var(--ph7);animation:pulse-node 1.5s ease-in-out infinite;}
+@keyframes pulse-node{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0.4);}50%{box-shadow:0 0 0 5px rgba(34,211,238,0);}}
+.kw{color:#c77dff;}.fn{color:#06d6a0;}.str{color:#ffaa6b;}.cm{color:#4a4870;font-style:italic;}.num{color:#ff6b9d;}.cls{color:#ffd166;}.bi{color:#4db8ff;}.out{color:#a7f3d0;}.dec{color:#ff6b6b;}.sh{color:#06d6a0;}
+.step-list{counter-reset:step;list-style:none;padding:0;}
+.step-list li{counter-increment:step;display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);font-size:0.95rem;color:#d4d4e8;line-height:1.7;}
+.step-list li::before{content:counter(step);display:flex;align-items:center;justify-content:center;width:26px;height:26px;background:linear-gradient(135deg,var(--ph7),var(--accent3));color:#0f0e17;font-weight:900;font-size:12px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.deep-dive{background:linear-gradient(135deg,rgba(34,211,238,0.06),rgba(6,214,160,0.04));border:1px solid rgba(34,211,238,0.2);border-left:4px solid var(--ph7);border-radius:0 14px 14px 0;padding:22px 26px;margin:20px 0;}
+.deep-dive-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ph7);margin-bottom:10px;}
+.deep-dive h4{font-family:'Fredoka One',cursive;font-size:1.08rem;margin-bottom:10px;}
+.deep-dive p,.deep-dive li{font-size:0.93rem;color:#ccc;line-height:1.8;margin-bottom:8px;}
+.deep-dive ul{padding-left:20px;}
+.deep-dive li{margin-bottom:5px;}
+.try-it{background:linear-gradient(135deg,rgba(34,211,238,0.05),rgba(255,209,102,0.03));border:1px solid rgba(34,211,238,0.18);border-radius:14px;padding:22px 26px;margin:22px 0;}
+.try-it-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ph7);margin-bottom:10px;}
+.try-it h4{font-family:'Fredoka One',cursive;font-size:1.05rem;margin-bottom:8px;}
+.try-it p,.try-it li{font-size:0.92rem;color:#ccc;line-height:1.75;}
+.try-it ul,.try-it ol{padding-left:20px;}
+.try-it li{margin-bottom:6px;}
+.output-block{background:#0a0a14;border:1px solid var(--border);border-left:3px solid var(--ph7);border-radius:0 10px 10px 0;padding:14px 20px;font-family:'Fira Code',monospace;font-size:0.84rem;color:#a5f3fc;line-height:1.9;margin:-2px 0 16px;}
+.output-block::before{content:'▶ Output';display:block;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ph7);margin-bottom:8px;opacity:0.7;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0;}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+.compare-label{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border-radius:8px 8px 0 0;}
+.compare-label.bad-lbl{background:rgba(255,107,107,0.12);color:#ff6b6b;}
+.compare-label.good-lbl{background:rgba(6,214,160,0.12);color:var(--accent3);}
+.compare-col .code-block{margin-top:0;border-radius:0 0 12px 12px;border-top:none;}
+@media(max-width:700px){.two-col,.compare-grid{grid-template-columns:1fr;}}
+.file-tree{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-family:'Fira Code',monospace;font-size:0.85rem;line-height:2;margin:18px 0;}
+.ft-dir{color:#ffd166;}.ft-file{color:#a7f3d0;}.ft-note{color:#4a4870;font-style:italic;}
+.quality-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:0.5px;}
+.qb-green{background:rgba(6,214,160,0.12);color:var(--accent3);border:1px solid rgba(6,214,160,0.3);}
+.qb-cyan{background:rgba(34,211,238,0.1);color:var(--ph7);border:1px solid rgba(34,211,238,0.25);}
+.qb-red{background:rgba(255,107,107,0.1);color:#ff6b6b;border:1px solid rgba(255,107,107,0.25);}
+.qb-yellow{background:rgba(255,209,102,0.1);color:var(--accent2);border:1px solid rgba(255,209,102,0.25);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study — Python Series</div>
+  <h1>Phase 7: Testing, Quality &amp; Professionalism</h1>
+  <p>The gap between hobbyist and professional Python. pytest in depth, type checking with mypy, linting with Ruff, pre-commit hooks, profiling, and writing code other developers can read.</p>
+  <div class="header-stars">🧪 ✅ 🔍 🎯 📐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Phase Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">Phase 7 — Lessons</div>
+  <div class="streak-bar"><span class="streak-label">🔥</span><div id="streak-nodes"></div></div>
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🧪</span> pytest — The Full Picture <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item"        onclick="go(1)" id="nav1"><span class="nav-icon">🔩</span> Fixtures &amp; conftest <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item"        onclick="go(2)" id="nav2"><span class="nav-icon">🎭</span> Mocking &amp; Patching <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item"        onclick="go(3)" id="nav3"><span class="nav-icon">📊</span> Parametrize &amp; Coverage <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item"        onclick="go(4)" id="nav4"><span class="nav-icon">🔤</span> mypy — Static Type Checking <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item"        onclick="go(5)" id="nav5"><span class="nav-icon">✨</span> Ruff — The Modern Linter <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item"        onclick="go(6)" id="nav6"><span class="nav-icon">🪝</span> Pre-commit Hooks <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item"        onclick="go(7)" id="nav7"><span class="nav-icon">⚡</span> Profiling &amp; Performance <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item"        onclick="go(8)" id="nav8"><span class="nav-icon">📝</span> Docs &amp; README Writing <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item"        onclick="go(9)" id="nav9"><span class="nav-icon">🏁</span> Phase Project <span class="nav-check" id="chk9"></span></div>
+  <div style="padding:20px 8px 0;border-top:1px solid var(--border);margin-top:16px">
+    <a href="python-phase6.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color=''">← Phase 6</a>
+    <a href="python-roadmap.html" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 10px;border-radius:8px;transition:color 0.2s" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color=''">↑ Full Roadmap</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════
+     L0 — pytest FULL PICTURE
+══════════════════════════════════ -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 01</div>
+    <h2>pytest — The Full Picture</h2>
+    <p class="lesson-intro">You've seen pytest used in earlier phases. Now master it — the discovery rules, assertion introspection, marks, xfail, the full test execution model, and everything that makes test suites fast and trustworthy.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧪 How pytest Finds and Runs Tests</div>
+    <p>pytest uses <strong>test discovery</strong> — it automatically finds your tests without any registration or configuration. Understanding the rules means you never have a test that silently doesn't run.</p>
+    <table>
+      <tr><th>Rule</th><th>Example</th></tr>
+      <tr><td>Files matching <code>test_*.py</code> or <code>*_test.py</code></td><td><code>test_tasks.py</code>, <code>auth_test.py</code></td></tr>
+      <tr><td>Functions starting with <code>test_</code></td><td><code>def test_create_task():</code></td></tr>
+      <tr><td>Methods starting with <code>test_</code> in classes starting with <code>Test</code></td><td><code>class TestAuth: def test_login():</code></td></tr>
+      <tr><td>Collects from current directory recursively unless told otherwise</td><td><code>pytest tests/</code> or just <code>pytest</code></td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The silent skip trap</strong>If your test file is named <code>tasks_test_helper.py</code> or your function is <code>check_task()`, pytest ignores it entirely — no error, no warning. Always follow the naming conventions or explicitly configure <code>python_files</code> in <code>pyproject.toml</code>.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 pytest's Superpower — Assertion Introspection</div>
+    <p>pytest rewrites your <code>assert</code> statements at collection time. When an assertion fails, it shows you exactly what both sides evaluated to — no need for <code>assertEqual</code>, <code>assertIn</code>, or any special methods.</p>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad-lbl">unittest — you write the assertion type</div>
+        <div class="code-block"><pre><span class="cm"># Different method for every comparison</span>
+<span class="kw">self</span>.<span class="fn">assertEqual</span>(result, <span class="num">42</span>)
+<span class="kw">self</span>.<span class="fn">assertIn</span>(<span class="str">"key"</span>, my_dict)
+<span class="kw">self</span>.<span class="fn">assertIsNone</span>(value)
+<span class="kw">self</span>.<span class="fn">assertGreater</span>(x, <span class="num">0</span>)
+<span class="kw">self</span>.<span class="fn">assertRaises</span>(ValueError, func)</pre></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good-lbl">pytest — just use assert</div>
+        <div class="code-block"><pre><span class="cm"># One keyword for everything</span>
+<span class="kw">assert</span> result == <span class="num">42</span>
+<span class="kw">assert</span> <span class="str">"key"</span> <span class="kw">in</span> my_dict
+<span class="kw">assert</span> value <span class="kw">is None</span>
+<span class="kw">assert</span> x > <span class="num">0</span>
+<span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="cls">ValueError</span>):
+    <span class="fn">func</span>()</pre></div>
+      </div>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">What pytest shows when an assertion fails</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm">FAILED tests/test_tasks.py::test_priority_label</span>
+<span class="cm">AssertionError: assert 'medium' == 'high'</span>
+<span class="cm">  Left side:  task.priority_label → 'medium'</span>
+<span class="cm">  Right side: 'high'</span>
+<span class="cm">  Where: task = Task(title='Buy milk', priority=2)</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ Marks — Organise, Skip, and Flag Tests</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — pytest marks</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pytest
+
+<span class="cm"># ── @pytest.mark.skip — always skip ──</span>
+<span class="dec">@pytest.mark.skip</span>(reason=<span class="str">"Feature not yet implemented"</span>)
+<span class="kw">def</span> <span class="fn">test_export_to_pdf</span>():
+    <span class="kw">pass</span>
+
+<span class="cm"># ── @pytest.mark.skipif — skip conditionally ──</span>
+<span class="kw">import</span> sys
+<span class="dec">@pytest.mark.skipif</span>(sys.platform == <span class="str">"win32"</span>, reason=<span class="str">"Unix only"</span>)
+<span class="kw">def</span> <span class="fn">test_symlinks</span>():
+    <span class="kw">pass</span>
+
+<span class="cm"># ── @pytest.mark.xfail — expected to fail ──</span>
+<span class="cm"># Different from skip — the test RUNS and is expected to fail</span>
+<span class="cm"># If it fails: XFAIL (expected) — green</span>
+<span class="cm"># If it passes: XPASS (unexpected pass) — warning</span>
+<span class="dec">@pytest.mark.xfail</span>(reason=<span class="str">"Known bug #142 — see GitHub"</span>)
+<span class="kw">def</span> <span class="fn">test_unicode_task_titles</span>():
+    task = <span class="fn">create_task</span>(<span class="str">"学习 Python"</span>)
+    <span class="kw">assert</span> task.title == <span class="str">"学习 Python"</span>
+
+<span class="cm"># ── Custom marks — group and filter tests ──</span>
+<span class="dec">@pytest.mark.slow</span>           <span class="cm"># mark as slow (>1 second)</span>
+<span class="dec">@pytest.mark.integration</span>   <span class="cm"># mark as needing external services</span>
+<span class="kw">def</span> <span class="fn">test_scrape_live_site</span>():
+    <span class="kw">pass</span>
+
+<span class="cm"># Run only fast tests:   pytest -m "not slow"</span>
+<span class="cm"># Run only unit tests:   pytest -m "not integration"</span>
+<span class="cm"># Run specific mark:     pytest -m "slow"</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Register custom marks in pyproject.toml</strong>Add <code>[tool.pytest.ini_options]</code> with <code>markers = ["slow: marks tests as slow", "integration: requires external services"]</code>. Without registration, pytest warns about unknown marks. With it, <code>pytest --markers</code> lists them with descriptions.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Running Tests Efficiently</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — pytest command reference</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Run all tests</span>
+<span class="sh">pytest</span>
+
+<span class="cm"># Run with verbose output — show each test name</span>
+<span class="sh">pytest -v</span>
+
+<span class="cm"># Stop at first failure</span>
+<span class="sh">pytest -x</span>
+
+<span class="cm"># Stop after N failures</span>
+<span class="sh">pytest --maxfail=3</span>
+
+<span class="cm"># Run only tests matching a name pattern</span>
+<span class="sh">pytest -k "auth"</span>           <span class="cm"># runs test_auth_login, test_auth_logout, etc.</span>
+<span class="sh">pytest -k "create and task"</span> <span class="cm"># must match both words</span>
+
+<span class="cm"># Run a specific file or test</span>
+<span class="sh">pytest tests/test_tasks.py</span>
+<span class="sh">pytest tests/test_tasks.py::TestCreate::test_success</span>
+
+<span class="cm"># Show print() output (normally captured)</span>
+<span class="sh">pytest -s</span>
+
+<span class="cm"># Show slowest 10 tests</span>
+<span class="sh">pytest --durations=10</span>
+
+<span class="cm"># Run previously failed tests first</span>
+<span class="sh">pytest --lf</span>  <span class="cm"># last-failed</span>
+<span class="sh">pytest --ff</span>  <span class="cm"># failed-first (then rest)</span>
+
+<span class="cm"># Run tests in parallel (pip install pytest-xdist first)</span>
+<span class="sh">pytest -n auto</span>  <span class="cm"># uses all CPU cores</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Phase 6</button>
+    <button class="btn btn-next" onclick="next(0)">Fixtures &amp; conftest →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L1 — FIXTURES & CONFTEST
+══════════════════════════════════ -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 02</div>
+    <h2>Fixtures &amp; conftest.py</h2>
+    <p class="lesson-intro">Fixtures are pytest's dependency injection system — they set up and tear down the things your tests need, automatically, with the right scope. Master fixtures and your test suite becomes genuinely maintainable.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔩 What Fixtures Are and Why They Exist</div>
+    <p>Without fixtures, every test sets up its own data, creates its own objects, and cleans up after itself. This leads to hundreds of lines of repeated setup code and tests that fail for the wrong reason (bad setup, not bad code).</p>
+    <p style="margin-top:8px">Fixtures extract setup into reusable, named functions that pytest automatically calls and injects. They can also clean up after themselves using <code>yield</code>.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — fixture fundamentals</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pytest
+<span class="kw">from</span> myapp.models <span class="kw">import</span> Task, TaskManager
+
+<span class="cm"># ── Basic fixture — setup only ──</span>
+<span class="dec">@pytest.fixture</span>
+<span class="kw">def</span> <span class="fn">sample_task</span>():
+    <span class="kw">return</span> <span class="cls">Task</span>(title=<span class="str">"Write tests"</span>, priority=<span class="num">3</span>)
+
+<span class="cm"># ── Fixture with teardown — use yield ──</span>
+<span class="dec">@pytest.fixture</span>
+<span class="kw">def</span> <span class="fn">task_manager</span>(tmp_path):
+    <span class="cm"># tmp_path is a built-in pytest fixture — gives a temp directory</span>
+    db_file = tmp_path / <span class="str">"test_tasks.json"</span>
+    manager = <span class="cls">TaskManager</span>(filepath=<span class="bi">str</span>(db_file))
+    <span class="kw">yield</span> manager         <span class="cm"># everything above = setup</span>
+    db_file.<span class="fn">unlink</span>(missing_ok=<span class="kw">True</span>)  <span class="cm"># everything below = teardown (always runs)</span>
+
+<span class="cm"># ── Fixture using another fixture ──</span>
+<span class="dec">@pytest.fixture</span>
+<span class="kw">def</span> <span class="fn">manager_with_tasks</span>(task_manager):
+    task_manager.<span class="fn">add</span>(<span class="str">"Task A"</span>, priority=<span class="num">1</span>)
+    task_manager.<span class="fn">add</span>(<span class="str">"Task B"</span>, priority=<span class="num">5</span>)
+    task_manager.<span class="fn">add</span>(<span class="str">"Task C"</span>, priority=<span class="num">3</span>, due=<span class="str">"2026-01-01"</span>)
+    <span class="kw">return</span> task_manager
+
+<span class="cm"># ── Tests request fixtures by name ──</span>
+<span class="kw">def</span> <span class="fn">test_task_creation</span>(sample_task):
+    <span class="kw">assert</span> sample_task.title == <span class="str">"Write tests"</span>
+    <span class="kw">assert</span> sample_task.priority == <span class="num">3</span>
+    <span class="kw">assert</span> sample_task.done == <span class="kw">False</span>
+
+<span class="kw">def</span> <span class="fn">test_pending_count</span>(manager_with_tasks):
+    pending = <span class="bi">list</span>(manager_with_tasks.<span class="fn">pending</span>())
+    <span class="kw">assert</span> <span class="fn">len</span>(pending) == <span class="num">3</span>
+
+<span class="kw">def</span> <span class="fn">test_sorted_by_priority</span>(manager_with_tasks):
+    pending = <span class="bi">list</span>(manager_with_tasks.<span class="fn">pending</span>())
+    <span class="kw">assert</span> pending[<span class="num">0</span>].priority == <span class="num">5</span>   <span class="cm"># highest first</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔭 Fixture Scope — How Long Does It Live?</div>
+    <p>By default, fixtures are created and destroyed for each test. This is safe but slow for expensive setup. Scope lets you control lifetime.</p>
+    <table>
+      <tr><th>Scope</th><th>Created Once Per…</th><th>Use For</th></tr>
+      <tr><td><code>function</code> (default)</td><td>Each test function</td><td>Mutable state — each test gets a clean copy</td></tr>
+      <tr><td><code>class</code></td><td>Each test class</td><td>Shared setup across methods in one class</td></tr>
+      <tr><td><code>module</code></td><td>Each test file</td><td>Expensive setup shared across one file</td></tr>
+      <tr><td><code>session</code></td><td>Entire test run</td><td>Database connections, heavy imports, API clients</td></tr>
+    </table>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — session-scoped fixture example</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="dec">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">anthropic_client</span>():
+    <span class="str">"""Created once for the whole test run — expensive import."""</span>
+    <span class="kw">import</span> anthropic
+    <span class="kw">return</span> anthropic.<span class="cls">Anthropic</span>()
+    <span class="cm"># No teardown needed — client has no cleanup</span>
+
+<span class="dec">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">test_database</span>():
+    <span class="str">"""In-memory DB — created once, shared across all tests."""</span>
+    <span class="kw">from</span> sqlmodel <span class="kw">import</span> create_engine, SQLModel
+    engine = <span class="fn">create_engine</span>(<span class="str">"sqlite://"</span>)
+    SQLModel.metadata.<span class="fn">create_all</span>(engine)
+    <span class="kw">yield</span> engine
+    SQLModel.metadata.<span class="fn">drop_all</span>(engine)
+
+<span class="dec">@pytest.fixture</span>          <span class="cm"># function scope — fresh session per test</span>
+<span class="kw">def</span> <span class="fn">db_session</span>(test_database):
+    <span class="kw">from</span> sqlmodel <span class="kw">import</span> Session
+    <span class="kw">with</span> <span class="cls">Session</span>(test_database) <span class="kw">as</span> session:
+        <span class="kw">yield</span> session
+        session.<span class="fn">rollback</span>()   <span class="cm"># undo every change after each test</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 conftest.py — Shared Fixtures Across Files</div>
+    <p><code>conftest.py</code> is a special file pytest loads automatically. Fixtures defined there are available to every test in the same directory and all subdirectories — no import needed.</p>
+    <div class="file-tree">
+<span class="ft-dir">tests/</span>
+├── <span class="ft-file">conftest.py</span>          <span class="ft-note"># session fixtures: db engine, API client, settings</span>
+├── <span class="ft-file">test_tasks.py</span>        <span class="ft-note"># uses fixtures from conftest</span>
+├── <span class="ft-file">test_auth.py</span>         <span class="ft-note"># uses fixtures from conftest</span>
+└── <span class="ft-dir">integration/</span>
+    ├── <span class="ft-file">conftest.py</span>      <span class="ft-note"># integration-only fixtures (live API keys, etc.)</span>
+    └── <span class="ft-file">test_live_api.py</span>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Built-in fixtures you should know</strong><code>tmp_path</code> (temporary directory, Path object), <code>tmp_path_factory</code> (session-scoped temp dir), <code>capsys</code> (capture stdout/stderr), <code>monkeypatch</code> (patch environment variables, functions, attributes safely), <code>caplog</code> (capture log output). These are available in every pytest run without any imports.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← pytest Basics</button>
+    <button class="btn btn-next" onclick="next(1)">Mocking →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L2 — MOCKING & PATCHING
+══════════════════════════════════ -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 03</div>
+    <h2>Mocking &amp; Patching</h2>
+    <p class="lesson-intro">Tests should be fast, isolated, and not cost money. Mocking replaces real external services — databases, APIs, file systems, time — with controlled fakes. Master this and no code is untestable.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎭 Why Mocking Matters</div>
+    <p>Without mocking, testing code that calls an external API means: making real network calls (slow, costs money, flaky), needing credentials in CI, and test results depending on external service uptime. Mocking eliminates all of this.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — unittest.mock fundamentals</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> unittest.mock <span class="kw">import</span> Mock, MagicMock, patch, call
+
+<span class="cm"># ── Mock — a fake object that records calls ──</span>
+mock = <span class="cls">Mock</span>()
+mock.<span class="fn">some_method</span>(<span class="str">"arg1"</span>, key=<span class="str">"val"</span>)
+
+<span class="cm"># Inspect what happened</span>
+<span class="fn">print</span>(mock.some_method.<span class="fn">call_count</span>)          <span class="cm"># 1</span>
+mock.some_method.<span class="fn">assert_called_once_with</span>(<span class="str">"arg1"</span>, key=<span class="str">"val"</span>)
+mock.some_method.<span class="fn">assert_called_with</span>(<span class="str">"arg1"</span>, key=<span class="str">"val"</span>)
+
+<span class="cm"># Configure return values</span>
+mock.<span class="fn">get_user</span>.<span class="fn">return_value</span> = {<span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"Jude"</span>}
+result = mock.<span class="fn">get_user</span>(<span class="num">1</span>)
+<span class="kw">assert</span> result[<span class="str">"name"</span>] == <span class="str">"Jude"</span>
+
+<span class="cm"># Configure to raise an exception</span>
+mock.<span class="fn">dangerous_call</span>.<span class="fn">side_effect</span> = <span class="cls">ConnectionError</span>(<span class="str">"Network down"</span>)
+<span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="cls">ConnectionError</span>):
+    mock.<span class="fn">dangerous_call</span>()</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 patch — Replace Real Things with Mocks</div>
+    <p><code>patch</code> temporarily replaces a real object in your code with a mock during the test. The key rule: <strong>patch where the name is used, not where it's defined.</strong></p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — patching real API calls</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> unittest.mock <span class="kw">import</span> patch, MagicMock
+<span class="kw">import</span> pytest
+
+<span class="cm"># The code under test (in weather.py):</span>
+<span class="cm"># import requests</span>
+<span class="cm"># def get_weather(city): return requests.get(...).json()</span>
+
+<span class="cm"># ── patch as decorator ──</span>
+<span class="dec">@patch</span>(<span class="str">"weather.requests.get"</span>)   <span class="cm"># patch in the module that USES it</span>
+<span class="kw">def</span> <span class="fn">test_get_weather_success</span>(mock_get):
+    <span class="cm"># Configure what the mock returns</span>
+    mock_response = <span class="cls">MagicMock</span>()
+    mock_response.<span class="fn">json</span>.<span class="fn">return_value</span> = {
+        <span class="str">"current"</span>: {<span class="str">"temperature_2m"</span>: <span class="num">28.5</span>, <span class="str">"wind_speed_10m"</span>: <span class="num">12.0</span>}
+    }
+    mock_get.<span class="fn">return_value</span> = mock_response
+
+    <span class="kw">from</span> weather <span class="kw">import</span> get_weather
+    result = <span class="fn">get_weather</span>(<span class="str">"Bossier City"</span>)
+
+    <span class="kw">assert</span> result[<span class="str">"temp_c"</span>] == <span class="num">28.5</span>
+    mock_get.<span class="fn">assert_called_once</span>()   <span class="cm"># verify it was called</span>
+
+<span class="cm"># ── patch as context manager ──</span>
+<span class="kw">def</span> <span class="fn">test_get_weather_timeout</span>():
+    <span class="kw">with</span> <span class="fn">patch</span>(<span class="str">"weather.requests.get"</span>) <span class="kw">as</span> mock_get:
+        mock_get.<span class="fn">side_effect</span> = <span class="cls">TimeoutError</span>()
+        <span class="kw">from</span> weather <span class="kw">import</span> get_weather
+        <span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="cls">TimeoutError</span>):
+            <span class="fn">get_weather</span>(<span class="str">"Bossier City"</span>)
+
+<span class="cm"># ── patch as fixture (pytest style — cleaner) ──</span>
+<span class="dec">@pytest.fixture</span>
+<span class="kw">def</span> <span class="fn">mock_requests</span>(monkeypatch):
+    mock_response = <span class="cls">MagicMock</span>()
+    mock_response.<span class="fn">json</span>.<span class="fn">return_value</span> = {<span class="str">"data"</span>: <span class="str">"test"</span>}
+    mock_response.status_code = <span class="num">200</span>
+    monkeypatch.<span class="fn">setattr</span>(<span class="str">"requests.get"</span>, <span class="cls">MagicMock</span>(<span class="fn">return_value</span>=mock_response))
+    <span class="kw">return</span> mock_response</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏰ Patching Time &amp; Environment</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — patching common dependencies</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> unittest.mock <span class="kw">import</span> patch
+<span class="kw">from</span> datetime      <span class="kw">import</span> datetime
+
+<span class="cm"># ── Freeze time — test time-sensitive code reliably ──</span>
+<span class="dec">@patch</span>(<span class="str">"myapp.tasks.datetime"</span>)
+<span class="kw">def</span> <span class="fn">test_task_created_today</span>(mock_dt):
+    mock_dt.<span class="fn">now</span>.<span class="fn">return_value</span> = datetime(<span class="num">2026</span>, <span class="num">6</span>, <span class="num">15</span>)
+    task = <span class="fn">create_task</span>(<span class="str">"Test"</span>)
+    <span class="kw">assert</span> task.created_date == <span class="str">"2026-06-15"</span>
+
+<span class="cm"># ── Patch environment variables ──</span>
+<span class="kw">def</span> <span class="fn">test_api_key_missing</span>(monkeypatch):
+    monkeypatch.<span class="fn">delenv</span>(<span class="str">"OPENAI_API_KEY"</span>, raising=<span class="kw">False</span>)
+    <span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="cls">RuntimeError</span>, match=<span class="str">"OPENAI_API_KEY"</span>):
+        <span class="kw">from</span> myapp.config <span class="kw">import</span> get_settings
+        <span class="fn">get_settings</span>()
+
+<span class="kw">def</span> <span class="fn">test_with_test_api_key</span>(monkeypatch):
+    monkeypatch.<span class="fn">setenv</span>(<span class="str">"OPENAI_API_KEY"</span>, <span class="str">"test-key-123"</span>)
+    <span class="kw">from</span> myapp.config <span class="kw">import</span> get_settings
+    settings = <span class="fn">get_settings</span>()
+    <span class="kw">assert</span> settings.openai_api_key == <span class="str">"test-key-123"</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your module <code>tasks.py</code> imports <code>requests</code> and calls <code>requests.get()</code>. You want to mock the HTTP call. Which patch target is correct?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>@patch("requests.get")</code></button>
+      <button class="quiz-option" onclick="quiz(this,'correct')"><code>@patch("tasks.requests.get")</code></button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')"><code>@patch("requests.Request.get")</code></button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')">It doesn't matter — both targets produce the same result</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Fixtures</button>
+    <button class="btn btn-next" onclick="next(2)">Parametrize &amp; Coverage →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L3 — PARAMETRIZE & COVERAGE
+══════════════════════════════════ -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 04</div>
+    <h2>Parametrize &amp; Coverage</h2>
+    <p class="lesson-intro">Test many inputs with one test function using parametrize. Measure what percentage of your code is actually exercised with coverage — and understand what the number does and doesn't tell you.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 @pytest.mark.parametrize — One Test, Many Inputs</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — parametrize patterns</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> pytest
+<span class="kw">from</span> myapp.models <span class="kw">import</span> Task
+
+<span class="cm"># ── Basic parametrize — one argument ──</span>
+<span class="dec">@pytest.mark.parametrize</span>(<span class="str">"priority"</span>, [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>])
+<span class="kw">def</span> <span class="fn">test_valid_priorities</span>(priority):
+    task = <span class="cls">Task</span>(title=<span class="str">"Test"</span>, priority=priority)
+    <span class="kw">assert</span> task.priority == priority
+
+<span class="cm"># ── Parametrize — multiple arguments ──</span>
+<span class="dec">@pytest.mark.parametrize</span>(<span class="str">"title, priority, expect_error"</span>, [
+    (<span class="str">"Valid title"</span>,  <span class="num">3</span>, <span class="kw">False</span>),   <span class="cm"># normal case</span>
+    (<span class="str">""</span>,             <span class="num">3</span>, <span class="kw">True</span>),    <span class="cm"># empty title</span>
+    (<span class="str">"Valid"</span>,        <span class="num">0</span>, <span class="kw">True</span>),    <span class="cm"># priority too low</span>
+    (<span class="str">"Valid"</span>,        <span class="num">6</span>, <span class="kw">True</span>),    <span class="cm"># priority too high</span>
+    (<span class="str">"   "</span>,          <span class="num">3</span>, <span class="kw">True</span>),    <span class="cm"># whitespace only title</span>
+    (<span class="str">"A" * 201</span>,     <span class="num">3</span>, <span class="kw">True</span>),    <span class="cm"># title too long</span>
+])
+<span class="kw">def</span> <span class="fn">test_task_validation</span>(title, priority, expect_error):
+    <span class="kw">if</span> expect_error:
+        <span class="kw">with</span> pytest.<span class="fn">raises</span>(<span class="cls">ValueError</span>):
+            <span class="cls">Task</span>(title=title, priority=priority)
+    <span class="kw">else</span>:
+        task = <span class="cls">Task</span>(title=title, priority=priority)
+        <span class="kw">assert</span> task.priority == priority
+
+<span class="cm"># ── Parametrize with pytest.param — add IDs and marks ──</span>
+<span class="dec">@pytest.mark.parametrize</span>(<span class="str">"email, valid"</span>, [
+    pytest.<span class="fn">param</span>(<span class="str">"jude@example.com"</span>, <span class="kw">True</span>,  id=<span class="str">"valid_email"</span>),
+    pytest.<span class="fn">param</span>(<span class="str">"not-an-email"</span>,     <span class="kw">False</span>, id=<span class="str">"missing_at"</span>),
+    pytest.<span class="fn">param</span>(<span class="str">"@nodomain"</span>,        <span class="kw">False</span>, id=<span class="str">"missing_local"</span>),
+    pytest.<span class="fn">param</span>(<span class="str">"a@b.c"</span>,            <span class="kw">True</span>,  id=<span class="str">"minimal_valid"</span>),
+    pytest.<span class="fn">param</span>(<span class="str">""</span>,                 <span class="kw">False</span>, id=<span class="str">"empty"</span>),
+])
+<span class="kw">def</span> <span class="fn">test_email_validation</span>(email, valid):
+    <span class="kw">from</span> myapp.utils <span class="kw">import</span> is_valid_email
+    <span class="kw">assert</span> <span class="fn">is_valid_email</span>(email) == valid</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Coverage — Measuring What Gets Tested</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — pytest-cov setup and usage</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install pytest-cov</span>
+
+<span class="cm"># Run tests with coverage report</span>
+<span class="sh">pytest --cov=myapp --cov-report=term-missing</span>
+
+<span class="cm"># Output:</span>
+<span class="out">---------- coverage: platform win32 ----------
+Name                  Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+myapp/__init__.py         0      0   100%
+myapp/models.py          45      3    93%   78-80
+myapp/services.py        62      8    87%   34, 55-60, 89
+myapp/auth.py            38     12    68%   45-52, 67-70
+-----------------------------------------------------
+TOTAL                   145     23    84%</span>
+
+<span class="cm"># Generate HTML report (browsable)</span>
+<span class="sh">pytest --cov=myapp --cov-report=html</span>
+<span class="cm"># Open htmlcov/index.html — click each file to see line-by-line coverage</span>
+
+<span class="cm"># Fail if coverage drops below threshold</span>
+<span class="sh">pytest --cov=myapp --cov-fail-under=80</span></pre>
+    </div>
+
+    <div class="deep-dive">
+      <div class="deep-dive-label">🔍 What coverage doesn't tell you</div>
+      <h4>100% coverage doesn't mean 100% correct</h4>
+      <p>Coverage measures which lines were <em>executed</em> during tests, not whether they were tested with the right inputs. You can achieve 100% line coverage with one test that calls every function with valid inputs and never tests error cases, edge cases, or invalid data.</p>
+      <p>Coverage is a floor, not a ceiling. Use it to find <em>untested code</em> (coverage = 0% for a function means no tests reach it). Don't use it as a quality metric — a test that calls a function without asserting anything counts as covered.</p>
+      <p><strong>A practical target:</strong> 80-90% for application code is realistic and meaningful. Chasing 100% usually means writing trivial tests for trivial code.</p>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Mocking</button>
+    <button class="btn btn-next" onclick="next(3)">mypy →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L4 — MYPY
+══════════════════════════════════ -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 05</div>
+    <h2>mypy — Static Type Checking</h2>
+    <p class="lesson-intro">mypy reads your type hints and catches type errors before your code ever runs. It's like a compiler for Python — finds the bugs that tests miss because tests only check what you thought to test.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔤 What mypy Catches That Tests Miss</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — bugs mypy finds at check time, not runtime</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> typing <span class="kw">import</span> Optional
+
+<span class="kw">def</span> <span class="fn">get_task_title</span>(task_id: <span class="bi">int</span>) -> <span class="bi">str</span>:
+    task = db.<span class="fn">get</span>(task_id)   <span class="cm"># returns Optional[Task]</span>
+    <span class="kw">return</span> task.title          <span class="cm"># mypy ERROR: task could be None!</span>
+                                <span class="cm"># Tests might not catch this if db.get() always returns a value</span>
+
+<span class="cm"># Fix:</span>
+<span class="kw">def</span> <span class="fn">get_task_title</span>(task_id: <span class="bi">int</span>) -> Optional[<span class="bi">str</span>]:
+    task = db.<span class="fn">get</span>(task_id)
+    <span class="kw">return</span> task.title <span class="kw">if</span> task <span class="kw">else None</span>
+
+
+<span class="cm"># ── mypy catches wrong argument types ──</span>
+<span class="kw">def</span> <span class="fn">set_priority</span>(task_id: <span class="bi">int</span>, priority: <span class="bi">int</span>) -> <span class="kw">None</span>:
+    <span class="kw">pass</span>
+
+<span class="fn">set_priority</span>(<span class="str">"42"</span>, <span class="num">3</span>)   <span class="cm"># mypy ERROR: Argument 1 has type "str", expected "int"</span>
+
+<span class="cm"># ── mypy catches unreachable code ──</span>
+<span class="kw">def</span> <span class="fn">process</span>(items: <span class="bi">list</span>[<span class="bi">str</span>]) -> <span class="bi">str</span>:
+    <span class="kw">if not</span> items:
+        <span class="kw">return</span> <span class="str">""</span>
+    <span class="kw">return</span> items[<span class="num">0</span>]
+    <span class="kw">return</span> <span class="str">"unreachable"</span>   <span class="cm"># mypy: Statement is unreachable</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Running mypy &amp; Configuration</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install mypy</span>
+
+<span class="cm"># Basic check</span>
+<span class="sh">mypy myapp/</span>
+
+<span class="cm"># Strict mode — catches more issues, requires full annotations</span>
+<span class="sh">mypy --strict myapp/</span>
+
+<span class="cm"># Check a single file</span>
+<span class="sh">mypy myapp/models.py</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">pyproject.toml — mypy configuration</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>[tool.mypy]
+python_version = <span class="str">"3.12"</span>
+strict          = <span class="kw">true</span>     <span class="cm"># enables all strict checks</span>
+warn_return_any = <span class="kw">true</span>
+warn_unused_ignores = <span class="kw">true</span>
+
+<span class="cm"># Ignore third-party libraries with no stubs</span>
+[[tool.mypy.overrides]]
+module = [<span class="str">"anthropic.*"</span>, <span class="str">"bs4.*"</span>]
+ignore_missing_imports = <span class="kw">true</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Don't add mypy to a large existing codebase all at once</strong>Start by running <code>mypy --ignore-missing-imports myapp/models.py</code> on the most critical file. Fix those errors. Then expand to more files over time. Adding <code># type: ignore</code> to a line suppresses that specific error when you can't fix it immediately — use it sparingly as a TODO marker.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Parametrize &amp; Coverage</button>
+    <button class="btn btn-next" onclick="next(4)">Ruff →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L5 — RUFF
+══════════════════════════════════ -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 06</div>
+    <h2>Ruff — The Modern Python Linter</h2>
+    <p class="lesson-intro">Ruff replaces flake8, pylint, isort, and pyupgrade in a single tool. It's written in Rust — 10-100x faster than the tools it replaces — and is the current industry standard.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ Why Ruff Replaced Everything</div>
+    <table>
+      <tr><th>Old Tool</th><th>What It Did</th><th>Ruff Replacement</th></tr>
+      <tr><td>flake8</td><td>Style and logic checks (PEP 8)</td><td><code>ruff check</code></td></tr>
+      <tr><td>isort</td><td>Sort import statements</td><td><code>ruff check --fix</code> (I rules)</td></tr>
+      <tr><td>pyupgrade</td><td>Modernize syntax to newer Python</td><td><code>ruff check --fix</code> (UP rules)</td></tr>
+      <tr><td>pylint</td><td>Deep code analysis, conventions</td><td>Ruff (partial — mypy for types)</td></tr>
+      <tr><td>black</td><td>Code formatting</td><td><code>ruff format</code></td></tr>
+    </table>
+    <div class="callout fun">
+      <span class="callout-emoji">⚡</span>
+      <div class="callout-body"><strong>How fast is it?</strong>Ruff lints the entire CPython codebase (540,000 lines) in under 0.5 seconds. Flake8 takes 12 seconds. On your average project, Ruff runs so fast you barely notice it's running — which means you actually run it.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Installation &amp; Usage</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install ruff</span>
+
+<span class="cm"># Check for issues</span>
+<span class="sh">ruff check .</span>
+
+<span class="cm"># Fix auto-fixable issues (import sorting, unused imports, etc.)</span>
+<span class="sh">ruff check --fix .</span>
+
+<span class="cm"># Format code (like black)</span>
+<span class="sh">ruff format .</span>
+
+<span class="cm"># Check + format in one command</span>
+<span class="sh">ruff check --fix . && ruff format .</span>
+
+<span class="cm"># Check a single file</span>
+<span class="sh">ruff check myapp/models.py</span>
+
+<span class="cm"># Show all available rules</span>
+<span class="sh">ruff rule --all</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">pyproject.toml — Ruff configuration</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>[tool.ruff]
+line-length    = <span class="num">100</span>
+target-version = <span class="str">"py312"</span>
+
+[tool.ruff.lint]
+select = [
+    <span class="str">"E"</span>,    <span class="cm"># pycodestyle errors</span>
+    <span class="str">"F"</span>,    <span class="cm"># pyflakes (undefined names, unused imports)</span>
+    <span class="str">"I"</span>,    <span class="cm"># isort (import sorting)</span>
+    <span class="str">"UP"</span>,   <span class="cm"># pyupgrade (use f-strings, newer syntax)</span>
+    <span class="str">"B"</span>,    <span class="cm"># bugbear (common bugs and design issues)</span>
+    <span class="str">"SIM"</span>,  <span class="cm"># simplify (simplifiable conditions)</span>
+    <span class="str">"N"</span>,    <span class="cm"># pep8-naming conventions</span>
+]
+ignore = [
+    <span class="str">"E501"</span>,  <span class="cm"># line too long — handled by formatter</span>
+]
+
+[tool.ruff.lint.per-file-ignores]
+<span class="str">"tests/*"</span> = [<span class="str">"S101"</span>]  <span class="cm"># allow assert in tests</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🐛 What Ruff Catches — Real Examples</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — common Ruff findings</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># F401 — imported but unused</span>
+<span class="kw">import</span> os, sys, json   <span class="cm"># ruff: 'os' imported but unused</span>
+
+<span class="cm"># F841 — assigned but never used</span>
+result = <span class="fn">expensive_call</span>()   <span class="cm"># ruff: local variable 'result' is assigned but never used</span>
+
+<span class="cm"># UP — use f-strings instead of format()</span>
+name = <span class="str">"Jude"</span>
+<span class="str">"Hello, {}"</span>.<span class="fn">format</span>(name)   <span class="cm"># ruff UP032: use f-string</span>
+<span class="fn">f</span><span class="str">"Hello, {name}"</span>           <span class="cm"># correct</span>
+
+<span class="cm"># B — common bugs</span>
+<span class="kw">def</span> <span class="fn">append_to</span>(item, lst=[]):  <span class="cm"># ruff B006: mutable default argument!</span>
+    lst.<span class="fn">append</span>(item)
+    <span class="kw">return</span> lst
+
+<span class="cm"># SIM — simplifiable conditions</span>
+<span class="kw">if</span> x == <span class="kw">True</span>:   <span class="cm"># ruff SIM210: use 'if x:'</span>
+    <span class="kw">pass</span>
+
+<span class="kw">if not</span> x == <span class="kw">None</span>:  <span class="cm"># ruff SIM201: use 'if x is not None:'</span>
+    <span class="kw">pass</span>
+
+<span class="cm"># E711 — comparison to None</span>
+<span class="kw">if</span> x == <span class="kw">None</span>:   <span class="cm"># ruff E711: use 'is None'</span>
+    <span class="kw">pass</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← mypy</button>
+    <button class="btn btn-next" onclick="next(5)">Pre-commit Hooks →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L6 — PRE-COMMIT HOOKS
+══════════════════════════════════ -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 07</div>
+    <h2>Pre-commit Hooks — Automatic Quality Gates</h2>
+    <p class="lesson-intro">Pre-commit hooks run automatically before every <code>git commit</code> — checking formatting, linting, type errors, and secrets. Bad code never reaches your repository.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🪝 How Pre-commit Works</div>
+    <p>The <code>pre-commit</code> framework manages a set of hooks that run before each commit. If any hook fails, the commit is blocked until you fix the issue. This enforces standards automatically — no "I forgot to run Ruff" excuses.</p>
+    <ol class="step-list">
+      <li>Install the framework: <code>pip install pre-commit</code></li>
+      <li>Create <code>.pre-commit-config.yaml</code> in your project root</li>
+      <li>Install the hooks into your local git repo: <code>pre-commit install</code></li>
+      <li>Now every <code>git commit</code> runs the hooks first. Failures block the commit.</li>
+      <li>Run manually on all files at any time: <code>pre-commit run --all-files</code></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ The Complete Config</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">.pre-commit-config.yaml</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>repos:
+  <span class="cm"># ── Ruff: lint and format ──</span>
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0
+    hooks:
+      - id: ruff
+        args: [--fix]         <span class="cm"># auto-fix what can be auto-fixed</span>
+      - id: ruff-format       <span class="cm"># format like black</span>
+
+  <span class="cm"># ── Basic file hygiene ──</span>
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace     <span class="cm"># remove trailing spaces</span>
+      - id: end-of-file-fixer       <span class="cm"># ensure files end with newline</span>
+      - id: check-yaml              <span class="cm"># validate YAML syntax</span>
+      - id: check-toml              <span class="cm"># validate TOML syntax</span>
+      - id: check-json              <span class="cm"># validate JSON syntax</span>
+      - id: check-merge-conflict    <span class="cm"># catch unresolved merge conflicts</span>
+      - id: debug-statements        <span class="cm"># catch leftover breakpoint()/pdb.set_trace()</span>
+      - id: detect-private-key      <span class="cm"># !! catch accidentally committed secrets</span>
+
+  <span class="cm"># ── mypy: type checking ──</span>
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [pydantic, sqlmodel]</pre>
+    </div>
+    <div class="output-block">$ git commit -m "Add task export feature"
+ruff.....................................................................Passed
+ruff-format..............................................................Passed
+trailing whitespace......................................................Passed
+end of file fixer........................................................Passed
+detect private key.......................................................Passed
+mypy.....................................................................Failed
+- hook id: mypy
+- exit code: 1
+
+myapp/export.py:42: error: Incompatible return value type (got "None", expected "str")
+Found 1 error in 1 file
+
+<span style="color:#ff6b6b">commit blocked — fix the error above and try again</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚫 Skipping Hooks (When Necessary)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — override hooks when you need to</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Skip ALL hooks (emergency commit — use sparingly)</span>
+<span class="sh">git commit --no-verify -m "Emergency fix"</span>
+
+<span class="cm"># Skip a specific hook</span>
+<span class="sh">SKIP=mypy git commit -m "WIP — types to fix later"</span>
+
+<span class="cm"># Run just one hook manually</span>
+<span class="sh">pre-commit run ruff</span>
+<span class="sh">pre-commit run mypy --all-files</span>
+
+<span class="cm"># Update all hooks to latest versions</span>
+<span class="sh">pre-commit autoupdate</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Ruff</button>
+    <button class="btn btn-next" onclick="next(6)">Profiling →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L7 — PROFILING
+══════════════════════════════════ -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 08</div>
+    <h2>Profiling &amp; Performance</h2>
+    <p class="lesson-intro">Never optimize without measuring first. Profiling shows you exactly which function is slow and how many times it's called — the 80/20 rule almost always applies.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ The Golden Rule of Optimization</div>
+    <p>Donald Knuth: <em>"Premature optimization is the root of all evil."</em> The practical version: write clear code first, measure where it's actually slow, then optimize only that part. Profiling is how you find the actual bottleneck — not where you <em>think</em> it is.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Developers are bad at guessing bottlenecks</strong>Studies show developers correctly identify the hot path only ~20% of the time. The code you'd optimize first is almost never the actual bottleneck. Profile first, then optimize the thing the profiler points to.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 cProfile — Built-in Function Profiler</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — cProfile usage</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> cProfile, pstats, io
+
+<span class="cm"># ── Profile a function ──</span>
+<span class="kw">def</span> <span class="fn">profile</span>(func, *args, **kwargs):
+    pr = cProfile.<span class="cls">Profile</span>()
+    pr.<span class="fn">enable</span>()
+    result = <span class="fn">func</span>(*args, **kwargs)
+    pr.<span class="fn">disable</span>()
+
+    s      = io.<span class="cls">StringIO</span>()
+    stats  = pstats.<span class="cls">Stats</span>(pr, stream=s).<span class="fn">sort_stats</span>(<span class="str">"cumulative"</span>)
+    stats.<span class="fn">print_stats</span>(<span class="num">20</span>)   <span class="cm"># top 20 functions by cumulative time</span>
+    <span class="fn">print</span>(s.<span class="fn">getvalue</span>())
+    <span class="kw">return</span> result
+
+<span class="fn">profile</span>(<span class="fn">build_index</span>, documents)
+
+<span class="cm"># ── Command line profiling ──</span>
+<span class="cm"># python -m cProfile -s cumulative myscript.py</span>
+
+<span class="cm"># ── Profile output explanation ──</span>
+<span class="out">   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       1    0.001    0.001    4.523    4.523  main.py:12(build_index)
+     500    0.012    0.000    4.510    0.009  rag.py:28(get_embedding)
+     500    3.891    0.008    4.498    0.009  openai/resources.py:...
+       1    0.000    0.000    0.012    0.012  rag.py:45(chunk_text)</span>
+
+<span class="cm"># ncalls   = how many times called</span>
+<span class="cm"># tottime  = time IN this function only</span>
+<span class="cm"># cumtime  = total time including called functions ← sort by this</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔬 line_profiler — Line-by-Line Timing</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal + Python — line_profiler</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="sh">pip install line_profiler</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — profile specific functions line by line</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> line_profiler <span class="kw">import</span> LineProfiler
+
+<span class="kw">def</span> <span class="fn">slow_function</span>(items: <span class="bi">list</span>) -> <span class="bi">list</span>:
+    results = []
+    <span class="kw">for</span> item <span class="kw">in</span> items:
+        processed = <span class="fn">expensive_transform</span>(item)  <span class="cm"># ← is this the slow part?</span>
+        <span class="kw">if</span> <span class="fn">passes_filter</span>(processed):            <span class="cm"># ← or this?</span>
+            results.<span class="fn">append</span>(processed)
+    <span class="kw">return</span> results
+
+profiler = <span class="cls">LineProfiler</span>()
+profiler.<span class="fn">add_function</span>(<span class="fn">slow_function</span>)
+profiler.<span class="fn">run</span>(<span class="str">"slow_function(data)"</span>)
+profiler.<span class="fn">print_stats</span>()
+
+<span class="cm"># Output shows time per line:</span>
+<span class="out">Line #   Hits    Time   Per Hit  % Time  Line Contents
+    4    1000    234      0.2      2%     processed = expensive_transform(item)
+    5    1000   9834      9.8     98%     if passes_filter(processed):       ← HERE</span>
+<span class="cm"># passes_filter is the bottleneck — optimize that, not the transform</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ timeit — Benchmark Specific Expressions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — timeit for micro-benchmarks</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> timeit
+
+<span class="cm"># Compare two approaches</span>
+list_approach = timeit.<span class="fn">timeit</span>(
+    <span class="str">"[x**2 for x in range(1000)]"</span>,
+    number=<span class="num">10000</span>
+)
+map_approach = timeit.<span class="fn">timeit</span>(
+    <span class="str">"list(map(lambda x: x**2, range(1000)))"</span>,
+    number=<span class="num">10000</span>
+)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"List comp: {list_approach:.3f}s"</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"map():     {map_approach:.3f}s"</span>)
+
+<span class="cm"># In Jupyter / IPython: use %timeit magic</span>
+<span class="cm"># %timeit [x**2 for x in range(1000)]</span></pre>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Pre-commit</button>
+    <button class="btn btn-next" onclick="next(7)">Docs &amp; README →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L8 — DOCS & README
+══════════════════════════════════ -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">LESSON 09</div>
+    <h2>Documentation &amp; README Writing</h2>
+    <p class="lesson-intro">Code that can't be understood can't be used, maintained, or trusted. Learn docstrings, type-driven self-documentation, and how to write a README that makes people want to use your project.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Docstrings — The Three Levels</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — docstring styles</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># ── Level 1: One-liner — for obvious functions ──</span>
+<span class="kw">def</span> <span class="fn">is_overdue</span>(due: date) -> <span class="bi">bool</span>:
+    <span class="str">"""Return True if the due date is before today."""</span>
+    <span class="kw">return</span> due &lt; date.<span class="fn">today</span>()
+
+
+<span class="cm"># ── Level 2: Multi-line — for non-obvious functions ──</span>
+<span class="kw">def</span> <span class="fn">chunk_text</span>(text: <span class="bi">str</span>, chunk_size: <span class="bi">int</span> = <span class="num">500</span>, overlap: <span class="bi">int</span> = <span class="num">50</span>) -> <span class="bi">list</span>[<span class="bi">str</span>]:
+    <span class="str">"""Split text into overlapping chunks for RAG indexing.
+
+    Chunks overlap to preserve context at boundaries — a sentence
+    split across two chunks will appear in both.
+
+    Args:
+        text: The input text to split.
+        chunk_size: Approximate number of words per chunk.
+        overlap: Number of words to repeat between adjacent chunks.
+
+    Returns:
+        List of text chunks. Empty list if text is empty.
+
+    Example:
+        >>> chunks = chunk_text("one two three", chunk_size=2, overlap=1)
+        >>> chunks
+        ['one two', 'two three']
+    """</span>
+    <span class="kw">if not</span> text.<span class="fn">strip</span>(): <span class="kw">return</span> []
+    <span class="cm"># ... implementation</span>
+
+
+<span class="cm"># ── Level 3: Class docstring — describe purpose and usage ──</span>
+<span class="kw">class</span> <span class="cls">TaskManager</span>:
+    <span class="str">"""Manages a persistent collection of tasks.
+
+    Tasks are stored as JSON at the given filepath. All operations
+    are immediately persisted to disk. Thread-safety is not guaranteed.
+
+    Attributes:
+        filepath: Path to the JSON storage file.
+
+    Example:
+        >>> mgr = TaskManager("tasks.json")
+        >>> task = mgr.add("Write tests", priority=3)
+        >>> list(mgr.pending())
+        [Task(title='Write tests', priority=3, done=False)]
+    """</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Perfect README Structure</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Markdown — README.md template</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Project Name</span>
+
+<span class="str">One sentence. What does this do and who is it for?</span>
+
+<span class="cm">## Features</span>
+- Feature 1 — described from the user's perspective
+- Feature 2
+- Feature 3
+
+<span class="cm">## Quick Start</span>
+<span class="cm">```bash</span>
+<span class="sh">git clone https://github.com/you/project</span>
+<span class="sh">cd project</span>
+<span class="sh">python -m venv .venv && source .venv/bin/activate</span>
+<span class="sh">pip install -r requirements.txt</span>
+<span class="sh">cp .env.example .env  # fill in your keys</span>
+<span class="sh">python main.py</span>
+<span class="cm">```</span>
+
+<span class="cm">## Usage</span>
+<span class="cm">Show a real, copy-pasteable example. Not "use --help".</span>
+<span class="cm">```bash</span>
+<span class="sh">python cli.py add "Write tests" --priority 4</span>
+<span class="sh">python cli.py list</span>
+<span class="sh">python cli.py ai ask "what's due this week?"</span>
+<span class="cm">```</span>
+
+<span class="cm">## Configuration</span>
+| Variable | Required | Description |
+|---|---|---|
+| OPENAI_API_KEY | Yes | Your OpenAI API key |
+| DATABASE_URL | No | Defaults to SQLite |
+
+<span class="cm">## Development</span>
+<span class="cm">```bash</span>
+<span class="sh">pip install -r requirements-dev.txt</span>
+<span class="sh">pre-commit install</span>
+<span class="sh">pytest</span>
+<span class="cm">```</span>
+
+<span class="cm">## License</span>
+MIT</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The 30-second test</strong>A good README passes the 30-second test: a developer who's never seen the project should be able to understand what it does and have it running within 5 minutes of reading it. If your README requires reading the whole codebase to understand, rewrite it.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Profiling</button>
+    <button class="btn btn-next" onclick="next(8)">Phase Project →</button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     L9 — PHASE PROJECT
+══════════════════════════════════ -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">PHASE PROJECT 🏁</div>
+    <h2>Harden the Command Center</h2>
+    <p class="lesson-intro">Take everything built across Phases 1–6 and make it genuinely production-quality. Tests, types, lint pipeline, pre-commit hooks, profiling, documentation — the full professional treatment.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 The Task</div>
+    <p>You have a working project. This phase's project isn't building new features — it's doing the work that separates code you're proud to show from code you hope no one reads.</p>
+    <div class="callout info">
+      <span class="callout-emoji">📋</span>
+      <div class="callout-body">
+        <strong>Requirements checklist:</strong>
+        <br>✅ <strong>pytest suite — 90%+ coverage</strong> on core business logic (models.py, services.py). Tests organised into classes. At least 3 uses of <code>@pytest.mark.parametrize</code>.
+        <br>✅ <strong>Fixtures in conftest.py</strong> — all shared setup extracted. No duplicated setup code across test files.
+        <br>✅ <strong>All external calls mocked</strong> — HTTP requests, Anthropic API, file writes in unit tests. Integration tests clearly separated.
+        <br>✅ <strong>mypy passes</strong> — <code>mypy myapp/ --ignore-missing-imports</code> returns zero errors.
+        <br>✅ <strong>Ruff passes</strong> — <code>ruff check .</code> returns zero issues.
+        <br>✅ <strong>pre-commit installed</strong> — hooks run on every commit. Team members can onboard with <code>pre-commit install</code>.
+        <br>✅ <strong>Profiled</strong> — run cProfile on the slowest operation. Document findings in a comment: what's slow, what you did or would do about it.
+        <br>✅ <strong>All public functions have docstrings</strong> — one-liner minimum for simple functions, full Args/Returns for complex ones.
+        <br>✅ <strong>README passes the 30-second test</strong> — quick start, real usage examples, config table.
+        <br>✅ <strong>CI-ready</strong> — all checks can be run with a single command: <code>pytest &amp;&amp; mypy myapp/ &amp;&amp; ruff check .</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 The Quality Dashboard</div>
+    <p>After you've completed the checklist, run these commands and aim for these results:</p>
+    <table>
+      <tr><th>Command</th><th>Target</th><th>Meaning</th></tr>
+      <tr><td><code>pytest --cov=myapp</code></td><td>&gt; 85% coverage</td><td>Most code is exercised by tests</td></tr>
+      <tr><td><code>mypy myapp/</code></td><td>0 errors</td><td>No type inconsistencies</td></tr>
+      <tr><td><code>ruff check .</code></td><td>0 issues</td><td>Code follows style and avoids common bugs</td></tr>
+      <tr><td><code>pre-commit run --all-files</code></td><td>All passed</td><td>Every automated check green</td></tr>
+      <tr><td><code>pytest --durations=5</code></td><td>Suite &lt; 10s</td><td>Tests run fast enough to run constantly</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Extend the Challenge</div>
+    <h4>After the baseline is solid:</h4>
+    <ul>
+      <li>Add <code>pytest-xdist</code> and run your suite in parallel (<code>pytest -n auto</code>) — measure the speedup</li>
+      <li>Add mutation testing with <code>mutmut</code> — it deliberately breaks your code to see if your tests catch it. A test suite that doesn't catch mutations isn't really testing</li>
+      <li>Write a <code>CONTRIBUTING.md</code> explaining the development workflow, how to run tests, and the pre-commit setup</li>
+      <li>Profile the RAG indexing pipeline and identify the actual bottleneck. Can you cache embeddings to avoid recomputing them?</li>
+    </ul>
+  </div>
+
+  <div class="callout tip" style="margin-top:24px">
+    <span class="callout-emoji">🚀</span>
+    <div class="callout-body"><strong>Phase 7 Complete.</strong> You now write code that professionals trust — tested thoroughly, typed correctly, linted automatically, documented clearly, and guarded by pre-commit hooks that prevent regression. This is the phase that makes the difference in a code review. One phase left: Phase 8 — Deployment &amp; Production. Ship it.</div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Docs &amp; README</button>
+    <button class="btn btn-next" onclick="goNext()">Phase 8 — Deployment →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 10;
+const done  = new Set();
+let   cur   = 0;
+
+const snWrap = document.getElementById('streak-nodes');
+for (let i = 0; i < TOTAL; i++) {
+  const n = document.createElement('div');
+  n.className = 'streak-node' + (i === 0 ? ' current' : '');
+  n.id = 'sn' + i;
+  snWrap.appendChild(n);
+}
+
+function go(i) {
+  document.getElementById('l'+cur).classList.remove('active');
+  document.getElementById('nav'+cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l'+i).classList.add('active');
+  document.getElementById('nav'+i).classList.add('active');
+  done.add(i);
+  updateProgress();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+function next(i)  { go(Math.min(i+1, TOTAL-1)); }
+function prev(i)  { go(Math.max(i-1, 0)); }
+function goNext() { window.location.href = 'python-roadmap.html#roadmap'; }
+
+function updateProgress() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  for (let i = 0; i < TOTAL; i++) {
+    const chk = document.getElementById('chk'+i);
+    const sn  = document.getElementById('sn'+i);
+    if (done.has(i)) {
+      if (chk) chk.textContent = '✓';
+      if (sn)  { sn.classList.remove('current'); sn.classList.add('done'); }
+    }
+  }
+  const snCur = document.getElementById('sn'+cur);
+  if (snCur && !done.has(cur)) snCur.classList.add('current');
+}
+
+function quiz(btn, result) {
+  const block = btn.closest('.quiz-block');
+  block.querySelectorAll('.quiz-option').forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = block.querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  fb.textContent = result === 'correct'
+    ? '✅ Correct! You must patch where the name is USED, not where it is defined. Your module tasks.py imports requests, so from tasks.py\'s perspective the name is tasks.requests.get. Patching requests.get directly patches the original module, which tasks.py has already imported — so the patch has no effect.'
+    : '❌ The rule is: patch where the name is USED, not where it is defined. tasks.py imported requests, so you must patch tasks.requests.get. If you patch requests.get in the original module, tasks.py already has a reference to the old object and the patch misses it.';
+}
+
+done.add(0);
+updateProgress();
+</script>
+</body>
+</html>
