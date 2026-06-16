@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3E051 Flashcard Drill — Electrical Systems Journeyman</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2230;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-faint: #484f58;
+    --accent: #58a6ff;
+    --accent-dim: rgba(88,166,255,0.12);
+    --green: #3fb950;
+    --green-dim: rgba(63,185,80,0.12);
+    --red: #f85149;
+    --red-dim: rgba(248,81,73,0.12);
+    --amber: #e3b341;
+    --amber-dim: rgba(227,179,65,0.12);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .header-title {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .header-title h1 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  .header-title p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .header-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(88,166,255,0.25);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    max-height: calc(100vh - 70px);
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 12px 12px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .topic-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: left;
+    border-radius: 6px;
+    margin: 1px 4px;
+    width: calc(100% - 8px);
+    transition: background 0.15s, color 0.15s;
+  }
+  .topic-btn:hover { background: var(--surface); color: var(--text); }
+  .topic-btn.active { background: var(--accent-dim); color: var(--accent); }
+  .topic-btn .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .topic-btn .count {
+    margin-left: auto;
+    font-size: 11px;
+    opacity: 0.5;
+  }
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 12px;
+  }
+
+  /* ── Main ── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex;
+    gap: 10px;
+  }
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    background: var(--surface);
+  }
+  .stat-pill .stat-n { font-weight: 600; }
+  .stat-pill.s-remaining .stat-n { color: var(--accent); }
+  .stat-pill.s-correct .stat-n { color: var(--green); }
+  .stat-pill.s-wrong .stat-n { color: var(--red); }
+  .stat-pill .stat-l { color: var(--text-muted); font-size: 12px; }
+
+  .progress-bar-wrap {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #79c0ff);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── Card ── */
+  .card-wrap {
+    flex: 1;
+    min-height: 0;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .card-back {
+    transform: rotateY(180deg);
+    background: var(--surface2);
+    border-color: rgba(88,166,255,0.2);
+  }
+  .card-topic-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    align-self: flex-start;
+    max-width: 100%;
+  }
+  .card-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+  }
+  .card-q {
+    font-size: clamp(15px, 2.5vw, 20px);
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card-a {
+    font-size: clamp(13px, 2vw, 16px);
+    color: var(--text);
+    line-height: 1.7;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .card-a strong, .card-a b { color: var(--accent); font-weight: 600; }
+  .flip-hint {
+    margin-top: 1.5rem;
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .kbd {
+    font-size: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border-strong);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  /* ── Buttons ── */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:hover { background: var(--surface2); color: var(--text); }
+  .btn:active { transform: scale(0.98); }
+  .btn-wrong { border-color: rgba(248,81,73,0.3); color: var(--red); }
+  .btn-wrong:hover { background: var(--red-dim); border-color: var(--red); }
+  .btn-correct { border-color: rgba(63,185,80,0.3); color: var(--green); }
+  .btn-correct:hover { background: var(--green-dim); border-color: var(--green); }
+  .btn-flip { flex: 0.5; }
+
+  /* ── Done screen ── */
+  .done-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .done-screen h2 { font-size: 24px; font-weight: 600; }
+  .done-screen p { color: var(--text-muted); font-size: 15px; max-width: 360px; }
+  .score-grid {
+    display: flex;
+    gap: 12px;
+    margin: 0.5rem 0;
+  }
+  .score-box {
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    min-width: 100px;
+  }
+  .score-box .score-n { font-size: 28px; font-weight: 700; }
+  .score-box .score-l { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .score-box.sc { border-color: rgba(63,185,80,0.3); background: var(--green-dim); }
+  .score-box.sc .score-n { color: var(--green); }
+  .score-box.sw { border-color: rgba(248,81,73,0.3); background: var(--red-dim); }
+  .score-box.sw .score-n { color: var(--red); }
+  .btn-restart {
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(88,166,255,0.3);
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-restart:hover { background: rgba(88,166,255,0.2); }
+
+  /* ── Mobile sidebar drawer ── */
+  .sidebar-toggle {
+    display: none;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    align-items: center;
+    gap: 6px;
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 40;
+  }
+  .sidebar-overlay.open { display: block; }
+
+  /* ── Keyboard shortcut hint ── */
+  .shortcut-bar {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+  .shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+  @media (max-width: 700px) {
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      z-index: 50;
+      background: var(--surface);
+      transition: left 0.25s ease;
+    }
+    .sidebar.open { left: 0; }
+    .layout { max-height: none; }
+    .main { padding: 1rem; }
+    .sidebar-toggle { display: flex; }
+    .shortcut-bar { display: none; }
+    .btn-flip { display: none; }
+    .card-face { padding: 1.5rem; }
+    header { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Open topic menu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    Topics
+  </button>
+  <div class="header-title">
+    <h1>3E051 Flashcard Drill</h1>
+    <p>Electrical Systems Journeyman · WAPS SKT/PFE + Module 7</p>
+  </div>
+  <span class="header-badge">3E051</span>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar" aria-label="Topics">
+    <div class="sidebar-section">All</div>
+    <button class="topic-btn active" onclick="selectTopic('all')" id="btn-all">
+      <span class="dot" style="background:#58a6ff"></span>
+      All Topics
+      <span class="count" id="cnt-all"></span>
+    </button>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Main Study Guide</div>
+
+    <button class="topic-btn" onclick="selectTopic('Electrical Safety')" id="btn-Electrical Safety">
+      <span class="dot" style="background:#e3b341"></span>
+      Electrical Safety
+      <span class="count" id="cnt-Electrical Safety"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Grounding Systems')" id="btn-Grounding Systems">
+      <span class="dot" style="background:#3fb950"></span>
+      Grounding Systems
+      <span class="count" id="cnt-Grounding Systems"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('NEC / NFPA 70')" id="btn-NEC / NFPA 70">
+      <span class="dot" style="background:#79c0ff"></span>
+      NEC / NFPA 70
+      <span class="count" id="cnt-NEC / NFPA 70"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Interior Electrical')" id="btn-Interior Electrical">
+      <span class="dot" style="background:#58a6ff"></span>
+      Interior Electrical
+      <span class="count" id="cnt-Interior Electrical"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Lighting Systems')" id="btn-Lighting Systems">
+      <span class="dot" style="background:#e3b341"></span>
+      Lighting Systems
+      <span class="count" id="cnt-Lighting Systems"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Exterior Distribution')" id="btn-Exterior Distribution">
+      <span class="dot" style="background:#3fb950"></span>
+      Exterior Distribution
+      <span class="count" id="cnt-Exterior Distribution"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Fire Protection')" id="btn-Fire Protection">
+      <span class="dot" style="background:#f85149"></span>
+      Fire Protection & AFSC
+      <span class="count" id="cnt-Fire Protection"></span>
+    </button>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Module 7</div>
+
+    <button class="topic-btn" onclick="selectTopic('EALS')" id="btn-EALS">
+      <span class="dot" style="background:#3fb950"></span>
+      EALS — Airfield Lighting
+      <span class="count" id="cnt-EALS"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('RADR')" id="btn-RADR">
+      <span class="dot" style="background:#f85149"></span>
+      RADR — Damage Repair
+      <span class="count" id="cnt-RADR"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('BEAR Primary')" id="btn-BEAR Primary">
+      <span class="dot" style="background:#79c0ff"></span>
+      BEAR Primary Dist.
+      <span class="count" id="cnt-BEAR Primary"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('BEAR Secondary')" id="btn-BEAR Secondary">
+      <span class="dot" style="background:#58a6ff"></span>
+      BEAR Secondary Dist.
+      <span class="count" id="cnt-BEAR Secondary"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('BEAR Grounding')" id="btn-BEAR Grounding">
+      <span class="dot" style="background:#e3b341"></span>
+      BEAR Grounding
+      <span class="count" id="cnt-BEAR Grounding"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('RALS')" id="btn-RALS">
+      <span class="dot" style="background:#3fb950"></span>
+      RALS & Support Systems
+      <span class="count" id="cnt-RALS"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('MAAS')" id="btn-MAAS">
+      <span class="dot" style="background:#f85149"></span>
+      MAAS — Aircraft Arresting
+      <span class="count" id="cnt-MAAS"></span>
+    </button>
+    <button class="topic-btn" onclick="selectTopic('Shelter')" id="btn-Shelter">
+      <span class="dot" style="background:#e3b341"></span>
+      BEAR Shelter Lighting
+      <span class="count" id="cnt-Shelter"></span>
+    </button>
+
+    <div style="height:16px"></div>
+  </nav>
+
+  <main class="main" id="mainArea">
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-pill s-remaining">
+        <span class="stat-n" id="sLeft">—</span>
+        <span class="stat-l">remaining</span>
+      </div>
+      <div class="stat-pill s-correct">
+        <span class="stat-n" id="sGot">0</span>
+        <span class="stat-l">got it</span>
+      </div>
+      <div class="stat-pill s-wrong">
+        <span class="stat-n" id="sMiss">0</span>
+        <span class="stat-l">review again</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <div class="card-wrap" id="cardWrap" onclick="flipCard()" role="button" tabindex="0" aria-label="Flashcard — click to flip">
+      <div class="card-inner" id="cardInner">
+        <div class="card-face" id="cardFront">
+          <span class="card-topic-badge" id="badge"></span>
+          <div class="card-label">Question</div>
+          <p class="card-q" id="qText"></p>
+          <p class="flip-hint">
+            Click to reveal answer &nbsp;·&nbsp;
+            <span class="kbd">Space</span> to flip &nbsp;·&nbsp;
+            <span class="kbd">←</span> review &nbsp;·&nbsp;
+            <span class="kbd">→</span> got it
+          </p>
+        </div>
+        <div class="card-face card-back" id="cardBack">
+          <span class="card-topic-badge" id="badge2"></span>
+          <div class="card-label">Answer</div>
+          <p class="card-a" id="aText"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row" id="btnRow">
+      <button class="btn btn-wrong" onclick="judge(false)" aria-label="Mark for review">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        Review again
+      </button>
+      <button class="btn btn-flip" onclick="flipCard()" aria-label="Flip card">Flip</button>
+      <button class="btn btn-correct" onclick="judge(true)" aria-label="Mark as correct">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        Got it
+      </button>
+    </div>
+
+    <div class="shortcut-bar">
+      <span class="shortcut-item"><span class="kbd">Space</span> flip</span>
+      <span class="shortcut-item"><span class="kbd">→</span> got it</span>
+      <span class="shortcut-item"><span class="kbd">←</span> review again</span>
+      <span class="shortcut-item"><span class="kbd">R</span> shuffle & restart</span>
+    </div>
+  </main>
+</div>
+
+<script>
+const TOPIC_COLORS = {
+  "Electrical Safety": "#e3b341",
+  "Grounding Systems": "#3fb950",
+  "NEC / NFPA 70": "#79c0ff",
+  "Interior Electrical": "#58a6ff",
+  "Lighting Systems": "#e3b341",
+  "Exterior Distribution": "#3fb950",
+  "Fire Protection": "#f85149",
+  "EALS": "#3fb950",
+  "RADR": "#f85149",
+  "BEAR Primary": "#79c0ff",
+  "BEAR Secondary": "#58a6ff",
+  "BEAR Grounding": "#e3b341",
+  "RALS": "#3fb950",
+  "MAAS": "#f85149",
+  "Shelter": "#e3b341"
+};
+
+const ALL = [
+  {t:"Electrical Safety",q:"What defines LOW voltage vs HIGH voltage per UFC 3-560-01?",a:"Low voltage = 1,000 volts or less. Above 1,000 V = high voltage."},
+  {t:"Electrical Safety",q:"What is an equipotential zone?",a:"A safe area with no potential gradient — no voltage difference between contact points, so no shock risk. Created by grounding and bonding techniques around work areas."},
+  {t:"Electrical Safety",q:"At what current level does 60-Hz AC cause ventricular fibrillation?",a:"~100–300 mA. Let-go threshold is ~6–9 mA (women) or 9–16 mA (men). Even 1 mA is perceptible; above 5 mA is dangerous."},
+  {t:"Electrical Safety",q:"What is an arc flash and how far can it be fatal?",a:"Electric current passing through air when it fails as an insulator. High-energy arcs can be fatal at distances up to 10 feet (3.05 m)."},
+  {t:"Electrical Safety",q:"What is the 7-step LOTO sequence per UFC 3-560-01?",a:"(1) Notify affected employees; (2) Identify all energy sources; (3) Shut down equipment; (4) Isolate energy sources; (5) Apply LOTO devices; (6) Release/restrain stored energy; (7) Verify isolation by testing."},
+  {t:"Electrical Safety",q:"What is the difference between a lockout device and a tagout device?",a:"Lockout physically prevents operation with a lock. Tagout is a warning tag only. Lockout is preferred; tagout is used only when equipment cannot be locked out — it provides a lesser degree of protection."},
+  {t:"Electrical Safety",q:"What is a Safe Clearance Form (Switching Order)?",a:"An approved authorization document controlling switching operations on electrical systems. Must be properly completed and approved before any switching begins — no switching may be performed without it."},
+  {t:"Electrical Safety",q:"When is energized electrical work permitted under UFC 3-560-01?",a:"Only when de-energizing creates a greater hazard OR is infeasible due to continuous process requirements. Must be justified in writing with appropriate PPE and safe work practices."},
+  {t:"Electrical Safety",q:"What does FR stand for, and what unit measures arc flash PPE rating?",a:"FR = Fire Resistant. PPE is rated in calories per square centimeter (cal/cm²). The arc rating must meet or exceed the calculated incident energy at the work location."},
+  {t:"Electrical Safety",q:"What is incident energy?",a:"Thermal energy impressed on a surface during an arc flash, measured in cal/cm². Calculated based on system voltage, available fault current, and working distance."},
+  {t:"Electrical Safety",q:"What information must appear on an arc flash warning label?",a:"Nominal system voltage, arc flash boundary, available incident energy and working distance, required PPE arc rating (cal/cm²), and glove class. Must be visible before work begins."},
+  {t:"Electrical Safety",q:"What is step potential and how do you safely escape it?",a:"Voltage difference between two ground contact points one step apart (~1 m). Near a downed energized conductor, use a shuffle walk or bunny hop to minimize foot-to-foot voltage difference."},
+  {t:"Electrical Safety",q:"What is touch potential vs step potential?",a:"Touch potential = voltage between an energized object you're touching and the ground under your feet (hand-to-foot path through heart — more dangerous). Step potential = voltage between your two feet on the ground."},
+  {t:"Electrical Safety",q:"What grounding is required for aerial lift trucks before elevated electrical work?",a:"Must be properly grounded before work begins. Procedures differ for insulated vs uninsulated lifts. A rescue plan (trained ground person, emergency lowering equipment, CPR-qualified personnel) must be established before work begins."},
+  {t:"Electrical Safety",q:"When are temporary grounds required on de-energized lines?",a:"Any time workers work on de-energized overhead or underground lines — to protect against inadvertent energization or induced voltages. Applied before work begins; removed after work is complete and workers are clear."},
+  {t:"Electrical Safety",q:"What atmospheric tests must be done before entering an electrical manhole/vault?",a:"Test for oxygen deficiency, toxic gases, and explosive atmospheres BEFORE entry. Also requires continuous ventilation, standby person outside, rescue equipment, established communications, and a completed entry permit."},
+  {t:"Electrical Safety",q:"What does a JHA/JSA accomplish and when must it be performed?",a:"Systematically identifies all potential hazards in a task and establishes safe procedures for each step. Must be performed before electrical work, especially non-routine tasks, energized work, or high-voltage work."},
+  {t:"Electrical Safety",q:"What training is required before working on grounding at explosive facilities?",a:"DAC course 4E-F37 645-F21 (formerly AMMO-47), or OJT under a worker who completed AMMO-47 or AMMO-48 within the last 3 years. Required before any grounding system maintenance at explosive facilities."},
+  {t:"Grounding Systems",q:"What is the minimum size for existing bonding conductors per AFMAN 32-1065?",a:"AWG No. 8 minimum. In high-use or physically exposed areas, repairs must use AWG No. 6 copper minimum. Static grounds for portable/movable equipment must be braided cable."},
+  {t:"Grounding Systems",q:"What is the maximum resistance for static grounds per AFMAN 32-1065?",a:"10,000 ohms or less. Static electricity creates tiny currents (milliamps), so even this high resistance is small enough to safely bleed off static charges."},
+  {t:"Grounding Systems",q:"Why are stainless steel ground rods prohibited by the Air Force?",a:"Potential for galvanic corrosion and inadequate long-term conductivity. Standard materials are copper-clad steel and galvanized steel rods. Rod material must be compatible with soil conditions and adjacent metallic structures."},
+  {t:"Grounding Systems",q:"When must you NOT bond around insulation flanges on an underground water pipe?",a:"When the metal pipe is in direct earth contact for 10+ feet AND the flanges are installed for cathodic protection — bonding around them defeats the corrosion protection purpose."},
+  {t:"Grounding Systems",q:"What corrosion risk occurs when copper grounds bond to ferrous underground structures?",a:"Copper is cathodic to common construction materials — galvanic corrosion accelerates at voids in pipe coatings. Solution: use galvanized steel rods (not copper) near coated steel pipelines."},
+  {t:"Grounding Systems",q:"What is an electrolytic cell (Kirkcell) and what does it do?",a:"Multiple stainless steel plate pairs in a potassium hydroxide electrolyte. Acts as an electrochemical switch — blocks low DC cathodic protection voltages but instantly shunts AC or higher fault DC currents to ground."},
+  {t:"Grounding Systems",q:"What is the nominal resistance of a two-anode grounding cell?",a:"0.4 ohms. A four cross-connected zinc anode cell provides 0.2 ohms. Both provide low-impedance AC fault paths while blocking corrosion-causing cathodic protection DC current."},
+  {t:"Grounding Systems",q:"What is the concrete-encased electrode (Ufer ground) minimum specification?",a:"At least 20 feet of steel reinforcing bars near the bottom of a concrete foundation, encased by at least 2 inches of concrete in direct contact with the earth."},
+  {t:"Grounding Systems",q:"What minimum metal framework thickness allows a structure to serve as an air terminal for lightning protection?",a:"3/16 inch (0.188 in / 4.8 mm) and must be electrically continuous, either inherently or by bonding."},
+  {t:"Grounding Systems",q:"What is cathodic protection and when does it conflict with grounding requirements?",a:"Electrochemical technique to prevent corrosion by making structures the cathode. Conflicts when bonding copper grounds to protected pipelines short-circuits the protective current. Solutions: isolation flanges or electrolytic cells."},
+  {t:"Grounding Systems",q:"Who is responsible for maintaining lightning and grounding systems on an AF installation?",a:"The Base Civil Engineer (BCE) per AFMAN 32-1065 Table 1. This includes exterior distribution grounds, substation grounds, and lightning protection systems."},
+  {t:"Grounding Systems",q:"What reference governs basic bonding requirements for lightning protection per AFMAN 32-1065?",a:"NFPA 780. AFMAN 32-1065 Attachment 3 covers basic bonding requirements; Attachment 4 covers lightning protection systems. Facilities must also comply with UFC 3-520-01, 3-550-01, 3-575-01, and 3-580-01."},
+  {t:"NEC / NFPA 70",q:"What does NEC stand for and what is its purpose?",a:"National Electrical Code. Establishes minimum requirements for the safe installation of electrical wiring and equipment. Chapters 1–4 = general installations; 5–7 = special locations; 8 = communications; 9 = tables."},
+  {t:"NEC / NFPA 70",q:"What is the difference between a mandatory rule and a permissive rule in the NEC?",a:"Mandatory = uses 'shall' or 'shall not' — specifically required or prohibited. Permissive = uses 'shall be permitted' — allowed but not required."},
+  {t:"NEC / NFPA 70",q:"What does NEC Article 210 govern?",a:"Branch circuits — conductors between the final overcurrent device and the outlets. Covers branch circuit ratings, required outlets, and AFCI/GFCI protection requirements."},
+  {t:"NEC / NFPA 70",q:"What does NEC Article 230 cover?",a:"Services — conductors and equipment delivering energy from the utility to the premises. Covers service conductor sizing, clearances, disconnects, and protection requirements."},
+  {t:"NEC / NFPA 70",q:"What does a GFCI protect against and where is it required?",a:"Ground faults — detects current imbalance as small as 4–6 mA. Required in wet locations: kitchens, bathrooms, garages, outdoor receptacles, and near pools. UFC 3-520-01 requires GFCIs at specific DoD locations."},
+  {t:"NEC / NFPA 70",q:"What is an AFCI and where is it required?",a:"Arc Fault Circuit Interrupter — detects unique arc fault current waveform and de-energizes the circuit. Required in dwelling unit bedrooms and other living areas to protect against arc faults that can ignite fires."},
+  {t:"NEC / NFPA 70",q:"What is a short circuit vs a ground fault?",a:"Short circuit = abnormal low-impedance connection between two points of different potential (line-to-line or line-to-neutral). Ground fault = contact between an ungrounded conductor and the grounding path (line-to-ground)."},
+  {t:"NEC / NFPA 70",q:"What does NEC Article 404 cover and what must a single-pole switch do?",a:"Article 404 covers switches. Single-pole switches must open the ungrounded conductor. Switches must be accessible and marked for their rating. Lighting switches must be at the entrance to the space."},
+  {t:"NEC / NFPA 70",q:"What does NEC Article 330 cover?",a:"Metal-Clad (MC) Cable — factory-assembled insulated conductors in a metallic sheath. The metal sheath serves as the equipment grounding conductor. Part I = general; Part II = installation requirements."},
+  {t:"NEC / NFPA 70",q:"What does NEC Article 358 cover and what are its limitations?",a:"Electrical Metallic Tubing (EMT) — thin-wall raceway. Cannot be used where subject to physical damage or in certain wet locations. Cannot be threaded."},
+  {t:"NEC / NFPA 70",q:"What torque standard applies to electrical connections at DoD facilities?",a:"NETA ATS (Acceptance Testing Specifications) torque values or manufacturer torque specifications. Date of installation must be recorded. Loose connections cause resistance heating, arcing, and potential fires."},
+  {t:"NEC / NFPA 70",q:"What is service voltage vs utilization voltage per ANSI C84.1?",a:"Service voltage = voltage at the facility service entrance (utility delivery point). Utilization voltage = voltage at load equipment terminals — typically lower due to voltage drop in facility wiring."},
+  {t:"NEC / NFPA 70",q:"What are the NEC Chapter 7 emergency/standby system types?",a:"Article 700 = Emergency systems (automatic on power loss). Article 701 = Legally required standby. Article 702 = Optional standby. Emergency systems must operate automatically on utility failure."},
+  {t:"NEC / NFPA 70",q:"What is a Surge Protective Device (SPD)?",a:"Circuit elements that limit surge voltages on equipment from lightning, switching, or utility events. Required at DoD for sensitive/critical electronic equipment per UFC 3-520-01."},
+  {t:"Interior Electrical",q:"What does UFC 3-520-01 apply to?",a:"Planning, design, construction, sustainment, restoration, and modernization of DoD-owned facilities. Covers all project delivery methods (design-bid-build, design-build, etc.). Refer to UFC 3-550-01 for exterior systems."},
+  {t:"Interior Electrical",q:"What are the three common raceway types in DoD interior wiring?",a:"EMT (thin-wall, not threaded, Article 358); RMC — Rigid Metal Conduit (heaviest wall, fully threaded, Article 344); IMC — Intermediate Metal Conduit (between EMT and RMC). Selection depends on environment and protection level."},
+  {t:"Interior Electrical",q:"What are the outlet box placement rules per UFC 3-520-01?",a:"Must NOT be placed back-to-back. Minimum 12 inches (300 mm) separation between outlet boxes to maintain acoustic and fire separation integrity of walls."},
+  {t:"Interior Electrical",q:"What UFC governs DoD generators?",a:"UFC 3-540-01. Covers fuel storage, cooling, exhaust systems, transfer switch coordination, load calculations, and automatic starting systems."},
+  {t:"Interior Electrical",q:"What UFC governs foreign voltages and frequencies at DoD sites outside the US?",a:"UFC 3-510-01 (Foreign Voltages and Frequencies Guide). Different wiring and grounding conventions apply in host nations, but UFC 3-520-01 design principles should still be followed."},
+  {t:"Interior Electrical",q:"What governing criteria document ties all electrical UFCs together?",a:"UFC 3-501-01 (Electrical Engineering) — the master document referencing each UFC: 3-520-01 (interior), 3-530-01 (lighting), 3-540-01 (generators), 3-550-01 (exterior distribution), and explains delineation among them."},
+  {t:"Interior Electrical",q:"What does UFC 3-520-01 say about modernizing existing facilities for NEC compliance?",a:"Modernization solely to meet UFC criteria is NOT required for existing facilities. However, upgrades or modifications must apply current design criteria — though a minor modification doesn't require upgrading the entire facility."},
+  {t:"Lighting Systems",q:"What footcandle levels are required at an Access Control Point per UFC 3-530-01?",a:"Approach zone = minimum 1 footcandle. Access Control Zone (canopy area) = minimum 10 footcandles. Photocell failures keeping lights on 24/7 must be corrected — energy waste and security concern."},
+  {t:"Lighting Systems",q:"What does the U0 (no uplight) rating mean and where does it apply?",a:"The luminaire produces zero upward light output. Required for fully shielded luminaires at security and ACP locations. Tilted roadway luminaires violate this by producing upward light causing glare."},
+  {t:"Lighting Systems",q:"What are the three types of protective (security) lighting?",a:"(1) Continuous — fixed luminaires providing consistent illumination; (2) Standby — activated when motion or intrusion is detected; (3) Movable/portable — temporary or repositionable fixtures."},
+  {t:"Lighting Systems",q:"What is CCT and what does 4100K indicate?",a:"Correlated Color Temperature in Kelvin — describes color appearance of a light source. 4100K = cool neutral white. Lower (2700–3000K) = warm/yellow; higher (5000K+) = cool/blue-white."},
+  {t:"Lighting Systems",q:"What is the Purkinje effect and why does it matter for security lighting?",a:"At low light levels, the eye's peak sensitivity shifts toward the blue end of the spectrum (scotopic vision). Higher CCT (cooler) sources provide better nighttime visibility at lower illuminance — relevant to perimeter security lighting design."},
+  {t:"Lighting Systems",q:"What luminance limit prevents direct glare in occupied spaces per UFC 3-530-01?",a:"Less than 650 cd/ft² (7,000 cd/m²) between 45 and 90 degrees from nadir. A narrow 2-inch LED lens may exceed this and require a dimmer. Exceptions: high/low bay industrial luminaires, wall-aimed luminaires, indirect luminaires."},
+  {t:"Lighting Systems",q:"What is a typical LLF for LED office luminaires and what does LLF account for?",a:"0.81 — typical for an office with LED luminaires rated L80 at 60,000 hours over 25 years. Accounts for LED lumen depreciation, luminaire dirt, room surface dirt, and other factors reducing actual output over time."},
+  {t:"Lighting Systems",q:"What is the L80 rating for LED luminaires?",a:"The LED product retains at least 80% of its initial light output at the rated number of hours. L80 at 60,000 hours = still producing 80% of initial lumens after 60,000 operating hours. Standard DoD threshold for LED longevity."},
+  {t:"Lighting Systems",q:"What is luminous efficacy?",a:"The ratio of light output (lumens) to electrical power input (watts), expressed in lm/W. Modern LEDs: 100–200+ lm/W. Fluorescent: ~80–100. HPS: ~90–140. Metal halide: ~70–115. Incandescent: ~15."},
+  {t:"Lighting Systems",q:"What is photometric uniformity and why is it required for security lighting?",a:"The ratio of maximum to minimum illuminance across a lit area (uniformity ratio). Adequate uniformity prevents dark spots where intruders could hide. UFC 3-530-01 requires verification through calculations and commissioning."},
+  {t:"Exterior Distribution",q:"What does UFC 3-550-01 govern?",a:"Exterior electrical power distribution for DoD facilities — distribution system design, overhead and underground construction, substations, and power quality for exterior distribution systems."},
+  {t:"Exterior Distribution",q:"What circuit configurations are used in Air Force base distribution systems?",a:"Radial (simple, economical, single failure point); Loop/ring (two or more paths, better reliability); Network (multiple sources, highest reliability). Military installations use loop or network for mission-critical areas."},
+  {t:"Exterior Distribution",q:"What is an Oil Circuit Recloser (OCR)?",a:"Self-contained protective device that senses overcurrent, interrupts the circuit, and automatically recloses (typically 3 times). Most faults are temporary — reclosing restores power automatically. If the fault is permanent, it locks out."},
+  {t:"Exterior Distribution",q:"What is voltage regulation and how is it maintained?",a:"Keeping system voltage within acceptable limits (±5% of nominal per ANSI C84.1) as load varies. Maintained via voltage regulators, tap-changing transformers, capacitor banks, and adequate conductor sizing."},
+  {t:"Exterior Distribution",q:"What is a pad-mounted transformer?",a:"Transformer in a tamper-resistant enclosure mounted on a concrete pad at grade level. Used in underground distribution to step down 4–15 kV to utilization voltage. Preferred for DoD aesthetics and security."},
+  {t:"Exterior Distribution",q:"What is a sectionalizer and how does it differ from a recloser?",a:"A sectionalizer counts overcurrent pulses and opens when the circuit is de-energized by an upstream device. Unlike a recloser, it does NOT interrupt fault current — operates only after the upstream device opens."},
+  {t:"Exterior Distribution",q:"What is an airfield series circuit and what current level is standard?",a:"All airfield lights connected in series; a CCR maintains constant current regardless of load changes. Standard current: 6.6 A or 20 A. When a lamp fails, only that fixture opens (via isolation transformer) — the rest stay lit."},
+  {t:"Exterior Distribution",q:"What are series isolation transformers in airfield lighting?",a:"Installed at each individual airfield light fixture. When a lamp fails (open circuit), the transformer secondary opens — preventing the entire series circuit from going dark. Critical for flight safety."},
+  {t:"Exterior Distribution",q:"What are PAPI lights and how do they work?",a:"Precision Approach Path Indicator — 4 light units appear white or red. 2 white + 2 red = on glidepath. All white = too high. All red = too low (dangerously low)."},
+  {t:"Exterior Distribution",q:"What is a Constant Current Regulator (CCR)?",a:"Maintains constant current output regardless of changes in load impedance. Holds airfield lighting at the design current (typically 6.6 A). Multiple brightness settings by adjusting current level — lower current = lower brightness."},
+  {t:"Fire Protection",q:"What is the 3E051's role in maintaining fire alarm systems?",a:"Maintain fire alarm panel power (primary and battery backup), wiring integrity, conduit systems for fire alarm devices, circuit continuity testing, and ensure emergency lighting and exit signs function per NEC Article 760 and UFC 3-600-01."},
+  {t:"Fire Protection",q:"What emergency power requirements exist for fire alarm panels?",a:"Primary AC power plus dedicated secondary (battery backup) capable of maintaining standby for at least 24 hours, followed by 5 minutes of alarm operation per NFPA 72. Generators must be available for suppression pump power."},
+  {t:"Fire Protection",q:"What is the 3E051's role with Water and Fuels Systems Maintenance per CFETP?",a:"Must assist WFSM with fire suppression and backflow prevention systems — including electrical power to pump houses, control panels for suppression systems, motor controls for fire pumps, and electrical interfaces of backflow prevention heating systems."},
+  {t:"Fire Protection",q:"What must be done before working on fire suppression system electrical components?",a:"(1) Notify the Fire Department and base control center; (2) Coordinate impairment procedures; (3) Apply LOTO per UFC 3-560-01; (4) Prevent accidental system discharge; (5) Establish fire watch if required; (6) Restore and test system upon completion."},
+  {t:"Fire Protection",q:"What are the 5-level upgrade requirements for 3E051 journeymen?",a:"Complete 5-level CDCs; complete 100% of core (5★) and diamond (♦) AFQTPs and web-based courses on myLearning; supervisor certification; minimum 12 months OJT. Must complete CE 5-Level Core Concepts DL BEFORE beginning CDCs."},
+  {t:"Fire Protection",q:"What in-residence courses are desirable for 3E051 journeyman development?",a:"J3AZR3E051 04AC — CE Advanced Electrical Troubleshooting (21 days, Sheppard AFB); J3AZR3E051 07AD — Electrical Distribution System Maintenance (23 days, Sheppard AFB); J3AZR3E051 05AC — Airfield Lighting Systems (9 days, Sheppard AFB). Desirable but not mandatory."},
+  {t:"EALS",q:"What does the EALS do and what are the maximum runway dimensions it supports?",a:"Emergency Airfield Lighting System — rapidly installed runway lighting for contingency airfields needing temporary lighting. Maximum runway: 150 ft wide × 10,000 ft long (Minimum Operating Strip)."},
+  {t:"EALS",q:"What types of lighting does the EALS provide?",a:"Runway edge lighting, approach lighting, threshold/end lighting, taxiway lighting, PAPI lights, Distance-To-Go (DTG) marker lights, and obstruction lighting."},
+  {t:"EALS",q:"What power sources and voltage does the EALS use?",a:"Two MEP 805A/B, 30 kW, 50-60 Hz tactical-quiet diesel generators. They supply 416 VAC to the 20 kW constant current regulator."},
+  {t:"EALS",q:"Why is the EALS regulator limited to 13 kW output instead of its 20 kW rating?",a:"Factory-adjusted to 13 kW max to allow use of smaller diameter cable. Full circuit doesn't support full or high intensity when all lights are in the complete 150 ft × 10,000 ft series circuit."},
+  {t:"EALS",q:"How do the 6 EALS trailers transport on a C-130?",a:"Fit within 3 pallet positions on a single C-130. Towing speed: under 25 mph on paved, 5 mph on unpaved, convoy of 3 or less. NOT designed for public roads — no taillights, brakes, or clearance lights."},
+  {t:"EALS",q:"How many personnel set up EALS and how are they organized?",a:"6 people (2 must be certified electricians) in 4 crews with 2 general-purpose vehicles. Team A = PAPI and approach lighting. Team B = regulator and generators. TAGs follow ~800 ft behind the trailer connecting components."},
+  {t:"EALS",q:"What are approach light placement rules and lamp specifications?",a:"Placed every 200 ft beyond the threshold for 800 ft along centerline. At the 1,000-ft bar, center light is 3–10 ft on approach side of nearest strobe slave. Uses clear lens, 45W lamp, 45W isolation transformer — same as edge lights."},
+  {t:"EALS",q:"What are the approach strobe system components and placement?",a:"3 master strobe units (1 spare), 4 slave units, 5 SCAs (1 spare). Master + SCA at 1,200 ft point beyond threshold. Slave units at 1,000 ft and 1,400 ft. All pointed toward the approach."},
+  {t:"EALS",q:"How do you determine the number of threshold/end light fixtures needed?",a:"Runway width ÷ 10, then add 1. System has 33 fixtures and 33 ILs (1 spare each) — enough for a 150-ft runway. Threshold lights: split red/green glass lens, 120W lamp, 100W IL. Red toward runway; green toward approach."},
+  {t:"EALS",q:"What are edge light specs and emergency spacing deviation?",a:"Clear lens, 45W lamp, 45W IL. 116 fixtures (4 spares), 113 ILs (1 spare). Standard spacing = 200 ft (above 200 ft requires two cable segments). Emergency deviation = up to 300 ft apart allowed."},
+  {t:"EALS",q:"What are PAPI approach angle standards and placement rules?",a:"Standard angle = 3.0° (normal range 2.5–4.0°). Placed on LEFT side of runway from approach end. Inboard unit: 50–60 ft from runway edge. Outboard unit: 20–30 ft from inboard. No closer than 50 ft to any runway/taxiway/apron. Beam centers within 1 inch of horizontal."},
+  {t:"EALS",q:"What are taxiway light specs and emergency spacing deviations?",a:"Blue lens, 30W lamps, 45W ILs. Normal spacing: 50 ft straight, 25 ft curves. Emergency: 220 ft straight, 100 ft curves. CRITICAL WARNING: de-energize and disconnect runway circuit from regulator before installing taxiway lights."},
+  {t:"EALS",q:"What are the EALS intensity settings by visibility?",a:"Night, over 4 miles → LOW. Night, 3–4 miles → MEDIUM. Night, under 3 miles → HIGH. Adjust as necessary based on pilot request."},
+  {t:"EALS",q:"What are the three EALS shutdown methods?",a:"System Blackout (under attack — press BLACKOUT, generator keeps running); Normal Shutdown (LIGHTING OFF → regulator CB/intensity OFF → 3-min no-load warm-down → REMOTE START OFF → GENERATOR CONTROL OFF); Emergency Shutdown (GENERATOR CONTROL OFF, BLACKOUT button, or EMERGENCY STOP)."},
+  {t:"EALS",q:"What are the regulator short-circuit test current limits at each intensity step?",a:"LOW: 4.66–4.94 A; MEDIUM: 5.33–5.67 A; HIGH: 6.40–6.70 A. Values outside these limits = regulator needs service."},
+  {t:"EALS",q:"Why must strobe capacitors be discharged before servicing?",a:"They carry a charge that can cause injury or death. Procedure: de-energize system, turn on/off switch to OFF, short the capacitors, then replace flash tube (do not touch glass with hands), close and latch door."},
+  {t:"EALS",q:"How do you troubleshoot an open circuit in the EALS series circuit?",a:"Sectionalize — disconnect home run cables from regulator. Disconnect series cable at fixtures on opposite sides of runway, pull ends to the 'middle' and reconnect as a smaller loop. Re-energize — if that segment lights, the open is in the omitted portion. Continue until open is found; replace faulty components."},
+  {t:"EALS",q:"What SCA output voltage range indicates proper operation?",a:"228–264 VAC on a true-RMS voltmeter. If outside this range and the runway circuit works, change the SCA."},
+  {t:"EALS",q:"What are generator cold weather startup requirements below 0°F?",a:"Start/operate from 0°F down to -25°F without a winterization kit. Below -25°F, operate the winterization kit heater before startup. Never add water to a battery without immediately running the engine for at least 1 hour (water may freeze). Allow warm-up to operating temperature before applying load."},
+  {t:"RADR",q:"What is RADR and what larger category is it a subset of?",a:"Rapid Airfield Damage Repair — rapidly repairs aircraft operating surfaces and localized infrastructure to recover operations after an attack. It is a subset of Airfield Damage Repair (ADR)."},
+  {t:"RADR",q:"What are the three RADR sub-processes?",a:"(1) Rapid Damage Assessment (RDA) — identify/characterize damage; (2) Rapid Explosive Hazard Mitigation (REHM) — neutralize UXO; (3) Rapid Damage Repair (RDR) — repair selected damage, establish MAOS. REHM and RDR run CONCURRENTLY."},
+  {t:"RADR",q:"What is the maximum MAOS RADR can establish?",a:"150 ft wide × 10,000 ft long, plus associated taxiways, ramps, access routes, and critical infrastructure. Scope varies proportionally with attack intensity."},
+  {t:"RADR",q:"What is the difference between a spall and a camouflet?",a:"Spall = surface damage that does NOT penetrate the pavement base course. Camouflet = cavity from a deep underground burst with minimal surface rupture — may not be visible on the surface."},
+  {t:"RADR",q:"What are the six crater repair steps in sequence?",a:"(1) Debris removal; (2) Upheaval marking; (3) Pavement cutting; (4) Pavement breaking and excavation; (5) Backfilling; (6) Capping. Each step has a dedicated crew — assembly-line concept."},
+  {t:"RADR",q:"Why is pavement cutting the most critical RADR step?",a:"Directly impacts excavation and capping efficiency — removing too much pavement increases repair time and exhausts materials. Performed by two CTLs with wheel saw attachments. Electricians serve as spotters."},
+  {t:"RADR",q:"What is the 'slash and splash' backfilling technique?",a:"Suspend a 3,000-lb super sack of flowable fill over the excavation, slash the bottom to release material into the repair, then splash with 50 gallons of water until reaching prescribed depth."},
+  {t:"RADR",q:"What capping materials are used in RADR?",a:"Standard: concrete cap (volumetric mixer, rapid-setting concrete) or asphalt cap (asphalt recyclers, compacted with rollers). Alternatives for aprons/taxiways (not high-speed taxiways): AM-2 matting or FRP mat panels — neither as durable."},
+  {t:"RADR",q:"What qualifies a spall for expedient repair?",a:"Does not penetrate full pavement thickness to base course, not larger than 5 ft in diameter, and does not cause upheaval in surrounding pavement. Repaired by removing debris and placing rapid-setting material level with surrounding pavement."},
+  {t:"RADR",q:"When does debris removal begin relative to the PAR sweep?",a:"Immediately after the PAR sweep has proceeded at least 250 feet beyond the first crater to be repaired."},
+  {t:"RADR",q:"What is upheaval marking and why is it critical?",a:"Identifies upheaved pavement around craters — not always visible to the eye. Done through crater profile measurements (CPM). Unremoved upheaval will likely fail under traffic and create FOD hazards."},
+  {t:"RADR",q:"What are the FOD removal standards from dirtiest/fastest to cleanest?",a:"(1) One fast grader pass — dirtiest/fastest; (2) Slow then fast grader; (3) Fast grader + front-mounted broom tractor at ~5.5 mph; (4) Fast grader + two vacuum sweeper passes at 3.5–4 mph — cleanest."},
+  {t:"RADR",q:"What is the RADR rolling sequence for asphalt capping?",a:"(1) ½ pass steel-wheel roller, no vibration; (2) Two ½ passes steel-wheel roller, vibration ON (asphalt ≥150°F); (3) 2 passes pneumatic roller; (4) 3 passes steel-wheel roller, no vibration."},
+  {t:"RADR",q:"When must vibration be turned off during rolling operations?",a:"If cracking is noted in the mat, OR if there is evidence of chipping on concrete edges, grooves, or joints. Never vibrate while the roller is stationary or on hard pavement."},
+  {t:"RADR",q:"What is the FOD removal sequence by surface area?",a:"First 300 ft (most critical) = vacuum sweeper. Next 800 ft = vacuum if possible. Remainder = kick broom sweepers or two grader passes. Higher standard on parking aprons and uphill taxiway sections."},
+  {t:"BEAR Primary",q:"What voltage is the BEAR primary distribution system?",a:"4,160 VAC."},
+  {t:"BEAR Primary",q:"What are Phase 1 and Phase 2 of BEAR distribution?",a:"Phase 1 = powers critical facilities (airfield, command post, kitchen, water plant, fire dept) using low-voltage MEP generators. Phase 2 = installs the high-voltage distribution system (BPU and associated equipment)."},
+  {t:"BEAR Primary",q:"What is the BPU and what are its key specifications?",a:"Base Power Unit — replaces MEP-12. Fully enclosed, trailer-mounted, diesel-driven generator. 800 kW at 4,160/2,400 VAC, 3-phase, 4-wire, 60 Hz. Up to 12 BPUs paralleled = 9,600 kW. Rated to 4,000 ft altitude, -25 to 122°F."},
+  {t:"BEAR Primary",q:"What are the three BPU operating modes?",a:"Isochronous (constant voltage and frequency — for paralleling BPUs); Droop (variable — allows sync with other generator types like MEP-12); Utility (parallel operation with commercial power grid)."},
+  {t:"BEAR Primary",q:"What are the BPU ground rod installation requirements?",a:"Three 3-ft rod sections driven 8+ ft into earth, within 6 ft of BPU, leaving minimum 6 in above ground. Multiple BPUs: connect all ground rods together with #2 AWG copper ground grid cable for a central ground grid."},
+  {t:"BEAR Primary",q:"What is the PSC and how many ways does it have?",a:"Primary Switching Center — high-voltage switching station between power plant generators and primary distribution circuits. 6 ways. Ways 1 & 2 = load interrupter switches only (generator inputs). Ways 3–6 = fault interrupter capability. Uses SF6 gas insulation."},
+  {t:"BEAR Primary",q:"What are the factory fault interrupter current settings for PSC Ways 3–6?",a:"Ways 3, 4, 5 = 200 A (based on 1/0 AWG cable limits). Way 6 = 340 A (for paralleling 2 PSCs with 4 BPUs). With 500 MCM copper tie cable = 590 A with 600-A deadbreak terminations."},
+  {t:"BEAR Primary",q:"What are the three PSC switch positions and why is the viewing window critical?",a:"Grounded, Open, and Closed. The viewing window allows VISUAL verification of the switch blade position — look for the orange-colored movable blade. Also verify SF6 level is in the green zone before operating."},
+  {t:"BEAR Primary",q:"What happens if SF6 leaks from the PSC?",a:"Internal insulation is lost. Operating a way without SF6 causes internal switch contacts to pull an arc and flash over — causing severe damage to the operator and bystanders."},
+  {t:"BEAR Primary",q:"What does the SDC-HV do and how many can be on one circuit?",a:"Secondary Distribution Center — dry-type transformer steps 4,160 VAC down to 120/208 VAC, 3-phase. Max 5 SDCs when fed directly from HV generator; 6–10 per feeder with standard PSC distribution."},
+  {t:"BEAR Primary",q:"What is the BEAR primary HV cable specification?",a:"#1/0 AWG, 5-kV, aluminum, cross-linked polyethylene (XLP) — single conductor with concentric ground. 3,000 ft per reel. Bury at least 18 in deep; at least 3 ft deep under roadways."},
+  {t:"BEAR Primary",q:"What are SDC tap connections and how much voltage loss can they compensate?",a:"7 tap connections: 2 steps above and 4 steps below 4,160V. Can compensate up to a 629-volt loss — important when SDCs are placed at ½-mile intervals or more."},
+  {t:"BEAR Primary",q:"What are the LOTO-equivalent steps for BEAR primary distribution?",a:"ISOLATE: analyze, open, and de-energize circuit. BLOCK: remove/lock feed-through EFDs, remove fused EFDs, lock PSC 3-way switches, park elbows on stands, install terminal bushing covers. TAG: AF Form 979 (Danger) or AF Form 980 (Caution)."},
+  {t:"BEAR Primary",q:"What is permitted when inspecting energized PSC/SDC equipment?",a:"Looking, listening, and smelling ONLY. Look for blue/purple corona halos. Listen for popping, crackling, humming. Smell for ozone or overheating. Removing any panel while energized is strictly PROHIBITED."},
+  {t:"BEAR Primary",q:"What PPE is required during all PSC operation phases?",a:"At minimum: Class 2 rubber gloves and appropriate arc-flash PPE (normally 40 cal). If sizzling or crackling sounds come from the PSC under load, remove all loads and de-energize immediately."},
+  {t:"BEAR Primary",q:"What is the MEP 805A/B used for in BEAR operations?",a:"24/30 kW tactical-quiet generator providing 120/208V, 3-phase power. Typically powers the kitchen set and the EALS. 'A' = analog controls; 'B' = digital controls."},
+  {t:"BEAR Primary",q:"How do you correct incorrect generator phase rotation?",a:"(1) Turn off power; (2) Disconnect any two generator leads; (3) Switch their positions. Re-test with phase rotation meter. For MEP-807A/809A, also program the AVR for the applicable voltage after reconfiguring."},
+  {t:"BEAR Primary",q:"What NEC voltage drop limit applies and what length limit enforces it in BEAR?",a:"NEC recommends limiting branch circuit voltage drop to 3%. BEAR limits individual branch circuits to a maximum of 800 ft to keep voltage drop within 3%."},
+  {t:"BEAR Primary",q:"What is the AMMPS and what generators does it include?",a:"Advanced Mobile Medium Power System — adds to and replaces 800-series MEP generators. MEP-1060 = 30 kW at 60 Hz. MEP-1070 = 60 kW at 60 Hz. Both diesel/JP-8 powered, EPA compliant, electronically controlled, lightweight."},
+  {t:"BEAR Primary",q:"How does the voltage reconnection panel work on 30–200 kW MEP generators?",a:"Allows alternator windings to be connected in series (voltage increases = 240/416V) or parallel (current increases = 120/208V). Before startup, ensure reconnection board arrow matches customer's voltage arrow and all nuts are tight."},
+  {t:"BEAR Secondary",q:"What are the SDC secondary output specifications?",a:"16 output circuits at 120/208V, each capable of supplying 60 A per phase. Secondary feeder cables: 5-wire, #6 AWG copper, 600-V THW insulation, 60-amp rated. 200-amp MEP input connects to SDC from a MEP generator."},
+  {t:"BEAR Secondary",q:"What critical caution applies to transferring from MAIN to MISSION ESSENTIAL power?",a:"NEVER transfer under load. Apply load gradually — close circuit breakers one at a time. Lethal voltages present at load connection board during operation — never connect or disconnect load leads while generator operates."},
+  {t:"BEAR Secondary",q:"What are the available PDP sizes and connection types?",a:"15, 25, 30, 60, 100, and 200 kW. 15/25/30 kW = 60-amp cannon plug connections. 60/100/200 kW = may be hard-wired through the bottom or use 200-amp cannon plug connections."},
+  {t:"BEAR Secondary",q:"What secondary cable sizes and maximum run lengths are available?",a:"200-amp (25 ft — MEP to SDC) and 60-amp (25, 50, 100 ft). Limit secondary runs to 150 ft when possible to reduce voltage drop. Max any branch circuit = 800 ft total."},
+  {t:"BEAR Secondary",q:"What does each BEAR base tent receive for electrical power?",a:"One lightweight distribution box (fed from PDP by 50-ft, 20-amp twist-lock cable), one light streamer (6 lights), and two convenience outlet assemblies (one per side). 20-amp CB protects lights; 2 GFCI 20-amp CBs protect outlet streamers."},
+  {t:"BEAR Secondary",q:"How long can a low-voltage MEP power an SDC before the HV grid is installed?",a:"Up to 15 days or longer. Connected via 200-amp MEP input connection using the mission essential circuit breaker. Apply load gradually by closing circuit breakers one at a time."},
+  {t:"BEAR Secondary",q:"What does a phase indicator light failing to illuminate at the SDC indicate?",a:"Return MAIN breaker to OFF and check fuses and lamps for the affected phase — possible blown fuse or broken lamp."},
+  {t:"BEAR Secondary",q:"What is the SDC high-temperature override switch and when is it used?",a:"Allows bypassing the shunt-trip mechanism to apply power to the secondary bus. Used ONLY during maintenance and troubleshooting — NEVER during normal operations. If the transformer overheats, the main CB trips automatically."},
+  {t:"BEAR Secondary",q:"What are the BEAR kitchen power requirements?",a:"Requires a 225 A, 208V, 3-phase, 60 Hz power source distributed by two dedicated 150 kVA SDCs. Initially fed by one 60 kW and one 30 kW generator. Once base grid is operational, generators become backup."},
+  {t:"BEAR Secondary",q:"What is the ESPEK and what are its power requirements?",a:"Electric Single Pallet Expeditionary Kitchen — provides initial hot meals in austere locations. Powered by 60 kW MEP-806B generator via 200-amp cable feeding a 60 kVA PDP. Can prepare 550 UGR-H&S and 350 UGR-A rations in less than 2 hours."},
+  {t:"BEAR Grounding",q:"What are the four objectives of grounding in BEAR operations?",a:"(1) Minimize damage/service interruptions from faults and lightning; (2) Reduce overvoltages from switching, static, lightning; (3) Minimize injuries by providing low-resistance earth path; (4) Minimize noise in comm/control circuits. Key word: minimize, not eliminate."},
+  {t:"BEAR Grounding",q:"What are the four BEAR grounding levels?",a:"LVST = Low-voltage, short-term (usually ≤4 weeks); LVLT = Low-voltage, long-term (4 weeks – 2 years); HVST = High-voltage, short-term; HVLT = High-voltage, long-term. Developed for arid/rocky areas where 25-ohm grounding is difficult."},
+  {t:"BEAR Grounding",q:"What wire size is used unless specified otherwise in BEAR grounding?",a:"#2 or #4 AWG copper wire."},
+  {t:"BEAR Grounding",q:"What is the LVST grounding requirement and what if rods cannot be driven?",a:"Standard ground rod driven next to generator. If can't be driven: lay rods horizontally in an 18-inch-deep trench and cover with soil (not rocks). Connect distribution neutral to this ground. With grounded neutral, no further deliberate grounding at other locations is required."},
+  {t:"BEAR Grounding",q:"What is the salt solution treatment for LVLT grounding and what proportions are used?",a:"3 pounds of salt per gallon of water, poured on/around ground rods to saturate soil. ROWPU brine water also works. Repeat as water availability permits. All distribution equipment must also be locally grounded with standard ground rods."},
+  {t:"BEAR Grounding",q:"What is the expedient perforated pipe grounding method?",a:"Drive a perforated pipe into dry, loose sand, then fill with 15 lb of salt per 5 gallons of water using a funnel. Effective for several hours to a few days — tends to corrode the pipe quickly. Keep connection clean and corrosion-free."},
+  {t:"BEAR Grounding",q:"What alternate structures can serve as grounding when traditional methods fail?",a:"Existing water piping, rebar in reinforced concrete, metal sewage systems, metal fencing, ground rods near wastewater dumps/septic tanks (use plastic/PVC drain pipe to prevent injecting current into water systems)."},
+  {t:"BEAR Grounding",q:"What additional grounding is required for HVST beyond LVST?",a:"A dedicated ground wire run from the generator ground rod to all grounded locations on the base — provides the common ground plane normally provided by moist soil. This wire can follow existing trenches or HV cable concentric grounds."},
+  {t:"BEAR Grounding",q:"What is HVLT grounding and what water source is used?",a:"HVST system augmented with grid ground planes for generators and transformers, plus direct contact with a permanent water source (local water table). Connect to metal well casing or lower copper conductor into the well. If no well, drilling is required. Continuous inspection is critical."},
+  {t:"BEAR Grounding",q:"Why doesn't the traditional 25-ohm standard always apply in bare base operations?",a:"Dry, rocky, or sandy soils often cannot achieve 25 ohms with traditional methods — very low water table, poor conductors. BEAR uses 'adequate by expediency' levels consistent with the construction time phase and distribution system used."},
+  {t:"BEAR Grounding",q:"What is the ROWPU ground resistance requirement?",a:"Must not exceed 25 ohms. ROWPU comes with a 3-piece ground rod. Drive until ~6 in remain exposed; secure grounding conductor between ROWPU and rod. Verify resistance ≤ 25 ohms."},
+  {t:"BEAR Grounding",q:"What makes coastal region grounding effective and what maintenance problem arises?",a:"High water tables and moist soil with high mineral/salt content make traditional grounding very effective. But corrosion of ground connections is a significant maintenance problem — corroded terminals develop high resistance. Requires frequent inspection and treatment."},
+  {t:"RALS",q:"What does a RALS unit contain and what power does it require?",a:"Air-transportable cabinet (~1,500 lbs) containing: two 750-ft lighting cable assemblies, 13 light masts, 13 fixtures, 12 mast bases, 17 lamps. Requires 120/208V 3-phase power — typically fed from SDC via 60-amp cable. Must be mission-ready within 72 hours."},
+  {t:"RALS",q:"How long is each RALS lighting loop and how is the cable assembled?",a:"Each loop = 750 ft. Connect two 375-ft sections via 208V 3-phase blue cannon plug = one 750-ft half loop. All four sections = complete 1,500-ft lighting loop. One circuit can only reach 750 feet."},
+  {t:"RALS",q:"How are RALS light poles positioned along the lighting loop?",a:"Junction box every 125 ft along each loop — feeds the lighting fixture. 12 mounting pads placed at the 12 junction box locations. 13th pole secured to the RALS cabinet. Extend poles to full height, connect power cord, connect to junction box."},
+  {t:"RALS",q:"What is the RALS photocell operational check sequence?",a:"Turn on SDC CB and RALS CBs; set override switch to ON — all lights should come on. Set to OFF — all lights go out. Set to AUTO, cover photocell — lights come on in 30–120 seconds. Remove cover — fully operational."},
+  {t:"RALS",q:"What lamp type is used in RALS and what is the maintenance interval?",a:"150-watt HPS (High Pressure Sodium). All inspections and maintenance must be performed quarterly unless otherwise required. Entire system must stay in fully operational status — it can be mobilized at a moment's notice."},
+  {t:"RALS",q:"What other uses does the RALS support beyond general work area lighting?",a:"Aircraft parking, munitions storage, and roadway lighting — in addition to general work area illumination."},
+  {t:"RALS",q:"How does the telescopic floodlight set differ from RALS?",a:"Floodlight set advantages: faster setup, easier to reposition, and produces its own power (self-contained 6 kW generator). Ideal for the first day of deployment before site electrical distribution is established. RALS is better for sustained operations."},
+  {t:"RALS",q:"What are the telescopic floodlight set generator specs and proper voltage range?",a:"3-cylinder, 10.5 hp, water-cooled diesel driving a 6 kW generator providing 120/240 VAC. Proper voltage range: 233–247 VAC. Main tower reaches 29 ft. Do not operate starter for more than 10 seconds; 60-second cool-down between cranking intervals."},
+  {t:"RALS",q:"What is the ROWPU and what are its production rates?",a:"Reverse Osmosis Water Purification Unit. At less than 1,000 ppm TDS: 1,500 GPH. At more than 45,000 ppm TDS: 1,200 GPH. Operates from -25 to +140°F. Site upstream from camp, max 250 ft from raw water source."},
+  {t:"RALS",q:"What are the ROWPU major pump motor specs?",a:"RO Pump: 208V 3-phase, 40 hp, 99.5 A. Booster pump: 208/460V, 1 hp, 3.4/1.6 A. Raw water pumps (×2): 208V, 3 hp, 8.1 A. Distribution pump: 208/460V, 1 hp, 3.4/1.6 A."},
+  {t:"RALS",q:"What is the critical ROWPU safety warning?",a:"Piping and equipment can contain EXTREMELY HIGH PRESSURE during and after operation. Open ALL drains and vents before any disassembly — failure to relieve pressure can cause serious injury or death."},
+  {t:"RALS",q:"What is a PLC and how is it different from a general-purpose computer?",a:"Programmable Logic Controller — used for automation of electromechanical processes. Unlike general-purpose computers, designed for: multiple I/O, extended temperature ranges, immunity to electrical noise, and resistance to vibration/impact. Real-time system — outputs must respond to inputs within a bounded time."},
+  {t:"MAAS",q:"What is the MAAS and how quickly can it be certified for use?",a:"Mobile Aircraft Arresting System — contingency deployment version of a fixed aircraft arresting system. Certified for use in approximately 37 minutes (three 4-man teams, no delays). Consists of two identical units, one on each side of the runway."},
+  {t:"MAAS",q:"What are the four main component areas of the MAAS?",a:"(1) Trailer (energy absorber, body frame, axle frames, hydraulic winch, pendant reel, storage box); (2) Trailer Braking System (hydraulic, emergency, parking); (3) Installation Tools (HPU, hydraulic breaker, post driver, stake puller, hammer drill); (4) Installation Hardware (anchor plates, taper bolts, stakes, turnbuckles, moil points)."},
+  {t:"MAAS",q:"What energy absorber does the MAAS use and what are the runout options?",a:"BAK-12 energy absorber. Standard: 66-inch reel, 990-ft runout. Upgrade with 32-tooth cam sprocket = 1,200-ft runout. One trailer stores a 90-ft pendant; the other stores a 153-ft pendant — supporting multiple runway widths."},
+  {t:"MAAS",q:"What is MAAS battery position and what does it maintain?",a:"Shuttle valve in ON position, applying 175 ±10 PSI static pressure from accumulator to brakes. Maintains pre-tension in the pendant cable — prevents sag and allows aircraft tail hook to engage the pendant. This is the ready-to-arrest position."},
+  {t:"MAAS",q:"Describe the MAAS hydraulic arrest sequence.",a:"Hook engages pendant → purchase tapes unwind from reel, driving pump and cam clockwise toward 270° → cam control valve closes, increasing fluid restriction → hydraulic pressure exceeds accumulator pressure → shuttle valve moves to OFF → increasing pressure applies friction brakes → aircraft stops → all pressure relieved back to reservoir."},
+  {t:"MAAS",q:"What is the MAAS retraction time?",a:"3 minutes for 990-ft runout; 3.5 minutes for 1,200-ft runout. The fluid coupling permits torque to be applied while the output shaft is stalled — engine torque transmitted to rewind sprocket for pre-tensioning."},
+  {t:"MAAS",q:"What are the four MAAS installation configurations?",a:"Concrete (2 anchor plates, remove one tire); Soil (19 stakes unidirectional / 31 stakes bidirectional — maintain 15° stake angle); Asphalt over concrete >1 in (10 moil points, no tire removal); Asphalt over soil (chip asphalt where stakes install, otherwise same as soil)."},
+  {t:"MAAS",q:"What is the trailer positioning formula?",a:"Position trailers so the distance between them equals cable length + 15 ft (for bidirectional). Stake lines off the triple turnbuckle must maintain approximately 15° separation between stake lines."},
+  {t:"MAAS",q:"What are the three MAAS braking systems?",a:"Hydraulic (braking assistance during towing — master cylinder actuated when trailer pushes slowing vehicle); Emergency (breakaway cable — if unit separates from vehicle, lever applies hydraulic pressure automatically); Parking (single lever, over-center locking, rear wheels only)."},
+  {t:"MAAS",q:"What are MAAS tires filled with and why is caution required when removing them?",a:"Urethane foam for puncture resistance — approximately 410 lbs each. Extreme caution required when removing or installing wheels due to weight."},
+  {t:"MAAS",q:"Why must anchor stakes not enter the tape path during soil installation?",a:"Stakes in the tape path will damage the purchase tape during an arrestment — potentially causing damage to aircraft and/or loss of life."},
+  {t:"MAAS",q:"What are the MAAS preventive maintenance schedules?",a:"Hook cable: replace every 36 months installed or 60 months stored. Tape: crop ends every 6 months. Hydraulic system: proof test after initial install, every 3 months installed, every 12 months stored. Functional checkout: monthly installed, 6 months stored. Inspect weekly and after each arrestment."},
+  {t:"MAAS",q:"What is the hammer drill used for in MAAS installation?",a:"Used EXCLUSIVELY for concrete installation — drilling holes for taper bolts. Two observers monitor the drill operator for tilting and provide corrections to ensure holes are drilled as close to 90° to the surface as possible."},
+  {t:"MAAS",q:"What additional uses does the MAAS have beyond contingency airfields?",a:"Air shows (Thunderbirds, Blue Angels) at civilian airports without arresting system support. Also used when permanent installation cost exceeds return on investment."},
+  {t:"Shelter",q:"What are the three major electrical components of the BEAR tent distribution system?",a:"(1) Distribution box; (2) Two convenience outlet assemblies (one per side); (3) Incandescent light streamer assembly (6 lights). Distribution box is fed from a PDP by a 50-ft, 20-amp twist-lock cable."},
+  {t:"Shelter",q:"What protection devices are in the BEAR tent distribution box?",a:"Single-pole toggle switch protected by a 20-amp circuit breaker (controls lights). Two GFCI 20-amp circuit breakers protect the outlet streamers (one per side). All connect via twist-lock connections."},
+  {t:"Shelter",q:"What are the SSS shelter dimensions and wind load ratings?",a:"32 ft 6 in long × 20 ft wide × 10 ft high. Withstands steady wind loads of 50 knots, gusts up to 60 knots. 10-year erected lifespan; 20-year shelf life. SSS is the designated replacement for the TEMPER tent."},
+  {t:"Shelter",q:"What action must be taken for frayed cables during BEAR shelter teardown?",a:"Replace any cable or streamer that has become frayed — frayed conductors can cause electric shock or fire. De-energize first, then disassemble in reverse order of installation."},
+  {t:"Shelter",q:"How do you square the SSS base assembly?",a:"Measure 38 ft 3 in from outside corner to outside corner (diagonal method) using a rope or tape measure. Drive 18-inch double-headed spikes through spike holes in base frame. Do NOT drive a spike through the center end base piece — that hole is for the hard door doorframe stub."},
+  {t:"Shelter",q:"What SSS electrical cable inspection interval is required?",a:"Inspect every 30 days for kinks, nicks, or cracks — refer to electricians for repair if found. Shelter exterior fabric: inspect at 6-month intervals during long storage. Inspect during every assembly and disassembly for missing or broken parts."},
+  {t:"Shelter",q:"How is the ECU positioned and connected to the SSS?",a:"Place ~12 inches from shelter end wall, EXHAUST END facing toward shelter duct openings. Supply duct (no wire ring supports) attaches to supply air vent and goes through the RIGHT-hand fabric boot. Return air duct uses the LEFT-hand fabric boot."},
+  {t:"Shelter",q:"What site area and conditions are needed for SSS setup?",a:"At least 30 × 40 ft area, free of debris, adequate drainage, as smooth and level as possible. Unlatch top latches, remove container top, unpack components keeping like items together. Inspect for damage during unpacking."},
+  {t:"Shelter",q:"What SSS assembly safety precautions must be followed?",a:"Wear safety glasses when driving stakes/anchors. Wear gloves for structural components. Beware of frame member rebound (spring tension). Never use combustible heating devices inside without proper ventilation. Never allow snow/ice buildup on top. Never drag fabric over ground."},
+  {t:"Shelter",q:"What is the first step in SSS disassembly?",a:"Ensure all power is DISCONNECTED from the electrical system at the source. Disassemble in reverse order of erection. Do not force tight pins — gently tap or wiggle them loose. Ensure fabric is dry before packing."}
+];
+
+let deck = [], idx = 0, correct = 0, incorrect = 0, flipped = false, currentTopic = 'all';
+
+function shuffle(a) {
+  const arr = [...a];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function updateCounts() {
+  const topics = [...new Set(ALL.map(c => c.t))];
+  document.getElementById('cnt-all').textContent = ALL.length;
+  topics.forEach(t => {
+    const el = document.getElementById('cnt-' + t);
+    if (el) el.textContent = ALL.filter(c => c.t === t).length;
+  });
+}
+
+function selectTopic(topic) {
+  currentTopic = topic;
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('btn-' + topic);
+  if (btn) btn.classList.add('active');
+  deck = shuffle(topic === 'all' ? [...ALL] : ALL.filter(c => c.t === topic));
+  idx = 0; correct = 0; incorrect = 0; flipped = false;
+  document.getElementById('cardInner').classList.remove('flipped');
+  restoreMain();
+  showCard();
+  closeSidebar();
+}
+
+function restoreMain() {
+  const main = document.getElementById('mainArea');
+  const doneScreen = document.getElementById('doneScreen');
+  if (doneScreen) doneScreen.remove();
+  document.getElementById('statsBar').style.display = '';
+  document.querySelector('.progress-bar-wrap').style.display = '';
+  document.getElementById('cardWrap').style.display = '';
+  document.getElementById('btnRow').style.display = '';
+  document.querySelector('.shortcut-bar').style.display = '';
+}
+
+function showCard() {
+  if (idx >= deck.length) {
+    showDone();
+    return;
+  }
+  const c = deck[idx];
+  const color = TOPIC_COLORS[c.t] || '#58a6ff';
+  const badgeStyle = `background:${color}18;color:${color};border:1px solid ${color}30;font-size:11px;font-weight:600;letter-spacing:0.06em;padding:4px 10px;border-radius:100px;display:inline-block;`;
+  document.getElementById('badge').setAttribute('style', badgeStyle);
+  document.getElementById('badge').textContent = c.t;
+  document.getElementById('badge2').setAttribute('style', badgeStyle);
+  document.getElementById('badge2').textContent = c.t;
+  document.getElementById('qText').textContent = c.q;
+  document.getElementById('aText').textContent = c.a;
+
+  const total = deck.length + correct; // cards seen + remaining
+  const pct = Math.round((correct / (deck.length + correct + incorrect - idx)) * 100) || 0;
+  document.getElementById('progressFill').style.width = (idx / (deck.length) * 100) + '%';
+  document.getElementById('sLeft').textContent = deck.length - idx;
+  document.getElementById('sGot').textContent = correct;
+  document.getElementById('sMiss').textContent = incorrect;
+  flipped = false;
+  document.getElementById('cardInner').classList.remove('flipped');
+}
+
+function flipCard() {
+  flipped = !flipped;
+  document.getElementById('cardInner').classList.toggle('flipped', flipped);
+}
+
+function judge(got) {
+  if (got) {
+    correct++;
+  } else {
+    incorrect++;
+    deck.push(deck[idx]);
+  }
+  idx++;
+  flipped = false;
+  document.getElementById('cardInner').classList.remove('flipped');
+  showCard();
+}
+
+function showDone() {
+  document.getElementById('statsBar').style.display = 'none';
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('cardWrap').style.display = 'none';
+  document.getElementById('btnRow').style.display = 'none';
+  document.querySelector('.shortcut-bar').style.display = 'none';
+
+  const pct = correct + incorrect > 0 ? Math.round(correct / (correct + incorrect) * 100) : 0;
+  const div = document.createElement('div');
+  div.id = 'doneScreen';
+  div.className = 'done-screen';
+  div.innerHTML = `
+    <div style="font-size:36px">🎯</div>
+    <h2>Deck complete</h2>
+    <p>You finished all ${correct + incorrect} cards in this session.</p>
+    <div class="score-grid">
+      <div class="score-box sc"><div class="score-n">${correct}</div><div class="score-l">got it</div></div>
+      <div class="score-box sw"><div class="score-n">${incorrect}</div><div class="score-l">reviewed again</div></div>
+      <div class="score-box"><div class="score-n">${pct}%</div><div class="score-l">accuracy</div></div>
+    </div>
+    <button class="btn-restart" onclick="selectTopic('${currentTopic}')">Shuffle &amp; restart</button>
+  `;
+  document.getElementById('mainArea').appendChild(div);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
+  if (e.key === 'ArrowRight') judge(true);
+  if (e.key === 'ArrowLeft') judge(false);
+  if (e.key === 'r' || e.key === 'R') selectTopic(currentTopic);
+});
+
+document.getElementById('cardWrap').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(); }
+});
+
+updateCounts();
+selectTopic('all');
+</script>
+</body>
+</html>
