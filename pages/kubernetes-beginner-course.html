@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes for Beginners — From Docker to Orchestration</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<style>
+  :root {
+    --k8s-blue:   #326CE5;
+    --k8s-navy:   #1a2f6b;
+    --k8s-light:  #5b8dee;
+    --k8s-accent: #00bcd4;
+  }
+  .header-badge { background: linear-gradient(135deg, #326CE5, #1a2f6b); }
+
+  /* Kubernetes wheel icon in lesson numbers */
+  .lesson-num::before { content: "⎈ "; opacity: 0.5; }
+
+  .prereq-box {
+    background: #eff6ff;
+    border-left: 4px solid #326CE5;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 0.93rem;
+  }
+  .prereq-box strong { color: #1a2f6b; }
+
+  /* Architecture / cluster diagrams */
+  .diagram {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin: 18px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 2;
+    overflow-x: auto;
+    border: 1px solid #21262d;
+  }
+  .diagram .d-blue   { color: #58a6ff; }
+  .diagram .d-green  { color: #3fb950; }
+  .diagram .d-yellow { color: #e3b341; }
+  .diagram .d-red    { color: #f85149; }
+  .diagram .d-purple { color: #bc8cff; }
+  .diagram .d-teal   { color: #39d0c8; }
+  .diagram .d-white  { color: #e6edf3; }
+
+  /* YAML kind label */
+  .kind-tag {
+    display: inline-block;
+    background: #326CE522;
+    color: #326CE5;
+    border: 1px solid #326CE555;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-family: 'Fira Code', monospace;
+  }
+
+  .warn-box {
+    background: #fef9ec;
+    border-left: 4px solid #e3b341;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.93rem;
+  }
+  .warn-box .wi { font-size: 1.4rem; flex-shrink: 0; }
+</style>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Beginner · Kubernetes · Cloud Native</div>
+  <h1>Kubernetes for Beginners ⎈</h1>
+  <p>You know Docker. Now learn to orchestrate hundreds of containers across a cluster — with self-healing, auto-scaling, and zero-downtime deployments built in.</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">⎈</span> Why Kubernetes?
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">🏛️</span> Cluster Architecture
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">📦</span> Pods
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">🔁</span> Deployments
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🌐</span> Services
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">⚙️</span> ConfigMaps &amp; Secrets
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">💾</span> Persistent Storage
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🚪</span> Ingress
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🏆</span> What's Next
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 1 — WHY KUBERNETES?
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>⎈ Why Kubernetes?</h2>
+        <p class="lesson-intro">You can run Docker containers on a single machine. But what happens when that machine isn't enough — or when it crashes at 3am? That's the problem Kubernetes was built to solve.</p>
+      </div>
+
+      <div class="prereq-box">
+        <strong>📋 Prerequisites:</strong> This course assumes you've completed the Docker beginner and intermediate courses. You should be comfortable with Docker images, containers, Compose, health checks, and resource limits. If not, start there.
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 What Docker Compose Can't Do</div>
+        <p>Docker Compose is excellent for running multi-container apps on <em>one machine</em>. But production systems have requirements it simply can't meet:</p>
+        <ul>
+          <li><strong>The machine crashes.</strong> All containers die. Compose has no way to restart them on another machine. Your app is down until someone manually intervenes.</li>
+          <li><strong>Traffic spikes.</strong> You need 20 copies of your web server instead of 2. Compose can't automatically add more based on CPU load.</li>
+          <li><strong>You need to update the app.</strong> Compose restarts containers, causing a brief outage. In production, zero downtime is non-negotiable.</li>
+          <li><strong>You have 50 microservices.</strong> Managing 50 individual Compose files across 10 machines by hand is chaos.</li>
+        </ul>
+        <p>Kubernetes solves every one of these problems — automatically, declaratively, and at any scale.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Imagine you run a restaurant chain. Docker Compose is like managing a <strong>single restaurant</strong> — you hire staff, set up the kitchen, and run service. It works great for one location.</p>
+        <p>Kubernetes is like being the <strong>corporate headquarters</strong> managing 50 locations simultaneously. You declare the standard: "Every location must have 3 chefs, 2 cashiers, and 1 manager on duty." Corporate monitors all 50 locations. If a chef quits (container crashes), headquarters automatically hires a replacement (reschedules the container). If a location burns down (node fails), the staff is redeployed to another location. You never have to manually intervene — the system self-heals.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⎈ What is Kubernetes?</div>
+        <p>Kubernetes (often written as <strong>K8s</strong> — 8 letters between K and s) is an open-source <strong>container orchestration platform</strong> originally built by Google and donated to the Cloud Native Computing Foundation (CNCF) in 2014. Google had been running containers at scale internally for a decade before that, using a system called Borg. Kubernetes is essentially a public version of those learnings.</p>
+        <p>K8s manages a <strong>cluster</strong> — a group of machines (physical or virtual) that it treats as a single pool of compute resources. You tell Kubernetes <em>what you want</em> (declarative), and it figures out <em>how to make it happen</em> (reconciliation loop). If reality ever drifts from what you declared, Kubernetes corrects it automatically.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">💊</div>
+          <h4>Self-Healing</h4>
+          <p>Crashed containers are restarted automatically. Failed nodes are detected and their workloads rescheduled elsewhere.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📈</div>
+          <h4>Auto-Scaling</h4>
+          <p>Scale from 2 to 200 replicas based on CPU, memory, or custom metrics. Scale back down when traffic drops.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🔄</div>
+          <h4>Rolling Updates</h4>
+          <p>Deploy new versions with zero downtime. Automatically roll back if health checks fail.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📦</div>
+          <h4>Bin Packing</h4>
+          <p>Automatically schedules containers onto nodes to maximize resource utilization.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛠️ Setting Up a Local Kubernetes Cluster</div>
+        <p>Before writing any K8s configuration, you need a cluster to practice on. For local development, the two best options are:</p>
+        <ul>
+          <li><strong>minikube</strong> — The official local K8s tool. Runs a single-node cluster inside a VM or Docker container. Best for learning. Install: <code>brew install minikube</code> (Mac) or download from minikube.sigs.k8s.io.</li>
+          <li><strong>k3s</strong> — A lightweight K8s distribution (under 70MB) designed for resource-constrained environments and edge deployments. Great for a Raspberry Pi cluster or a cheap VPS.</li>
+          <li><strong>Docker Desktop</strong> — If you already have Docker Desktop installed, there's a built-in K8s option in Settings → Kubernetes → Enable Kubernetes. One checkbox and you have a cluster.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Getting Your First Cluster Running</span>
+        </div>
+        <pre><span class="cm"># Start a local minikube cluster (uses Docker as the driver)</span>
+<span class="kw">minikube start</span> <span class="var">--driver=docker</span>
+
+<span class="cm"># Verify the cluster is running and kubectl is connected</span>
+<span class="kw">kubectl cluster-info</span>
+
+<span class="cm"># See the single node in your local cluster</span>
+<span class="kw">kubectl get nodes</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># NAME       STATUS   ROLES           AGE   VERSION</span>
+<span class="cm"># minikube   Ready    control-plane   1m    v1.29.0</span>
+
+<span class="cm"># kubectl is the command-line tool for talking to any K8s cluster.</span>
+<span class="cm"># It's to Kubernetes what docker is to Docker.</span>
+<span class="cm"># Every command follows the pattern:</span>
+<span class="cm">#   kubectl &lt;verb&gt; &lt;resource-type&gt; [name]</span>
+<span class="cm">#   kubectl get pods</span>
+<span class="cm">#   kubectl describe deployment web</span>
+<span class="cm">#   kubectl delete pod my-pod-abc123</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">📖</div>
+        <div class="callout-body">
+          <strong>The Declarative Model</strong>
+          Kubernetes is fundamentally declarative. You write YAML files that describe the <em>desired state</em> of your system — "I want 3 replicas of this web server running." You apply the file, and Kubernetes figures out the steps to get there. If a replica crashes, K8s notices the actual state (2 replicas) doesn't match the desired state (3) and creates a new one. This reconciliation loop runs constantly, keeping actual state in sync with desired state.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What does "declarative" mean in the context of Kubernetes?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">You declare your code in a specific programming language K8s understands</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">You describe the desired state you want, and K8s continuously works to make reality match that description</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">You declare which nodes containers are allowed to run on</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">You write step-by-step commands telling K8s exactly how to deploy each container</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You declare "I want 5 replicas of my app." Two crash. What does Kubernetes do?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Sends you an alert email and waits for manual intervention</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Scales down to 3 replicas and updates the desired state</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Automatically creates 2 new replicas to restore the desired count of 5</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Shuts down the remaining 3 replicas for safety</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 2 — CLUSTER ARCHITECTURE
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>🏛️ Cluster Architecture</h2>
+        <p class="lesson-intro">A Kubernetes cluster has two types of machines with completely different jobs. Understanding who does what is essential before you write a single line of YAML.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗺️ The Two Kinds of Nodes</div>
+        <p>A <strong>node</strong> is just a machine — a physical server or a virtual machine — that Kubernetes manages. Every cluster has two roles:</p>
+        <ul>
+          <li><strong>Control Plane (formerly "master")</strong> — The brain. Makes all cluster-wide decisions. Runs the K8s management components. Your YAML goes here. You never run application workloads on the control plane in production.</li>
+          <li><strong>Worker Nodes</strong> — The muscle. The machines where your actual application containers run. A production cluster has multiple worker nodes — typically 3 to hundreds, depending on scale.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">┌─────────────────────────────────────────────────────────────┐</span>
+<span class="d-blue">│                    KUBERNETES CLUSTER                       │</span>
+<span class="d-blue">│                                                             │</span>
+<span class="d-blue">│  ┌─────────────────────────────────────────────────────┐   │</span>
+<span class="d-blue">│  │              CONTROL PLANE NODE                     │   │</span>
+<span class="d-blue">│  │                                                     │   │</span>
+<span class="d-blue">│  │  <span class="d-yellow">kube-apiserver</span>   <span class="d-yellow">etcd</span>   <span class="d-yellow">scheduler</span>   <span class="d-yellow">controller-mgr</span>  │   │</span>
+<span class="d-blue">│  │     (front door)  (DB)   (assigns)   (reconciles)  │   │</span>
+<span class="d-blue">│  └───────────────────────┬─────────────────────────────┘   │</span>
+<span class="d-blue">│                          │ kubectl talks to apiserver       │</span>
+<span class="d-blue">│          ┌───────────────┼───────────────┐                 │</span>
+<span class="d-blue">│          ▼               ▼               ▼                 │</span>
+<span class="d-blue">│  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐    │</span>
+<span class="d-blue">│  │  WORKER NODE  │ │  WORKER NODE  │ │  WORKER NODE  │    │</span>
+<span class="d-blue">│  │               │ │               │ │               │    │</span>
+<span class="d-blue">│  │ <span class="d-green">kubelet</span>       │ │ <span class="d-green">kubelet</span>       │ │ <span class="d-green">kubelet</span>       │    │</span>
+<span class="d-blue">│  │ <span class="d-green">kube-proxy</span>    │ │ <span class="d-green">kube-proxy</span>    │ │ <span class="d-green">kube-proxy</span>    │    │</span>
+<span class="d-blue">│  │ <span class="d-purple">container rt.</span> │ │ <span class="d-purple">container rt.</span> │ │ <span class="d-purple">container rt.</span> │    │</span>
+<span class="d-blue">│  │               │ │               │ │               │    │</span>
+<span class="d-blue">│  │ <span class="d-teal">[pod] [pod]</span>   │ │ <span class="d-teal">[pod] [pod]</span>   │ │ <span class="d-teal">[pod]</span>         │    │</span>
+<span class="d-blue">│  └───────────────┘ └───────────────┘ └───────────────┘    │</span>
+<span class="d-blue">└─────────────────────────────────────────────────────────────┘</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧠 Control Plane Components</div>
+        <p>The control plane runs four key processes — you don't manage them directly, but knowing what they do explains how K8s works:</p>
+        <ul>
+          <li><strong>kube-apiserver</strong> — The single front door to the entire cluster. Every kubectl command, every internal component, every external tool communicates through the API server. It validates and stores requests.</li>
+          <li><strong>etcd</strong> — A distributed key-value database. This is where the entire cluster state lives — every node, pod, deployment, secret, and config. It's the single source of truth. Backing up etcd is backing up your entire cluster.</li>
+          <li><strong>kube-scheduler</strong> — When a new Pod needs to run, the scheduler decides <em>which worker node</em> it runs on. It evaluates resource requirements, node capacity, affinity rules, and dozens of other factors.</li>
+          <li><strong>controller-manager</strong> — Runs a collection of controllers, each responsible for one type of resource. The ReplicaSet controller watches for dead pods and creates new ones. The Node controller watches for failed nodes. Controllers are the engines of self-healing.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💪 Worker Node Components</div>
+        <p>Each worker node runs three core processes:</p>
+        <ul>
+          <li><strong>kubelet</strong> — The agent that runs on every worker node. It receives instructions from the API server ("run this Pod") and tells the container runtime to start the containers. It also reports back health status for every Pod on that node.</li>
+          <li><strong>kube-proxy</strong> — Manages the network rules on each node that allow traffic to reach Pods. It implements Kubernetes Services (covered in Lesson 5).</li>
+          <li><strong>Container Runtime</strong> — The actual software that runs containers. In modern K8s this is <strong>containerd</strong> (the same runtime Docker uses under the hood). K8s doesn't use Docker directly — it uses the container runtime interface (CRI).</li>
+        </ul>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🗣️</div>
+        <div class="callout-body">
+          <strong>How kubectl and K8s Communicate</strong>
+          When you type <code>kubectl get pods</code>, here's the exact chain: kubectl reads your kubeconfig file (~/.kube/config) to find the cluster's API server address and your credentials → sends an authenticated HTTPS request to the kube-apiserver → apiserver queries etcd for the current pod list → returns the response → kubectl formats and prints it. Every single K8s operation goes through this chain.
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Exploring Your Cluster</span>
+        </div>
+        <pre><span class="cm"># List all nodes in the cluster with details</span>
+<span class="kw">kubectl get nodes</span> <span class="var">-o wide</span>
+
+<span class="cm"># Describe a specific node (see its capacity, conditions, pods running on it)</span>
+<span class="kw">kubectl describe node</span> <span class="str">minikube</span>
+
+<span class="cm"># See ALL resources running across ALL namespaces</span>
+<span class="kw">kubectl get all</span> <span class="var">--all-namespaces</span>
+
+<span class="cm"># The control plane components run as pods in the kube-system namespace</span>
+<span class="kw">kubectl get pods</span> <span class="var">-n</span> <span class="str">kube-system</span>
+
+<span class="cm"># Output includes:</span>
+<span class="cm"># etcd-minikube                  ← the database</span>
+<span class="cm"># kube-apiserver-minikube        ← the front door</span>
+<span class="cm"># kube-controller-manager-...   ← the reconciler</span>
+<span class="cm"># kube-scheduler-minikube        ← the placer</span>
+<span class="cm"># coredns-...                    ← internal DNS for service discovery</span>
+<span class="cm"># kube-proxy-...                 ← network rules agent</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which control plane component stores ALL cluster state — every pod, node, secret, and config — and is the source of truth for the entire cluster?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kube-scheduler</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kube-apiserver</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">etcd</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kubelet</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which component on each worker node actually starts and stops containers by talking to the container runtime?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kube-proxy</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">kubelet</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kube-scheduler</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">controller-manager</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 3 — PODS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>📦 Pods — The Smallest Unit</h2>
+        <p class="lesson-intro">In Docker you ran containers directly. In Kubernetes, you never deploy bare containers. Everything runs inside a <strong>Pod</strong> — K8s's fundamental unit of deployment.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 What is a Pod?</div>
+        <p>A Pod is a wrapper around one or more containers that are tightly coupled and need to share resources. Every container in a Pod:</p>
+        <ul>
+          <li>Shares the same <strong>network namespace</strong> — they all have the same IP address and can reach each other via <code>localhost</code></li>
+          <li>Shares the same <strong>storage volumes</strong> — they can read and write to the same mounted volumes</li>
+          <li>Are <strong>always scheduled together</strong> on the same node — they live and die as a unit</li>
+        </ul>
+        <p>The vast majority of Pods contain <strong>exactly one container</strong>. Multi-container Pods are used for specific patterns (sidecar, ambassador, adapter) where containers genuinely need to be colocated — for example, a log collector sidecar that ships logs from the main app container to a central aggregator.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>If a container is a single <strong>person</strong>, a Pod is an <strong>apartment</strong>. Roommates (containers) in the same apartment share the same front door (IP address), share the same Wi-Fi (network), and have access to the same communal spaces (shared volumes). The building manager (Kubernetes) assigns apartments to floors (nodes) in the building (cluster). You can't move one roommate to a different floor without moving the whole apartment — Pods are atomic.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📄 Your First Pod YAML</div>
+        <p>Kubernetes resources are defined in YAML files. Every K8s YAML has four required top-level fields:</p>
+        <ul>
+          <li><code>apiVersion</code> — Which version of the K8s API this resource uses</li>
+          <li><code>kind</code> — What type of resource this is (Pod, Deployment, Service, etc.)</li>
+          <li><code>metadata</code> — Name, namespace, labels, and annotations</li>
+          <li><code>spec</code> — The desired configuration of the resource</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">pod.yaml — A Simple Web Server Pod</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Pod</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">my-web-pod</span>
+  <span class="kw">labels:</span>
+    <span class="kw">app:</span> <span class="str">web</span>          <span class="cm"># Labels are key-value pairs. Services use them to find Pods.</span>
+    <span class="kw">env:</span> <span class="str">production</span>
+<span class="kw">spec:</span>
+  <span class="kw">containers:</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">web-server</span>
+      <span class="kw">image:</span> <span class="str">nginx:1.25-alpine</span>    <span class="cm"># Pin to exact version in production!</span>
+      <span class="kw">ports:</span>
+        <span class="var">-</span> <span class="kw">containerPort:</span> <span class="str">80</span>      <span class="cm"># Informational only — doesn't expose the port</span>
+      <span class="kw">resources:</span>
+        <span class="kw">requests:</span>               <span class="cm"># Minimum guaranteed resources (for scheduling)</span>
+          <span class="kw">memory:</span> <span class="str">"64Mi"</span>
+          <span class="kw">cpu:</span> <span class="str">"100m"</span>             <span class="cm"># 100 millicores = 0.1 CPU</span>
+        <span class="kw">limits:</span>                  <span class="cm"># Maximum allowed (container killed if exceeded)</span>
+          <span class="kw">memory:</span> <span class="str">"128Mi"</span>
+          <span class="kw">cpu:</span> <span class="str">"200m"</span>
+      <span class="kw">livenessProbe:</span>             <span class="cm"># K8s restarts the container if this fails</span>
+        <span class="kw">httpGet:</span>
+          <span class="kw">path:</span> <span class="str">/</span>
+          <span class="kw">port:</span> <span class="str">80</span>
+        <span class="kw">initialDelaySeconds:</span> <span class="str">10</span>
+        <span class="kw">periodSeconds:</span> <span class="str">15</span>
+      <span class="kw">readinessProbe:</span>            <span class="cm"># K8s only sends traffic when this passes</span>
+        <span class="kw">httpGet:</span>
+          <span class="kw">path:</span> <span class="str">/</span>
+          <span class="kw">port:</span> <span class="str">80</span>
+        <span class="kw">initialDelaySeconds:</span> <span class="str">5</span>
+        <span class="kw">periodSeconds:</span> <span class="str">10</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">❤️‍🔥 Liveness vs Readiness Probes</div>
+        <p>Kubernetes has two probe types that serve distinct purposes — understanding the difference is important:</p>
+        <ul>
+          <li><strong>Liveness Probe</strong> — "Is this container still alive?" If this fails, K8s kills and restarts the container. Use it to detect deadlocks or hung processes that need to be force-recycled.</li>
+          <li><strong>Readiness Probe</strong> — "Is this container ready to receive traffic?" If this fails, K8s removes the Pod from all Service load balancers but does <em>not</em> restart it. Use it during startup (while the app is loading) or when temporarily overloaded.</li>
+        </ul>
+        <p>A Pod can be alive (liveness passes) but not ready (readiness fails) — for example, a web server that's running but still loading its cache. Traffic is held back until it's ready.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Working With Pods</span>
+        </div>
+        <pre><span class="cm"># Apply the YAML file — create or update the resource</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">pod.yaml</span>
+
+<span class="cm"># List all pods in the current namespace</span>
+<span class="kw">kubectl get pods</span>
+
+<span class="cm"># List pods with extra info (node, IP, status)</span>
+<span class="kw">kubectl get pods</span> <span class="var">-o wide</span>
+
+<span class="cm"># Watch pod status in real time (great during deployment)</span>
+<span class="kw">kubectl get pods</span> <span class="var">-w</span>
+
+<span class="cm"># Full details: events, probe results, resource usage, restart count</span>
+<span class="kw">kubectl describe pod</span> <span class="str">my-web-pod</span>
+
+<span class="cm"># Stream logs from the container in the pod</span>
+<span class="kw">kubectl logs</span> <span class="var">-f</span> <span class="str">my-web-pod</span>
+
+<span class="cm"># Get a shell inside the pod (like docker exec -it)</span>
+<span class="kw">kubectl exec</span> <span class="var">-it</span> <span class="str">my-web-pod</span> <span class="var">--</span> <span class="str">sh</span>
+
+<span class="cm"># Delete the pod</span>
+<span class="kw">kubectl delete pod</span> <span class="str">my-web-pod</span>
+
+<span class="cm"># Quick tip: generate YAML without applying it (great for learning)</span>
+<span class="kw">kubectl run</span> <span class="str">test-pod</span> <span class="var">--image=nginx</span> <span class="var">--dry-run=client</span> <span class="var">-o yaml</span></pre>
+      </div>
+
+      <div class="warn-box">
+        <div class="wi">⚠️</div>
+        <div><strong>You Almost Never Create Bare Pods in Production</strong><br>
+        If you create a Pod directly and the node it's running on fails, the Pod is gone forever — K8s won't reschedule it because nobody declared a desired count to maintain. In production, you always use a <strong>Deployment</strong> (next lesson), which manages Pods through a ReplicaSet and guarantees the desired count is always maintained. Bare Pods are for debugging and learning only.</div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Your app is running but still warming up its caches and isn't ready to serve production traffic yet. Which probe type should fail during this window?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Liveness Probe — to signal K8s should restart the container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Readiness Probe — to signal K8s should hold traffic back but keep the container running</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Both probes — K8s needs both to fail before acting</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Neither — probes are optional and only used in emergencies</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 4 — DEPLOYMENTS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>🔁 Deployments — Managing Pods at Scale</h2>
+        <p class="lesson-intro">Deployments are the workhorse of Kubernetes. They manage the full lifecycle of your Pods — creating them, scaling them, updating them with zero downtime, and rolling back when things go wrong.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧱 The Deployment → ReplicaSet → Pod Hierarchy</div>
+        <p>When you create a Deployment, K8s actually creates a chain of resources:</p>
+        <ol>
+          <li>The <strong>Deployment</strong> defines the desired state: which image, how many replicas, how to update.</li>
+          <li>The Deployment creates a <strong>ReplicaSet</strong> — a controller that ensures a specific number of identical Pods are always running.</li>
+          <li>The ReplicaSet creates and manages the actual <strong>Pods</strong>.</li>
+        </ol>
+        <p>When you do a rolling update, the Deployment creates a <em>new</em> ReplicaSet with the new image and gradually scales it up while scaling the old ReplicaSet down. This is how zero-downtime deploys work.</p>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">Deployment</span> <span class="d-white">(desired state: 3 replicas of v1.0)</span>
+    │
+    ├── <span class="d-yellow">ReplicaSet v1</span> <span class="d-white">(manages 3 pods running v1.0)</span>
+    │       ├── <span class="d-teal">Pod: web-abc11</span> <span class="d-white">[nginx:1.0] Running</span>
+    │       ├── <span class="d-teal">Pod: web-abc12</span> <span class="d-white">[nginx:1.0] Running</span>
+    │       └── <span class="d-teal">Pod: web-abc13</span> <span class="d-white">[nginx:1.0] Running</span>
+
+<span class="d-white">After</span> <span class="d-green">kubectl set image deployment/web nginx=nginx:1.1</span><span class="d-white">:</span>
+
+<span class="d-blue">Deployment</span> <span class="d-white">(desired state: 3 replicas of v1.1)</span>
+    │
+    ├── <span class="d-yellow">ReplicaSet v1</span> <span class="d-white">(scaling DOWN)</span>
+    │       └── <span class="d-teal">Pod: web-abc11</span> <span class="d-white">[nginx:1.0] Terminating</span>
+    │
+    └── <span class="d-green">ReplicaSet v2</span> <span class="d-white">(scaling UP)</span>
+            ├── <span class="d-teal">Pod: web-def21</span> <span class="d-white">[nginx:1.1] Running</span>
+            ├── <span class="d-teal">Pod: web-def22</span> <span class="d-white">[nginx:1.1] Running</span>
+            └── <span class="d-teal">Pod: web-def23</span> <span class="d-white">[nginx:1.1] Running</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">deployment.yaml — A Production-Ready Deployment</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">apps/v1</span>
+<span class="kw">kind:</span> <span class="str">Deployment</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">web-deployment</span>
+  <span class="kw">labels:</span>
+    <span class="kw">app:</span> <span class="str">web</span>
+<span class="kw">spec:</span>
+  <span class="kw">replicas:</span> <span class="str">3</span>                    <span class="cm"># Run 3 identical Pods at all times</span>
+  <span class="kw">selector:</span>
+    <span class="kw">matchLabels:</span>
+      <span class="kw">app:</span> <span class="str">web</span>                   <span class="cm"># This Deployment manages Pods with label app=web</span>
+  <span class="kw">strategy:</span>
+    <span class="kw">type:</span> <span class="str">RollingUpdate</span>
+    <span class="kw">rollingUpdate:</span>
+      <span class="kw">maxSurge:</span> <span class="str">1</span>               <span class="cm"># Allow 1 extra Pod above the desired count during update</span>
+      <span class="kw">maxUnavailable:</span> <span class="str">0</span>         <span class="cm"># Never reduce below desired count (zero-downtime!)</span>
+  <span class="kw">template:</span>                      <span class="cm"># Pod template — this IS the Pod spec</span>
+    <span class="kw">metadata:</span>
+      <span class="kw">labels:</span>
+        <span class="kw">app:</span> <span class="str">web</span>                 <span class="cm"># Must match selector.matchLabels above!</span>
+    <span class="kw">spec:</span>
+      <span class="kw">containers:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">web</span>
+          <span class="kw">image:</span> <span class="str">myapp:v1.2.0</span>
+          <span class="kw">ports:</span>
+            <span class="var">-</span> <span class="kw">containerPort:</span> <span class="str">8080</span>
+          <span class="kw">resources:</span>
+            <span class="kw">requests:</span>
+              <span class="kw">memory:</span> <span class="str">"128Mi"</span>
+              <span class="kw">cpu:</span> <span class="str">"100m"</span>
+            <span class="kw">limits:</span>
+              <span class="kw">memory:</span> <span class="str">"256Mi"</span>
+              <span class="kw">cpu:</span> <span class="str">"500m"</span>
+          <span class="kw">readinessProbe:</span>
+            <span class="kw">httpGet:</span>
+              <span class="kw">path:</span> <span class="str">/health</span>
+              <span class="kw">port:</span> <span class="str">8080</span>
+            <span class="kw">initialDelaySeconds:</span> <span class="str">10</span>
+            <span class="kw">periodSeconds:</span> <span class="str">5</span>
+          <span class="kw">livenessProbe:</span>
+            <span class="kw">httpGet:</span>
+              <span class="kw">path:</span> <span class="str">/health</span>
+              <span class="kw">port:</span> <span class="str">8080</span>
+            <span class="kw">initialDelaySeconds:</span> <span class="str">20</span>
+            <span class="kw">periodSeconds:</span> <span class="str">15</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Managing Deployments</span>
+        </div>
+        <pre><span class="cm"># Apply the deployment</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">deployment.yaml</span>
+
+<span class="cm"># Check the rollout status in real time</span>
+<span class="kw">kubectl rollout status deployment/web-deployment</span>
+
+<span class="cm"># Scale to 10 replicas instantly</span>
+<span class="kw">kubectl scale deployment web-deployment</span> <span class="var">--replicas=10</span>
+
+<span class="cm"># Update the container image (triggers a rolling update)</span>
+<span class="kw">kubectl set image deployment/web-deployment</span> <span class="str">web=myapp:v1.3.0</span>
+
+<span class="cm"># Watch the rolling update happen in real time</span>
+<span class="kw">kubectl get pods</span> <span class="var">-w</span>
+
+<span class="cm"># Oops — v1.3.0 is broken! Instantly roll back to the previous version</span>
+<span class="kw">kubectl rollout undo deployment/web-deployment</span>
+
+<span class="cm"># Roll back to a specific revision</span>
+<span class="kw">kubectl rollout undo deployment/web-deployment</span> <span class="var">--to-revision=2</span>
+
+<span class="cm"># See rollout history (why SHA tags matter — you can trace each revision)</span>
+<span class="kw">kubectl rollout history deployment/web-deployment</span>
+
+<span class="cm"># Pause a rolling update mid-way (to canary test the new version)</span>
+<span class="kw">kubectl rollout pause deployment/web-deployment</span>
+<span class="kw">kubectl rollout resume deployment/web-deployment</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You set <code>maxUnavailable: 0</code> in your rolling update strategy. What does this guarantee?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The update will happen in zero seconds</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">During the update, the number of available Pods never drops below the desired replica count — zero downtime is guaranteed</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Zero new pods are created during the update</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Deployment will not update unless all old pods are deleted first</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 5 — SERVICES
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🌐 Services — Stable Networking for Pods</h2>
+        <p class="lesson-intro">Pods are mortal. Their IP addresses change every time they're restarted or rescheduled. A Service gives your application a permanent, stable address regardless of which Pods are backing it.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 The Problem: Pod IPs Are Ephemeral</div>
+        <p>Every Pod gets its own IP address when it starts. But Pods are constantly being created and destroyed — crashes, updates, scaling events. If your frontend hardcodes the IP of a backend Pod, it breaks every time that Pod is rescheduled.</p>
+        <p>A <strong>Service</strong> is a stable virtual IP (called a <strong>ClusterIP</strong>) and DNS name that sits in front of a set of Pods. It uses <strong>label selectors</strong> to find its target Pods dynamically. Pods come and go — the Service IP never changes.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗂️ The Four Service Types</div>
+        <table>
+          <tr><th>Type</th><th>Accessible From</th><th>Use Case</th></tr>
+          <tr><td><span class="badge badge-purple">ClusterIP</span></td><td>Inside the cluster only</td><td>Backend-to-backend communication. The default and most common type.</td></tr>
+          <tr><td><span class="badge badge-yellow">NodePort</span></td><td>Outside the cluster via &lt;NodeIP&gt;:&lt;Port&gt;</td><td>Development/testing. Exposes a port on every node. Not for production.</td></tr>
+          <tr><td><span class="badge badge-green">LoadBalancer</span></td><td>Outside the cluster via a cloud load balancer</td><td>Production external traffic. Provisions a real cloud LB (AWS ELB, GCP LB, etc.).</td></tr>
+          <tr><td><span class="badge badge-red">ExternalName</span></td><td>Maps a Service to an external DNS name</td><td>Accessing external services (databases, APIs) by a stable internal name.</td></tr>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">service.yaml — ClusterIP and LoadBalancer Examples</span>
+        </div>
+        <pre><span class="cm"># ── ClusterIP Service (internal only) ─────────────────────────</span>
+<span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Service</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">web-service</span>
+<span class="kw">spec:</span>
+  <span class="kw">type:</span> <span class="str">ClusterIP</span>           <span class="cm"># Default — can be omitted</span>
+  <span class="kw">selector:</span>
+    <span class="kw">app:</span> <span class="str">web</span>               <span class="cm"># Routes traffic to all Pods with label app=web</span>
+  <span class="kw">ports:</span>
+    <span class="var">-</span> <span class="kw">protocol:</span> <span class="str">TCP</span>
+      <span class="kw">port:</span> <span class="str">80</span>             <span class="cm"># Port the Service listens on inside the cluster</span>
+      <span class="kw">targetPort:</span> <span class="str">8080</span>    <span class="cm"># Port the Pods actually listen on</span>
+
+<span class="cm">---
+# ── LoadBalancer Service (external access via cloud LB) ────────</span>
+<span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Service</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">web-loadbalancer</span>
+<span class="kw">spec:</span>
+  <span class="kw">type:</span> <span class="str">LoadBalancer</span>
+  <span class="kw">selector:</span>
+    <span class="kw">app:</span> <span class="str">web</span>
+  <span class="kw">ports:</span>
+    <span class="var">-</span> <span class="kw">protocol:</span> <span class="str">TCP</span>
+      <span class="kw">port:</span> <span class="str">80</span>
+      <span class="kw">targetPort:</span> <span class="str">8080</span>
+<span class="cm"># On AWS/GCP/Azure, this creates a real cloud load balancer.
+# kubectl get service web-loadbalancer will show the EXTERNAL-IP once provisioned.</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Service Discovery via DNS</div>
+        <p>Every Service in Kubernetes automatically gets a DNS name inside the cluster, managed by <strong>CoreDNS</strong>. Any Pod can reach any Service using a predictable hostname — no hardcoded IPs, no service registries to configure manually.</p>
+        <p>The full DNS format is: <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code></p>
+        <p>Within the same namespace, you can just use the service name: <code>web-service</code>. This is exactly how Docker Compose's service name DNS works — K8s just does it cluster-wide.</p>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">Service Discovery in Action</span>
+
+<span class="d-teal">frontend Pod</span> wants to talk to the <span class="d-yellow">database Service</span>
+
+<span class="d-white">Connection string in app code:</span>
+  <span class="d-green">postgresql://postgres-service:5432/mydb</span>
+       <span class="d-white">↑ just the Service name — no IP needed</span>
+
+<span class="d-white">CoreDNS resolves:</span>
+  <span class="d-green">postgres-service</span> → <span class="d-purple">10.96.45.12</span> <span class="d-white">(stable ClusterIP)</span>
+
+<span class="d-white">kube-proxy routes:</span>
+  <span class="d-purple">10.96.45.12:5432</span> → one of the healthy database Pods
+
+<span class="d-white">If a database Pod crashes and a new one starts with a new IP:</span>
+  <span class="d-white">Service ClusterIP stays the same →</span> <span class="d-green">app keeps working ✓</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Working With Services</span>
+        </div>
+        <pre><span class="cm"># Apply service definition</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">service.yaml</span>
+
+<span class="cm"># List all services (note the CLUSTER-IP and EXTERNAL-IP columns)</span>
+<span class="kw">kubectl get services</span>
+
+<span class="cm"># Describe a service — shows which Pods it's routing to (Endpoints)</span>
+<span class="kw">kubectl describe service</span> <span class="str">web-service</span>
+
+<span class="cm"># Test a ClusterIP service from inside the cluster</span>
+<span class="cm"># (run a temporary debug pod, curl the service by name)</span>
+<span class="kw">kubectl run</span> <span class="str">debug</span> <span class="var">--image=curlimages/curl</span> <span class="var">-it --rm</span> <span class="var">--</span> <span class="str">sh</span>
+<span class="cm"># Inside the debug pod:</span>
+<span class="kw">curl</span> <span class="str">http://web-service/</span>       <span class="cm"># ← uses DNS to resolve the service</span>
+
+<span class="cm"># In minikube, access a NodePort or LoadBalancer service from your laptop:</span>
+<span class="kw">minikube service</span> <span class="str">web-loadbalancer</span> <span class="var">--url</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Your backend app has 5 Pods. One crashes and K8s starts a new Pod with a different IP. How does the frontend app keep connecting to the backend without any configuration changes?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It can't — the frontend must be updated with the new IP</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The crashed Pod's IP is reserved and reused by the new Pod</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The frontend connects to the Service's stable ClusterIP. The Service automatically updates its routing to include the new Pod and exclude the dead one.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Kubernetes broadcasts the new Pod IP to all other Pods in the cluster</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 6 — CONFIGMAPS & SECRETS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>⚙️ ConfigMaps &amp; Secrets</h2>
+        <p class="lesson-intro">Configuration and secrets should never be baked into your container images. Kubernetes provides two dedicated resource types to inject them at runtime — one for plain config, one for sensitive data.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 ConfigMaps — Non-Sensitive Configuration</div>
+        <p>A <strong>ConfigMap</strong> stores arbitrary key-value configuration data decoupled from the Pod spec. This lets you change configuration without rebuilding your image. Common uses: feature flags, database hostnames, log levels, API endpoints, config file contents.</p>
+        <p>You can inject ConfigMap data into Pods in two ways:</p>
+        <ul>
+          <li><strong>Environment variables</strong> — each key becomes an env var in the container</li>
+          <li><strong>Mounted files</strong> — the ConfigMap is mounted as a directory, each key becomes a file</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">configmap.yaml — Configuration as Env Vars and Files</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">ConfigMap</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">app-config</span>
+<span class="kw">data:</span>
+  <span class="kw">LOG_LEVEL:</span> <span class="str">"info"</span>
+  <span class="kw">MAX_CONNECTIONS:</span> <span class="str">"100"</span>
+  <span class="kw">DATABASE_HOST:</span> <span class="str">"postgres-service"</span>
+  <span class="cm"># Multi-line value becomes a file when volume-mounted</span>
+  <span class="kw">nginx.conf:</span> <span class="str">|
+    server {
+      listen 80;
+      location / { proxy_pass http://web-service; }
+    }</span>
+
+<span class="cm">---
+# Using the ConfigMap in a Pod / Deployment spec:</span>
+<span class="kw">spec:</span>
+  <span class="kw">containers:</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">app</span>
+      <span class="kw">image:</span> <span class="str">myapp:v1</span>
+      <span class="kw">envFrom:</span>
+        <span class="var">-</span> <span class="kw">configMapRef:</span>             <span class="cm"># Inject ALL keys as env vars</span>
+            <span class="kw">name:</span> <span class="str">app-config</span>
+      <span class="kw">volumeMounts:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">config-vol</span>
+          <span class="kw">mountPath:</span> <span class="str">/etc/nginx/conf.d</span>  <span class="cm"># nginx.conf key → file here</span>
+  <span class="kw">volumes:</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">config-vol</span>
+      <span class="kw">configMap:</span>
+        <span class="kw">name:</span> <span class="str">app-config</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Secrets — Sensitive Data</div>
+        <p>A <strong>Secret</strong> is structurally identical to a ConfigMap but is designed for sensitive data: passwords, API tokens, TLS certificates, SSH keys. Kubernetes handles Secrets with additional protections:</p>
+        <ul>
+          <li>Stored <strong>base64-encoded</strong> in etcd (not plaintext — though base64 is not encryption)</li>
+          <li>Only sent to nodes that have Pods needing them</li>
+          <li>Mounted as <strong>tmpfs</strong> (in-memory) inside Pods — never written to node disk</li>
+          <li>Can be encrypted at rest in etcd when encryption providers are configured (highly recommended in production)</li>
+        </ul>
+      </div>
+
+      <div class="warn-box">
+        <div class="wi">⚠️</div>
+        <div><strong>Base64 ≠ Encryption</strong><br>
+        Kubernetes Secrets are base64-encoded, not encrypted, by default. Anyone with access to etcd or sufficient RBAC permissions can decode them. For real secrets management in production, integrate with an external system: <strong>HashiCorp Vault</strong>, <strong>AWS Secrets Manager</strong>, <strong>GCP Secret Manager</strong>, or the <strong>External Secrets Operator</strong> (a K8s operator that syncs secrets from external providers).</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal + YAML — Creating and Using Secrets</span>
+        </div>
+        <pre><span class="cm"># Create a Secret imperatively (the --from-literal values are base64-encoded automatically)</span>
+<span class="kw">kubectl create secret generic</span> <span class="str">db-credentials</span> \
+  <span class="var">--from-literal=</span><span class="str">username=admin</span> \
+  <span class="var">--from-literal=</span><span class="str">password=supersecret123</span>
+
+<span class="cm"># Create from a file (e.g., a TLS certificate)</span>
+<span class="kw">kubectl create secret tls</span> <span class="str">my-tls-secret</span> \
+  <span class="var">--cert=</span><span class="str">server.crt</span> \
+  <span class="var">--key=</span><span class="str">server.key</span>
+
+<span class="cm"># Using a Secret in a Pod spec (as env var and as mounted file):</span>
+<span class="cm">#
+# spec:
+#   containers:
+#     - name: app
+#       env:
+#         - name: DB_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: db-credentials
+#               key: password
+#       volumeMounts:
+#         - name: secret-vol
+#           mountPath: /run/secrets
+#           readOnly: true
+#   volumes:
+#     - name: secret-vol
+#       secret:
+#         secretName: db-credentials
+#         # Mounts as files: /run/secrets/username, /run/secrets/password</span>
+
+<span class="cm"># List secrets (values are hidden)</span>
+<span class="kw">kubectl get secrets</span>
+
+<span class="cm"># Decode a secret value to verify it (be careful where you run this!)</span>
+<span class="kw">kubectl get secret</span> <span class="str">db-credentials</span> <span class="var">-o jsonpath='{.data.password}'</span> <span class="var">| base64 --decode</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What is the key difference between a ConfigMap and a Secret in Kubernetes?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">ConfigMaps can only store strings; Secrets can store binary data</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Secrets are encrypted with AES-256 by default; ConfigMaps are plaintext</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Both store key-value data, but Secrets are base64-encoded, mounted in-memory, and intended for sensitive data like passwords and tokens. ConfigMaps are for non-sensitive configuration.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">ConfigMaps are cluster-scoped; Secrets are namespace-scoped</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 7 — PERSISTENT STORAGE
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>💾 Persistent Storage</h2>
+        <p class="lesson-intro">Pods are ephemeral — their storage disappears when they do. Kubernetes has a powerful storage system with three layers of abstraction that separates what developers need from how admins provision it.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗂️ Three Storage Concepts</div>
+        <p>Docker had volumes. Kubernetes has three related but distinct concepts:</p>
+        <ul>
+          <li><strong>PersistentVolume (PV)</strong> — A piece of actual storage provisioned by a cluster admin. Could be an NFS share, an AWS EBS volume, a GCP Persistent Disk, or a local disk. It exists independently of any Pod.</li>
+          <li><strong>PersistentVolumeClaim (PVC)</strong> — A request for storage made by a developer. "I need 10GB of ReadWriteOnce storage." Kubernetes finds a matching PV and binds them together. Developers don't need to know the underlying storage details.</li>
+          <li><strong>StorageClass</strong> — Enables <strong>dynamic provisioning</strong>. Instead of an admin manually creating PVs, a StorageClass defines a provisioner (e.g., AWS EBS, GCP PD) that automatically creates a PV when a PVC requests one. This is how real production clusters work.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">Storage Request Flow</span>
+
+<span class="d-teal">Developer</span> creates a PVC:
+  <span class="d-white">"I need 10Gi of ReadWriteOnce storage"</span>
+        │
+        ▼
+<span class="d-yellow">K8s finds a matching PV</span> (or StorageClass creates one dynamically)
+        │
+        ▼
+<span class="d-green">PVC is BOUND to a PV</span>
+        │
+        ▼
+<span class="d-purple">Pod mounts the PVC</span> at a path like <span class="d-white">/data</span>
+        │
+        ▼
+<span class="d-white">Pod writes to /data</span>
+        │
+<span class="d-white">Pod is deleted ──→ PV and data SURVIVE</span>
+        │
+<span class="d-white">New Pod mounts same PVC ──→</span> <span class="d-green">data is still there ✓</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">pvc.yaml + deployment — Using Persistent Storage</span>
+        </div>
+        <pre><span class="cm"># Step 1: Create a PersistentVolumeClaim</span>
+<span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">PersistentVolumeClaim</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">postgres-pvc</span>
+<span class="kw">spec:</span>
+  <span class="kw">accessModes:</span>
+    <span class="var">-</span> <span class="str">ReadWriteOnce</span>          <span class="cm"># Can be mounted by ONE node at a time (good for DBs)</span>
+  <span class="kw">storageClassName:</span> <span class="str">standard</span> <span class="cm"># Which StorageClass to use for dynamic provisioning</span>
+  <span class="kw">resources:</span>
+    <span class="kw">requests:</span>
+      <span class="kw">storage:</span> <span class="str">10Gi</span>
+
+<span class="cm">---
+# Step 2: Mount the PVC in a Pod / Deployment</span>
+<span class="kw">spec:</span>
+  <span class="kw">containers:</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">postgres</span>
+      <span class="kw">image:</span> <span class="str">postgres:16-alpine</span>
+      <span class="kw">volumeMounts:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">postgres-storage</span>
+          <span class="kw">mountPath:</span> <span class="str">/var/lib/postgresql/data</span>
+  <span class="kw">volumes:</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">postgres-storage</span>
+      <span class="kw">persistentVolumeClaim:</span>
+        <span class="kw">claimName:</span> <span class="str">postgres-pvc</span>   <span class="cm"># Reference the PVC by name</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📖 Access Modes</div>
+        <p>PVCs declare how the storage can be accessed by nodes:</p>
+        <ul>
+          <li><code>ReadWriteOnce (RWO)</code> — Mounted read-write by a single node. Standard for databases (PostgreSQL, MySQL). Most cloud block storage (EBS, GCP PD) supports this.</li>
+          <li><code>ReadOnlyMany (ROX)</code> — Mounted read-only by many nodes simultaneously. Useful for shared configuration or static assets.</li>
+          <li><code>ReadWriteMany (RWX)</code> — Mounted read-write by many nodes simultaneously. Requires network filesystems like NFS or cloud file storage (AWS EFS, GCP Filestore). Expensive but needed for shared uploads.</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🐘</div>
+        <div class="callout-body">
+          <strong>Stateful Apps in K8s: Use StatefulSets</strong>
+          For stateful applications like databases that need stable network identities and ordered deployment, use a <strong>StatefulSet</strong> instead of a Deployment. StatefulSets give each Pod a stable hostname (postgres-0, postgres-1, postgres-2) and a dedicated PVC per Pod. They're the right tool for running PostgreSQL, MongoDB, Kafka, or Elasticsearch on Kubernetes.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">A developer creates a PVC requesting 10Gi of storage. They don't know whether the cluster uses AWS EBS, GCP disks, or NFS. Who or what handles the actual provisioning details?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The developer — they must specify the exact disk type and cloud region</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The PVC automatically creates an EBS volume by default</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The StorageClass — it defines which provisioner to use and handles creating the actual storage automatically</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The kubelet on each node manages storage provisioning</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 8 — INGRESS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>🚪 Ingress — Smart HTTP Routing Into the Cluster</h2>
+        <p class="lesson-intro">LoadBalancer Services give you one cloud load balancer per Service — expensive and unscalable. Ingress lets a single load balancer route to dozens of Services based on hostname and URL path.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 The Problem With LoadBalancer Services</div>
+        <p>If you have 10 microservices, each with a LoadBalancer Service, you'd pay for 10 cloud load balancers. On AWS, each ALB costs money per hour. For a startup with 20 services that's a significant monthly bill — just for routing.</p>
+        <p>An <strong>Ingress</strong> resource defines HTTP/HTTPS routing rules. A single <strong>Ingress Controller</strong> (typically Nginx or Traefik) runs inside the cluster and is exposed via one LoadBalancer Service. All routing decisions happen inside the cluster — one cloud load balancer, unlimited internal services.</p>
+      </div>
+
+      <div class="diagram">
+<span class="d-white">WITHOUT Ingress (expensive):</span>
+  Internet → <span class="d-red">LB₁</span> → Service A
+  Internet → <span class="d-red">LB₂</span> → Service B      (3 cloud LBs = 3× cost)
+  Internet → <span class="d-red">LB₃</span> → Service C
+
+<span class="d-white">WITH Ingress (efficient):</span>
+  Internet → <span class="d-green">1 LB</span> → <span class="d-yellow">Ingress Controller</span> → routes based on rules:
+
+  <span class="d-blue">api.example.com/users</span>    → Service A
+  <span class="d-blue">api.example.com/products</span> → Service B
+  <span class="d-blue">admin.example.com</span>        → Service C
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">ingress.yaml — Host and Path-Based Routing</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">networking.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">Ingress</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">app-ingress</span>
+  <span class="kw">annotations:</span>
+    <span class="cm"># Annotations configure the specific Ingress controller's behavior</span>
+    <span class="kw">nginx.ingress.kubernetes.io/rewrite-target:</span> <span class="str">/</span>
+    <span class="kw">nginx.ingress.kubernetes.io/ssl-redirect:</span> <span class="str">"true"</span>
+    <span class="cm"># cert-manager annotation: auto-issue a Let's Encrypt TLS certificate!</span>
+    <span class="kw">cert-manager.io/cluster-issuer:</span> <span class="str">"letsencrypt-prod"</span>
+<span class="kw">spec:</span>
+  <span class="kw">ingressClassName:</span> <span class="str">nginx</span>        <span class="cm"># Which Ingress controller handles this</span>
+  <span class="kw">tls:</span>
+    <span class="var">-</span> <span class="kw">hosts:</span>
+        <span class="var">-</span> <span class="str">api.example.com</span>
+      <span class="kw">secretName:</span> <span class="str">api-tls-cert</span>    <span class="cm"># cert-manager stores the cert here</span>
+  <span class="kw">rules:</span>
+    <span class="cm"># Route by hostname</span>
+    <span class="var">-</span> <span class="kw">host:</span> <span class="str">api.example.com</span>
+      <span class="kw">http:</span>
+        <span class="kw">paths:</span>
+          <span class="cm"># Route by URL path</span>
+          <span class="var">-</span> <span class="kw">path:</span> <span class="str">/users</span>
+            <span class="kw">pathType:</span> <span class="str">Prefix</span>
+            <span class="kw">backend:</span>
+              <span class="kw">service:</span>
+                <span class="kw">name:</span> <span class="str">users-service</span>
+                <span class="kw">port:</span>
+                  <span class="kw">number:</span> <span class="str">80</span>
+          <span class="var">-</span> <span class="kw">path:</span> <span class="str">/products</span>
+            <span class="kw">pathType:</span> <span class="str">Prefix</span>
+            <span class="kw">backend:</span>
+              <span class="kw">service:</span>
+                <span class="kw">name:</span> <span class="str">products-service</span>
+                <span class="kw">port:</span>
+                  <span class="kw">number:</span> <span class="str">80</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔒 TLS with cert-manager</div>
+        <p><strong>cert-manager</strong> is a Kubernetes controller that automatically provisions and renews TLS certificates from Let's Encrypt (free) or other certificate authorities. Combined with Ingress, your workflow becomes:</p>
+        <ol>
+          <li>Install cert-manager in the cluster (one time, via Helm)</li>
+          <li>Create a ClusterIssuer resource that points to Let's Encrypt</li>
+          <li>Add the <code>cert-manager.io/cluster-issuer</code> annotation to your Ingress</li>
+          <li>cert-manager automatically creates the certificate, stores it as a Secret, and renews it before expiry — forever, automatically</li>
+        </ol>
+        <p>This is how most production Kubernetes clusters handle HTTPS — zero manual certificate management.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Installing Nginx Ingress Controller + cert-manager</span>
+        </div>
+        <pre><span class="cm"># Install Helm (the K8s package manager) if you don't have it</span>
+<span class="kw">brew install helm</span>
+
+<span class="cm"># Add the Nginx Ingress Helm repository</span>
+<span class="kw">helm repo add</span> <span class="str">ingress-nginx https://kubernetes.github.io/ingress-nginx</span>
+<span class="kw">helm repo update</span>
+
+<span class="cm"># Install the Nginx Ingress Controller into the cluster</span>
+<span class="kw">helm install ingress-nginx ingress-nginx/ingress-nginx</span>
+
+<span class="cm"># Install cert-manager for automatic TLS certificate management</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml</span>
+
+<span class="cm"># In minikube, enable the built-in Ingress addon instead:</span>
+<span class="kw">minikube addons enable ingress</span>
+
+<span class="cm"># Check that the Ingress controller is running</span>
+<span class="kw">kubectl get pods</span> <span class="var">-n</span> <span class="str">ingress-nginx</span>
+
+<span class="cm"># List all Ingress resources</span>
+<span class="kw">kubectl get ingress</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You have 15 microservices. Why is using Ingress better than creating 15 LoadBalancer Services?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Ingress is faster because it bypasses Kubernetes networking</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Ingress uses a single cloud load balancer and routes to all services based on hostnames and paths — dramatically cheaper and simpler to manage than 15 separate cloud LBs</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">LoadBalancer Services don't support HTTPS; Ingress does</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Ingress allows more than 65535 ports, which LoadBalancer Services don't</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 9 — WHAT'S NEXT
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9</div>
+        <h2>🏆 You're Cluster-Ready!</h2>
+        <p class="lesson-intro">You now understand the foundational objects every Kubernetes engineer works with every day. Let's consolidate, give you a real project, and map the path forward.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Complete Recap</div>
+        <ul>
+          <li>⎈ <strong>Kubernetes</strong> orchestrates containers across a cluster of machines — self-healing, auto-scaling, zero-downtime deploys.</li>
+          <li>🏛️ <strong>Control Plane</strong> (apiserver, etcd, scheduler, controller-manager) is the brain. <strong>Worker Nodes</strong> (kubelet, kube-proxy, container runtime) are the muscle.</li>
+          <li>📦 <strong>Pods</strong> are the smallest deployable unit — a wrapper around one or more containers sharing a network and storage. Never create bare Pods in production.</li>
+          <li>🔁 <strong>Deployments</strong> manage Pods via ReplicaSets — declarative scaling, rolling updates, instant rollbacks.</li>
+          <li>🌐 <strong>Services</strong> give Pods a stable ClusterIP and DNS name. Four types: ClusterIP, NodePort, LoadBalancer, ExternalName.</li>
+          <li>⚙️ <strong>ConfigMaps</strong> inject non-sensitive config. <strong>Secrets</strong> inject sensitive data. Both keep config out of images.</li>
+          <li>💾 <strong>PVCs</strong> request storage. <strong>PVs</strong> provide it. <strong>StorageClasses</strong> provision it dynamically.</li>
+          <li>🚪 <strong>Ingress</strong> routes HTTP/HTTPS traffic to multiple Services from one load balancer. cert-manager handles TLS automatically.</li>
+        </ul>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Capstone Project: Deploy a Full Stack on K8s</div>
+        <h4>Port Your Docker Compose App to Kubernetes</h4>
+        <p>Take the full-stack app you built in the Docker courses and run it on Kubernetes. In order:</p>
+        <ol>
+          <li>Push your app image to Docker Hub with a version tag.</li>
+          <li>Write a <strong>Deployment</strong> for your web app with 3 replicas, liveness and readiness probes, and resource limits.</li>
+          <li>Write a <strong>ClusterIP Service</strong> to front the web app Pods.</li>
+          <li>Write a <strong>Deployment</strong> for PostgreSQL using the official image.</li>
+          <li>Write a <strong>ClusterIP Service</strong> for PostgreSQL so the web app can reach it by name.</li>
+          <li>Create a <strong>PVC</strong> for PostgreSQL data and mount it into the database Deployment.</li>
+          <li>Put your database password in a <strong>Secret</strong> and your DB hostname in a <strong>ConfigMap</strong>. Inject them into both Deployments.</li>
+          <li>Enable minikube's Ingress addon and write an <strong>Ingress</strong> resource to expose your web app at <code>myapp.local</code>.</li>
+          <li>Add <code>127.0.0.1 myapp.local</code> to your <code>/etc/hosts</code> file and visit it in your browser.</li>
+          <li>Run <code>kubectl rollout undo deployment/web</code> to practice a rollback.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⎈ The CKAD Certification Path</div>
+        <p>The <strong>Certified Kubernetes Application Developer (CKAD)</strong> is the right first K8s certification. It's hands-on — a 2-hour practical exam where you solve real tasks in a live cluster using kubectl and YAML. No multiple choice.</p>
+        <p>Topics on the CKAD exam that go beyond this course (your next study list):</p>
+        <ul>
+          <li><strong>Namespaces</strong> — logical partitions within a cluster; RBAC is scoped to them</li>
+          <li><strong>Resource Quotas and LimitRanges</strong> — enforce resource limits at the namespace level</li>
+          <li><strong>Jobs and CronJobs</strong> — run batch tasks or scheduled tasks in Pods</li>
+          <li><strong>Network Policies</strong> — firewall rules between Pods (which Pods can talk to which)</li>
+          <li><strong>ServiceAccounts and RBAC</strong> — which users and Pods can do what in the cluster</li>
+          <li><strong>Horizontal Pod Autoscaler (HPA)</strong> — automatically scale replicas based on CPU/memory metrics</li>
+          <li><strong>Init Containers</strong> — containers that run to completion before the main container starts (migrations, cert downloads)</li>
+          <li><strong>Multi-container Pod patterns</strong> — sidecar, ambassador, adapter</li>
+          <li><strong>Helm</strong> — the package manager for Kubernetes; package and deploy complex apps with one command</li>
+        </ul>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">⚡</div>
+        <div class="callout-body">
+          <strong>CKAD Exam Tips</strong>
+          The exam is entirely terminal-based. Speed matters. Master these before exam day:<br>
+          — Set <code>alias k=kubectl</code> (saves thousands of keystrokes)<br>
+          — Use <code>kubectl explain pod.spec.containers</code> to look up any field without leaving the terminal<br>
+          — Use <code>--dry-run=client -o yaml</code> to generate YAML templates instead of writing from scratch<br>
+          — Know how to use <code>kubectl edit</code> to modify live resources in-place<br>
+          — Practice on <a href="https://killer.sh" style="color:inherit">killer.sh</a> — the official CKAD simulator
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">You have a web Deployment with 5 replicas. You update the image from v1 to v2. Pod v2-abc starts failing its readiness probe. What happens?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The rolling update continues regardless of probe failures</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">K8s immediately deletes all v1 Pods and retries v2</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The rolling update stalls — the failing v2 Pod is never added to the Service's endpoints, and the v1 Pods continue serving traffic. The update won't proceed until the readiness probe passes or you intervene.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The liveness probe kills and restarts the v2 Pod until readiness passes</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">Your frontend Pod needs to connect to your backend Service. The backend Service is named "api-service" in the same namespace. What connection string should the frontend use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://10.96.x.x:8080 (hardcoded ClusterIP)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://localhost:8080 (they're in the same cluster)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">http://api-service:8080 (K8s DNS resolves the Service name to its ClusterIP automatically)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://api-service.default.pod.cluster.local:8080</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script.js"></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

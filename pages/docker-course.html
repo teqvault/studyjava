@@ -34,7 +34,7 @@
       <span class="nav-icon">🚢</span> Welcome to Docker
     </a>
     <a class="nav-item" onclick="showLesson(1)" href="#">
-      <span class="nav-icon">🏗️</span> Images & Containers
+      <span class="nav-icon">🏗️</span> Images &amp; Containers
     </a>
     <a class="nav-item" onclick="showLesson(2)" href="#">
       <span class="nav-icon">🏘️</span> Docker vs VMs
@@ -46,7 +46,7 @@
       <span class="nav-icon">🧠</span> Architecture
     </a>
     <a class="nav-item" onclick="showLesson(5)" href="#">
-      <span class="nav-icon">💾</span> Volumes & Storage
+      <span class="nav-icon">💾</span> Volumes &amp; Storage
     </a>
     <a class="nav-item" onclick="showLesson(6)" href="#">
       <span class="nav-icon">🌐</span> Networking
@@ -61,6 +61,9 @@
 
   <main class="main">
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 1 — WELCOME TO DOCKER
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson active" id="lesson-0">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 1 of 9</div>
@@ -71,41 +74,103 @@
       <div class="card">
         <div class="card-title">🤔 The "Works on My Machine" Problem</div>
         <p>Imagine you build a beautiful Lego castle on your bedroom floor. You want to show your friend, so you try to move it to their house. But along the way, pieces fall off, their table is bumpy, and their dog steals a piece. The castle is ruined!</p>
-        <p>In the software world, this happens all the time. A developer writes code on their laptop, and it works perfectly. But when they send it to a server or another teammate, it crashes. Why? Because the environments are different (different software versions, different settings, different operating systems).</p>
+        <p>In the software world, this happens all the time. A developer writes code on their laptop, and it works perfectly. But when they send it to a server or another teammate, it crashes. Why? Because the <strong>environments are different</strong> — different software versions, different settings, different operating systems.</p>
+        <p>This is such a notorious problem in software development that it has its own meme. When a developer shrugs and says <em>"well, it works on my machine"</em>, their teammates want to scream. Docker was built to eliminate this excuse forever.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 What Exactly Makes Environments Different?</div>
+        <p>Let's be specific. Here's a real scenario that breaks applications:</p>
+        <ul>
+          <li><strong>Developer A</strong> has Python 3.10 installed. She writes code using features only available in 3.10.</li>
+          <li><strong>Developer B</strong> has Python 3.7 installed. When he runs the same code — crash. Syntax error.</li>
+          <li><strong>The Production Server</strong> has Python 3.8 and a different set of libraries. The app behaves in a third, completely different way.</li>
+        </ul>
+        <p>This happens with Node.js versions, database drivers, operating system libraries, environment variables, and a hundred other invisible settings. It's a nightmare — and it was the normal state of software development before Docker.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
-        <p>Before the 1950s, putting cargo on a ship was chaos. Workers threw sacks of flour, barrels of oil, and boxes of shoes directly into the ship's hold. It was messy and slow. Then, the <strong>standard shipping container</strong> was invented. Suddenly, everything went into identical steel boxes. Cranes, trucks, and ships didn't need to care what was <em>inside</em> the box; they just knew how to move the box. <strong>Docker does this for software!</strong></p>
+        <p>Before the 1950s, putting cargo on a ship was chaos. Workers threw sacks of flour, barrels of oil, and boxes of shoes directly into the ship's hold. It was messy, slow, and things were constantly lost or damaged. Then, the <strong>standard shipping container</strong> was invented. Suddenly, everything went into identical steel boxes. Cranes, trucks, and ships didn't need to care what was <em>inside</em> the box; they just knew how to move the box. <strong>Docker does this for software!</strong></p>
+        <p>Your app goes in a container. The container is identical whether it's running on your laptop in Bossier City or a cloud server in Tokyo. Same behavior, every time, guaranteed.</p>
       </div>
 
       <div class="card">
-        <div class="card-title">💡 What Is Docker?</div>
-        <p>Standardizing your development environments is critical as you progress through your software engineering degree. Much like maintaining base infrastructure and ensuring complex electrical systems run reliably without unexpected failures, Docker ensures software runs perfectly every time, no matter where it's deployed. When preparing for deployments, whether it's an enterprise app or a global rollout for a game like QUETIEMALS, containerization guarantees that your code behaves exactly the same on a local machine in Bossier City as it does on a production server halfway across the world.</p>
-        <p>Docker takes your application and locks it inside an invisible, self-contained box called a <strong>container</strong>. This box includes EVERYTHING the app needs to run: the code, the tools, the settings, and the system libraries.</p>
+        <div class="card-title">💡 What Is Docker, Precisely?</div>
+        <p>Docker is an open-source <strong>containerization platform</strong>. It takes your application and packages it with every single thing it needs to run — the code itself, the correct version of Python (or Node, or Java), all the libraries, the configuration files, and the environment settings — into one single, self-contained unit called a <strong>container</strong>.</p>
+        <p>This container can then be run on any machine that has Docker installed, and it will behave identically every single time. The host machine (the computer running Docker) could be your MacBook, a Windows PC, a Linux server, or a cloud VM. It does not matter. The container carries its own world inside it.</p>
+        <p>Docker was first released in 2013 by Solomon Hykes and quickly became one of the most transformative tools in modern software development. Today, nearly every major tech company — Google, Netflix, Spotify, Amazon — runs their services inside containers.</p>
       </div>
 
       <div class="pillars">
         <div class="pillar-card">
           <div class="pillar-icon">🔄</div>
           <h4>Reproducibility</h4>
-          <p>It runs identically on a Mac, Windows, or Linux machine.</p>
+          <p>It runs identically on a Mac, Windows, or Linux machine. "Works on my machine" becomes "works on every machine."</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">⚡</div>
           <h4>Efficiency</h4>
-          <p>Starts up in milliseconds because it's super lightweight.</p>
+          <p>Starts up in milliseconds because it's super lightweight. You can run dozens of containers on a single laptop.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">🌍</div>
           <h4>Portability</h4>
-          <p>Move it to Amazon, Google Cloud, or your laptop instantly.</p>
+          <p>Move it to Amazon, Google Cloud, or your laptop instantly. One container, infinite destinations.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">📈</div>
           <h4>Scalability</h4>
-          <p>Need more power? Just spin up 100 more containers!</p>
+          <p>Need more power? Spin up 100 more containers in seconds. Tools like Kubernetes automate this completely.</p>
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚙️ A Quick Look at the Docker Workflow</div>
+        <p>At a high level, working with Docker follows a simple three-step loop that you'll repeat throughout your career:</p>
+        <ol>
+          <li><strong>Write a Dockerfile</strong> — A plain-text recipe describing your application and everything it needs.</li>
+          <li><strong>Build an Image</strong> — Docker reads the Dockerfile and bakes it into a portable, read-only snapshot called an Image.</li>
+          <li><strong>Run a Container</strong> — Docker brings the Image to life as a running Container. You can run as many containers from one image as you want.</li>
+        </ol>
+        <p>We'll go deep on each of these steps in the lessons ahead. For now, just know that everything starts with a Dockerfile and ends with a running container.</p>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🏭</div>
+        <div class="callout-body">
+          <strong>Real-World Scale</strong>
+          Netflix runs over 700 microservices. Each one lives in a Docker container. When Netflix releases a new feature, engineers push a new container image. It deploys to millions of users globally in minutes — with zero downtime. This is the power of containerization at scale.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛠️ Installing Docker</div>
+        <p>Before you can run any Docker commands, you need <strong>Docker Desktop</strong> installed on your machine. Docker Desktop is free for personal use and includes the Docker Engine, the Docker CLI, and a helpful GUI to manage your containers.</p>
+        <ul>
+          <li><strong>Mac:</strong> Download Docker Desktop from <code>docker.com/products/docker-desktop</code> and install it like any other app.</li>
+          <li><strong>Windows:</strong> Same download page. Note: Windows requires WSL 2 (Windows Subsystem for Linux) to be enabled, which Docker Desktop will help you set up.</li>
+          <li><strong>Linux:</strong> Docker Engine can be installed via your package manager (e.g., <code>sudo apt install docker.io</code> on Ubuntu).</li>
+        </ul>
+        <p>Once installed, open your terminal and type:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Verify Docker Installation</span>
+        </div>
+        <pre><span class="cm"># Check that Docker is installed and see the version</span>
+<span class="kw">docker</span> <span class="str">--version</span>
+
+<span class="cm"># Output (your version may differ, that's fine!):</span>
+<span class="cm"># Docker version 24.0.5, build ced0996</span>
+
+<span class="cm"># Run the classic "Hello World" to confirm everything works</span>
+<span class="kw">docker run</span> <span class="str">hello-world</span>
+
+<span class="cm"># Docker will download the hello-world image (if not cached)</span>
+<span class="cm"># and run it, printing a success message to your terminal.</span></pre>
       </div>
 
       <div class="quiz-block">
@@ -120,12 +185,27 @@
         <div class="quiz-feedback" id="qfeedback-0"></div>
       </div>
 
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What are the three main steps of the basic Docker workflow, in order?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Run → Build → Write</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Write a Dockerfile → Build an Image → Run a Container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Install Docker → Write code → Delete the container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Build a Container → Write an Image → Run a Dockerfile</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0b"></div>
+      </div>
+
       <div class="lesson-nav">
         <button class="btn btn-prev" disabled>← Previous</button>
         <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 2 — IMAGES & CONTAINERS
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-1">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 2 of 9</div>
@@ -140,34 +220,114 @@
 
       <div class="card">
         <div class="card-title">🖼️ What is a Docker Image?</div>
-        <p>A Docker Image is a read-only, unchanging file that acts as a snapshot of your application. It contains the code, the environment, and the instructions. Because it's read-only, it never changes. You can share images with your team or download pre-made images from the internet (like a pre-made image of a database).</p>
+        <p>A Docker Image is a <strong>read-only, layered snapshot</strong> of your entire application environment. "Read-only" means once you build an image, it never changes. It's frozen in time. It contains:</p>
+        <ul>
+          <li>Your application's source code or compiled binary</li>
+          <li>The exact runtime it needs (e.g., Python 3.10, Node.js 18, Java 17)</li>
+          <li>All third-party libraries and dependencies</li>
+          <li>Configuration files and environment variables</li>
+          <li>A starting command (what the container should do when it wakes up)</li>
+        </ul>
+        <p>Images live on disk. They're also <strong>portable</strong> — you can push them to a registry like Docker Hub and anyone in the world can pull and run them. This is exactly how open-source databases, web servers, and tools are shared.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔢 Images Are Built in Layers</div>
+        <p>This is one of Docker's most important and clever design choices. An image isn't one giant file — it's a <strong>stack of layers</strong>. Each instruction in a Dockerfile (we'll cover these in Lesson 4) creates a new layer on top of the previous ones.</p>
+        <p>Think of it like a stack of transparent slides:</p>
+        <ul>
+          <li>Layer 1: A base Linux operating system</li>
+          <li>Layer 2: Python 3.10 installed on top of that</li>
+          <li>Layer 3: Your <code>requirements.txt</code> libraries installed</li>
+          <li>Layer 4: Your application code copied in</li>
+        </ul>
+        <p>Why does this matter? <strong>Caching!</strong> If you rebuild your image after changing only your app code, Docker reuses Layers 1-3 from cache and only rebuilds Layer 4. Builds that would take minutes are done in seconds.</p>
       </div>
 
       <div class="card">
         <div class="card-title">📦 What is a Docker Container?</div>
-        <p>A Container is the live, running instance of an image. If you run a Docker Image, it comes to life and becomes a Container. You can start, stop, restart, and delete containers. And the best part? You can build 50 identical containers from just one single image!</p>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-dots"><span></span><span></span><span></span></div>
-          <span class="code-lang">Command Line — Running Your First Container</span>
-        </div>
-        <pre><span class="cm"># This tells Docker to find the "hello-world" image</span>
-<span class="cm"># and bring it to life as a container!</span>
-
-<span class="kw">docker run</span> <span class="str">hello-world</span>
-
-<span class="cm"># Output:</span>
-<span class="cm"># Hello from Docker!</span>
-<span class="cm"># This message shows that your installation appears to be working correctly.</span></pre>
+        <p>A Container is the <strong>live, running instance</strong> of an image. When you run a Docker Image, Docker reads the image layers and adds one more thin, <em>writable</em> layer on top. That's the container. All changes made while the container is running (files created, logs written, data saved) happen in that writable layer.</p>
+        <p>Containers are:</p>
+        <ul>
+          <li><strong>Isolated</strong> — they can't see each other's file systems or processes (by default)</li>
+          <li><strong>Ephemeral</strong> — when you delete a container, its writable layer is destroyed (this is why Volumes exist — Lesson 6!)</li>
+          <li><strong>Fast</strong> — starting a container is nearly instantaneous because there's no OS to boot</li>
+          <li><strong>Cheap</strong> — you can run dozens or hundreds of containers on one machine</li>
+        </ul>
       </div>
 
       <div class="callout tip">
         <div class="callout-emoji">🔑</div>
         <div class="callout-body">
-          <strong>Key Rule</strong>
-          Images are static files (Blueprints). Containers are running programs (Houses). One image can create infinite containers!
+          <strong>The Golden Rule</strong>
+          Images are static files — blueprints that never change. Containers are live running programs — houses you can actually use. One image can create an infinite number of containers simultaneously!
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — The Core Container Commands</span>
+        </div>
+        <pre><span class="cm"># Run a container from an image (downloads image if not cached)</span>
+<span class="kw">docker run</span> <span class="str">hello-world</span>
+
+<span class="cm"># Run a container in DETACHED mode (runs in background)</span>
+<span class="cm"># -d = detached, -p = port mapping (host:container)</span>
+<span class="kw">docker run</span> <span class="var">-d</span> <span class="var">-p</span> <span class="str">8080:80</span> <span class="str">nginx</span>
+
+<span class="cm"># See all currently RUNNING containers</span>
+<span class="kw">docker ps</span>
+
+<span class="cm"># See ALL containers, including stopped ones</span>
+<span class="kw">docker ps</span> <span class="var">-a</span>
+
+<span class="cm"># Stop a running container (graceful shutdown)</span>
+<span class="kw">docker stop</span> <span class="str">&lt;container_id&gt;</span>
+
+<span class="cm"># Force-remove a stopped container</span>
+<span class="kw">docker rm</span> <span class="str">&lt;container_id&gt;</span>
+
+<span class="cm"># List all images stored on your machine</span>
+<span class="kw">docker images</span>
+
+<span class="cm"># Delete an image from your machine</span>
+<span class="kw">docker rmi</span> <span class="str">&lt;image_name&gt;</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎮 Interacting With a Running Container</div>
+        <p>You're not locked out of a container once it's running. You can open an interactive terminal session inside it using <code>docker exec</code>. This is incredibly useful for debugging — you can poke around the container's file system as if you had SSH'd into a remote server.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Getting a Shell Inside a Container</span>
+        </div>
+        <pre><span class="cm"># Open an interactive bash shell inside a running container</span>
+<span class="cm"># -i = interactive (keep stdin open)</span>
+<span class="cm"># -t = allocate a pseudo-TTY (gives you a real terminal)</span>
+<span class="kw">docker exec</span> <span class="var">-it</span> <span class="str">&lt;container_id&gt;</span> <span class="str">bash</span>
+
+<span class="cm"># You are now INSIDE the container! Try listing files:</span>
+<span class="kw">ls</span> <span class="str">/app</span>
+
+<span class="cm"># Or check what processes are running inside:</span>
+<span class="kw">ps</span> <span class="str">aux</span>
+
+<span class="cm"># Type "exit" to leave the container shell</span>
+<span class="kw">exit</span>
+
+<span class="cm"># You can also inspect a container's logs at any time</span>
+<span class="kw">docker logs</span> <span class="str">&lt;container_id&gt;</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🔬</div>
+        <div class="callout-body">
+          <strong>Try It Now!</strong>
+          Run <code>docker run -it ubuntu bash</code> in your terminal. Docker will download the official Ubuntu image and drop you into a bash shell running inside it! You're literally inside a Linux container right now. Type <code>cat /etc/os-release</code> to see it confirm it's Ubuntu. Type <code>exit</code> to get out.
         </div>
       </div>
 
@@ -183,12 +343,39 @@
         <div class="quiz-feedback" id="qfeedback-1"></div>
       </div>
 
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What command shows you all running containers on your machine?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">docker images</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">docker run</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">docker ps</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">docker list</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1b"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Docker images are built in layers. What is the main benefit of this layered system?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It makes images look prettier</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Unchanged layers are cached and reused, making rebuilds much faster</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Each layer runs in its own separate container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Layers make it easier to delete images</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1c"></div>
+      </div>
+
       <div class="lesson-nav">
         <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
         <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 3 — DOCKER VS VMs
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-2">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 3 of 9</div>
@@ -203,14 +390,53 @@
       </div>
 
       <div class="card">
-        <div class="card-title">⚖️ The Technical Difference</div>
-        <p>A Virtual Machine contains a full, heavy Operating System (like installing a whole second copy of Windows inside your computer). A Docker Container <strong>shares</strong> the Operating System kernel of the host machine. It only packs what the app strictly needs.</p>
+        <div class="card-title">🖥️ How Virtual Machines Work</div>
+        <p>A Virtual Machine (VM) is created by a piece of software called a <strong>Hypervisor</strong> (like VMware, VirtualBox, or Hyper-V). The Hypervisor sits on top of your real hardware and tricks each VM into thinking it's a complete, physical computer.</p>
+        <p>Each VM contains:</p>
+        <ul>
+          <li>A full <strong>Guest Operating System</strong> (a complete copy of Linux, Windows, etc.)</li>
+          <li>Virtual hardware (simulated CPU, RAM, disk, network card)</li>
+          <li>The application itself</li>
+        </ul>
+        <p>That Guest OS alone can be 5-20 GB. Booting it is like turning on a whole new computer — it takes minutes. And because the OS is consuming RAM and CPU just to exist, you waste significant resources before your app even starts.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🐳 How Docker Containers Work</div>
+        <p>Docker containers take a radically different approach. Instead of virtualizing hardware, they use features built directly into the <strong>Linux kernel</strong> — specifically <strong>namespaces</strong> and <strong>cgroups</strong> — to create isolated environments.</p>
+        <ul>
+          <li><strong>Namespaces</strong> give each container its own isolated view of the system — its own process list, its own network interfaces, its own file system tree — even though they're all running on the same host OS.</li>
+          <li><strong>cgroups</strong> (control groups) limit how much CPU, memory, and I/O each container can use, preventing one container from starving others.</li>
+        </ul>
+        <p>The critical result: containers <strong>share the host's OS kernel</strong>. There's no Guest OS to boot up. The container starts in milliseconds because it's just a process (or a group of processes) with special isolation rules applied.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚖️ Side-by-Side Comparison</div>
         <table>
           <tr><th>Feature</th><th>Virtual Machine (VM)</th><th>Docker Container</th></tr>
-          <tr><td><strong>Size</strong></td><td>Gigabytes (Heavy)</td><td>Megabytes (Lightweight)</td></tr>
+          <tr><td><strong>Size on Disk</strong></td><td>Gigabytes (Heavy)</td><td>Megabytes (Lightweight)</td></tr>
           <tr><td><strong>Startup Time</strong></td><td>Minutes ⏳</td><td>Milliseconds ⚡</td></tr>
-          <tr><td><strong>OS Included?</strong></td><td><span class="badge badge-red">Yes, an entire OS</span></td><td><span class="badge badge-green">No, shares host OS</span></td></tr>
+          <tr><td><strong>OS Included?</strong></td><td><span class="badge badge-red">Yes, a full Guest OS</span></td><td><span class="badge badge-green">No, shares host kernel</span></td></tr>
+          <tr><td><strong>Isolation Level</strong></td><td>Hardware-level (very strong)</td><td>Process-level (strong, slightly less)</td></tr>
+          <tr><td><strong>Resource Usage</strong></td><td>Heavy (OS overhead)</td><td>Minimal (only app + deps)</td></tr>
+          <tr><td><strong>Portability</strong></td><td>Harder (full OS image)</td><td>Easy (lightweight image)</td></tr>
+          <tr><td><strong>Best For</strong></td><td>Running different OSes, max isolation</td><td>Microservices, DevOps, CI/CD</td></tr>
         </table>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>An Important Nuance</strong>
+          On Mac and Windows, Docker actually runs containers inside a lightweight Linux VM behind the scenes (because containers require a Linux kernel). Docker Desktop handles this automatically and invisibly. The point is: you're still getting container-level performance and portability, even on non-Linux hosts. You don't need to think about the VM; Docker manages it for you.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤝 Do VMs and Docker Compete?</div>
+        <p>Not always! In large-scale production environments, you'll often see <strong>both used together</strong>. A cloud provider like AWS or Google Cloud creates a set of VMs (for strong isolation and OS-level guarantees), and then runs Docker containers <em>inside</em> those VMs. You get the security benefits of VMs combined with the speed and density of containers.</p>
+        <p>For most developers and DevOps engineers, though, Docker is the primary day-to-day tool. VMs are reserved for situations where you need to run a completely different OS, or when regulations require hardware-level isolation.</p>
       </div>
 
       <div class="quiz-block">
@@ -218,11 +444,23 @@
         <div class="quiz-q">Why do Docker containers start up so much faster than Virtual Machines?</div>
         <div class="quiz-options">
           <button class="quiz-option" onclick="checkQuiz(this, false)">Because Docker uses magic</button>
-          <button class="quiz-option" onclick="checkQuiz(this, true)">Because they share the host computer's Operating System and don't have to boot up their own</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Because they share the host computer's OS kernel and don't have to boot up their own Guest OS</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">Because they don't contain any code</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">Because VMs only run on older computers</button>
         </div>
         <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Which Linux kernel features does Docker use to create isolated containers?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Hypervisors and Emulators</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Namespaces and cgroups</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Registry and Daemon</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Volumes and Networks</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2b"></div>
       </div>
 
       <div class="lesson-nav">
@@ -231,55 +469,143 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 4 — THE DOCKERFILE
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-3">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 4 of 9</div>
         <h2>📝 The Dockerfile — The Secret Recipe</h2>
-        <p class="lesson-intro">We know that Images are blueprints. But how do we make an Image? We write a simple text file called a Dockerfile!</p>
+        <p class="lesson-intro">We know that Images are blueprints. But how do we actually make an Image? We write a simple text file called a Dockerfile — and Docker reads it like a recipe, line by line.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
-        <p>Think of a Dockerfile like a recipe to bake a cake. You write down the steps from top to bottom: "Start with a pre-made crust", "Add sugar", "Mix the batter", "Bake at 350 degrees". Docker reads this recipe line-by-line and bakes your perfect, unchanging Image.</p>
+        <p>Think of a Dockerfile like a recipe to bake a cake. You write down the steps from top to bottom: "Start with a pre-made crust", "Add 2 cups of sugar", "Mix the batter for 3 minutes", "Bake at 350 degrees for 45 minutes". Docker reads this recipe line-by-line and bakes your perfect, unchanging Image. If anyone else follows the exact same recipe, they get the exact same cake — no matter their kitchen.</p>
       </div>
 
       <div class="card">
-        <div class="card-title">📜 Essential Dockerfile Commands</div>
+        <div class="card-title">📜 The Core Dockerfile Instructions</div>
+        <p>A Dockerfile is just a plain text file — no special extension needed beyond naming it literally <code>Dockerfile</code>. It contains a sequence of instructions, each one creating a new layer in the final image.</p>
         <ul>
-          <li><code>FROM</code> — The foundation. (e.g., "Start with a computer that has Python installed"). <em>Every Dockerfile MUST start with this!</em></li>
-          <li><code>WORKDIR</code> — Creates a folder inside the container for us to work in.</li>
-          <li><code>COPY</code> — Copies files from your real laptop into the container.</li>
-          <li><code>RUN</code> — Runs a command while the image is being built (like installing libraries).</li>
-          <li><code>CMD</code> — The final instruction. What should the container do when it wakes up?</li>
+          <li><code>FROM</code> — <strong>The foundation.</strong> Specifies the base image to start from. Every Dockerfile MUST begin with this. Think of it as "start with a computer that already has X installed." e.g., <code>FROM python:3.10</code>, <code>FROM node:18</code>, <code>FROM ubuntu:22.04</code>.</li>
+          <li><code>WORKDIR</code> — <strong>Sets your working directory</strong> inside the container's file system. All following commands run from this folder. If it doesn't exist, Docker creates it. e.g., <code>WORKDIR /app</code>.</li>
+          <li><code>COPY</code> — <strong>Copies files</strong> from your local machine into the container image. Syntax is <code>COPY &lt;source&gt; &lt;destination&gt;</code>. e.g., <code>COPY . .</code> copies everything in your current folder into <code>/app</code> in the container.</li>
+          <li><code>RUN</code> — <strong>Executes a command</strong> during the image build process. Used for installing packages, compiling code, creating directories. e.g., <code>RUN pip install -r requirements.txt</code>.</li>
+          <li><code>ENV</code> — <strong>Sets environment variables</strong> inside the container. e.g., <code>ENV NODE_ENV=production</code>.</li>
+          <li><code>EXPOSE</code> — <strong>Documents which port</strong> the container listens on. Note: this doesn't actually open the port — it's documentation for whoever runs the container. e.g., <code>EXPOSE 3000</code>.</li>
+          <li><code>CMD</code> — <strong>The default startup command.</strong> Runs when a container is started from this image. Unlike <code>RUN</code>, this doesn't execute during the build — it's the instruction the container follows when it wakes up. e.g., <code>CMD ["python", "app.py"]</code>.</li>
+        </ul>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>RUN vs CMD — A Critical Distinction!</strong>
+          <code>RUN</code> executes during the image <em>build</em> (it's baking the cake). <code>CMD</code> executes when a container is <em>started</em> (it's serving the cake). You can have many <code>RUN</code> instructions. You should have only one <code>CMD</code>. If you have multiple <code>CMD</code> instructions, only the last one takes effect.
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — A Python Web App</span>
+        </div>
+        <pre><span class="cm"># 1. Start from the official Python 3.10 base image</span>
+<span class="cm">#    (This gives us a Linux OS with Python already installed)</span>
+<span class="kw">FROM</span> <span class="str">python:3.10-slim</span>
+
+<span class="cm"># 2. Set an environment variable to prevent Python</span>
+<span class="cm">#    from writing .pyc files (just good practice)</span>
+<span class="kw">ENV</span> <span class="str">PYTHONDONTWRITEBYTECODE=1</span>
+<span class="kw">ENV</span> <span class="str">PYTHONUNBUFFERED=1</span>
+
+<span class="cm"># 3. Set the working directory inside the container</span>
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+
+<span class="cm"># 4. Copy ONLY the requirements file first.</span>
+<span class="cm">#    This is a performance trick! Docker caches this layer.</span>
+<span class="cm">#    If requirements.txt hasn't changed, pip install won't re-run.</span>
+<span class="kw">COPY</span> <span class="str">requirements.txt .</span>
+
+<span class="cm"># 5. Install all Python libraries listed in requirements.txt</span>
+<span class="kw">RUN</span> <span class="str">pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="cm"># 6. Now copy the rest of the application code</span>
+<span class="kw">COPY</span> <span class="str">. .</span>
+
+<span class="cm"># 7. Tell Docker this container will listen on port 5000</span>
+<span class="kw">EXPOSE</span> <span class="str">5000</span>
+
+<span class="cm"># 8. The command that runs when the container starts</span>
+<span class="kw">CMD</span> <span class="str">["python", "app.py"]</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔨 Building and Running Your Image</div>
+        <p>Once you've written your Dockerfile, you build it into an image using <code>docker build</code>. The <code>-t</code> flag lets you give the image a human-readable name (called a <strong>tag</strong>).</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Build and Run Your Image</span>
+        </div>
+        <pre><span class="cm"># Build an image from the Dockerfile in the current directory (.)</span>
+<span class="cm"># -t gives it the name "my-python-app" and the tag "latest"</span>
+<span class="kw">docker build</span> <span class="var">-t</span> <span class="str">my-python-app:latest</span> <span class="str">.</span>
+
+<span class="cm"># Watch the output — Docker executes each line of your Dockerfile</span>
+<span class="cm"># and you'll see each step (layer) being created.</span>
+
+<span class="cm"># Now run a container from your newly built image!</span>
+<span class="cm"># -p 5000:5000 maps port 5000 on your laptop to port 5000 in the container</span>
+<span class="kw">docker run</span> <span class="var">-p</span> <span class="str">5000:5000</span> <span class="str">my-python-app:latest</span>
+
+<span class="cm"># Your Python app is now running in a container.</span>
+<span class="cm"># Open http://localhost:5000 in your browser!</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📁 The .dockerignore File</div>
+        <p>Just like <code>.gitignore</code> tells Git which files to ignore, <code>.dockerignore</code> tells Docker which files to <em>not</em> copy into your image when you use the <code>COPY . .</code> instruction.</p>
+        <p>This is important for two reasons:</p>
+        <ul>
+          <li><strong>Security:</strong> You don't want your <code>.env</code> file (which contains secrets like API keys) accidentally baked into the image.</li>
+          <li><strong>Size:</strong> Excluding <code>node_modules</code>, <code>.git</code>, test files, and documentation keeps your image lean and fast to transfer.</li>
         </ul>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <div class="code-dots"><span></span><span></span><span></span></div>
-          <span class="code-lang">Dockerfile — Building a Game Server</span>
+          <span class="code-lang">.dockerignore — Keep Your Image Clean</span>
         </div>
-        <pre><span class="cm"># 1. Start from a foundation that has Node.js installed</span>
-<span class="kw">FROM</span> <span class="str">node:18</span>
+        <pre><span class="cm"># Git data (not needed in the container)</span>
+<span class="str">.git</span>
+<span class="str">.gitignore</span>
 
-<span class="cm"># 2. Set up our workspace folder inside the container</span>
-<span class="kw">WORKDIR</span> <span class="str">/app</span>
+<span class="cm"># Environment variables file (never put secrets in an image!)</span>
+<span class="str">.env</span>
 
-<span class="cm"># 3. Copy our code files from our laptop to the container</span>
-<span class="kw">COPY</span> <span class="str">. .</span>
+<span class="cm"># Node.js dependencies (will be reinstalled inside the container)</span>
+<span class="str">node_modules</span>
 
-<span class="cm"># 4. Install all the tools our app needs</span>
-<span class="kw">RUN</span> <span class="str">npm install</span>
+<span class="cm"># Python cache files</span>
+<span class="str">__pycache__</span>
+<span class="str">*.pyc</span>
 
-<span class="cm"># 5. Tell the container what to do when it turns on!</span>
-<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span></pre>
+<span class="cm"># Documentation, tests, and local dev files</span>
+<span class="str">README.md</span>
+<span class="str">tests/</span>
+<span class="str">docs/</span></pre>
       </div>
 
       <div class="callout fun">
         <div class="callout-emoji">🦊</div>
         <div class="callout-body">
-          <strong>Fun Fact: App Assets</strong>
-          If your app includes specific digital assets—like 3D models for non-humanoid animal characters—they all get packed neatly inside the image layer when you use the <code>COPY</code> command, making them instantly available wherever the container goes!
+          <strong>Pro Tip: Choose Slim Base Images!</strong>
+          Notice the Dockerfile used <code>python:3.10-slim</code> instead of just <code>python:3.10</code>. The "slim" variant strips out a lot of OS tools you don't need, cutting the image from ~900MB down to ~130MB. Even smaller: Alpine Linux variants (<code>python:3.10-alpine</code>) can bring it under 50MB. Smaller images = faster builds, faster deployments, smaller attack surface.
         </div>
       </div>
 
@@ -295,26 +621,53 @@
         <div class="quiz-feedback" id="qfeedback-3"></div>
       </div>
 
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You want to install npm packages during the image BUILD process. Which instruction do you use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">CMD ["npm", "install"]</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">RUN npm install</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">COPY npm install</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">EXPOSE npm install</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3b"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Why should you COPY your requirements file and run your package installer BEFORE copying the rest of your application code?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Because Docker can only read files in alphabetical order</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Because the application code must never be copied into an image</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">To take advantage of layer caching — if your dependencies haven't changed, Docker reuses the cached layer and skips reinstalling them</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Requirements files must always be in the /root directory</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3c"></div>
+      </div>
+
       <div class="lesson-nav">
         <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
         <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 5 — DOCKER ARCHITECTURE
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-4">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 5 of 9</div>
         <h2>🧠 Docker Architecture</h2>
-        <p class="lesson-intro">How does Docker actually work behind the scenes? Docker is a "Client-Server" application, which means it has a few distinct parts talking to each other.</p>
+        <p class="lesson-intro">How does Docker actually work behind the scenes? Docker uses a Client-Server architecture — several distinct components talk to each other every time you type a command.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
         <p>Imagine a busy <strong>Restaurant</strong>:</p>
         <ul>
-          <li><strong>The Client (You):</strong> You look at the menu and give orders to the waiter.</li>
-          <li><strong>The Daemon (The Chef):</strong> The chef receives your order, grabs ingredients, and cooks the food. They do all the heavy lifting!</li>
-          <li><strong>The Registry (The Grocery Store):</strong> If the chef doesn't have an ingredient, they call the grocery store to have it delivered.</li>
+          <li><strong>The Client (You):</strong> You look at the menu and give your order to the waiter. You don't go into the kitchen yourself.</li>
+          <li><strong>The Daemon (The Chef):</strong> The chef receives the order, grabs ingredients from the fridge, cooks the food, and plates it. They do all the heavy lifting — you never see it happen.</li>
+          <li><strong>The Registry (The Grocery Store / Supplier):</strong> If the chef doesn't have an ingredient in stock, they call a supplier and have it delivered. The supplier's warehouse is Docker Hub.</li>
         </ul>
       </div>
 
@@ -322,23 +675,77 @@
         <div class="pillar-card">
           <div class="pillar-icon">🧑‍💻</div>
           <h4>Docker Client</h4>
-          <p>The terminal/command line where you type commands like <code>docker run</code>.</p>
+          <p>The terminal/command line where you type commands like <code>docker run</code> or <code>docker build</code>. It translates your commands into API calls sent to the Daemon.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">⚙️</div>
-          <h4>Docker Daemon</h4>
-          <p>The invisible engine running in the background building and managing containers.</p>
+          <h4>Docker Daemon (dockerd)</h4>
+          <p>The invisible engine running in the background. It receives commands from the Client and does the actual work: building images, creating containers, managing networks and volumes.</p>
         </div>
         <div class="pillar-card">
           <div class="pillar-icon">☁️</div>
           <h4>Docker Registry</h4>
-          <p>An online store (like Docker Hub) where millions of pre-built images are saved.</p>
+          <p>A remote storage system for Docker images. Docker Hub (hub.docker.com) is the public default registry, with millions of pre-built images. Companies often run their own private registries.</p>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">⚙️ Putting it Together</div>
-        <p>When you type <code>docker pull ubuntu</code>, you (the Client) are telling the Chef (the Daemon) to go to the Grocery Store (the Registry) and grab the "ubuntu" ingredient (Image)!</p>
+        <div class="card-title">🔄 How a docker run Command Actually Works</div>
+        <p>Let's trace exactly what happens when you type <code>docker run nginx</code>:</p>
+        <ol>
+          <li><strong>You</strong> type <code>docker run nginx</code> in your terminal (Docker Client).</li>
+          <li>The <strong>Docker Client</strong> converts this into an API request and sends it to the <strong>Docker Daemon</strong> running on your machine.</li>
+          <li>The <strong>Docker Daemon</strong> checks if the <code>nginx</code> image already exists locally (in its local image cache).</li>
+          <li>If not, the Daemon contacts the <strong>Docker Registry</strong> (Docker Hub) and pulls the <code>nginx</code> image down to your machine.</li>
+          <li>The Daemon <strong>builds a container</strong> from the image — creating the writable layer, setting up isolated namespaces, configuring networking.</li>
+          <li>The container <strong>starts running</strong>. The nginx web server is live!</li>
+        </ol>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Interacting With the Registry</span>
+        </div>
+        <pre><span class="cm"># Log in to Docker Hub (creates an account at hub.docker.com first)</span>
+<span class="kw">docker login</span>
+
+<span class="cm"># Pull an image from Docker Hub to your local machine</span>
+<span class="kw">docker pull</span> <span class="str">postgres:16</span>
+
+<span class="cm"># Tag your own image so you can push it to your Docker Hub account</span>
+<span class="cm"># Format: docker tag &lt;local-name&gt; &lt;dockerhub-username&gt;/&lt;repo-name&gt;:&lt;tag&gt;</span>
+<span class="kw">docker tag</span> <span class="str">my-python-app:latest</span> <span class="str">yourusername/my-python-app:v1.0</span>
+
+<span class="cm"># Push your image to Docker Hub (now anyone can pull it!)</span>
+<span class="kw">docker push</span> <span class="str">yourusername/my-python-app:v1.0</span>
+
+<span class="cm"># Search for images on Docker Hub from the CLI</span>
+<span class="kw">docker search</span> <span class="str">redis</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🐙 Docker Hub — The App Store for Images</div>
+        <p>Docker Hub (<code>hub.docker.com</code>) is the world's largest repository of container images. It hosts <strong>Official Images</strong> — curated, security-scanned images maintained by Docker and the software's own teams. These are the ones you should use as your base images.</p>
+        <p>Popular official images you'll use all the time as a developer:</p>
+        <ul>
+          <li><code>node</code> — for Node.js applications</li>
+          <li><code>python</code> — for Python applications</li>
+          <li><code>postgres</code> — the PostgreSQL database</li>
+          <li><code>redis</code> — the Redis in-memory data store</li>
+          <li><code>nginx</code> — the Nginx web server / reverse proxy</li>
+          <li><code>mongo</code> — the MongoDB database</li>
+          <li><code>ubuntu</code> / <code>alpine</code> — bare-bones Linux base images</li>
+        </ul>
+        <p>Instead of setting up a PostgreSQL database on your laptop, you just run <code>docker run postgres</code> and you have a fully working database in seconds, no installation needed.</p>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔐</div>
+        <div class="callout-body">
+          <strong>Private Registries</strong>
+          In a professional setting, companies use <strong>private registries</strong> so their proprietary images are never publicly visible. Amazon (ECR), Google (GCR), GitHub (GHCR), and Azure (ACR) all offer private container registries that integrate with CI/CD pipelines. Same pull/push commands — you just authenticate to a different URL.
+        </div>
       </div>
 
       <div class="quiz-block">
@@ -346,11 +753,23 @@
         <div class="quiz-q">Which component does all the heavy lifting (creating, starting, and stopping containers)?</div>
         <div class="quiz-options">
           <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Client</button>
-          <button class="quiz-option" onclick="checkQuiz(this, true)">The Docker Daemon (Engine)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The Docker Daemon (dockerd)</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Registry</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">The Operating System</button>
         </div>
         <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You want to share your Docker image with a teammate who is in another city. What's the best approach?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Email them your Dockerfile and ask them to build it themselves</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Send them your entire laptop</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Push the image to Docker Hub, then tell them to docker pull it</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Copy the image file with USB drive</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4b"></div>
       </div>
 
       <div class="lesson-nav">
@@ -359,35 +778,105 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 6 — VOLUMES & STORAGE
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-5">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 6 of 9</div>
         <h2>💾 Volumes — Don't Lose Your Data!</h2>
-        <p class="lesson-intro">By default, containers have short memories. If a container gets deleted, everything inside it is completely wiped out forever!</p>
+        <p class="lesson-intro">By default, containers have short memories. If a container is deleted, everything inside it is gone forever. Volumes are how you make data survive.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
-        <p>Imagine a container is like a <strong>School Desk</strong>. When class is over, the janitor wipes the desk completely clean. If you left your homework on the desk, it's gone! But a <strong>Volume</strong> is like a <strong>Backpack</strong>. You can put your homework in your backpack, leave the classroom, and bring that exact same backpack to a completely different classroom the next day.</p>
+        <p>Imagine a container is like a <strong>School Desk</strong>. When class is over, the janitor wipes the desk completely clean. If you left your homework on the desk, it's gone! But a <strong>Volume</strong> is like a <strong>Backpack</strong>. You put your homework in your backpack, leave the classroom, and bring that exact same backpack to a completely different classroom the next day. The desk changes; the backpack always stays with you.</p>
       </div>
 
       <div class="card">
-        <div class="card-title">📁 What is a Volume?</div>
-        <p>A Volume is a special folder managed by Docker that sits safely on your main computer's hard drive, NOT inside the ephemeral (temporary) container. You plug the Volume into the container like a USB flash drive.</p>
-        <p>This is extremely important for things like <strong>Databases</strong>. If your database container crashes, you don't want all your user passwords and high scores to disappear! You save them in a Volume.</p>
+        <div class="card-title">🔬 Why Containers Are Ephemeral By Design</div>
+        <p>Containers are intentionally designed to be temporary and disposable. This is actually a feature, not a bug! It means:</p>
+        <ul>
+          <li>You can destroy and recreate containers instantly without any setup</li>
+          <li>Every container starts from a clean, known-good state</li>
+          <li>Containers can be replaced, updated, or scaled without side effects</li>
+        </ul>
+        <p>But this creates an obvious problem: what about your database? Your user account records? Your game save files? You can't lose all that data every time a container restarts. That's where <strong>Volumes</strong> and <strong>Bind Mounts</strong> come in.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📁 Docker Volumes (The Recommended Way)</div>
+        <p>A Docker Volume is a special, Docker-managed directory that lives on the <em>host machine's</em> file system — completely outside the container. You "mount" it into the container at a specific path. When the container writes to that path, the data actually gets stored in the volume on the host. When the container is destroyed, the volume survives.</p>
+        <p>Volumes are the preferred way to persist data because:</p>
+        <ul>
+          <li>They're managed by Docker — Docker handles where on disk they live</li>
+          <li>They work identically on Mac, Windows, and Linux</li>
+          <li>They can be shared between multiple containers simultaneously</li>
+          <li>They can be backed up and restored easily</li>
+        </ul>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <div class="code-dots"><span></span><span></span><span></span></div>
-          <span class="code-lang">Command Line — Using a Volume</span>
+          <span class="code-lang">Terminal — Working with Volumes</span>
         </div>
-        <pre><span class="cm"># First, create an empty volume (the backpack)</span>
-<span class="kw">docker volume create</span> <span class="str">my-game-data</span>
+        <pre><span class="cm"># Create a named volume (an empty, persistent "backpack")</span>
+<span class="kw">docker volume create</span> <span class="str">my-db-data</span>
 
-<span class="cm"># Next, start a container and plug the volume into it!</span>
-<span class="cm"># Everything saved in "/app/data" will actually be saved in "my-game-data"</span>
-<span class="kw">docker run</span> <span class="var">-v</span> <span class="str">my-game-data:/app/data</span> <span class="str">my-cool-game-image</span></pre>
+<span class="cm"># List all volumes on your machine</span>
+<span class="kw">docker volume ls</span>
+
+<span class="cm"># Run a PostgreSQL container and attach the volume</span>
+<span class="cm"># -v my-db-data:/var/lib/postgresql/data</span>
+<span class="cm">#    ^ volume name   ^ where postgres stores its data inside the container</span>
+<span class="kw">docker run</span> <span class="var">-d</span> \
+  <span class="var">-e</span> <span class="str">POSTGRES_PASSWORD=mysecretpassword</span> \
+  <span class="var">-v</span> <span class="str">my-db-data:/var/lib/postgresql/data</span> \
+  <span class="var">--name</span> <span class="str">my-postgres</span> \
+  <span class="str">postgres:16</span>
+
+<span class="cm"># Now if you delete and recreate the postgres container,</span>
+<span class="cm"># all your database tables and records are still there!</span>
+
+<span class="cm"># Inspect a volume to see its details and mount point</span>
+<span class="kw">docker volume inspect</span> <span class="str">my-db-data</span>
+
+<span class="cm"># Remove a volume (WARNING: permanent data deletion!)</span>
+<span class="kw">docker volume rm</span> <span class="str">my-db-data</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📎 Bind Mounts — A Different Approach</div>
+        <p>A <strong>Bind Mount</strong> links a specific folder on your <em>host machine</em> directly into the container. Instead of a Docker-managed volume, you're pointing at an exact path like <code>/Users/jude/projects/myapp</code>.</p>
+        <p>Bind mounts are extremely useful during <strong>development</strong> because any changes you make to files on your laptop are instantly reflected inside the container — no rebuild required. This lets you edit code with your normal text editor while the app runs in a Docker container.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Bind Mounts for Development</span>
+        </div>
+        <pre><span class="cm"># Mount your current local directory ($(pwd)) into /app in the container</span>
+<span class="cm"># Now edits you make to files on your laptop appear instantly inside the container!</span>
+<span class="kw">docker run</span> <span class="var">-p</span> <span class="str">3000:3000</span> \
+  <span class="var">-v</span> <span class="str">$(pwd):/app</span> \
+  <span class="str">my-node-app</span>
+
+<span class="cm"># On Windows PowerShell, use ${PWD} instead of $(pwd):</span>
+<span class="kw">docker run</span> <span class="var">-p</span> <span class="str">3000:3000</span> <span class="var">-v</span> <span class="str">${PWD}:/app</span> <span class="str">my-node-app</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 Volumes vs Bind Mounts — When to Use Which</div>
+        <table>
+          <tr><th>Situation</th><th>Use This</th></tr>
+          <tr><td>Storing a production database</td><td><span class="badge badge-green">Volume</span></td></tr>
+          <tr><td>Live code editing during development</td><td><span class="badge badge-purple">Bind Mount</span></td></tr>
+          <tr><td>Sharing data between two containers</td><td><span class="badge badge-green">Volume</span></td></tr>
+          <tr><td>Accessing config files from your host</td><td><span class="badge badge-purple">Bind Mount</span></td></tr>
+          <tr><td>Storing generated files (uploads, logs)</td><td><span class="badge badge-green">Volume</span></td></tr>
+        </table>
       </div>
 
       <div class="quiz-block">
@@ -395,11 +884,23 @@
         <div class="quiz-q">If you delete a container that had no Volumes attached, what happens to the files created inside it?</div>
         <div class="quiz-options">
           <button class="quiz-option" onclick="checkQuiz(this, true)">They are permanently destroyed</button>
-          <button class="quiz-option" onclick="checkQuiz(this, false)">They are saved on the desktop</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">They are saved to the desktop automatically</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">They are uploaded to the Docker Registry</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">They are emailed to the administrator</button>
         </div>
         <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You're developing a Node.js app and want file changes on your laptop to appear inside the container instantly without rebuilding. Which approach should you use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">A Docker Volume</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">A Bind Mount pointing to your local project folder</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Rebuild the image every time you change a file</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Upload the files to Docker Hub first</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5b"></div>
       </div>
 
       <div class="lesson-nav">
@@ -408,34 +909,115 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 7 — NETWORKING
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-6">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 7 of 9</div>
         <h2>🌐 Networking — Getting Containers to Talk</h2>
-        <p class="lesson-intro">By default, containers are locked in solitary confinement. They can't see the internet, they can't see your computer, and they can't see each other. Docker Networks fix this.</p>
+        <p class="lesson-intro">By default, containers are isolated. They can't see each other, can't see your computer, and can't reach the internet without permission. Docker Networking is how you open the right doors.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
-        <p>Think of Docker Networks like <strong>Walkie-Talkies</strong>. If two kids (containers) tune their walkie-talkies to the exact same channel (network), they can instantly hear each other and talk securely, without anyone else listening in.</p>
+        <p>Think of Docker Networks like <strong>Walkie-Talkies</strong>. If two kids (containers) tune their walkie-talkies to the exact same channel (network), they can instantly hear each other and talk securely, without anyone else listening in. Anyone on a different channel is completely silent to them. And a "port mapping" is like setting up a relay station that lets someone with a different radio (someone on the internet) transmit a message in on one frequency and have it automatically re-broadcast on your private channel.</p>
       </div>
 
       <div class="card">
-        <div class="card-title">📡 Network Types</div>
+        <div class="card-title">📡 The Three Network Drivers You Must Know</div>
         <table>
-          <tr><th>Network Driver</th><th>What it does</th></tr>
-          <tr><td><span class="badge badge-purple">Bridge</span></td><td>The default! Creates a private internal network so containers on the same computer can chat.</td></tr>
-          <tr><td><span class="badge badge-red">Host</span></td><td>Removes all isolation; the container shares your computer's exact IP address and ports.</td></tr>
-          <tr><td><span class="badge badge-yellow">None</span></td><td>Completely disables networking. The container is totally isolated.</td></tr>
+          <tr><th>Driver</th><th>What it does</th><th>When to use it</th></tr>
+          <tr><td><span class="badge badge-purple">Bridge</span></td><td>The default. Creates a private internal network. Containers on the same bridge can communicate using each other's container names as hostnames.</td><td>Any multi-container app on a single host (development, staging).</td></tr>
+          <tr><td><span class="badge badge-red">Host</span></td><td>Removes all network isolation. The container uses your machine's actual network interface directly.</td><td>High-performance scenarios where network overhead must be eliminated. Rarely needed.</td></tr>
+          <tr><td><span class="badge badge-yellow">None</span></td><td>Completely disables networking. The container cannot send or receive any network traffic at all.</td><td>Security-sensitive batch jobs that should never touch a network.</td></tr>
         </table>
       </div>
 
-      <div class="callout warn">
-        <div class="callout-emoji">⚠️</div>
-        <div class="callout-body">
-          <strong>Port Mapping</strong>
-          If you run a website in a container, you still have to open a "door" to let users in from the outside world. This is called Port Mapping. If you map <code>-p 8080:80</code>, you're telling Docker: "Take any traffic coming to my laptop on port 8080, and tunnel it directly to port 80 inside the container!"
+      <div class="card">
+        <div class="card-title">🔀 Port Mapping — Opening the Front Door</div>
+        <p>When you run an application inside a container (say, a web server on port 80), the outside world — your browser, your teammates, the internet — can't reach it yet. The container is on a private network. You need to create a mapping from a port on your host machine to a port inside the container.</p>
+        <p>The syntax is <code>-p &lt;host_port&gt;:&lt;container_port&gt;</code>.</p>
+        <ul>
+          <li><code>-p 8080:80</code> — Traffic arriving at port 8080 on your laptop is forwarded into the container on port 80.</li>
+          <li><code>-p 5432:5432</code> — Exposes a PostgreSQL database (port 5432) to your host.</li>
+          <li><code>-p 3000:3000</code> — Common for Node.js dev servers.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Creating and Using a Custom Network</span>
         </div>
+        <pre><span class="cm"># Create a custom bridge network called "app-network"</span>
+<span class="kw">docker network create</span> <span class="str">app-network</span>
+
+<span class="cm"># Start a database container and attach it to the network</span>
+<span class="kw">docker run</span> <span class="var">-d</span> \
+  <span class="var">--name</span> <span class="str">my-database</span> \
+  <span class="var">--network</span> <span class="str">app-network</span> \
+  <span class="var">-e</span> <span class="str">POSTGRES_PASSWORD=secret</span> \
+  <span class="str">postgres:16</span>
+
+<span class="cm"># Start your web app container on the SAME network</span>
+<span class="kw">docker run</span> <span class="var">-d</span> \
+  <span class="var">--name</span> <span class="str">my-web-app</span> \
+  <span class="var">--network</span> <span class="str">app-network</span> \
+  <span class="var">-p</span> <span class="str">8080:80</span> \
+  <span class="str">my-app-image</span>
+
+<span class="cm"># Now, inside my-web-app, you can connect to the database</span>
+<span class="cm"># using the hostname "my-database" — Docker handles the DNS!</span>
+<span class="cm"># e.g., DATABASE_URL=postgresql://user:secret@my-database:5432/mydb</span>
+
+<span class="cm"># List all networks on your machine</span>
+<span class="kw">docker network ls</span>
+
+<span class="cm"># Inspect a network to see which containers are attached</span>
+<span class="kw">docker network inspect</span> <span class="str">app-network</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">💡</div>
+        <div class="callout-body">
+          <strong>Container DNS Magic</strong>
+          When two containers are on the same user-defined bridge network, Docker automatically provides <strong>DNS resolution</strong> between them. Each container can reach any other container on the same network using the container's <code>--name</code> as a hostname. This is huge — instead of hardcoding IP addresses (which change), you hardcode names (which don't). Docker Compose (next lesson!) leverages this heavily.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Debugging Network Issues</div>
+        <p>When containers can't talk to each other, it's almost always one of these causes:</p>
+        <ul>
+          <li><strong>They're not on the same network</strong> — Check <code>docker network inspect &lt;network_name&gt;</code> to confirm both containers appear in the "Containers" section.</li>
+          <li><strong>Wrong hostname</strong> — Make sure you're using the container's <code>--name</code> as the hostname, not "localhost" (localhost inside a container refers to itself, not the host machine!).</li>
+          <li><strong>Port not exposed inside container</strong> — The application inside the container must actually be listening on the port you expect. Check its documentation.</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">You run a web app container on port 80. You map it with <code>-p 9090:80</code>. What URL would you visit in your browser?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://localhost:80</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">http://localhost:9090</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://localhost:8080</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">http://docker:80</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">Container A and Container B are both on the custom network "my-net". Container A is named "backend". How does Container B address Container A?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">By IP address 192.168.1.1</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Using the hostname "localhost"</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Using the hostname "backend" — Docker's built-in DNS resolves container names</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Containers on the same network can never communicate</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6b"></div>
       </div>
 
       <div class="lesson-nav">
@@ -444,51 +1026,161 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 8 — DOCKER COMPOSE
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-7">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 8 of 9</div>
         <h2>🎼 Docker Compose — The Orchestra Conductor</h2>
-        <p class="lesson-intro">What happens when your app needs a Web Server, a Database, and an Analytics tool all running at the same time? Typing individual `docker run` commands for each one gets exhausting.</p>
+        <p class="lesson-intro">What happens when your app needs a Web Server, a Database, a Cache layer, and a Background Worker all running at the same time? Typing individual docker run commands for each one is a nightmare. Docker Compose solves this.</p>
       </div>
 
       <div class="analogy">
         <div class="analogy-label">🍎 Real World Analogy</div>
-        <p>Imagine an <strong>Orchestra</strong>. You have violins, trumpets, and drums (containers). You <em>could</em> walk up to every single musician one by one and tell them exactly when and how to start playing. Or, you could use a <strong>Conductor</strong> (Docker Compose) who reads from a piece of sheet music and commands everyone to start together perfectly in sync.</p>
+        <p>Imagine an <strong>Orchestra</strong>. You have violins, trumpets, and drums (containers). You <em>could</em> walk up to every single musician one by one and tell them exactly when and how to start playing. Or, you could use a <strong>Conductor</strong> (Docker Compose) who reads a single piece of sheet music (the <code>docker-compose.yml</code> file) and commands everyone to start together perfectly in sync, in exactly the right order.</p>
       </div>
 
       <div class="card">
         <div class="card-title">📄 What is Docker Compose?</div>
-        <p>Docker Compose is a tool that lets you write a single file (called <code>docker-compose.yml</code>) that describes ALL the containers your app needs. With one single command, Docker Compose spins up the network, creates the volumes, and starts all the containers in the right order.</p>
+        <p>Docker Compose is a tool for defining and running <strong>multi-container Docker applications</strong> using a single YAML configuration file. With one command, Compose:</p>
+        <ul>
+          <li>Creates all the named networks your services need</li>
+          <li>Creates all the named volumes for persistence</li>
+          <li>Pulls or builds all the images required</li>
+          <li>Starts all the containers in the correct dependency order</li>
+          <li>Wires the containers together with DNS so they can communicate by service name</li>
+        </ul>
+        <p>The result: a single <code>docker compose up</code> command spins up your entire application stack — your full development environment — from scratch in seconds.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📝 Anatomy of a docker-compose.yml File</div>
+        <p>The Compose file is written in <strong>YAML</strong> — a human-readable format that uses indentation to show hierarchy (similar to Python). The key sections are:</p>
+        <ul>
+          <li><code>services:</code> — The list of containers you want to run. Each service is a container.</li>
+          <li><code>image:</code> — Which Docker image to use for this service (from Docker Hub or your own build).</li>
+          <li><code>build:</code> — Build from a Dockerfile instead of a pre-existing image.</li>
+          <li><code>ports:</code> — Port mappings (<code>host:container</code>).</li>
+          <li><code>environment:</code> — Environment variables to pass into the container.</li>
+          <li><code>volumes:</code> — Mount volumes or bind mounts.</li>
+          <li><code>depends_on:</code> — Declare dependencies between services (start the database before the web server).</li>
+          <li><code>networks:</code> — Put services on specific networks.</li>
+        </ul>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <div class="code-dots"><span></span><span></span><span></span></div>
-          <span class="code-lang">YAML — docker-compose.yml</span>
+          <span class="code-lang">docker-compose.yml — A Full-Stack Application</span>
         </div>
-        <pre><span class="cm"># This file orchestrates TWO containers at once!</span>
-<span class="kw">version:</span> <span class="str">'3.8'</span>
+        <pre><span class="cm"># A real-world Compose file: a web app + database + cache</span>
 
 <span class="kw">services:</span>
-  <span class="cm"># Container 1: The web server</span>
-  <span class="cl">web:</span>
-    <span class="kw">image:</span> <span class="str">nginx:latest</span>
-    <span class="kw">ports:</span>
-      <span class="var">-</span> <span class="str">"8080:80"</span>
 
-  <span class="cm"># Container 2: The database</span>
-  <span class="cl">database:</span>
-    <span class="kw">image:</span> <span class="str">postgres:14</span>
+  <span class="cm"># === SERVICE 1: The web application ===</span>
+  <span class="cl">web:</span>
+    <span class="kw">build:</span> <span class="str">.</span>          <span class="cm"># Build from the Dockerfile in this directory</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"8080:80"</span>      <span class="cm"># localhost:8080 → container port 80</span>
     <span class="kw">environment:</span>
-      <span class="var">-</span> <span class="str">POSTGRES_PASSWORD=supersecret123</span></pre>
+      <span class="var">-</span> <span class="str">DATABASE_URL=postgresql://admin:secret@database:5432/appdb</span>
+      <span class="var">-</span> <span class="str">REDIS_URL=redis://cache:6379</span>
+    <span class="kw">depends_on:</span>
+      <span class="var">-</span> <span class="str">database</span>       <span class="cm"># Wait for the database to start first</span>
+      <span class="var">-</span> <span class="str">cache</span>
+    <span class="kw">volumes:</span>
+      <span class="var">-</span> <span class="str">./app:/app</span>    <span class="cm"># Bind mount for live code reloading during dev</span>
+
+  <span class="cm"># === SERVICE 2: The PostgreSQL database ===</span>
+  <span class="cl">database:</span>
+    <span class="kw">image:</span> <span class="str">postgres:16</span>
+    <span class="kw">environment:</span>
+      <span class="var">-</span> <span class="str">POSTGRES_USER=admin</span>
+      <span class="var">-</span> <span class="str">POSTGRES_PASSWORD=secret</span>
+      <span class="var">-</span> <span class="str">POSTGRES_DB=appdb</span>
+    <span class="kw">volumes:</span>
+      <span class="var">-</span> <span class="str">db-data:/var/lib/postgresql/data</span>  <span class="cm"># Persist DB data!</span>
+
+  <span class="cm"># === SERVICE 3: The Redis cache ===</span>
+  <span class="cl">cache:</span>
+    <span class="kw">image:</span> <span class="str">redis:7-alpine</span>
+
+<span class="cm"># Declare the named volume used by the database service</span>
+<span class="kw">volumes:</span>
+  <span class="cl">db-data:</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⌨️ The Essential Docker Compose Commands</div>
+        <p>With your <code>docker-compose.yml</code> file written and saved in your project folder, these commands control your entire application stack:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Docker Compose Commands</span>
+        </div>
+        <pre><span class="cm"># Start ALL services defined in docker-compose.yml</span>
+<span class="cm"># --build forces a rebuild of images before starting</span>
+<span class="kw">docker compose up</span> <span class="var">--build</span>
+
+<span class="cm"># Start in DETACHED mode (runs in background, frees your terminal)</span>
+<span class="kw">docker compose up</span> <span class="var">-d</span>
+
+<span class="cm"># Stop all running services (gracefully)</span>
+<span class="kw">docker compose stop</span>
+
+<span class="cm"># Stop AND remove all containers + networks created by Compose</span>
+<span class="cm"># (volumes are preserved unless you add -v)</span>
+<span class="kw">docker compose down</span>
+
+<span class="cm"># Stop + remove containers, networks, AND volumes (clean slate)</span>
+<span class="kw">docker compose down</span> <span class="var">-v</span>
+
+<span class="cm"># View the live logs of all running services combined</span>
+<span class="kw">docker compose logs</span> <span class="var">-f</span>
+
+<span class="cm"># View logs for just one service</span>
+<span class="kw">docker compose logs</span> <span class="var">-f</span> <span class="str">web</span>
+
+<span class="cm"># Run a one-off command in a service container (e.g., run migrations)</span>
+<span class="kw">docker compose exec</span> <span class="str">web</span> <span class="str">python manage.py migrate</span>
+
+<span class="cm"># See the status of all your Compose services</span>
+<span class="kw">docker compose ps</span></pre>
       </div>
 
       <div class="callout tip">
         <div class="callout-emoji">🚀</div>
         <div class="callout-body">
-          <strong>The Magic Command</strong>
-          Once you write that file, all you have to do is type <code>docker-compose up</code> in your terminal, and watch the magic happen as your entire app stack boots up together!
+          <strong>Compose is a Superpower for Teams</strong>
+          Check your <code>docker-compose.yml</code> file into Git alongside your code. Now any new developer who clones your repo can run <code>docker compose up</code> and have the entire application — web server, database, cache, everything — running on their laptop in under a minute. No "setup guide" with 47 steps. No "install this specific version of that". One command. This is transformative for onboarding.
         </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">In a docker-compose.yml file, the <code>depends_on</code> key is used to:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Set environment variables</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Ensure one service starts before another (e.g., start the database before the web server)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Map ports from host to container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Define shared volumes between services</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check!</div>
+        <div class="quiz-q">What does <code>docker compose down -v</code> do that <code>docker compose down</code> alone does not?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It also deletes all Docker images on your machine</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It shows verbose output of the shutdown process</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It also deletes the named volumes, permanently removing all persisted data</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It stops services more forcefully</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7b"></div>
       </div>
 
       <div class="lesson-nav">
@@ -497,34 +1189,70 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 9 — FINAL PROJECT
+    ════════════════════════════════════════════════════════════════ -->
     <div class="lesson" id="lesson-8">
       <div class="lesson-header">
         <div class="lesson-num">Lesson 9 of 9 — Final Wrap Up! 🏆</div>
         <h2>🏆 You're a Container Captain!</h2>
-        <p class="lesson-intro">You've mastered the concepts that keep the modern tech world running!</p>
+        <p class="lesson-intro">You've mastered the foundational concepts that keep the modern tech world running. Let's consolidate everything and give you a real project to try.</p>
       </div>
 
       <div class="card">
-        <div class="card-title">📋 Course Recap</div>
+        <div class="card-title">📋 Complete Course Recap</div>
         <ul>
-          <li>🐋 <strong>Docker</strong> solves the "Works on my machine" problem.</li>
-          <li>🖼️ <strong>Images</strong> are read-only blueprints.</li>
-          <li>📦 <strong>Containers</strong> are live, running instances of images.</li>
-          <li>📝 <strong>Dockerfiles</strong> are the step-by-step recipes to build images.</li>
-          <li>💾 <strong>Volumes</strong> are backpacks that save your data permanently.</li>
-          <li>🎼 <strong>Docker Compose</strong> orchestrates multiple containers at once.</li>
+          <li>🐋 <strong>Docker</strong> solves the "Works on my machine" problem by packaging your app with all its dependencies into a portable container.</li>
+          <li>🖼️ <strong>Images</strong> are read-only, layered blueprints. Layers enable fast rebuilds via caching.</li>
+          <li>📦 <strong>Containers</strong> are live, running instances of images. Ephemeral by design — writable layer disappears when deleted.</li>
+          <li>🏘️ <strong>Docker vs VMs</strong> — Containers share the host OS kernel (fast, lightweight). VMs include a full Guest OS (heavy, isolated).</li>
+          <li>📝 <strong>Dockerfiles</strong> are the step-by-step recipes that build images. <code>FROM</code>, <code>RUN</code>, <code>COPY</code>, <code>CMD</code> are the core instructions.</li>
+          <li>🧠 <strong>Architecture</strong> — Docker Client talks to the Docker Daemon, which pulls images from a Registry like Docker Hub.</li>
+          <li>💾 <strong>Volumes</strong> give containers permanent memory. Bind Mounts are great for development hot-reloading.</li>
+          <li>🌐 <strong>Networking</strong> — Bridge networks let containers communicate. Port mapping opens doors to the outside world.</li>
+          <li>🎼 <strong>Docker Compose</strong> orchestrates multi-container apps with a single YAML file and a single command.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗺️ What Comes After Docker Basics?</div>
+        <p>You've climbed the first mountain. Here's what experienced Docker practitioners learn next:</p>
+        <ul>
+          <li><strong>Multi-Stage Builds</strong> — Use multiple <code>FROM</code> statements in one Dockerfile to create tiny production images. You build in a "builder" stage (with all your compilers and dev tools), then copy only the compiled output into a minimal final image.</li>
+          <li><strong>Docker Security</strong> — Running containers as non-root users, scanning images for vulnerabilities (<code>docker scout</code>), using secrets management instead of hardcoding passwords in Compose files.</li>
+          <li><strong>Container Orchestration</strong> — When you need to run containers across multiple servers and auto-heal when things crash: <strong>Kubernetes (K8s)</strong>. Think of it as Docker Compose's powerful big sibling for production clusters.</li>
+          <li><strong>CI/CD Integration</strong> — Automating Docker builds and pushes on every Git commit using GitHub Actions, GitLab CI, or Jenkins. Your pipeline builds the image, runs tests inside a container, then pushes to a registry if tests pass.</li>
         </ul>
       </div>
 
       <div class="challenge">
-        <div class="challenge-label">🎯 Next Steps Challenge!</div>
-        <h4>Build Your First Real Container</h4>
-        <p>Now that you know the theory, it's time to try it! Head over to your computer terminal and try these three steps:</p>
+        <div class="challenge-label">🎯 Final Project: Build Your First Full Stack</div>
+        <h4>Deploy a Web App + Database with Docker Compose</h4>
+        <p>Here's a real project to cement everything you've learned. You'll containerize a simple app and hook it up to a database:</p>
         <ol>
-          <li>Install Docker Desktop (it's free!).</li>
-          <li>Open your terminal and type <code>docker run -d -p 80:80 docker/getting-started</code></li>
-          <li>Open your web browser and go to <code>http://localhost</code>. You just ran a web server inside a container!</li>
+          <li>Create a new folder: <code>mkdir my-docker-project &amp;&amp; cd my-docker-project</code></li>
+          <li>Create a simple <code>app.py</code> (Python/Flask or Node.js — your choice) that connects to a PostgreSQL database and displays data.</li>
+          <li>Write a <code>Dockerfile</code> for your app using the skills from Lesson 4. Remember: <code>FROM</code> → <code>WORKDIR</code> → <code>COPY requirements</code> → <code>RUN install</code> → <code>COPY .</code> → <code>CMD</code>.</li>
+          <li>Write a <code>docker-compose.yml</code> that defines two services: <code>web</code> (your app, built from your Dockerfile) and <code>database</code> (using the official <code>postgres:16</code> image).</li>
+          <li>Add a named Volume to persist your database data.</li>
+          <li>Use <code>depends_on</code> to ensure the database starts before your web app.</li>
+          <li>Run <code>docker compose up --build</code> and visit <code>http://localhost:8080</code>.</li>
+          <li>Stop everything with <code>docker compose down</code>, then <code>docker compose up</code> again. Notice your database data is still there because of the Volume!</li>
         </ol>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🧩</div>
+        <div class="callout-body">
+          <strong>Cheat Sheet — Commands to Know by Heart</strong><br>
+          <code>docker build -t name .</code> — Build an image<br>
+          <code>docker run -d -p host:container image</code> — Run a container<br>
+          <code>docker ps</code> — List running containers<br>
+          <code>docker exec -it id bash</code> — Shell into a container<br>
+          <code>docker logs -f id</code> — Follow container logs<br>
+          <code>docker compose up --build -d</code> — Launch your full stack<br>
+          <code>docker compose down -v</code> — Tear everything down cleanly
+        </div>
       </div>
 
       <div class="quiz-block">
@@ -534,9 +1262,21 @@
           <button class="quiz-option" onclick="checkQuiz(this, false)">Docker Hub</button>
           <button class="quiz-option" onclick="checkQuiz(this, false)">The Docker Daemon</button>
           <button class="quiz-option" onclick="checkQuiz(this, true)">Docker Compose</button>
-          <button class="quiz-option" onclick="checkQuiz(this, false)">Volumes</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Docker Volumes</button>
         </div>
         <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz!</div>
+        <div class="quiz-q">You need to run a Node.js web server and a MongoDB database together. Which sequence of Docker concepts do you use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Write a VM config → install two OS copies → run both apps</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Write a Dockerfile for Node → write a docker-compose.yml with both services → add a Volume for MongoDB data → docker compose up</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Pull two images → merge them into one container → run it</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Run the Node app locally → run MongoDB in a container → hope they connect</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8b"></div>
       </div>
 
       <div class="lesson-nav">

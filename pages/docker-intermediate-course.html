@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Intermediate — Production-Ready Containerization</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<style>
+  /* Intermediate-course accent: deeper teal instead of beginner blue */
+  :root {
+    --accent-upgrade: #0f9b8e;
+    --accent-warn:    #e67e22;
+    --accent-danger:  #c0392b;
+  }
+  .header-badge { background: linear-gradient(135deg, #0f9b8e, #0a7c71); }
+  .level-tag {
+    display: inline-block;
+    background: #0f9b8e22;
+    color: #0f9b8e;
+    border: 1px solid #0f9b8e55;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+  }
+  .prereq-box {
+    background: #fff8e1;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 0.93rem;
+  }
+  .prereq-box strong { color: #92400e; }
+  .danger-callout {
+    background: #fef2f2;
+    border-left: 4px solid #c0392b;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .danger-callout .callout-emoji { font-size: 1.4rem; }
+  .diagram {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 18px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    color: #8b949e;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .diagram .d-green  { color: #3fb950; }
+  .diagram .d-blue   { color: #58a6ff; }
+  .diagram .d-yellow { color: #e3b341; }
+  .diagram .d-red    { color: #f85149; }
+  .diagram .d-purple { color: #bc8cff; }
+  .diagram .d-teal   { color: #39d0c8; }
+</style>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Intermediate · DevOps · Production-Ready</div>
+  <h1>Docker Intermediate</h1>
+  <p>Move beyond the basics. Learn the patterns that actually matter in production — smaller images, safer containers, resilient systems. 🔧</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🏗️</span> Multi-Stage Builds
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">🔒</span> Container Security
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">❤️</span> Health Checks
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">⚖️</span> Resource Limits
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🌐</span> Advanced Networking
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">🔁</span> CI/CD Integration
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">📊</span> Logging &amp; Observability
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🐝</span> Docker Swarm
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🚀</span> Production Patterns
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 1 — MULTI-STAGE BUILDS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>🏗️ Multi-Stage Builds <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Your images are probably enormous. Multi-stage builds are the single most impactful technique for shrinking them — sometimes from 1 GB down to under 20 MB.</p>
+      </div>
+
+      <div class="prereq-box">
+        <strong>📋 Prerequisites:</strong> You should already know how to write a basic Dockerfile (<code>FROM</code>, <code>RUN</code>, <code>COPY</code>, <code>CMD</code>) and build images with <code>docker build</code>. If not, complete the beginner course first.
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 The Problem: Fat Images</div>
+        <p>In the beginner course, every Dockerfile started from a base image, installed build tools, compiled or installed dependencies, then packaged everything together. The result: the final image contains <em>all</em> of that — compilers, debuggers, build toolchains, test frameworks — things that have zero business being in a production container.</p>
+        <p>Consider a Go application. Compiling it requires the entire Go compiler (hundreds of MB). But the compiled binary itself is a single static file — maybe 10 MB. Why ship the compiler to production? You don't. Multi-stage builds let you use the compiler in one stage and throw it away before the final image is made.</p>
+        <table>
+          <tr><th>Approach</th><th>Example Image Size</th><th>Attack Surface</th></tr>
+          <tr><td>Single-stage (naive)</td><td>~900 MB</td><td>Large — build tools included</td></tr>
+          <tr><td>Multi-stage</td><td>~15 MB</td><td>Minimal — binary only</td></tr>
+          <tr><td>Multi-stage + scratch</td><td>~8 MB</td><td>Near zero — no OS at all</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 How Multi-Stage Builds Work</div>
+        <p>A multi-stage Dockerfile has <strong>more than one <code>FROM</code> instruction</strong>. Each <code>FROM</code> starts a fresh, independent stage. You can name stages with <code>AS &lt;name&gt;</code>. The key trick is the <code>COPY --from=&lt;stage&gt;</code> instruction, which lets you copy files from any previous stage into the current one — and leave everything else behind.</p>
+        <p>Docker only ships the <strong>last stage</strong> as the final image. All earlier stages are used during the build and then discarded. They never appear in the final image at all.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Multi-Stage Go Build</span>
+        </div>
+        <pre><span class="cm"># ═══════════════════════════════════════════
+# STAGE 1: "builder" — has the full Go compiler
+# This stage will be DISCARDED from the final image
+# ═══════════════════════════════════════════</span>
+<span class="kw">FROM</span> <span class="str">golang:1.22-alpine</span> <span class="kw">AS</span> <span class="str">builder</span>
+
+<span class="kw">WORKDIR</span> <span class="str">/build</span>
+
+<span class="cm"># Download dependencies first (layer cache trick)</span>
+<span class="kw">COPY</span> <span class="str">go.mod go.sum ./</span>
+<span class="kw">RUN</span> <span class="str">go mod download</span>
+
+<span class="cm"># Copy source and compile a statically-linked binary</span>
+<span class="kw">COPY</span> <span class="str">. .</span>
+<span class="kw">RUN</span> <span class="str">CGO_ENABLED=0 GOOS=linux go build -o /app/server ./cmd/server</span>
+
+<span class="cm"># ═══════════════════════════════════════════
+# STAGE 2: "final" — a bare-bones Linux image
+# ONLY the compiled binary is copied in from the builder stage
+# The Go compiler, source code, and build tools NEVER appear here
+# ═══════════════════════════════════════════</span>
+<span class="kw">FROM</span> <span class="str">alpine:3.19</span>
+
+<span class="cm"># Add CA certificates so HTTPS requests work in the container</span>
+<span class="kw">RUN</span> <span class="str">apk --no-cache add ca-certificates</span>
+
+<span class="cm"># Copy ONLY the compiled binary from the builder stage</span>
+<span class="kw">COPY</span> <span class="var">--from=builder</span> <span class="str">/app/server /usr/local/bin/server</span>
+
+<span class="kw">EXPOSE</span> <span class="str">8080</span>
+<span class="kw">CMD</span> <span class="str">["server"]</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🐍 Multi-Stage for Python (a Different Pattern)</div>
+        <p>Python doesn't compile to a single binary the way Go does, but multi-stage builds are still useful — especially for separating dependency installation (which needs build tools like <code>gcc</code> to compile C extensions) from the final runtime image (which only needs the compiled wheels).</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Multi-Stage Python App</span>
+        </div>
+        <pre><span class="cm"># Stage 1: Install dependencies using a full Python image</span>
+<span class="cm"># (some packages need gcc/musl to compile — the slim image has it here)</span>
+<span class="kw">FROM</span> <span class="str">python:3.12-slim</span> <span class="kw">AS</span> <span class="str">deps</span>
+
+<span class="kw">WORKDIR</span> <span class="str">/install</span>
+<span class="kw">COPY</span> <span class="str">requirements.txt .</span>
+
+<span class="cm"># Install into a specific target directory we can copy wholesale</span>
+<span class="kw">RUN</span> <span class="str">pip install --no-cache-dir --prefix=/runtime -r requirements.txt</span>
+
+<span class="cm"># Stage 2: Clean runtime image</span>
+<span class="kw">FROM</span> <span class="str">python:3.12-slim</span>
+
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+
+<span class="cm"># Copy the pre-installed packages from the deps stage</span>
+<span class="kw">COPY</span> <span class="var">--from=deps</span> <span class="str">/runtime /usr/local</span>
+
+<span class="cm"># Copy only application source code — no build tools, no pip cache</span>
+<span class="kw">COPY</span> <span class="str">src/ ./src/</span>
+
+<span class="kw">CMD</span> <span class="str">["python", "src/app.py"]</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🧊</div>
+        <div class="callout-body">
+          <strong>The Extreme Case: <code>FROM scratch</code></strong>
+          <code>scratch</code> is a special Docker base image that is literally empty — no OS, no shell, no filesystem, nothing. Statically compiled Go and Rust binaries can run directly from <code>scratch</code>. The result is an image that contains <em>only</em> your binary. This is the gold standard for minimal attack surface in production. The tradeoff: no <code>docker exec -it bash</code> for debugging, because there's no bash.
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Build and Verify Image Size</span>
+        </div>
+        <pre><span class="cm"># Build with a specific target stage (useful for debugging)</span>
+<span class="cm"># This stops at the "builder" stage so you can inspect it</span>
+<span class="kw">docker build</span> <span class="var">--target</span> <span class="str">builder</span> <span class="var">-t</span> <span class="str">myapp:debug</span> <span class="str">.</span>
+
+<span class="cm"># Build the full final image normally</span>
+<span class="kw">docker build</span> <span class="var">-t</span> <span class="str">myapp:prod</span> <span class="str">.</span>
+
+<span class="cm"># Compare the sizes — you'll be amazed</span>
+<span class="kw">docker images</span> <span class="str">myapp</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># REPOSITORY   TAG     IMAGE ID       SIZE</span>
+<span class="cm"># myapp        debug   a1b2c3d4e5f6   812MB   ← builder stage</span>
+<span class="cm"># myapp        prod    f6e5d4c3b2a1   14.3MB  ← final stage  🎉</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">In a multi-stage Dockerfile with 3 stages, which stage becomes the final Docker image?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">All three stages are merged together</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The first stage (it has the most content)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The last stage — earlier stages are discarded after the build</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Whichever stage is named "production"</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Which Dockerfile instruction copies files from a previous build stage into the current one?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">RUN --from=builder</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">COPY --from=builder</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">IMPORT --stage=builder</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">FROM --copy=builder</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 2 — CONTAINER SECURITY
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>🔒 Container Security <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Running containers as root, packing secrets into images, and using unscanned base images are the three fastest ways to get breached in production. Let's fix all three.</p>
+      </div>
+
+      <div class="danger-callout">
+        <div class="callout-emoji">🚨</div>
+        <div>
+          <strong>The Default is Dangerous</strong><br>
+          By default, processes inside Docker containers run as <strong>root</strong>. If an attacker exploits a vulnerability in your app and escapes the container, they have root access on your host machine. This is not theoretical — it's happened to real companies. Every production container should run as a non-root user.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👤 Security Rule 1: Never Run as Root</div>
+        <p>The <code>USER</code> instruction in a Dockerfile sets the user that processes run as inside the container. Create a dedicated application user with no special privileges. This limits what an attacker can do even if they compromise your application.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Running as a Non-Root User</span>
+        </div>
+        <pre><span class="kw">FROM</span> <span class="str">node:20-alpine</span>
+
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+
+<span class="cm"># Create a system group and user with no login shell and no password</span>
+<span class="cm"># -S = system account, -G = assign to group</span>
+<span class="kw">RUN</span> <span class="str">addgroup -S appgroup &amp;&amp; adduser -S appuser -G appgroup</span>
+
+<span class="cm"># Install dependencies as root (required to write to /app)</span>
+<span class="kw">COPY</span> <span class="str">package*.json ./</span>
+<span class="kw">RUN</span> <span class="str">npm ci --only=production</span>
+
+<span class="kw">COPY</span> <span class="str">. .</span>
+
+<span class="cm"># Give our new user ownership of the app directory</span>
+<span class="kw">RUN</span> <span class="str">chown -R appuser:appgroup /app</span>
+
+<span class="cm"># SWITCH to the non-root user. All subsequent instructions run as appuser.</span>
+<span class="kw">USER</span> <span class="str">appuser</span>
+
+<span class="kw">EXPOSE</span> <span class="str">3000</span>
+<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔑 Security Rule 2: Never Put Secrets in Images</div>
+        <p>This is a career-ending mistake that happens constantly. An image baked with a secret (API key, database password, private key) is dangerous because:</p>
+        <ul>
+          <li>Anyone who pulls the image can inspect every layer and extract the secret with <code>docker history</code></li>
+          <li>Even if you add a later layer that "deletes" the secret, it's still in the earlier layer's history</li>
+          <li>If the image is ever pushed to a registry — even a private one — the secret has left your machine</li>
+        </ul>
+        <p>The correct approach: pass secrets at <strong>runtime</strong> via environment variables, Docker secrets, or a secrets manager like HashiCorp Vault or AWS Secrets Manager.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Passing Secrets at Runtime (Not Build Time)</span>
+        </div>
+        <pre><span class="cm"># ❌ WRONG — This bakes the secret into the image permanently</span>
+<span class="cm"># ENV DATABASE_PASSWORD=supersecret123  ← NEVER do this in a Dockerfile</span>
+
+<span class="cm"># ✅ CORRECT — Pass secrets as environment variables at runtime</span>
+<span class="kw">docker run</span> <span class="var">-e</span> <span class="str">DATABASE_PASSWORD=supersecret123</span> <span class="str">myapp</span>
+
+<span class="cm"># ✅ BETTER — Load from a .env file (which you NEVER commit to Git)</span>
+<span class="kw">docker run</span> <span class="var">--env-file</span> <span class="str">.env</span> <span class="str">myapp</span>
+
+<span class="cm"># ✅ BEST for production — Docker Swarm / Compose secrets</span>
+<span class="cm"># (covered in the Swarm lesson — secrets are encrypted at rest)</span>
+
+<span class="cm"># In docker-compose.yml:</span>
+<span class="cm"># secrets:</span>
+<span class="cm">#   db_password:</span>
+<span class="cm">#     file: ./secrets/db_password.txt</span>
+<span class="cm">#</span>
+<span class="cm"># The secret is mounted as a file at /run/secrets/db_password</span>
+<span class="cm"># inside the container — never as an environment variable.</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Security Rule 3: Scan Your Images for Vulnerabilities</div>
+        <p>Base images contain operating system packages. Those packages have CVEs (Common Vulnerabilities and Exposures) — known security holes. You need to scan your images regularly to catch these before attackers do.</p>
+        <p>Docker's built-in scanner is <strong>Docker Scout</strong>. It analyzes every package in your image, checks against vulnerability databases, and recommends base image upgrades.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Scanning Images with Docker Scout</span>
+        </div>
+        <pre><span class="cm"># Quick vulnerability summary for a local image</span>
+<span class="kw">docker scout quickview</span> <span class="str">myapp:prod</span>
+
+<span class="cm"># Full CVE report with severity levels and fix recommendations</span>
+<span class="kw">docker scout cves</span> <span class="str">myapp:prod</span>
+
+<span class="cm"># Check if a newer base image would fix vulnerabilities</span>
+<span class="kw">docker scout recommendations</span> <span class="str">myapp:prod</span>
+
+<span class="cm"># Output example:</span>
+<span class="cm"># ✓  No critical vulnerabilities found</span>
+<span class="cm"># !  3 high vulnerabilities in openssl 3.0.2</span>
+<span class="cm"># →  Upgrade base image to alpine:3.19 to fix all 3</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛡️ Security Rule 4: Make the Container Filesystem Read-Only</div>
+        <p>If your application doesn't need to write to disk (most web servers don't), run the container with a read-only root filesystem. This means even if an attacker compromises your app, they can't write malicious files to the container's filesystem.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Read-Only Filesystem + Writable Tmpfs</span>
+        </div>
+        <pre><span class="cm"># --read-only makes the container filesystem read-only</span>
+<span class="cm"># --tmpfs adds a temporary in-memory writable directory</span>
+<span class="cm"># (needed for things like /tmp for temp files)</span>
+<span class="kw">docker run</span> \
+  <span class="var">--read-only</span> \
+  <span class="var">--tmpfs</span> <span class="str">/tmp</span> \
+  <span class="var">--tmpfs</span> <span class="str">/app/cache</span> \
+  <span class="var">-p</span> <span class="str">8080:8080</span> \
+  <span class="str">myapp:prod</span>
+
+<span class="cm"># In docker-compose.yml:</span>
+<span class="cm"># services:</span>
+<span class="cm">#   web:</span>
+<span class="cm">#     read_only: true</span>
+<span class="cm">#     tmpfs:</span>
+<span class="cm">#       - /tmp</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">📋</div>
+        <div class="callout-body">
+          <strong>Security Checklist for Every Production Container</strong><br>
+          ☐ Run as a non-root user (<code>USER</code> instruction)<br>
+          ☐ No secrets in the image (use runtime env vars or Docker secrets)<br>
+          ☐ Scan the image with Docker Scout before deploying<br>
+          ☐ Use minimal base images (Alpine or distroless)<br>
+          ☐ Read-only filesystem where possible (<code>--read-only</code>)<br>
+          ☐ Drop unnecessary Linux capabilities (<code>--cap-drop ALL</code>)<br>
+          ☐ Never use <code>--privileged</code> in production
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">A colleague adds <code>ENV DB_PASSWORD=hunter2</code> to a Dockerfile, builds, and pushes the image. What is the threat?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Nothing — environment variables in images are encrypted</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Anyone who can pull the image can extract the password from the image layers using docker history or docker inspect</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The image will fail to build because secrets are blocked</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The password is safe as long as the registry is private</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">What does <code>--read-only</code> on a <code>docker run</code> command do?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Prevents any docker exec commands from modifying the container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Makes the image read-only so it cannot be rebuilt</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Makes the container's root filesystem read-only, preventing any writes to disk inside the container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Prevents other containers from reading data from this container</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 3 — HEALTH CHECKS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>❤️ Health Checks <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">A running container is not the same as a <em>healthy</em> container. Docker has no way to know if your application inside is actually serving requests — unless you tell it how to check.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🩺 What is a Health Check?</div>
+        <p>Docker's <code>HEALTHCHECK</code> instruction defines a command that Docker runs periodically inside the container to determine if the application is functioning correctly. The command returns either exit code <code>0</code> (healthy) or <code>1</code> (unhealthy).</p>
+        <p>Without a health check, Docker only knows if the container process is running. With a health check, it knows if your <em>application</em> is actually ready to serve traffic. This is critical for:</p>
+        <ul>
+          <li><strong>Load balancers</strong> — only route traffic to healthy containers</li>
+          <li><strong>Orchestrators</strong> — Swarm and Kubernetes restart unhealthy containers automatically</li>
+          <li><strong>Rolling deployments</strong> — don't remove old containers until new ones pass their health check</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <span class="d-blue">Container lifecycle with HEALTHCHECK:</span><br><br>
+        <span class="d-yellow">starting</span>  →  <span class="d-green">healthy</span>  →  ... continues serving traffic ...<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ (check fails 3 times)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-red">unhealthy</span> →  orchestrator restarts container<br><br>
+        <span class="d-blue">Container lifecycle WITHOUT HEALTHCHECK:</span><br><br>
+        <span class="d-yellow">running</span>  →  app crashes silently, process stays up  →  <span class="d-red">traffic errors forever</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📝 HEALTHCHECK Syntax and Options</div>
+        <p>The <code>HEALTHCHECK</code> instruction takes four optional flags and a command:</p>
+        <ul>
+          <li><code>--interval=30s</code> — How often to run the check (default: 30 seconds)</li>
+          <li><code>--timeout=10s</code> — How long to wait before declaring the check failed (default: 30 seconds)</li>
+          <li><code>--start-period=15s</code> — Grace period after container startup before health checks begin counting failures (default: 0s). Give your app time to initialize!</li>
+          <li><code>--retries=3</code> — How many consecutive failures before the container is marked unhealthy (default: 3)</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Health Checks for Different App Types</span>
+        </div>
+        <pre><span class="cm"># ── WEB SERVER (HTTP endpoint check) ──────────────────────</span>
+<span class="kw">FROM</span> <span class="str">node:20-alpine</span>
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+<span class="kw">COPY</span> <span class="str">. .</span>
+<span class="kw">RUN</span> <span class="str">npm ci --only=production</span>
+
+<span class="cm"># Check the /health endpoint every 30s.</span>
+<span class="cm"># Wait 20s before starting checks (app needs time to boot).</span>
+<span class="cm"># 3 failures = unhealthy.</span>
+<span class="kw">HEALTHCHECK</span> <span class="var">--interval=30s</span> <span class="var">--timeout=5s</span> <span class="var">--start-period=20s</span> <span class="var">--retries=3</span> \
+  <span class="kw">CMD</span> <span class="str">wget -qO- http://localhost:3000/health || exit 1</span>
+
+<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span>
+
+<span class="cm"># ── DATABASE (TCP port check) ──────────────────────────────</span>
+<span class="kw">FROM</span> <span class="str">postgres:16-alpine</span>
+
+<span class="cm"># pg_isready checks if PostgreSQL is accepting connections</span>
+<span class="kw">HEALTHCHECK</span> <span class="var">--interval=10s</span> <span class="var">--timeout=5s</span> <span class="var">--retries=5</span> \
+  <span class="kw">CMD</span> <span class="str">pg_isready -U postgres || exit 1</span>
+
+<span class="cm"># ── REDIS ──────────────────────────────────────────────────</span>
+<span class="kw">FROM</span> <span class="str">redis:7-alpine</span>
+
+<span class="kw">HEALTHCHECK</span> <span class="var">--interval=10s</span> <span class="var">--timeout=3s</span> \
+  <span class="kw">CMD</span> <span class="str">redis-cli ping | grep -q PONG || exit 1</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Monitoring Health Check Status</span>
+        </div>
+        <pre><span class="cm"># See health status in container listing</span>
+<span class="kw">docker ps</span>
+
+<span class="cm"># STATUS column will show one of:</span>
+<span class="cm">#   Up 5 minutes (health: starting)   ← within start-period</span>
+<span class="cm">#   Up 5 minutes (healthy)            ← all good</span>
+<span class="cm">#   Up 5 minutes (unhealthy)          ← needs investigation!</span>
+
+<span class="cm"># Get detailed health check history (last 5 checks)</span>
+<span class="kw">docker inspect</span> <span class="var">--format</span> <span class="str">'{{json .State.Health}}'</span> <span class="str">&lt;container_id&gt;</span> <span class="var">| jq</span>
+
+<span class="cm"># Output shows each check result, exit code, and output:</span>
+<span class="cm"># {</span>
+<span class="cm">#   "Status": "healthy",</span>
+<span class="cm">#   "FailingStreak": 0,</span>
+<span class="cm">#   "Log": [</span>
+<span class="cm">#     { "ExitCode": 0, "Output": "OK\n", "Start": "2024-..." }</span>
+<span class="cm">#   ]</span>
+<span class="cm"># }</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔌 The /health Endpoint — Best Practice</div>
+        <p>Your web application should expose a dedicated <code>GET /health</code> (or <code>/healthz</code>) endpoint that returns <code>HTTP 200</code> when healthy. A great health endpoint doesn't just say "I'm running" — it actually checks its dependencies:</p>
+        <ul>
+          <li>Can the app reach the database and run a simple query?</li>
+          <li>Is the Redis cache reachable?</li>
+          <li>Are any critical background workers running?</li>
+        </ul>
+        <p>Return <code>HTTP 503</code> if any critical dependency is down. This gives load balancers a true picture of whether the container can serve production traffic.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Your Node.js app takes 45 seconds to fully initialize on startup. What HEALTHCHECK option prevents it from being marked unhealthy during this startup window?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">--retries=45</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">--timeout=45s</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">--start-period=60s</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">--interval=45s</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 4 — RESOURCE LIMITS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>⚖️ Resource Limits <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Without limits, one misbehaving container can consume all available memory and bring down every other container on the host. cgroups let you enforce hard boundaries.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💥 The "Noisy Neighbor" Problem</div>
+        <p>In a shared host environment — a VM running multiple containers — no container gets guaranteed resources by default. A memory leak in one container will happily consume all available RAM. The OS kernel's OOM (Out of Memory) killer will then start killing processes at random, which may be processes in completely unrelated containers. This is called the "noisy neighbor" problem, and it's catastrophic in production.</p>
+        <p>Docker uses Linux <strong>cgroups</strong> (control groups) — the same kernel feature that provides container isolation — to enforce hard limits on CPU, memory, and I/O per container.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Setting Resource Limits</span>
+        </div>
+        <pre><span class="cm"># ── MEMORY LIMITS ──────────────────────────────────────────</span>
+
+<span class="cm"># Hard memory limit: container is killed if it exceeds 512MB</span>
+<span class="kw">docker run</span> <span class="var">--memory</span> <span class="str">512m</span> <span class="str">myapp</span>
+
+<span class="cm"># Soft limit (reservation): Docker tries to keep usage below</span>
+<span class="cm"># this, but doesn't kill the container if it goes over.</span>
+<span class="cm"># Used by Swarm for scheduling decisions.</span>
+<span class="kw">docker run</span> <span class="var">--memory</span> <span class="str">512m</span> <span class="var">--memory-reservation</span> <span class="str">256m</span> <span class="str">myapp</span>
+
+<span class="cm"># Disable swap for the container (force it to use RAM only)</span>
+<span class="kw">docker run</span> <span class="var">--memory</span> <span class="str">512m</span> <span class="var">--memory-swap</span> <span class="str">512m</span> <span class="str">myapp</span>
+
+<span class="cm"># ── CPU LIMITS ─────────────────────────────────────────────</span>
+
+<span class="cm"># Limit to 1.5 CPU cores (can use fractional values)</span>
+<span class="kw">docker run</span> <span class="var">--cpus</span> <span class="str">1.5</span> <span class="str">myapp</span>
+
+<span class="cm"># Set relative CPU weight (default: 1024)</span>
+<span class="cm"># A container with 512 gets half the CPU of one with 1024</span>
+<span class="cm"># when CPU is contended</span>
+<span class="kw">docker run</span> <span class="var">--cpu-shares</span> <span class="str">512</span> <span class="str">myapp</span>
+
+<span class="cm"># Pin the container to specific CPU cores (e.g., cores 0 and 1 only)</span>
+<span class="kw">docker run</span> <span class="var">--cpuset-cpus</span> <span class="str">"0,1"</span> <span class="str">myapp</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📄 Resource Limits in Docker Compose</div>
+        <p>In production, you'll define resource limits in your <code>docker-compose.yml</code> rather than passing flags. This ensures limits are always applied consistently and documented in source control.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">docker-compose.yml — Resource Limits</span>
+        </div>
+        <pre><span class="kw">services:</span>
+
+  <span class="cl">web:</span>
+    <span class="kw">image:</span> <span class="str">myapp:prod</span>
+    <span class="kw">deploy:</span>
+      <span class="kw">resources:</span>
+        <span class="kw">limits:</span>
+          <span class="kw">cpus:</span> <span class="str">'0.5'</span>        <span class="cm"># Hard cap: 50% of one CPU core</span>
+          <span class="kw">memory:</span> <span class="str">256M</span>      <span class="cm"># Hard cap: 256 megabytes RAM</span>
+        <span class="kw">reservations:</span>
+          <span class="kw">cpus:</span> <span class="str">'0.1'</span>        <span class="cm"># Soft reservation for scheduling</span>
+          <span class="kw">memory:</span> <span class="str">128M</span>
+
+  <span class="cl">database:</span>
+    <span class="kw">image:</span> <span class="str">postgres:16</span>
+    <span class="kw">deploy:</span>
+      <span class="kw">resources:</span>
+        <span class="kw">limits:</span>
+          <span class="kw">cpus:</span> <span class="str">'1.0'</span>
+          <span class="kw">memory:</span> <span class="str">1G</span>       <span class="cm"># Databases need more memory — be generous</span>
+        <span class="kw">reservations:</span>
+          <span class="kw">memory:</span> <span class="str">512M</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Monitoring Resource Usage in Real Time</span>
+        </div>
+        <pre><span class="cm"># Real-time resource usage for ALL running containers (like top, for Docker)</span>
+<span class="kw">docker stats</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># CONTAINER    CPU %   MEM USAGE / LIMIT   MEM %   NET I/O</span>
+<span class="cm"># web          0.5%    45MB / 256MB        17.5%   1.2MB / 800KB</span>
+<span class="cm"># database     1.2%    312MB / 1GB         30.4%   500KB / 120KB</span>
+
+<span class="cm"># Stats for a single container (by name or ID)</span>
+<span class="kw">docker stats</span> <span class="str">web</span>
+
+<span class="cm"># One-shot stats snapshot (no live refresh)</span>
+<span class="kw">docker stats</span> <span class="var">--no-stream</span></pre>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>JVM and Resource Limits</strong>
+          Java apps running in containers need special attention. Older JVMs read total host RAM to set their heap size, completely ignoring the container's memory limit. A JVM in a 256MB container might try to allocate a 4GB heap, immediately getting OOM-killed. Fix this with <code>-XX:+UseContainerSupport</code> (default in JDK 11+) and explicit heap flags like <code>-Xmx200m</code>. Always test your JVM app with limits applied.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">You have 4 containers on one host with no resource limits. Container A has a memory leak and begins consuming all available RAM. What happens?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Docker automatically restarts Container A to free the memory</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Container A is isolated — other containers are unaffected</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The OS kernel's OOM killer may kill processes in any container on the host, not just Container A</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Container A is automatically given a memory limit by Docker</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 5 — ADVANCED NETWORKING
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🌐 Advanced Networking <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">The beginner course covered basic bridge networks and port mapping. Here we go deeper: network segmentation, reverse proxies, and the overlay networks that span multiple hosts.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Network Segmentation — Defense in Depth</div>
+        <p>In production, not every container should be able to talk to every other container. Your web server needs to reach your database — but your database has no business talking to your email service. Putting all containers on one network is the equivalent of having no internal firewall.</p>
+        <p>The correct pattern: use <strong>multiple networks</strong>. A container can be on multiple networks simultaneously. Put it only on the networks it actually needs to communicate on.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">docker-compose.yml — Network Segmentation</span>
+        </div>
+        <pre><span class="kw">services:</span>
+
+  <span class="cm"># Nginx is the only container exposed to the outside world.</span>
+  <span class="cm"># It sits on the "frontend" network only.</span>
+  <span class="cl">nginx:</span>
+    <span class="kw">image:</span> <span class="str">nginx:alpine</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"80:80"</span>
+      <span class="var">-</span> <span class="str">"443:443"</span>
+    <span class="kw">networks:</span>
+      <span class="var">-</span> <span class="str">frontend</span>
+
+  <span class="cm"># The web app lives on BOTH networks —</span>
+  <span class="cm"># it receives traffic from nginx (frontend)</span>
+  <span class="cm"># and talks to the database (backend).</span>
+  <span class="cl">web:</span>
+    <span class="kw">build:</span> <span class="str">.</span>
+    <span class="kw">networks:</span>
+      <span class="var">-</span> <span class="str">frontend</span>
+      <span class="var">-</span> <span class="str">backend</span>
+
+  <span class="cm"># The database is ONLY on the backend network.</span>
+  <span class="cm"># Nginx and external traffic can NEVER reach it directly.</span>
+  <span class="cl">database:</span>
+    <span class="kw">image:</span> <span class="str">postgres:16</span>
+    <span class="kw">networks:</span>
+      <span class="var">-</span> <span class="str">backend</span>
+
+<span class="kw">networks:</span>
+  <span class="cl">frontend:</span>
+  <span class="cl">backend:</span>
+    <span class="kw">internal:</span> <span class="str">true</span>   <span class="cm"># No external internet access from this network at all</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔄 Nginx as a Reverse Proxy</div>
+        <p>In production, you almost never expose your application container directly to the internet. Instead, you put <strong>Nginx</strong> (or Traefik, or Caddy) in front of it as a <strong>reverse proxy</strong>. The reverse proxy handles:</p>
+        <ul>
+          <li><strong>SSL/TLS termination</strong> — decrypt HTTPS here, forward plain HTTP to your app internally</li>
+          <li><strong>Load balancing</strong> — distribute requests across multiple app containers</li>
+          <li><strong>Static file serving</strong> — serve CSS, JS, images directly from Nginx (much faster than Node/Python)</li>
+          <li><strong>Rate limiting and caching</strong> — protect your app from traffic spikes</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">nginx.conf — Reverse Proxy to a Docker Container</span>
+        </div>
+        <pre><span class="kw">upstream</span> <span class="str">app_servers</span> {
+  <span class="cm"># "web" is resolved by Docker's internal DNS to the web container's IP</span>
+  <span class="kw">server</span> <span class="str">web:3000</span>;
+}
+
+<span class="kw">server</span> {
+  <span class="kw">listen</span> <span class="str">80</span>;
+  <span class="kw">server_name</span> <span class="str">example.com</span>;
+
+  <span class="cm"># Serve static assets directly — never hits the app container</span>
+  <span class="kw">location</span> <span class="str">/static/</span> {
+    <span class="kw">root</span> <span class="str">/var/www</span>;
+    <span class="kw">expires</span> <span class="str">30d</span>;
+  }
+
+  <span class="cm"># Proxy all other requests to the Node.js app</span>
+  <span class="kw">location</span> <span class="str">/</span> {
+    <span class="kw">proxy_pass</span> <span class="str">http://app_servers</span>;
+    <span class="kw">proxy_set_header</span> <span class="str">Host $host</span>;
+    <span class="kw">proxy_set_header</span> <span class="str">X-Real-IP $remote_addr</span>;
+    <span class="kw">proxy_set_header</span> <span class="str">X-Forwarded-For $proxy_add_x_forwarded_for</span>;
+  }
+}</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🕸️ Overlay Networks — Multi-Host Communication</div>
+        <p>Bridge networks only work on a single Docker host. In a cluster of multiple machines (a Docker Swarm — see Lesson 8), containers on different physical hosts need to communicate as if they were on the same network. That's what <strong>overlay networks</strong> do.</p>
+        <p>An overlay network creates a virtual network that spans multiple Docker hosts. Docker encrypts traffic between hosts using VXLAN encapsulation. Containers on different machines can reach each other by service name, exactly like containers on the same machine.</p>
+      </div>
+
+      <div class="diagram">
+        <span class="d-blue">Overlay Network — Multi-Host Architecture</span><br><br>
+        <span class="d-green">[ Host A ]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-green">[ Host B ]</span><br>
+        ┌─────────────────────┐&nbsp;&nbsp;&nbsp;&nbsp;┌─────────────────────┐<br>
+        │ <span class="d-yellow">container: web_1</span>&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│ <span class="d-yellow">container: web_2</span>&nbsp;&nbsp;&nbsp;│<br>
+        │ <span class="d-purple">container: db_1</span>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;│ <span class="d-purple">container: worker_1</span>│<br>
+        └──────────┬──────────┘&nbsp;&nbsp;&nbsp;&nbsp;└──────────┬──────────┘<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└────────────<span class="d-teal">overlay network</span>────┘<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(encrypted VXLAN tunnel)<br><br>
+        <span class="d-green">web_2</span> can reach <span class="d-purple">db_1</span> using hostname <span class="d-yellow">"db"</span> — Docker resolves it across hosts.
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">In the network segmentation example, can the Nginx container directly connect to the database container?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Yes — all containers in a Compose file can always reach each other</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">No — Nginx is only on the "frontend" network, and the database is only on the "backend" network. They share no network.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Yes — port 5432 is always public by default</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Only if Nginx makes an HTTPS request</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 6 — CI/CD INTEGRATION
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>🔁 CI/CD Integration <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Manually building and pushing Docker images is fine for learning. In production, every git push should automatically build, test, scan, and deploy a new image — without human intervention.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤖 What is CI/CD?</div>
+        <p><strong>Continuous Integration (CI)</strong> is the practice of automatically building and testing code every time a developer pushes a commit. <strong>Continuous Deployment (CD)</strong> takes it further — automatically deploying the code to production (or staging) after tests pass.</p>
+        <p>Docker is the perfect fit for CI/CD because:</p>
+        <ul>
+          <li>The build environment is completely reproducible — no "it works on the CI server but not my laptop"</li>
+          <li>Tests run inside containers — same environment every time</li>
+          <li>The deployable artifact (the image) is produced and stored automatically</li>
+          <li>Rolling deployments are trivial — pull new image, replace old containers</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <span class="d-blue">The Docker CI/CD Pipeline</span><br><br>
+        <span class="d-yellow">git push</span><br>
+        &nbsp;&nbsp;&nbsp;↓<br>
+        <span class="d-green">CI runner triggers</span><br>
+        &nbsp;&nbsp;&nbsp;↓<br>
+        <span class="d-purple">docker build -t myapp:$GIT_SHA .</span>&nbsp;&nbsp;&nbsp;← tagged with the exact commit hash<br>
+        &nbsp;&nbsp;&nbsp;↓<br>
+        <span class="d-purple">docker run myapp:$GIT_SHA npm test</span>&nbsp;&nbsp;← run tests inside the image<br>
+        &nbsp;&nbsp;&nbsp;↓ (tests pass)<br>
+        <span class="d-purple">docker scout cves myapp:$GIT_SHA</span>&nbsp;&nbsp;&nbsp;← scan for vulnerabilities<br>
+        &nbsp;&nbsp;&nbsp;↓ (no critical CVEs)<br>
+        <span class="d-purple">docker push registry/myapp:$GIT_SHA</span> ← push to registry<br>
+        &nbsp;&nbsp;&nbsp;↓<br>
+        <span class="d-teal">Deploy to staging / production</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← pull new image, restart service<br>
+        &nbsp;&nbsp;&nbsp;↓<br>
+        <span class="d-green">Health checks pass → deployment complete ✓</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">.github/workflows/docker.yml — GitHub Actions Pipeline</span>
+        </div>
+        <pre><span class="kw">name:</span> <span class="str">Build, Test &amp; Deploy</span>
+
+<span class="kw">on:</span>
+  <span class="kw">push:</span>
+    <span class="kw">branches:</span> <span class="str">[ main ]</span>
+  <span class="kw">pull_request:</span>
+    <span class="kw">branches:</span> <span class="str">[ main ]</span>
+
+<span class="kw">jobs:</span>
+  <span class="cl">build-and-test:</span>
+    <span class="kw">runs-on:</span> <span class="str">ubuntu-latest</span>
+
+    <span class="kw">steps:</span>
+      <span class="cm"># 1. Check out the repository code</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Checkout code</span>
+        <span class="kw">uses:</span> <span class="str">actions/checkout@v4</span>
+
+      <span class="cm"># 2. Log in to Docker Hub using repository secrets</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Log in to Docker Hub</span>
+        <span class="kw">uses:</span> <span class="str">docker/login-action@v3</span>
+        <span class="kw">with:</span>
+          <span class="kw">username:</span> <span class="str">${{ secrets.DOCKERHUB_USERNAME }}</span>
+          <span class="kw">password:</span> <span class="str">${{ secrets.DOCKERHUB_TOKEN }}</span>
+
+      <span class="cm"># 3. Build the Docker image, tagged with the git commit SHA</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Build image</span>
+        <span class="kw">run:</span> <span class="str">|
+          docker build -t myuser/myapp:${{ github.sha }} .
+          docker tag myuser/myapp:${{ github.sha }} myuser/myapp:latest</span>
+
+      <span class="cm"># 4. Run the test suite inside the freshly built image</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Run tests</span>
+        <span class="kw">run:</span> <span class="str">docker run --rm myuser/myapp:${{ github.sha }} npm test</span>
+
+      <span class="cm"># 5. Scan for vulnerabilities (fail on critical CVEs)</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Scan for vulnerabilities</span>
+        <span class="kw">uses:</span> <span class="str">docker/scout-action@v1</span>
+        <span class="kw">with:</span>
+          <span class="kw">command:</span> <span class="str">cves</span>
+          <span class="kw">image:</span> <span class="str">myuser/myapp:${{ github.sha }}</span>
+          <span class="kw">exit-code:</span> <span class="str">true</span>          <span class="cm"># fail the build on critical CVEs</span>
+          <span class="kw">only-severities:</span> <span class="str">critical</span>
+
+      <span class="cm"># 6. Only push to registry if on the main branch</span>
+      <span class="var">-</span> <span class="kw">name:</span> <span class="str">Push to Docker Hub</span>
+        <span class="kw">if:</span> <span class="str">github.ref == 'refs/heads/main'</span>
+        <span class="kw">run:</span> <span class="str">|
+          docker push myuser/myapp:${{ github.sha }}
+          docker push myuser/myapp:latest</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🏷️</div>
+        <div class="callout-body">
+          <strong>Tagging Strategy</strong>
+          Never rely solely on <code>:latest</code> in production — it tells you nothing about what version is deployed. Use the Git commit SHA (<code>:abc1234</code>) for precise traceability, semantic version tags (<code>:v2.3.1</code>) for releases, and <code>:latest</code> only as a convenience alias. If something breaks in production, the SHA tag tells you exactly which commit caused it.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Why is tagging Docker images with the Git commit SHA better than always using <code>:latest</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">SHA tags are smaller and faster to pull</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Each image is traceable to an exact commit — you know precisely what code is running and can roll back to any specific version</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Docker Hub requires SHA tags for private images</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The :latest tag is reserved for official images</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 7 — LOGGING & OBSERVABILITY
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>📊 Logging &amp; Observability <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">When something breaks at 2am, logs are your flashlight. In a containerized environment with dozens of services, you need a centralized system — not 40 separate terminal windows.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 The Container Logging Model</div>
+        <p>Docker's logging model is simple and opinionated: <strong>your application should write logs to stdout and stderr</strong>. Nothing else. Don't write to a log file inside the container. Docker captures stdout/stderr automatically and routes it through a configurable <strong>logging driver</strong>.</p>
+        <p>Why stdout/stderr?</p>
+        <ul>
+          <li>Works universally across all languages and frameworks</li>
+          <li>Docker captures it automatically — no log library configuration needed</li>
+          <li>Centralized log aggregators (Fluentd, Logstash) can consume it from the Docker daemon</li>
+          <li>When the container is destroyed, you don't lose logs trapped in a file inside it</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Working With Container Logs</span>
+        </div>
+        <pre><span class="cm"># Stream logs from a container (like tail -f)</span>
+<span class="kw">docker logs</span> <span class="var">-f</span> <span class="str">my-container</span>
+
+<span class="cm"># Show last 100 lines only</span>
+<span class="kw">docker logs</span> <span class="var">--tail</span> <span class="str">100</span> <span class="str">my-container</span>
+
+<span class="cm"># Show logs with timestamps</span>
+<span class="kw">docker logs</span> <span class="var">-f</span> <span class="var">--timestamps</span> <span class="str">my-container</span>
+
+<span class="cm"># Show only logs since a specific time</span>
+<span class="kw">docker logs</span> <span class="var">--since</span> <span class="str">2024-01-15T10:00:00</span> <span class="str">my-container</span>
+
+<span class="cm"># In Compose: stream logs from ALL services combined</span>
+<span class="kw">docker compose logs</span> <span class="var">-f</span>
+
+<span class="cm"># Stream only the web service logs</span>
+<span class="kw">docker compose logs</span> <span class="var">-f</span> <span class="str">web</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔌 Docker Logging Drivers</div>
+        <p>By default, Docker uses the <code>json-file</code> logging driver — it writes container logs to JSON files on the host. This is fine for development but not for production at scale (the files grow unbounded and you can't search across containers). Docker supports swapping to different drivers:</p>
+        <table>
+          <tr><th>Driver</th><th>Sends logs to</th><th>Best For</th></tr>
+          <tr><td><code>json-file</code></td><td>Local JSON files on host</td><td>Development</td></tr>
+          <tr><td><code>local</code></td><td>Local binary format (compressed)</td><td>Single-host production</td></tr>
+          <tr><td><code>syslog</code></td><td>System syslog daemon</td><td>Traditional server setups</td></tr>
+          <tr><td><code>fluentd</code></td><td>Fluentd log aggregator</td><td>Production (EFK stack)</td></tr>
+          <tr><td><code>awslogs</code></td><td>Amazon CloudWatch Logs</td><td>AWS deployments</td></tr>
+          <tr><td><code>gcplogs</code></td><td>Google Cloud Logging</td><td>GCP deployments</td></tr>
+          <tr><td><code>splunk</code></td><td>Splunk Enterprise/Cloud</td><td>Enterprise environments</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📈 The Observability Stack: Logs + Metrics + Traces</div>
+        <p>True observability of a containerized application has three pillars:</p>
+        <ul>
+          <li><strong>Logs</strong> — What happened? (text events from your application)</li>
+          <li><strong>Metrics</strong> — How is it performing? (numbers over time: CPU, memory, request rate, error rate, latency)</li>
+          <li><strong>Traces</strong> — Why is it slow? (a request's journey through multiple services, with timings per hop)</li>
+        </ul>
+        <p>The most common open-source production stack for Docker environments is the <strong>PLG stack</strong> (Prometheus + Loki + Grafana), often combined with Tempo for distributed tracing. All three tools run in Docker containers themselves.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">docker-compose.yml — Minimal Observability Stack</span>
+        </div>
+        <pre><span class="kw">services:</span>
+
+  <span class="cm"># Prometheus: scrapes metrics from your app and stores them</span>
+  <span class="cl">prometheus:</span>
+    <span class="kw">image:</span> <span class="str">prom/prometheus:latest</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"9090:9090"</span>
+    <span class="kw">volumes:</span>
+      <span class="var">-</span> <span class="str">./prometheus.yml:/etc/prometheus/prometheus.yml</span>
+      <span class="var">-</span> <span class="str">prometheus-data:/prometheus</span>
+
+  <span class="cm"># Loki: log aggregation (like Elasticsearch but lightweight)</span>
+  <span class="cl">loki:</span>
+    <span class="kw">image:</span> <span class="str">grafana/loki:latest</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"3100:3100"</span>
+
+  <span class="cm"># Grafana: dashboard UI — connects to both Prometheus and Loki</span>
+  <span class="cl">grafana:</span>
+    <span class="kw">image:</span> <span class="str">grafana/grafana:latest</span>
+    <span class="kw">ports:</span>
+      <span class="var">-</span> <span class="str">"3000:3000"</span>
+    <span class="kw">environment:</span>
+      <span class="var">-</span> <span class="str">GF_SECURITY_ADMIN_PASSWORD=admin</span>
+    <span class="kw">volumes:</span>
+      <span class="var">-</span> <span class="str">grafana-data:/var/lib/grafana</span>
+
+<span class="kw">volumes:</span>
+  <span class="cl">prometheus-data:</span>
+  <span class="cl">grafana-data:</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Where should a containerized application write its logs?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">To a log file at /var/log/app.log inside the container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">To a database table for centralized storage</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">To stdout and stderr — Docker captures these automatically and routes them through the configured logging driver</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">To a Docker Volume so logs persist when the container restarts</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 8 — DOCKER SWARM
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>🐝 Docker Swarm <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Docker Compose runs containers on one machine. Docker Swarm runs containers across a cluster of machines — with built-in load balancing, rolling updates, and self-healing.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 Why Do You Need an Orchestrator?</div>
+        <p>When you run production workloads, you need answers to questions that Docker Compose can't address:</p>
+        <ul>
+          <li>What happens when the host machine crashes? (Compose: all containers die. Swarm: reschedules them on another host.)</li>
+          <li>How do you deploy a new version with zero downtime? (Compose: restart, gap. Swarm: rolling update, no gap.)</li>
+          <li>How do you run 10 copies of your web server across 5 machines? (Compose: can't. Swarm: one command.)</li>
+          <li>How do load-balance traffic across those 10 copies? (Compose: manual. Swarm: automatic, built-in.)</li>
+        </ul>
+        <p>Docker Swarm is Docker's built-in orchestrator. It's simpler than Kubernetes (easier to learn, less overhead) but covers most real-world needs for small to medium deployments.</p>
+      </div>
+
+      <div class="diagram">
+        <span class="d-blue">Swarm Cluster Architecture</span><br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-yellow">┌─── Manager Node ───┐</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-yellow">│  Raft consensus    │</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-yellow">│  Schedules tasks   │</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-yellow">│  Manages state     │</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-yellow">└────────┬───────────┘</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-blue">│</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┌──────────────┼──────────────┐<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-blue">↓</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-blue">↓</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-blue">↓</span><br>
+        <span class="d-green">Worker Node A</span>&nbsp;&nbsp;&nbsp;<span class="d-green">Worker Node B</span>&nbsp;&nbsp;&nbsp;<span class="d-green">Worker Node C</span><br>
+        <span class="d-purple">web.1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-purple">web.2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-purple">web.3</span><br>
+        <span class="d-purple">db.1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-teal">worker.1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="d-teal">worker.2</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Setting Up and Using Docker Swarm</span>
+        </div>
+        <pre><span class="cm"># Initialize a new Swarm on this machine (becomes a manager node)</span>
+<span class="kw">docker swarm init</span>
+
+<span class="cm"># Output includes a join token for worker nodes, e.g.:</span>
+<span class="cm"># docker swarm join --token SWMTKN-1-abc123... 192.168.1.10:2377</span>
+
+<span class="cm"># On a different machine, join as a worker node:</span>
+<span class="kw">docker swarm join</span> <span class="var">--token</span> <span class="str">SWMTKN-1-abc123... 192.168.1.10:2377</span>
+
+<span class="cm"># See all nodes in the swarm</span>
+<span class="kw">docker node ls</span>
+
+<span class="cm"># Deploy a stack (Swarm uses the same docker-compose.yml format!)</span>
+<span class="kw">docker stack deploy</span> <span class="var">-c</span> <span class="str">docker-compose.yml</span> <span class="str">myapp</span>
+
+<span class="cm"># List all running services across the cluster</span>
+<span class="kw">docker service ls</span>
+
+<span class="cm"># Scale a service to 5 replicas (Swarm distributes them across nodes)</span>
+<span class="kw">docker service scale</span> <span class="str">myapp_web=5</span>
+
+<span class="cm"># View which nodes are running which replicas</span>
+<span class="kw">docker service ps</span> <span class="str">myapp_web</span>
+
+<span class="cm"># Rolling update: deploy a new image version with zero downtime</span>
+<span class="kw">docker service update</span> \
+  <span class="var">--image</span> <span class="str">myapp:v2.0</span> \
+  <span class="var">--update-parallelism</span> <span class="str">2</span> \    <span class="cm"># update 2 replicas at a time</span>
+  <span class="var">--update-delay</span> <span class="str">10s</span> \         <span class="cm"># wait 10s between batches</span>
+  <span class="str">myapp_web</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Docker Secrets in Swarm</div>
+        <p>Swarm has a built-in secrets management system. Secrets are encrypted at rest in the Raft database and only decrypted and mounted into containers that explicitly need them. They appear as files at <code>/run/secrets/&lt;secret_name&gt;</code> inside the container — never as environment variables in the process list.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Docker Swarm Secrets</span>
+        </div>
+        <pre><span class="cm"># Create a secret from a file</span>
+<span class="kw">echo</span> <span class="str">"supersecretpassword"</span> <span class="var">|</span> <span class="kw">docker secret create</span> <span class="str">db_password</span> <span class="var">-</span>
+
+<span class="cm"># Create from a file on disk</span>
+<span class="kw">docker secret create</span> <span class="str">ssl_cert ./certs/server.crt</span>
+
+<span class="cm"># In docker-compose.yml (Swarm mode):</span>
+<span class="cm"># services:</span>
+<span class="cm">#   web:</span>
+<span class="cm">#     secrets:</span>
+<span class="cm">#       - db_password</span>
+<span class="cm"># secrets:</span>
+<span class="cm">#   db_password:</span>
+<span class="cm">#     external: true   ← already created with docker secret create</span>
+<span class="cm">#</span>
+<span class="cm"># Inside the container, the secret is available at:</span>
+<span class="cm"># /run/secrets/db_password</span>
+<span class="cm"># Read it in your app: open("/run/secrets/db_password").read()</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🎯</div>
+        <div class="callout-body">
+          <strong>Swarm vs Kubernetes</strong>
+          Docker Swarm is production-ready for most applications and dramatically simpler than Kubernetes. Choose Swarm when your team is small, your traffic is predictable, and you don't want to invest months in K8s expertise. Choose Kubernetes when you need advanced scheduling, custom resource definitions, the massive ecosystem (Helm, Istio, Argo CD), or you're preparing for a role at a large tech company. Both are excellent — they solve the same problem at different scales.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Worker Node B in a 3-node Swarm suddenly crashes. What does Docker Swarm do?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Nothing — the containers on that node are lost until Node B recovers</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The entire Swarm shuts down for safety</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The Manager detects the failure and reschedules the affected service replicas onto the remaining healthy nodes automatically</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The containers on Node B restart on Node B when it comes back — no rescheduling occurs</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div name="lesson-nav" class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 9 — PRODUCTION PATTERNS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9</div>
+        <h2>🚀 Production Patterns &amp; What's Next <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">The last lesson isn't a single topic — it's a collection of the hard-won patterns that separate containers that run in production from containers that run only on a laptop.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ Pattern 1: Graceful Shutdown</div>
+        <p>When Docker stops a container, it sends <strong>SIGTERM</strong> to the main process. The process has 10 seconds (by default) to clean up — finish in-flight requests, flush logs, close database connections — before Docker sends SIGKILL and force-kills it.</p>
+        <p>Most frameworks handle this automatically if you start them correctly. The critical requirement: your process must be <strong>PID 1</strong> inside the container so it actually receives the signal. If you use a shell script as CMD, the shell becomes PID 1 and absorbs the signal — your app never receives it.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Correct vs Incorrect Process Startup</span>
+        </div>
+        <pre><span class="cm"># ❌ WRONG — Shell form of CMD. The shell is PID 1, not node.</span>
+<span class="cm"># SIGTERM goes to the shell and is ignored. Node gets SIGKILL rudely.</span>
+<span class="kw">CMD</span> <span class="str">node server.js</span>
+
+<span class="cm"># ✅ CORRECT — Exec form (JSON array). node IS PID 1.</span>
+<span class="cm"># SIGTERM goes directly to node, which handles it gracefully.</span>
+<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span>
+
+<span class="cm"># If you need a startup script, use exec to replace the shell:</span>
+<span class="kw">ENTRYPOINT</span> <span class="str">["./entrypoint.sh"]</span>
+<span class="cm"># Inside entrypoint.sh, the last line should be:</span>
+<span class="cm"># exec "$@"   ← this replaces the shell with your app process</span>
+
+<span class="cm"># Give containers more time to shut down gracefully (default: 10s)</span>
+<span class="cm"># In docker-compose.yml:</span>
+<span class="cm"># services:</span>
+<span class="cm">#   web:</span>
+<span class="cm">#     stop_grace_period: 30s</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔄 Pattern 2: Restart Policies</div>
+        <p>In production, containers will crash. Hardware fails, OOM kills happen, bugs surface. Your containers should automatically restart. Docker has four restart policies:</p>
+        <ul>
+          <li><code>no</code> — Never restart (default for standalone containers)</li>
+          <li><code>on-failure[:N]</code> — Restart only on non-zero exit code, optionally up to N times</li>
+          <li><code>always</code> — Always restart, even if manually stopped (restarts after daemon restart too)</li>
+          <li><code>unless-stopped</code> — Like <code>always</code>, but respects manual stops across daemon restarts. <strong>This is the right choice for production.</strong></li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">docker-compose.yml — Production Restart Policies</span>
+        </div>
+        <pre><span class="kw">services:</span>
+  <span class="cl">web:</span>
+    <span class="kw">image:</span> <span class="str">myapp:prod</span>
+    <span class="kw">restart:</span> <span class="str">unless-stopped</span>   <span class="cm"># Restart on crash, respect manual stops</span>
+
+  <span class="cl">database:</span>
+    <span class="kw">image:</span> <span class="str">postgres:16</span>
+    <span class="kw">restart:</span> <span class="str">unless-stopped</span>
+
+  <span class="cl">migration-job:</span>
+    <span class="kw">image:</span> <span class="str">myapp:prod</span>
+    <span class="kw">command:</span> <span class="str">python manage.py migrate</span>
+    <span class="kw">restart:</span> <span class="str">on-failure</span>      <span class="cm"># Retry if migrations fail, but stop when done</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📌 Pattern 3: Image Pinning</div>
+        <p>Never use floating tags like <code>:latest</code> or <code>:alpine</code> in production Dockerfiles. These tags are mutable — the image they point to can change at any time. Your build is no longer reproducible, and you'll get silent breaking changes.</p>
+        <p>Pin to an exact digest instead. A digest is a SHA256 hash of the exact image content — it is immutable and will never change.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile — Pinned vs Floating Base Images</span>
+        </div>
+        <pre><span class="cm"># ❌ Floating tag — what does "latest" mean in 6 months?</span>
+<span class="kw">FROM</span> <span class="str">node:latest</span>
+
+<span class="cm"># ❌ Better but still mutable — node:20-alpine can be updated</span>
+<span class="kw">FROM</span> <span class="str">node:20-alpine</span>
+
+<span class="cm"># ✅ Production-grade — pinned to an exact immutable digest</span>
+<span class="cm"># This exact content will always produce this exact hash</span>
+<span class="kw">FROM</span> <span class="str">node:20-alpine@sha256:a7ab5e2f9a12c6ba01f1c03f92f7cdb5e39d3e5c3f6c7e3b4f1234567890abcd</span>
+
+<span class="cm"># Get the digest for any image:</span>
+<span class="kw">docker inspect</span> <span class="var">--format</span><span class="str">='{{index .RepoDigests 0}}'</span> <span class="str">node:20-alpine</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 The Complete Production Readiness Checklist</div>
+        <table>
+          <tr><th>Category</th><th>Requirement</th></tr>
+          <tr><td>Image Size</td><td>☐ Multi-stage build used &nbsp; ☐ Alpine or distroless base &nbsp; ☐ .dockerignore configured</td></tr>
+          <tr><td>Security</td><td>☐ Non-root USER &nbsp; ☐ No secrets in image &nbsp; ☐ Image scanned &nbsp; ☐ Read-only filesystem</td></tr>
+          <tr><td>Reliability</td><td>☐ HEALTHCHECK defined &nbsp; ☐ Restart policy set &nbsp; ☐ Resource limits configured</td></tr>
+          <tr><td>Observability</td><td>☐ Logs to stdout/stderr &nbsp; ☐ /health endpoint exists &nbsp; ☐ Metrics exposed</td></tr>
+          <tr><td>Networking</td><td>☐ Network segmentation &nbsp; ☐ Only necessary ports exposed &nbsp; ☐ Reverse proxy in front</td></tr>
+          <tr><td>Deployment</td><td>☐ Images tagged with git SHA &nbsp; ☐ CI/CD pipeline automated &nbsp; ☐ Rollback plan exists</td></tr>
+          <tr><td>Process</td><td>☐ CMD uses exec form &nbsp; ☐ Graceful shutdown handled &nbsp; ☐ stop_grace_period set</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗺️ The Road to Kubernetes</div>
+        <p>You've now covered intermediate Docker. The next mountain is <strong>Kubernetes</strong> — the industry-standard orchestrator for large-scale container deployments. Here's what to study next, in order:</p>
+        <ol>
+          <li><strong>Core K8s objects:</strong> Pods, Deployments, Services, ConfigMaps, Secrets</li>
+          <li><strong>kubectl:</strong> The Kubernetes CLI — most concepts from docker CLI translate directly</li>
+          <li><strong>Helm:</strong> The package manager for Kubernetes (like docker-compose.yml, but for K8s)</li>
+          <li><strong>Ingress controllers:</strong> How external traffic enters a K8s cluster (Nginx Ingress, Traefik)</li>
+          <li><strong>Persistent storage in K8s:</strong> PersistentVolumes, StorageClasses — much more complex than Docker volumes</li>
+          <li><strong>K8s networking:</strong> Services, DNS, Network Policies, CNI plugins</li>
+          <li><strong>GitOps:</strong> Argo CD or Flux — declarative deployments driven by Git commits</li>
+        </ol>
+        <p>Start with <strong>minikube</strong> or <strong>k3s</strong> to run Kubernetes locally. The concepts will feel very familiar after this course.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">You deploy a new container version and it starts failing health checks. Which production pattern ensures you can quickly get back to the previous working version?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Restart the container with docker restart</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Pull the previous image by its git SHA tag and redeploy — because images are tagged with commit hashes, you can roll back to any prior version instantly</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Delete the Docker volume and restart</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Use docker logs to find the bug and hotfix it in production</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">Which of these represents a fully production-ready container configuration?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">FROM node:latest, no health check, root user, no resource limits, secrets in ENV</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Multi-stage build, non-root user, but no health check and :latest tag</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Multi-stage build, pinned digest, non-root user, HEALTHCHECK, resource limits, secrets at runtime, logs to stdout, restart: unless-stopped</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Single-stage build with all tools installed, unlimited resources, health check only</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8b"></div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Capstone Project</div>
+        <h4>Harden an Existing Application</h4>
+        <p>Take the Compose stack you built in the beginner course and apply everything from this course:</p>
+        <ol>
+          <li>Rewrite the Dockerfile as a <strong>multi-stage build</strong>. Measure the size before and after.</li>
+          <li>Add a <strong>non-root USER</strong> to the Dockerfile. Add a <strong>HEALTHCHECK</strong> that hits a <code>/health</code> endpoint in your app.</li>
+          <li>Add a <strong>/health</strong> route to your app that checks the database connection and returns 200 or 503.</li>
+          <li>Add <strong>resource limits</strong> to all services in docker-compose.yml.</li>
+          <li>Add a <strong>second Docker network</strong> and put the database on the backend-only network.</li>
+          <li>Move any secrets (passwords, keys) from the Compose file into a <strong>.env file</strong> and add it to .gitignore and .dockerignore.</li>
+          <li>Set <strong>restart: unless-stopped</strong> on all long-running services.</li>
+          <li>Run <code>docker scout quickview</code> on your final image. Fix anything critical.</li>
+        </ol>
+        <p>When you're done, your stack should pass every row of the Production Readiness Checklist above.</p>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script.js"></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
