@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Intermediate — Production Cluster Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<style>
+  :root {
+    --k8s-mid:    #4f46e5;
+    --k8s-dark:   #1e1b4b;
+    --k8s-light:  #818cf8;
+    --k8s-accent: #a78bfa;
+  }
+  .header-badge { background: linear-gradient(135deg, #4f46e5, #1e1b4b); }
+  .lesson-num::before { content: "⎈ "; opacity: 0.5; }
+
+  .prereq-box {
+    background: #eef2ff;
+    border-left: 4px solid #4f46e5;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-size: 0.93rem;
+  }
+  .prereq-box strong { color: #1e1b4b; }
+
+  .diagram {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin: 18px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 2;
+    overflow-x: auto;
+    border: 1px solid #21262d;
+  }
+  .diagram .d-blue   { color: #58a6ff; }
+  .diagram .d-green  { color: #3fb950; }
+  .diagram .d-yellow { color: #e3b341; }
+  .diagram .d-red    { color: #f85149; }
+  .diagram .d-purple { color: #bc8cff; }
+  .diagram .d-teal   { color: #39d0c8; }
+  .diagram .d-white  { color: #e6edf3; }
+  .diagram .d-indigo { color: #818cf8; }
+
+  .level-tag {
+    display: inline-block;
+    background: #4f46e522;
+    color: #4f46e5;
+    border: 1px solid #4f46e555;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .ckad-tag {
+    display: inline-block;
+    background: #f59e0b22;
+    color: #b45309;
+    border: 1px solid #f59e0b55;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .warn-box {
+    background: #fef9ec;
+    border-left: 4px solid #e3b341;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.93rem;
+  }
+  .warn-box .wi { font-size: 1.4rem; flex-shrink: 0; }
+
+  .danger-callout {
+    background: #fef2f2;
+    border-left: 4px solid #c0392b;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 18px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .danger-callout .callout-emoji { font-size: 1.4rem; }
+
+  .exam-box {
+    background: #fffbeb;
+    border: 2px solid #f59e0b;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+  .exam-box-title {
+    font-weight: 800;
+    color: #92400e;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+</style>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Intermediate · Kubernetes · CKAD Track</div>
+  <h1>Kubernetes Intermediate ⎈</h1>
+  <p>Namespaces, RBAC, autoscaling, network policies, Helm, and the full CKAD exam object model. This is where K8s gets serious.</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🗂️</span> Namespaces &amp; RBAC
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">📈</span> Autoscaling (HPA)
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">⚙️</span> Jobs &amp; CronJobs
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">🔥</span> Network Policies
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🐘</span> StatefulSets
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">⚖️</span> Quotas &amp; LimitRanges
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">🪆</span> Init &amp; Sidecar Containers
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">⛵</span> Helm
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🏆</span> CKAD Exam Prep
+    </a>
+  </nav>
+
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 1 — NAMESPACES & RBAC
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>🗂️ Namespaces &amp; RBAC <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">A fresh cluster has one flat space where everything lives together. In production, teams, environments, and security boundaries demand isolation. Namespaces and RBAC are how you build that.</p>
+      </div>
+
+      <div class="prereq-box">
+        <strong>📋 Prerequisites:</strong> Complete the Kubernetes Beginner course first. You should be comfortable with Pods, Deployments, Services, ConfigMaps, and Secrets before continuing here.
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗂️ What Are Namespaces?</div>
+        <p>A <strong>Namespace</strong> is a virtual partition inside a single Kubernetes cluster. Resources inside one namespace are isolated from resources in another — you can have a Service named <code>web</code> in <code>namespace: dev</code> and a completely separate Service also named <code>web</code> in <code>namespace: production</code>, with no conflicts.</p>
+        <p>Namespaces are how teams share a cluster without stepping on each other. Common patterns:</p>
+        <ul>
+          <li><strong>By environment:</strong> <code>dev</code>, <code>staging</code>, <code>production</code> — same cluster, isolated environments</li>
+          <li><strong>By team:</strong> <code>team-payments</code>, <code>team-auth</code>, <code>team-notifications</code></li>
+          <li><strong>By application:</strong> <code>app-frontend</code>, <code>app-backend</code>, <code>monitoring</code></li>
+        </ul>
+        <p>K8s ships with four built-in namespaces: <code>default</code> (where resources go if you don't specify), <code>kube-system</code> (K8s own components), <code>kube-public</code> (publicly readable resources), and <code>kube-node-lease</code> (node heartbeat objects).</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Working With Namespaces</span>
+        </div>
+        <pre><span class="cm"># Create namespaces</span>
+<span class="kw">kubectl create namespace</span> <span class="str">dev</span>
+<span class="kw">kubectl create namespace</span> <span class="str">production</span>
+
+<span class="cm"># Or declaratively:</span>
+<span class="cm"># apiVersion: v1</span>
+<span class="cm"># kind: Namespace</span>
+<span class="cm"># metadata:</span>
+<span class="cm">#   name: dev</span>
+
+<span class="cm"># Deploy into a specific namespace with -n flag</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">deployment.yaml</span> <span class="var">-n</span> <span class="str">production</span>
+
+<span class="cm"># List pods in a specific namespace</span>
+<span class="kw">kubectl get pods</span> <span class="var">-n</span> <span class="str">production</span>
+
+<span class="cm"># List pods across ALL namespaces</span>
+<span class="kw">kubectl get pods</span> <span class="var">--all-namespaces</span>
+<span class="kw">kubectl get pods</span> <span class="var">-A</span>            <span class="cm"># shorthand</span>
+
+<span class="cm"># Set a default namespace for your session (so you stop typing -n every time)</span>
+<span class="kw">kubectl config set-context --current</span> <span class="var">--namespace=</span><span class="str">production</span>
+
+<span class="cm"># Check which namespace is currently active</span>
+<span class="kw">kubectl config view --minify</span> <span class="var">| grep namespace</span>
+
+<span class="cm"># Cross-namespace DNS: reach a Service in another namespace</span>
+<span class="cm"># Format: &lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</span>
+<span class="cm"># Example: curl http://api-service.production.svc.cluster.local</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 RBAC — Role-Based Access Control</div>
+        <p>By default, anyone with cluster access can do anything. RBAC lets you define precisely who (users, service accounts) can do what (verbs: get, list, create, delete) on which resources (pods, deployments, secrets) in which namespaces.</p>
+        <p>RBAC has four core objects:</p>
+        <ul>
+          <li><strong>Role</strong> — A set of permissions scoped to a <em>single namespace</em>. "In namespace <code>dev</code>, allow listing Pods."</li>
+          <li><strong>ClusterRole</strong> — Same as Role, but applies <em>cluster-wide</em> across all namespaces. Used for cluster-level resources (Nodes, PersistentVolumes) that have no namespace.</li>
+          <li><strong>RoleBinding</strong> — Grants a Role to a user or ServiceAccount <em>within a namespace</em>.</li>
+          <li><strong>ClusterRoleBinding</strong> — Grants a ClusterRole to a user or ServiceAccount <em>cluster-wide</em>.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">RBAC Object Model</span>
+
+<span class="d-yellow">Role</span> (namespace-scoped)          <span class="d-purple">ClusterRole</span> (cluster-scoped)
+  └─ rules:                           └─ rules:
+       verbs: [get, list, watch]            verbs: [get, list]
+       resources: [pods, services]          resources: [nodes, persistentvolumes]
+       apiGroups: [""]
+
+        <span class="d-white">bound to a subject via</span>
+
+<span class="d-green">RoleBinding</span> (namespace-scoped)    <span class="d-teal">ClusterRoleBinding</span> (cluster-scoped)
+  └─ roleRef: → Role or ClusterRole   └─ roleRef: → ClusterRole
+  └─ subjects:                         └─ subjects:
+       - kind: User                          - kind: ServiceAccount
+       - kind: ServiceAccount               - kind: Group
+       - kind: Group
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">rbac.yaml — Role + RoleBinding Example</span>
+        </div>
+        <pre><span class="cm"># A Role that allows READ-ONLY access to Pods and logs in the "dev" namespace</span>
+<span class="kw">apiVersion:</span> <span class="str">rbac.authorization.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">Role</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">pod-reader</span>
+  <span class="kw">namespace:</span> <span class="str">dev</span>
+<span class="kw">rules:</span>
+  <span class="var">-</span> <span class="kw">apiGroups:</span> <span class="str">[""]</span>             <span class="cm"># "" = core API group (pods, services, configmaps)</span>
+    <span class="kw">resources:</span> <span class="str">["pods", "pods/log"]</span>
+    <span class="kw">verbs:</span> <span class="str">["get", "list", "watch"]</span>
+
+<span class="cm">---
+# Bind the Role to a ServiceAccount named "ci-runner" in the same namespace</span>
+<span class="kw">apiVersion:</span> <span class="str">rbac.authorization.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">RoleBinding</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">read-pods-binding</span>
+  <span class="kw">namespace:</span> <span class="str">dev</span>
+<span class="kw">subjects:</span>
+  <span class="var">-</span> <span class="kw">kind:</span> <span class="str">ServiceAccount</span>
+    <span class="kw">name:</span> <span class="str">ci-runner</span>
+    <span class="kw">namespace:</span> <span class="str">dev</span>
+<span class="kw">roleRef:</span>
+  <span class="kw">kind:</span> <span class="str">Role</span>
+  <span class="kw">name:</span> <span class="str">pod-reader</span>
+  <span class="kw">apiGroup:</span> <span class="str">rbac.authorization.k8s.io</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤖 ServiceAccounts — Identity for Pods</div>
+        <p>Every Pod that needs to call the Kubernetes API (e.g., a CI tool, a custom controller, a monitoring agent) needs a <strong>ServiceAccount</strong>. A ServiceAccount is K8s's identity system for processes — the equivalent of a user account for a Pod.</p>
+        <p>Every namespace has a <code>default</code> ServiceAccount, but best practice is to create dedicated ServiceAccounts with the minimum permissions needed for each workload. The ServiceAccount's token is automatically mounted into the Pod at <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — RBAC Verification</span>
+        </div>
+        <pre><span class="cm"># Check what the current user is allowed to do</span>
+<span class="kw">kubectl auth can-i</span> <span class="str">create pods</span>
+<span class="kw">kubectl auth can-i</span> <span class="str">delete deployments</span> <span class="var">-n</span> <span class="str">production</span>
+
+<span class="cm"># Check what a specific ServiceAccount can do (impersonate it)</span>
+<span class="kw">kubectl auth can-i</span> <span class="str">list pods</span> \
+  <span class="var">--as=system:serviceaccount:dev:ci-runner</span>
+
+<span class="cm"># List all Role and ClusterRole bindings</span>
+<span class="kw">kubectl get rolebindings</span> <span class="var">-A</span>
+<span class="kw">kubectl get clusterrolebindings</span>
+
+<span class="cm"># Create a ServiceAccount</span>
+<span class="kw">kubectl create serviceaccount</span> <span class="str">ci-runner</span> <span class="var">-n</span> <span class="str">dev</span>
+
+<span class="cm"># Quick RBAC: give a ServiceAccount edit access to a namespace</span>
+<span class="kw">kubectl create rolebinding</span> <span class="str">ci-editor</span> \
+  <span class="var">--clusterrole=edit</span> \
+  <span class="var">--serviceaccount=dev:ci-runner</span> \
+  <span class="var">-n</span> <span class="str">dev</span>
+
+<span class="cm"># Built-in ClusterRoles you can reuse:</span>
+<span class="cm"># view   — read-only access to most resources</span>
+<span class="cm"># edit   — read-write, no RBAC or secrets changes</span>
+<span class="cm"># admin  — full namespace control</span>
+<span class="cm"># cluster-admin — superuser, full cluster control</span></pre>
+      </div>
+
+      <div class="exam-box">
+        <div class="exam-box-title">⎈ CKAD Exam Focus</div>
+        <p>The exam often gives you a scenario: "Create a ServiceAccount named <code>deployer</code> in namespace <code>apps</code>. Give it permission to create and delete Deployments." You'll need to create the ServiceAccount, write a Role with the right verbs and resources, and bind them with a RoleBinding — all from memory in the terminal. Practice until this is automatic.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">You want to give a ServiceAccount read-only access to Pods in just the "staging" namespace. Which combination of objects do you need?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">ClusterRole + ClusterRoleBinding</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Role (scoped to "staging") + RoleBinding (scoped to "staging")</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">ClusterRole + RoleBinding</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Namespace + ServiceAccount only — namespaces provide isolation automatically</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">What does <code>kubectl auth can-i delete pods --as=system:serviceaccount:dev:ci-runner</code> do?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Deletes all pods as the ci-runner ServiceAccount</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Checks whether the ci-runner ServiceAccount in namespace dev has permission to delete pods, without actually doing anything</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Grants the ci-runner ServiceAccount permission to delete pods</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Lists which pods the ci-runner ServiceAccount owns</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 2 — AUTOSCALING (HPA)
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>📈 Horizontal Pod Autoscaler <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">Manually running <code>kubectl scale</code> is not a production strategy. The Horizontal Pod Autoscaler watches real metrics and scales your Deployment automatically — up when load increases, down when it drops.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ How the HPA Works</div>
+        <p>The <strong>Horizontal Pod Autoscaler (HPA)</strong> is a control loop that runs every 15 seconds. It queries the Metrics Server for current resource utilization, compares it against your target, and adjusts the replica count on the target Deployment (or StatefulSet) accordingly.</p>
+        <p>The formula K8s uses to calculate the desired replica count:</p>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HPA Scaling Formula</span>
+          </div>
+          <pre><span class="cm"># desiredReplicas = ceil( currentReplicas × (currentMetricValue / desiredMetricValue) )</span>
+
+<span class="cm"># Example: target 50% CPU, currently 3 replicas running at 80% average CPU</span>
+<span class="cm"># desiredReplicas = ceil( 3 × (80 / 50) ) = ceil(4.8) = 5 replicas</span>
+
+<span class="cm"># Another example: 5 replicas running at 20% CPU, target 50%</span>
+<span class="cm"># desiredReplicas = ceil( 5 × (20 / 50) ) = ceil(2.0) = 2 replicas → scale DOWN</span></pre>
+        </div>
+        <p>The HPA respects the <code>minReplicas</code> and <code>maxReplicas</code> bounds you set — it will never scale below the minimum or above the maximum.</p>
+      </div>
+
+      <div class="warn-box">
+        <div class="wi">⚠️</div>
+        <div><strong>Metrics Server is Required</strong><br>
+        The HPA depends on the <strong>Metrics Server</strong> being installed in your cluster. It collects CPU and memory data from the kubelet on each node. On minikube: <code>minikube addons enable metrics-server</code>. On cloud clusters (EKS, GKE, AKS) it's usually pre-installed. Without it, <code>kubectl top pods</code> won't work and HPAs will show <code>&lt;unknown&gt;</code> for current metrics.</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">hpa.yaml — CPU and Memory Autoscaling</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">autoscaling/v2</span>
+<span class="kw">kind:</span> <span class="str">HorizontalPodAutoscaler</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">web-hpa</span>
+  <span class="kw">namespace:</span> <span class="str">production</span>
+<span class="kw">spec:</span>
+  <span class="kw">scaleTargetRef:</span>
+    <span class="kw">apiVersion:</span> <span class="str">apps/v1</span>
+    <span class="kw">kind:</span> <span class="str">Deployment</span>
+    <span class="kw">name:</span> <span class="str">web-deployment</span>     <span class="cm"># The Deployment to autoscale</span>
+  <span class="kw">minReplicas:</span> <span class="str">2</span>             <span class="cm"># Never go below 2 (for availability)</span>
+  <span class="kw">maxReplicas:</span> <span class="str">20</span>            <span class="cm"># Never exceed 20 (cost ceiling)</span>
+  <span class="kw">metrics:</span>
+    <span class="cm"># Scale when average CPU across all pods exceeds 60%</span>
+    <span class="var">-</span> <span class="kw">type:</span> <span class="str">Resource</span>
+      <span class="kw">resource:</span>
+        <span class="kw">name:</span> <span class="str">cpu</span>
+        <span class="kw">target:</span>
+          <span class="kw">type:</span> <span class="str">Utilization</span>
+          <span class="kw">averageUtilization:</span> <span class="str">60</span>
+    <span class="cm"># Also scale when average memory exceeds 512Mi per pod</span>
+    <span class="var">-</span> <span class="kw">type:</span> <span class="str">Resource</span>
+      <span class="kw">resource:</span>
+        <span class="kw">name:</span> <span class="str">memory</span>
+        <span class="kw">target:</span>
+          <span class="kw">type:</span> <span class="str">AverageValue</span>
+          <span class="kw">averageValue:</span> <span class="str">512Mi</span>
+  <span class="kw">behavior:</span>
+    <span class="kw">scaleDown:</span>
+      <span class="kw">stabilizationWindowSeconds:</span> <span class="str">300</span>  <span class="cm"># Wait 5min before scaling down (prevents flapping)</span>
+      <span class="kw">policies:</span>
+        <span class="var">-</span> <span class="kw">type:</span> <span class="str">Pods</span>
+          <span class="kw">value:</span> <span class="str">2</span>                         <span class="cm"># Remove at most 2 pods per minute</span>
+          <span class="kw">periodSeconds:</span> <span class="str">60</span>
+    <span class="kw">scaleUp:</span>
+      <span class="kw">stabilizationWindowSeconds:</span> <span class="str">0</span>    <span class="cm"># Scale up immediately — don't wait</span>
+      <span class="kw">policies:</span>
+        <span class="var">-</span> <span class="kw">type:</span> <span class="str">Percent</span>
+          <span class="kw">value:</span> <span class="str">100</span>                       <span class="cm"># Can double replica count per 15s</span>
+          <span class="kw">periodSeconds:</span> <span class="str">15</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — HPA Commands</span>
+        </div>
+        <pre><span class="cm"># Create an HPA imperatively (quick way — good for the CKAD exam)</span>
+<span class="kw">kubectl autoscale deployment web-deployment</span> \
+  <span class="var">--min=2</span> <span class="var">--max=20</span> <span class="var">--cpu-percent=60</span>
+
+<span class="cm"># Watch the HPA in real time (see current vs desired replicas)</span>
+<span class="kw">kubectl get hpa</span> <span class="var">-w</span>
+
+<span class="cm"># Output columns:</span>
+<span class="cm"># NAME      REFERENCE            TARGETS   MINPODS MAXPODS REPLICAS</span>
+<span class="cm"># web-hpa   Deployment/web       45%/60%   2       20      3</span>
+
+<span class="cm"># See resource usage per pod (requires Metrics Server)</span>
+<span class="kw">kubectl top pods</span> <span class="var">-n</span> <span class="str">production</span>
+<span class="kw">kubectl top nodes</span>
+
+<span class="cm"># Generate load to test autoscaling (run in a separate terminal)</span>
+<span class="kw">kubectl run load-generator</span> \
+  <span class="var">--image=busybox</span> <span class="var">--rm -it --restart=Never</span> <span class="var">--</span> \
+  <span class="str">/bin/sh -c "while true; do wget -q -O- http://web-service; done"</span>
+
+<span class="cm"># Watch pods scale up in another terminal</span>
+<span class="kw">kubectl get pods</span> <span class="var">-w</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">📐</div>
+        <div class="callout-body">
+          <strong>Resource Requests Are Required for HPA</strong>
+          The HPA calculates CPU utilization as a percentage of the Pod's <em>requested</em> CPU, not the node's total. If your Deployment's containers don't have <code>resources.requests.cpu</code> set, the HPA has nothing to calculate a percentage against and will show <code>&lt;unknown&gt;</code>. Always set resource requests on any Deployment you intend to autoscale.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">Your HPA has minReplicas: 3, maxReplicas: 10, target CPU: 50%. Current state: 4 pods running at 90% average CPU. What does the HPA do?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Nothing — 90% is below the maximum threshold</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Scales to exactly 10 pods immediately</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Scales up: ceil(4 × 90/50) = ceil(7.2) = 8 pods</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Restarts the 4 existing pods to reduce their CPU usage</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 3 — JOBS & CRONJOBS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>⚙️ Jobs &amp; CronJobs <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">Deployments keep Pods running forever. But some workloads need to run once and finish — database migrations, report generation, data exports. That's what Jobs are for. CronJobs schedule them on a timer.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚙️ Jobs — Run to Completion</div>
+        <p>A <strong>Job</strong> creates one or more Pods and ensures they complete successfully. Unlike a Deployment (which restarts Pods if they exit), a Job considers a Pod "done" when its container exits with code 0. If it fails (non-zero exit), the Job retries it up to <code>backoffLimit</code> times.</p>
+        <p>Jobs are perfect for:</p>
+        <ul>
+          <li>Database schema migrations before a new app version rolls out</li>
+          <li>One-off data processing or ETL tasks</li>
+          <li>Sending a batch of emails or notifications</li>
+          <li>Generating a report and uploading it to cloud storage</li>
+          <li>Seeding a database with initial data</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">job.yaml — Database Migration Job</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">batch/v1</span>
+<span class="kw">kind:</span> <span class="str">Job</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">db-migration-v2</span>
+<span class="kw">spec:</span>
+  <span class="kw">completions:</span> <span class="str">1</span>          <span class="cm"># How many pods must succeed (default 1)</span>
+  <span class="kw">parallelism:</span> <span class="str">1</span>          <span class="cm"># How many pods to run simultaneously</span>
+  <span class="kw">backoffLimit:</span> <span class="str">4</span>         <span class="cm"># Retry failed pods up to 4 times before Job fails</span>
+  <span class="kw">activeDeadlineSeconds:</span> <span class="str">300</span> <span class="cm"># Kill the Job if it hasn't finished in 5 minutes</span>
+  <span class="kw">ttlSecondsAfterFinished:</span> <span class="str">3600</span> <span class="cm"># Auto-delete the Job 1 hour after it completes</span>
+  <span class="kw">template:</span>
+    <span class="kw">spec:</span>
+      <span class="kw">restartPolicy:</span> <span class="str">OnFailure</span>  <span class="cm"># REQUIRED for Jobs — Never or OnFailure only</span>
+      <span class="kw">containers:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">migrate</span>
+          <span class="kw">image:</span> <span class="str">myapp:v2.0</span>
+          <span class="kw">command:</span> <span class="str">["python", "manage.py", "migrate"]</span>
+          <span class="kw">env:</span>
+            <span class="var">-</span> <span class="kw">name:</span> <span class="str">DATABASE_URL</span>
+              <span class="kw">valueFrom:</span>
+                <span class="kw">secretKeyRef:</span>
+                  <span class="kw">name:</span> <span class="str">db-credentials</span>
+                  <span class="kw">key:</span> <span class="str">url</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🕐 CronJobs — Scheduled Jobs</div>
+        <p>A <strong>CronJob</strong> creates Jobs on a schedule defined by a <strong>cron expression</strong> — the same syntax used by Unix cron. The CronJob controller creates a new Job object at each scheduled time, which in turn creates the Pod.</p>
+        <p>Cron expression format: <code>minute hour day-of-month month day-of-week</code></p>
+        <ul>
+          <li><code>0 2 * * *</code> — Every day at 2:00 AM</li>
+          <li><code>*/15 * * * *</code> — Every 15 minutes</li>
+          <li><code>0 9 * * 1-5</code> — Weekdays at 9:00 AM</li>
+          <li><code>0 0 1 * *</code> — First day of every month at midnight</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">cronjob.yaml — Nightly Report Generator</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">batch/v1</span>
+<span class="kw">kind:</span> <span class="str">CronJob</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">nightly-report</span>
+<span class="kw">spec:</span>
+  <span class="kw">schedule:</span> <span class="str">"0 2 * * *"</span>      <span class="cm"># Run every day at 2:00 AM UTC</span>
+  <span class="kw">timeZone:</span> <span class="str">"America/Chicago"</span> <span class="cm"># K8s 1.27+ supports timezone spec</span>
+  <span class="kw">concurrencyPolicy:</span> <span class="str">Forbid</span>  <span class="cm"># Don't start a new job if the previous is still running</span>
+  <span class="kw">successfulJobsHistoryLimit:</span> <span class="str">3</span>  <span class="cm"># Keep last 3 successful Job objects</span>
+  <span class="kw">failedJobsHistoryLimit:</span> <span class="str">1</span>     <span class="cm"># Keep last 1 failed Job for debugging</span>
+  <span class="kw">startingDeadlineSeconds:</span> <span class="str">120</span>  <span class="cm"># Skip if can't start within 2min of scheduled time</span>
+  <span class="kw">jobTemplate:</span>
+    <span class="kw">spec:</span>
+      <span class="kw">backoffLimit:</span> <span class="str">2</span>
+      <span class="kw">template:</span>
+        <span class="kw">spec:</span>
+          <span class="kw">restartPolicy:</span> <span class="str">OnFailure</span>
+          <span class="kw">containers:</span>
+            <span class="var">-</span> <span class="kw">name:</span> <span class="str">report-generator</span>
+              <span class="kw">image:</span> <span class="str">myapp:v2.0</span>
+              <span class="kw">command:</span> <span class="str">["python", "generate_report.py", "--upload-s3"]</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Job and CronJob Commands</span>
+        </div>
+        <pre><span class="cm"># Apply and watch a Job run to completion</span>
+<span class="kw">kubectl apply</span> <span class="var">-f</span> <span class="str">job.yaml</span>
+<span class="kw">kubectl get jobs</span> <span class="var">-w</span>
+
+<span class="cm"># See which pods the Job created</span>
+<span class="kw">kubectl get pods</span> <span class="var">--selector=job-name=db-migration-v2</span>
+
+<span class="cm"># Read the logs from the completed job pod</span>
+<span class="kw">kubectl logs</span> <span class="var">job/</span><span class="str">db-migration-v2</span>
+
+<span class="cm"># Manually trigger a CronJob immediately (useful for testing)</span>
+<span class="kw">kubectl create job</span> <span class="str">manual-run</span> <span class="var">--from=cronjob/</span><span class="str">nightly-report</span>
+
+<span class="cm"># List CronJobs and their last schedule time</span>
+<span class="kw">kubectl get cronjobs</span>
+
+<span class="cm"># Suspend a CronJob (stops future runs without deleting it)</span>
+<span class="kw">kubectl patch cronjob nightly-report</span> <span class="var">-p</span> <span class="str">'{"spec":{"suspend":true}}'</span></pre>
+      </div>
+
+      <div class="exam-box">
+        <div class="exam-box-title">⎈ CKAD Exam Focus</div>
+        <p>Jobs and CronJobs appear on the exam regularly. Know the three <code>concurrencyPolicy</code> values cold: <code>Allow</code> (default — concurrent runs allowed), <code>Forbid</code> (skip new run if previous still running), and <code>Replace</code> (kill the running job and start a new one). Also remember that <code>restartPolicy: Always</code> is <strong>not valid</strong> for Jobs — only <code>OnFailure</code> or <code>Never</code>.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">A Job's Pod exits with a non-zero code. The Job has <code>backoffLimit: 3</code>. What happens?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Job is immediately marked as Failed with no retries</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">K8s creates a new Pod and retries the Job. After 3 total failures, the Job is marked Failed.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The same Pod is restarted in place up to 3 times</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Job succeeds — non-zero exit codes are ignored by default</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 4 — NETWORK POLICIES
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>🔥 Network Policies <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">By default, every Pod in a Kubernetes cluster can talk to every other Pod — no firewall, no restrictions. In production, that's a security disaster. Network Policies are K8s's firewall rules.</p>
+      </div>
+
+      <div class="danger-callout">
+        <div class="callout-emoji">🚨</div>
+        <div>
+          <strong>The Default is Wide Open</strong><br>
+          Without any Network Policies, a compromised Pod can reach your database, your internal APIs, your secret stores — anything in the cluster. Most K8s security incidents involve lateral movement: attacker compromises one Pod, then pivots to others freely. Network Policies stop this cold.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧠 How Network Policies Work</div>
+        <p>A NetworkPolicy selects a group of Pods (via label selectors) and defines rules for their <strong>ingress</strong> (incoming) and <strong>egress</strong> (outgoing) traffic. Once a Pod is selected by at least one NetworkPolicy, all traffic that isn't explicitly allowed is denied.</p>
+        <p>Important: Network Policies are enforced by the <strong>CNI plugin</strong> (Container Network Interface) — the networking layer of your cluster. Not all CNI plugins support Network Policies. <strong>Calico, Cilium, and Weave</strong> do. The default <code>kubenet</code> on many managed clusters does not — check your cluster's CNI before relying on them.</p>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">Network Policy Enforcement Model</span>
+
+<span class="d-white">No NetworkPolicy on a Pod:</span>
+  <span class="d-green">All ingress allowed ✓</span>   <span class="d-green">All egress allowed ✓</span>
+
+<span class="d-white">NetworkPolicy targets a Pod (ingress rule defined):</span>
+  <span class="d-green">Allowed ingress: only traffic matching the rules ✓</span>
+  <span class="d-red">All other ingress: DENIED ✗</span>
+  <span class="d-green">Egress: still fully open (no egress rule defined) ✓</span>
+
+<span class="d-white">NetworkPolicy targets a Pod (both ingress AND egress rules defined):</span>
+  <span class="d-green">Allowed ingress: only matching rules ✓</span>
+  <span class="d-red">All other ingress: DENIED ✗</span>
+  <span class="d-green">Allowed egress: only matching rules ✓</span>
+  <span class="d-red">All other egress: DENIED ✗</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">networkpolicy.yaml — Restrict Database Access</span>
+        </div>
+        <pre><span class="cm"># POLICY 1: Default-deny all ingress in the production namespace</span>
+<span class="cm"># Apply this FIRST, then selectively open traffic below</span>
+<span class="kw">apiVersion:</span> <span class="str">networking.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">NetworkPolicy</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">default-deny-ingress</span>
+  <span class="kw">namespace:</span> <span class="str">production</span>
+<span class="kw">spec:</span>
+  <span class="kw">podSelector:</span> <span class="str">{}</span>   <span class="cm"># Empty selector = select ALL pods in this namespace</span>
+  <span class="kw">policyTypes:</span>
+    <span class="var">-</span> <span class="str">Ingress</span>
+  <span class="cm"># No ingress rules defined = deny all ingress</span>
+
+<span class="cm">---
+# POLICY 2: Only allow the web Pods to reach the database Pods</span>
+<span class="kw">apiVersion:</span> <span class="str">networking.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">NetworkPolicy</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">allow-web-to-db</span>
+  <span class="kw">namespace:</span> <span class="str">production</span>
+<span class="kw">spec:</span>
+  <span class="kw">podSelector:</span>
+    <span class="kw">matchLabels:</span>
+      <span class="kw">app:</span> <span class="str">database</span>        <span class="cm"># This policy applies to database pods</span>
+  <span class="kw">policyTypes:</span>
+    <span class="var">-</span> <span class="str">Ingress</span>
+  <span class="kw">ingress:</span>
+    <span class="var">-</span> <span class="kw">from:</span>
+        <span class="var">-</span> <span class="kw">podSelector:</span>
+            <span class="kw">matchLabels:</span>
+              <span class="kw">app:</span> <span class="str">web</span>       <span class="cm"># Only Pods labeled app=web can connect</span>
+      <span class="kw">ports:</span>
+        <span class="var">-</span> <span class="kw">protocol:</span> <span class="str">TCP</span>
+          <span class="kw">port:</span> <span class="str">5432</span>         <span class="cm"># Only on the PostgreSQL port</span>
+
+<span class="cm">---
+# POLICY 3: Allow ingress from a specific namespace (e.g., monitoring)</span>
+<span class="kw">apiVersion:</span> <span class="str">networking.k8s.io/v1</span>
+<span class="kw">kind:</span> <span class="str">NetworkPolicy</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">allow-monitoring</span>
+  <span class="kw">namespace:</span> <span class="str">production</span>
+<span class="kw">spec:</span>
+  <span class="kw">podSelector:</span> <span class="str">{}</span>           <span class="cm"># All pods in production</span>
+  <span class="kw">policyTypes:</span>
+    <span class="var">-</span> <span class="str">Ingress</span>
+  <span class="kw">ingress:</span>
+    <span class="var">-</span> <span class="kw">from:</span>
+        <span class="var">-</span> <span class="kw">namespaceSelector:</span>
+            <span class="kw">matchLabels:</span>
+              <span class="kw">kubernetes.io/metadata.name:</span> <span class="str">monitoring</span>   <span class="cm"># From the monitoring namespace</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔬</div>
+        <div class="callout-body">
+          <strong>Testing Network Policies</strong>
+          Network Policies are silent — a blocked connection just times out. Use a debug pod to test: <code>kubectl run test --image=busybox --rm -it -n production -- wget -qO- --timeout=3 http://database-service:5432</code>. If it times out, the policy is working. Also useful: the <strong>Cilium Network Policy Editor</strong> at networkpolicy.io — a visual tool for building and understanding policies.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">You apply a NetworkPolicy with an empty <code>podSelector: {}</code> and <code>policyTypes: [Ingress]</code> but no ingress rules. What is the effect on all Pods in that namespace?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">No effect — empty selectors are ignored</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">All ingress and egress traffic is blocked</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">All ingress traffic is denied to every Pod in the namespace. Egress is unaffected.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Only ingress from outside the cluster is blocked; internal pod-to-pod traffic is allowed</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 5 — STATEFULSETS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🐘 StatefulSets — Ordered, Stable, Persistent <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">Deployments treat all their Pods as identical and interchangeable. StatefulSets give each Pod a permanent identity — a stable name, a stable network hostname, and its own dedicated persistent storage that follows it across rescheduling.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 Why Databases Break With Deployments</div>
+        <p>When you run PostgreSQL in a Deployment and the Pod restarts, a few things go wrong:</p>
+        <ul>
+          <li>The Pod gets a random new name (<code>postgres-7d8f9b</code>) — breaking any peer discovery in a cluster</li>
+          <li>The Pod gets a new IP — breaking connection strings that somehow relied on it</li>
+          <li>If you scaled to 3 replicas, all three would try to write to the same storage, corrupting the database</li>
+        </ul>
+        <p>StatefulSets solve these problems by guaranteeing three things that Deployments don't:</p>
+        <ul>
+          <li><strong>Stable, predictable Pod names:</strong> <code>postgres-0</code>, <code>postgres-1</code>, <code>postgres-2</code> — always, across restarts</li>
+          <li><strong>Stable network identity:</strong> Each Pod gets its own DNS entry: <code>postgres-0.postgres-service.namespace.svc.cluster.local</code></li>
+          <li><strong>Dedicated per-Pod PVCs:</strong> Each Pod gets its own PersistentVolumeClaim that travels with it. <code>postgres-0</code> always gets <code>data-postgres-0</code>, not a shared volume.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">Deployment vs StatefulSet</span>
+
+<span class="d-yellow">Deployment</span> (interchangeable pods):
+  web-7d8f9b-abc   web-7d8f9b-def   web-7d8f9b-ghi
+  <span class="d-white">random names, shared or no storage, any order</span>
+
+<span class="d-green">StatefulSet</span> (stable identity):
+  postgres-0        postgres-1        postgres-2
+  <span class="d-teal">data-postgres-0</span>   <span class="d-teal">data-postgres-1</span>   <span class="d-teal">data-postgres-2</span>
+  <span class="d-white">predictable names, own PVC each, ordered start/stop</span>
+
+<span class="d-white">DNS entries (via Headless Service):</span>
+  postgres-0.postgres.ns.svc.cluster.local → <span class="d-purple">Pod IP</span>
+  postgres-1.postgres.ns.svc.cluster.local → <span class="d-purple">Pod IP</span>
+  postgres-2.postgres.ns.svc.cluster.local → <span class="d-purple">Pod IP</span>
+
+<span class="d-white">Scale down order: 2 → 1 → 0 (reverse ordinal, graceful)</span>
+<span class="d-white">Scale up order:   0 → 1 → 2 (forward ordinal, each waits for previous)</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">statefulset.yaml — PostgreSQL StatefulSet</span>
+        </div>
+        <pre><span class="cm"># A Headless Service is required — it provides the stable DNS entries</span>
+<span class="cm"># ClusterIP: None means no load balancing — each pod gets its own DNS record</span>
+<span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Service</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">postgres</span>
+<span class="kw">spec:</span>
+  <span class="kw">clusterIP:</span> <span class="str">None</span>           <span class="cm"># Headless! No load balancing.</span>
+  <span class="kw">selector:</span>
+    <span class="kw">app:</span> <span class="str">postgres</span>
+  <span class="kw">ports:</span>
+    <span class="var">-</span> <span class="kw">port:</span> <span class="str">5432</span>
+
+<span class="cm">---</span>
+<span class="kw">apiVersion:</span> <span class="str">apps/v1</span>
+<span class="kw">kind:</span> <span class="str">StatefulSet</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">postgres</span>
+<span class="kw">spec:</span>
+  <span class="kw">serviceName:</span> <span class="str">"postgres"</span>    <span class="cm"># Must match the Headless Service name above</span>
+  <span class="kw">replicas:</span> <span class="str">3</span>
+  <span class="kw">selector:</span>
+    <span class="kw">matchLabels:</span>
+      <span class="kw">app:</span> <span class="str">postgres</span>
+  <span class="kw">template:</span>
+    <span class="kw">metadata:</span>
+      <span class="kw">labels:</span>
+        <span class="kw">app:</span> <span class="str">postgres</span>
+    <span class="kw">spec:</span>
+      <span class="kw">containers:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">postgres</span>
+          <span class="kw">image:</span> <span class="str">postgres:16-alpine</span>
+          <span class="kw">ports:</span>
+            <span class="var">-</span> <span class="kw">containerPort:</span> <span class="str">5432</span>
+          <span class="kw">env:</span>
+            <span class="var">-</span> <span class="kw">name:</span> <span class="str">POSTGRES_PASSWORD</span>
+              <span class="kw">valueFrom:</span>
+                <span class="kw">secretKeyRef:</span>
+                  <span class="kw">name:</span> <span class="str">postgres-secret</span>
+                  <span class="kw">key:</span> <span class="str">password</span>
+          <span class="kw">volumeMounts:</span>
+            <span class="var">-</span> <span class="kw">name:</span> <span class="str">data</span>
+              <span class="kw">mountPath:</span> <span class="str">/var/lib/postgresql/data</span>
+  <span class="cm"># volumeClaimTemplates creates a dedicated PVC per Pod automatically!</span>
+  <span class="kw">volumeClaimTemplates:</span>
+    <span class="var">-</span> <span class="kw">metadata:</span>
+        <span class="kw">name:</span> <span class="str">data</span>
+      <span class="kw">spec:</span>
+        <span class="kw">accessModes:</span> <span class="str">["ReadWriteOnce"]</span>
+        <span class="kw">storageClassName:</span> <span class="str">standard</span>
+        <span class="kw">resources:</span>
+          <span class="kw">requests:</span>
+            <span class="kw">storage:</span> <span class="str">10Gi</span>
+  <span class="cm"># Result: creates data-postgres-0, data-postgres-1, data-postgres-2</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">A StatefulSet named "kafka" has 3 replicas. You scale it down to 1. Which pods are terminated and in what order?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kafka-0 is terminated first, then kafka-1 (lowest ordinal first)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Two random pods are terminated simultaneously</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">kafka-2 is terminated first, then kafka-1. Highest ordinal first, one at a time.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">All three are terminated and then kafka-0 is recreated</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 6 — RESOURCE QUOTAS & LIMITRANGES
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>⚖️ Resource Quotas &amp; LimitRanges <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">Resource limits on individual Pods prevent one container from consuming too much. Quotas and LimitRanges enforce those rules at the namespace level — preventing entire teams from consuming more than their fair share of the cluster.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 ResourceQuota — Namespace-Level Caps</div>
+        <p>A <strong>ResourceQuota</strong> sets hard limits on the total amount of resources that can be consumed by all objects in a namespace. If a new Pod would push the namespace over its quota, the API server rejects it.</p>
+        <p>Quotas can cap: CPU requests and limits, memory requests and limits, number of Pods, number of Services, number of PVCs, total storage requested, and more.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">resourcequota.yaml — Team Namespace Budget</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">ResourceQuota</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">team-payments-quota</span>
+  <span class="kw">namespace:</span> <span class="str">team-payments</span>
+<span class="kw">spec:</span>
+  <span class="kw">hard:</span>
+    <span class="cm"># Compute resources (requests = guaranteed, limits = maximum)</span>
+    <span class="kw">requests.cpu:</span> <span class="str">"4"</span>          <span class="cm"># Total CPU requests across all pods: 4 cores</span>
+    <span class="kw">requests.memory:</span> <span class="str">8Gi</span>      <span class="cm"># Total memory requests: 8 GiB</span>
+    <span class="kw">limits.cpu:</span> <span class="str">"8"</span>            <span class="cm"># Total CPU limits: 8 cores</span>
+    <span class="kw">limits.memory:</span> <span class="str">16Gi</span>
+
+    <span class="cm"># Object count limits</span>
+    <span class="kw">pods:</span> <span class="str">"20"</span>                 <span class="cm"># Max 20 pods in this namespace</span>
+    <span class="kw">services:</span> <span class="str">"10"</span>
+    <span class="kw">persistentvolumeclaims:</span> <span class="str">"5"</span>
+
+    <span class="cm"># Storage limits</span>
+    <span class="kw">requests.storage:</span> <span class="str">50Gi</span>   <span class="cm"># Total storage across all PVCs</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Inspecting Quota Usage</span>
+        </div>
+        <pre><span class="cm"># See current quota usage vs limits for a namespace</span>
+<span class="kw">kubectl describe resourcequota</span> <span class="var">-n</span> <span class="str">team-payments</span>
+
+<span class="cm"># Output:</span>
+<span class="cm"># Name:              team-payments-quota</span>
+<span class="cm"># Namespace:         team-payments</span>
+<span class="cm"># Resource           Used    Hard</span>
+<span class="cm"># --------           ----    ----</span>
+<span class="cm"># limits.cpu         3       8</span>
+<span class="cm"># limits.memory      6Gi     16Gi</span>
+<span class="cm"># pods               7       20</span>
+<span class="cm"># requests.cpu       1500m   4</span>
+<span class="cm"># requests.memory    3Gi     8Gi</span>
+<span class="cm"># requests.storage   20Gi    50Gi</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📐 LimitRange — Per-Object Defaults and Bounds</div>
+        <p>A <strong>LimitRange</strong> operates at the individual resource level within a namespace. It defines:</p>
+        <ul>
+          <li><strong>Default requests and limits</strong> — applied automatically to containers that don't specify them. This prevents the <code>&lt;unknown&gt;</code> HPA problem from the Autoscaling lesson.</li>
+          <li><strong>Minimum and maximum bounds</strong> — a container can't request less than the min or more than the max. Prevents both resource starvation and runaway resource claims.</li>
+          <li><strong>Max limit-to-request ratio</strong> — prevents Pods from requesting 100m CPU but claiming a 64-core limit.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">limitrange.yaml — Namespace Defaults and Bounds</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">LimitRange</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">default-limits</span>
+  <span class="kw">namespace:</span> <span class="str">team-payments</span>
+<span class="kw">spec:</span>
+  <span class="kw">limits:</span>
+    <span class="var">-</span> <span class="kw">type:</span> <span class="str">Container</span>
+      <span class="kw">default:</span>                  <span class="cm"># Applied if container has no limits set</span>
+        <span class="kw">cpu:</span> <span class="str">500m</span>
+        <span class="kw">memory:</span> <span class="str">256Mi</span>
+      <span class="kw">defaultRequest:</span>           <span class="cm"># Applied if container has no requests set</span>
+        <span class="kw">cpu:</span> <span class="str">100m</span>
+        <span class="kw">memory:</span> <span class="str">128Mi</span>
+      <span class="kw">min:</span>                      <span class="cm"># Container must request at least this much</span>
+        <span class="kw">cpu:</span> <span class="str">50m</span>
+        <span class="kw">memory:</span> <span class="str">64Mi</span>
+      <span class="kw">max:</span>                      <span class="cm"># Container cannot claim more than this</span>
+        <span class="kw">cpu:</span> <span class="str">"2"</span>
+        <span class="kw">memory:</span> <span class="str">2Gi</span>
+      <span class="kw">maxLimitRequestRatio:</span>
+        <span class="kw">cpu:</span> <span class="str">4</span>                  <span class="cm"># Limit can be at most 4× the request</span>
+    <span class="var">-</span> <span class="kw">type:</span> <span class="str">PersistentVolumeClaim</span>
+      <span class="kw">min:</span>
+        <span class="kw">storage:</span> <span class="str">1Gi</span>
+      <span class="kw">max:</span>
+        <span class="kw">storage:</span> <span class="str">20Gi</span>           <span class="cm"># No single PVC can claim more than 20Gi</span></pre>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">A namespace has a ResourceQuota of <code>pods: "5"</code> and currently has 5 running Pods. A developer applies a new Deployment with 2 replicas. What happens?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Deployment is created and the 2 new pods are queued until space opens up</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The oldest 2 pods are evicted to make room for the new ones</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The Deployment is created but the pods fail to start — the API server rejects pod creation because it would exceed the quota. The developer sees an error.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Deployment is rejected entirely — it cannot be created at all</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 7 — INIT & SIDECAR CONTAINERS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>🪆 Init &amp; Sidecar Containers <span class="level-tag">INTERMEDIATE</span> <span class="ckad-tag">CKAD</span></h2>
+        <p class="lesson-intro">Multi-container Pods unlock powerful patterns. Init containers run setup tasks before your app starts. Sidecar containers extend it without modifying the app image itself.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚀 Init Containers — Guaranteed Setup Before Start</div>
+        <p><strong>Init containers</strong> run to completion <em>before</em> any of the main containers in a Pod start. They run in order — init-1 must finish before init-2 starts, init-2 before the main container starts. If an init container fails, the whole Pod restarts.</p>
+        <p>This ordering guarantee solves a class of race conditions that are extremely hard to handle otherwise:</p>
+        <ul>
+          <li><strong>Database migrations</strong> — wait for the DB to be ready, run migrations, then start the app</li>
+          <li><strong>Dependency checking</strong> — wait for another service to be available before starting</li>
+          <li><strong>Configuration injection</strong> — fetch a TLS cert or secret from Vault, write it to a shared volume, then the main container reads it</li>
+          <li><strong>File permission setup</strong> — chown a mounted volume directory before the app (running as non-root) tries to write to it</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">pod-with-inits.yaml — Wait for DB, Then Run Migrations</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Pod</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">app-with-init</span>
+<span class="kw">spec:</span>
+  <span class="kw">initContainers:</span>
+
+    <span class="cm"># Init 1: Wait until PostgreSQL is ready to accept connections</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">wait-for-db</span>
+      <span class="kw">image:</span> <span class="str">busybox</span>
+      <span class="kw">command:</span> <span class="str">['sh', '-c',
+        'until nc -z postgres-service 5432; do echo waiting for db; sleep 2; done']</span>
+
+    <span class="cm"># Init 2: Run database migrations (only after DB is ready)</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">run-migrations</span>
+      <span class="kw">image:</span> <span class="str">myapp:v2.0</span>
+      <span class="kw">command:</span> <span class="str">["python", "manage.py", "migrate"]</span>
+      <span class="kw">env:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">DATABASE_URL</span>
+          <span class="kw">valueFrom:</span>
+            <span class="kw">secretKeyRef:</span>
+              <span class="kw">name:</span> <span class="str">db-secret</span>
+              <span class="kw">key:</span> <span class="str">url</span>
+
+  <span class="kw">containers:</span>
+    <span class="cm"># Main container only starts after BOTH init containers succeed</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">web</span>
+      <span class="kw">image:</span> <span class="str">myapp:v2.0</span>
+      <span class="kw">ports:</span>
+        <span class="var">-</span> <span class="kw">containerPort:</span> <span class="str">8080</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔧 Sidecar Pattern — Extend Without Modifying</div>
+        <p>A <strong>sidecar</strong> is a regular container that runs alongside the main container in the same Pod — sharing its network and storage. Sidecars add capabilities to the main app without the app needing to know they exist.</p>
+        <p>The three classic multi-container patterns:</p>
+        <ul>
+          <li><strong>Sidecar</strong> — Enhances or extends the main container. Example: a log shipper that reads logs from a shared volume and forwards them to a central aggregator. The app just writes logs to disk; the sidecar handles shipping.</li>
+          <li><strong>Ambassador</strong> — Proxies network traffic for the main container. Example: a local proxy that handles service discovery, retries, and circuit breaking. The app talks to <code>localhost:8080</code>; the ambassador handles routing to the real service.</li>
+          <li><strong>Adapter</strong> — Standardizes the main container's output. Example: a container that converts proprietary metrics format into Prometheus format. The app exposes metrics its own way; the adapter translates them.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">pod-with-sidecar.yaml — Log Shipper Sidecar</span>
+        </div>
+        <pre><span class="kw">apiVersion:</span> <span class="str">v1</span>
+<span class="kw">kind:</span> <span class="str">Pod</span>
+<span class="kw">metadata:</span>
+  <span class="kw">name:</span> <span class="str">app-with-sidecar</span>
+<span class="kw">spec:</span>
+  <span class="kw">volumes:</span>
+    <span class="cm"># A shared in-memory volume both containers can read/write</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">shared-logs</span>
+      <span class="kw">emptyDir:</span> <span class="str">{}</span>
+
+  <span class="kw">containers:</span>
+    <span class="cm"># Main container: writes application logs to the shared volume</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">web-app</span>
+      <span class="kw">image:</span> <span class="str">myapp:v2.0</span>
+      <span class="kw">volumeMounts:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">shared-logs</span>
+          <span class="kw">mountPath:</span> <span class="str">/var/log/app</span>
+
+    <span class="cm"># Sidecar: reads from the shared volume and ships to Loki</span>
+    <span class="cm"># The main app has NO IDEA this is happening</span>
+    <span class="var">-</span> <span class="kw">name:</span> <span class="str">log-shipper</span>
+      <span class="kw">image:</span> <span class="str">grafana/promtail:latest</span>
+      <span class="kw">args:</span>
+        <span class="var">-</span> <span class="str">-config.file=/etc/promtail/config.yaml</span>
+      <span class="kw">volumeMounts:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">shared-logs</span>
+          <span class="kw">mountPath:</span> <span class="str">/var/log/app</span>
+          <span class="kw">readOnly:</span> <span class="str">true</span>
+      <span class="kw">resources:</span>
+        <span class="kw">requests:</span>
+          <span class="kw">cpu:</span> <span class="str">50m</span>
+          <span class="kw">memory:</span> <span class="str">32Mi</span>
+        <span class="kw">limits:</span>
+          <span class="kw">cpu:</span> <span class="str">100m</span>
+          <span class="kw">memory:</span> <span class="str">64Mi</span></pre>
+      </div>
+
+      <div class="exam-box">
+        <div class="exam-box-title">⎈ CKAD Exam Focus</div>
+        <p>Init containers appear frequently on the exam. Common tasks: "Add an init container that waits for a service to be available" or "Add an init container that copies a file to a shared emptyDir volume before the main app starts." Know that init containers have their own <code>image</code>, <code>command</code>, and <code>resources</code>, and that the main containers don't start until all inits succeed. Also know the difference between <code>emptyDir</code> (ephemeral shared volume) and a PVC.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">A Pod has two init containers and one main container. Init container 1 succeeds. Init container 2 fails. What happens?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Init container 1 is re-run, then init container 2 is retried</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Only init container 2 is retried (from scratch). Init container 1 is not re-run. The main container does not start.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The main container starts anyway — init failures are non-blocking</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The Pod is permanently marked as Failed with no retry</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 8 — HELM
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>⛵ Helm — The Kubernetes Package Manager <span class="level-tag">INTERMEDIATE</span></h2>
+        <p class="lesson-intro">Deploying a real application means managing 10-20 YAML files — Deployments, Services, ConfigMaps, Secrets, Ingress, RBAC, HPAs. Helm packages all of them into a single, versioned, configurable unit called a chart.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📦 What is Helm?</div>
+        <p>Helm is to Kubernetes what <code>apt</code> is to Ubuntu or <code>npm</code> is to Node.js — a package manager. It introduces three concepts:</p>
+        <ul>
+          <li><strong>Chart</strong> — A package of pre-configured K8s resource templates. Like a Dockerfile for your entire application stack. Charts can depend on other charts.</li>
+          <li><strong>Release</strong> — A specific instance of a chart deployed into a cluster. You can install the same chart multiple times with different names and configs — e.g., <code>helm install prod myapp/myapp</code> and <code>helm install staging myapp/myapp --set replicas=1</code>.</li>
+          <li><strong>Repository</strong> — A collection of charts hosted somewhere. Artifact Hub (artifacthub.io) is the public registry with thousands of charts for open-source tools.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Essential Helm Commands</span>
+        </div>
+        <pre><span class="cm"># Add a chart repository</span>
+<span class="kw">helm repo add</span> <span class="str">bitnami https://charts.bitnami.com/bitnami</span>
+<span class="kw">helm repo update</span>
+
+<span class="cm"># Search for charts in a repo</span>
+<span class="kw">helm search repo</span> <span class="str">bitnami/postgresql</span>
+
+<span class="cm"># See all configurable values for a chart</span>
+<span class="kw">helm show values</span> <span class="str">bitnami/postgresql</span>
+
+<span class="cm"># Install a chart as a release named "my-db" into the "production" namespace</span>
+<span class="kw">helm install</span> <span class="str">my-db bitnami/postgresql</span> \
+  <span class="var">-n</span> <span class="str">production</span> \
+  <span class="var">--set</span> <span class="str">auth.postgresPassword=mysecret</span> \
+  <span class="var">--set</span> <span class="str">primary.persistence.size=20Gi</span>
+
+<span class="cm"># Install using a values file (better than --set for many values)</span>
+<span class="kw">helm install</span> <span class="str">my-db bitnami/postgresql</span> <span class="var">-f</span> <span class="str">values-prod.yaml</span>
+
+<span class="cm"># List all deployed Helm releases</span>
+<span class="kw">helm list</span> <span class="var">-A</span>
+
+<span class="cm"># Upgrade a release (like applying new config or a new chart version)</span>
+<span class="kw">helm upgrade</span> <span class="str">my-db bitnami/postgresql</span> <span class="var">-f</span> <span class="str">values-prod.yaml</span>
+
+<span class="cm"># Roll back a release to the previous revision</span>
+<span class="kw">helm rollback</span> <span class="str">my-db 1</span>
+
+<span class="cm"># See revision history for a release</span>
+<span class="kw">helm history</span> <span class="str">my-db</span>
+
+<span class="cm"># Uninstall a release (removes all K8s objects it created)</span>
+<span class="kw">helm uninstall</span> <span class="str">my-db</span> <span class="var">-n</span> <span class="str">production</span>
+
+<span class="cm"># Preview what a chart will generate without installing (dry run)</span>
+<span class="kw">helm install</span> <span class="str">my-db bitnami/postgresql</span> <span class="var">--dry-run --debug</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏗️ Writing Your Own Chart</div>
+        <p>Charts have a specific directory structure. Helm generates this scaffold for you with <code>helm create</code>:</p>
+      </div>
+
+      <div class="diagram">
+<span class="d-blue">myapp/</span>                        <span class="d-white">← chart root directory</span>
+  <span class="d-yellow">Chart.yaml</span>                  <span class="d-white">← chart name, version, description</span>
+  <span class="d-yellow">values.yaml</span>                 <span class="d-white">← default configurable values</span>
+  <span class="d-yellow">values-prod.yaml</span>            <span class="d-white">← environment-specific overrides</span>
+  <span class="d-green">templates/</span>                  <span class="d-white">← K8s YAML with Go template syntax</span>
+    <span class="d-teal">deployment.yaml</span>           <span class="d-white">← {{ .Values.replicas }}, etc.</span>
+    <span class="d-teal">service.yaml</span>
+    <span class="d-teal">ingress.yaml</span>
+    <span class="d-teal">configmap.yaml</span>
+    <span class="d-teal">hpa.yaml</span>
+    <span class="d-teal">_helpers.tpl</span>              <span class="d-white">← reusable template snippets</span>
+    <span class="d-teal">NOTES.txt</span>                 <span class="d-white">← instructions shown after install</span>
+  <span class="d-purple">charts/</span>                     <span class="d-white">← chart dependencies (subcharts)</span>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">values.yaml + deployment template — Parameterized Config</span>
+        </div>
+        <pre><span class="cm"># values.yaml — the defaults, overridable at install time</span>
+<span class="kw">replicaCount:</span> <span class="str">3</span>
+<span class="kw">image:</span>
+  <span class="kw">repository:</span> <span class="str">myapp</span>
+  <span class="kw">tag:</span> <span class="str">"v1.2.0"</span>
+<span class="kw">service:</span>
+  <span class="kw">port:</span> <span class="str">80</span>
+<span class="kw">resources:</span>
+  <span class="kw">limits:</span>
+    <span class="kw">cpu:</span> <span class="str">500m</span>
+    <span class="kw">memory:</span> <span class="str">256Mi</span>
+<span class="kw">autoscaling:</span>
+  <span class="kw">enabled:</span> <span class="str">true</span>
+  <span class="kw">minReplicas:</span> <span class="str">2</span>
+  <span class="kw">maxReplicas:</span> <span class="str">10</span>
+
+<span class="cm">---
+# templates/deployment.yaml — uses Go template syntax to inject values</span>
+<span class="kw">apiVersion:</span> <span class="str">apps/v1</span>
+<span class="kw">kind:</span> <span class="str">Deployment</span>
+<span class="kw">spec:</span>
+  <span class="kw">replicas:</span> <span class="str">{{ .Values.replicaCount }}</span>
+  <span class="kw">template:</span>
+    <span class="kw">spec:</span>
+      <span class="kw">containers:</span>
+        <span class="var">-</span> <span class="kw">name:</span> <span class="str">{{ .Chart.Name }}</span>
+          <span class="kw">image:</span> <span class="str">"{{ .Values.image.repository }}:{{ .Values.image.tag }}"</span>
+          <span class="kw">resources:</span>
+            <span class="str">{{- toYaml .Values.resources | nindent 12 }}</span>
+
+<span class="cm"># Override at install: helm install prod . --set image.tag=v2.0.0 --set replicaCount=5</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">⛵</div>
+        <div class="callout-body">
+          <strong>Install Popular Tools Instantly</strong>
+          The fastest way to add infrastructure to your cluster is Helm. Prometheus + Grafana stack: <code>helm install monitoring prometheus-community/kube-prometheus-stack</code>. Cert-manager: <code>helm install cert-manager jetstack/cert-manager</code>. Nginx Ingress: <code>helm install ingress-nginx ingress-nginx/ingress-nginx</code>. What used to take hours of YAML wrangling is now one command with sane defaults and full configurability.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Check Your Understanding</div>
+        <div class="quiz-q">You deployed your app with <code>helm install v2 myapp/myapp</code> and it broke in production. How do you instantly get back to the previous working version?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kubectl rollout undo deployment/myapp</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">helm uninstall v2 and helm install v1 from scratch</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">helm rollback v2 1 — Helm keeps revision history and can restore any previous release state in seconds</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Re-apply the old YAML files manually with kubectl apply</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 9 — CKAD EXAM PREP
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9</div>
+        <h2>🏆 CKAD Exam Prep — Pass on the First Try</h2>
+        <p class="lesson-intro">The CKAD is a 2-hour, hands-on, terminal-only exam. No multiple choice. You get a live cluster and 15-20 real tasks to complete. Speed and muscle memory are the difference between passing and failing.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 What the CKAD Covers (Official Domains)</div>
+        <table>
+          <tr><th>Domain</th><th>Weight</th><th>Key Topics</th></tr>
+          <tr><td>Application Design &amp; Build</td><td>20%</td><td>Multi-container pods, init containers, Jobs, CronJobs, volumes</td></tr>
+          <tr><td>Application Deployment</td><td>20%</td><td>Deployments, rolling updates, Helm, blue-green strategies</td></tr>
+          <tr><td>Application Observability &amp; Maintenance</td><td>15%</td><td>Probes, logging, debugging, API deprecations</td></tr>
+          <tr><td>Application Environment, Config &amp; Security</td><td>25%</td><td>ConfigMaps, Secrets, SecurityContext, ServiceAccounts, RBAC, resource limits</td></tr>
+          <tr><td>Services &amp; Networking</td><td>20%</td><td>Services, Ingress, Network Policies</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ The Speed Toolkit — Aliases and Shortcuts</div>
+        <p>Set these up the moment the exam starts. They save hundreds of keystrokes over 2 hours:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Set These Immediately at Exam Start</span>
+        </div>
+        <pre><span class="cm"># The single most important alias — type k instead of kubectl everywhere</span>
+<span class="kw">alias</span> <span class="str">k=kubectl</span>
+
+<span class="cm"># Enable kubectl autocomplete (tab-complete resource names and types)</span>
+<span class="kw">source</span> <span class="str">&lt;(kubectl completion bash)</span>
+<span class="kw">complete</span> <span class="var">-F</span> <span class="str">__start_kubectl k</span>
+
+<span class="cm"># Set your default namespace to whatever the question specifies</span>
+<span class="kw">k config set-context --current</span> <span class="var">--namespace=</span><span class="str">target-namespace</span>
+
+<span class="cm"># Dry-run shortcut — generate YAML without creating anything</span>
+<span class="kw">export</span> <span class="str">DO="--dry-run=client -o yaml"</span>
+<span class="cm"># Usage: k run mypod --image=nginx $DO > pod.yaml</span>
+<span class="cm"># Usage: k create deploy web --image=nginx $DO > deploy.yaml</span>
+
+<span class="cm"># Set your editor to vim (faster than nano for YAML editing)</span>
+<span class="kw">export</span> <span class="str">KUBE_EDITOR="vim"</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧠 Generate, Don't Memorize — The Imperative Shortcut</div>
+        <p>The fastest CKAD approach: use imperative commands to generate a YAML scaffold, redirect it to a file, edit only what you need to change, then apply. Never write YAML from scratch.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Generate YAML Scaffolds Fast</span>
+        </div>
+        <pre><span class="cm"># Generate Pod YAML</span>
+<span class="kw">k run web</span> <span class="var">--image=nginx:alpine --port=80 --labels=app=web</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">pod.yaml</span>
+
+<span class="cm"># Generate Deployment YAML</span>
+<span class="kw">k create deploy web</span> <span class="var">--image=nginx:alpine --replicas=3</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">deploy.yaml</span>
+
+<span class="cm"># Generate Service YAML (expose a deployment)</span>
+<span class="kw">k expose deploy web</span> <span class="var">--port=80 --target-port=80 --type=ClusterIP</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">svc.yaml</span>
+
+<span class="cm"># Generate ConfigMap</span>
+<span class="kw">k create configmap app-config</span> <span class="var">--from-literal=LOG_LEVEL=info</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">cm.yaml</span>
+
+<span class="cm"># Generate Secret</span>
+<span class="kw">k create secret generic db-secret</span> <span class="var">--from-literal=password=s3cr3t</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">secret.yaml</span>
+
+<span class="cm"># Generate ServiceAccount</span>
+<span class="kw">k create serviceaccount deployer</span> <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">sa.yaml</span>
+
+<span class="cm"># Generate Role + RoleBinding (can't dry-run bind, but can generate each)</span>
+<span class="kw">k create role pod-reader</span> \
+  <span class="var">--verb=get,list,watch</span> <span class="var">--resource=pods</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">role.yaml</span>
+
+<span class="kw">k create rolebinding read-pods</span> \
+  <span class="var">--role=pod-reader</span> <span class="var">--serviceaccount=default:deployer</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">rb.yaml</span>
+
+<span class="cm"># Generate CronJob</span>
+<span class="kw">k create cronjob cleanup</span> \
+  <span class="var">--image=busybox</span> <span class="var">--schedule="0 2 * * *"</span> \
+  <span class="var">--</span> <span class="str">/bin/sh -c "echo cleaning up"</span> \
+  <span class="str">--dry-run=client -o yaml</span> <span class="var">></span> <span class="str">cj.yaml</span>
+
+<span class="cm"># Look up ANY field you forget — this is like man pages for K8s</span>
+<span class="kw">k explain pod.spec.initContainers</span>
+<span class="kw">k explain deployment.spec.strategy.rollingUpdate</span>
+<span class="kw">k explain networkpolicy.spec.ingress</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Debugging Patterns — What to Do When Things Break</div>
+        <p>A significant portion of the CKAD is debugging existing broken configurations. Work through this checklist systematically:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — The Debugging Workflow</span>
+        </div>
+        <pre><span class="cm"># Step 1: Get the big picture</span>
+<span class="kw">k get all</span> <span class="var">-n</span> <span class="str">target-namespace</span>
+
+<span class="cm"># Step 2: What's the Pod status? (CrashLoopBackOff? Pending? OOMKilled?)</span>
+<span class="kw">k get pods</span> <span class="var">-n</span> <span class="str">target-namespace</span>
+
+<span class="cm"># Step 3: Describe the failing Pod — look at Events at the bottom!</span>
+<span class="cm"># "Back-off restarting failed container" → check logs</span>
+<span class="cm"># "Insufficient cpu/memory" → quota or node capacity issue</span>
+<span class="cm"># "Failed to pull image" → wrong image name or tag</span>
+<span class="cm"># "Readiness probe failed" → app not ready on that port/path</span>
+<span class="kw">k describe pod</span> <span class="str">failing-pod-name</span>
+
+<span class="cm"># Step 4: Check the logs</span>
+<span class="kw">k logs</span> <span class="str">failing-pod-name</span>
+<span class="kw">k logs</span> <span class="str">failing-pod-name</span> <span class="var">--previous</span>    <span class="cm"># logs from the crashed previous container</span>
+
+<span class="cm"># Step 5: Get a shell in a running (or debug) pod</span>
+<span class="kw">k exec</span> <span class="var">-it</span> <span class="str">pod-name</span> <span class="var">--</span> <span class="str">sh</span>
+
+<span class="cm"># Step 6: Run a temporary debug pod</span>
+<span class="kw">k run debug</span> <span class="var">--image=busybox --rm -it --restart=Never</span> <span class="var">--</span> <span class="str">sh</span>
+
+<span class="cm"># Step 7: Test connectivity from inside the cluster</span>
+<span class="kw">k run curl-test</span> <span class="var">--image=curlimages/curl --rm -it --restart=Never</span> <span class="var">--</span> \
+  <span class="str">curl -s http://web-service.default.svc.cluster.local</span>
+
+<span class="cm"># Step 8: Edit the broken resource in place</span>
+<span class="kw">k edit pod failing-pod-name</span>
+<span class="kw">k edit deployment web</span></pre>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Capstone: Full CKAD Practice Scenario</div>
+        <h4>Time yourself — you should finish in under 25 minutes</h4>
+        <ol>
+          <li>Create namespace <code>ckad-practice</code>. Set it as your default context.</li>
+          <li>Create a ServiceAccount named <code>app-runner</code>. Create a Role that allows <code>get</code>, <code>list</code>, and <code>watch</code> on <code>pods</code> and <code>configmaps</code>. Bind it with a RoleBinding.</li>
+          <li>Create a ConfigMap named <code>app-config</code> with <code>LOG_LEVEL=debug</code> and <code>MAX_WORKERS=4</code>.</li>
+          <li>Create a Secret named <code>app-secret</code> with <code>API_KEY=abc123</code>.</li>
+          <li>Create a Deployment named <code>web</code> with 3 replicas using <code>nginx:alpine</code>. Inject the ConfigMap as env vars and the Secret as an env var. Add liveness and readiness probes on port 80, path <code>/</code>. Set resource requests and limits. Use the <code>app-runner</code> ServiceAccount.</li>
+          <li>Create a ClusterIP Service exposing the Deployment on port 80.</li>
+          <li>Create an HPA targeting 70% CPU, min 2, max 8 replicas.</li>
+          <li>Create a LimitRange setting default CPU request to 100m and default memory limit to 256Mi.</li>
+          <li>Create a NetworkPolicy that only allows ingress to the <code>web</code> pods from pods labeled <code>role=frontend</code>.</li>
+          <li>Create a CronJob that runs <code>echo "hello"</code> every 5 minutes, with <code>concurrencyPolicy: Forbid</code>.</li>
+          <li>Verify everything: <code>kubectl get all,cm,secret,hpa,netpol,cronjob,limitrange,sa,role,rolebinding -n ckad-practice</code></li>
+        </ol>
+      </div>
+
+      <div class="exam-box">
+        <div class="exam-box-title">⎈ Before You Book the Exam</div>
+        <p><strong>Must-do preparation:</strong></p>
+        <ul>
+          <li>Complete all scenarios on <strong>killer.sh</strong> (included free with your CKAD registration — 2 attempts). It's harder than the real exam. If you can pass killer.sh, you'll pass the CKAD.</li>
+          <li>Practice on <strong>KodeKloud's CKAD course</strong> — the labs give you a real cluster in the browser. Hands-on, not videos.</li>
+          <li>Know your vim basics: <code>i</code> (insert), <code>Esc</code>, <code>:wq</code> (save), <code>:q!</code> (quit no save), <code>dd</code> (delete line), <code>yy/p</code> (copy/paste), <code>:%s/old/new/g</code> (find/replace). You will be in vim on the exam.</li>
+          <li>During the exam: read each question twice, note the namespace, note the context switch command at the top of each question and run it before doing anything else.</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">On the CKAD exam, you need to create a Pod with an init container that runs <code>echo "ready"</code> before the main nginx container starts. You want to generate the base YAML quickly. What command do you run first?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Write the full Pod YAML from memory in vim</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">k run mypod --image=nginx --dry-run=client -o yaml > pod.yaml, then edit the file to add the initContainers section</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">k create initcontainer --image=busybox --command="echo ready"</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">kubectl explain pod and copy the output into a file</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz</div>
+        <div class="quiz-q">A Pod is stuck in <code>Pending</code> state. What is the most likely cause and where do you look first?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The app has a bug — check kubectl logs</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">The scheduler can't place the Pod — run kubectl describe pod and read the Events section. Common causes: insufficient CPU/memory on any node, or a ResourceQuota exceeded.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The container image is wrong — check kubectl get pod -o yaml</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">A NetworkPolicy is blocking the Pod from starting</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="../scripts/script.js"></script>
+    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
