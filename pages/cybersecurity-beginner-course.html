@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cybersecurity for Beginners — Stay Safe in a Digital World</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<link href="../css/cybersecurity-beginner-course.css" rel="stylesheet"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+<button aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation" class="menu-toggle" id="menuToggle">
+<span></span><span></span><span></span>
+</button>
+<a class="logo" href="#">
+<div class="logo-icon">🔒</div>
+<span class="logo-text">Cyber<span>Sec</span></span>
+</a>
+<div class="header-meta">
+<span class="badge">Beginner → Confident &amp; Protected</span>
+<div class="prog-wrap">
+<div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+<span class="prog-pct" id="pPct">0%</span>
+</div>
+</div>
+</header>
+
+<div class="shell">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-close">
+<span>Navigation</span>
+<button aria-label="Close navigation" id="sidebarClose">✕</button>
+</div>
+
+<div class="sb-section">Foundations</div>
+<button class="nav-btn active" onclick="go(0)"><span class="nav-num">1</span>What is Cybersecurity?</button>
+<button class="nav-btn" onclick="go(1)"><span class="nav-num">2</span>How the Internet Works</button>
+<button class="nav-btn" onclick="go(2)"><span class="nav-num">3</span>Your Digital Identity</button>
+
+<div class="sb-section">Common Threats</div>
+<button class="nav-btn" onclick="go(3)"><span class="nav-num">4</span>Phishing &amp; Social Engineering</button>
+<button class="nav-btn" onclick="go(4)"><span class="nav-num">5</span>Malware &amp; Viruses</button>
+<button class="nav-btn" onclick="go(5)"><span class="nav-num">6</span>Passwords &amp; Credential Theft</button>
+
+<div class="sb-section">Staying Protected</div>
+<button class="nav-btn" onclick="go(6)"><span class="nav-num">7</span>Strong Passwords &amp; Password Managers</button>
+<button class="nav-btn" onclick="go(7)"><span class="nav-num">8</span>Two-Factor Authentication</button>
+<button class="nav-btn" onclick="go(8)"><span class="nav-num">9</span>Safe Browsing &amp; Public Wi-Fi</button>
+<button class="nav-btn" onclick="go(9)"><span class="nav-num">10</span>Keeping Devices Updated</button>
+
+<div class="sb-section">Privacy &amp; Data</div>
+<button class="nav-btn" onclick="go(10)"><span class="nav-num">11</span>Your Data &amp; Who Wants It</button>
+<button class="nav-btn" onclick="go(11)"><span class="nav-num">12</span>Social Media Safety</button>
+
+<div class="sb-section">Next Steps</div>
+<button class="nav-btn" onclick="go(12)"><span class="nav-num">13</span>Your Security Checklist</button>
+</nav>
+
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<!-- ── LESSON 0 ── -->
+<div class="lesson active" id="L0">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 1</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>What is Cybersecurity?</h2>
+<p class="lesson-intro">You lock your front door when you leave the house. Cybersecurity is the same idea — but for your digital life. This lesson explains what it is, why it matters, and who is actually trying to get in.</p>
+
+<div class="prose">
+<p>Every time you use a phone, log into a website, send an email, or pay for something online, you are operating in digital space. That space has real value — your money, your photos, your messages, your identity. Cybersecurity is the practice of protecting all of that from people who want to steal, damage, or exploit it.</p>
+
+<h3>You don't have to be a tech expert to be a target</h3>
+<p>A common mistake people make is thinking "I'm not important enough to be hacked." That is not how it works. Attackers aren't always looking for a specific person — they cast wide nets. Automated tools scan millions of accounts looking for weak passwords, old software, or anyone who clicks the wrong link. Regular people get hit every day.</p>
+</div>
+
+<div class="grid-2">
+<div class="concept-card"><div class="concept-tag" style="color:var(--cyber)">Who</div><h4>Who are the attackers?</h4><p>Mostly criminals after money. Sometimes it's identity thieves, scammers, or even people you know. Nation-state hackers exist but rarely target everyday people.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--red)">What</div><h4>What do they want?</h4><p>Money (directly or through stolen accounts), your personal information to sell, access to your device, or to use your account to attack others.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--orange)">How</div><h4>How do they get in?</h4><p>Tricking you into clicking something, guessing or stealing your password, exploiting old software, or using information you posted publicly.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--green)">Why</div><h4>Why cybersecurity matters now</h4><p>More of your life is online than ever. Banking, healthcare records, government IDs — all digital. A breach can take months and thousands of dollars to recover from.</p></div>
+</div>
+
+<div class="prose">
+<h3>The three things security tries to protect</h3>
+<p>Security professionals talk about the <strong>CIA triad</strong> — three goals that every security decision tries to balance:</p>
+<ul>
+<li><strong>Confidentiality</strong> — Only the right people can see your information. Your bank balance is not public.</li>
+<li><strong>Integrity</strong> — Your information is accurate and hasn't been tampered with. The amount in your bank account is the real number.</li>
+<li><strong>Availability</strong> — Your information and services are there when you need them. You can log in when you need to, not just when attackers haven't shut the system down.</li>
+</ul>
+<p>You don't need to memorize this — just know that security isn't only about keeping secrets. It's also about making sure nothing is changed without your knowledge and that things work when you need them.</p>
+</div>
+
+<div class="rw-banner">
+<span class="rw-icon">📰</span>
+<div class="rw-text"><strong>Real World: The scale of the problem</strong><p>Billions of stolen credentials are available on dark web markets right now. Data breaches at major companies — banks, hospitals, retailers — expose millions of people's personal information every year. Most victims don't find out for months. This isn't rare; it's constant.</p></div>
+</div>
+
+<div class="callout tip">
+<span class="callout-ico">💡</span>
+<div class="callout-body"><strong>No software required for this course</strong><p>This is a concepts-first course. You won't need to install anything or run any programs. By the end you'll have real, practical habits — not just theory — that will protect you starting today.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">Why are everyday people targets for attackers, even if they don't consider themselves "important"?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Attackers specifically choose people with no security knowledge</button>
+<button class="quiz-opt" onclick="Q(this,true)">Automated tools cast wide nets looking for anyone with weak defenses, regardless of who they are</button>
+<button class="quiz-opt" onclick="Q(this,false)">Only people who work in finance or government get targeted</button>
+</div>
+<div class="quiz-fb" id="qf0"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" disabled>← Previous</button>
+<button class="btn btn-next" onclick="go(1)">Next: How the Internet Works →</button>
+</div>
+</div>
+
+<!-- ── LESSON 1 ── -->
+<div class="lesson" id="L1">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 2</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>How the Internet Works</h2>
+<p class="lesson-intro">You can't protect something you don't understand. This lesson gives you just enough of a mental model of the internet to understand how attackers use it against you — no technical degree required.</p>
+
+<div class="prose">
+<h3>The internet is just computers talking to each other</h3>
+<p>When you open a website, your computer sends a message to another computer (a <strong>server</strong>) somewhere in the world asking for that page. The server sends the page back. That's it. Every email, video, purchase, and login is some version of this: messages traveling between computers.</p>
+
+<p>Those messages travel through physical cables under oceans, through wireless signals, and through routers in buildings and homes. At each step, your data could theoretically be seen by someone in between — which is why encryption matters (more on that shortly).</p>
+
+<h3>IP addresses and why they matter</h3>
+<p>Every device connected to the internet has an <strong>IP address</strong> — a number that acts like a mailing address. When you visit a website, that site can see your IP address. Your internet provider (ISP) can see every site you visit. This is important to understand: browsing the internet is not automatically private.</p>
+
+<h3>What HTTPS means</h3>
+<p>When a website address starts with <code>https://</code>, the S stands for <strong>secure</strong>. The connection between your browser and that website is <strong>encrypted</strong> — scrambled so that even if someone intercepts the data in transit, they can't read it. A site with just <code>http://</code> (no S) sends your data in plain text. Never enter a password or payment information on a site without HTTPS.</p>
+</div>
+
+<div class="callout warn">
+<span class="callout-ico">⚠️</span>
+<div class="callout-body"><strong>HTTPS is not the same as "this site is safe"</strong><p>HTTPS only means your connection to the site is encrypted. It does NOT mean the website itself is trustworthy or legitimate. Scam websites use HTTPS too. Always verify you're on the right site, not just a secure connection to the wrong site.</p></div>
+</div>
+
+<div class="prose">
+<h3>DNS — the internet's phone book</h3>
+<p>When you type <code>google.com</code>, your computer doesn't actually know where Google is. It asks a <strong>DNS server</strong> to translate that name into an IP address. Attackers sometimes exploit DNS to redirect you to a fake website — you type a real address, and get sent somewhere else. This is called <strong>DNS poisoning</strong> or a <strong>DNS hijack</strong>.</p>
+
+<h3>Routers and your home network</h3>
+<p>Your home router is the gate between all your devices and the internet. Every phone, laptop, TV, and smart device in your home connects through it. If an attacker gets into your router, they can see all traffic on your network. This is why router security — keeping its software updated and using a strong password — matters more than most people realize.</p>
+</div>
+
+<div class="rw-banner">
+<span class="rw-icon">🔍</span>
+<div class="rw-text"><strong>Real World: The man-in-the-middle</strong><p>On an unsecured public Wi-Fi network, an attacker can position themselves between you and the internet — reading everything you send and receive. This is called a <strong>man-in-the-middle attack</strong>. On a coffee shop's open network, someone at the next table could be doing exactly this. Lesson 9 covers how to protect yourself.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">You see a website starting with https://. What does this guarantee?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The website is legitimate and trustworthy</button>
+<button class="quiz-opt" onclick="Q(this,false)">The website has been verified by the government</button>
+<button class="quiz-opt" onclick="Q(this,true)">Your connection to that website is encrypted, but the site itself could still be a scam</button>
+</div>
+<div class="quiz-fb" id="qf1"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(0)">← Previous</button>
+<button class="btn btn-next" onclick="go(2)">Next: Your Digital Identity →</button>
+</div>
+</div>
+
+<!-- ── LESSON 2 ── -->
+<div class="lesson" id="L2">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 3</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Foundations</span></div>
+<h2>Your Digital Identity</h2>
+<p class="lesson-intro">Your digital identity is everything online that represents you — your accounts, your data, your reputation. Understanding what makes it up is the first step to protecting it.</p>
+
+<div class="prose">
+<h3>What is your digital footprint?</h3>
+<p>Every time you use the internet, you leave traces. These traces make up your <strong>digital footprint</strong>. There are two kinds:</p>
+<ul>
+<li><strong>Active footprint</strong> — things you intentionally post: social media updates, comments, profile information, reviews you write.</li>
+<li><strong>Passive footprint</strong> — data collected about you without you actively sharing it: which sites you visit, how long you spend there, your location, what ads you click.</li>
+</ul>
+<p>Together, these create a surprisingly detailed picture of who you are, where you live, what you buy, who you know, and what you believe. Advertisers use this to target you. Criminals use this to target you too.</p>
+
+<h3>The accounts that matter most</h3>
+<p>Not all accounts are equal. Some are so important that if an attacker gets in, they can use that one account to access everything else. These are your <strong>high-value accounts</strong>:</p>
+</div>
+
+<div class="grid-2">
+<div class="concept-card"><div class="concept-tag" style="color:var(--red)">Critical</div><h4>Email account</h4><p>If someone has your email, they can reset the password to almost every other account you own. Your email is the master key to your digital life.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--red)">Critical</div><h4>Phone number</h4><p>Used for two-factor authentication and account recovery everywhere. Attackers can steal your phone number through a "SIM swap" attack.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--orange)">High value</div><h4>Bank &amp; financial accounts</h4><p>Direct access to your money. Also used to verify identity for loans and other financial actions.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--orange)">High value</div><h4>Google / Apple ID</h4><p>Tied to your devices, purchases, photos, location history, and often your payment method. A breach here is severe.</p></div>
+</div>
+
+<div class="prose">
+<h3>Have I already been breached?</h3>
+<p>There's a good chance your email address and password have already appeared in a data breach from some site you used years ago. You can check for free at <strong>haveibeenpwned.com</strong> — a legitimate, widely trusted service run by a security researcher. Just enter your email address and it will tell you which known breaches included your data.</p>
+
+<p>If you find your email in a breach: change the password for that site immediately, and change it on any other site where you used the same password.</p>
+</div>
+
+<div class="callout cyber">
+<span class="callout-ico">🔐</span>
+<div class="callout-body"><strong>Action: Check your email now</strong><p>Go to haveibeenpwned.com and enter your email address. It's free, safe, and takes 10 seconds. If your email shows up in breaches, don't panic — just start with the highest-priority accounts and work your way down.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">Why is your email account considered your most critical account to protect?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Because email contains the most personal conversations</button>
+<button class="quiz-opt" onclick="Q(this,true)">Because an attacker with your email can use "forgot password" to reset and take over almost every other account you own</button>
+<button class="quiz-opt" onclick="Q(this,false)">Because email accounts are the most commonly hacked type of account</button>
+</div>
+<div class="quiz-fb" id="qf2"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(1)">← Previous</button>
+<button class="btn btn-next" onclick="go(3)">Next: Phishing &amp; Social Engineering →</button>
+</div>
+</div>
+
+<!-- ── LESSON 3 ── -->
+<div class="lesson" id="L3">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 4</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Common Threats</span></div>
+<h2>Phishing &amp; Social Engineering</h2>
+<p class="lesson-intro">The most effective attacks don't break through technology — they trick people. Phishing is responsible for the majority of successful breaches worldwide. Learning to spot it is your single most valuable security skill.</p>
+
+<div class="prose">
+<h3>What is phishing?</h3>
+<p><strong>Phishing</strong> is when an attacker pretends to be someone you trust — your bank, Amazon, the IRS, a friend — to trick you into giving up your password, clicking a malicious link, or handing over personal information. The name comes from "fishing": they cast a hook and wait for someone to bite.</p>
+
+<p><strong>Social engineering</strong> is the broader category — any attack that manipulates human psychology rather than hacking technical systems. Phishing is the most common form, but it also includes phone calls (called <strong>vishing</strong>) and text messages (called <strong>smishing</strong>).</p>
+
+<h3>How to recognize a phishing attempt</h3>
+</div>
+
+<div class="scenario">
+<div class="scenario-label">⚠ Example Phishing Email</div>
+<p><strong>From:</strong> security@paypa1.com<br>
+<strong>Subject:</strong> URGENT: Your account has been suspended<br><br>
+Dear Customer,<br><br>
+We have detected unusual activity on your account. Your account will be permanently closed in 24 hours unless you verify your information immediately.<br><br>
+<strong>Click here to verify your account →</strong> http://paypa1-secure.net/verify<br><br>
+PayPal Security Team</p>
+</div>
+
+<div class="prose">
+<p>Red flags in that example:</p>
+<ul>
+<li>The sender domain is <code>paypa1.com</code> (the letter L replaced with the number 1) — not <code>paypal.com</code></li>
+<li>Urgent, threatening language designed to make you panic and act without thinking</li>
+<li>The link goes to <code>paypa1-secure.net</code> — not PayPal's real domain</li>
+<li>A real company will never suspend your account with only 24 hours notice via email</li>
+</ul>
+
+<h3>The golden rule</h3>
+<p>If an email, text, or call creates urgency and asks you to click a link or provide information — <strong>stop</strong>. Close the email. Open a new browser tab and go directly to the company's real website by typing the address yourself. Call the company using a number from their official website, not a number given in the message.</p>
+
+<p><strong>Never click a link in an email to log in.</strong> Always navigate there yourself.</p>
+</div>
+
+<div class="callout warn">
+<span class="callout-ico">⚠️</span>
+<div class="callout-body"><strong>Spear phishing is more dangerous</strong><p>Regular phishing is sent to millions of people at random. <strong>Spear phishing</strong> is targeted — the attacker researches you first (using your social media, LinkedIn, public records) and crafts a message that feels personal and real. "Hey, I saw you just started at Company X — here's the onboarding form" — sent by someone pretending to be HR. These are much harder to spot.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">You get an email from your bank saying your account is locked. There's a link to "verify immediately." What should you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Click the link quickly before the account is permanently locked</button>
+<button class="quiz-opt" onclick="Q(this,false)">Reply to the email and ask if it's real</button>
+<button class="quiz-opt" onclick="Q(this,true)">Close the email, open a new tab, go to your bank's website directly by typing the address, and log in there</button>
+</div>
+<div class="quiz-fb" id="qf3"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(2)">← Previous</button>
+<button class="btn btn-next" onclick="go(4)">Next: Malware &amp; Viruses →</button>
+</div>
+</div>
+
+<!-- ── LESSON 4 ── -->
+<div class="lesson" id="L4">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 5</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Common Threats</span></div>
+<h2>Malware &amp; Viruses</h2>
+<p class="lesson-intro">Malware is software designed to harm you. It gets on your device through downloads, email attachments, or infected websites — and it can do everything from slowing your computer down to locking all your files until you pay a ransom.</p>
+
+<div class="prose">
+<h3>Types of malware you should know</h3>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Type</th><th>What it does</th><th>Common source</th></tr></thead>
+<tbody>
+<tr><td>Virus</td><td>Attaches to files and spreads when you open them, damaging data</td><td>Email attachments, pirated software</td></tr>
+<tr><td>Ransomware</td><td>Encrypts all your files and demands payment to unlock them</td><td>Phishing emails, malicious downloads</td></tr>
+<tr><td>Spyware</td><td>Secretly records what you do — keystrokes, passwords, browsing</td><td>Free software bundles, fake apps</td></tr>
+<tr><td>Trojan</td><td>Disguises itself as a legitimate program to get you to install it</td><td>Fake software downloads, cracked apps</td></tr>
+<tr><td>Adware</td><td>Floods you with ads; often bundles spyware</td><td>Free apps, browser extensions</td></tr>
+<tr><td>Rootkit</td><td>Hides deeply in your system to give attackers persistent, hidden access</td><td>Compromised downloads, drive-by attacks</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="prose">
+<h3>Ransomware: the threat that has shut down hospitals</h3>
+<p>Ransomware deserves special attention because it's one of the most devastating threats today — and it hits regular people, not just corporations. You download what looks like a legitimate file. It runs in the background. Then one day you turn on your computer and every file — photos, documents, everything — is locked with a message demanding payment in cryptocurrency to get it back.</p>
+
+<p>There is often no recovery if you don't have a backup. Paying the ransom doesn't guarantee you'll get your files back. The best defense is prevention and backups.</p>
+
+<h3>How malware gets on your device</h3>
+<ul>
+<li>Opening an email attachment you weren't expecting</li>
+<li>Downloading software from unofficial or sketchy sites</li>
+<li>Installing a browser extension that turns malicious</li>
+<li>Clicking on a malicious ad (called <strong>malvertising</strong>)</li>
+<li>Visiting a compromised website that exploits old browser software</li>
+<li>Plugging in a USB drive you found or were given by someone you don't trust</li>
+</ul>
+</div>
+
+<div class="callout good">
+<span class="callout-ico">✅</span>
+<div class="callout-body"><strong>Your best defenses against malware</strong><p>Keep your operating system and apps updated. Use reputable antivirus software. Only download from official sources. Never open attachments you weren't expecting. Back up your important files to an external drive or cloud storage regularly — a backup is the only true ransomware recovery.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">Your files are locked and you see a message demanding payment to unlock them. What type of malware is this?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Spyware</button>
+<button class="quiz-opt" onclick="Q(this,false)">A Trojan</button>
+<button class="quiz-opt" onclick="Q(this,true)">Ransomware</button>
+</div>
+<div class="quiz-fb" id="qf4"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(3)">← Previous</button>
+<button class="btn btn-next" onclick="go(5)">Next: Passwords &amp; Credential Theft →</button>
+</div>
+</div>
+
+<!-- ── LESSON 5 ── -->
+<div class="lesson" id="L5">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 6</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Common Threats</span></div>
+<h2>Passwords &amp; Credential Theft</h2>
+<p class="lesson-intro">Stolen or weak passwords are the number one way attackers get into accounts. This lesson explains exactly how passwords get stolen and why the approach most people take doesn't work.</p>
+
+<div class="prose">
+<h3>How attackers steal passwords</h3>
+<p>There are several ways your password can end up in an attacker's hands — and most of them don't require any skill on their part:</p>
+
+<ul>
+<li><strong>Data breaches</strong> — A site you use gets hacked and its password database is stolen. If the site stored passwords poorly, attackers can crack them.</li>
+<li><strong>Phishing</strong> — You type your password into a fake site that looks real.</li>
+<li><strong>Credential stuffing</strong> — Attackers take usernames and passwords from one breach and automatically try them on other sites. If you use the same password everywhere, one breach compromises everything.</li>
+<li><strong>Brute force</strong> — Automated tools try every possible combination. Short, simple passwords fall in seconds.</li>
+<li><strong>Keyloggers</strong> — Malware on your device records every key you press, including passwords as you type them.</li>
+</ul>
+
+<h3>Why "Password123" gets cracked instantly</h3>
+<p>Modern computers can test billions of password guesses per second. Common words, names, dates, and simple substitutions (replacing O with 0, E with 3) are tried first because attackers know people use them. A password like <code>Summer2024!</code> sounds complex but falls in seconds — it follows a pattern everyone uses.</p>
+</div>
+
+<div class="scenario">
+<div class="scenario-label">⚡ Brute Force Speed Reality Check</div>
+<p><strong>"password"</strong> → cracked instantly<br>
+<strong>"Password1"</strong> → cracked in under 1 second<br>
+<strong>"P@ssw0rd!"</strong> → cracked in under 1 minute<br>
+<strong>"correct-horse-battery-staple"</strong> → centuries at current speeds<br>
+<strong>"x7$Kp!qL9mW#2vR"</strong> → effectively uncrackable</p>
+</div>
+
+<div class="prose">
+<h3>The password reuse trap</h3>
+<p>The most dangerous habit in digital security is using the same password across multiple sites. When any site you've ever used is breached, attackers immediately try that username and password combination on Gmail, banks, Amazon, and hundreds of other sites. This is automated and happens within hours of a breach. One breach cascades into total account loss.</p>
+
+<p>The solution — and it's the only real solution — is to use a <strong>unique password for every single account</strong>. The next lesson covers how to actually do this without going insane.</p>
+</div>
+
+<div class="callout error">
+<span class="callout-ico">🚫</span>
+<div class="callout-body"><strong>Never do these things with passwords</strong><p>Don't reuse passwords across sites. Don't use personal info (birthdays, names, pets). Don't store passwords in a text file on your desktop. Don't share passwords over email or text. Don't use "forgot password" security questions with real answers — those answers are often publicly available on social media.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">A site you used three years ago gets breached. You use the same password there as on your email and bank. What is an attacker likely to do with that password?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Nothing — the breach was for a different site, so it only affects that site</button>
+<button class="quiz-opt" onclick="Q(this,true)">Automatically try that username and password combination on Gmail, banks, and hundreds of other popular sites</button>
+<button class="quiz-opt" onclick="Q(this,false)">Sell it but it won't work elsewhere since each site has different security</button>
+</div>
+<div class="quiz-fb" id="qf5"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(4)">← Previous</button>
+<button class="btn btn-next" onclick="go(6)">Next: Password Managers →</button>
+</div>
+</div>
+
+<!-- ── LESSON 6 ── -->
+<div class="lesson" id="L6">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 7</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Staying Protected</span></div>
+<h2>Strong Passwords &amp; Password Managers</h2>
+<p class="lesson-intro">You need a unique, strong password for every account — and you have dozens of accounts. No human can memorize all of them. Password managers solve this. Here's how they work and why you should trust them.</p>
+
+<div class="prose">
+<h3>What is a password manager?</h3>
+<p>A <strong>password manager</strong> is an app that generates and stores all your passwords in an encrypted vault. You only need to remember one thing: your master password. The app handles everything else — creating long, random, unique passwords for every site and filling them in automatically when you log in.</p>
+
+<h3>What makes a password actually strong?</h3>
+<p>Two things: <strong>length</strong> and <strong>randomness</strong>. A 20-character random string is essentially uncrackable with current technology. Password managers generate these automatically. You don't need to see them or remember them — the manager stores and fills them.</p>
+
+<h3>Trusted password managers</h3>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Manager</th><th>Cost</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Bitwarden</td><td>Free / $10/yr premium</td><td>Open source, audited, highly recommended for most people</td></tr>
+<tr><td>1Password</td><td>$36/yr</td><td>Excellent design, great family plan, very popular</td></tr>
+<tr><td>Dashlane</td><td>Free / $33/yr</td><td>Good interface, includes dark web monitoring</td></tr>
+<tr><td>Apple Keychain</td><td>Free (Apple devices)</td><td>Built-in, solid, but limited to Apple ecosystem</td></tr>
+<tr><td>Google Password Manager</td><td>Free (Chrome/Android)</td><td>Convenient but ties you to Google's ecosystem</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="prose">
+<h3>"But what if the password manager gets hacked?"</h3>
+<p>This is the most common concern. Here's the reality: reputable password managers encrypt your vault with your master password <em>before</em> it ever leaves your device. Even if the company's servers are breached, attackers get encrypted data they can't read without your master password. Storing all your passwords in a manager is dramatically safer than reusing weak passwords across sites.</p>
+
+<h3>Your master password</h3>
+<p>This one password must be memorized — it's the only one you'll ever need to. Make it a <strong>passphrase</strong>: four or more random words strung together. Something like <code>correct-horse-battery-staple</code> or <code>purple-river-cloud-seven</code>. Long, random, memorable. Never use this password anywhere else.</p>
+</div>
+
+<div class="callout cyber">
+<span class="callout-ico">🎯</span>
+<div class="callout-body"><strong>Action: Set up a password manager this week</strong><p>Start with Bitwarden — it's free and takes about 10 minutes to set up. Install the browser extension, import or add your most important accounts, and let it generate new strong passwords as you go. Don't try to do everything at once. Start with your email and bank accounts.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">What is the main security concern with password managers, and why is it not a reason to avoid them?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">They can forget your passwords — but you can always reset accounts with email</button>
+<button class="quiz-opt" onclick="Q(this,true)">If the company is hacked, your vault is exposed — but reputable managers encrypt your vault locally so attackers can't read it without your master password</button>
+<button class="quiz-opt" onclick="Q(this,false)">Hackers specifically target password manager users — but there's no evidence this is true</button>
+</div>
+<div class="quiz-fb" id="qf6"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(5)">← Previous</button>
+<button class="btn btn-next" onclick="go(7)">Next: Two-Factor Authentication →</button>
+</div>
+</div>
+
+<!-- ── LESSON 7 ── -->
+<div class="lesson" id="L7">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 8</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Staying Protected</span></div>
+<h2>Two-Factor Authentication</h2>
+<p class="lesson-intro">Two-factor authentication (2FA) is the single most impactful thing you can add to your accounts after a strong password. Even if an attacker has your password, 2FA stops them cold.</p>
+
+<div class="prose">
+<h3>What is two-factor authentication?</h3>
+<p>Authentication is proving you are who you say you are. Most sites use one factor: something you <strong>know</strong> (your password). Two-factor authentication adds a second factor — something you <strong>have</strong> (your phone) or something you <strong>are</strong> (your fingerprint).</p>
+
+<p>Even if an attacker has your correct username and password, they still can't get in without the second factor. It turns a compromised password from a catastrophe into a non-event.</p>
+
+<h3>Types of 2FA — from weakest to strongest</h3>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Type</th><th>How it works</th><th>Security level</th></tr></thead>
+<tbody>
+<tr><td>SMS code</td><td>A 6-digit code texted to your phone</td><td>Weak — SIM swapping can intercept texts</td></tr>
+<tr><td>Email code</td><td>A code emailed to you</td><td>Weak — if email is compromised, so is this</td></tr>
+<tr><td>Authenticator app</td><td>App generates a code that refreshes every 30 seconds</td><td>Strong — highly recommended</td></tr>
+<tr><td>Hardware key</td><td>Physical USB/NFC device you plug in or tap</td><td>Strongest — nearly unphishable</td></tr>
+<tr><td>Passkey</td><td>Cryptographic key stored on your device; biometric verification</td><td>Strongest — the future standard</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="prose">
+<h3>Authenticator apps you should use</h3>
+<p>Download one of these on your phone. They generate codes without needing internet or cell signal:</p>
+<ul>
+<li><strong>Authy</strong> — Free, backs up your codes (important if you lose your phone)</li>
+<li><strong>Google Authenticator</strong> — Simple, widely supported</li>
+<li><strong>Microsoft Authenticator</strong> — Works well with Microsoft accounts especially</li>
+</ul>
+
+<h3>Where to enable 2FA first</h3>
+<p>Prioritize your most critical accounts: your primary email, your Google or Apple ID, your bank accounts, and any financial services. Most major platforms support it — look in account settings for "Security" or "Two-step verification."</p>
+
+<h3>Save your backup codes</h3>
+<p>When you enable 2FA, sites give you backup codes to use if you lose access to your phone. Save these somewhere safe — printed and stored physically, or in your password manager. Losing your phone without backup codes can lock you out of your accounts permanently.</p>
+</div>
+
+<div class="callout warn">
+<span class="callout-ico">⚠️</span>
+<div class="callout-body"><strong>Never read a 2FA code to someone on the phone</strong><p>A common scam: someone calls pretending to be from your bank or Google support and says they need to verify your identity by having you read them the code that just appeared on your phone. That code is real — they triggered a login attempt. Reading it to them hands them access. Legitimate companies will never ask for your 2FA code.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">Why is an authenticator app more secure than receiving 2FA codes via SMS text message?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,true)">SMS codes can be intercepted through SIM swapping attacks, where attackers convince your carrier to transfer your number to their device</button>
+<button class="quiz-opt" onclick="Q(this,false)">Authenticator apps generate longer codes that are harder to type in time</button>
+<button class="quiz-opt" onclick="Q(this,false)">Text messages travel over the internet and can be read by anyone</button>
+</div>
+<div class="quiz-fb" id="qf7"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(6)">← Previous</button>
+<button class="btn btn-next" onclick="go(8)">Next: Safe Browsing &amp; Public Wi-Fi →</button>
+</div>
+</div>
+
+<!-- ── LESSON 8 ── -->
+<div class="lesson" id="L8">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 9</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Staying Protected</span></div>
+<h2>Safe Browsing &amp; Public Wi-Fi</h2>
+<p class="lesson-intro">Your browser is your window to the internet — and a major attack surface. Public Wi-Fi makes things worse. This lesson covers how to browse safely and what to do when you're not on your home network.</p>
+
+<div class="prose">
+<h3>Browser safety basics</h3>
+<p>Your browser keeps you safer than you might realize — but only if you let it. Here's what to keep in mind:</p>
+<ul>
+<li><strong>Keep your browser updated.</strong> Browser updates patch security vulnerabilities. Running an old version is like leaving a known door unlocked.</li>
+<li><strong>Pay attention to warnings.</strong> When your browser warns you that a site is unsafe or the certificate is invalid, believe it. Don't click through.</li>
+<li><strong>Use a browser extension like uBlock Origin.</strong> It blocks malicious ads and trackers, reducing your exposure to malvertising.</li>
+<li><strong>Don't install random browser extensions.</strong> Extensions have access to everything you do in your browser. Only install from reputable sources and only what you actually need.</li>
+</ul>
+
+<h3>What is a VPN and do you need one?</h3>
+<p>A <strong>VPN (Virtual Private Network)</strong> encrypts your internet traffic and routes it through a server in another location. This hides your activity from your ISP and from anyone snooping on the same network — like on public Wi-Fi.</p>
+
+<p>VPNs are useful but not magic. They don't make you anonymous on the internet. They don't protect you from phishing or malware. The VPN company can see your traffic instead of your ISP. Use a trustworthy, paid VPN — free VPNs often sell your data.</p>
+
+<h3>Public Wi-Fi: the real risk</h3>
+<p>Coffee shops, airports, hotels — open Wi-Fi networks are convenient and dangerous. On an unsecured network, other people on the same network can potentially see your traffic. Attackers can also set up fake networks with names like "Starbucks Free WiFi" — you connect thinking it's legitimate, and they see everything.</p>
+</div>
+
+<div class="callout cyber">
+<span class="callout-ico">📶</span>
+<div class="callout-body"><strong>Rules for public Wi-Fi</strong><p>Never access your bank or any financial account on public Wi-Fi without a VPN. Never log into accounts on a public computer. If you must use public Wi-Fi regularly, get a VPN. Your phone's cellular data is significantly safer than open Wi-Fi — use it when you need to do something sensitive.</p></div>
+</div>
+
+<div class="prose">
+<h3>HTTP vs HTTPS — checking the padlock</h3>
+<p>Before entering any sensitive information on a website, check that the address bar shows <code>https://</code> and a padlock icon. In modern browsers, the padlock is always visible on secure sites. If it's missing, or if you see a warning about the connection, do not enter any information on that page.</p>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">You're at an airport and need to check your bank account. What's the safest approach?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Connect to the airport's free Wi-Fi — it should be secure since it's an official network</button>
+<button class="quiz-opt" onclick="Q(this,false)">Use the airport's Wi-Fi but make sure the banking site has HTTPS</button>
+<button class="quiz-opt" onclick="Q(this,true)">Use your phone's cellular data connection instead of the public Wi-Fi</button>
+</div>
+<div class="quiz-fb" id="qf8"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(7)">← Previous</button>
+<button class="btn btn-next" onclick="go(9)">Next: Keeping Devices Updated →</button>
+</div>
+</div>
+
+<!-- ── LESSON 9 ── -->
+<div class="lesson" id="L9">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 10</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Staying Protected</span></div>
+<h2>Keeping Devices Updated</h2>
+<p class="lesson-intro">Software updates aren't just about new features. Most updates patch security vulnerabilities that attackers actively exploit. Running old software is one of the most common ways devices get compromised.</p>
+
+<div class="prose">
+<h3>What is a vulnerability?</h3>
+<p>A <strong>vulnerability</strong> is a flaw in software — a bug that attackers can exploit to do things the software wasn't meant to allow. When researchers or attackers discover a vulnerability, the software company races to release a <strong>patch</strong> that fixes it. The update you keep dismissing is often that patch.</p>
+
+<p>Between the time a vulnerability is discovered and the time you apply the patch, you are exposed. Attackers know about known vulnerabilities and actively scan for unpatched systems. This window of exposure is called the <strong>patch gap</strong>.</p>
+
+<h3>What to keep updated</h3>
+<ul>
+<li><strong>Your operating system</strong> (Windows, macOS, iOS, Android) — this is the most critical. Enable automatic updates.</li>
+<li><strong>Your browser</strong> — modern browsers update silently and frequently. Make sure auto-update is on.</li>
+<li><strong>Your apps</strong> — especially anything that accesses the internet: email clients, productivity apps, communication tools.</li>
+<li><strong>Your router firmware</strong> — most people never do this. Log into your router's admin panel every few months and check for firmware updates.</li>
+<li><strong>Your phone</strong> — iOS and Android release security patches regularly. Don't skip them.</li>
+</ul>
+
+<h3>End of life software</h3>
+<p>When a software version reaches its <strong>end of life</strong>, the manufacturer stops releasing security patches for it. Using end-of-life software means vulnerabilities discovered after that date are never fixed. If you're running Windows 10 (which reached end of life in October 2025), an old iPhone that can't update, or any other unsupported software — you are running with known, unpatched holes that attackers actively exploit.</p>
+</div>
+
+<div class="rw-banner">
+<span class="rw-icon">💊</span>
+<div class="rw-text"><strong>Real World: WannaCry</strong><p>In 2017, a ransomware attack called WannaCry infected hundreds of thousands of computers in 150 countries — including UK hospitals that had to turn away patients. It exploited a Windows vulnerability that Microsoft had already patched. Every victim was running an unpatched version of Windows. The patch had been available for two months.</p></div>
+</div>
+
+<div class="callout good">
+<span class="callout-ico">✅</span>
+<div class="callout-body"><strong>The easiest defense: turn on automatic updates</strong><p>Enable automatic updates for your OS, browser, and apps. This removes the decision entirely and eliminates the patch gap. Yes, updates occasionally cause minor issues — but that risk is far smaller than running known-vulnerable software.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">A security update was released for your operating system two weeks ago, but you've been dismissing the notification. What risk are you accepting?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Minimal risk — attackers won't know about the vulnerability that quickly</button>
+<button class="quiz-opt" onclick="Q(this,true)">Significant risk — attackers actively scan for and exploit known vulnerabilities in unpatched systems, often within days of a patch's release</button>
+<button class="quiz-opt" onclick="Q(this,false)">No risk — the update probably just adds features, not security fixes</button>
+</div>
+<div class="quiz-fb" id="qf9"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(8)">← Previous</button>
+<button class="btn btn-next" onclick="go(10)">Next: Your Data &amp; Who Wants It →</button>
+</div>
+</div>
+
+<!-- ── LESSON 10 ── -->
+<div class="lesson" id="L10">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 11</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Privacy &amp; Data</span></div>
+<h2>Your Data &amp; Who Wants It</h2>
+<p class="lesson-intro">You are the product. Every free app, every free service collects data about you. This lesson explains who is collecting your data, what they do with it, and how to limit what you give away.</p>
+
+<div class="prose">
+<h3>The data economy</h3>
+<p>When a service is free — social media, email, search engines, apps — you are generally paying with your data. Companies collect information about what you do, what you buy, what you search for, where you go, and who you talk to. They use this to build an advertising profile and sell access to advertisers who want to reach people like you.</p>
+
+<p>This isn't inherently criminal. But it means that enormous databases of detailed personal information exist about most people — and those databases are targets for attackers. A breach at a data broker or advertising company can expose information you never even knowingly shared.</p>
+
+<h3>Types of data companies collect</h3>
+</div>
+
+<div class="grid-2">
+<div class="concept-card"><div class="concept-tag" style="color:var(--cyber)">Behavioral</div><h4>What you do</h4><p>Websites you visit, searches you make, videos you watch, ads you click, time you spend on each page.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--orange)">Location</div><h4>Where you go</h4><p>Your home, work, where you shop, where you worship, where your kids' school is. Apps with location access build a full picture.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--red)">Personal</div><h4>Who you are</h4><p>Name, age, income range, relationship status, health conditions, political views — inferred from behavior or directly shared.</p></div>
+<div class="concept-card"><div class="concept-tag" style="color:var(--purple)">Social</div><h4>Who you know</h4><p>Your contacts, your relationships, who you communicate with and how often. Apps with contact access harvest this immediately.</p></div>
+</div>
+
+<div class="prose">
+<h3>App permissions: what to actually allow</h3>
+<p>Every permission an app asks for is a data collection opportunity. Camera, microphone, location, contacts — grant these only to apps that genuinely need them to function, and use the most restrictive option available (for example, "only while using the app" instead of "always" for location).</p>
+
+<ul>
+<li>A flashlight app does not need your contacts or location.</li>
+<li>A game does not need your camera or microphone.</li>
+<li>A weather app needs your location once — not constant background access.</li>
+</ul>
+
+<p>Review your app permissions periodically. On iPhone: Settings → Privacy. On Android: Settings → Apps → Permissions.</p>
+</div>
+
+<div class="callout tip">
+<span class="callout-ico">💡</span>
+<div class="callout-body"><strong>Data minimization: give less</strong><p>Use a separate email address for signups and newsletters — not your primary email. Use a VPN to hide your browsing from your ISP. Use a privacy-focused browser like Firefox or Brave. Use a privacy-focused search engine like DuckDuckGo. Each step reduces your footprint.</p></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">A free game app asks for permission to access your contacts and microphone. What should you do?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Allow both — it's probably needed for social features and in-game chat</button>
+<button class="quiz-opt" onclick="Q(this,false)">Allow microphone but deny contacts — games need voice chat</button>
+<button class="quiz-opt" onclick="Q(this,true)">Deny both — a game has no legitimate reason to access your contacts or microphone, and these permissions enable data harvesting</button>
+</div>
+<div class="quiz-fb" id="qf10"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(9)">← Previous</button>
+<button class="btn btn-next" onclick="go(11)">Next: Social Media Safety →</button>
+</div>
+</div>
+
+<!-- ── LESSON 11 ── -->
+<div class="lesson" id="L11">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 12</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Privacy &amp; Data</span></div>
+<h2>Social Media Safety</h2>
+<p class="lesson-intro">Social media is the richest source of personal information attackers use to craft convincing scams, guess security questions, and build profiles for identity theft. What you post publicly matters more than most people realize.</p>
+
+<div class="prose">
+<h3>What attackers harvest from social media</h3>
+<p>Think about what's typically on a public social media profile:</p>
+<ul>
+<li>Your full name, birthday, hometown</li>
+<li>Where you work or go to school</li>
+<li>Your family members' names</li>
+<li>Your pet's name (a very common password ingredient)</li>
+<li>Where you are — and when you're not home</li>
+<li>Your political and religious views</li>
+<li>Your friends and their relationships to you</li>
+</ul>
+<p>Every piece of this is useful to an attacker. Your pet's name answers a common security question. Your birthday and hometown combined with your name is enough to start an identity theft attempt. A post saying you're on vacation tells a local burglar your house is empty.</p>
+
+<h3>Privacy settings are not optional</h3>
+<p>Go through the privacy settings on every social platform you use. Set your posts to friends only. Remove your birthday from public view. Disable location sharing in posts. Don't allow strangers to see your friends list — it's a social engineering goldmine.</p>
+
+<h3>Think before you post</h3>
+<p>Ask yourself: if a stranger saw this, what could they learn about me? A photo of your new car with the license plate visible. A post tagged at your home. A photo of your kids with their school name on a jersey. These seem harmless individually but create a detailed profile in aggregate.</p>
+</div>
+
+<div class="callout warn">
+<span class="callout-ico">⚠️</span>
+<div class="callout-body"><strong>Friend requests from strangers</strong><p>Fake accounts built to collect data from people who accept requests from strangers are extremely common. A profile with few posts, a profile picture of an attractive person, and mutual friends you barely know — these are red flags. Don't accept requests from people you don't know in real life.</p></div>
+</div>
+
+<div class="prose">
+<h3>Third-party app connections</h3>
+<p>Every time you use "Login with Facebook" or "Login with Google," you're granting that app access to some of your social profile data. Periodically review which apps have access to your social accounts and revoke anything you no longer use. On Facebook: Settings → Apps and Websites. On Google: myaccount.google.com → Third-party apps.</p>
+</div>
+
+<div class="quiz">
+<div class="quiz-eyebrow">Quick Check</div>
+<div class="quiz-q">You post on Instagram: "Finally on vacation in Cancun! Two weeks of no responsibilities 🌴" — what security risk does this create?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">None — social media posts are only seen by people you trust</button>
+<button class="quiz-opt" onclick="Q(this,false)">It gives away your location which could be used for digital attacks while traveling</button>
+<button class="quiz-opt" onclick="Q(this,true)">It signals to anyone watching that your home is empty for two weeks, and if your profile is public, that includes strangers</button>
+</div>
+<div class="quiz-fb" id="qf11"></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(10)">← Previous</button>
+<button class="btn btn-next" onclick="go(12)">Next: Your Security Checklist →</button>
+</div>
+</div>
+
+<!-- ── LESSON 12 ── -->
+<div class="lesson" id="L12">
+<div class="lesson-eyebrow"><span class="eyebrow-num">Lesson 13</span><span class="eyebrow-dot"></span><span class="eyebrow-cat">Next Steps</span></div>
+<h2>Your Security Checklist</h2>
+<p class="lesson-intro">You've covered the concepts. Now turn them into action. This checklist is ordered by impact — do the top items first. Each one makes a real difference.</p>
+
+<div class="checklist">
+<h4>🔑 Accounts &amp; Passwords</h4>
+<div class="check-item">Set up a password manager (Bitwarden is free and excellent)</div>
+<div class="check-item">Change your email account password to a unique, strong one generated by your password manager</div>
+<div class="check-item">Change your bank and financial account passwords to unique ones</div>
+<div class="check-item">Check haveibeenpwned.com with your email — address any breaches found</div>
+<div class="check-item">Stop reusing passwords — use your password manager for every new login</div>
+</div>
+
+<div class="checklist">
+<h4>🔒 Two-Factor Authentication</h4>
+<div class="check-item">Install an authenticator app (Authy is recommended — it backs up your codes)</div>
+<div class="check-item">Enable 2FA on your primary email account</div>
+<div class="check-item">Enable 2FA on your Google or Apple ID</div>
+<div class="check-item">Enable 2FA on your bank accounts (use app-based, not SMS if possible)</div>
+<div class="check-item">Save backup codes somewhere safe (printed or in your password manager)</div>
+</div>
+
+<div class="checklist">
+<h4>🖥 Devices &amp; Software</h4>
+<div class="check-item">Enable automatic updates on your phone, computer, and browser</div>
+<div class="check-item">Check if your router firmware is current — log in to the admin panel and check</div>
+<div class="check-item">Install a reputable antivirus/security suite if on Windows</div>
+<div class="check-item">Review app permissions on your phone — revoke anything unnecessary</div>
+</div>
+
+<div class="checklist">
+<h4>🌐 Browsing &amp; Network</h4>
+<div class="check-item">Install uBlock Origin in your browser</div>
+<div class="check-item">Never access financial accounts on public Wi-Fi without a VPN</div>
+<div class="check-item">Always verify https:// before entering any sensitive information</div>
+<div class="check-item">Consider a paid VPN if you frequently use public networks</div>
+</div>
+
+<div class="checklist">
+<h4>📱 Social Media &amp; Privacy</h4>
+<div class="check-item">Set all social media posts to friends-only visibility</div>
+<div class="check-item">Remove your birthday, hometown, and other identifying info from public view</div>
+<div class="check-item">Review and revoke third-party app access on Facebook and Google</div>
+<div class="check-item">Use a separate email address for newsletters, signups, and shopping</div>
+</div>
+
+<div class="prose">
+<h3>Where to go from here</h3>
+<p>You now understand how threats work and have the practical habits that protect most people from most attacks. Cybersecurity doesn't require perfection — it requires being harder to attack than the next person. The checklist above achieves that.</p>
+
+<p>If you want to go deeper, these are legitimate next areas to explore:</p>
+<ul>
+<li><strong>Home network security</strong> — securing your router, setting up a guest network for IoT devices</li>
+<li><strong>Backups</strong> — the 3-2-1 backup strategy (3 copies, 2 different media, 1 offsite)</li>
+<li><strong>Privacy tools</strong> — Tor browser, encrypted messaging (Signal), encrypted email (ProtonMail)</li>
+<li><strong>Threat modeling</strong> — thinking systematically about who specifically might target you and why</li>
+</ul>
+</div>
+
+<div class="rw-banner">
+<span class="rw-icon">🏆</span>
+<div class="rw-text"><strong>You're done — and significantly safer</strong><p>Most people never take any of the steps in this checklist. By completing even the top tier, you've made yourself a significantly harder target than the average internet user. Attackers look for easy wins — and you just stopped being one.</p></div>
+</div>
+
+<div class="lesson-nav">
+<button class="btn btn-prev" onclick="go(11)">← Previous</button>
+<button class="btn btn-next" disabled>Course Complete ✓</button>
+</div>
+</div>
+
+</main>
+</div>
+
+<a href="../index.html" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" style="position:fixed;bottom:24px;left:24px;z-index:999999;display:flex;align-items:center;gap:8px;background:#161b22;color:#e6edf3;text-decoration:none;padding:10px 18px;border-radius:50px;font-family:sans-serif;font-size:13px;font-weight:600;border:1px solid #30363d;box-shadow:0 8px 16px rgba(0,0,0,0.4);transition:all 0.2s;">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+Roadmap
+</a>
+
+<script>
+(function() {
+  const TOTAL = 13;
+  let current = 0;
+  const done = new Set([0]);
+
+  window.go = function(idx) {
+    const oldLesson = document.getElementById('L' + current);
+    const newLesson = document.getElementById('L' + idx);
+    if (!newLesson) return;
+    if (oldLesson) oldLesson.classList.remove('active');
+    newLesson.classList.add('active');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns[current].classList.remove('active');
+    navBtns[idx].classList.add('active');
+    done.add(idx);
+    navBtns.forEach((btn, i) => { if (done.has(i)) btn.classList.add('done'); });
+    current = idx;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.Q = function(btn, correct) {
+    const block = btn.closest('.quiz');
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(b => b.disabled = true);
+    if (!correct) btn.classList.add('wrong');
+    else btn.classList.add('correct');
+    const lessonDiv = btn.closest('.lesson');
+    const li = lessonDiv.id.replace('L', '');
+    const fb = document.getElementById('qf' + li);
+    if (fb) {
+      fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'bad');
+      fb.textContent = correct ? '✓ Correct!' : '✗ Not quite — re-read the lesson and try again.';
+    }
+  };
+
+  function updateProgress() {
+    const pct = Math.round((done.size / TOTAL) * 100);
+    const fill = document.getElementById('pFill');
+    const pctTxt = document.getElementById('pPct');
+    if (fill) fill.style.width = pct + '%';
+    if (pctTxt) pctTxt.textContent = pct + '%';
+  }
+
+  (function() {
+    const toggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const closeBtn = document.getElementById('sidebarClose');
+    function openDrawer() { sidebar.classList.add('open'); overlay.classList.add('open'); toggle.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+    function closeDrawer() { sidebar.classList.remove('open'); overlay.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+    toggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeDrawer() : openDrawer());
+    overlay.addEventListener('click', closeDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    sidebar.addEventListener('click', e => { if (e.target.classList.contains('nav-btn') && window.innerWidth <= 860) closeDrawer(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+  })();
+
+  window.addEventListener('DOMContentLoaded', updateProgress);
+})();
+</script>
+</body>
+</html>
