@@ -32,7 +32,7 @@
 <!-- ══════════════════════ HOME ══════════════════════ -->
 <div id="homeView">
 <div class="home-hero">
-  <h1>Six things that make you a<br><em>real Java developer</em></h1>
+  <h1>Seven things that make you a<br><em>real Java developer</em></h1>
   <p>You know Java syntax. You can write classes, loops, and methods. This portal covers the six topics that separate someone who knows Java from someone who <em>works</em> in Java — the things every professional codebase uses daily.</p>
   <div class="prereq-bar"><strong>Prerequisite:</strong>&nbsp;Java beginner course complete — variables, OOP, collections, exceptions, file I/O</div>
 </div>
@@ -138,6 +138,23 @@
       <span class="mc-lessons">4 lessons</span>
       <div class="mc-prog-track"><div class="mc-prog-fill" id="mp5" style="background:var(--m5)"></div></div>
       <button class="mc-start" style="background:var(--m5);color:#fff">Start →</button>
+    </div>
+  </div>
+
+  <div class="module-card" id="card6" onclick="openModule(6)" style="--mc:var(--m6)">
+    <div class="mc-head">
+      <span class="mc-icon">🧪</span>
+      <span class="mc-badge" style="background:var(--m6d);color:var(--m6);border:1px solid var(--m6b)">Module 7</span>
+    </div>
+    <div class="mc-title">Unit Testing (JUnit)</div>
+    <div class="mc-desc">Write tests that actually prove your code works. JUnit 5, Mockito, and Test-Driven Development — the skills that separate "it works on my machine" from a codebase teams can trust.</div>
+    <div class="mc-topics">
+      <span class="mc-topic">JUnit 5 assertions</span><span class="mc-topic">mocking</span><span class="mc-topic">parameterized tests</span><span class="mc-topic">TDD</span>
+    </div>
+    <div class="mc-footer">
+      <span class="mc-lessons">6 lessons</span>
+      <div class="mc-prog-track"><div class="mc-prog-fill" id="mp6" style="background:var(--m6)"></div></div>
+      <button class="mc-start" style="background:var(--m6);color:#000">Start →</button>
     </div>
   </div>
 
@@ -1644,7 +1661,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
     .<span class="fn">build</span>();</pre></div>
 <div class="challenge" style="background:var(--m5d);border-color:var(--m5b)">
 <div class="ch-lbl" style="color:var(--m5)">Module Challenge — and Portal Capstone</div>
-<h4>Refactor the Task Manager with all 6 modules</h4>
+<h4>Refactor the Task Manager with all 7 modules</h4>
 <p>This is the capstone challenge for the entire portal. Apply what you've learned across all modules:</p>
 <ul>
 <li><strong>Generics</strong> — create a generic <code>Repository<T extends Identifiable></code> that TaskManager uses</li>
@@ -1655,6 +1672,7 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
 <li><strong>Concurrency</strong> — make TaskManager thread-safe using <code>CopyOnWriteArrayList</code> and demonstrate two threads adding/reading tasks simultaneously</li>
 <li><strong>Factory</strong> — create a <code>TaskFactory</code> that creates tasks from a config map</li>
 <li><strong>Builder</strong> — create a <code>Task.Builder</code> for constructing tasks with many optional fields</li>
+<li><strong>Unit Testing</strong> — write a full JUnit 5 + Mockito test suite for <code>TaskFactory</code> and <code>Repository</code>, built test-first using the Red-Green-Refactor cycle from Module 7</li>
 </ul>
 </div>
 <div class="quiz"><div class="quiz-lbl" style="color:var(--m5)">Quick Check</div>
@@ -1664,6 +1682,285 @@ n.<span class="fn">send</span>(<span class="str">"Your task is overdue!"</span>)
 <button class="quiz-opt" onclick="Q(this,true)">Builder — a fluent API that constructs a complex immutable object step by step, with build() at the end</button>
 <button class="quiz-opt" onclick="Q(this,false)">Singleton — because there's only one HttpClient</button>
 </div><div class="quiz-fb" id="qf_5_3"></div></div>`
+    }
+  ]
+}
+,
+// ─────────────────────────── MODULE 6: UNIT TESTING (JUNIT) ───────────────────────────
+{
+  id:6, icon:'🧪', title:'Unit Testing (JUnit)', accent:'var(--m6)', accentD:'var(--m6d)', accentB:'var(--m6b)',
+  lessons:[
+    {
+      title:'Why Unit Testing Matters',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 1 of 6</span></div>
+<h2>Why <em style="color:var(--m6)">Unit Testing</em> Matters</h2>
+<p class="lesson-intro" style="border-color:var(--m6)">A unit test is a small, automated check that proves one piece of your code — usually a single method — behaves the way you expect, without a human clicking through the app. It runs in milliseconds and either passes or fails.</p>
+<div class="prose">
+<p>Without tests, the only way to know your code works is to run the whole application and poke at it by hand. That doesn't scale, and it does nothing to stop you from breaking <code>InventoryManager</code> six weeks from now while fixing an unrelated bug in <code>DialogueSystem</code>. A good test suite catches that regression in under a second — before it ever reaches a user.</p>
+<p>Tests are usually organised as a pyramid: many fast <strong>unit tests</strong> (one class in isolation), some <strong>integration tests</strong> (multiple units working together, like a service talking to a real database), and few slow <strong>end-to-end tests</strong> (driving the whole app like a user would). This module is entirely about the base of that pyramid.</p>
+</div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname" style="--dot-color:var(--m6)">pom.xml</span><span class="code-tag">Adding JUnit 5 to a Maven project</span></div>
+<pre><span class="cm">&lt;!-- pom.xml --&gt;</span>
+<span class="kw">&lt;dependency&gt;</span>
+  <span class="kw">&lt;groupId&gt;</span>org.junit.jupiter<span class="kw">&lt;/groupId&gt;</span>
+  <span class="kw">&lt;artifactId&gt;</span>junit-jupiter<span class="kw">&lt;/artifactId&gt;</span>
+  <span class="kw">&lt;version&gt;</span>5.10.2<span class="kw">&lt;/version&gt;</span>
+  <span class="kw">&lt;scope&gt;</span>test<span class="kw">&lt;/scope&gt;</span>
+<span class="kw">&lt;/dependency&gt;</span></pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">DamageCalculatorTest.java</span><span class="code-tag">Your first JUnit 5 test</span></div>
+<pre><span class="kw">import</span> <span class="cl">org.junit.jupiter.api.Test</span>;
+<span class="kw">import static</span> <span class="cl">org.junit.jupiter.api.Assertions</span>.*;
+
+<span class="kw">class</span> <span class="cl">DamageCalculatorTest</span> {
+
+    <span class="ann">@Test</span>
+    <span class="kw">void</span> <span class="fn">criticalHit_doublesBaseDamage</span>() {
+        <span class="cl">DamageCalculator</span> calc <span class="op">=</span> <span class="kw">new</span> <span class="cl">DamageCalculator</span>();
+        <span class="kw">int</span> result <span class="op">=</span> calc.<span class="fn">applyCritical</span>(<span class="num">20</span>);
+        <span class="fn">assertEquals</span>(<span class="num">40</span>, result);
+    }
+}</pre></div>
+<p class="prose">JUnit finds every <code>@Test</code>-annotated method through reflection, runs each one in its own fresh instance of the class, and reports pass or fail based on whether an assertion or exception fired. Tests live under <code>src/test/java</code>, mirroring the same package as the class they test — <code>DamageCalculator</code> gets tested by <code>DamageCalculatorTest</code>, same package, separate source root.</p>
+<div class="callout good"><span class="callout-ico">✅</span><div class="callout-body"><strong>a test is an executable specification</strong><p>A passing test doesn't just check code — it documents what the code is supposed to do, in a form that can never go silently stale, because it fails the instant reality disagrees with it.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">Why do teams aim for <em>many</em> unit tests but only a <em>few</em> end-to-end tests?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">Unit tests are more important, so end-to-end tests are optional</button>
+<button class="quiz-opt" onclick="Q(this,true)">Unit tests are fast, cheap, and pinpoint failures precisely — end-to-end tests are slow and brittle, so you want just enough to cover full workflows</button>
+<button class="quiz-opt" onclick="Q(this,false)">JUnit can only run unit tests, not end-to-end tests</button>
+</div><div class="quiz-fb" id="qf_6_0"></div></div>`
+    },
+    {
+      title:'Assertions & Test Anatomy',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 2 of 6</span></div>
+<h2>Assertions <em style="color:var(--m6)">&amp; Test Anatomy</em></h2>
+<p class="lesson-intro" style="border-color:var(--m6)">Every test follows the same shape — <strong>Arrange, Act, Assert (AAA)</strong>: set up data, call the method under test, then check the result. Assertions are how a test actually decides pass or fail.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">Assertions.java</span><span class="code-tag">The core assertion toolbox</span></div>
+<pre><span class="fn">assertEquals</span>(expected, actual);           <span class="cm">// expected FIRST, actual SECOND</span>
+<span class="fn">assertTrue</span>(condition);
+<span class="fn">assertFalse</span>(condition);
+<span class="fn">assertNull</span>(value);
+<span class="fn">assertNotNull</span>(value);
+<span class="fn">assertArrayEquals</span>(expectedArr, actualArr);
+<span class="fn">assertThrows</span>(SomeException.<span class="kw">class</span>, () -&gt; riskyCall());</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">AccountTest.java</span><span class="code-tag">assertAll — check several things, see every failure</span></div>
+<pre><span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">newCharacter_hasCorrectDefaults</span>() {
+    <span class="cl">Character</span> c <span class="op">=</span> <span class="kw">new</span> <span class="cl">Character</span>(<span class="str">"Rootwarden"</span>);
+    <span class="fn">assertAll</span>(<span class="str">"character defaults"</span>,
+        () -&gt; <span class="fn">assertEquals</span>(<span class="num">1</span>, c.<span class="fn">getLevel</span>()),
+        () -&gt; <span class="fn">assertEquals</span>(<span class="num">100</span>, c.<span class="fn">getHealth</span>()),
+        () -&gt; <span class="fn">assertTrue</span>(c.<span class="fn">isAlive</span>())
+    );
+}</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">AccountTest.java</span><span class="code-tag">assertThrows — testing that bad input is rejected</span></div>
+<pre><span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">withdraw_moreThanBalance_throwsException</span>() {
+    <span class="cl">Account</span> acc <span class="op">=</span> <span class="kw">new</span> <span class="cl">Account</span>(<span class="num">50</span>);
+    <span class="kw">var</span> ex <span class="op">=</span> <span class="fn">assertThrows</span>(<span class="cl">InsufficientFundsException</span>.<span class="kw">class</span>,
+        () -&gt; acc.<span class="fn">withdraw</span>(<span class="num">100</span>));
+    <span class="fn">assertEquals</span>(<span class="str">"Insufficient funds"</span>, ex.<span class="fn">getMessage</span>());
+}</pre></div>
+<div class="callout warn"><span class="callout-ico">⚠️</span><div class="callout-body"><strong>argument order matters</strong><p><code>assertEquals</code> takes <strong>expected, then actual</strong>. Swap them and your failure messages will read backwards — "expected X but was Y" with X and Y flipped — which wastes real debugging time.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">What does <code>assertThrows(InsufficientFundsException.class, () -&gt; acc.withdraw(100))</code> actually verify?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">That withdraw(100) runs without crashing the JVM</button>
+<button class="quiz-opt" onclick="Q(this,true)">That calling withdraw(100) throws exactly an InsufficientFundsException — and returns it so you can inspect it further</button>
+<button class="quiz-opt" onclick="Q(this,false)">That the account balance becomes negative 100</button>
+</div><div class="quiz-fb" id="qf_6_1"></div></div>`
+    },
+    {
+      title:'Test Lifecycle & Organization',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 3 of 6</span></div>
+<h2>Test Lifecycle <em style="color:var(--m6)">&amp; Organization</em></h2>
+<p class="lesson-intro" style="border-color:var(--m6)">Most test classes repeat the same setup before every test. JUnit 5's lifecycle annotations keep that setup consistent — and its organizational annotations keep large suites readable.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">InventoryTest.java</span><span class="code-tag">@BeforeEach / @AfterEach — fresh state every test</span></div>
+<pre><span class="kw">class</span> <span class="cl">InventoryTest</span> {
+
+    <span class="kw">private</span> <span class="cl">Inventory</span> inventory;
+
+    <span class="ann">@BeforeEach</span>
+    <span class="kw">void</span> <span class="fn">setup</span>() {
+        inventory <span class="op">=</span> <span class="kw">new</span> <span class="cl">Inventory</span>(<span class="num">20</span>); <span class="cm">// runs before EVERY test — no shared state</span>
+    }
+
+    <span class="ann">@Test</span>
+    <span class="kw">void</span> <span class="fn">addItem_increasesCount</span>() {
+        inventory.<span class="fn">add</span>(<span class="str">"Iron Sword"</span>);
+        <span class="fn">assertEquals</span>(<span class="num">1</span>, inventory.<span class="fn">count</span>());
+    }
+}</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">AccountTest.java</span><span class="code-tag">@Nested — grouping tests by scenario</span></div>
+<pre><span class="kw">class</span> <span class="cl">AccountTest</span> {
+
+    <span class="ann">@Nested</span>
+    <span class="kw">class</span> <span class="cl">WhenBalanceIsZero</span> {
+        <span class="kw">private</span> <span class="cl">Account</span> acc;
+        <span class="ann">@BeforeEach</span> <span class="kw">void</span> <span class="fn">setup</span>() { acc <span class="op">=</span> <span class="kw">new</span> <span class="cl">Account</span>(<span class="num">0</span>); }
+
+        <span class="ann">@Test</span>
+        <span class="ann">@DisplayName</span>(<span class="str">"withdrawing any amount throws"</span>)
+        <span class="kw">void</span> <span class="fn">withdraw_anyAmount_throws</span>() {
+            <span class="fn">assertThrows</span>(<span class="cl">InsufficientFundsException</span>.<span class="kw">class</span>, () -&gt; acc.<span class="fn">withdraw</span>(<span class="num">1</span>));
+        }
+    }
+}</pre></div>
+<p class="prose"><code>@DisplayName</code> gives you a human-readable line in test reports instead of a raw method name. <code>@Tag("slow")</code> lets you group tests across classes so CI can run fast unit tests separately from slow integration tests. <code>@Disabled("reason")</code> visibly switches off a test — showing it as "skipped" in reports — which is far better than commenting it out and forgetting it exists.</p>
+<div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>never share mutable state across tests</strong><p>If a static field set up once in <code>@BeforeAll</code> gets modified by one test, the next test silently starts from a polluted state. That produces "flaky" tests that fail depending on run order — one of the hardest bug classes to track down.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">Why does <code>@BeforeEach</code> matter more than just saving a few lines of duplicated setup code?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,true)">It guarantees every test starts from identical, clean state — which is what makes tests order-independent and trustworthy</button>
+<button class="quiz-opt" onclick="Q(this,false)">It makes the test suite run in parallel automatically</button>
+<button class="quiz-opt" onclick="Q(this,false)">It's required by JUnit — tests without it fail to compile</button>
+</div><div class="quiz-fb" id="qf_6_2"></div></div>`
+    },
+    {
+      title:'Parameterized Tests & Edge Cases',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 4 of 6</span></div>
+<h2>Parameterized Tests <em style="color:var(--m6)">&amp; Edge Cases</em></h2>
+<p class="lesson-intro" style="border-color:var(--m6)">Copy-pasting the same test five times with different numbers is a maintenance trap. <code>@ParameterizedTest</code> runs one test method against many inputs, reporting each as its own pass or fail.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">MathUtilsTest.java</span><span class="code-tag">@ValueSource — a simple list of inputs</span></div>
+<pre><span class="ann">@ParameterizedTest</span>
+<span class="ann">@ValueSource</span>(ints <span class="op">=</span> {<span class="num">1</span>, <span class="num">2</span>, <span class="num">4</span>, <span class="num">8</span>, <span class="num">16</span>})
+<span class="kw">void</span> <span class="fn">isPowerOfTwo_returnsTrue</span>(<span class="kw">int</span> value) {
+    <span class="fn">assertTrue</span>(<span class="cl">MathUtils</span>.<span class="fn">isPowerOfTwo</span>(value));
+}</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">DamageCalculatorTest.java</span><span class="code-tag">@CsvSource — input/expected pairs</span></div>
+<pre><span class="ann">@ParameterizedTest</span>
+<span class="ann">@CsvSource</span>({
+    <span class="str">"20, false, 20"</span>,
+    <span class="str">"20, true, 40"</span>,
+    <span class="str">"0, true, 0"</span>
+})
+<span class="kw">void</span> <span class="fn">applyCritical_computesExpectedDamage</span>(<span class="kw">int</span> base, <span class="kw">boolean</span> isCrit, <span class="kw">int</span> expected) {
+    <span class="cl">DamageCalculator</span> calc <span class="op">=</span> <span class="kw">new</span> <span class="cl">DamageCalculator</span>();
+    <span class="fn">assertEquals</span>(expected, calc.<span class="fn">apply</span>(base, isCrit));
+}</pre></div>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">PathfindingTest.java</span><span class="code-tag">Guarding against slow or hanging code</span></div>
+<pre><span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">pathfinding_onLargeMap_completesQuickly</span>() {
+    <span class="fn">assertTimeout</span>(<span class="cl">Duration</span>.<span class="fn">ofMillis</span>(<span class="num">200</span>), () -&gt; {
+        pathfinder.<span class="fn">findPath</span>(largeMap, start, end);
+    });
+}</pre></div>
+<p class="prose">There's also <code>@MethodSource</code> for supplying full objects from a static factory method, <code>@EnumSource</code> for iterating every value of an enum, and <code>@NullSource</code>/<code>@EmptySource</code> for cheap null/empty coverage. Always deliberately test boundary values too — zero, negative numbers, empty collections, the maximum allowed value — bugs cluster at boundaries far more than in the "normal" middle of a range.</p>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>parameterized tests find the edge cases you'd skip</strong><p>They turn "I should probably test some edge cases" into actually testing all of them — zero, negative, max value, empty, null — with almost no extra code per case.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">You need to test a method with several full custom objects as input, not simple strings or numbers. Which parameterized source fits best?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">@ValueSource, since it accepts any Java type</button>
+<button class="quiz-opt" onclick="Q(this,false)">@CsvSource, by serializing the object fields into a comma-separated string</button>
+<button class="quiz-opt" onclick="Q(this,true)">@MethodSource, pointing to a static factory method that returns a Stream of the custom objects</button>
+</div><div class="quiz-fb" id="qf_6_3"></div></div>`
+    },
+    {
+      title:'Mocking with Mockito & Testable Design',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 5 of 6</span></div>
+<h2>Mocking with Mockito <em style="color:var(--m6)">&amp; Testable Design</em></h2>
+<p class="lesson-intro" style="border-color:var(--m6)">Real classes depend on other classes — a database, a network client. A unit test shouldn't hit any of those for real. Mockito lets you replace a dependency with a fake object you fully control.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">OrderServiceTest.java</span><span class="code-tag">@Mock, @InjectMocks, when(), verify()</span></div>
+<pre><span class="ann">@ExtendWith</span>(<span class="cl">MockitoExtension</span>.<span class="kw">class</span>)
+<span class="kw">class</span> <span class="cl">OrderServiceTest</span> {
+
+    <span class="ann">@Mock</span>
+    <span class="kw">private</span> <span class="cl">OrderRepository</span> repository;
+
+    <span class="ann">@InjectMocks</span>
+    <span class="kw">private</span> <span class="cl">OrderService</span> service;
+
+    <span class="ann">@Test</span>
+    <span class="kw">void</span> <span class="fn">placeOrder_savesOrderAndReturnsConfirmation</span>() {
+        <span class="fn">when</span>(repository.<span class="fn">save</span>(<span class="fn">any</span>(<span class="cl">Order</span>.<span class="kw">class</span>)))
+            .<span class="fn">thenReturn</span>(<span class="kw">new</span> <span class="cl">Order</span>(<span class="str">"ORD-1001"</span>));
+
+        <span class="cl">Confirmation</span> result <span class="op">=</span> service.<span class="fn">placeOrder</span>(<span class="kw">new</span> <span class="cl">Cart</span>());
+
+        <span class="fn">assertEquals</span>(<span class="str">"ORD-1001"</span>, result.<span class="fn">orderId</span>());
+        <span class="fn">verify</span>(repository, <span class="fn">times</span>(<span class="num">1</span>)).<span class="fn">save</span>(<span class="fn">any</span>(<span class="cl">Order</span>.<span class="kw">class</span>));
+    }
+}</pre></div>
+<p class="prose"><code>@Mock</code> creates the fake dependency, <code>@InjectMocks</code> creates the real <code>OrderService</code> and wires the mock in automatically. <code>when(...).thenReturn(...)</code> stubs behavior; <code>verify(...)</code> confirms a method was actually called — essential for void methods like sending an email, where there's no return value to assert on.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">ReportGenerator.java</span><span class="code-tag">Designing for testability — dependency injection</span></div>
+<pre><span class="cm">// Hard to test — builds its own dependency internally</span>
+<span class="kw">class</span> <span class="cl">ReportGenerator</span> {
+    <span class="kw">void</span> <span class="fn">generate</span>() {
+        <span class="cl">Database</span> db <span class="op">=</span> <span class="kw">new</span> <span class="cl">PostgresDatabase</span>(<span class="str">"prod-url"</span>); <span class="cm">// can't swap in a test</span>
+    }
+}
+
+<span class="cm">// Testable — dependency is injected from outside</span>
+<span class="kw">class</span> <span class="cl">ReportGenerator</span> {
+    <span class="kw">private final</span> <span class="cl">Database</span> db;
+    <span class="fn">ReportGenerator</span>(<span class="cl">Database</span> db) { <span class="kw">this</span>.db <span class="op">=</span> db; } <span class="cm">// constructor injection</span>
+
+    <span class="kw">void</span> <span class="fn">generate</span>() { db.<span class="fn">query</span>(<span class="str">"..."</span>); } <span class="cm">// real DB in prod, mock in tests</span>
+}</pre></div>
+<div class="callout tip"><span class="callout-ico">💡</span><div class="callout-body"><strong>hard-to-test code is a design signal</strong><p>If writing a test for a class feels painful — you need a real database, a real network call, a real file on disk — that pain is feedback about the class's design, not just an annoyance to work around. Constructor injection is usually the fix.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">Why does <code>verify(repository).save(any(Order.class))</code> matter for a method that returns void?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,true)">A void method has no return value to assert on — verify() is how you confirm the interaction with the mock actually happened</button>
+<button class="quiz-opt" onclick="Q(this,false)">verify() makes the void method return true instead of nothing</button>
+<button class="quiz-opt" onclick="Q(this,false)">It's only needed when the repository is a real database, not a mock</button>
+</div><div class="quiz-fb" id="qf_6_4"></div></div>`
+    },
+    {
+      title:'TDD, Coverage & CI',
+      html:`
+<div class="lesson-eyebrow"><span class="ey-mod" style="color:var(--m6)">Unit Testing</span><span class="ey-dot"></span><span class="ey-num">Lesson 6 of 6</span></div>
+<h2>TDD, Coverage <em style="color:var(--m6)">&amp; CI</em></h2>
+<p class="lesson-intro" style="border-color:var(--m6)">Test-Driven Development flips the usual order: write the failing test first, then just enough code to pass it, then clean up. The cycle is Red → Green → Refactor.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">LevelTitleTest.java</span><span class="code-tag">Red → Green → Refactor, one behavior at a time</span></div>
+<pre><span class="cm">// RED — fails because LevelTitle doesn't exist yet</span>
+<span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">level1_isTitledNovice</span>() {
+    <span class="fn">assertEquals</span>(<span class="str">"Novice"</span>, <span class="cl">LevelTitle</span>.<span class="fn">forLevel</span>(<span class="num">1</span>));
+}
+
+<span class="cm">// GREEN — simplest possible implementation</span>
+<span class="kw">static</span> <span class="cl">String</span> <span class="fn">forLevel</span>(<span class="kw">int</span> level) {
+    <span class="kw">return</span> <span class="str">"Novice"</span>; <span class="cm">// hardcoded — but the test passes, which is the point right now</span>
+}
+
+<span class="cm">// RED again — add the next behavior</span>
+<span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">level10_isTitledVeteran</span>() {
+    <span class="fn">assertEquals</span>(<span class="str">"Veteran"</span>, <span class="cl">LevelTitle</span>.<span class="fn">forLevel</span>(<span class="num">10</span>));
+}
+
+<span class="cm">// GREEN — the hardcoded value has to go now</span>
+<span class="kw">static</span> <span class="cl">String</span> <span class="fn">forLevel</span>(<span class="kw">int</span> level) {
+    <span class="kw">if</span> (level <span class="op">&gt;=</span> <span class="num">10</span>) <span class="kw">return</span> <span class="str">"Veteran"</span>;
+    <span class="kw">return</span> <span class="str">"Novice"</span>;
+}</pre></div>
+<p class="prose">The discipline isn't "write tests" — it's never writing production code without a failing test demanding it. That naturally stops you building things you don't need yet, and the suite grows in lockstep with the code instead of getting bolted on afterward.</p>
+<div class="code-wrap"><div class="code-hdr"><span class="code-fname">ci.yml</span><span class="code-tag">Running the suite automatically on every push (GitHub Actions)</span></div>
+<pre><span class="ann">name</span>: CI
+<span class="ann">on</span>: [push, pull_request]
+<span class="ann">jobs</span>:
+  <span class="ann">test</span>:
+    <span class="ann">runs-on</span>: ubuntu-latest
+    <span class="ann">steps</span>:
+      - <span class="ann">uses</span>: actions/checkout@v4
+      - <span class="ann">uses</span>: actions/setup-java@v4
+        <span class="ann">with</span>: { java-version: <span class="str">'21'</span>, distribution: <span class="str">'temurin'</span> }
+      - <span class="ann">run</span>: mvn -B test</pre></div>
+<p class="prose">JaCoCo reports what percentage of lines and branches your tests actually executed. But 100% coverage doesn't mean correctness — it only proves a line <em>ran</em>, not that anything was checked. A test that calls a method with no assertion at all gets full coverage while proving nothing. Treat coverage as a gap-finder, not a quality score.</p>
+<div class="callout danger"><span class="callout-ico">🚫</span><div class="callout-body"><strong>the empty-assertion trap</strong><p><code>calculator.applyCritical(20);</code> with no assertion after it executes the line and counts toward coverage — but the test can never fail, no matter how broken the method is. Coverage tools can't tell the difference between that and a real test.</p></div></div>
+<div class="quiz"><div class="quiz-lbl" style="color:var(--m6)">Quick Check</div>
+<div class="quiz-q">A class has 100% JaCoCo line coverage. What does that actually guarantee?</div>
+<div class="quiz-opts">
+<button class="quiz-opt" onclick="Q(this,false)">The class is bug-free and fully correct</button>
+<button class="quiz-opt" onclick="Q(this,true)">Every line ran at least once during testing — it says nothing about whether the tests actually checked the right behavior</button>
+<button class="quiz-opt" onclick="Q(this,false)">The class will pass code review automatically</button>
+</div><div class="quiz-fb" id="qf_6_5"></div></div>`
     }
   ]
 }
@@ -1714,6 +2011,12 @@ const EXPL = {
   '5_1': 'The Factory centralises all creation logic. Adding a new type means one change in one place. Callers don\'t change because they interact only with the interface, not the concrete class.',
   '5_2': 'Builder is about constructing complex objects step by step with named, readable method calls. It shines when a class has many parameters, especially optional ones.',
   '5_3': 'The fluent API with chained setter-like methods and a build() at the end is the Builder pattern\'s signature. newBuilder() is a factory method, but the pattern being applied is Builder.',
+  '6_0': 'Unit tests are cheap to write and run in milliseconds, so you can have thousands of them and still get instant feedback, with a failure pointing straight at the broken unit. End-to-end tests are valuable but slow and brittle, so you keep just enough to cover critical full workflows.',
+  '6_1': 'assertThrows both asserts that the call throws exactly the given exception type AND returns that exception object, so you can go on to check its message or other details — a much stronger check than just "something was thrown."',
+  '6_2': '@BeforeEach runs before every single test method, guaranteeing each test starts from identical, clean state. That independence is what makes a test suite trustworthy regardless of the order tests happen to run in.',
+  '6_3': '@MethodSource points to a static method that returns a Stream (or similar) of arguments, which is the only parameterized source built to carry full custom objects rather than primitives or strings.',
+  '6_4': 'verify() is Mockito\'s way of confirming an interaction happened on a mock when there\'s no return value to check — it inspects whether, and how many times, a method was actually called.',
+  '6_5': 'Coverage only measures whether a line executed during a test run — not whether anything meaningful was asserted about the result. A test with zero assertions can still produce 100% coverage.',
 };
 
 function Q(btn, correct) {

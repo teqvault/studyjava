@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18081437614');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="google-adsense-account" content="ca-pub-7932735753046865">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Testing with JUnit | TeqStudy — Teq Vault</title>
+  <meta name="description" content="A comprehensive, free JUnit 5 course: assertions, lifecycle, parameterized tests, Mockito, coverage, TDD, and CI — from Teq Vault's TeqStudy engineering curriculum.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18081437614"></script>
+  <style>
+    :root { --circuit-blue: #00a3ff; --voltage-orange: #ff7a1a; }
+    body { background: #050810; color: #e2e8f0; font-family: 'Space Grotesk', system-ui, sans-serif; }
+    .font-space { font-family: 'Space Grotesk', system-ui, sans-serif; }
+    .font-mono-teq { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .glass-panel { background: radial-gradient(circle at top left, rgba(148,163,184,0.12), transparent 55%), rgba(15,23,42,0.85); backdrop-filter: blur(18px); }
+    .gradient-text { background: linear-gradient(120deg, var(--circuit-blue), var(--voltage-orange)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 600ms ease, transform 600ms ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .card-hover { transition: transform 250ms ease, box-shadow 250ms ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+
+    .code-block { background: #0a0e1a; border: 1px solid rgba(148,163,184,0.15); border-radius: 0.75rem; padding: 1.1rem 1.25rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.65; }
+    .code-block .kw { color: var(--circuit-blue); }
+    .code-block .an { color: var(--voltage-orange); }
+    .code-block .str { color: #34d399; }
+    .code-block .cm { color: #64748b; font-style: italic; }
+    .code-block .fn { color: #f0abfc; }
+
+    .callout { border-radius: 0.9rem; padding: 1rem 1.25rem; border: 1px solid; font-size: 0.9rem; line-height: 1.6; }
+    .callout-tip { background: rgba(0,163,255,0.06); border-color: rgba(0,163,255,0.25); }
+    .callout-warn { background: rgba(255,122,26,0.06); border-color: rgba(255,122,26,0.25); }
+    .callout-try { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.25); }
+
+    .lesson { border: 1px solid rgba(148,163,184,0.12); }
+    .lesson summary { list-style: none; cursor: pointer; }
+    .lesson summary::-webkit-details-marker { display: none; }
+    .lesson .chev { transition: transform 200ms ease; }
+    .lesson[open] .chev { transform: rotate(90deg); }
+    .lesson[open] summary { border-bottom: 1px solid rgba(148,163,184,0.12); }
+
+    .toc-link { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.75rem; border-radius: 0.6rem; font-size: 0.78rem; color: #94a3b8; transition: all 150ms ease; }
+    .toc-link:hover { background: rgba(148,163,184,0.08); color: #e2e8f0; }
+    .toc-link.done { color: #34d399; }
+    .toc-dot { width: 7px; height: 7px; border-radius: 50%; background: #334155; flex-shrink: 0; }
+    .toc-link.done .toc-dot { background: #34d399; box-shadow: 0 0 8px rgba(52,211,153,0.6); }
+
+    .module-check { width: 1.15rem; height: 1.15rem; border-radius: 0.35rem; border: 1.5px solid rgba(148,163,184,0.4); cursor: pointer; accent-color: #34d399; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.25); border-radius: 4px; }
+  </style>
+</head>
+<body class="pt-24 overflow-x-hidden">
+
+  <nav class="fixed top-0 w-full z-50 bg-[#050810]/90 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="../index.html"><img src="../imgs/tvault.png" class="h-8 w-auto filter brightness-110" alt="Logo"></a>
+        <span class="font-bold tracking-tighter text-lg uppercase font-space hidden sm:block text-slate-300">Teq Vault</span>
+        <span class="hidden md:block text-slate-600">/</span>
+        <span class="hidden md:block text-[10px] font-bold tracking-[0.3em] uppercase text-slate-500">TeqStudy</span>
+      </div>
+      <div class="flex gap-8 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400">
+        <a href="ecosystem.html" class="hover:text-[var(--circuit-blue)] transition">Ecosystem</a>
+        <a href="strategy.html" class="hover:text-[var(--voltage-orange)] transition">Strategy</a>
+        <a href="join-the-vault.html" class="text-[var(--circuit-blue)] border-b border-[var(--circuit-blue)]">Careers</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="max-w-5xl mx-auto text-center px-6 pt-16 pb-14 relative">
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse,rgba(0,163,255,0.08),transparent_65%)]"></div>
+    </div>
+    <div class="reveal inline-flex items-center gap-2 px-4 py-1 rounded-full border border-[var(--circuit-blue)]/30 bg-[var(--circuit-blue)]/5 text-[var(--circuit-blue)] text-[10px] font-black uppercase tracking-[0.5em] mb-8">
+      <i data-lucide="flask-conical" class="w-3 h-3"></i> TeqStudy Course · Java
+    </div>
+    <h1 class="reveal text-5xl md:text-6xl font-space font-bold uppercase tracking-tighter mb-6 leading-[0.9]">
+      Unit Testing <span class="gradient-text">with JUnit</span>
+    </h1>
+    <p class="reveal text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+      A complete, from-scratch course on writing reliable, maintainable tests in Java — JUnit 5, Mockito, parameterized testing, coverage tooling, and Test-Driven Development. Sixteen modules, real code, no fluff.
+    </p>
+    <div class="reveal flex flex-wrap justify-center gap-4 mt-8 text-[11px] text-slate-500">
+      <span class="flex items-center gap-1.5"><i data-lucide="layers" class="w-3.5 h-3.5 text-[var(--circuit-blue)]"></i> 16 Modules</span>
+      <span class="flex items-center gap-1.5"><i data-lucide="code-2" class="w-3.5 h-3.5 text-[var(--voltage-orange)]"></i> JUnit 5 + Mockito</span>
+      <span class="flex items-center gap-1.5"><i data-lucide="target" class="w-3.5 h-3.5 text-emerald-400"></i> Beginner → Job-Ready</span>
+      <span class="flex items-center gap-1.5"><i data-lucide="infinity" class="w-3.5 h-3.5 text-purple-400"></i> Free</span>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="max-w-5xl mx-auto px-6 mb-10">
+    <div class="reveal glass-panel rounded-2xl border border-white/5 p-5 flex items-center gap-5">
+      <div class="flex-1">
+        <div class="flex justify-between text-[10px] uppercase tracking-[0.3em] text-slate-500 mb-2">
+          <span>Your Progress</span>
+          <span id="progress-label">0 / 16 modules</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+          <div id="progress-fill" class="h-full rounded-full" style="width:0%; background: linear-gradient(90deg, var(--circuit-blue), var(--voltage-orange)); transition: width 400ms ease;"></div>
+        </div>
+      </div>
+      <button id="reset-progress" class="text-[10px] uppercase tracking-widest text-slate-500 hover:text-slate-300 border border-slate-700 rounded-full px-3 py-2 whitespace-nowrap transition">Reset</button>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 pb-24 flex gap-10 items-start">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="hidden lg:block w-64 flex-shrink-0 sticky top-24 self-start max-h-[80vh] overflow-y-auto pr-2">
+      <div class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 mb-3 px-1">Course Outline</div>
+      <nav id="toc" class="flex flex-col gap-0.5"></nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 space-y-10">
+
+      <!-- INTRO PANEL -->
+      <div class="reveal glass-panel rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start gap-4">
+          <i data-lucide="compass" class="w-6 h-6 text-[var(--circuit-blue)] flex-shrink-0 mt-1"></i>
+          <div>
+            <h2 class="font-space font-bold uppercase tracking-tight text-white mb-2">How this course works</h2>
+            <p class="text-slate-400 text-sm leading-relaxed">Each module below is a self-contained lesson — click a header to expand it. Work top to bottom, or jump around using the outline on the left. Check off a module when you've finished it to track your progress; this is saved locally in your browser. Every module ends with a small "Try It Yourself" exercise — actually write the code before moving on. That's the whole method: read a little, then prove it works.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ MODULE 1 ============ -->
+      <section id="m1" class="module-section" data-module="1">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden" open>
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="1" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 01</span>
+            <span class="font-space font-bold text-white flex-1">Why Unit Testing Matters</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>A <strong class="text-white">unit test</strong> is a small, automated piece of code that checks whether one isolated piece of your program — usually a single method — behaves the way you expect, without needing a human to click through the app. You run it, it passes or fails, and it takes milliseconds.</p>
+            <p>Without tests, the only way to know your code works is to run the whole application and manually poke at it. That's slow, it doesn't scale, and it doesn't stop you from breaking something in <code class="font-mono-teq text-[var(--voltage-orange)]">InventoryManager</code> six weeks from now while fixing an unrelated bug in <code class="font-mono-teq text-[var(--voltage-orange)]">DialogueSystem</code>. A good test suite catches that regression in under a second, before it ever reaches a player.</p>
+            <p>Tests are usually organized as a pyramid:</p>
+            <ul class="list-disc list-inside space-y-1 text-slate-400 ml-2">
+              <li><strong class="text-slate-200">Unit tests</strong> — fast, numerous, test one class/method in isolation. This course.</li>
+              <li><strong class="text-slate-200">Integration tests</strong> — check that multiple units work together (e.g. a service talking to a real database).</li>
+              <li><strong class="text-slate-200">End-to-end tests</strong> — drive the whole application like a user would. Slow, brittle, few of them.</li>
+            </ul>
+            <p>You want <em>many</em> unit tests, <em>some</em> integration tests, and <em>few</em> end-to-end tests — because unit tests are the cheapest to write, the fastest to run, and the easiest to pinpoint a failure in.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> a test is a specification you can execute. It doesn't just check code — it documents what the code is <em>supposed</em> to do, in a form that can never go stale, because it fails the moment reality disagrees with it.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> think of one method in a project you've written (a damage calculation, a score formula, a save-file parser). Write down, in plain English, three things that must always be true about its output. Those three sentences are your first three test cases — you'll turn them into real code in Module 3.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 2 ============ -->
+      <section id="m2" class="module-section" data-module="2">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="2" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 02</span>
+            <span class="font-space font-bold text-white flex-1">Setting Up JUnit 5</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>JUnit 5 (also called "JUnit Jupiter") is the current standard testing framework for Java. It's made of three parts you don't need to memorize — Jupiter (the API you write tests against), the Platform (runs tests), and Vintage (runs old JUnit 3/4 tests) — but you do need to add the dependency to your build tool.</p>
+            <p><strong class="text-white">Maven</strong> — add this to <code class="font-mono-teq text-[var(--voltage-orange)]">pom.xml</code>:</p>
+            <pre class="code-block font-mono-teq"><span class="cm">&lt;!-- pom.xml --&gt;</span>
+<span class="kw">&lt;dependency&gt;</span>
+  <span class="kw">&lt;groupId&gt;</span>org.junit.jupiter<span class="kw">&lt;/groupId&gt;</span>
+  <span class="kw">&lt;artifactId&gt;</span>junit-jupiter<span class="kw">&lt;/artifactId&gt;</span>
+  <span class="kw">&lt;version&gt;</span>5.10.2<span class="kw">&lt;/version&gt;</span>
+  <span class="kw">&lt;scope&gt;</span>test<span class="kw">&lt;/scope&gt;</span>
+<span class="kw">&lt;/dependency&gt;</span></pre>
+            <p><strong class="text-white">Gradle</strong> — add this to <code class="font-mono-teq text-[var(--voltage-orange)]">build.gradle</code>:</p>
+            <pre class="code-block font-mono-teq"><span class="cm">// build.gradle</span>
+<span class="fn">testImplementation</span>(<span class="str">'org.junit.jupiter:junit-jupiter:5.10.2'</span>)
+<span class="fn">test</span> { <span class="fn">useJUnitPlatform</span>() }</pre>
+            <p>Project layout matters: Maven and Gradle both expect production code under <code class="font-mono-teq">src/main/java</code> and tests under <code class="font-mono-teq">src/test/java</code>, mirroring the same package structure. A class <code class="font-mono-teq">com.avgjude.forge.CombatEngine</code> gets its tests in <code class="font-mono-teq">com.avgjude.forge.CombatEngineTest</code> — same package, different source root. This lets tests access package-private members while staying physically separate from shipped code.</p>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> if `mvn test` or `gradle test` reports "0 tests run" even though you have test files, it's almost always one of two things — the dependency scope isn't <code class="font-mono-teq">test</code>, or the test class/method naming doesn't match what the build tool's test runner looks for (Maven Surefire expects classes ending in <code class="font-mono-teq">Test</code>, <code class="font-mono-teq">Tests</code>, or <code class="font-mono-teq">TestCase</code> by default).
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> create a fresh Maven or Gradle project, add the JUnit 5 dependency above, and create an empty <code class="font-mono-teq">CalculatorTest</code> class with one empty <code class="font-mono-teq">@Test</code> method. Run the build and confirm you see "1 test run, 0 failures" before moving on.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 3 ============ -->
+      <section id="m3" class="module-section" data-module="3">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="3" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 03</span>
+            <span class="font-space font-bold text-white flex-1">Anatomy of a Test</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Every test follows the same three-part shape, called <strong class="text-white">Arrange, Act, Assert</strong> (AAA): set up the data you need, call the method you're testing, then check the result. Here's a full example testing a simple damage calculator:</p>
+            <pre class="code-block font-mono-teq"><span class="kw">import</span> org.junit.jupiter.api.Test;
+<span class="kw">import</span> <span class="kw">static</span> org.junit.jupiter.api.Assertions.*;
+
+<span class="kw">class</span> <span class="fn">DamageCalculatorTest</span> {
+
+    <span class="an">@Test</span>
+    <span class="kw">void</span> <span class="fn">criticalHit_doublesBaseDamage</span>() {
+        <span class="cm">// Arrange</span>
+        DamageCalculator calc = <span class="kw">new</span> DamageCalculator();
+        <span class="kw">int</span> baseDamage = 20;
+
+        <span class="cm">// Act</span>
+        <span class="kw">int</span> result = calc.<span class="fn">applyCritical</span>(baseDamage);
+
+        <span class="cm">// Assert</span>
+        <span class="fn">assertEquals</span>(40, result);
+    }
+}</pre>
+            <p>Three rules make this a valid JUnit 5 test: the class doesn't need to extend anything, the method is annotated <code class="font-mono-teq text-[var(--voltage-orange)]">@Test</code>, and it returns <code class="font-mono-teq">void</code>. JUnit finds every <code class="font-mono-teq">@Test</code>-annotated method via reflection, runs each one in its own fresh instance of the test class (so tests can't leak state between each other), and reports pass/fail based on whether any assertion or exception was thrown.</p>
+            <p>Name your test methods to describe the <em>behavior</em>, not the implementation — <code class="font-mono-teq">criticalHit_doublesBaseDamage</code> tells you what broke just from the test report, without opening the file. A common convention is <code class="font-mono-teq">methodOrScenario_condition_expectedResult</code>.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> a test class is instantiated fresh for every single test method. That means you can't accidentally rely on one test running before another to set up shared state — and if you find yourself wanting that, it's usually a sign you need <code class="font-mono-teq">@BeforeEach</code> (Module 5), not test ordering.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> write a <code class="font-mono-teq">StringUtils</code> class with one method, <code class="font-mono-teq">reverse(String s)</code>. Write three tests: reversing a normal word, reversing an empty string, and reversing a single character. Watch all three go green.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 4 ============ -->
+      <section id="m4" class="module-section" data-module="4">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="4" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 04</span>
+            <span class="font-space font-bold text-white flex-1">Assertions Deep Dive</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Assertions are how a test actually decides pass or fail. <code class="font-mono-teq text-[var(--voltage-orange)]">org.junit.jupiter.api.Assertions</code> gives you a large static toolbox:</p>
+            <pre class="code-block font-mono-teq"><span class="fn">assertEquals</span>(expected, actual);
+<span class="fn">assertEquals</span>(expected, actual, <span class="str">"failure message"</span>);
+<span class="fn">assertNotEquals</span>(unexpected, actual);
+<span class="fn">assertTrue</span>(condition);
+<span class="fn">assertFalse</span>(condition);
+<span class="fn">assertNull</span>(value);
+<span class="fn">assertNotNull</span>(value);
+<span class="fn">assertSame</span>(expectedRef, actualRef);   <span class="cm">// same object identity</span>
+<span class="fn">assertArrayEquals</span>(expectedArr, actualArr);
+<span class="fn">assertIterableEquals</span>(expectedList, actualList);</pre>
+            <p>Two assertions deserve special attention. <code class="font-mono-teq text-[var(--voltage-orange)]">assertAll()</code> groups several checks so that <em>all</em> of them run and report their failures together, instead of stopping at the first failure:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">newCharacter_hasCorrectDefaults</span>() {
+    Character c = <span class="kw">new</span> Character(<span class="str">"Rootwarden"</span>);
+    <span class="fn">assertAll</span>(<span class="str">"character defaults"</span>,
+        () -> <span class="fn">assertEquals</span>(1, c.<span class="fn">getLevel</span>()),
+        () -> <span class="fn">assertEquals</span>(100, c.<span class="fn">getHealth</span>()),
+        () -> <span class="fn">assertTrue</span>(c.<span class="fn">isAlive</span>())
+    );
+}</pre>
+            <p><code class="font-mono-teq text-[var(--voltage-orange)]">assertThrows()</code> is how you test that code correctly rejects bad input by throwing an exception:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">withdraw_moreThanBalance_throwsException</span>() {
+    Account acc = <span class="kw">new</span> Account(50);
+    <span class="kw">var</span> ex = <span class="fn">assertThrows</span>(InsufficientFundsException.<span class="kw">class</span>,
+        () -> acc.<span class="fn">withdraw</span>(100));
+    <span class="fn">assertEquals</span>(<span class="str">"Insufficient funds"</span>, ex.<span class="fn">getMessage</span>());
+}</pre>
+            <p>Note the argument order for <code class="font-mono-teq">assertEquals</code> is <strong class="text-white">expected, then actual</strong> — get this backwards and your failure messages will read "expected X but was Y" with X and Y swapped, which wastes real debugging time.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Beyond built-in assertions:</strong> many teams add <strong class="text-white">AssertJ</strong> (<code class="font-mono-teq">assertThat(result).isEqualTo(40)</code>) for fluent, chainable assertions with much better failure messages on collections and objects. It's a separate library but drops in alongside JUnit 5 with zero conflict.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> rewrite Module 3's <code class="font-mono-teq">criticalHit_doublesBaseDamage</code> test using <code class="font-mono-teq">assertAll</code> to also check that a non-critical hit does <em>not</em> double damage, and that negative base damage throws an <code class="font-mono-teq">IllegalArgumentException</code>.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 5 ============ -->
+      <section id="m5" class="module-section" data-module="5">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="5" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 05</span>
+            <span class="font-space font-bold text-white flex-1">Test Lifecycle Annotations</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Most test classes need the same setup repeated before every test — creating an object under test, resetting a database connection, and so on. JUnit 5 gives you four lifecycle hooks:</p>
+            <pre class="code-block font-mono-teq"><span class="kw">class</span> <span class="fn">InventoryTest</span> {
+
+    <span class="kw">private</span> Inventory inventory;
+
+    <span class="an">@BeforeAll</span>
+    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">setupOnce</span>() {
+        <span class="cm">// runs ONCE before all tests in this class (must be static)</span>
+    }
+
+    <span class="an">@BeforeEach</span>
+    <span class="kw">void</span> <span class="fn">setup</span>() {
+        <span class="cm">// runs before EVERY test — fresh state, no leakage</span>
+        inventory = <span class="kw">new</span> Inventory(20);
+    }
+
+    <span class="an">@Test</span>
+    <span class="kw">void</span> <span class="fn">addItem_increasesCount</span>() {
+        inventory.<span class="fn">add</span>(<span class="str">"Iron Sword"</span>);
+        <span class="fn">assertEquals</span>(1, inventory.<span class="fn">count</span>());
+    }
+
+    <span class="an">@AfterEach</span>
+    <span class="kw">void</span> <span class="fn">tearDown</span>() {
+        <span class="cm">// runs after EVERY test — close resources, reset mocks</span>
+    }
+
+    <span class="an">@AfterAll</span>
+    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">tearDownOnce</span>() {
+        <span class="cm">// runs ONCE after all tests (must be static)</span>
+    }
+}</pre>
+            <p><code class="font-mono-teq text-[var(--voltage-orange)]">@BeforeEach</code>/<code class="font-mono-teq text-[var(--voltage-orange)]">@AfterEach</code> are by far the most used — they keep every test starting from clean, identical state, which is what makes tests trustworthy and order-independent. <code class="font-mono-teq text-[var(--voltage-orange)]">@BeforeAll</code>/<code class="font-mono-teq text-[var(--voltage-orange)]">@AfterAll</code> must be static (unless you change the test instance lifecycle) and are for genuinely expensive one-time setup, like starting an in-memory database.</p>
+            <p>You can also organize related tests into nested groups with <code class="font-mono-teq text-[var(--voltage-orange)]">@Nested</code>, which is useful for testing the same class under different starting conditions:</p>
+            <pre class="code-block font-mono-teq"><span class="kw">class</span> <span class="fn">AccountTest</span> {
+
+    <span class="an">@Nested</span>
+    <span class="kw">class</span> <span class="fn">WhenBalanceIsZero</span> {
+        <span class="kw">private</span> Account acc;
+        <span class="an">@BeforeEach</span> <span class="kw">void</span> <span class="fn">setup</span>() { acc = <span class="kw">new</span> Account(0); }
+
+        <span class="an">@Test</span>
+        <span class="kw">void</span> <span class="fn">withdraw_anyAmount_throws</span>() {
+            <span class="fn">assertThrows</span>(InsufficientFundsException.<span class="kw">class</span>, () -> acc.<span class="fn">withdraw</span>(1));
+        }
+    }
+
+    <span class="an">@Nested</span>
+    <span class="kw">class</span> <span class="fn">WhenBalanceIsPositive</span> {
+        <span class="kw">private</span> Account acc;
+        <span class="an">@BeforeEach</span> <span class="kw">void</span> <span class="fn">setup</span>() { acc = <span class="kw">new</span> Account(100); }
+
+        <span class="an">@Test</span>
+        <span class="kw">void</span> <span class="fn">withdraw_lessThanBalance_succeeds</span>() {
+            acc.<span class="fn">withdraw</span>(30);
+            <span class="fn">assertEquals</span>(70, acc.<span class="fn">getBalance</span>());
+        }
+    }
+}</pre>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> never share mutable state between tests through a static or instance field set up once in <code class="font-mono-teq">@BeforeAll</code> if any test modifies it — the next test that runs will silently start from a polluted state, and you'll get "flaky" tests that fail depending on run order.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> take your <code class="font-mono-teq">Inventory</code> class and write nested test groups: <code class="font-mono-teq">WhenInventoryIsEmpty</code> and <code class="font-mono-teq">WhenInventoryIsFull</code>, each with its own <code class="font-mono-teq">@BeforeEach</code> and at least two tests appropriate to that state.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 6 ============ -->
+      <section id="m6" class="module-section" data-module="6">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="6" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 06</span>
+            <span class="font-space font-bold text-white flex-1">Display Names, Tags &amp; Disabling Tests</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Method names are constrained by Java syntax, but test reports don't have to be. <code class="font-mono-teq text-[var(--voltage-orange)]">@DisplayName</code> lets you write a human-readable description that shows up in IDE and CI test reports instead of the raw method name:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="an">@DisplayName</span>(<span class="str">"Critical hits should deal exactly double base damage"</span>)
+<span class="kw">void</span> <span class="fn">criticalHit_doublesBaseDamage</span>() { <span class="cm">/* ... */</span> }</pre>
+            <p><code class="font-mono-teq text-[var(--voltage-orange)]">@Tag</code> lets you group tests across classes so you can run a subset — for example, running only fast unit tests in a pre-commit hook while running slow integration tests separately in CI:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="an">@Tag</span>(<span class="str">"slow"</span>)
+<span class="kw">void</span> <span class="fn">fullSaveLoadRoundTrip_preservesAllData</span>() { <span class="cm">/* ... */</span> }</pre>
+            <p>Maven Surefire and Gradle can both be configured to include or exclude tags at build time, so a developer's local build can skip the slow suite while the CI pipeline runs everything.</p>
+            <p>Sometimes a test needs to be temporarily switched off — a feature isn't implemented yet, or a known bug is being tracked separately. <code class="font-mono-teq text-[var(--voltage-orange)]">@Disabled</code> does that visibly, instead of commenting the test out (which hides it from reports entirely):</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="an">@Disabled</span>(<span class="str">"Blocked on JIRA-482 — status effect stacking not yet implemented"</span>)
+<span class="kw">void</span> <span class="fn">poisonStacksThreeTimes_dealsTripleDamagePerTick</span>() { <span class="cm">/* ... */</span> }</pre>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> <code class="font-mono-teq">@Disabled</code> tests still show up in the report as "skipped," which is the point — a commented-out test is invisible and gets forgotten forever. Always include a reason string so future-you (or a teammate) knows why it's off and when it's safe to re-enable.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> add <code class="font-mono-teq">@DisplayName</code> to every test you've written so far, tag your slowest test <code class="font-mono-teq">"slow"</code>, and disable one test with a reason explaining what's blocking it.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 7 ============ -->
+      <section id="m7" class="module-section" data-module="7">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="7" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 07</span>
+            <span class="font-space font-bold text-white flex-1">Parameterized Tests</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Copy-pasting the same test five times with different numbers is a maintenance trap. <code class="font-mono-teq text-[var(--voltage-orange)]">@ParameterizedTest</code> runs one test method against many inputs, reporting each as its own pass/fail. The simplest source is <code class="font-mono-teq text-[var(--voltage-orange)]">@ValueSource</code>:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@ParameterizedTest</span>
+<span class="an">@ValueSource</span>(ints = {1, 2, 4, 8, 16})
+<span class="kw">void</span> <span class="fn">isPowerOfTwo_returnsTrue</span>(<span class="kw">int</span> value) {
+    <span class="fn">assertTrue</span>(MathUtils.<span class="fn">isPowerOfTwo</span>(value));
+}</pre>
+            <p>When you need multiple related inputs per run — like an input and its expected output — use <code class="font-mono-teq text-[var(--voltage-orange)]">@CsvSource</code>:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@ParameterizedTest</span>
+<span class="an">@CsvSource</span>({
+    <span class="str">"20, false, 20"</span>,
+    <span class="str">"20, true, 40"</span>,
+    <span class="str">"0, true, 0"</span>
+})
+<span class="kw">void</span> <span class="fn">applyCritical_computesExpectedDamage</span>(<span class="kw">int</span> base, <span class="kw">boolean</span> isCrit, <span class="kw">int</span> expected) {
+    DamageCalculator calc = <span class="kw">new</span> DamageCalculator();
+    <span class="fn">assertEquals</span>(expected, calc.<span class="fn">apply</span>(base, isCrit));
+}</pre>
+            <p>For cases that don't fit neatly into a string (like custom objects), <code class="font-mono-teq text-[var(--voltage-orange)]">@MethodSource</code> points to a static factory method that supplies a stream of arguments:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@ParameterizedTest</span>
+<span class="an">@MethodSource</span>(<span class="str">"characterProvider"</span>)
+<span class="kw">void</span> <span class="fn">newCharacter_startsAlive</span>(Character c) {
+    <span class="fn">assertTrue</span>(c.<span class="fn">isAlive</span>());
+}
+
+<span class="kw">static</span> Stream&lt;Character&gt; <span class="fn">characterProvider</span>() {
+    <span class="kw">return</span> Stream.<span class="fn">of</span>(
+        <span class="kw">new</span> Character(<span class="str">"Rootwarden"</span>),
+        <span class="kw">new</span> Character(<span class="str">"Voltcaller"</span>)
+    );
+}</pre>
+            <p>There's also <code class="font-mono-teq text-[var(--voltage-orange)]">@EnumSource</code> for iterating over every value of an enum, and <code class="font-mono-teq text-[var(--voltage-orange)]">@NullSource</code>/<code class="font-mono-teq text-[var(--voltage-orange)]">@EmptySource</code> for cheaply covering null/empty edge cases without a full CSV row.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> parameterized tests are how you turn "I should probably test some edge cases" into actually testing all of them — zero, negative numbers, max int, empty string, null — with almost no extra code per case.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> convert your Module 3 <code class="font-mono-teq">reverse()</code> tests into a single <code class="font-mono-teq">@CsvSource</code>-driven parameterized test covering at least five input/expected pairs, including an empty string and a palindrome.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 8 ============ -->
+      <section id="m8" class="module-section" data-module="8">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="8" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 08</span>
+            <span class="font-space font-bold text-white flex-1">Testing Exceptions, Timeouts &amp; Edge Cases</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>A method's "happy path" is only half the spec. What it does when given garbage input, or when it takes too long, is just as important — and JUnit 5 has dedicated tools for both.</p>
+            <p>You already saw <code class="font-mono-teq text-[var(--voltage-orange)]">assertThrows</code> in Module 4. It returns the thrown exception so you can assert on its message or cause, which matters because "it threw <em>an</em> exception" is a much weaker guarantee than "it threw <em>this specific</em> exception with this message":</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">parseLevel_negativeNumber_throwsWithClearMessage</span>() {
+    <span class="kw">var</span> ex = <span class="fn">assertThrows</span>(IllegalArgumentException.<span class="kw">class</span>,
+        () -> LevelParser.<span class="fn">parse</span>(<span class="str">"-5"</span>));
+    <span class="fn">assertTrue</span>(ex.<span class="fn">getMessage</span>().<span class="fn">contains</span>(<span class="str">"must be positive"</span>));
+}</pre>
+            <p>To guarantee a method doesn't hang forever, <code class="font-mono-teq text-[var(--voltage-orange)]">assertTimeout</code> fails the test if the code takes longer than the given duration:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">pathfinding_onLargeMap_completesQuickly</span>() {
+    <span class="fn">assertTimeout</span>(Duration.<span class="fn">ofMillis</span>(200), () -> {
+        pathfinder.<span class="fn">findPath</span>(largeMap, start, end);
+    });
+}</pre>
+            <p><code class="font-mono-teq">assertTimeout</code> lets the code finish running even if it exceeds the limit (it just fails afterward). If you need it to be forcibly interrupted the instant it goes over — for something that might infinite-loop — use <code class="font-mono-teq text-[var(--voltage-orange)]">assertTimeoutPreemptively</code> instead, which runs the code on a separate thread.</p>
+            <p>Beyond exceptions and timing, always deliberately test <strong class="text-white">boundary values</strong>: zero, negative numbers, empty collections, the maximum allowed value, one-past-the-maximum, null. Bugs cluster at boundaries far more than in the middle of the "normal" range.</p>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> don't wrap an entire test body in a broad try/catch that swallows exceptions to "make the test pass" — an uncaught exception failing a test is correct and informative behavior. If you expect an exception, assert on it explicitly with <code class="font-mono-teq">assertThrows</code>.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> for a method you've already tested, add one test for the zero/empty boundary, one for a negative or invalid input using <code class="font-mono-teq">assertThrows</code>, and one <code class="font-mono-teq">assertTimeout</code> guarding against unexpectedly slow behavior.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 9 ============ -->
+      <section id="m9" class="module-section" data-module="9">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="9" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 09</span>
+            <span class="font-space font-bold text-white flex-1">Mocking with Mockito</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>A "unit" test should test one unit — but real classes depend on other classes: a database, a network client, a file system. You don't want your <code class="font-mono-teq">OrderService</code> test to actually hit a database. <strong class="text-white">Mockito</strong> lets you replace a dependency with a fake object you fully control.</p>
+            <p>Add it alongside JUnit 5:</p>
+            <pre class="code-block font-mono-teq"><span class="cm">// Maven</span>
+<span class="kw">&lt;dependency&gt;</span>
+  <span class="kw">&lt;groupId&gt;</span>org.mockito<span class="kw">&lt;/groupId&gt;</span>
+  <span class="kw">&lt;artifactId&gt;</span>mockito-junit-jupiter<span class="kw">&lt;/artifactId&gt;</span>
+  <span class="kw">&lt;version&gt;</span>5.11.0<span class="kw">&lt;/version&gt;</span>
+  <span class="kw">&lt;scope&gt;</span>test<span class="kw">&lt;/scope&gt;</span>
+<span class="kw">&lt;/dependency&gt;</span></pre>
+            <p>Here's a service that depends on a repository interface, tested with a mock in place of the real database-backed implementation:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@ExtendWith</span>(MockitoExtension.<span class="kw">class</span>)
+<span class="kw">class</span> <span class="fn">OrderServiceTest</span> {
+
+    <span class="an">@Mock</span>
+    <span class="kw">private</span> OrderRepository repository;
+
+    <span class="an">@InjectMocks</span>
+    <span class="kw">private</span> OrderService service;
+
+    <span class="an">@Test</span>
+    <span class="kw">void</span> <span class="fn">placeOrder_savesOrderAndReturnsConfirmation</span>() {
+        <span class="cm">// Arrange — tell the mock what to return when called</span>
+        <span class="fn">when</span>(repository.<span class="fn">save</span>(<span class="fn">any</span>(Order.<span class="kw">class</span>)))
+            .<span class="fn">thenReturn</span>(<span class="kw">new</span> Order(<span class="str">"ORD-1001"</span>));
+
+        <span class="cm">// Act</span>
+        Confirmation result = service.<span class="fn">placeOrder</span>(<span class="kw">new</span> Cart());
+
+        <span class="cm">// Assert on the result...</span>
+        <span class="fn">assertEquals</span>(<span class="str">"ORD-1001"</span>, result.<span class="fn">orderId</span>());
+
+        <span class="cm">// ...and verify the interaction actually happened</span>
+        <span class="fn">verify</span>(repository, <span class="fn">times</span>(1)).<span class="fn">save</span>(<span class="fn">any</span>(Order.<span class="kw">class</span>));
+    }
+}</pre>
+            <p><code class="font-mono-teq text-[var(--voltage-orange)]">@Mock</code> creates the fake, <code class="font-mono-teq text-[var(--voltage-orange)]">@InjectMocks</code> creates the real <code class="font-mono-teq">OrderService</code> and automatically wires the mock into its constructor. <code class="font-mono-teq text-[var(--voltage-orange)]">when(...).thenReturn(...)</code> stubs behavior; <code class="font-mono-teq text-[var(--voltage-orange)]">verify(...)</code> checks that a method was actually called, which matters for methods that don't return anything (like sending an email or writing a log).</p>
+            <p>An <strong class="text-white">argument captor</strong> lets you inspect exactly what was passed into a mocked call, useful when you care about the details of an interaction, not just that it happened:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">placeOrder_savesOrderWithCorrectTotal</span>() {
+    ArgumentCaptor&lt;Order&gt; captor = ArgumentCaptor.<span class="fn">forClass</span>(Order.<span class="kw">class</span>);
+    service.<span class="fn">placeOrder</span>(cartWithTotal(59.99));
+
+    <span class="fn">verify</span>(repository).<span class="fn">save</span>(captor.<span class="fn">capture</span>());
+    <span class="fn">assertEquals</span>(59.99, captor.<span class="fn">getValue</span>().<span class="fn">getTotal</span>());
+}</pre>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> mocking works cleanly when your class depends on <em>interfaces</em>, not concrete classes reached directly (e.g. <code class="font-mono-teq">new FileWriter(...)</code> inside a method). If a class is hard to test, that's frequently a design smell pointing at missing dependency injection — see Module 10.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> create a <code class="font-mono-teq">NotificationService</code> that depends on an <code class="font-mono-teq">EmailClient</code> interface. Mock the client, verify <code class="font-mono-teq">send()</code> is called exactly once with the correct recipient when a user levels up, and never called if the level didn't change.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 10 ============ -->
+      <section id="m10" class="module-section" data-module="10">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="10" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 10</span>
+            <span class="font-space font-bold text-white flex-1">Test Doubles &amp; Designing for Testability</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>"Mock" gets used loosely, but there are actually several distinct kinds of <strong class="text-white">test double</strong> (a general term for any stand-in object used in a test), each suited to a different job:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 ml-2">
+              <li><strong class="text-slate-200">Dummy</strong> — passed around to satisfy a parameter list but never actually used.</li>
+              <li><strong class="text-slate-200">Stub</strong> — returns canned answers to calls made during the test, nothing more (Mockito's <code class="font-mono-teq">when().thenReturn()</code>).</li>
+              <li><strong class="text-slate-200">Fake</strong> — a real, working, simplified implementation — e.g. an in-memory <code class="font-mono-teq">HashMap</code>-backed repository standing in for a real database.</li>
+              <li><strong class="text-slate-200">Mock</strong> — a stub that also records how it was called, so the test can <code class="font-mono-teq">verify()</code> interactions.</li>
+              <li><strong class="text-slate-200">Spy</strong> — wraps a real object, letting most calls through to the real implementation while selectively overriding or verifying specific ones.</li>
+            </ul>
+            <p>None of this works if a class hardcodes its dependencies. Compare:</p>
+            <pre class="code-block font-mono-teq"><span class="cm">// Hard to test — constructs its own dependency internally</span>
+<span class="kw">class</span> <span class="fn">ReportGenerator</span> {
+    <span class="kw">void</span> <span class="fn">generate</span>() {
+        Database db = <span class="kw">new</span> PostgresDatabase(<span class="str">"prod-url"</span>); <span class="cm">// can't swap this in a test</span>
+        <span class="cm">// ...</span>
+    }
+}
+
+<span class="cm">// Testable — dependency is injected from outside</span>
+<span class="kw">class</span> <span class="fn">ReportGenerator</span> {
+    <span class="kw">private</span> <span class="kw">final</span> Database db;
+    <span class="fn">ReportGenerator</span>(Database db) { <span class="kw">this</span>.db = db; } <span class="cm">// constructor injection</span>
+
+    <span class="kw">void</span> <span class="fn">generate</span>() {
+        db.<span class="fn">query</span>(<span class="str">"..."</span>); <span class="cm">// can be a real DB in prod, a mock in tests</span>
+    }
+}</pre>
+            <p>This is <strong class="text-white">dependency injection</strong>: a class receives its collaborators from the outside (usually via constructor) instead of creating them itself. It's the single biggest design change that makes code unit-testable, and it's why "hard to test" and "tightly coupled" are usually the same complaint.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> if writing a test for a class feels painful — you need to spin up a real database, a real network call, a real file on disk — that pain is valuable feedback about the class's design, not just an annoyance to work around.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> find a class in one of your own projects that directly instantiates a dependency (a file reader, a network client, a `new Random()`). Refactor it to accept that dependency through its constructor instead, then write a test using a fake or mock in place of the real thing.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 11 ============ -->
+      <section id="m11" class="module-section" data-module="11">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="11" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 11</span>
+            <span class="font-space font-bold text-white flex-1">Code Coverage &amp; Its Limits</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p><strong class="text-white">JaCoCo</strong> is the standard Java code coverage tool — it instruments your compiled code and reports what percentage of lines, branches, and methods were actually executed while your tests ran. Add the plugin to Maven:</p>
+            <pre class="code-block font-mono-teq"><span class="kw">&lt;plugin&gt;</span>
+  <span class="kw">&lt;groupId&gt;</span>org.jacoco<span class="kw">&lt;/groupId&gt;</span>
+  <span class="kw">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+  <span class="kw">&lt;version&gt;</span>0.8.11<span class="kw">&lt;/version&gt;</span>
+  <span class="kw">&lt;executions&gt;</span>
+    <span class="kw">&lt;execution&gt;</span>
+      <span class="kw">&lt;goals&gt;&lt;goal&gt;</span>prepare-agent<span class="kw">&lt;/goal&gt;&lt;/goals&gt;</span>
+    <span class="kw">&lt;/execution&gt;</span>
+    <span class="kw">&lt;execution&gt;</span>
+      <span class="kw">&lt;id&gt;</span>report<span class="kw">&lt;/id&gt;</span>
+      <span class="kw">&lt;phase&gt;</span>test<span class="kw">&lt;/phase&gt;</span>
+      <span class="kw">&lt;goals&gt;&lt;goal&gt;</span>report<span class="kw">&lt;/goal&gt;&lt;/goals&gt;</span>
+    <span class="kw">&lt;/execution&gt;</span>
+  <span class="kw">&lt;/executions&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></pre>
+            <p>Running <code class="font-mono-teq">mvn test</code> then produces an HTML report under <code class="font-mono-teq">target/site/jacoco/index.html</code> showing exactly which lines and branches were and weren't hit.</p>
+            <p>But here's the trap: <strong class="text-white">100% coverage does not mean your code is correct.</strong> Coverage only proves a line <em>ran</em> during a test — not that the test checked the right thing. This "test" gets 100% coverage while asserting nothing:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">uselessTest</span>() {
+    calculator.<span class="fn">applyCritical</span>(20); <span class="cm">// executes the line... proves nothing</span>
+    <span class="cm">// no assertion at all — this test can never fail</span>
+}</pre>
+            <p>Treat coverage as a <em>gap finder</em>, not a quality score: a low number on a critical class tells you exactly where to write more tests. A high number tells you nothing about whether those tests are any good. Aim for meaningful coverage of business logic and edge cases, not a percentage on a dashboard.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Going further — mutation testing:</strong> tools like <strong class="text-white">PIT (pitest)</strong> take this further by automatically introducing small bugs ("mutants") into your compiled code — flipping a <code class="font-mono-teq">&gt;</code> to <code class="font-mono-teq">&gt;=</code>, for example — and checking whether your test suite catches each one. A test suite that "kills" a high percentage of mutants is actually verifying behavior, not just executing lines.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> run JaCoCo on a class you've already tested. Find one uncovered branch (usually an edge case or error path you skipped) and write the test that covers it.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 12 ============ -->
+      <section id="m12" class="module-section" data-module="12">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="12" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 12</span>
+            <span class="font-space font-bold text-white flex-1">Test-Driven Development (Red–Green–Refactor)</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>So far you've written tests for code that already exists. <strong class="text-white">Test-Driven Development (TDD)</strong> flips the order: write the failing test <em>first</em>, then write just enough code to make it pass, then clean up. The cycle repeats in three steps:</p>
+            <ol class="list-decimal list-inside space-y-1.5 text-slate-400 ml-2">
+              <li><strong class="text-red-400">Red</strong> — write a test for behavior that doesn't exist yet. Run it. Watch it fail (it should fail to compile or fail the assertion — if it passes, something's wrong with the test).</li>
+              <li><strong class="text-emerald-400">Green</strong> — write the smallest, dumbest amount of code that makes the test pass. Don't gold-plate it yet.</li>
+              <li><strong class="text-[var(--circuit-blue)]">Refactor</strong> — now that a passing test protects you, clean up the implementation: remove duplication, improve names, extract methods. Re-run the test after every change to confirm it still passes.</li>
+            </ol>
+            <p>Worked example — building a <code class="font-mono-teq">FizzBuzz</code>-style level-title generator one behavior at a time:</p>
+            <pre class="code-block font-mono-teq"><span class="cm">// RED — this fails because LevelTitle doesn't exist yet</span>
+<span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">level1_isTitledNovice</span>() {
+    <span class="fn">assertEquals</span>(<span class="str">"Novice"</span>, LevelTitle.<span class="fn">forLevel</span>(1));
+}
+
+<span class="cm">// GREEN — simplest possible implementation</span>
+<span class="kw">class</span> <span class="fn">LevelTitle</span> {
+    <span class="kw">static</span> String <span class="fn">forLevel</span>(<span class="kw">int</span> level) {
+        <span class="kw">return</span> <span class="str">"Novice"</span>; <span class="cm">// hardcoded — but the test passes, and that's the point right now</span>
+    }
+}
+
+<span class="cm">// RED again — add the next behavior</span>
+<span class="an">@Test</span>
+<span class="kw">void</span> <span class="fn">level10_isTitledVeteran</span>() {
+    <span class="fn">assertEquals</span>(<span class="str">"Veteran"</span>, LevelTitle.<span class="fn">forLevel</span>(10));
+}
+
+<span class="cm">// GREEN — now the hardcoded value has to go</span>
+<span class="kw">static</span> String <span class="fn">forLevel</span>(<span class="kw">int</span> level) {
+    <span class="kw">if</span> (level &gt;= 10) <span class="kw">return</span> <span class="str">"Veteran"</span>;
+    <span class="kw">return</span> <span class="str">"Novice"</span>;
+}
+<span class="cm">// REFACTOR — once more titles exist, extract to a sorted table/lookup</span></pre>
+            <p>The discipline here isn't "write tests" — it's <em>never writing production code without a failing test demanding it</em>. That constraint naturally keeps you from building things you don't need yet, and it means the test suite grows in lockstep with the code instead of being bolted on afterward (or never).</p>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Watch out:</strong> TDD is a discipline, not a religion — plenty of excellent engineers write code first and backfill tests, especially for exploratory or throwaway work. Use TDD where it earns its keep: complex business logic, algorithms, anything with many edge cases — not for a one-line getter.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself — a small kata:</strong> using strict Red-Green-Refactor, build a <code class="font-mono-teq">PasswordValidator.isValid(String)</code> that requires: at least 8 characters, at least one digit, at least one uppercase letter. Write one failing test per rule, in that order, never writing validation logic that isn't demanded by a test you just watched fail.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 13 ============ -->
+      <section id="m13" class="module-section" data-module="13">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="13" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 13</span>
+            <span class="font-space font-bold text-white flex-1">Test Organization at Scale</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>A handful of tests are easy to keep straight. Hundreds require conventions. A few that pay off immediately:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 ml-2">
+              <li><strong class="text-slate-200">One test class per production class</strong>, same package, mirrored under <code class="font-mono-teq">src/test/java</code> — <code class="font-mono-teq">CombatEngine</code> → <code class="font-mono-teq">CombatEngineTest</code>.</li>
+              <li><strong class="text-slate-200">Group by scenario with <code class="font-mono-teq">@Nested</code></strong> (Module 5) rather than one flat class with fifty methods.</li>
+              <li><strong class="text-slate-200">One assertion concept per test.</strong> A test named <code class="font-mono-teq">withdraw_succeeds</code> that also happens to check three unrelated things is really three tests wearing a trench coat — split it up so a failure tells you precisely what broke.</li>
+              <li><strong class="text-slate-200">Shared setup goes in <code class="font-mono-teq">@BeforeEach</code> or a small test-fixture helper class</strong>, not copy-pasted across twenty methods.</li>
+              <li><strong class="text-slate-200">Use <code class="font-mono-teq">@Tag</code></strong> (Module 6) to separate fast unit tests from slower integration tests, and configure your build to run them as separate suites.</li>
+            </ul>
+            <p>For very large projects, JUnit 5's <code class="font-mono-teq text-[var(--voltage-orange)]">@Suite</code> (from the <code class="font-mono-teq">junit-platform-suite</code> artifact) lets you explicitly bundle multiple test classes or whole packages into a named suite that can be run as one unit:</p>
+            <pre class="code-block font-mono-teq"><span class="an">@Suite</span>
+<span class="an">@SelectPackages</span>(<span class="str">"com.avgjude.forge.combat"</span>)
+<span class="an">@IncludeTags</span>(<span class="str">"fast"</span>)
+<span class="kw">class</span> <span class="fn">FastCombatSuite</span> { }</pre>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> a well-organized test suite is documentation. A new contributor should be able to open <code class="font-mono-teq">CombatEngineTest</code> and understand every rule the combat system enforces just from reading the <code class="font-mono-teq">@DisplayName</code>s, top to bottom, without reading a single line of implementation.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> take every test class you've written in this course and audit it against the list above — split any test that checks more than one concept, and move duplicated setup into <code class="font-mono-teq">@BeforeEach</code>.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 14 ============ -->
+      <section id="m14" class="module-section" data-module="14">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="14" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 14</span>
+            <span class="font-space font-bold text-white flex-1">Best Practices &amp; Common Anti-Patterns</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Good unit tests follow the <strong class="text-white">FIRST</strong> principles:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 ml-2">
+              <li><strong class="text-slate-200">Fast</strong> — milliseconds. A slow suite gets run less often, which defeats the purpose.</li>
+              <li><strong class="text-slate-200">Independent</strong> — no test depends on another test running first, or on shared mutable state.</li>
+              <li><strong class="text-slate-200">Repeatable</strong> — same result every time, on any machine, in any order. No dependence on system clock, network, or random seeds unless explicitly controlled.</li>
+              <li><strong class="text-slate-200">Self-validating</strong> — pass or fail, no human reading console output to decide.</li>
+              <li><strong class="text-slate-200">Timely</strong> — written close to when the production code is written, ideally before (Module 12), not months later as an afterthought.</li>
+            </ul>
+            <p>Common anti-patterns to avoid:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 ml-2">
+              <li><strong class="text-slate-200">The Liar</strong> — a test that passes but doesn't actually verify the behavior its name claims to (like the empty-assertion example in Module 11).</li>
+              <li><strong class="text-slate-200">Flaky tests</strong> — pass sometimes, fail other times, usually from relying on timing, thread ordering, real network calls, or <code class="font-mono-teq">System.currentTimeMillis()</code>/real random values without a fixed seed. A flaky test that gets "just re-run it" instead of fixed will eventually be ignored entirely, including when it's catching a real bug.</li>
+              <li><strong class="text-slate-200">Testing implementation, not behavior</strong> — asserting on private internal state or exact call counts of things that don't matter to the outcome, which breaks the test the moment you refactor without changing behavior.</li>
+              <li><strong class="text-slate-200">The Giant</strong> — a single test method hundreds of lines long checking a dozen things. Split it.</li>
+              <li><strong class="text-slate-200">Excessive mocking</strong> — mocking every single collaborator, several layers deep, until the test only proves that your mocks do what you told them to do, not that the real system works.</li>
+            </ul>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> test <em>behavior</em> — inputs and outputs, observable effects — not implementation details. A test suite that breaks every time you rename a private method or reorder internal steps, without any actual bug, is actively costing you velocity instead of protecting it.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> pick your longest test method from this course and check it against FIRST. If it's testing more than one behavior, split it. If it depends on real time or randomness, inject a fixed clock or seeded random generator instead.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 15 ============ -->
+      <section id="m15" class="module-section" data-module="15">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="15" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 15</span>
+            <span class="font-space font-bold text-white flex-1">Running Tests in CI (GitHub Actions)</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Tests that only run on your own machine still leave room for "works for me." The payoff comes from running the full suite automatically on every push, so a broken build is caught before it reaches anyone else. Here's a minimal GitHub Actions workflow for a Maven project:</p>
+            <pre class="code-block font-mono-teq"><span class="cm"># .github/workflows/ci.yml</span>
+<span class="an">name</span>: CI
+<span class="an">on</span>: [push, pull_request]
+
+<span class="an">jobs</span>:
+  <span class="an">test</span>:
+    <span class="an">runs-on</span>: ubuntu-latest
+    <span class="an">steps</span>:
+      - <span class="an">uses</span>: actions/checkout@v4
+      - <span class="an">name</span>: Set up JDK 21
+        <span class="an">uses</span>: actions/setup-java@v4
+        <span class="an">with</span>:
+          <span class="an">java-version</span>: <span class="str">'21'</span>
+          <span class="an">distribution</span>: <span class="str">'temurin'</span>
+          <span class="an">cache</span>: maven
+      - <span class="an">name</span>: Run tests
+        <span class="an">run</span>: mvn -B test
+      - <span class="an">name</span>: Upload coverage report
+        <span class="an">if</span>: always()
+        <span class="an">uses</span>: actions/upload-artifact@v4
+        <span class="an">with</span>:
+          <span class="an">name</span>: jacoco-report
+          <span class="an">path</span>: target/site/jacoco</pre>
+            <p>Every push and every pull request triggers this: checkout the code, install the right JDK, run <code class="font-mono-teq">mvn test</code>, and archive the coverage report as a downloadable artifact regardless of pass/fail (<code class="font-mono-teq">if: always()</code>) so you can inspect what happened even on a red build. Maven's Surefire plugin exits non-zero on any test failure, which is what makes GitHub Actions mark the whole job as failed — no extra configuration needed.</p>
+            <p>A typical team policy: pull requests can't merge unless this workflow is green. That single rule is what actually makes a test suite valuable at scale — tests that people can skip running are tests that eventually get skipped.</p>
+            <div class="callout callout-tip">
+              <strong class="text-[var(--circuit-blue)]">Key idea:</strong> a test suite only protects a codebase if it's actually run — consistently, by everyone, before code merges. Automating that removes it from being a matter of discipline and makes it a property of the pipeline.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">Try it yourself:</strong> add the workflow above to a real GitHub repo of yours with a JUnit 5 test suite, push a commit, and confirm the Actions tab shows a green check. Then deliberately break a test and push again — confirm it shows red.
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ MODULE 16 — CAPSTONE ============ -->
+      <section id="m16" class="module-section" data-module="16">
+        <details class="lesson glass-panel rounded-2xl overflow-hidden">
+          <summary class="flex items-center gap-4 p-5">
+            <input type="checkbox" class="module-check" data-module="16" onclick="event.stopPropagation()">
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 w-16 flex-shrink-0">Module 16</span>
+            <span class="font-space font-bold text-white flex-1">Capstone: Test a Full Class from Scratch</span>
+            <i data-lucide="chevron-right" class="chev w-5 h-5 text-slate-500"></i>
+          </summary>
+          <div class="p-6 pt-5 space-y-4 text-slate-300 text-[0.95rem] leading-relaxed">
+            <p>Everything in this course, applied at once. Build and fully test a <code class="font-mono-teq">TournamentBracket</code> class using strict TDD:</p>
+            <ol class="list-decimal list-inside space-y-2 text-slate-400 ml-2">
+              <li>It's constructed with a list of player names (must have a power-of-two count, or it throws <code class="font-mono-teq">IllegalArgumentException</code> — test this first).</li>
+              <li><code class="font-mono-teq">recordWin(String winner, String loser)</code> advances the winner to the next round.</li>
+              <li><code class="font-mono-teq">recordWin</code> with a player not currently in the active round throws <code class="font-mono-teq">IllegalStateException</code>.</li>
+              <li><code class="font-mono-teq">getChampion()</code> returns the sole remaining player after all rounds complete, or throws if the tournament isn't finished.</li>
+              <li>It depends on a <code class="font-mono-teq">MatchLogger</code> interface (injected via constructor) that gets notified of every recorded win — mock this and verify it's called with correct arguments.</li>
+            </ol>
+            <p>Requirements for your test suite:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 ml-2">
+              <li>Use <code class="font-mono-teq">@BeforeEach</code> for shared bracket setup.</li>
+              <li>Use <code class="font-mono-teq">@Nested</code> to separate "invalid construction," "mid-tournament," and "final round" scenarios.</li>
+              <li>Use at least one <code class="font-mono-teq">@ParameterizedTest</code> (e.g. testing several invalid player-count values at once).</li>
+              <li>Use <code class="font-mono-teq">assertThrows</code> for both exception cases.</li>
+              <li>Mock <code class="font-mono-teq">MatchLogger</code> with Mockito and <code class="font-mono-teq">verify()</code> it's called correctly.</li>
+              <li>Run JaCoCo and get meaningful (not just numeric) coverage of every branch, including the error paths.</li>
+            </ul>
+            <div class="callout callout-warn">
+              <strong class="text-[var(--voltage-orange)]">Self-check:</strong> before you consider this done, delete your implementation of one method, leave only the tests, and rebuild it from red to green using only what the failing tests tell you. If you can do that cleanly, your tests are actually specifying the behavior — which was the whole point of Module 1.
+            </div>
+            <div class="callout callout-try">
+              <strong class="text-emerald-400">When you're done:</strong> you've now covered the same ground a mid-level Java role expects for testing competency — JUnit 5 fundamentals, Mockito, parameterized and exception testing, coverage tooling, TDD, and CI integration. From here, the fastest way to get better is to go add tests to a real, untested class in one of your own projects.
+            </div>
+          </div>
+        </details>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="py-8 border-t border-white/5 bg-[#020617]">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-slate-500">
+      <p>&copy; <span id="year"></span> Teq Vault LLC. All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="https://teqvault.online" target="_blank" rel="noopener" class="hover:text-[var(--circuit-blue)] transition"><i data-lucide="globe" class="w-4 h-4"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61577353297986" target="_blank" rel="noopener" class="hover:text-[var(--circuit-blue)] transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+        <a href="https://discord.gg/4CAYz2ZCqC" target="_blank" rel="noopener" class="hover:text-[var(--circuit-blue)] transition">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+        </a>
+        <a href="mailto:support@teqvault.online" class="hover:text-[var(--circuit-blue)] transition"><i data-lucide="mail" class="w-4 h-4"></i></a>
+      </div>
+      <p>Engineering worlds, not just games.</p>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) { lucide.createIcons(); }
+    const obs = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('active');
+    }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---- Course progress tracking (localStorage) ----
+    const STORAGE_KEY = 'teqstudy-junit-progress';
+    const TOTAL_MODULES = 16;
+
+    const moduleTitles = {
+      1: 'Why Unit Testing Matters', 2: 'Setting Up JUnit 5', 3: 'Anatomy of a Test',
+      4: 'Assertions Deep Dive', 5: 'Test Lifecycle Annotations', 6: 'Display Names, Tags & Disabling',
+      7: 'Parameterized Tests', 8: 'Exceptions, Timeouts & Edge Cases', 9: 'Mocking with Mockito',
+      10: 'Test Doubles & Testability', 11: 'Code Coverage & Its Limits', 12: 'Test-Driven Development',
+      13: 'Test Organization at Scale', 14: 'Best Practices & Anti-Patterns', 15: 'Running Tests in CI',
+      16: 'Capstone Project'
+    };
+
+    function loadProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch { return {}; }
+    }
+    function saveProgress(p) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+    }
+
+    function buildTOC() {
+      const toc = document.getElementById('toc');
+      const progress = loadProgress();
+      toc.innerHTML = '';
+      for (let i = 1; i <= TOTAL_MODULES; i++) {
+        const a = document.createElement('a');
+        a.href = `#m${i}`;
+        a.className = 'toc-link' + (progress[i] ? ' done' : '');
+        a.dataset.module = i;
+        a.innerHTML = `<span class="toc-dot"></span><span>${String(i).padStart(2,'0')} · ${moduleTitles[i]}</span>`;
+        toc.appendChild(a);
+      }
+    }
+
+    function updateProgressBar() {
+      const progress = loadProgress();
+      const done = Object.values(progress).filter(Boolean).length;
+      document.getElementById('progress-label').textContent = `${done} / ${TOTAL_MODULES} modules`;
+      document.getElementById('progress-fill').style.width = `${(done / TOTAL_MODULES) * 100}%`;
+      document.querySelectorAll('.toc-link').forEach(link => {
+        link.classList.toggle('done', !!progress[link.dataset.module]);
+      });
+    }
+
+    function initCheckboxes() {
+      const progress = loadProgress();
+      document.querySelectorAll('.module-check').forEach(box => {
+        const mod = box.dataset.module;
+        box.checked = !!progress[mod];
+        box.addEventListener('change', () => {
+          const p = loadProgress();
+          p[mod] = box.checked;
+          saveProgress(p);
+          updateProgressBar();
+        });
+      });
+    }
+
+    document.getElementById('reset-progress').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      document.querySelectorAll('.module-check').forEach(b => b.checked = false);
+      updateProgressBar();
+    });
+
+    buildTOC();
+    initCheckboxes();
+    updateProgressBar();
+  </script>
+</body>
+</html>
