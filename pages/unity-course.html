@@ -37,18 +37,22 @@
   <div class="sidebar-title">Course Modules</div>
 
   <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🚀</span> Getting Started <span class="nav-check" id="chk0"></span></div>
-  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🗂️</span> Unity Interface <span class="nav-check" id="chk1"></span></div>
-  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">📐</span> 2D Foundations <span class="nav-check" id="chk2"></span></div>
-  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🧩</span> 2D Physics &amp; Colliders <span class="nav-check" id="chk3"></span></div>
-  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🎞️</span> 2D Animation <span class="nav-check" id="chk4"></span></div>
-  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🧊</span> 3D Fundamentals <span class="nav-check" id="chk5"></span></div>
-  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">💡</span> Lighting &amp; Materials <span class="nav-check" id="chk6"></span></div>
-  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🌐</span> 2.5D — The Death Road Way <span class="nav-check" id="chk7"></span></div>
-  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">📱</span> Mobile Input &amp; Touch <span class="nav-check" id="chk8"></span></div>
-  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🎨</span> UI &amp; HUD Systems <span class="nav-check" id="chk9"></span></div>
-  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🤖</span> AI &amp; Pathfinding <span class="nav-check" id="chk10"></span></div>
-  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">⚡</span> Mobile Optimization <span class="nav-check" id="chk11"></span></div>
-  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">📦</span> Build &amp; Ship <span class="nav-check" id="chk12"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🧠</span> Unity Core Concepts <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">🗂️</span> Unity Interface <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">📐</span> 2D Foundations <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🧩</span> 2D Physics &amp; Colliders <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🎞️</span> 2D Animation <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🧊</span> 3D Fundamentals <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">💡</span> Lighting &amp; Materials <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🌐</span> 2.5D — The Death Road Way <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">📱</span> Mobile Input &amp; Touch <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🎨</span> UI &amp; HUD Systems <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🗺️</span> NavMesh &amp; Agent Basics <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">🧠</span> Enemy AI State Machines <span class="nav-check" id="chk12"></span></div>
+  <div class="nav-item" onclick="go(13)" id="nav13"><span class="nav-icon">🧵</span> Draw Calls &amp; Batching <span class="nav-check" id="chk13"></span></div>
+  <div class="nav-item" onclick="go(14)" id="nav14"><span class="nav-icon">🔍</span> Profiling &amp; Memory <span class="nav-check" id="chk14"></span></div>
+  <div class="nav-item" onclick="go(15)" id="nav15"><span class="nav-icon">📦</span> Build &amp; Ship <span class="nav-check" id="chk15"></span></div>
+  <div class="nav-item" onclick="go(16)" id="nav16"><span class="nav-icon">🏁</span> Capstone: Ship a Slice <span class="nav-check" id="chk16"></span></div>
 </nav>
 
 <!-- MAIN -->
@@ -137,23 +141,113 @@
     <div class="quiz-title">🧠 Quick Check</div>
     <div class="quiz-q">Which render pipeline should you use for a new Unity mobile game?</div>
     <div class="quiz-options">
-      <button class="quiz-option" onclick="quiz(this,'wrong')">Built-in Render Pipeline</button>
-      <button class="quiz-option" onclick="quiz(this,'correct')">Universal Render Pipeline (URP)</button>
-      <button class="quiz-option" onclick="quiz(this,'wrong')">High Definition Render Pipeline (HDRP)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="URP (Universal Render Pipeline) is the right choice for mobile. Built-in is older and slower; HDRP is for high-end PC/console only.">Built-in Render Pipeline</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="URP is Unity's recommended pipeline for mobile — faster shaders, better batching, and mobile-specific optimizations.">Universal Render Pipeline (URP)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="URP (Universal Render Pipeline) is the right choice for mobile. Built-in is older and slower; HDRP is for high-end PC/console only.">High Definition Render Pipeline (HDRP)</button>
     </div>
     <div class="quiz-feedback" id="qfb0"></div>
   </div>
 
   <div class="lesson-nav">
     <button class="btn btn-prev" disabled>← Previous</button>
-    <button class="btn btn-next" onclick="next(0)">Unity Interface →</button>
+    <button class="btn btn-next" onclick="next(0)">Unity Core Concepts →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 1: Interface ===== -->
+<!-- ===== LESSON 1: Unity Core Concepts ===== -->
 <section class="lesson" id="l1">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 02</div>
+    <h2>Unity Core Concepts</h2>
+    <p class="lesson-intro">Before touching the interface or writing a script, learn the five words every Unity tutorial assumes you already know — Scene, GameObject, Component, Prefab, and the MonoBehaviour lifecycle. Everything else in this course builds on these.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎬 Scene — The File You're Editing</div>
+    <p>A <strong>Scene</strong> is a single level or screen in your game — a menu, a battle arena, a shop. It's saved as a <code>.unity</code> file. A game is usually many Scenes loaded one at a time (or streamed together for open worlds). Everything you place, move, or script lives inside whichever Scene is currently open.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 GameObject — An Empty Box That Does Nothing</div>
+    <p>A <strong>GameObject</strong> is the base building block of everything in a Scene — a player, an enemy, a light, a UI button, even an empty organizational folder. On its own, a fresh GameObject does absolutely nothing. It has no shape, no image, no behavior. It's just a named container with a position in the world.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Where you see them</strong>Every row in the <strong>Hierarchy</strong> panel (bottom-left by default) is a GameObject. Click one and its details show up in the <strong>Inspector</strong> panel (right side) — that's where you'll spend most of your time.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Component — What Actually Gives It Behavior</div>
+    <p>A <strong>Component</strong> is a piece of functionality you attach to a GameObject. This is the part people find confusing at first: Unity doesn't have a "Player" class or an "Enemy" class built in. Instead, you build up behavior by stacking components onto an empty GameObject:</p>
+    <div class="scene-diagram">
+<span class="node">GameObject: "Player"</span>
+├── <span class="comp">Transform</span>          <span class="val">← position/rotation/scale — every GameObject has this one</span>
+├── <span class="comp">SpriteRenderer</span>      <span class="val">← makes it visible on screen</span>
+├── <span class="comp">Rigidbody2D</span>         <span class="val">← makes it affected by physics</span>
+├── <span class="comp">BoxCollider2D</span>        <span class="val">← gives it a physical shape to collide with</span>
+└── <span class="comp">PlayerMovement.cs</span>    <span class="val">← your own script — also a component!</span>
+    </div>
+    <p>Every one of those is a separate, swappable piece. Want the player to stop being affected by gravity? Remove the Rigidbody. Want an invisible trigger zone? Keep the Collider, remove the SpriteRenderer. This "stack components" approach is called <strong>composition</strong>, and it's the core idea behind how Unity works — very different from traditional class inheritance.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 Your Script Is Just Another Component</div>
+    <p>When you write a C# script and drag it onto a GameObject, it becomes a component exactly like SpriteRenderer or Rigidbody2D. Every script you write in Unity inherits from a base class called <strong>MonoBehaviour</strong>, which is what lets Unity call your code automatically at the right moments.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ The MonoBehaviour Lifecycle — Awake, Start, Update</div>
+    <p>You'll see these three method names in almost every script in this course. They're not interchangeable — Unity calls each one at a different, specific moment:</p>
+    <table>
+      <tr><th>Method</th><th>Called When</th><th>Use It For</th></tr>
+      <tr><td><code>Awake()</code></td><td>The instant the GameObject loads, before anything else runs</td><td>Grabbing references to your own components (<code>GetComponent&lt;Rigidbody2D&gt;()</code>)</td></tr>
+      <tr><td><code>Start()</code></td><td>Once, right before the first frame — after all Awakes have run</td><td>Setup that depends on <em>other</em> objects already existing</td></tr>
+      <tr><td><code>Update()</code></td><td>Every single frame, continuously, for as long as the object exists</td><td>Input checks, movement, anything that needs to happen constantly</td></tr>
+    </table>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Seeing the Order for Yourself</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">using</span> UnityEngine;
+
+<span class="kw">public class</span> <span class="cl">LifecycleDemo</span> : MonoBehaviour
+{
+    <span class="kw">void</span> <span class="fn">Awake</span>()  { Debug.<span class="fn">Log</span>(<span class="str">"1. Awake — I exist"</span>); }
+    <span class="kw">void</span> <span class="fn">Start</span>()  { Debug.<span class="fn">Log</span>(<span class="str">"2. Start — the scene is ready"</span>); }
+    <span class="kw">void</span> <span class="fn">Update</span>() { Debug.<span class="fn">Log</span>(<span class="str">"3. Update — this repeats every frame"</span>); }
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Common beginner bug</strong>Trying to reference another object's component in <code>Awake()</code> before that object has initialized its own fields is a classic source of null reference errors. If something depends on another GameObject being fully set up first, put it in <code>Start()</code>, not <code>Awake()</code>.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧬 Prefab — A Saved, Reusable GameObject</div>
+    <p>Once you've built a GameObject with the right components attached (say, a fully working enemy with a Rigidbody, Collider, sprite, and AI script), you can drag it from the Hierarchy into the Project window to save it as a <strong>Prefab</strong>. From then on, that Prefab is a template — you can spawn as many copies as you want at runtime with <code>Instantiate()</code>, and editing the original Prefab updates every copy in every Scene that uses it.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You need to grab a reference to this object's own Rigidbody2D before anything else runs. Which method do you use?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Awake() runs first, before Start() and before any Update() loop, making it the right place to grab your own component references.">Awake()</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Update() runs every frame, after setup — it's too late and too repetitive for one-time reference grabbing.">Update()</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Instantiate() creates a new object from a Prefab — it doesn't run automatically and isn't part of the lifecycle.">Instantiate()</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Getting Started</button>
+    <button class="btn btn-next" onclick="next(1)">Unity Interface →</button>
+  </div>
+</section>
+
+
+<!-- ===== LESSON 2: shifted from old 1 ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
     <h2>The Unity Interface</h2>
     <p class="lesson-intro">Learn every panel of the Unity editor — Scene, Game, Hierarchy, Inspector, Project, and Console — and how they work together.</p>
   </div>
@@ -229,15 +323,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(1)">← Getting Started</button>
-    <button class="btn btn-next" onclick="next(1)">2D Foundations →</button>
+    <button class="btn btn-prev" onclick="prev(2)">← Unity Core Concepts</button>
+    <button class="btn btn-next" onclick="next(2)">2D Foundations →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 2: 2D FOUNDATIONS ===== -->
-<section class="lesson" id="l2">
+<!-- ===== LESSON 3: shifted from old 2 ===== -->
+<section class="lesson" id="l3">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 03</div>
+    <div class="lesson-num">MODULE 04</div>
     <h2>2D Foundations</h2>
     <p class="lesson-intro">Sprites, tilemaps, cameras, sorting layers, and the complete 2D pipeline — everything you need to build a 2D mobile game world.</p>
   </div>
@@ -327,15 +421,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(2)">← Unity Interface</button>
-    <button class="btn btn-next" onclick="next(2)">Physics &amp; Colliders →</button>
+    <button class="btn btn-prev" onclick="prev(3)">← Unity Interface</button>
+    <button class="btn btn-next" onclick="next(3)">Physics &amp; Colliders →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 3: Physics ===== -->
-<section class="lesson" id="l3">
+<!-- ===== LESSON 4: shifted from old 3 ===== -->
+<section class="lesson" id="l4">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 04</div>
+    <div class="lesson-num">MODULE 05</div>
     <h2>2D Physics &amp; Colliders</h2>
     <p class="lesson-intro">Rigidbodies, colliders, triggers, layers, and the full physics pipeline — make objects collide, bounce, and interact.</p>
   </div>
@@ -433,15 +527,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(3)">← 2D Foundations</button>
-    <button class="btn btn-next" onclick="next(3)">2D Animation →</button>
+    <button class="btn btn-prev" onclick="prev(4)">← 2D Foundations</button>
+    <button class="btn btn-next" onclick="next(4)">2D Animation →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 4: Animation ===== -->
-<section class="lesson" id="l4">
+<!-- ===== LESSON 5: shifted from old 4 ===== -->
+<section class="lesson" id="l5">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 05</div>
+    <div class="lesson-num">MODULE 06</div>
     <h2>2D Animation</h2>
     <p class="lesson-intro">Animator Controller, Blend Trees, Animation Events, and smooth state machines — bring your sprites to life.</p>
   </div>
@@ -488,15 +582,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(4)">← Physics</button>
-    <button class="btn btn-next" onclick="next(4)">3D Fundamentals →</button>
+    <button class="btn btn-prev" onclick="prev(5)">← Physics</button>
+    <button class="btn btn-next" onclick="next(5)">3D Fundamentals →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 5: 3D ===== -->
-<section class="lesson" id="l5">
+<!-- ===== LESSON 6: shifted from old 5 ===== -->
+<section class="lesson" id="l6">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 06</div>
+    <div class="lesson-num">MODULE 07</div>
     <h2>3D Fundamentals</h2>
     <p class="lesson-intro">Meshes, materials, lighting, cameras, and the 3D pipeline — the foundation for your Death Road characters and world objects.</p>
   </div>
@@ -559,15 +653,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(5)">← 2D Animation</button>
-    <button class="btn btn-next" onclick="next(5)">Lighting &amp; Materials →</button>
+    <button class="btn btn-prev" onclick="prev(6)">← 2D Animation</button>
+    <button class="btn btn-next" onclick="next(6)">Lighting &amp; Materials →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 6: Lighting ===== -->
-<section class="lesson" id="l6">
+<!-- ===== LESSON 7: shifted from old 6 ===== -->
+<section class="lesson" id="l7">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 07</div>
+    <div class="lesson-num">MODULE 08</div>
     <h2>Lighting &amp; Materials</h2>
     <p class="lesson-intro">URP lighting, baked vs realtime, normal maps, emissives, and mobile-optimized lighting setups for your game world.</p>
   </div>
@@ -610,15 +704,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(6)">← 3D Fundamentals</button>
-    <button class="btn btn-next" onclick="next(6)">2.5D — The Death Road Way →</button>
+    <button class="btn btn-prev" onclick="prev(7)">← 3D Fundamentals</button>
+    <button class="btn btn-next" onclick="next(7)">2.5D — The Death Road Way →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 7: 2.5D ===== -->
-<section class="lesson" id="l7">
+<!-- ===== LESSON 8: shifted from old 7 ===== -->
+<section class="lesson" id="l8">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 08 ⭐</div>
+    <div class="lesson-num">MODULE 09 ⭐</div>
     <h2>2.5D — The Death Road Way</h2>
     <p class="lesson-intro">3D characters on a 2D world plane — exactly how Last Day on Earth works. Depth sorting, isometric cameras, billboard sprites, and the full hybrid pipeline.</p>
   </div>
@@ -775,15 +869,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(7)">← Lighting</button>
-    <button class="btn btn-next" onclick="next(7)">Mobile Input →</button>
+    <button class="btn btn-prev" onclick="prev(8)">← Lighting</button>
+    <button class="btn btn-next" onclick="next(8)">Mobile Input →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 8: Mobile Input ===== -->
-<section class="lesson" id="l8">
+<!-- ===== LESSON 9: shifted from old 8 ===== -->
+<section class="lesson" id="l9">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 09</div>
+    <div class="lesson-num">MODULE 10</div>
     <h2>Mobile Input &amp; Touch</h2>
     <p class="lesson-intro">Virtual joysticks, tap detection, swipe gestures, and Unity's Input System — build controls that feel native on touchscreens.</p>
   </div>
@@ -876,15 +970,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(8)">← 2.5D</button>
-    <button class="btn btn-next" onclick="next(8)">UI &amp; HUD →</button>
+    <button class="btn btn-prev" onclick="prev(9)">← 2.5D</button>
+    <button class="btn btn-next" onclick="next(9)">UI &amp; HUD →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 9: UI ===== -->
-<section class="lesson" id="l9">
+<!-- ===== LESSON 10: shifted from old 9 ===== -->
+<section class="lesson" id="l10">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 10</div>
+    <div class="lesson-num">MODULE 11</div>
     <h2>UI &amp; HUD Systems</h2>
     <p class="lesson-intro">Canvas, health bars, inventory slots, damage numbers, menus — build a complete mobile game UI that looks great on any screen size.</p>
   </div>
@@ -969,17 +1063,17 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(9)">← Mobile Input</button>
-    <button class="btn btn-next" onclick="next(9)">AI &amp; Pathfinding →</button>
+    <button class="btn btn-prev" onclick="prev(10)">← Mobile Input</button>
+    <button class="btn btn-next" onclick="next(10)">AI &amp; Pathfinding →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 10: AI ===== -->
-<section class="lesson" id="l10">
+<!-- ===== LESSON 11: shifted from old 10 ===== -->
+<section class="lesson" id="l11">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 11</div>
-    <h2>AI &amp; Pathfinding</h2>
-    <p class="lesson-intro">NavMesh, A* pathfinding, state machines for enemies, and behavior trees — make zombies and survivors feel alive.</p>
+    <div class="lesson-num">MODULE 12</div>
+    <h2>NavMesh &amp; Agent Basics</h2>
+    <p class="lesson-intro">Bake a walkable surface, drop a NavMeshAgent on an enemy, and get it chasing the player — the foundation every AI behavior builds on.</p>
   </div>
 
   <div class="card">
@@ -1035,6 +1129,45 @@
   </div>
 
   <div class="card">
+    <div class="card-title">🎯 Detection — Sight Cones &amp; Triggers</div>
+    <p>Distance checks alone make enemies feel like they have x-ray vision. Real detection combines a trigger radius with a line-of-sight check so enemies only "see" what's actually in front of them and not blocked by a wall.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Line-of-Sight Check</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">bool</span> <span class="fn">CanSeePlayer</span>()
+{
+    Vector3 dir = <span class="var">player</span>.position - transform.position;
+    <span class="kw">float</span> angle = Vector3.<span class="fn">Angle</span>(transform.forward, dir);
+    <span class="kw">if</span> (angle &gt; <span class="var">fieldOfView</span> * <span class="num">0.5f</span>) <span class="kw">return</span> <span class="kw">false</span>;
+
+    <span class="kw">if</span> (Physics.<span class="fn">Raycast</span>(transform.position + Vector3.up, dir.normalized,
+        <span class="kw">out</span> RaycastHit hit, <span class="var">detectionRange</span>, <span class="var">obstacleMask</span>))
+    {
+        <span class="kw">return</span> hit.collider.CompareTag(<span class="str">"Player"</span>);
+    }
+    <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Mobile perf note</strong>Only run <code>CanSeePlayer()</code> every few frames (e.g. via <code>InvokeRepeating</code>), not every <code>Update()</code> — raycasts against many enemies add up fast on mid-range Android GPUs.</div>
+    </div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← UI &amp; HUD</button>
+    <button class="btn btn-next" onclick="next(11)">Enemy AI State Machines →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 12: shifted from old 11 ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13</div>
+    <h2>Enemy AI State Machines</h2>
+    <p class="lesson-intro">Go beyond chase-and-attack — build a full Idle → Wander → Chase → Attack → Flee state machine with a suspicion meter, the pattern Death Road's enemies actually use.</p>
+  </div>
+
+  <div class="card">
     <div class="card-title">🧠 State Machine vs Behavior Tree</div>
     <table>
       <tr><th>Approach</th><th>Best For</th><th>Complexity</th></tr>
@@ -1048,18 +1181,147 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-title">😨 The Suspicion Meter</div>
+    <p>Instead of snapping straight from Idle to Chase the instant a player is detected, a suspicion meter ramps up gradually — the enemy notices something, gets more alert, then commits to a chase. It reads as far more "alive" than a hard trigger.</p>
+    <ol class="step-list">
+      <li>While the player is visible, increase <code>suspicion</code> each frame.</li>
+      <li>While hidden, let it decay back toward zero.</li>
+      <li>Cross a low threshold → Wander toward last known position. Cross a high threshold → Chase.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Full FSM with Suspicion Meter</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">public class</span> <span class="cl">EnemyFSM</span> : MonoBehaviour
+{
+    <span class="kw">enum</span> <span class="cl">State</span> { Idle, Wander, Chase, Attack, Flee }
+    <span class="kw">private</span> <span class="cl">State</span> <span class="var">state</span> = <span class="cl">State</span>.Idle;
+
+    <span class="kw">public float</span> <span class="var">suspicion</span>        = <span class="num">0f</span>;
+    <span class="kw">public float</span> <span class="var">suspicionRise</span>    = <span class="num">25f</span>;
+    <span class="kw">public float</span> <span class="var">suspicionDecay</span>   = <span class="num">10f</span>;
+    <span class="kw">public float</span> <span class="var">chaseThreshold</span>   = <span class="num">70f</span>;
+    <span class="kw">public float</span> <span class="var">wanderThreshold</span>  = <span class="num">20f</span>;
+    <span class="kw">public float</span> <span class="var">lowHealthFlee</span>    = <span class="num">0.2f</span>;
+    <span class="kw">public</span> Health   <span class="var">health</span>;
+
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="var">suspicion</span> += (<span class="fn">CanSeePlayer</span>() ? <span class="var">suspicionRise</span> : -<span class="var">suspicionDecay</span>) * Time.deltaTime;
+        <span class="var">suspicion</span> = Mathf.<span class="fn">Clamp</span>(<span class="var">suspicion</span>, <span class="num">0f</span>, <span class="num">100f</span>);
+
+        <span class="kw">if</span> (<span class="var">health</span>.Percent &lt; <span class="var">lowHealthFlee</span>) <span class="var">state</span> = <span class="cl">State</span>.Flee;
+        <span class="kw">else if</span> (<span class="var">suspicion</span> &gt;= <span class="var">chaseThreshold</span>)  <span class="var">state</span> = <span class="cl">State</span>.Chase;
+        <span class="kw">else if</span> (<span class="var">suspicion</span> &gt;= <span class="var">wanderThreshold</span>) <span class="var">state</span> = <span class="cl">State</span>.Wander;
+        <span class="kw">else</span>                                       <span class="var">state</span> = <span class="cl">State</span>.Idle;
+
+        <span class="fn">RunState</span>();
+    }
+
+    <span class="kw">void</span> <span class="fn">RunState</span>()
+    {
+        <span class="kw">switch</span> (<span class="var">state</span>)
+        {
+            <span class="kw">case</span> <span class="cl">State</span>.Idle:   <span class="fn">DoIdle</span>();   <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="cl">State</span>.Wander: <span class="fn">DoWander</span>(); <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="cl">State</span>.Chase:  <span class="fn">DoChase</span>();  <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="cl">State</span>.Attack: <span class="fn">DoAttack</span>(); <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="cl">State</span>.Flee:   <span class="fn">DoFlee</span>();   <span class="kw">break</span>;
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏃 Flee — Running Away Convincingly</div>
+    <p>Flee isn't just "reverse the chase vector." Run straight away from the player and enemies get stuck backing into corners. Sample a few points around the enemy, keep the one farthest from the player <em>and</em> reachable on the NavMesh.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C# — Flee to Best NavMesh Point</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">void</span> <span class="fn">DoFlee</span>()
+{
+    Vector3 away = (transform.position - <span class="var">player</span>.position).normalized;
+    Vector3 fleeTarget = transform.position + away * <span class="num">6f</span>;
+
+    <span class="kw">if</span> (NavMesh.<span class="fn">SamplePosition</span>(fleeTarget, <span class="kw">out</span> NavMeshHit hit, <span class="num">6f</span>, NavMesh.AllAreas))
+        <span class="var">agent</span>.<span class="fn">SetDestination</span>(hit.position);
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Common bug</strong>If you skip the <code>NavMesh.SamplePosition</code> check, fleeing enemies will try to path off the NavMesh entirely and get stuck vibrating against a wall. Always validate the flee point first.</div>
+    </div>
+  </div>
+
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(10)">← UI &amp; HUD</button>
-    <button class="btn btn-next" onclick="next(10)">Mobile Optimization →</button>
+    <button class="btn btn-prev" onclick="prev(12)">← NavMesh &amp; Agent Basics</button>
+    <button class="btn btn-next" onclick="next(12)">Draw Calls &amp; Batching →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 11: Optimization ===== -->
-<section class="lesson" id="l11">
+<!-- ===== LESSON 13: shifted from old 12 ===== -->
+<section class="lesson" id="l13">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 12</div>
-    <h2>Mobile Optimization</h2>
-    <p class="lesson-intro">Target 60fps on mid-range Android devices — GPU batching, object pooling, LODs, texture atlases, and the Profiler workflow.</p>
+    <div class="lesson-num">MODULE 14</div>
+    <h2>Draw Calls &amp; Batching</h2>
+    <p class="lesson-intro">Every object you draw costs the GPU a "draw call." On mid-range Android, that budget is small — here's how to spend it wisely.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 What's a Draw Call, and Why It's Expensive</div>
+    <p>Each unique material + mesh combination the GPU renders is a separate draw call. Mobile GPUs choke well before desktop ones — a scene that runs at 500 draw calls on PC can drop a budget Android phone to single-digit fps. The fix isn't fewer objects; it's fewer <em>unique</em> draws.</p>
+    <table>
+      <tr><th>Device Tier</th><th>Safe Draw Call Budget</th></tr>
+      <tr><td>Low-end Android (2–3 GB RAM)</td><td>~80–150 draw calls</td></tr>
+      <tr><td>Mid-range Android</td><td>~150–300 draw calls</td></tr>
+      <tr><td>Flagship / modern iOS</td><td>~300–500 draw calls</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧵 Static &amp; Dynamic Batching</div>
+    <ol class="step-list">
+      <li>Mark non-moving scenery (ground, walls, props) as <strong>Static</strong> in the Inspector → enables Static Batching automatically.</li>
+      <li>For moving objects sharing one material (bullets, small props), Unity applies <strong>Dynamic Batching</strong> automatically if the mesh is under ~300 vertices.</li>
+      <li>Batching only merges objects that share the <strong>same material</strong> — two identical meshes with different materials still cost two draw calls.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>GPU Instancing</strong>For lots of the same object with slight per-instance variation (color, scale), enable <strong>Enable GPU Instancing</strong> on the material instead of relying on batching — it handles hundreds of copies in one draw call.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ Texture Atlasing</div>
+    <p>Combining multiple textures into one shared sheet (an atlas) lets many objects reference the same texture, which is required for batching to actually merge them. This matters most for UI and small props like pickups, particles, and decals.</p>
+    <ol class="step-list">
+      <li>Group sprites that appear together often (UI icons, item pickups) into one atlas using Unity's <strong>Sprite Atlas</strong> asset.</li>
+      <li>Window → 2D → Sprite Atlas → Create New → drag in your loose sprites.</li>
+      <li>Enable <strong>Include in Build</strong> and Unity will pack and reference the atlas automatically at runtime.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Frame Debugger — See Every Draw Call</div>
+    <p>The Profiler tells you <em>how much</em> time rendering costs; the Frame Debugger shows <em>which</em> individual draw calls make up a frame, in order.</p>
+    <ol class="step-list">
+      <li>Window → Analysis → Frame Debugger → Enable.</li>
+      <li>Step through the list — each entry is one draw call. Look for repeated materials that should have batched but didn't.</li>
+      <li>If two identical materials appear as separate draw calls, check that both use the exact same material asset — even a duplicated instance breaks batching.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(13)">← Enemy AI State Machines</button>
+    <button class="btn btn-next" onclick="next(13)">Profiling &amp; Memory →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 14: shifted from old 13 ===== -->
+<section class="lesson" id="l14">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 15</div>
+    <h2>Profiling &amp; Memory</h2>
+    <p class="lesson-intro">Target 60fps on mid-range Android devices — the Profiler workflow, object pooling, and the full optimization cheat sheet.</p>
   </div>
 
   <div class="card">
@@ -1112,6 +1374,22 @@
   </div>
 
   <div class="card">
+    <div class="card-title">🧮 GC Allocation — The Silent Killer</div>
+    <p>Object pooling fixes <code>Instantiate</code>/<code>Destroy</code> spikes, but garbage collection also creeps in from allocations you don't notice — LINQ queries, string concatenation, and <code>new</code> inside <code>Update()</code>.</p>
+    <table>
+      <tr><th>Common GC Trap</th><th>Fix</th></tr>
+      <tr><td><code>list.Where(x =&gt; ...)</code> in Update</td><td>Use a plain for-loop instead of LINQ</td></tr>
+      <tr><td><code>"Score: " + score</code> every frame</td><td>Only update the string when score actually changes</td></tr>
+      <tr><td><code>new Vector3(...)</code> in a hot loop</td><td>Reuse a cached field where possible (structs still allocate on the stack, but repeated boxing/closures don't)</td></tr>
+      <tr><td>Closures/lambdas capturing variables in Update</td><td>Move the lambda outside the loop or cache it once</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Spot it in the Profiler</strong>Open the Memory module and watch the GC Alloc column per frame. Anything consistently non-zero in <code>Update()</code> is worth hunting down before it becomes a stutter on low-end devices.</div>
+    </div>
+  </div>
+
+  <div class="card">
     <div class="card-title">⚡ Optimization Cheat Sheet</div>
     <table>
       <tr><th>Problem</th><th>Fix</th></tr>
@@ -1126,15 +1404,15 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(11)">← AI</button>
-    <button class="btn btn-next" onclick="next(11)">Build &amp; Ship →</button>
+    <button class="btn btn-prev" onclick="prev(14)">← Draw Calls &amp; Batching</button>
+    <button class="btn btn-next" onclick="next(14)">Build &amp; Ship →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 12: Build ===== -->
-<section class="lesson" id="l12">
+<!-- ===== LESSON 15: shifted from old 14 ===== -->
+<section class="lesson" id="l15">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 13 🏁</div>
+    <div class="lesson-num">MODULE 16</div>
     <h2>Build &amp; Ship</h2>
     <p class="lesson-intro">Generate APK/AAB for Android, set up signing, configure IL2CPP, and submit to Google Play and the App Store.</p>
   </div>
@@ -1175,7 +1453,7 @@
   </div>
 
   <div class="challenge">
-    <div class="challenge-label">🎯 Final Challenge</div>
+    <div class="challenge-label">🎯 Checkpoint Challenge</div>
     <h4>Ship a Death Road Prototype</h4>
     <p>Build and sideload a prototype APK containing:</p>
     <ul>
@@ -1189,16 +1467,76 @@
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(12)">← Optimization</button>
+    <button class="btn btn-prev" onclick="prev(15)">← Profiling &amp; Memory</button>
+    <button class="btn btn-next" onclick="next(15)">Ship a Vertical Slice →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 16: shifted from old 15 ===== -->
+<section class="lesson" id="l16">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 17 🏁</div>
+    <h2>Capstone — Ship a Vertical Slice</h2>
+    <p class="lesson-intro">Everything from this course, combined into one small playable loop: a 2.5D scene, a NavMesh enemy with a real state machine, pooled effects, a UI HUD, and a signed release build. This is the project that proves you can actually ship.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 What a Vertical Slice Is (and Isn't)</div>
+    <p>A vertical slice is a small, complete loop — not a big level, not more content, just every system from this course touching each other in one playable minute. It's the difference between "I finished the modules" and "I can put pieces together into something that runs on a phone."</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ The Build Plan</div>
+    <ol class="step-list">
+      <li><strong>Scene:</strong> One 2.5D area (Module 8) — a small enclosed space with the isometric camera locked to the player.</li>
+      <li><strong>Player:</strong> The 2.5D character controller (Module 8) with virtual joystick input (Module 9) and an attack button.</li>
+      <li><strong>Enemy:</strong> One NavMesh-baked enemy (Module 11) running the full state machine — Idle → Wander → Chase → Attack → Flee (Module 12) — not just a chase script.</li>
+      <li><strong>Effects:</strong> Attack swing or bullet VFX drawn from an object pool (Module 14) — no <code>Instantiate</code>/<code>Destroy</code> in the play loop.</li>
+      <li><strong>UI:</strong> A health bar HUD (Module 10) that updates when the player takes damage.</li>
+      <li><strong>Performance:</strong> Static-batch the environment (Module 13), confirm draw calls stay inside the mid-range budget (~150–300) using the Frame Debugger.</li>
+      <li><strong>Build:</strong> A signed, Release-mode .apk with IL2CPP + ARM64 (Module 15) that installs and runs on a real Android device.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Definition of Done</div>
+    <table>
+      <tr><th>System</th><th>Passes when…</th></tr>
+      <tr><td>Enemy AI</td><td>It idles, notices the player at a distance (not instantly), chases, attacks, and flees below a health threshold</td></tr>
+      <tr><td>Pooling</td><td>The Profiler shows no Instantiate/Destroy GC spikes during combat</td></tr>
+      <tr><td>Performance</td><td>Frame Debugger shows draw calls within your device tier's budget</td></tr>
+      <tr><td>Build</td><td>Installs from a signed .apk on a physical Android device without errors</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Ship the Slice</h4>
+    <p>Combine every checkpoint above into a single scene and sideload it to a real device. This is your first shippable proof of concept — the same shape of project you'd hand to a publisher or drop into a Play Store closed test.</p>
+    <ul>
+      <li>2.5D isometric scene with a playable character</li>
+      <li>At least 1 enemy running the full Idle/Wander/Chase/Attack/Flee state machine</li>
+      <li>Virtual joystick + attack button</li>
+      <li>Health bar HUD that reflects real damage</li>
+      <li>Object-pooled attack/bullet VFX — zero runtime Instantiate/Destroy</li>
+      <li>Builds without errors in Release mode with IL2CPP + ARM64, signed and installable</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(16)">← Build &amp; Ship</button>
     <button class="btn btn-next" disabled>Course Complete! 🎉</button>
   </div>
 </section>
+
+
+
 
 </main>
 </div>
 
 <script>
-const TOTAL = 13;
+const TOTAL = 17;
 const done  = new Set();
 let   cur   = 0;
 
@@ -1229,9 +1567,8 @@ function quiz(btn, result) {
   btn.classList.add(result);
   const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
   fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
-  fb.textContent = result === 'correct'
-    ? '✅ Correct! URP is Unity\'s recommended pipeline for mobile — faster shaders, better batching, and mobile-specific optimizations.'
-    : '❌ Not quite. URP (Universal Render Pipeline) is the right choice for mobile. Built-in is older and slower; HDRP is for high-end PC/console only.';
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
 }
 
 done.add(0);

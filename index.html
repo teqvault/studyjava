@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java Mastery Roadmap</title>
+<title>TeqStudy — Developer Learning Tracks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -27,16 +27,16 @@
 
 <!-- ── HERO ────────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-eyebrow">// java-mastery-roadmap v2.0</div>
+  <div class="hero-eyebrow">// teqstudy v3.0</div>
 
   <h1 class="hero-title">
-    Learn Java.<br>
+    Pick a track.<br>
     <span class="accent">Build things.</span><br>
     <span class="dim">Get hired.</span>
   </h1>
 
   <p class="hero-sub">
-    A structured path from zero to job-ready. 28 courses, one direction.
+    Seven developer tracks — Java, Python, DevOps, Game Dev, AI, and more. 30 courses, one home.
   </p>
 
   <div class="compile-widget">
@@ -44,28 +44,28 @@
       <span class="dot dot-r"></span>
       <span class="dot dot-y"></span>
       <span class="dot dot-g"></span>
-      <span class="compile-label">JavaMasteryRoadmap.java</span>
+      <span class="compile-label">teqstudy.tracks</span>
     </div>
     <div class="compile-body" id="terminal-output">
     </div>
   </div>
 
   <div class="hero-cta">
-    <a href="#roadmap" class="cta-btn">
-      <span>./start_learning</span>
+    <a href="#tracks" class="cta-btn">
+      <span>./choose_track</span>
       <span>→</span>
     </a>
   </div>
 
   <div class="stats-row">
     <div class="stat">
-      <div class="stat-num">28</div>
+      <div class="stat-num">30</div>
       <div class="stat-label">Courses</div>
     </div>
     <div class="stat-div"></div>
     <div class="stat">
-      <div class="stat-num">12</div>
-      <div class="stat-label">Phases</div>
+      <div class="stat-num">7</div>
+      <div class="stat-label">Tracks</div>
     </div>
     <div class="stat-div"></div>
     <div class="stat">
@@ -75,13 +75,76 @@
   </div>
 </section>
 
+<!-- ── TRACK BROWSER ───────────────────────────── -->
+<section class="roadmap-section" id="tracks">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">// browse_by_track</div>
+    <h2 class="section-title">Choose your track</h2>
+    <p class="section-sub">Independent tracks, not a sequence — jump to whichever one matches what you're working on right now.</p>
+  </div>
+
+  <nav class="track-nav reveal" aria-label="Jump to track">
+    <a href="#track-java" class="track-pill" style="--tc:var(--orange)">☕ Java</a>
+    <a href="#track-python" class="track-pill" style="--tc:var(--green)">🐍 Python</a>
+    <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
+    <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
+    <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
+    <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
+    <a href="#track-cyber" class="track-pill" style="--tc:#f87171">🛡️ Cybersecurity</a>
+    <a href="#military" class="track-pill" style="--tc:var(--soft)">⭐ Military</a>
+  </nav>
+
+  <div class="track-overview-grid reveal">
+    <a href="#track-java" class="track-card" style="--tc:var(--orange)">
+      <span class="track-card-icon">☕</span>
+      <span class="track-card-title">Java Mastery Roadmap</span>
+      <span class="track-card-desc">The flagship path — 13 courses across 7 phases, zero to Spring Boot.</span>
+    </a>
+    <a href="#track-python" class="track-card" style="--tc:var(--green)">
+      <span class="track-card-icon">🐍</span>
+      <span class="track-card-title">Python</span>
+      <span class="track-card-desc">An 8-phase roadmap from fast-track syntax to job-ready.</span>
+    </a>
+    <a href="#track-ai" class="track-card" style="--tc:var(--teal)">
+      <span class="track-card-icon">🤖</span>
+      <span class="track-card-title">AI &amp; Prompt Engineering</span>
+      <span class="track-card-desc">Prompting frameworks, agents, and real model examples.</span>
+    </a>
+    <a href="#track-devops" class="track-card" style="--tc:var(--purple)">
+      <span class="track-card-icon">⎈</span>
+      <span class="track-card-title">DevOps</span>
+      <span class="track-card-desc">Docker and Kubernetes, beginner through CKAD prep.</span>
+    </a>
+    <a href="#track-gamedev" class="track-card" style="--tc:var(--orange)">
+      <span class="track-card-icon">🎮</span>
+      <span class="track-card-title">Game Development</span>
+      <span class="track-card-desc">Unity mobile dev and a full particle-effects course.</span>
+    </a>
+    <a href="#track-tools" class="track-card" style="--tc:var(--teal)">
+      <span class="track-card-icon">🛠️</span>
+      <span class="track-card-title">Dev Tools &amp; Environments</span>
+      <span class="track-card-desc">CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
+    </a>
+    <a href="#track-cyber" class="track-card" style="--tc:#f87171">
+      <span class="track-card-icon">🛡️</span>
+      <span class="track-card-title">Cybersecurity</span>
+      <span class="track-card-desc">Zero to confidently protected — no tech background needed.</span>
+    </a>
+    <a href="#military" class="track-card" style="--tc:var(--soft)">
+      <span class="track-card-icon">⭐</span>
+      <span class="track-card-title">Military Study Guides</span>
+      <span class="track-card-desc">Air Force 3E051 WAPS prep — study guides and flashcards.</span>
+    </a>
+  </div>
+</section>
+
 <!-- ── BOOKS ────────────────────────────────────── -->
 <section class="books-section">
   <div class="books-inner">
-    <div class="books-eyebrow">// recommended_reading</div>
+    <div class="books-eyebrow">// java_recommended_reading</div>
     <div class="books-header">
-      <h2 class="books-title">Two books. The whole journey.</h2>
-      <p class="books-sub">These pair directly with the curriculum — one for when you're starting out, one for when you're going deep.</p>
+      <h2 class="books-title">Two books. The whole Java journey.</h2>
+      <p class="books-sub">These pair directly with the Java track — one for when you're starting out, one for when you're going deep.</p>
     </div>
     <div class="books-grid">
       <div class="book-card">
@@ -121,10 +184,11 @@
 </section>
 
 <!-- ── ROADMAP ─────────────────────────────────── -->
-<section class="roadmap-section" id="roadmap">
+<section class="roadmap-section" id="track-java">
   <div class="section-header reveal">
-    <div class="section-eyebrow">// course_catalog</div>
-    <h2 class="section-title">Your complete learning path</h2>
+    <div class="section-eyebrow">// java_track</div>
+    <h2 class="section-title">☕ Java Mastery Roadmap</h2>
+    <p class="section-sub">The flagship track — a structured 7-phase path from zero to job-ready with Spring Boot.</p>
   </div>
 
   <!-- Phase 1 -->
@@ -295,51 +359,9 @@
 <!-- ── OTHER COURSES ──────────────────────────── -->
 <section class="roadmap-section" id="other-courses">
   <div class="section-header reveal">
-    <div class="section-eyebrow">// browse_by_track</div>
-    <h2 class="section-title">Beyond Java</h2>
-    <p class="section-sub">Independent tracks, not a sequence — jump to whichever one matches what you're working on right now.</p>
-  </div>
-
-  <nav class="track-nav reveal" aria-label="Jump to track">
-    <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
-    <a href="#track-python" class="track-pill" style="--tc:var(--green)">🐍 Python</a>
-    <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
-    <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
-    <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
-    <a href="#track-cyber" class="track-pill" style="--tc:#f87171">🛡️ Cybersecurity</a>
-  </nav>
-
-  <div class="track-overview-grid reveal">
-    <a href="#track-ai" class="track-card" style="--tc:var(--teal)">
-      <span class="track-card-icon">🤖</span>
-      <span class="track-card-title">AI &amp; Prompt Engineering</span>
-      <span class="track-card-desc">Prompting frameworks, agents, and real model examples.</span>
-    </a>
-    <a href="#track-python" class="track-card" style="--tc:var(--green)">
-      <span class="track-card-icon">🐍</span>
-      <span class="track-card-title">Python</span>
-      <span class="track-card-desc">An 8-phase roadmap from fast-track syntax to job-ready.</span>
-    </a>
-    <a href="#track-devops" class="track-card" style="--tc:var(--purple)">
-      <span class="track-card-icon">⎈</span>
-      <span class="track-card-title">DevOps</span>
-      <span class="track-card-desc">Docker and Kubernetes, beginner through CKAD prep.</span>
-    </a>
-    <a href="#track-gamedev" class="track-card" style="--tc:var(--orange)">
-      <span class="track-card-icon">🎮</span>
-      <span class="track-card-title">Game Development</span>
-      <span class="track-card-desc">Unity mobile dev and a full particle-effects course.</span>
-    </a>
-    <a href="#track-tools" class="track-card" style="--tc:var(--teal)">
-      <span class="track-card-icon">🛠️</span>
-      <span class="track-card-title">Dev Tools &amp; Environments</span>
-      <span class="track-card-desc">CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
-    </a>
-    <a href="#track-cyber" class="track-card" style="--tc:#f87171">
-      <span class="track-card-icon">🛡️</span>
-      <span class="track-card-title">Cybersecurity</span>
-      <span class="track-card-desc">Zero to confidently protected — no tech background needed.</span>
-    </a>
+    <div class="section-eyebrow">// specialized_tracks</div>
+    <h2 class="section-title">Specialized Tracks</h2>
+    <p class="section-sub">Standalone tracks in AI, Python, DevOps, game development, tooling, and security.</p>
   </div>
 
   <!-- AI & Prompt Engineering -->
@@ -444,7 +466,7 @@
           <div>
             <div class="card-tag">Unity · 2D / 3D / 2.5D · Mobile</div>
             <div class="card-title">Unity Mobile Game Dev</div>
-            <p class="card-desc">13 modules from first scene to shipping on Android. 2D tilemaps, 3D physics, and a full 2.5D hybrid pipeline — 3D characters on a locked plane, exactly like Last Day on Earth. Covers touch input, NavMesh AI, UI, mobile optimization, and Google Play submission.</p>
+            <p class="card-desc">17 modules from core concepts to a shipped vertical slice. Starts with what a GameObject, Component, and Prefab actually are, then covers 2D tilemaps, 3D physics, and a full 2.5D hybrid pipeline — 3D characters on a locked plane, exactly like Last Day on Earth. NavMesh AI with full state machines, UI, draw-call and memory optimization, and a capstone build you sideload to a real device.</p>
           </div>
           <span class="featured-badge">New ✦</span>
         </div>
@@ -568,23 +590,23 @@
 
 <!-- ── FOOTER ───────────────────────────────────── -->
 <footer class="site-footer">
-  <span>// java-mastery-roadmap — built for students, by obsessives</span>
+  <span>// teqstudy — built for students, by obsessives</span>
 </footer>
 
 <script>
 // Terminal animation
 const lines = [
-  { text: '$ javac JavaMasteryRoadmap.java', cls: 'cl-prompt', delay: 0 },
-  { text: 'import foundations.*;', cls: 'cl-kw', delay: 500 },
-  { text: 'import oop.advanced.*;', cls: 'cl-kw', delay: 800 },
-  { text: 'import spring.boot.*;  // the endgame', cls: 'cl-cmt', delay: 1100 },
-  { text: 'import unity.gamedev.*; // beyond java', cls: 'cl-cmt', delay: 1350 },
-  { text: 'import python.*;       // the future', cls: 'cl-cmt', delay: 1580 },
-  { text: 'import devops.*;       // docker + k8s', cls: 'cl-cmt', delay: 1780 },
+  { text: '$ teqstudy --list-tracks', cls: 'cl-prompt', delay: 0 },
+  { text: 'load java.mastery;      // the flagship', cls: 'cl-kw', delay: 500 },
+  { text: 'load python.roadmap;    // 8 phases', cls: 'cl-kw', delay: 800 },
+  { text: 'load devops.k8s;        // docker + ckad', cls: 'cl-cmt', delay: 1100 },
+  { text: 'load unity.gamedev;     // ship to android', cls: 'cl-cmt', delay: 1350 },
+  { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1580 },
+  { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1780 },
   { text: '', cls: '', delay: 1980 },
-  { text: '[BUILD] Compiling 28 modules...', cls: 'cl-warn', delay: 2180 },
+  { text: '[BUILD] Loading 30 courses across 7 tracks...', cls: 'cl-warn', delay: 2180 },
   { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2780 },
-  { text: '[OK]    Ready to run → java Developer', cls: 'cl-ok', delay: 3280 },
+  { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3280 },
 ];
 
 const terminal = document.getElementById('terminal-output');
