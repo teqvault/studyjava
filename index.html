@@ -295,14 +295,57 @@
 <!-- ── OTHER COURSES ──────────────────────────── -->
 <section class="roadmap-section" id="other-courses">
   <div class="section-header reveal">
-    <div class="section-eyebrow">// other_courses</div>
+    <div class="section-eyebrow">// browse_by_track</div>
     <h2 class="section-title">Beyond Java</h2>
+    <p class="section-sub">Independent tracks, not a sequence — jump to whichever one matches what you're working on right now.</p>
+  </div>
+
+  <nav class="track-nav reveal" aria-label="Jump to track">
+    <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
+    <a href="#track-python" class="track-pill" style="--tc:var(--green)">🐍 Python</a>
+    <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
+    <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
+    <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
+    <a href="#track-cyber" class="track-pill" style="--tc:#f87171">🛡️ Cybersecurity</a>
+  </nav>
+
+  <div class="track-overview-grid reveal">
+    <a href="#track-ai" class="track-card" style="--tc:var(--teal)">
+      <span class="track-card-icon">🤖</span>
+      <span class="track-card-title">AI &amp; Prompt Engineering</span>
+      <span class="track-card-desc">Prompting frameworks, agents, and real model examples.</span>
+    </a>
+    <a href="#track-python" class="track-card" style="--tc:var(--green)">
+      <span class="track-card-icon">🐍</span>
+      <span class="track-card-title">Python</span>
+      <span class="track-card-desc">An 8-phase roadmap from fast-track syntax to job-ready.</span>
+    </a>
+    <a href="#track-devops" class="track-card" style="--tc:var(--purple)">
+      <span class="track-card-icon">⎈</span>
+      <span class="track-card-title">DevOps</span>
+      <span class="track-card-desc">Docker and Kubernetes, beginner through CKAD prep.</span>
+    </a>
+    <a href="#track-gamedev" class="track-card" style="--tc:var(--orange)">
+      <span class="track-card-icon">🎮</span>
+      <span class="track-card-title">Game Development</span>
+      <span class="track-card-desc">Unity mobile dev and a full particle-effects course.</span>
+    </a>
+    <a href="#track-tools" class="track-card" style="--tc:var(--teal)">
+      <span class="track-card-icon">🛠️</span>
+      <span class="track-card-title">Dev Tools &amp; Environments</span>
+      <span class="track-card-desc">CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
+    </a>
+    <a href="#track-cyber" class="track-card" style="--tc:#f87171">
+      <span class="track-card-icon">🛡️</span>
+      <span class="track-card-title">Cybersecurity</span>
+      <span class="track-card-desc">Zero to confidently protected — no tech background needed.</span>
+    </a>
   </div>
 
   <!-- AI & Prompt Engineering -->
-  <div class="phase reveal">
+  <div class="phase reveal" id="track-ai">
     <div class="phase-header">
-      <span class="phase-num">other_01</span>
+      <span class="phase-num" style="color:var(--teal);border-color:rgba(56,189,248,0.35)">🤖 Track</span>
       <span class="phase-name">AI &amp; Prompt Engineering</span>
       <span class="phase-line"></span>
     </div>
@@ -320,37 +363,10 @@
     </div>
   </div>
 
-  <!-- Electrical Systems -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">other_02</span>
-      <span class="phase-name">Electrical Systems</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/3e051-study-guide.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — Electrical Systems</div>
-        <p class="card-desc">WAPS Study Guide — 200 questions covering electrical systems fundamentals for the Journeyman certification.</p>
-      </a>
-      <a href="pages/3e051-module7-study-guide.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — Module 7</div>
-        <p class="card-desc">Focused WAPS study questions for Electrical Systems Module 7. Targeted prep for the specific exam section.</p>
-      </a>
-      
-      <a href="pages/3e051-flashcards.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — FlashCards</div>
-        <p class="card-desc">Focused WAPS study questions for Electrical Systems Module 7. Targeted prep for the specific exam section.</p>
-      </a>
-    </div>
-  </div>
-
   <!-- Python -->
-  <div class="phase reveal">
+  <div class="phase reveal" id="track-python">
     <div class="phase-header">
-      <span class="phase-num">other_03</span>
+      <span class="phase-num" style="color:var(--green);border-color:rgba(74,222,128,0.35)">🐍 Track</span>
       <span class="phase-name">Python — 2026 &amp; Beyond</span>
       <span class="phase-line"></span>
     </div>
@@ -379,9 +395,9 @@
   </div>
 
   <!-- DevOps -->
-  <div class="phase reveal">
+  <div class="phase reveal" id="track-devops">
     <div class="phase-header">
-      <span class="phase-num">other_04</span>
+      <span class="phase-num" style="color:var(--purple);border-color:rgba(192,132,252,0.35)">⎈ Track</span>
       <span class="phase-name">DevOps — Docker &amp; Kubernetes</span>
       <span class="phase-line"></span>
     </div>
@@ -415,9 +431,9 @@
   </div>
 
   <!-- Game Development -->
-  <div class="phase reveal">
+  <div class="phase reveal" id="track-gamedev">
     <div class="phase-header">
-      <span class="phase-num">other_05</span>
+      <span class="phase-num" style="color:var(--orange);border-color:rgba(249,115,22,0.35)">🎮 Track</span>
       <span class="phase-name">Game Development</span>
       <span class="phase-line"></span>
     </div>
@@ -444,6 +460,19 @@
           <span class="featured-badge">Bonus ✦</span>
         </div>
       </a>
+
+    </div>
+  </div>
+
+  <!-- Dev Tools & Environments -->
+  <div class="phase reveal" id="track-tools">
+    <div class="phase-header">
+      <span class="phase-num" style="color:var(--teal);border-color:rgba(56,189,248,0.35)">🛠️ Track</span>
+      <span class="phase-name">Dev Tools &amp; Environments</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+
       <a href="pages/CLion_GUI_Development_Course.html" class="course-card featured">
         <div class="featured-inner">
           <div>
@@ -454,8 +483,8 @@
           <span class="featured-badge">Bonus ✦</span>
         </div>
       </a>
-      
-               <a href="pages/terminal-cheatsheet.html" class="course-card featured">
+
+      <a href="pages/terminal-cheatsheet.html" class="course-card featured">
         <div class="featured-inner">
           <div>
             <div class="card-tag">Terminals CheatSheet</div>
@@ -465,8 +494,8 @@
           <span class="featured-badge">Bonus ✦</span>
         </div>
       </a>
-      
-                 <a href="pages/terminal-course.html" class="course-card featured">
+
+      <a href="pages/terminal-course.html" class="course-card featured">
         <div class="featured-inner">
           <div>
             <div class="card-tag">Terminals Course</div>
@@ -482,9 +511,9 @@
 
 
   <!-- ── CYBERSECURITY ──────────────────────────── -->
-  <div class="phase reveal">
+  <div class="phase reveal" id="track-cyber">
     <div class="phase-header">
-      <span class="phase-num">other_06</span>
+      <span class="phase-num" style="color:#f87171;border-color:rgba(248,113,113,0.35)">🛡️ Track</span>
       <span class="phase-name">Cybersecurity</span>
       <span class="phase-line"></span>
     </div>
@@ -501,6 +530,41 @@
       </a>
     </div>
   </div>
+
+</section>
+
+<!-- ── MILITARY (separate from the general dev tracks) ────────────── -->
+<section class="roadmap-section" id="military">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">// military_prep</div>
+    <h2 class="section-title">Military Study Guides</h2>
+    <p class="section-sub">WAPS prep for Air Force 3E051 Electrical Systems — a separate track built for military personnel, not part of the general dev curriculum above.</p>
+  </div>
+  <div class="phase reveal">
+    <div class="phase-header">
+      <span class="phase-num" style="color:var(--soft);border-color:var(--border-hi)">⭐ 3E051</span>
+      <span class="phase-name">Electrical Systems — Journeyman</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/3e051-study-guide.html" class="course-card">
+        <div class="card-tag">Journeyman Study Guide</div>
+        <div class="card-title">3E051 — Electrical Systems</div>
+        <p class="card-desc">WAPS Study Guide — 200 questions covering electrical systems fundamentals for the Journeyman certification.</p>
+      </a>
+      <a href="pages/3e051-module7-study-guide.html" class="course-card">
+        <div class="card-tag">Journeyman Study Guide</div>
+        <div class="card-title">3E051 — Module 7</div>
+        <p class="card-desc">Focused WAPS study questions for Electrical Systems Module 7. Targeted prep for the specific exam section.</p>
+      </a>
+      <a href="pages/3e051-flashcards.html" class="course-card">
+        <div class="card-tag">Journeyman Study Guide</div>
+        <div class="card-title">3E051 — FlashCards</div>
+        <p class="card-desc">Rapid-fire flashcard review across all WAPS study guide topics — quiz yourself before exam day.</p>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- ── FOOTER ───────────────────────────────────── -->
 <footer class="site-footer">
