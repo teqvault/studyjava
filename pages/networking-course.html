@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Networking: Beginner to Job-Ready | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+
+<link rel="stylesheet" href="../css/networking-course.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Networking: Beginner to Job-Ready</h1>
+  <p>How data actually moves, from a single cable to the entire internet — cabling, IP addressing, routing, wireless, security, and troubleshooting, built for people who have never configured a router in their life.</p>
+  <div class="header-stars">🌐 🔌 📡 🔒 🖧</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+  <button onclick="resetProgress()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🌐</span> Networking Fundamentals <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🗺️</span> Network Types &amp; Topologies <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">🔌</span> Cabling &amp; the Physical Layer <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🖧</span> Ethernet &amp; Switching Fundamentals <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🔢</span> IP Addressing &amp; Subnetting <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">6️⃣</span> IPv6 Fundamentals <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🧭</span> Routing Fundamentals <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">📶</span> Wireless Networking <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🏷️</span> Network Services — DHCP &amp; DNS <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🔀</span> Transport Layer &amp; Protocols <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🔒</span> Network Security Fundamentals <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🛠️</span> Troubleshooting &amp; Tools <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">☁️</span> WAN &amp; Cloud Networking <span class="nav-check" id="chk12"></span></div>
+  <div class="nav-item" onclick="go(13)" id="nav13"><span class="nav-icon">📊</span> Monitoring &amp; Management <span class="nav-check" id="chk13"></span></div>
+  <div class="nav-item" onclick="go(14)" id="nav14"><span class="nav-icon">🏁</span> Capstone &amp; Career Path <span class="nav-check" id="chk14"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- ===== LESSON 0: Networking Fundamentals ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>🌐 Networking Fundamentals — How Data Actually Moves</h2>
+    <p class="lesson-intro">Before touching a router or a cable, you need the mental model everything else in this course builds on: what a network actually is, how data is broken up and delivered, and the two completely different addressing systems every device uses at once.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 What Is a Network?</div>
+    <p>A <strong>network</strong> is simply two or more devices connected so they can exchange data. That's it — two laptops connected by a single cable already qualify. Everything else in this course (the internet included) is just that same basic idea, scaled up with more devices, more paths, and more rules for keeping traffic organized.</p>
+    <p>A device that can send or receive data on a network is called a <strong>host</strong> or <strong>node</strong> — a computer, phone, printer, or server all count.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Data Doesn't Travel in One Piece</div>
+    <p>When you send a file or load a webpage, the data isn't transmitted as one giant blob. It's broken into small chunks called <strong>packets</strong>, each wrapped with its own addressing and control information, sent independently — sometimes over completely different paths — and reassembled in the correct order at the destination.</p>
+    <div class="net-diagram"><span class="label">Original file: "Hello, World! This is a test message."</span>
+
+<span class="flow">┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐</span>
+<span class="flow">│ Packet 1 │  │ Packet 2 │  │ Packet 3 │  │ Packet 4 │</span>
+<span class="flow">│ "Hello, "│  │ "World! "│  │ "This is"│  │ " a test"│</span>
+<span class="flow">└──────────┘  └──────────┘  └──────────┘  └──────────┘</span>
+  <span class="dim">│             │             │             │</span>
+  <span class="dim">└──── sent across the network, possibly different paths ────┘</span>
+  <span class="dim">reassembled in order at the destination ──────────────────►</span></div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why bother splitting data up?</strong>Smaller packets mean if one gets lost or corrupted, only that small piece needs to be resent — not the entire file. It also lets many devices share the same network fairly, since no single transfer can hog the connection indefinitely.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧅 The OSI Model — 7 Layers of "Whose Job Is This?"</div>
+    <p>Networking is complicated enough that engineers split it into <strong>layers</strong> — each one responsible for one specific job, handing its work to the layer above or below. The <strong>OSI Model</strong> is the standard 7-layer reference everyone in networking uses to talk about where a problem or a protocol lives.</p>
+    <table>
+      <tr><th>#</th><th>Layer</th><th>What It's Responsible For</th><th>Example</th></tr>
+      <tr><td>7</td><td>Application</td><td>What the user-facing software actually does</td><td>A web browser requesting a page</td></tr>
+      <tr><td>6</td><td>Presentation</td><td>Formatting/encoding/encryption of data</td><td>SSL/TLS encryption, converting formats</td></tr>
+      <tr><td>5</td><td>Session</td><td>Opening, managing, and closing a connection</td><td>Keeping a login session active</td></tr>
+      <tr><td>4</td><td>Transport</td><td>Reliable delivery, ordering, error-checking</td><td>TCP, UDP (Module 10)</td></tr>
+      <tr><td>3</td><td>Network</td><td>Logical addressing and routing between networks</td><td>IP addresses, routers (Modules 5–7)</td></tr>
+      <tr><td>2</td><td>Data Link</td><td>Physical addressing and delivery within one local network</td><td>MAC addresses, switches (Module 4)</td></tr>
+      <tr><td>1</td><td>Physical</td><td>The actual electrical/optical/radio signal and hardware</td><td>Cables, connectors, radio waves (Modules 3, 8)</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>A classic memory trick</strong>"<strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing" — top to bottom, Application through Physical. You'll hear networking professionals casually say things like "that's a layer 2 problem" — this is exactly what they mean.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌍 The TCP/IP Model — What's Actually Used in Practice</div>
+    <p>The OSI model is the universal <em>reference</em> everyone talks in, but the actual internet runs on a simpler 4-layer model called <strong>TCP/IP</strong>. You'll see both used interchangeably in the field — this course maps between them so neither terminology catches you off guard.</p>
+    <div class="net-diagram"><span class="layer">TCP/IP Model</span>              <span class="dim">maps to</span>              <span class="layer">OSI Model</span>
+<span class="device">┌─────────────────────┐</span>                    <span class="device">┌─────────────────────┐</span>
+<span class="device">│ Application         │</span>  <span class="dim">◄──────────────►</span>  <span class="device">│ 7 Application        │</span>
+<span class="device">│                      │</span>                    <span class="device">│ 6 Presentation        │</span>
+<span class="device">│                      │</span>                    <span class="device">│ 5 Session            │</span>
+<span class="device">├─────────────────────┤</span>                    <span class="device">├─────────────────────┤</span>
+<span class="device">│ Transport            │</span>  <span class="dim">◄──────────────►</span>  <span class="device">│ 4 Transport           │</span>
+<span class="device">├─────────────────────┤</span>                    <span class="device">├─────────────────────┤</span>
+<span class="device">│ Internet             │</span>  <span class="dim">◄──────────────►</span>  <span class="device">│ 3 Network             │</span>
+<span class="device">├─────────────────────┤</span>                    <span class="device">├─────────────────────┤</span>
+<span class="device">│ Network Access        │</span>  <span class="dim">◄──────────────►</span>  <span class="device">│ 2 Data Link           │</span>
+<span class="device">│                      │</span>                    <span class="device">│ 1 Physical            │</span>
+<span class="device">└─────────────────────┘</span>                    <span class="device">└─────────────────────┘</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ Two Different Addresses, Two Different Jobs</div>
+    <p>Every device on a network actually has <strong>two</strong> addresses, and confusing them is one of the most common beginner mix-ups:</p>
+    <table>
+      <tr><th></th><th>MAC Address</th><th>IP Address</th></tr>
+      <tr><td>Layer</td><td>2 (Data Link)</td><td>3 (Network)</td></tr>
+      <tr><td>Assigned by</td><td>Burned into the network hardware at manufacture</td><td>Assigned by the network (manually or via DHCP, Module 9)</td></tr>
+      <tr><td>Looks like</td><td><code>3C:5A:B4:12:9F:E1</code></td><td><code>192.168.1.42</code></td></tr>
+      <tr><td>Scope</td><td>Only meaningful on the local network segment</td><td>Meaningful across the entire network, including the internet</td></tr>
+      <tr><td>Analogy</td><td>A permanent serial number stamped on a device</td><td>A mailing address — can change depending on where you are</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why do we need both?</strong>The IP address gets your data to the right network. Once it arrives, the MAC address is what actually delivers it to the correct physical device on that local network. Module 4 covers exactly how a switch uses MAC addresses, and Module 5 covers how IP addressing and subnetting work.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧰 The Hardware You'll Keep Running Into</div>
+    <div class="dev-grid">
+      <div class="dev-card" style="--accent:#06d6a0"><div class="dev-icon">🖥️</div><h4>NIC (Network Interface Card)</h4><p>The hardware inside a device (built-in or a separate card) that actually connects it to a network — wired or wireless. Every device on a network has at least one.</p></div>
+      <div class="dev-card" style="--accent:#ffd166"><div class="dev-icon">🔀</div><h4>Switch</h4><p>Connects multiple devices on the <em>same</em> local network, and intelligently forwards data only to the specific device it's meant for, using MAC addresses (Module 4).</p></div>
+      <div class="dev-card" style="--accent:#118ab2"><div class="dev-icon">🧭</div><h4>Router</h4><p>Connects <em>different</em> networks together — most commonly, your home/office network to the internet — using IP addresses (Modules 5–7) to decide where traffic goes.</p></div>
+      <div class="dev-card" style="--accent:#c77dff"><div class="dev-icon">📡</div><h4>Access Point</h4><p>Extends a wired network out wirelessly, letting Wi-Fi devices join the same network a switch or router serves (Module 8).</p></div>
+      <div class="dev-card" style="--accent:#ff6b6b"><div class="dev-icon">☎️</div><h4>Modem</h4><p>Translates between your ISP's incoming signal (cable, fiber, DSL) and the Ethernet-based signal your home network actually uses. Often combined with a router into one box by ISPs.</p></div>
+      <div class="dev-card" style="--accent:#ff9f6b"><div class="dev-icon">🕸️</div><h4>Hub (Legacy)</h4><p>An older, "dumb" version of a switch — it blindly repeats every signal to every port instead of targeting the right device. Rarely used today, but worth recognizing if you see one in older documentation.</p></div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Switch vs. Router is the #1 beginner mix-up</strong>A switch connects devices <em>within</em> one network. A router connects <em>separate</em> networks together (most often your local network to the internet). Home "router" boxes usually contain a switch, a router, an access point, and sometimes a modem, all in one case — which is exactly why people conflate the terms.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📨 Encapsulation — How a Layer Model Actually Works in Practice</div>
+    <p>As data moves down through the layers to be sent, each layer wraps the data from the layer above it in its own header — like nesting envelopes inside envelopes. This process is called <strong>encapsulation</strong>, and it's why the OSI/TCP-IP models aren't just theory — every real packet is physically built this way.</p>
+    <div class="net-diagram"><span class="dim">Application data: "GET /index.html"</span>
+
+<span class="layer">┌─────────────────────────────────────────────┐</span>
+<span class="layer">│ Ethernet Header │</span><span class="flow">┌───────────────────────────┐</span><span class="layer">│</span>
+<span class="layer">│  (MAC addresses) │</span><span class="flow">│ IP Header               │</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">│ (IP addresses) ┌────────┐│</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">│                │TCP Hdr ││</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">│                │(ports) ││</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">│                │"GET /..│</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">│                └────────┘│</span><span class="layer">│</span>
+<span class="layer">│                 │</span><span class="flow">└───────────────────────────┘</span><span class="layer">│</span>
+<span class="layer">└─────────────────────────────────────────────┘</span>
+   <span class="dim">Layer 2            Layer 3         Layer 4   Layer 7</span></div>
+    <p>At the receiving end, this happens in reverse — each layer strips off its own header (<strong>de-encapsulation</strong>) until the original application data is left.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A device's MAC address and IP address are both a form of "address." What's the key difference?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Both matter — but the core distinction is scope and how they're assigned, not merely their format.">MAC addresses are only used on Wi-Fi, IP addresses only on wired connections</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="MAC addresses are burned into hardware and only meaningful on the local network segment; IP addresses are assigned by the network and meaningful across the whole network, including the internet.">MAC is a fixed hardware address meaningful only locally; IP is assigned by the network and meaningful across the wider network</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="They serve different, complementary purposes at different layers — neither one is simply a backup for the other.">IP address is just a backup in case the MAC address fails</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You plug two laptops and a printer into the same box, and they can all now see each other on the local network. What device is this box most likely acting as?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A switch's job is exactly this — connecting multiple devices within the same local network so they can communicate.">A switch</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A modem's job is translating an ISP's incoming signal — it doesn't connect local devices to each other on its own.">A modem</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A router's core job is connecting separate networks together (like your LAN to the internet) — connecting local devices to each other is a switch's job.">A router</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0b"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Network Types &amp; Topologies →</button>
+  </div>
+</section>
+<!-- ===== LESSON 1: Network Types & Topologies ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🗺️ Network Types &amp; Topologies</h2>
+    <p class="lesson-intro">Networks come in different sizes and different physical shapes. Knowing the vocabulary here is how you'll describe any network you encounter on the job in one sentence.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Network Types by Size</div>
+    <table>
+      <tr><th>Type</th><th>Stands For</th><th>Typical Scope</th></tr>
+      <tr><td>PAN</td><td>Personal Area Network</td><td>A phone and a bluetooth earbud — just a few feet</td></tr>
+      <tr><td>LAN</td><td>Local Area Network</td><td>One building or office</td></tr>
+      <tr><td>WLAN</td><td>Wireless LAN</td><td>Same as a LAN, just over Wi-Fi instead of cable</td></tr>
+      <tr><td>CAN</td><td>Campus Area Network</td><td>Several buildings close together (a school, a corporate campus)</td></tr>
+      <tr><td>MAN</td><td>Metropolitan Area Network</td><td>A city-wide network</td></tr>
+      <tr><td>WAN</td><td>Wide Area Network</td><td>Connects LANs across cities, states, or countries — the internet is the largest WAN</td></tr>
+      <tr><td>SAN</td><td>Storage Area Network</td><td>A dedicated high-speed network just for connecting servers to shared storage</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The one distinction that matters most on the job</strong>LAN vs. WAN. Everything local to one site is your LAN; the connection out to other sites or the internet is a WAN link — and that link is usually the most expensive, slowest, and most failure-prone part of any network design.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧑‍🤝‍🧑 Client-Server vs. Peer-to-Peer</div>
+    <table>
+      <tr><th></th><th>Client-Server</th><th>Peer-to-Peer</th></tr>
+      <tr><td>Structure</td><td>Dedicated servers provide resources; clients request them</td><td>Every device can act as both provider and requester</td></tr>
+      <tr><td>Example</td><td>A company file server; a web server</td><td>Two laptops sharing a folder directly</td></tr>
+      <tr><td>Best for</td><td>Centralized control, larger networks, consistent security policy</td><td>Small, simple, informal setups</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔷 Physical Topologies — The Actual Shape of the Wiring</div>
+    <div class="net-diagram"><span class="label">STAR (most common today)</span>
+
+       <span class="device">[Switch]</span>
+      /   |   \   \
+   <span class="device">[PC] [PC] [PC] [PC]</span>
+
+<span class="label">BUS (legacy)</span>
+
+  <span class="flow">──┬────┬────┬────┬──</span>
+    │    │    │    │
+   <span class="device">[PC]</span>  <span class="device">[PC]</span>  <span class="device">[PC]</span>  <span class="device">[PC]</span>
+
+<span class="label">RING</span>
+
+  <span class="device">[PC]</span>────<span class="device">[PC]</span>
+   │            │
+  <span class="device">[PC]</span>────<span class="device">[PC]</span>
+
+<span class="label">MESH (fully connected)</span>
+
+  <span class="device">[PC]</span>────<span class="device">[PC]</span>
+   <span class="dim">│ ╲     ╱ │</span>
+  <span class="device">[PC]</span>────<span class="device">[PC]</span></div>
+    <table>
+      <tr><th>Topology</th><th>Pro</th><th>Con</th></tr>
+      <tr><td>Star</td><td>One cable failure only knocks out one device; easy to troubleshoot</td><td>The central switch is a single point of failure</td></tr>
+      <tr><td>Bus</td><td>Cheap, simple, minimal cabling</td><td>One break in the main cable takes down the whole segment; rarely used today</td></tr>
+      <tr><td>Ring</td><td>Predictable, even data flow</td><td>One broken link can disrupt the entire ring (unless dual-ring)</td></tr>
+      <tr><td>Mesh</td><td>Extremely redundant — many paths between any two points</td><td>Expensive and complex to cable; scales poorly by device count</td></tr>
+    </table>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>What you'll actually see in the field</strong>Nearly every modern office LAN is physically a <strong>star</strong> topology — devices cabled to a central switch. Bus and ring are largely historical at this point, but they still show up in certification exams and help explain <em>why</em> star topology won out (isolated failures, easier troubleshooting).</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Physical vs. Logical Topology</div>
+    <p>The <strong>physical topology</strong> is how cables are actually run. The <strong>logical topology</strong> is how data actually flows, which can be different. A classic example: older Ethernet hubs were wired in a physical star, but every device still received every signal — behaving logically like a bus. Don't assume the cable diagram tells you the whole story of how traffic moves.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your company's main office connects to a branch office in another city over the internet. What kind of network connection is that?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A LAN is confined to one local site — connecting two offices in different cities goes beyond LAN scope.">A LAN connection</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Connecting separate LANs across a large geographic distance is exactly what a WAN link does.">A WAN connection</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="PAN refers to a very short-range personal network, like a phone and a wireless earbud — far smaller in scope than connecting two office sites.">A PAN connection</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Networking Fundamentals</button>
+    <button class="btn btn-next" onclick="next(1)">Cabling &amp; the Physical Layer →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 2: Cabling & the Physical Layer ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>🔌 Cabling &amp; the Physical Layer</h2>
+    <p class="lesson-intro">Every network eventually comes down to a physical signal on a physical medium. Here's what actually carries your data, and the tools that verify a connection is good before you blame anything else.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧵 Twisted Pair Copper — The Cable You'll See Most</div>
+    <p>Ethernet cables contain 4 pairs of copper wires, twisted together specifically to cancel out electrical interference between them. <strong>UTP</strong> (Unshielded Twisted Pair) is standard for most offices; <strong>STP</strong> (Shielded Twisted Pair) adds a foil/braid shield for environments with heavy electrical interference.</p>
+    <table>
+      <tr><th>Category</th><th>Max Speed</th><th>Max Distance</th></tr>
+      <tr><td>Cat5e</td><td>1 Gbps</td><td>100m</td></tr>
+      <tr><td>Cat6</td><td>10 Gbps (up to 55m), 1 Gbps beyond that</td><td>100m at 1 Gbps</td></tr>
+      <tr><td>Cat6a</td><td>10 Gbps</td><td>100m</td></tr>
+      <tr><td>Cat7 / Cat8</td><td>10–40 Gbps</td><td>Shorter runs, data centers</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>What to actually buy</strong>Cat6 is the practical default for new installs today — Cat5e is fine for existing runs you're not replacing, and Cat6a/7/8 are typically reserved for data centers and high-density server racks.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 RJ45 &amp; Wiring Standards</div>
+    <p>The connector on the end of an Ethernet cable is called <strong>RJ45</strong>. The order the 8 wires are terminated in follows one of two color-code standards, <strong>T568A</strong> or <strong>T568B</strong> — either works as long as both ends of one cable match.</p>
+    <table>
+      <tr><th>Cable Type</th><th>Wiring</th><th>Historical Use</th></tr>
+      <tr><td>Straight-through</td><td>T568B on both ends</td><td>PC to switch (the vast majority of cables you'll make)</td></tr>
+      <tr><td>Crossover</td><td>T568A one end, T568B the other</td><td>PC directly to PC, switch to switch (older hardware)</td></tr>
+    </table>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Auto-MDIX made this mostly automatic</strong>Modern switches and NICs auto-detect and adjust, so a straight-through cable usually works even in situations that once required a crossover. You still need to know the difference for certification exams and for older/specialized hardware.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Fiber Optic — Light Instead of Electricity</div>
+    <table>
+      <tr><th></th><th>Single-Mode</th><th>Multi-Mode</th></tr>
+      <tr><td>Light source</td><td>Laser, one straight path</td><td>LED, multiple light paths bouncing through the core</td></tr>
+      <tr><td>Distance</td><td>Miles (long-haul, ISP backbones)</td><td>Hundreds of meters (data centers, campus links)</td></tr>
+      <tr><td>Cost</td><td>Higher</td><td>Lower</td></tr>
+    </table>
+    <p>Common fiber connectors: <strong>SC</strong> (square, push-pull), <strong>LC</strong> (small form factor, most common today), <strong>ST</strong> (round, twist-lock, older).</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why fiber at all?</strong>Fiber isn't affected by electrical interference the way copper is, supports much higher bandwidth, and travels far greater distances without a signal boost — but costs more per port and requires different (more delicate) handling and tools than copper.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📺 Coaxial — Still Around for a Reason</div>
+    <p>The same cable type used for cable TV, still commonly used by cable internet modems for the "last mile" connection from the ISP into a building. You likely won't terminate coax yourself often, but you'll recognize it at the demarc point where an ISP's responsibility ends and yours begins.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧰 Testing &amp; Installation Tools</div>
+    <table>
+      <tr><th>Tool</th><th>What It Does</th></tr>
+      <tr><td>Cable tester</td><td>Confirms all 8 wires are connected correctly end-to-end, and flags shorts, opens, or miswired pairs</td></tr>
+      <tr><td>Tone generator &amp; probe</td><td>Sends a tone down a cable so you can trace which physical cable in a bundle corresponds to which jack — essential in a messy wiring closet</td></tr>
+      <tr><td>Punch-down tool</td><td>Terminates individual wires into a patch panel or keystone jack</td></tr>
+      <tr><td>Crimper</td><td>Attaches an RJ45 connector onto loose cable ends</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Test every cable you terminate</strong>A cable that "looks" fine can still have a miswired pair or a bad crimp that only shows up as intermittent packet loss — cheap and fast to catch with a tester, painful to diagnose later without one.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You're running a new cable across a factory floor with heavy electrical machinery nearby. Which cable choice best resists that interference?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Cat5e is still unshielded twisted pair — the category number affects speed/distance, not shielding against interference.">Cat5e UTP</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="STP's added shielding is specifically designed to resist the kind of electrical interference heavy machinery generates.">STP (shielded twisted pair)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Coax can work in some scenarios, but it's not the standard modern answer for interference-prone LAN cabling — shielded twisted pair or fiber are the typical choices.">Standard coaxial cable</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Network Types &amp; Topologies</button>
+    <button class="btn btn-next" onclick="next(2)">Ethernet &amp; Switching Fundamentals →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 3: Ethernet & Switching Fundamentals ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>🖧 Ethernet &amp; Switching Fundamentals</h2>
+    <p class="lesson-intro">How a switch actually knows where to send each frame, and the layer 2 vocabulary — MAC addresses, collision domains, VLANs — that everything else in local networking builds on.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ MAC Address Structure</div>
+    <p>A MAC address is 48 bits, written as 12 hexadecimal characters, e.g. <code>3C:5A:B4:12:9F:E1</code>. It's split into two halves:</p>
+    <table>
+      <tr><th>First half (24 bits)</th><th>Second half (24 bits)</th></tr>
+      <tr><td><strong>OUI</strong> — Organizationally Unique Identifier, assigned to the manufacturer (e.g. Intel, Apple)</td><td>A unique serial number the manufacturer assigns to that specific device</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Practical use</strong>You can look up the OUI portion of any MAC address to identify the manufacturer of an unknown device on your network — genuinely useful when troubleshooting "what is this thing on my switch."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 The Ethernet Frame</div>
+    <div class="net-diagram"><span class="layer">┌───────────┬───────────┬──────┬─────────────┬─────┐</span>
+<span class="layer">│ Dest MAC  │ Src MAC   │ Type │   Payload   │ FCS │</span>
+<span class="layer">│ (6 bytes) │ (6 bytes) │(2 B) │ (46-1500 B) │(4 B)│</span>
+<span class="layer">└───────────┴───────────┴──────┴─────────────┴─────┘</span></div>
+    <table>
+      <tr><th>Field</th><th>Purpose</th></tr>
+      <tr><td>Destination / Source MAC</td><td>Who it's from, who it's going to — on the local segment only</td></tr>
+      <tr><td>Type</td><td>What's inside the payload (e.g. an IP packet)</td></tr>
+      <tr><td>Payload</td><td>The actual data being carried — from Module 1's encapsulation, this is where the Layer 3 packet sits</td></tr>
+      <tr><td>FCS (Frame Check Sequence)</td><td>An error-checking value the receiver uses to detect a corrupted frame</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 How a Switch Learns — The MAC Address Table</div>
+    <p>A switch builds and maintains a <strong>MAC address table</strong> (also called a CAM table) by watching incoming traffic:</p>
+    <ol class="step-list">
+      <li>A frame arrives on Port 3 with source MAC <code>AA:AA:...</code>. The switch records "MAC AA:AA:... lives on Port 3."</li>
+      <li>When a later frame's destination is <code>AA:AA:...</code>, the switch checks its table and sends the frame <em>only</em> out Port 3 — not to every port.</li>
+      <li>If the destination MAC isn't in the table yet, the switch temporarily floods the frame out every port except the one it arrived on, until it learns the real location from a reply.</li>
+    </ol>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>This is what makes a switch smarter than a hub</strong>A hub blindly repeats every signal out every port, all the time. A switch actively learns and targets traffic — dramatically reducing unnecessary network noise as it learns more devices.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Collision Domains vs. Broadcast Domains</div>
+    <table>
+      <tr><th></th><th>Collision Domain</th><th>Broadcast Domain</th></tr>
+      <tr><td>What it is</td><td>A set of devices where two signals sent at once can collide</td><td>A set of devices that all receive the same broadcast traffic</td></tr>
+      <tr><td>Switches</td><td>Each switch port is its own collision domain</td><td>All switch ports share one broadcast domain, unless VLANs are used</td></tr>
+      <tr><td>Routers</td><td>—</td><td>A router separates broadcast domains between networks</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏢 VLANs — One Switch, Multiple Logical Networks</div>
+    <p>A <strong>VLAN</strong> (Virtual LAN) lets you split one physical switch into multiple logically separate networks — devices on VLAN 10 can't directly talk to devices on VLAN 20, even though they're plugged into the exact same physical switch, without a router or layer-3 device passing traffic between them.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why bother?</strong>Common real-world use: separating a "Guest Wi-Fi" VLAN from your "Corporate" VLAN on the same physical hardware, so guest devices can't see internal file servers or printers — security and organization without buying separate physical switches.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 Spanning Tree — Preventing Network Loops</div>
+    <p>If you accidentally cable two switches together with two separate cables (often by mistake, sometimes intentionally for redundancy), you create a <strong>loop</strong> — frames can circle forever, rapidly overwhelming the network (a "broadcast storm"). <strong>STP (Spanning Tree Protocol)</strong> detects loops and automatically disables the redundant path, keeping one clean logical path while keeping the backup cable ready if the primary fails.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A switch receives a frame for a MAC address it has never seen before. What does it do?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A switch doesn't discard unknown-destination frames — it floods them out every port except the source, to make sure delivery still happens while it learns.">Drops the frame since it doesn't know where to send it</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Flooding the frame out every port except the one it arrived on ensures delivery even before the switch has learned exactly where that MAC address lives.">Floods it out every port except the one it arrived on, until it learns the real location</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Switches operate using MAC addresses at Layer 2 — they don't need or use IP addresses to make forwarding decisions.">Asks the router to look up the IP address for that device</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Cabling &amp; the Physical Layer</button>
+    <button class="btn btn-next" onclick="next(3)">IP Addressing &amp; Subnetting →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 4: IP Addressing & Subnetting ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>🔢 IP Addressing &amp; Subnetting</h2>
+    <p class="lesson-intro">The math that decides which devices can talk directly to each other and which need a router in between. This is the single most job-tested skill in networking — worth slowing down for.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 What an IPv4 Address Actually Is</div>
+    <p>An IPv4 address is 32 bits, written as 4 decimal numbers (0–255) separated by dots — e.g. <code>192.168.1.42</code>. Each of those 4 numbers is one <strong>octet</strong> (8 bits).</p>
+    <div class="net-diagram"><span class="label">192</span>.<span class="label">168</span>.<span class="label">1</span>.<span class="label">42</span>
+<span class="dim">11000000.10101000.00000001.00101010</span>
+  <span class="dim">8 bits     8 bits     8 bits    8 bits   =  32 bits total</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔒 Private vs. Public IP Addresses</div>
+    <table>
+      <tr><th>Range</th><th>Scope</th></tr>
+      <tr><td>10.0.0.0 – 10.255.255.255</td><td>Private — large organizations</td></tr>
+      <tr><td>172.16.0.0 – 172.31.255.255</td><td>Private — medium networks</td></tr>
+      <tr><td>192.168.0.0 – 192.168.255.255</td><td>Private — home/small office (most common you'll see)</td></tr>
+      <tr><td>Everything else routable</td><td>Public — globally unique, reachable across the internet</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why private ranges exist</strong>These ranges are reserved so anyone can use them internally without conflicting with the rest of the internet. That's exactly why <strong>NAT</strong> exists: your router translates your private internal address into its one public address before traffic leaves your network — covered fully below.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎭 Subnet Masks &amp; CIDR Notation</div>
+    <p>An IP address alone doesn't tell you which part identifies the <em>network</em> and which part identifies the specific <em>host</em> on it. That's the subnet mask's job — it draws the line.</p>
+    <table>
+      <tr><th>Subnet Mask</th><th>CIDR Notation</th><th>Meaning</th></tr>
+      <tr><td>255.0.0.0</td><td>/8</td><td>First 8 bits are network, remaining 24 bits are host</td></tr>
+      <tr><td>255.255.0.0</td><td>/16</td><td>First 16 bits are network, remaining 16 are host</td></tr>
+      <tr><td>255.255.255.0</td><td>/24</td><td>First 24 bits are network, remaining 8 are host — the most common home/small-office default</td></tr>
+    </table>
+    <p><strong>CIDR notation</strong> (the <code>/24</code> shorthand) is just a faster way of writing how many bits are the network portion, instead of writing out the full mask.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧮 Subnetting — A Full Worked Example</div>
+    <p>Say you're given the network <code>192.168.1.0/24</code> and told to split it into 4 smaller subnets. Here's the exact process:</p>
+    <ol class="step-list">
+      <li><strong>Figure out how many bits you need to borrow.</strong> To create 4 subnets, you need enough new bit-combinations to count 0,1,2,3 — that's 2 bits (2² = 4).</li>
+      <li><strong>Borrow those bits from the host portion.</strong> /24 + 2 borrowed bits = <strong>/26</strong> — your new subnet mask is 255.255.255.<strong>192</strong>.</li>
+      <li><strong>Calculate the block size.</strong> With 2 bits borrowed, each subnet is 2^(8-2) = 64 addresses wide.</li>
+      <li><strong>List the subnets</strong> by counting up in that block size:</li>
+    </ol>
+    <table>
+      <tr><th>Subnet</th><th>Network Address</th><th>Usable Host Range</th><th>Broadcast Address</th></tr>
+      <tr><td>1</td><td>192.168.1.0</td><td>.1 – .62</td><td>192.168.1.63</td></tr>
+      <tr><td>2</td><td>192.168.1.64</td><td>.65 – .126</td><td>192.168.1.127</td></tr>
+      <tr><td>3</td><td>192.168.1.128</td><td>.129 – .190</td><td>192.168.1.191</td></tr>
+      <tr><td>4</td><td>192.168.1.192</td><td>.193 – .254</td><td>192.168.1.255</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Every subnet loses 2 usable addresses</strong>The very first address in each block is the network address (identifies the subnet itself, can't be assigned to a device) and the very last is the broadcast address (sends to every device on that subnet). A /26 block of 64 addresses gives you 62 usable host addresses, not 64 — this "off by 2" is one of the most common subnetting exam mistakes.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 NAT — How Private Addresses Reach the Internet</div>
+    <p><strong>NAT (Network Address Translation)</strong> is what your router does to let every device on your private network share one public IP address. When your laptop (192.168.1.42) sends a request to the internet, your router swaps that private source address for its own public IP before sending it out, and keeps a table so it can correctly route the response back to your laptop specifically.</p>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>This is why private IPs "just work" everywhere</strong>Millions of home networks all use 192.168.1.x internally with zero conflict, because NAT means none of those addresses are ever directly visible to the wider internet — only the router's one public address is.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You're given 192.168.1.0/24 and need exactly 4 subnets. What's the new subnet mask?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="/25 only borrows 1 bit, which gives you 2 subnets, not 4.">/25</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Borrowing 2 bits (2² = 4) from a /24 gives you /26 — exactly enough for 4 subnets.">/26</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="/27 borrows 3 bits, giving you 8 subnets — more than the 4 you actually need.">/27</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Ethernet &amp; Switching Fundamentals</button>
+    <button class="btn btn-next" onclick="next(4)">IPv6 Fundamentals →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 5: IPv6 Fundamentals ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>6️⃣ IPv6 Fundamentals</h2>
+    <p class="lesson-intro">Why the world needed a new addressing system, and how to read the notation that looks intimidating but follows just a few simple rules.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❓ Why IPv6 Exists</div>
+    <p>IPv4 provides about 4.3 billion possible addresses (32 bits). That sounded infinite in the 1980s — it isn't anymore, with billions of phones, laptops, IoT devices, and servers all needing addresses. <strong>IPv6</strong> uses 128 bits instead of 32, providing an almost incomprehensibly larger address space — enough to assign a unique address to every grain of sand on Earth many times over.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Reading IPv6 Notation</div>
+    <p>An IPv6 address is written as 8 groups of 4 hexadecimal digits, separated by colons:</p>
+    <div class="net-diagram">2001:0db8:85a3:0000:0000:8a2e:0370:7334</div>
+    <p>Two shortcuts make these more manageable:</p>
+    <ol class="step-list">
+      <li><strong>Leading zeros in each group can be dropped:</strong> <code>0db8</code> becomes <code>db8</code>.</li>
+      <li><strong>One run of consecutive all-zero groups can be replaced with <code>::</code>, one time only per address:</strong> <code>2001:db8:85a3:0:0:8a2e:370:7334</code> becomes <code>2001:db8:85a3::8a2e:370:7334</code>.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>"::" can only appear once</strong>If an address had two separate runs of zeros both replaced with "::", there'd be no way to tell how many zero-groups belong to each gap. That ambiguity is exactly why the rule exists.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ IPv6 Address Types</div>
+    <table>
+      <tr><th>Type</th><th>Purpose</th><th>Roughly Equivalent To (IPv4)</th></tr>
+      <tr><td>Global Unicast</td><td>Publicly routable, unique address</td><td>A public IPv4 address</td></tr>
+      <tr><td>Link-Local</td><td>Automatically assigned, only valid on the local network segment, starts with <code>fe80::</code></td><td>Somewhat like APIPA (169.254.x.x)</td></tr>
+      <tr><td>Multicast</td><td>Delivers to a group of interested devices at once</td><td>IPv4 has multicast too, just less commonly used day-to-day</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>No more broadcast</strong>IPv6 doesn't have broadcast addresses at all — multicast handles the same use cases more efficiently, only reaching devices that actually want the traffic instead of every device on the segment.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔀 Living With Both — Dual Stack</div>
+    <p>The internet didn't switch from IPv4 to IPv6 overnight — most networks today run <strong>dual stack</strong>, meaning every device has both an IPv4 and an IPv6 address simultaneously, and can communicate over either depending on what the destination supports. You'll be working with both address families for the foreseeable future, not one replacing the other on any fixed timeline.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why can the "::" shorthand only be used once in a single IPv6 address?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="If two separate gaps were both compressed to '::', there'd be no way to know how many zero-groups belong to each — the address would be ambiguous.">Using it twice would make it impossible to tell how many zero-groups belong to each gap</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't a hardware limitation — it's purely a notation rule to avoid ambiguity when reconstructing the full address.">IPv6 hardware can only process one compressed section at a time</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The rule applies regardless of address type — it's about avoiding ambiguity in any IPv6 address, link-local or otherwise.">It's only a rule for link-local addresses</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← IP Addressing &amp; Subnetting</button>
+    <button class="btn btn-next" onclick="next(5)">Routing Fundamentals →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 6: Routing Fundamentals ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>🧭 Routing Fundamentals</h2>
+    <p class="lesson-intro">How a router actually decides where to send a packet — routing tables, the difference between static and dynamic routing, and a first look at the protocols that run the internet.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Routing Table</div>
+    <p>Every router keeps a <strong>routing table</strong> — a list of known networks and which direction (which interface, or which "next hop" router) to send traffic for each one. When a packet arrives, the router checks its destination IP against this table and forwards it accordingly.</p>
+    <table>
+      <tr><th>Destination Network</th><th>Next Hop</th><th>Interface</th></tr>
+      <tr><td>192.168.1.0/24</td><td>Directly connected</td><td>eth0</td></tr>
+      <tr><td>10.0.0.0/8</td><td>192.168.1.254</td><td>eth0</td></tr>
+      <tr><td>0.0.0.0/0 (default route)</td><td>ISP gateway</td><td>eth1</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The default route is your safety net</strong><code>0.0.0.0/0</code> matches literally any destination not more specifically listed elsewhere in the table — it's what sends your traffic "out to the internet" when nothing more specific applies. This is also called the <strong>default gateway</strong> from a host's perspective.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆚 Static vs. Dynamic Routing</div>
+    <table>
+      <tr><th></th><th>Static Routing</th><th>Dynamic Routing</th></tr>
+      <tr><td>How routes are added</td><td>Manually typed in by an administrator</td><td>Routers automatically discover and share routes with each other</td></tr>
+      <tr><td>Best for</td><td>Small, simple, rarely-changing networks</td><td>Larger networks, or ones that need to automatically adapt to failures</td></tr>
+      <tr><td>Downside</td><td>Doesn't adapt — if a link goes down, traffic doesn't reroute automatically</td><td>More complex to configure and troubleshoot</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌐 Dynamic Routing Protocols — A First Look</div>
+    <table>
+      <tr><th>Protocol</th><th>Type</th><th>Used For</th></tr>
+      <tr><td>RIP</td><td>Distance-vector — picks the path with the fewest hops</td><td>Small, simple networks; largely legacy today</td></tr>
+      <tr><td>OSPF</td><td>Link-state — picks the fastest path based on actual link speed, not just hop count</td><td>Common inside larger enterprise networks</td></tr>
+      <tr><td>BGP</td><td>Path-vector — makes policy-based routing decisions between separate organizations</td><td>The protocol that actually runs the internet, connecting ISPs to each other</td></tr>
+    </table>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Distance-vector vs. link-state, in one sentence</strong>Distance-vector protocols (like RIP) only count how many routers are in the way; link-state protocols (like OSPF) actually understand the speed and health of each link and route around slow or failed ones.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Connecting Back to Module 1</div>
+    <p>Recall from Module 1: a <strong>switch</strong> forwards traffic within one network using MAC addresses; a <strong>router</strong> forwards traffic between different networks using IP addresses. Everything in this module is what a router is actually doing under the hood to make that second job possible.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A small office network has 2 routers that never change and don't need to automatically adapt to failures. What's the simplest appropriate choice?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="For a small, stable network, manually configuring static routes is simpler to set up and easier to troubleshoot than running a dynamic routing protocol.">Static routing</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="BGP is built for routing between separate large organizations/ISPs — far more complexity than a small stable office network needs.">BGP</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="OSPF is a solid enterprise choice, but for a network this simple and unchanging, it adds configuration overhead without a real benefit over static routes.">OSPF</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← IPv6 Fundamentals</button>
+    <button class="btn btn-next" onclick="next(6)">Wireless Networking →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 7: Wireless Networking ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>📶 Wireless Networking</h2>
+    <p class="lesson-intro">The 802.11 standards, how devices actually find and join a wireless network, and the security protocols that keep that connection private.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 802.11 Standards</div>
+    <table>
+      <tr><th>Standard</th><th>Marketing Name</th><th>Band</th><th>Max Speed (theoretical)</th></tr>
+      <tr><td>802.11g</td><td>—</td><td>2.4 GHz</td><td>54 Mbps</td></tr>
+      <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4/5 GHz</td><td>600 Mbps</td></tr>
+      <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~3.5 Gbps</td></tr>
+      <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4/5/6 GHz</td><td>~9.6 Gbps</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>2.4GHz vs. 5GHz vs. 6GHz</strong>2.4GHz travels farther and penetrates walls better, but is slower and more crowded (older devices, microwaves, Bluetooth all share it). 5GHz and 6GHz are faster with far less interference, but have shorter range. Modern routers broadcast multiple bands simultaneously and let devices pick.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ SSID &amp; Channels</div>
+    <p>The <strong>SSID</strong> is simply the network name you see when choosing a Wi-Fi network. A <strong>channel</strong> is a specific frequency range within a band — think of a band as a highway and channels as individual lanes. Overlapping channels between nearby networks (like apartment neighbors) causes interference and slower speeds for everyone.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>On 2.4GHz specifically, use channels 1, 6, or 11</strong>These are the only three channels on 2.4GHz that don't overlap with each other at all. Picking a channel in between (like 4) actually causes more interference with both neighbors, not less.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔒 Wireless Security — WPA2 vs. WPA3</div>
+    <table>
+      <tr><th></th><th>WPA2</th><th>WPA3</th></tr>
+      <tr><td>Status</td><td>Still widely used, but aging</td><td>Current standard</td></tr>
+      <tr><td>Encryption</td><td>AES (strong), though the older handshake has known weaknesses</td><td>Stronger encryption, protects against offline password-guessing attacks</td></tr>
+      <tr><td>Recommendation</td><td>Fine if WPA3 isn't available on your hardware</td><td>Use this if every device on your network supports it</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Never use WEP</strong>WEP is an old wireless security standard that can be cracked in minutes with freely available tools. If you ever see a network still running WEP, that's a serious, urgent vulnerability — not just an "older but fine" option.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📶 Basic Wireless Site Design</div>
+    <ul>
+      <li><strong>Access point placement</strong> — central, elevated, away from thick walls and metal objects where possible, since both significantly reduce signal range.</li>
+      <li><strong>Overlap between APs</strong> — in a multi-AP setup, aim for a small amount of coverage overlap so devices can roam between APs without a dead zone, but not so much overlap that APs interfere with each other on the same channel.</li>
+      <li><strong>Interference sources</strong> — microwaves, cordless phones, and Bluetooth devices all commonly interfere with 2.4GHz specifically.</li>
+    </ul>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You're setting the channel for a 2.4GHz access point. Which channels avoid overlapping with each other?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="These channels overlap with their neighbors on 2.4GHz — sequential channels like these interfere with each other.">2, 5, and 8</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="1, 6, and 11 are spaced far enough apart on 2.4GHz to avoid overlapping with each other — the standard non-overlapping channel set.">1, 6, and 11</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="5GHz has its own separate channel numbering — this set doesn't apply to the 2.4GHz band's non-overlapping channels.">36, 40, and 44</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Routing Fundamentals</button>
+    <button class="btn btn-next" onclick="next(7)">Network Services — DHCP &amp; DNS →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 8: Network Services — DHCP & DNS ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>🏷️ Network Services — DHCP &amp; DNS</h2>
+    <p class="lesson-intro">Two services running quietly in the background of nearly every network — one hands out addresses automatically, the other turns names into addresses so you never have to memorize an IP.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📇 DHCP — Automatic IP Assignment</div>
+    <p>Without DHCP, every device joining a network would need someone to manually type in an IP address, subnet mask, default gateway, and DNS server. <strong>DHCP (Dynamic Host Configuration Protocol)</strong> automates all of that the moment a device connects.</p>
+    <div class="net-diagram"><span class="label">The DORA Process</span>
+
+<span class="device">Client</span>                          <span class="device">DHCP Server</span>
+  │  <span class="flow">──── Discover ────►</span>          │   <span class="dim">"Is anyone a DHCP server?"</span>
+  │  <span class="flow">◄──── Offer ───────</span>          │   <span class="dim">"Here's an available address"</span>
+  │  <span class="flow">──── Request ─────►</span>          │   <span class="dim">"I'll take that one"</span>
+  │  <span class="flow">◄──── Ack ──────────</span>          │   <span class="dim">"Confirmed, it's yours"</span></div>
+    <table>
+      <tr><th>Step</th><th>What Happens</th></tr>
+      <tr><td>Discover</td><td>The client broadcasts asking if any DHCP server is available</td></tr>
+      <tr><td>Offer</td><td>A DHCP server responds with a proposed IP address and settings</td></tr>
+      <tr><td>Request</td><td>The client formally requests that specific offered address</td></tr>
+      <tr><td>Acknowledge</td><td>The server confirms — the address is now assigned</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Leases expire</strong>DHCP assignments aren't permanent — they're a "lease" for a set period of time. Devices typically renew automatically before the lease expires; this is also why a device's IP can occasionally change unless you've configured a DHCP reservation for it.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📖 DNS — Turning Names Into Addresses</div>
+    <p>Computers route traffic using IP addresses, but humans remember names. <strong>DNS (Domain Name System)</strong> is the internet's phonebook, translating a name like <code>example.com</code> into the IP address a router can actually deliver a packet to.</p>
+    <ol class="step-list">
+      <li>You type <code>example.com</code> into a browser.</li>
+      <li>Your device asks a DNS server (often your ISP's, or a public one like 1.1.1.1 or 8.8.8.8) to resolve that name.</li>
+      <li>The DNS server returns the corresponding IP address.</li>
+      <li>Your device connects directly to that IP address — DNS's job is now done.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📇 Common DNS Record Types</div>
+    <table>
+      <tr><th>Record</th><th>Purpose</th></tr>
+      <tr><td>A</td><td>Maps a name to an IPv4 address</td></tr>
+      <tr><td>AAAA</td><td>Maps a name to an IPv6 address</td></tr>
+      <tr><td>CNAME</td><td>An alias — points one name to another name, which then resolves further</td></tr>
+      <tr><td>MX</td><td>Specifies which mail server handles email for a domain</td></tr>
+      <tr><td>TXT</td><td>Free-form text — commonly used for domain verification and email security policies</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Where These Two Meet</div>
+    <p>DHCP doesn't just hand out an IP address — it typically also tells the client which DNS server to use. This is why "no internet access" on a device is often actually a DHCP or DNS problem rather than a true connectivity problem: the device might have a valid IP and a working path to the internet, but no way to resolve names into addresses.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A laptop can successfully ping 8.8.8.8 (a known working IP address) but can't load any websites by name. What's the most likely cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Successfully pinging a raw IP address confirms basic connectivity works — the problem is almost certainly DNS resolution, since names aren't being translated into addresses.">A DNS problem — names aren't being resolved into addresses</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="If the cable were physically disconnected, the ping to 8.8.8.8 wouldn't have succeeded either.">The Ethernet cable is unplugged</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A successful ping to any address confirms the device already has a working IP configuration — DHCP has already done its job here.">DHCP failed to assign an IP address</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Wireless Networking</button>
+    <button class="btn btn-next" onclick="next(8)">Transport Layer &amp; Protocols →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 9: Transport Layer & Protocols ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>🔀 Transport Layer &amp; Protocols</h2>
+    <p class="lesson-intro">TCP and UDP handle getting data reliably (or quickly) from one application to another, and port numbers make sure it ends up in the right application once it arrives.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆚 TCP vs. UDP</div>
+    <table>
+      <tr><th></th><th>TCP</th><th>UDP</th></tr>
+      <tr><td>Connection</td><td>Connection-oriented — sets up a session first</td><td>Connectionless — just sends</td></tr>
+      <tr><td>Reliability</td><td>Guarantees delivery and correct order, resends lost data</td><td>No guarantee — lost packets just stay lost</td></tr>
+      <tr><td>Speed</td><td>Slower, due to the overhead of guarantees</td><td>Faster, no overhead</td></tr>
+      <tr><td>Used for</td><td>Web browsing, email, file transfer — anywhere correctness matters</td><td>Video/voice calls, live streaming, DNS — anywhere speed matters more than a perfect copy</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why would you ever want UDP's "no guarantee"?</strong>In a live video call, a lost packet from half a second ago is worthless by the time it could be resent — better to just drop it and keep the call moving than to pause and guarantee perfect delivery.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤝 The TCP Three-Way Handshake</div>
+    <div class="net-diagram"><span class="device">Client</span>                    <span class="device">Server</span>
+  │  <span class="flow">──── SYN ────►</span>       │   <span class="dim">"I'd like to connect"</span>
+  │  <span class="flow">◄─ SYN-ACK ──</span>        │   <span class="dim">"Okay, and confirm you got this?"</span>
+  │  <span class="flow">──── ACK ────►</span>       │   <span class="dim">"Confirmed — connection established"</span></div>
+    <p>Every TCP connection — every webpage load, every file transfer — starts with this exact 3-step exchange before any real data is sent. This is also exactly what TCP's connection-oriented reliability is built on top of.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Port Numbers — Getting to the Right Application</div>
+    <p>An IP address gets data to the right device; a <strong>port number</strong> gets it to the right application running on that device. Ports 0–1023 are "well-known" ports, reserved for standard services.</p>
+    <table>
+      <tr><th>Port</th><th>Protocol</th><th>Use</th></tr>
+      <tr><td>20/21</td><td>FTP</td><td>File transfer</td></tr>
+      <tr><td>22</td><td>SSH</td><td>Secure remote terminal access</td></tr>
+      <tr><td>23</td><td>Telnet</td><td>Unencrypted remote terminal — legacy, avoid using it</td></tr>
+      <tr><td>25</td><td>SMTP</td><td>Sending email</td></tr>
+      <tr><td>53</td><td>DNS</td><td>Name resolution (Module 9)</td></tr>
+      <tr><td>67/68</td><td>DHCP</td><td>Automatic IP assignment (Module 9)</td></tr>
+      <tr><td>80</td><td>HTTP</td><td>Unencrypted web traffic</td></tr>
+      <tr><td>443</td><td>HTTPS</td><td>Encrypted web traffic — the vast majority of the modern web</td></tr>
+      <tr><td>3389</td><td>RDP</td><td>Remote Desktop Protocol</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This table is worth memorizing</strong>Port numbers come up constantly in real troubleshooting ("is port 443 open through the firewall?") and are heavily tested on certification exams. These are the ones you'll see most.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Putting It Together — A Full Address</div>
+    <p>An IP address plus a port number together form a <strong>socket</strong>, written as <code>192.168.1.10:443</code> — this fully identifies not just which device, but which specific application/service on that device a connection is talking to.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A live video call app chooses UDP over TCP. Why does that make sense for this use case?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="For live video/voice, an old lost packet being resent is often worthless by the time it arrives — UDP's speed and lack of resend-delay fits the use case better than TCP's guarantees.">Speed matters more than guaranteeing every single packet arrives</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="UDP doesn't inherently encrypt anything — that's handled at a different layer (like TLS), independent of TCP vs UDP.">UDP encrypts data automatically and TCP doesn't</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Port numbers exist independently of which transport protocol is used — both TCP and UDP use port numbers.">TCP doesn't support port numbers for video applications</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Network Services — DHCP &amp; DNS</button>
+    <button class="btn btn-next" onclick="next(9)">Network Security Fundamentals →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 10: Network Security Fundamentals ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>🔒 Network Security Fundamentals</h2>
+    <p class="lesson-intro">The core principles behind every security decision you'll make, plus the tools — firewalls, ACLs, VPNs — that actually enforce them.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔺 The CIA Triad</div>
+    <table>
+      <tr><th>Principle</th><th>Means</th><th>Example Threat</th></tr>
+      <tr><td>Confidentiality</td><td>Only authorized people can see the data</td><td>An attacker intercepting unencrypted traffic</td></tr>
+      <tr><td>Integrity</td><td>Data isn't modified in transit or at rest without detection</td><td>A man-in-the-middle attack altering data en route</td></tr>
+      <tr><td>Availability</td><td>Systems and data are accessible when needed</td><td>A denial-of-service attack taking a server offline</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Every security control maps back to one of these three</strong>Encryption protects confidentiality. Checksums and digital signatures protect integrity. Redundancy and DDoS protection protect availability. When evaluating any security measure, ask which of the three it's actually defending.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 Firewalls</div>
+    <p>A <strong>firewall</strong> inspects traffic and allows or blocks it based on a set of rules — the single most fundamental network security device.</p>
+    <table>
+      <tr><th>Type</th><th>How It Decides</th></tr>
+      <tr><td>Packet-filtering</td><td>Simple rules based on IP address, port, protocol — fast but not context-aware</td></tr>
+      <tr><td>Stateful</td><td>Tracks entire connections, not just individual packets — can tell a reply apart from an unsolicited new connection</td></tr>
+      <tr><td>Next-gen (NGFW)</td><td>Also inspects the actual content/application of traffic, not just headers — can identify and block specific applications or threats</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 ACLs — Access Control Lists</div>
+    <p>An <strong>ACL</strong> is an ordered list of rules, applied on a router or switch, that permit or deny specific traffic — essentially a lightweight, more targeted firewall ruleset applied directly at a network device.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Order matters — a lot</strong>ACL rules are processed top to bottom, and the first matching rule wins. A broad "deny all" rule placed too early will silently block traffic you meant to allow further down the list — a classic real-world misconfiguration.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔐 VPNs — Encrypted Tunnels Over Untrusted Networks</div>
+    <p>A <strong>VPN (Virtual Private Network)</strong> creates an encrypted tunnel across a public network (like the internet), so traffic inside that tunnel is protected from anyone intercepting it along the way — commonly used for remote employees securely reaching an internal company network, or connecting two office sites together over the internet instead of an expensive dedicated line.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">☣️ Common Threats to Recognize</div>
+    <table>
+      <tr><th>Threat</th><th>What It Is</th></tr>
+      <tr><td>Malware</td><td>Malicious software — viruses, ransomware, spyware, and similar</td></tr>
+      <tr><td>Phishing</td><td>Tricking a person into giving up credentials or clicking something malicious, usually via a fake but convincing email or site</td></tr>
+      <tr><td>DoS / DDoS</td><td>Overwhelming a system with traffic so legitimate users can't access it — directly attacks the "Availability" leg of the CIA triad</td></tr>
+      <tr><td>Man-in-the-Middle</td><td>An attacker secretly intercepts (and possibly alters) traffic between two parties who believe they're communicating directly</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">An attacker floods a company's web server with so much junk traffic that real customers can't load the site. Which part of the CIA triad is being attacked?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="No data is necessarily being viewed by unauthorized parties here — the attack is about overwhelming the system, not exposing data.">Confidentiality</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The data itself isn't being altered in this attack — the server's data could be perfectly intact while still being unreachable.">Integrity</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A denial-of-service attack directly targets availability — making a system inaccessible to legitimate users, even though the data itself may be untouched.">Availability</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Transport Layer &amp; Protocols</button>
+    <button class="btn btn-next" onclick="next(10)">Troubleshooting &amp; Tools →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 11: Troubleshooting & Tools ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>🛠️ Troubleshooting &amp; Tools</h2>
+    <p class="lesson-intro">The command-line tools every networking job actually uses daily, and a real methodology for narrowing down a problem instead of guessing.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏓 ping — Is It Even Reachable?</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>ping 8.8.8.8
+ping google.com</pre>
+    </div>
+    <p>Sends a small packet and waits for a reply, confirming basic reachability and round-trip time. Pinging a known-good public IP (like 8.8.8.8) versus a name (like google.com) is a classic first split-test: if the IP works but the name doesn't, you're looking at a DNS problem (Module 9), not a connectivity problem.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ traceroute / tracert — Where Exactly Does It Break?</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Linux/macOS</span>
+traceroute google.com
+
+<span class="cm"># Windows</span>
+tracert google.com</pre>
+    </div>
+    <p>Shows every router hop between you and the destination, with the response time at each one. If the trace consistently fails or spikes at one particular hop, that's exactly where to focus — the problem almost certainly isn't your local machine if the first several hops respond fine.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖥️ Checking Your Own Configuration</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Windows</span>
+ipconfig /all
+
+<span class="cm"># Linux/macOS</span>
+ifconfig
+ip addr</pre>
+    </div>
+    <p>Shows your device's own IP address, subnet mask, default gateway, and DNS servers — the first thing to check when a device can't reach anything: does it even have a valid configuration in the first place?</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📖 nslookup — Testing DNS Directly</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>nslookup google.com</pre>
+    </div>
+    <p>Manually queries DNS and shows exactly what IP address a name resolves to — useful for confirming whether a "site won't load" complaint is a DNS issue before looking anywhere else.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔬 Wireshark — Seeing the Actual Traffic</div>
+    <p><strong>Wireshark</strong> captures and displays every packet crossing a network interface, letting you inspect headers and payloads directly — the deepest level of troubleshooting available short of physical hardware testing. You won't need it for most day-to-day issues, but it's the tool that answers "what is actually being sent" when every higher-level tool has failed to explain a problem.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 A Real Troubleshooting Methodology</div>
+    <table>
+      <tr><th>Approach</th><th>How It Works</th><th>Best For</th></tr>
+      <tr><td>Bottom-up</td><td>Start at the Physical layer (is it plugged in? link light on?) and work up</td><td>When you suspect a hardware/cabling issue</td></tr>
+      <tr><td>Top-down</td><td>Start at the Application layer (does the specific app work?) and work down</td><td>When one specific application is failing but general connectivity seems fine</td></tr>
+      <tr><td>Divide-and-conquer</td><td>Start in the middle (e.g., can you ping the local gateway?) and branch based on the result</td><td>Fastest general-purpose approach when you don't have a strong lead yet</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This maps directly back to Module 1's OSI model</strong>Every troubleshooting methodology is really just "figure out which layer the problem lives at." A cable unplugged is a Layer 1 problem; a DNS failure is a Layer 7-ish application/service problem, even though the underlying protocol runs lower.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">ping to a known-good IP address works fine, but ping to a website's name fails. Which tool would you use next to confirm the exact cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="nslookup directly tests whether a name is resolving to an IP address at all — the natural next step when ping-by-IP works but ping-by-name doesn't.">nslookup</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="ipconfig/ifconfig shows your own device's configuration, which you've already effectively confirmed is fine since pinging a raw IP succeeded.">ipconfig /all</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Wireshark could eventually help, but it's a much deeper tool than needed here — nslookup directly answers the DNS question first.">Wireshark</button>
+    </div>
+    <div class="quiz-feedback" id="qfb11"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Network Security Fundamentals</button>
+    <button class="btn btn-next" onclick="next(11)">WAN &amp; Cloud Networking →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 12: WAN & Cloud Networking ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13</div>
+    <h2>☁️ WAN &amp; Cloud Networking</h2>
+    <p class="lesson-intro">How separate sites connect to each other across long distances, and how the same networking concepts you've learned show up inside a cloud provider's console.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌉 WAN Connection Types</div>
+    <table>
+      <tr><th>Type</th><th>How It Works</th><th>Notes</th></tr>
+      <tr><td>Leased Line</td><td>A dedicated, private physical circuit rented from a provider</td><td>Reliable and consistent, but expensive</td></tr>
+      <tr><td>MPLS</td><td>A provider's private backbone that efficiently routes multiple customers' traffic with guaranteed performance tiers</td><td>Common in traditional enterprise WANs</td></tr>
+      <tr><td>Site-to-Site VPN</td><td>An encrypted tunnel between two locations, sent over the regular public internet</td><td>Far cheaper than a leased line or MPLS, at the cost of depending on regular internet quality</td></tr>
+      <tr><td>SD-WAN</td><td>Software that intelligently manages traffic across multiple WAN connections (e.g. a leased line AND a broadband internet link) at once</td><td>The modern trend — combines reliability with cost savings by using whichever path performs best per type of traffic</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔐 Site-to-Site VPN in Practice</div>
+    <p>Two office locations, each with their own router, establish a permanent encrypted tunnel between them over the internet. Once established, devices on each side can reach devices on the other side as if they were on the same local network — the same idea as the individual remote-access VPN from Module 11, just connecting two whole networks instead of one user.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">☁️ Networking Concepts Inside the Cloud</div>
+    <p>Cloud providers (AWS, Azure, Google Cloud) let you build virtual versions of the same networking concepts from this entire course, just software-defined instead of physical hardware.</p>
+    <table>
+      <tr><th>Cloud Concept</th><th>Real-World Equivalent</th></tr>
+      <tr><td>VPC (Virtual Private Cloud)</td><td>Your own private LAN, but virtual and running inside the provider's data center</td></tr>
+      <tr><td>Subnets within a VPC</td><td>Same subnetting math from Module 5 — you're still carving up a /24 or similar block</td></tr>
+      <tr><td>Security Groups / NACLs</td><td>Firewall rules and ACLs (Module 11), just applied to virtual instances instead of physical devices</td></tr>
+      <tr><td>Internet Gateway</td><td>Conceptually similar to your home router's connection out to your ISP</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Nothing here is actually new</strong>Cloud networking intimidates a lot of beginners because of unfamiliar console UIs and vendor-specific names, but the underlying concepts are exactly what you've already learned — IP addressing, subnetting, routing, and firewalls, just clicked together in a web dashboard instead of wired by hand.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A company wants to connect two offices without paying for an expensive dedicated leased line, and is fine relying on regular internet service. What's the appropriate solution?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="MPLS is a provider's private backbone service, generally priced and provisioned similarly to a leased line — not the low-cost option being described here.">MPLS</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A site-to-site VPN uses the existing public internet connection at each site with an encrypted tunnel between them — far cheaper than a dedicated line, at the cost of depending on regular internet quality.">Site-to-site VPN</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A leased line is exactly the expensive dedicated option this scenario is trying to avoid.">A leased line</button>
+    </div>
+    <div class="quiz-feedback" id="qfb12"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(12)">← Troubleshooting &amp; Tools</button>
+    <button class="btn btn-next" onclick="next(12)">Monitoring &amp; Management →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 13: Monitoring & Management ===== -->
+<section class="lesson" id="l13">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 14</div>
+    <h2>📊 Monitoring &amp; Management</h2>
+    <p class="lesson-intro">The unglamorous but essential practices that separate a network you understand from one that quietly breaks and nobody notices until it's a crisis.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 SNMP — Asking Devices How They're Doing</div>
+    <p><strong>SNMP (Simple Network Management Protocol)</strong> lets a central monitoring system regularly poll routers, switches, and servers for health data — CPU load, interface traffic, error counts, temperature — without needing to log into each device individually.</p>
+    <table>
+      <tr><th>Term</th><th>Meaning</th></tr>
+      <tr><td>Manager</td><td>The central system collecting data (e.g. a monitoring dashboard)</td></tr>
+      <tr><td>Agent</td><td>Software running on each monitored device, reporting its stats</td></tr>
+      <tr><td>MIB</td><td>Management Information Base — the structured list of exactly what data a device can report</td></tr>
+      <tr><td>Trap</td><td>An unprompted alert a device sends immediately when something urgent happens (like an interface going down), rather than waiting to be asked</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Syslog — A Central Record of Everything</div>
+    <p><strong>Syslog</strong> is a standard for devices to send log messages to a central logging server, instead of each device only keeping logs locally (where they're easy to lose, and hard to correlate across multiple devices during an incident).</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why centralize logs at all?</strong>When something breaks at 2am, having every device's logs already flowing into one searchable place is the difference between finding the cause in minutes versus manually SSHing into a dozen devices one at a time.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Documentation — The Job Skill Nobody Talks About</div>
+    <ul>
+      <li><strong>Network diagrams</strong> — a current, accurate map of every device and connection. Out-of-date diagrams are worse than none, because they actively mislead.</li>
+      <li><strong>IP address inventory</strong> — what's assigned where, so you're not guessing (or causing a conflict) when adding a new device.</li>
+      <li><strong>Configuration backups</strong> — saved device configs you can restore from, so a failed device or a bad change isn't a from-scratch rebuild.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 Change Management</div>
+    <p>A formal process for proposing, reviewing, approving, and documenting any change to network configuration — even a "simple" one. The point isn't bureaucracy for its own sake; it's making sure someone else knows what changed, why, and how to undo it if something breaks.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Most outages are caused by changes, not failures</strong>An undocumented "quick fix" made under pressure, with no rollback plan, is one of the most common real-world causes of extended outages — not because the change was wrong, but because nobody could quickly tell what had been changed when it went bad.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A switch immediately sends an alert the moment one of its interfaces goes down, without being asked. What SNMP concept is this?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A MIB is the structured list of what data a device CAN report — it's not the mechanism for sending an unprompted urgent alert.">A MIB</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A trap is exactly this — an unprompted alert a device sends immediately when something urgent happens, rather than waiting for the manager to poll it.">A trap</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The agent is the software reporting device stats generally — the specific concept of an unprompted urgent alert is called a trap.">The agent</button>
+    </div>
+    <div class="quiz-feedback" id="qfb13"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(13)">← WAN &amp; Cloud Networking</button>
+    <button class="btn btn-next" onclick="next(13)">Capstone &amp; Career Path →</button>
+  </div>
+</section>
+
+
+
+<!-- ===== LESSON 14: Capstone & Career Path ===== -->
+<section class="lesson" id="l14">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 15 🏁</div>
+    <h2>🏁 Capstone — Design a Small Business Network</h2>
+    <p class="lesson-intro">Everything from this course, combined into one design-and-troubleshoot project — plus certification and career guidance for turning this knowledge into a job.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 The Scenario</div>
+    <p>A small business is moving into a new office: 3 departments (Sales, Engineering, Guest Wi-Fi), around 40 employees, one internet connection, and a requirement that guest devices must never reach internal resources. You're designing the network from scratch.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ The Build Plan</div>
+    <ol class="step-list">
+      <li><strong>Topology (Module 2):</strong> A star topology from a central switch stack, uplinked to a router/firewall at the network edge.</li>
+      <li><strong>Cabling (Module 3):</strong> Cat6 for all desk drops, planned to stay within the 100m distance limit from the wiring closet.</li>
+      <li><strong>VLANs (Module 4):</strong> Three VLANs — Sales, Engineering, Guest — on the same physical switches, keeping Guest traffic logically isolated.</li>
+      <li><strong>IP addressing (Module 5):</strong> Subnet a private block (e.g. 192.168.0.0/22) into three right-sized subnets, one per VLAN, using the same borrowing method from Module 5.</li>
+      <li><strong>Routing (Module 7):</strong> A default route out to the internet, with static routes (or a routing protocol, if the network grows) between VLANs where needed.</li>
+      <li><strong>Wireless (Module 8):</strong> Separate SSIDs for Corporate and Guest, mapped to their respective VLANs, WPA3 (or WPA2 minimum) on both.</li>
+      <li><strong>Services (Module 9):</strong> DHCP scopes per VLAN, each handing out the correct subnet, gateway, and DNS servers automatically.</li>
+      <li><strong>Security (Module 11):</strong> A firewall at the edge, with ACLs specifically blocking the Guest VLAN from reaching Sales/Engineering subnets.</li>
+      <li><strong>Documentation (Module 14):</strong> A network diagram, IP address inventory, and VLAN assignment sheet — the artifacts a real employer would expect handed off.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 The Troubleshooting Half</div>
+    <p>A truly comprehensive capstone isn't just designing a working network — it's also being handed a broken one. Practice each of these scenarios using the methodology from Module 12:</p>
+    <table>
+      <tr><th>Symptom</th><th>Where to Look First</th></tr>
+      <tr><td>One desk has no connectivity at all</td><td>Physical layer — cable, link light, switch port (Module 3)</td></tr>
+      <tr><td>Guest Wi-Fi users can see internal file shares</td><td>VLAN assignment and ACL rules (Modules 4, 11)</td></tr>
+      <tr><td>Devices get an IP but can't browse the web by name</td><td>DNS configuration handed out by DHCP (Module 9)</td></tr>
+      <tr><td>One department can't reach another department's printer</td><td>Inter-VLAN routing rules (Module 7)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎓 Certification Path</div>
+    <table>
+      <tr><th>Certification</th><th>Level</th><th>Covers</th></tr>
+      <tr><td>CompTIA Network+</td><td>Entry-level, vendor-neutral</td><td>Almost exactly the scope of this course — the natural next step to formalize this knowledge</td></tr>
+      <tr><td>Cisco CCNA</td><td>Entry-to-mid, vendor-specific (Cisco)</td><td>Deeper hands-on routing/switching configuration, using Cisco's actual command-line syntax</td></tr>
+      <tr><td>CompTIA Security+</td><td>Entry-level security</td><td>A natural follow-up if you want to specialize toward network security</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Which one first?</strong>Network+ is the most direct match to everything in this course and is a strong general-purpose credential. CCNA goes deeper but is Cisco-specific — worth it once you know you'll be working with Cisco gear specifically, which is extremely common in enterprise environments.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💼 Getting Job-Ready</div>
+    <ul>
+      <li><strong>Build a home lab</strong> — even a cheap used switch/router setup lets you practice VLANs, subnetting, and basic routing hands-on, which matters far more to interviewers than a certificate alone.</li>
+      <li><strong>Learn to explain your capstone out loud</strong> — being able to walk someone through why you chose a /22 subnet split, or why Guest Wi-Fi needs its own VLAN, is exactly what a help-desk or NOC interview will probe for.</li>
+      <li><strong>Target entry roles precisely</strong> — Help Desk, NOC Technician, and Network Support Technician are the standard first rungs; they lean heavily on exactly the troubleshooting methodology from Module 12.</li>
+    </ul>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Design, Document, and Defend</h4>
+    <p>Produce a full network diagram and IP addressing plan for the scenario above, then write out (or say out loud to someone) a one-paragraph justification for every major decision — VLAN count, subnet sizes, where the firewall rules sit. Being able to defend a design decision, not just produce one, is exactly what separates a certificate-holder from someone who's actually job-ready.</p>
+    <ul>
+      <li>A complete network diagram (switches, router/firewall, VLANs, wireless APs)</li>
+      <li>A full subnetting plan for all 3 VLANs from one parent block</li>
+      <li>Documented firewall/ACL rules enforcing Guest isolation</li>
+      <li>A one-page written justification for every major design choice</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(14)">← Monitoring &amp; Management</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+
+
+</main>
+</div>
+
+<script>
+const TOTAL = 15;
+const done  = new Set();
+let   cur   = 0;
+
+const STORAGE_KEY = 'teqstudy_progress::' + location.pathname.split('/').pop();
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  location.reload();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ done: [...done], cur }));
+  } catch (e) { /* localStorage unavailable — progress just won't persist */ }
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { updateBar(); return; }
+    const data = JSON.parse(raw);
+    (data.done || []).forEach(i => done.add(i));
+    if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
+      go(data.cur);
+    } else {
+      done.add(0);
+      updateBar();
+    }
+  } catch (e) {
+    done.add(0);
+    updateBar();
+  }
+}
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+loadProgress();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
