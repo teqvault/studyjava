@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raspberry Pi for Complete Beginners | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+
+<link rel="stylesheet" href="../css/raspberry-pi-course.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Raspberry Pi for Complete Beginners</h1>
+  <p>Zero to confident — breadboards, GPIO, Linux, sensors, and real projects. Written for people who have never seen a Raspberry Pi in their life.</p>
+  <div class="header-stars">🍓 🔌 🧰 💡 🐧</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🔌</span> Breadboards, Assembly &amp; Add-Ons <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🍓</span> Meet the Raspberry Pi <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">💿</span> Raspberry Pi OS &amp; First Boot <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">⌨️</span> Linux &amp; Command Line Essentials <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🐍</span> GPIO Programming Basics <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">💡</span> Digital I/O Projects <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">📊</span> Analog Sensing with ADCs <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🔗</span> I2C &amp; SPI — Displays &amp; Sensors <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">⚙️</span> PWM &amp; Motors <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">📡</span> Networking &amp; Remote Access <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">📷</span> Camera &amp; Computer Vision Basics <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🏁</span> Capstone Project <span class="nav-check" id="chk11"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- ===== LESSON 0: Breadboards, Assembly & Add-Ons ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>Breadboards, Assembly &amp; Add-Ons</h2>
+    <p class="lesson-intro">Before you ever power on a Raspberry Pi, you need to understand the board you'll be building circuits on. This module covers breadboard anatomy, safe wiring, choosing the right add-ons, and assembling your first real circuit — assuming you've never touched electronics hardware before.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 What Is a Breadboard?</div>
+    <p>A <strong>breadboard</strong> is a plastic board full of tiny spring-loaded holes that let you build circuits by pushing wires and component legs into them — no soldering required. It exists so you can prototype, test, and rewire a circuit in seconds instead of permanently joining metal every time you change your mind.</p>
+    <p>The holes aren't just decoration — underneath the plastic, certain rows of holes are electrically connected to each other by metal strips. Understanding <em>which holes are connected to which</em> is the single most important thing to learn before touching one.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ Breadboard Anatomy</div>
+    <p>A standard full-size breadboard has four separate zones. Here's the layout, top to bottom:</p>
+    <div class="breadboard-diagram"><span class="label">┌─ POWER RAILS (top) ──────────────────────────────┐</span>
+<span class="rail-pos">+ + + + + + + + + + + + + + + + + + + + + + + + +</span>   <span class="label">← red line, positive rail</span>
+<span class="rail-neg">- - - - - - - - - - - - - - - - - - - - - - - - -</span>   <span class="label">← blue line, ground rail</span>
+
+<span class="strip">a b c d e</span>   <span class="gap">| |</span>   <span class="strip">f g h i j</span>     <span class="label">← each column a-e is ONE connected strip</span>
+<span class="strip">a b c d e</span>   <span class="gap">| |</span>   <span class="strip">f g h i j</span>     <span class="label">   (columns f-j are a SEPARATE strip)</span>
+<span class="strip">a b c d e</span>   <span class="gap">| |</span>   <span class="strip">f g h i j</span>     <span class="label">   the center gap does NOT connect them</span>
+<span class="strip">... (rows 1-30 or more) ...</span>
+
+<span class="rail-pos">+ + + + + + + + + + + + + + + + + + + + + + + + +</span>   <span class="label">← POWER RAILS (bottom)</span>
+<span class="rail-neg">- - - - - - - - - - - - - - - - - - - - - - - - -</span>
+<span class="label">└────────────────────────────────────────────────┘</span></div>
+    <ol class="step-list">
+      <li><strong>Power rails</strong> — the long rows running the full length of the board, marked with a red (+) line and a blue/black (−) line. Every hole along a single rail is connected to every other hole on that same rail. This is where you distribute power and ground to the whole board.</li>
+      <li><strong>Terminal strips</strong> — the main grid in the middle. Each short vertical column of 5 holes (labeled a–e or f–j) is electrically connected <em>within that column only</em>. Row 12, columns a-e are one connected group; row 12, columns f-j are a completely separate group.</li>
+      <li><strong>The center gap</strong> — the trench splitting the board left/right. It exists specifically so you can straddle a chip across it without shorting its left-side pins to its right-side pins.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The #1 beginner mistake</strong>Assuming the two halves of a row (a-e and f-j) are connected. They are NOT. If your circuit "isn't working," the very first thing to check is whether you plugged something into the wrong side of the gap.</div>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Many boards split the power rails too</strong>On longer breadboards, the top power rail and bottom power rail are often electrically separate from each other, and sometimes even split in the middle left/right. Don't assume — test with a multimeter (covered below) if you're unsure.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 Labeled Reference Diagram</div>
+    <p>Here's a fully labeled 830 tie-point breadboard — the same anatomy from above, shown on a real board layout with every region called out.</p>
+    <img src="../images/breadboard-labeled-diagram.jpg" alt="Labeled diagram of an 830 tie-point breadboard showing power rails, main terminal strip sections, the center isolation barrier, and independent vertical metal strips" style="width:100%;border-radius:12px;border:1px solid var(--border);margin:12px 0 20px;">
+    <table>
+      <tr><th>Label</th><th>What It Means</th></tr>
+      <tr><td>Overall Length / Width (~165mm × ~55mm)</td><td>Typical physical dimensions of a standard full-size breadboard — useful for confirming you have a full-size (not half-size) board.</td></tr>
+      <tr><td>Power Rails — Positive (red, +) / Negative (blue, −)</td><td>The two long rows running the edge of the board. Every hole along one rail is electrically tied together, letting you distribute power and ground to the whole board.</td></tr>
+      <tr><td>Main Terminal Strip Section</td><td>The central grid where components and jumper wires actually plug in. Divided into short 5-hole columns, each one an isolated connected group.</td></tr>
+      <tr><td>Electrical Isolation Barrier (Centre Divider)</td><td>The physical trench splitting the A–E row group from the F–J row group — lets you straddle a chip across it without shorting its own legs together.</td></tr>
+      <tr><td>Independent Vertical Metal Strip (A–E)</td><td>One connected group of 5 holes (rows A, B, C, D, E) within a single column — isolated from the F–J strip in that same column.</td></tr>
+      <tr><td>Independent Vertical Metal Strip (F–J)</td><td>The mirrored group below the center divider — rows F, G, H, I, J connected within a column, isolated from A–E.</td></tr>
+      <tr><td>Isolated Vertical Connections (5 points each)</td><td>Confirms each column strip ties together exactly 5 holes — not the whole row, and not the opposite side of the gap.</td></tr>
+      <tr><td>Internal Continuous Strip (rail)</td><td>The metal strip running underneath a power rail for its length, which is what actually carries the current between holes.</td></tr>
+      <tr><td>External Tie-Points</td><td>The holes you see and plug into on top of that internal strip.</td></tr>
+      <tr><td>"Break in rail metal at midpoint" note</td><td>A real-world manufacturing detail: on many long breadboards, the + or − rail is physically cut in the middle, so the left half's rail may not be connected to the right half's rail unless you bridge them with a jumper wire.</td></tr>
+      <tr><td>Detail Point Counts (630 + 200 = 830)</td><td>The math behind an "830 tie-point" board: 2 row-groups × 63 columns × 5 holes = 630 main tie-points, plus 4 rails × ~50 holes = 200 rail points.</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Column numbering varies by manufacturer</strong>Some full-size boards number continuously across the whole board; others are really two independently-numbered halves pushed together. Don't assume your board's column numbers match a diagram exactly — trace it with a multimeter if you're unsure.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Jumper Wires — Which Kind Do You Need?</div>
+    <p>Jumper wires connect one point on the breadboard to another, or to the Raspberry Pi's pins. They come in three end types, and picking the right one matters:</p>
+    <table>
+      <tr><th>Type</th><th>Looks Like</th><th>Use For</th></tr>
+      <tr><td>Male–Male (M-M)</td><td>Solid pin on both ends</td><td>Breadboard hole → breadboard hole</td></tr>
+      <tr><td>Male–Female (M-F)</td><td>Solid pin one end, socket the other</td><td>Raspberry Pi GPIO pin → breadboard hole</td></tr>
+      <tr><td>Female–Female (F-F)</td><td>Socket on both ends</td><td>Pin header → pin header (e.g. Pi to a HAT riser, or sensor module with pin headers)</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Which one will you use most?</strong>Male-to-Female. One end plugs onto a Raspberry Pi GPIO pin (which is a solid pin sticking up, so it needs a socket), the other end plugs into a breadboard hole (which needs a solid pin). Buy a kit with all three types — they're cheap and you'll eventually want all of them.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ GPIO Voltage Safety — Read This Before You Plug Anything In</div>
+    <p>The Raspberry Pi's GPIO (General Purpose Input/Output) pins operate at <strong>3.3 volts</strong>, not 5 volts. This is different from an Arduino Uno, which is 5V — if you've seen Arduino tutorials, don't copy their voltage assumptions onto a Pi.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This is the rule that protects your Pi</strong>Never connect a GPIO pin directly to 5V, and never send more than 3.3V into a GPIO input pin. The GPIO pins are <strong>not 5V tolerant</strong> — doing this can permanently destroy that pin, or the entire board. Always double-check a sensor or module's voltage requirements before wiring it to GPIO. If a module needs 5V power, that's fine (many do) — just make sure its <em>signal/data</em> pins that talk to the Pi are 3.3V logic, or use a level shifter/logic converter in between.</div>
+    </div>
+    <p>The Pi's 40-pin header does provide both 3.3V and 5V power pins (for powering external components), but only ever wire the <strong>signal lines</strong> at 3.3V.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Ohm's Law &amp; Picking a Resistor for Your LED</div>
+    <p>Almost every first circuit is an LED, and almost every LED needs a <strong>current-limiting resistor</strong> in series with it — without one, an LED will pull too much current and burn out almost instantly. Here's the formula and how to use it:</p>
+    <div class="analogy">
+      <div class="analogy-label">Ohm's Law</div>
+      <p><strong>R = (V<sub>supply</sub> − V<sub>LED</sub>) ÷ I<sub>LED</sub></strong> — Resistance equals the leftover voltage divided by the current you want flowing.</p>
+    </div>
+    <p><strong>Worked example</strong>, using a standard red LED on a Raspberry Pi GPIO pin:</p>
+    <ol class="step-list">
+      <li>GPIO supply voltage: <strong>3.3V</strong></li>
+      <li>Typical red LED forward voltage drop: <strong>~2V</strong> (check your LED's datasheet if unsure)</li>
+      <li>Target LED current: <strong>~20mA (0.02A)</strong> — a safe, typical brightness</li>
+      <li>R = (3.3 − 2) ÷ 0.02 = <strong>65Ω minimum</strong></li>
+      <li>Round <em>up</em> to the nearest common resistor value: <strong>220Ω or 330Ω</strong> are the standard "safe default" choices for GPIO LEDs — they dim the LED slightly but guarantee you're not over-driving it or the pin.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>When in doubt, go bigger</strong>A resistor that's too large just makes the LED slightly dimmer. A resistor that's too small (or missing) can destroy the LED or damage the GPIO pin. If you don't have the exact calculated value, always round up.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Reading Resistor Color Bands</div>
+    <p>Resistors don't have their value printed as a number — they use colored bands. For the common 4-band resistors you'll use in this course, you only need to recognize a handful of colors to identify 220Ω and 330Ω on sight:</p>
+    <div class="band-row"><span class="band-chip" style="background:#e53935"></span> Red = 2</div>
+    <div class="band-row"><span class="band-chip" style="background:#f57c00"></span> Orange = 3</div>
+    <div class="band-row"><span class="band-chip" style="background:#333"></span> Black = 0</div>
+    <div class="band-row"><span class="band-chip" style="background:#8d6e63"></span> Brown = 1 (also means ×10 as the multiplier band)</div>
+    <div class="band-row"><span class="band-chip" style="background:#ffd166"></span> Gold = ±5% tolerance (usually the last band)</div>
+    <table>
+      <tr><th>Bands (in order)</th><th>Value</th></tr>
+      <tr><td>Red, Red, Brown, Gold</td><td>220Ω</td></tr>
+      <tr><td>Orange, Orange, Brown, Gold</td><td>330Ω</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Don't want to memorize color codes yet?</strong>That's fine — most beginner kits sort resistors into labeled tubes or bags. A cheap digital multimeter (below) will also just tell you the exact resistance if you're ever unsure.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔨 Assembling Your First Circuit — LED + Pushbutton</div>
+    <p>Let's put it together. This circuit doesn't need a Raspberry Pi yet — you're only practicing breadboard wiring and safe assembly habits. (Module 6 will connect this exact circuit to GPIO code.)</p>
+    <ol class="step-list">
+      <li>Place the LED so its two legs straddle the center gap — one leg on the left terminal strip, one on the right. <strong>Note which leg is longer</strong> — that's the <strong>anode (+)</strong>. The shorter leg (often next to a flat edge on the LED's plastic case) is the <strong>cathode (−)</strong>.</li>
+      <li>Place a 220Ω or 330Ω resistor so one end shares a terminal strip column with the LED's anode (long leg), and the other end reaches a free column.</li>
+      <li>Run a jumper wire from the resistor's free end to the breadboard's positive (+) power rail.</li>
+      <li>Run a second jumper wire from the LED's cathode (short leg) column to the negative (−) power rail.</li>
+      <li>For the pushbutton: place it straddling the center gap (most 4-leg breadboard buttons are sized exactly for this). Only two of the four legs are ever connected to each other internally — the other two are a separate connected pair. Straddling the gap keeps all four legs electrically separate until the button is pressed.</li>
+      <li>Wire one side of the button to the positive rail (through a resistor, if you're prepping for GPIO input later — this is called a pull-down/pull-up resistor, covered in Module 5) and the other side to a terminal strip column you'll read as input.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>LED polarity matters</strong>An LED only conducts current in one direction. Plug it in backwards and it simply won't light up — it won't damage anything at low current, but it's the most common reason a "broken" circuit is actually just fine. If your LED doesn't light, try flipping it around before you assume anything else is wrong.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧰 Breadboard Add-Ons &amp; Their Uses</div>
+    <p>Once you're comfortable with the bare breadboard, a handful of inexpensive add-ons make working with a Raspberry Pi dramatically easier. Here's what's actually worth having and why:</p>
+    <div class="hw-grid">
+      <div class="hw-card" style="--accent:#06d6a0"><div class="hw-icon">🎗️</div><h4>GPIO T-Cobbler / Breakout</h4><p>A ribbon cable + adapter that "unfolds" the Pi's 40-pin header onto the breadboard itself, with each pin clearly labeled. Without one, you're stuck plugging individual jumper wires straight into the Pi's header, which is cramped and easy to miscount.</p></div>
+      <div class="hw-card" style="--accent:#118ab2"><div class="hw-icon">🎀</div><h4>GPIO Ribbon Cable</h4><p>The cable that connects the Pi's header to the T-Cobbler (or directly to a HAT). Look for one long enough to comfortably reach your breadboard without straining the header pins.</p></div>
+      <div class="hw-card" style="--accent:#ffd166"><div class="hw-icon">🔋</div><h4>Breadboard Power Supply Module</h4><p>A small board that clips onto the power rails and regulates an external power source (like a 9V battery or wall adapter) down to a clean 3.3V or 5V — so you're not relying on the Pi itself to power power-hungry add-ons like motors or many LEDs at once.</p></div>
+      <div class="hw-card" style="--accent:#c77dff"><div class="hw-icon">📏</div><h4>Digital Multimeter</h4><p>Measures voltage, resistance, and continuity. Essential for checking whether two breadboard holes are actually connected, verifying a resistor's real value, and confirming a circuit is receiving the voltage you expect before you plug in anything expensive.</p></div>
+      <div class="hw-card" style="--accent:#ff6b6b"><div class="hw-icon">🧵</div><h4>Jumper Wire Kit (M-M / M-F / F-F)</h4><p>Buy a mixed pack up front. You will run out of the "right" wire mid-project constantly otherwise, and improvising with the wrong connector type is how shorts happen.</p></div>
+      <div class="hw-card" style="--accent:#ff9f6b"><div class="hw-icon">🍞</div><h4>Half-Size vs Full-Size Breadboards</h4><p>Full-size boards (830 points) give you room for multiple components at once; half-size (400 points) are fine for simple single-circuit lessons and more portable. This course assumes a full-size board so there's room to grow.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎩 What's a "HAT," and Do You Need One Yet?</div>
+    <p>A <strong>HAT</strong> (Hardware Attached on Top) is a add-on board that plugs directly onto the Pi's 40-pin GPIO header, sitting on top of the Pi like a lid — no breadboard required. HATs exist so you can skip manual wiring for common, well-defined tasks. You don't need any of these for this module, but it's worth knowing what exists so you recognize them later in the course:</p>
+    <table>
+      <tr><th>HAT</th><th>What It's For</th></tr>
+      <tr><td>Sense HAT</td><td>Bundles a gyroscope, accelerometer, temperature/humidity/pressure sensors, and an 8×8 LED matrix — great for a single "starter sensor board" instead of wiring six separate parts</td></tr>
+      <tr><td>Motor HAT / Driver HAT</td><td>Lets the Pi safely control DC motors or servos, which draw more current than GPIO pins can supply directly (covered in Module 9)</td></tr>
+      <tr><td>ADC HAT / breakout (e.g. MCP3008-based)</td><td>Adds analog input — the Pi's GPIO pins are digital-only, so anything analog (a potentiometer, many analog sensors) needs one of these (covered in Module 7)</td></tr>
+      <tr><td>RTC (Real-Time Clock) HAT</td><td>Keeps accurate time using a small battery, for projects that run without internet access and need to know the correct time on boot</td></tr>
+    </table>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>Breadboard first, HATs later</strong>This course deliberately starts on a bare breadboard rather than jumping straight to HATs — wiring things by hand first is what teaches you what a HAT is actually doing for you under the hood. Once you understand the wiring, HATs become time-savers instead of black boxes.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Configuration Checklist Before You Power Anything On</div>
+    <ol class="step-list">
+      <li>Double-check LED and any polarized component orientation (long leg = positive).</li>
+      <li>Confirm no wire bridges the gap between the positive and negative power rails directly (a dead short) — trace every wire back to its rail before connecting power.</li>
+      <li>Confirm your resistor is actually in the circuit path — not just nearby on the board, but electrically in series between power and the LED.</li>
+      <li>If using a multimeter, set it to continuity mode and touch both probes across your intended connections to confirm they beep/connect as expected — <em>before</em> the Pi or any power source is connected.</li>
+      <li>Only after all of the above: connect power, and watch for any smoke, smell, or unusual heat — disconnect immediately if you notice any.</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You accidentally wire a sensor's signal pin to the Raspberry Pi's 5V power pin instead of 3.3V. What's the risk?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The LED brightness isn't the concern here — GPIO pins aren't 5V tolerant at all, so this can cause permanent damage.">The LED will just be extra bright</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="GPIO pins are 3.3V logic and are not 5V tolerant. Feeding 5V into a signal pin can permanently damage that pin or the whole board.">It can permanently damage the GPIO pin or the Pi itself</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Nothing about Pi hardware auto-detects or self-corrects voltage — there's no safety net here, which is exactly why this rule matters.">Nothing — the Pi automatically adjusts voltage</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">On a standard breadboard, which holes are electrically connected to each other?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The two sides of the center gap are deliberately NOT connected — that's the whole point of the gap.">Every hole on the entire row, both sides of the center gap</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Each 5-hole column (like a-e, or f-j) is one connected strip. The center gap keeps the left and right halves separate.">Only the 5 holes within the same lettered column on one side of the gap</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Columns (up/down) aren't connected to each other on a standard breadboard — only the horizontal 5-hole rows within one side of the gap are.">Every hole in the same vertical column, top to bottom</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Meet the Raspberry Pi →</button>
+  </div>
+</section>
+<!-- ===== LESSON 1: Meet the Raspberry Pi (placeholder) ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🍓 Meet the Raspberry Pi</h2>
+    <p class="lesson-intro">Boards, GPIO pinout, and the peripherals you'll actually plug in.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Breadboards, Assembly & Add-Ons</button>
+    <button class="btn btn-next" onclick="next(1)">Raspberry Pi OS & First Boot →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 2: Raspberry Pi OS & First Boot (placeholder) ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>💿 Raspberry Pi OS & First Boot</h2>
+    <p class="lesson-intro">Imaging an SD card, first boot, and headless (no monitor) setup.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Meet the Raspberry Pi</button>
+    <button class="btn btn-next" onclick="next(2)">Linux & Command Line Essentials →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 3: Linux & Command Line Essentials (placeholder) ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>⌨️ Linux & Command Line Essentials</h2>
+    <p class="lesson-intro">The terminal commands you need before writing a single script.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Raspberry Pi OS & First Boot</button>
+    <button class="btn btn-next" onclick="next(3)">GPIO Programming Basics →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 4: GPIO Programming Basics (placeholder) ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>🐍 GPIO Programming Basics</h2>
+    <p class="lesson-intro">Reading and writing pins in Python with gpiozero and RPi.GPIO.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Linux & Command Line Essentials</button>
+    <button class="btn btn-next" onclick="next(4)">Digital I/O Projects →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 5: Digital I/O Projects (placeholder) ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>💡 Digital I/O Projects</h2>
+    <p class="lesson-intro">LEDs, buttons, and buzzers — wiring plus working code for each.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← GPIO Programming Basics</button>
+    <button class="btn btn-next" onclick="next(5)">Analog Sensing with ADCs →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 6: Analog Sensing with ADCs (placeholder) ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>📊 Analog Sensing with ADCs</h2>
+    <p class="lesson-intro">The Pi has no analog input — here's how an ADC like the MCP3008 fixes that.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Digital I/O Projects</button>
+    <button class="btn btn-next" onclick="next(6)">I2C & SPI — Displays & Sensors →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 7: I2C & SPI — Displays & Sensors (placeholder) ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>🔗 I2C & SPI — Displays & Sensors</h2>
+    <p class="lesson-intro">Talking to displays, sensors, and RTC modules over I2C and SPI.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Analog Sensing with ADCs</button>
+    <button class="btn btn-next" onclick="next(7)">PWM & Motors →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 8: PWM & Motors (placeholder) ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>⚙️ PWM & Motors</h2>
+    <p class="lesson-intro">Servos, DC motors, and the motor drivers that keep your Pi safe.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← I2C & SPI — Displays & Sensors</button>
+    <button class="btn btn-next" onclick="next(8)">Networking & Remote Access →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 9: Networking & Remote Access (placeholder) ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>📡 Networking & Remote Access</h2>
+    <p class="lesson-intro">SSH, VNC, and setting up a reliable static IP for your Pi.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← PWM & Motors</button>
+    <button class="btn btn-next" onclick="next(9)">Camera & Computer Vision Basics →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 10: Camera & Computer Vision Basics (placeholder) ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>📷 Camera & Computer Vision Basics</h2>
+    <p class="lesson-intro">The Camera Module and a first pass at basic computer vision.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Networking & Remote Access</button>
+    <button class="btn btn-next" onclick="next(10)">Capstone Project →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 11: Capstone Project (placeholder) ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>🏁 Capstone Project</h2>
+    <p class="lesson-intro">Combine everything into one complete sensor/IoT build.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Coming Soon</div>
+    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Camera & Computer Vision Basics</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+const TOTAL = 12;
+const done  = new Set();
+let   cur   = 0;
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+done.add(0);
+updateBar();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
