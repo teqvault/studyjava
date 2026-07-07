@@ -172,7 +172,7 @@
 <div class="callout warn"><span class="callout-icon">⚡</span><div class="callout-body"><strong>The equals/hashCode Contract</strong><p>If you override <code>equals()</code>, you MUST also override <code>hashCode()</code>. Objects that are <code>equals()</code> must produce the same hashCode. Violating this silently breaks <code>HashSet</code> and <code>HashMap</code> — two objects that should be "equal" get stored as separate entries. The bug is extremely hard to find at runtime.</p></div></div>
 
 <div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Design a <code>Product</code> Class for an E-Commerce System</h4>
-<p>Your class must: auto-increment <code>id</code> (final), validate price &gt; 0 and stock ≥ 0 in constructor, implement <code>purchase(int qty)</code> that throws <code>IllegalStateException</code> on insufficient stock, <code>applyDiscount(double pct)</code> that validates 0–100, and override <code>toString()</code>, <code>equals()</code>, <code>hashCode()</code>. Add a static <code>getTotalProducts()</code>. Write a <code>main</code> that creates products and stores them in a <code>HashSet</code> — verifying that two products with the same ID count as one entry.</div></div>
+<p>Your class must: auto-increment <code>id</code> (final), validate price &gt; 0 and stock ≥ 0 in constructor, implement <code>purchase(int qty)</code> that throws <code>IllegalStateException</code> on insufficient stock, <code>applyDiscount(double pct)</code> that validates 0–100, and override <code>toString()</code>, <code>equals()</code>, <code>hashCode()</code>. Add a static <code>getTotalProducts()</code>. Write a <code>main</code> that creates products and stores them in a <code>HashSet</code> — verifying that two products with the same ID count as one entry.</p></div>
 
 <div class="quiz-block"><div class="quiz-label">Knowledge Check</div>
 <div class="quiz-q">A static method inside a class can directly access instance fields of that class. True or false?</div>
@@ -629,7 +629,7 @@
 <div class="lesson" id="L7">
 <div class="lesson-eyebrow"><span class="eyebrow-tag">Lesson 8</span><span class="eyebrow-sep">·</span><span class="eyebrow-topic">Advanced</span></div>
 <h2>Design Patterns</h2>
-<p class="lesson-lead">Design patterns are proven, named solutions to recurring problems. Knowing them lets you communicate in one word — "use a Builder," "that's Observer" — and avoid reinventing solutions that have been battle-tested for decades.</p>
+<p class="lesson-lead">Design patterns are proven, named solutions to recurring problems. Knowing them lets you communicate in one word — "use a Builder," "that's Observer" — and avoid reinventing solutions that have been battle-tested for decades. This lesson is a working reference; the <a href="java_design_patterns_lesson.html">dedicated Design Patterns lesson</a> covers all six in full depth, including three different ways to implement a Singleton correctly.</p>
 
 <div class="pattern-grid">
 <div class="pattern-card"><div class="pattern-type">Creational</div><h4>Builder</h4><p>Construct complex objects step-by-step with many optional parameters. Fluent API. Private constructor.</p></div>
@@ -686,44 +686,7 @@
     .<span class="fn">timeout</span>(<span class="num">10_000</span>)
     .<span class="fn">build</span>();</pre></div>
 
-<div class="code-wrap"><div class="code-header"><span class="code-filename">patterns/Observer.java</span><span class="code-meta">Observer Pattern — Stock Price Alerts</span></div>
-<pre><span class="kw">public interface</span> <span class="cl">StockObserver</span> {
-    <span class="kw">void</span> <span class="fn">onPriceChange</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> oldPrice, <span class="kw">double</span> newPrice);
-}
-
-<span class="kw">public class</span> <span class="cl">Stock</span> {
-    <span class="kw">private final</span> <span class="cl">String</span> ticker;
-    <span class="kw">private double</span> price;
-    <span class="kw">private final</span> <span class="cl">List</span>&lt;<span class="cl">StockObserver</span>&gt; observers <span class="op">=</span> <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
-
-    <span class="kw">public</span> <span class="fn">Stock</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> price) { <span class="kw">this</span>.ticker <span class="op">=</span> ticker; <span class="kw">this</span>.price <span class="op">=</span> price; }
-
-    <span class="kw">public void</span> <span class="fn">subscribe</span>(<span class="cl">StockObserver</span> o)   { observers.<span class="fn">add</span>(o);    }
-    <span class="kw">public void</span> <span class="fn">unsubscribe</span>(<span class="cl">StockObserver</span> o) { observers.<span class="fn">remove</span>(o); }
-
-    <span class="kw">public void</span> <span class="fn">setPrice</span>(<span class="kw">double</span> newPrice) {
-        <span class="kw">double</span> old <span class="op">=</span> price; price <span class="op">=</span> newPrice;
-        observers.<span class="fn">forEach</span>(o <span class="op">-&gt;</span> o.<span class="fn">onPriceChange</span>(ticker, old, newPrice));
-    }
-}
-
-<span class="kw">public class</span> <span class="cl">AlertSystem</span> <span class="kw">implements</span> <span class="cl">StockObserver</span> {
-    <span class="kw">private final double</span> threshold; <span class="cm">// alert if move &gt;= threshold%</span>
-    <span class="kw">public</span> <span class="fn">AlertSystem</span>(<span class="kw">double</span> threshold) { <span class="kw">this</span>.threshold <span class="op">=</span> threshold; }
-
-    <span class="ann">@Override</span>
-    <span class="kw">public void</span> <span class="fn">onPriceChange</span>(<span class="cl">String</span> ticker, <span class="kw">double</span> old, <span class="kw">double</span> now) {
-        <span class="kw">double</span> pct <span class="op">=</span> <span class="cl">Math</span>.<span class="fn">abs</span>((now <span class="op">-</span> old) <span class="op">/</span> old <span class="op">*</span> <span class="num">100</span>);
-        <span class="kw">if</span> (pct <span class="op">&gt;=</span> threshold)
-            <span class="cl">System</span>.out.<span class="fn">printf</span>(<span class="str">"🚨 %s moved %.1f%% ($%.2f → $%.2f)%n"</span>, ticker, pct, old, now);
-    }
-}
-
-<span class="cm">// Usage — observers added and removed at runtime</span>
-<span class="cl">Stock</span> aapl <span class="op">=</span> <span class="kw">new</span> <span class="cl">Stock</span>(<span class="str">"AAPL"</span>, <span class="num">180.0</span>);
-<span class="cl">AlertSystem</span> alert <span class="op">=</span> <span class="kw">new</span> <span class="cl">AlertSystem</span>(<span class="num">5.0</span>); <span class="cm">// fire on 5%+ moves</span>
-aapl.<span class="fn">subscribe</span>(alert);
-aapl.<span class="fn">setPrice</span>(<span class="num">195.0</span>); <span class="cm">// 🚨 AAPL moved 8.3% ($180.00 → $195.00)</span></pre></div>
+<div class="callout tip"><span class="callout-icon">📖</span><div class="callout-body"><strong>Want Observer, Factory Method, Decorator, and Singleton with full working code?</strong><p>This lesson keeps one worked example (Builder) so you can see a real pattern in context. For the complete treatment of all six patterns — including a thread-safe Singleton and the modern enum-based Singleton — head to the <a href="java_design_patterns_lesson.html">dedicated Design Patterns lesson</a>.</p></div></div>
 
 <div class="challenge"><div class="challenge-label">Engineering Challenge</div><h4>Plugin Architecture using Factory + Strategy</h4>
 <p>Build an image processing pipeline. Each filter (Grayscale, Blur, Sharpen, Resize, Brightness) is a <code>Strategy</code> (interface <code>ImageFilter</code> with <code>apply(Image img)</code>). A <code>FilterFactory</code> takes a string name and returns the right implementation — throwing <code>IllegalArgumentException</code> for unknown names. An <code>ImageProcessor</code> accepts a <code>List&lt;ImageFilter&gt;</code> and applies them in sequence. Registering a new filter requires zero changes to existing code — demonstrating OCP. Bonus: implement a <code>PipelineBuilder</code> using the Builder pattern to construct filter chains fluently.</p></div>
