@@ -271,7 +271,7 @@
       <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Each 5-hole column (like a-e, or f-j) is one connected strip. The center gap keeps the left and right halves separate.">Only the 5 holes within the same lettered column on one side of the gap</button>
       <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Columns (up/down) aren't connected to each other on a standard breadboard — only the horizontal 5-hole rows within one side of the gap are.">Every hole in the same vertical column, top to bottom</button>
     </div>
-    <div class="quiz-feedback" id="qfb1"></div>
+    <div class="quiz-feedback" id="qfb0b"></div>
   </div>
 
   <div class="lesson-nav">
@@ -279,93 +279,467 @@
     <button class="btn btn-next" onclick="next(0)">Meet the Raspberry Pi →</button>
   </div>
 </section>
-<!-- ===== LESSON 1: Meet the Raspberry Pi (placeholder) ===== -->
+<!-- ===== LESSON 1: Meet the Raspberry Pi ===== -->
 <section class="lesson" id="l1">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 02</div>
     <h2>🍓 Meet the Raspberry Pi</h2>
-    <p class="lesson-intro">Boards, GPIO pinout, and the peripherals you'll actually plug in.</p>
+    <p class="lesson-intro">Boards, the GPIO pinout, and the peripherals you'll actually need before you can turn one on.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🧠 What Is a Raspberry Pi?</div>
+    <p>A Raspberry Pi is a <strong>single-board computer (SBC)</strong> — a complete, small computer with a CPU, memory, and ports, all on one credit-card-sized board. Unlike your laptop, it has no built-in screen, keyboard, or storage drive — you supply those, or run it "headless" (no monitor at all, controlled remotely).</p>
+    <p>What makes it different from a normal desktop is the <strong>GPIO header</strong> — a row of 40 pins along one edge that let the board directly control and read real-world electronics: LEDs, sensors, motors, switches. That's the part a laptop can't do.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Which Board Should You Use?</div>
+    <table>
+      <tr><th>Board</th><th>Good For</th><th>Notes</th></tr>
+      <tr><td>Raspberry Pi 5 / 4</td><td>This course, general projects, anything needing real performance</td><td>Full Linux OS, runs a desktop, most powerful</td></tr>
+      <tr><td>Raspberry Pi Zero 2 W</td><td>Small, low-power, battery-friendly projects</td><td>Same 40-pin GPIO layout, weaker CPU, smaller form factor</td></tr>
+      <tr><td>Raspberry Pi Pico</td><td>Simple, always-on microcontroller tasks</td><td><strong>Not the same thing</strong> — no OS, no Linux, programmed differently (MicroPython/C on bare metal). This course is NOT about the Pico.</td></tr>
+    </table>
+    <div class="callout info">
+      <span class="callout-emoji">ℹ️</span>
+      <div class="callout-body"><strong>This course assumes a Pi 4 or Pi 5</strong>Everything here — the OS, the GPIO pin numbers, the wiring — applies directly to Pi 4 and Pi 5 (and mostly to Zero 2 W). If you have a Pico, that's a different device with a different course path.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ Anatomy of the Board</div>
+    <ul>
+      <li><strong>SoC (System on Chip)</strong> — the black chip in the middle; it's the CPU and GPU combined.</li>
+      <li><strong>microSD card slot</strong> (underside) — this is where the entire operating system lives. There's no internal hard drive.</li>
+      <li><strong>USB-C power port</strong> — this is power input only, not a data connection to a computer.</li>
+      <li><strong>USB-A ports</strong> — for keyboard, mouse, flash drives.</li>
+      <li><strong>Ethernet port</strong> — wired networking; Wi-Fi is also built in.</li>
+      <li><strong>Micro-HDMI ports (×2 on Pi 4/5)</strong> — video output to a monitor. Note: micro-HDMI, not full-size — you'll likely need an adapter cable.</li>
+      <li><strong>Camera (CSI) and Display (DSI) connectors</strong> — small ribbon-cable slots for the official Camera Module (Module 11) and touchscreens.</li>
+      <li><strong>40-pin GPIO header</strong> — the row of pins along the top edge. This is what the rest of this course is built around.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 The GPIO Pinout</div>
+    <p>The 40-pin header has three categories of pins, and mixing them up is the most common wiring mistake:</p>
+    <div class="breadboard-diagram">Pin 1  [3.3V]        [5V]   Pin 2
+Pin 3  [GPIO2/SDA]   [5V]   Pin 4
+Pin 5  [GPIO3/SCL]   [GND]  Pin 6
+Pin 7  [GPIO4]       [GPIO14]  Pin 8
+Pin 9  [GND]         [GPIO15]  Pin 10
+Pin 11 [GPIO17]      [GPIO18]  Pin 12
+   ... (continues to Pin 40) ...</div>
+    <table>
+      <tr><th>Pin Type</th><th>What It Does</th></tr>
+      <tr><td>Power pins (3.3V, 5V)</td><td>Fixed voltage output to power external components. Never treat these as GPIO signal pins.</td></tr>
+      <tr><td>Ground (GND) pins</td><td>Common reference point for every circuit. Any circuit touching GPIO needs to share ground with the Pi.</td></tr>
+      <tr><td>GPIO pins (numbered)</td><td>General-purpose digital input/output — the pins you'll program in Module 4 onward.</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Two different numbering systems exist</strong>"BCM" numbers refer to the chip's internal GPIO number (e.g. GPIO17). "Physical" or "BOARD" numbers refer to the pin's position on the header (e.g. Pin 11). These are NOT the same number for the same pin — GPIO17 is physical Pin 11. Every tutorial should tell you which system it's using. We'll cover this in detail in Module 4.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧰 What You Need Before Powering On</div>
+    <ol class="step-list">
+      <li><strong>A microSD card</strong> (16GB minimum, 32GB+ recommended) — this becomes your entire operating system and storage.</li>
+      <li><strong>A proper power supply</strong> — official Pi power adapters are rated for the current spikes the board needs; an underpowered phone charger causes random reboots and corrupted SD cards. This is a common, confusing failure mode for beginners.</li>
+      <li><strong>Either</strong>: a monitor + micro-HDMI cable + USB keyboard/mouse (for a normal first setup), <strong>or</strong> just a laptop on the same network (for a "headless" no-monitor setup, covered in Module 3).</li>
+      <li><strong>Optional but recommended:</strong> a case, for both physical protection and cooling.</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A tutorial says "connect your sensor to GPIO17." Where physically is that on the 40-pin header?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Pin 17 counted straight down the header is a common mix-up — GPIO17 (BCM numbering) and physical Pin 17 are different numbering systems for different pins.">Physical pin position 17</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="GPIO17 in BCM numbering is physical Pin 11 on the header — always check a pinout diagram rather than assuming the numbers match.">Whatever pin is labeled GPIO17 on a pinout diagram — not necessarily physical position 17</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Power pins are separate from numbered GPIO pins — GPIO17 refers to a specific general-purpose pin, not a power rail.">One of the 5V power pins</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(1)">← Breadboards, Assembly & Add-Ons</button>
-    <button class="btn btn-next" onclick="next(1)">Raspberry Pi OS & First Boot →</button>
+    <button class="btn btn-prev" onclick="prev(1)">← Breadboards, Assembly &amp; Add-Ons</button>
+    <button class="btn btn-next" onclick="next(1)">Raspberry Pi OS &amp; First Boot →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 2: Raspberry Pi OS & First Boot (placeholder) ===== -->
+
+
+<!-- ===== LESSON 2: Raspberry Pi OS & First Boot ===== -->
 <section class="lesson" id="l2">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 03</div>
-    <h2>💿 Raspberry Pi OS & First Boot</h2>
-    <p class="lesson-intro">Imaging an SD card, first boot, and headless (no monitor) setup.</p>
+    <h2>💿 Raspberry Pi OS &amp; First Boot</h2>
+    <p class="lesson-intro">Turning a blank microSD card into a working Raspberry Pi — imaging, first boot, and setting up headless (no monitor) access.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">💾 Imaging the SD Card</div>
+    <p>The official <strong>Raspberry Pi Imager</strong> tool (free, from raspberrypi.com/software) writes an operating system onto your microSD card. This step happens on your regular computer, not on the Pi itself — the Pi doesn't exist as a working device until this card is ready.</p>
+    <ol class="step-list">
+      <li>Download and install Raspberry Pi Imager on your PC/Mac.</li>
+      <li>Insert your microSD card via a USB card reader.</li>
+      <li>Open Imager → Choose Device → select your Pi model.</li>
+      <li>Choose OS → <strong>Raspberry Pi OS (64-bit)</strong> is the standard choice. Choose the <strong>Lite</strong> version if you plan to go headless (no desktop environment, smaller and faster); choose the full version if you want a monitor and desktop.</li>
+      <li>Choose Storage → select your microSD card. <strong>Double-check this is the SD card and not your PC's main drive</strong> — Imager will erase whatever you select.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Advanced Options — Set This Up BEFORE First Boot</div>
+    <p>Before clicking write, click the gear/advanced options icon. This is where you configure everything you'd otherwise need a monitor and keyboard to set up manually:</p>
+    <ol class="step-list">
+      <li><strong>Enable SSH</strong> — check this box. Without it, you cannot connect to the Pi remotely at all.</li>
+      <li><strong>Set username and password</strong> — pick your own; don't leave this on any default.</li>
+      <li><strong>Configure Wi-Fi</strong> — enter your network name and password so the Pi connects automatically on first boot.</li>
+      <li><strong>Set hostname</strong> — e.g. <code>mypi.local</code> — lets you find the Pi on your network by name instead of hunting for its IP address.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is what makes headless setup possible</strong>Doing this now means you never need to connect a monitor or keyboard to the Pi at all — it'll boot straight onto your Wi-Fi with SSH already waiting for you.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔌 First Boot</div>
+    <ol class="step-list">
+      <li>Insert the finished microSD card into the Pi (slot is on the underside).</li>
+      <li>Connect power last, after everything else is plugged in.</li>
+      <li>Wait 60–90 seconds for first boot — it's doing first-time setup in the background, so don't panic if nothing appears on a monitor immediately.</li>
+      <li><strong>Headless:</strong> from your PC's terminal, run <code>ssh username@mypi.local</code> (using the username and hostname you set in Imager).</li>
+      <li><strong>With monitor:</strong> you'll be dropped into either a desktop or a login prompt directly.</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — First SSH Connection</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>ssh jude@mypi.local
+<span class="cm"># First connection asks to confirm the host's fingerprint — type "yes"</span>
+<span class="cm"># Then enter the password you set in Imager</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ raspi-config — The Pi's Control Panel</div>
+    <p>Once connected, <code>raspi-config</code> is a text-based menu for settings you'll come back to constantly throughout this course — enabling I2C/SPI/Camera (Modules 7, 11), expanding filesystem, changing hostname, and more.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>sudo raspi-config</pre>
+    </div>
+    <p>Navigate with arrow keys, Enter to select, Tab to move between buttons. You'll return to this tool repeatedly in later modules to enable specific interfaces.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You want to set up your Pi without ever connecting a monitor. What's the one setting in Imager's advanced options you absolutely cannot skip?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A hostname makes the Pi easier to find on the network, but without SSH enabled you still can't connect to it at all.">Setting a hostname</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Without SSH enabled, there's no way to remotely connect to the Pi — it's the one setting headless setup depends on entirely.">Enabling SSH</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Choosing Lite vs Desktop affects what's installed, but doesn't affect whether you can remotely connect to the Pi.">Choosing the Lite OS version</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
   </div>
 
   <div class="lesson-nav">
     <button class="btn btn-prev" onclick="prev(2)">← Meet the Raspberry Pi</button>
-    <button class="btn btn-next" onclick="next(2)">Linux & Command Line Essentials →</button>
+    <button class="btn btn-next" onclick="next(2)">Linux &amp; Command Line Essentials →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 3: Linux & Command Line Essentials (placeholder) ===== -->
+
+
+<!-- ===== LESSON 3: Linux & Command Line Essentials ===== -->
 <section class="lesson" id="l3">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 04</div>
-    <h2>⌨️ Linux & Command Line Essentials</h2>
-    <p class="lesson-intro">The terminal commands you need before writing a single script.</p>
+    <h2>⌨️ Linux &amp; Command Line Essentials</h2>
+    <p class="lesson-intro">Raspberry Pi OS is Linux, and most of this course happens in a terminal, not a mouse-driven interface. Here's the minimum command set you need before writing any GPIO code.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🧭 Finding Your Way Around</div>
+    <table>
+      <tr><th>Command</th><th>What It Does</th></tr>
+      <tr><td><code>pwd</code></td><td>Print working directory — shows where you currently are</td></tr>
+      <tr><td><code>ls</code></td><td>List files and folders in the current directory</td></tr>
+      <tr><td><code>ls -la</code></td><td>List everything, including hidden files, with details (permissions, size, date)</td></tr>
+      <tr><td><code>cd foldername</code></td><td>Change directory into "foldername"</td></tr>
+      <tr><td><code>cd ..</code></td><td>Move up one directory level</td></tr>
+      <tr><td><code>cd ~</code></td><td>Jump straight to your home directory</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 Working With Files &amp; Folders</div>
+    <table>
+      <tr><th>Command</th><th>What It Does</th></tr>
+      <tr><td><code>mkdir projectname</code></td><td>Create a new folder</td></tr>
+      <tr><td><code>touch file.py</code></td><td>Create a new empty file</td></tr>
+      <tr><td><code>cp source dest</code></td><td>Copy a file</td></tr>
+      <tr><td><code>mv source dest</code></td><td>Move or rename a file</td></tr>
+      <tr><td><code>rm file.py</code></td><td>Delete a file — <strong>no trash bin, this is permanent</strong></td></tr>
+      <tr><td><code>rm -r foldername</code></td><td>Delete a folder and everything inside it — same permanence warning, doubled</td></tr>
+      <tr><td><code>cat file.py</code></td><td>Print a file's contents to the screen</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>There's no undo</strong>Unlike deleting a file in a desktop file manager, <code>rm</code> does not go to a recycle bin. Double-check the filename before hitting enter, especially with <code>rm -r</code>.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✏️ Editing Files — nano</div>
+    <p>You'll write Python scripts directly on the Pi. <strong>nano</strong> is the easiest terminal text editor to start with (vim is more powerful but has a steeper learning curve — feel free to explore it later).</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>nano blink.py
+<span class="cm"># Type your code directly</span>
+<span class="cm"># Ctrl+O then Enter → saves the file</span>
+<span class="cm"># Ctrl+X → exits nano</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔑 sudo &amp; Permissions</div>
+    <p><code>sudo</code> ("superuser do") runs a command with administrator privileges. Some tasks — installing software, editing system config, accessing certain hardware pins — require it; running everything with sudo out of habit is unnecessary and can mask real permission problems.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — Keeping Your System Updated</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>sudo apt update
+sudo apt upgrade -y</pre>
+    </div>
+    <p><code>apt</code> is Raspberry Pi OS's package manager — how you install nearly all software from the command line. <code>update</code> refreshes the list of what's available; <code>upgrade</code> actually installs newer versions of what you have.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🐍 Running Your First Python Script</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>python3 blink.py</pre>
+    </div>
+    <p>Every GPIO script from Module 5 onward is run exactly this way — <code>python3</code> followed by the filename. Press <strong>Ctrl+C</strong> to stop a running script.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You want to permanently delete an entire project folder called "test". Which command does that?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="rm alone only deletes individual files, not folders — you'd get an error trying to remove a directory this way.">rm test</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="The -r flag makes rm recursive, deleting the folder and everything inside it — permanently, with no trash bin.">rm -r test</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="mv renames or relocates a file/folder — it doesn't delete anything.">mv test</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(3)">← Raspberry Pi OS & First Boot</button>
+    <button class="btn btn-prev" onclick="prev(3)">← Raspberry Pi OS &amp; First Boot</button>
     <button class="btn btn-next" onclick="next(3)">GPIO Programming Basics →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 4: GPIO Programming Basics (placeholder) ===== -->
+
+
+<!-- ===== LESSON 4: GPIO Programming Basics ===== -->
 <section class="lesson" id="l4">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 05</div>
     <h2>🐍 GPIO Programming Basics</h2>
-    <p class="lesson-intro">Reading and writing pins in Python with gpiozero and RPi.GPIO.</p>
+    <p class="lesson-intro">Reading and writing GPIO pins from Python — the bridge between the breadboard circuits from Module 1 and actual code.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🔢 BCM vs BOARD Numbering — Pick One and Be Consistent</div>
+    <p>From Module 2: pins can be referred to by their <strong>physical position</strong> (BOARD numbering, 1–40) or by their <strong>internal chip number</strong> (BCM numbering, e.g. GPIO17). Every GPIO library needs to be told which system you're using — mixing them up in your head is the single most common beginner bug.</p>
+    <table>
+      <tr><th>System</th><th>Example</th><th>When You'll See It</th></tr>
+      <tr><td>BOARD</td><td>Pin 11</td><td>Counting straight down the physical header</td></tr>
+      <tr><td>BCM</td><td>GPIO17</td><td>Most tutorials and libraries default to this — it's what this course uses</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This course uses BCM numbering throughout</strong>When you see "GPIO17" from here on, that's the BCM number — check a pinout diagram if you need to find its physical location on the header.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 Two Libraries: gpiozero vs RPi.GPIO</div>
+    <table>
+      <tr><th>Library</th><th>Style</th><th>Best For</th></tr>
+      <tr><td><strong>gpiozero</strong></td><td>High-level, beginner-friendly (e.g. <code>LED(17).on()</code>)</td><td>This course — faster to read, faster to write, fewer lines for the same result</td></tr>
+      <tr><td><strong>RPi.GPIO</strong></td><td>Lower-level, more manual (<code>GPIO.setup()</code>, <code>GPIO.output()</code>)</td><td>Understanding what's happening underneath, or following older tutorials</td></tr>
+    </table>
+    <p>Both come pre-installed on Raspberry Pi OS. This course leads with <strong>gpiozero</strong> because it maps directly onto real components — an LED object, a Button object — matching how you're already thinking about the breadboard.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Your First Script — Blink an LED</div>
+    <p>Using the exact LED + resistor circuit you built in Module 1, wired so the resistor leg connects to GPIO17 instead of the positive power rail:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — blink.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> LED
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+led = <span class="fn">LED</span>(<span class="num">17</span>)  <span class="cm"># GPIO17, BCM numbering</span>
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    led.<span class="fn">on</span>()
+    <span class="fn">sleep</span>(<span class="num">1</span>)
+    led.<span class="fn">off</span>()
+    <span class="fn">sleep</span>(<span class="num">1</span>)</pre>
+    </div>
+    <p>Run it with <code>python3 blink.py</code>, stop it with Ctrl+C. That's the entire pattern you'll reuse for every digital output device in this course — create an object with a pin number, call methods on it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔘 Reading Input — A Button</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — button_read.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> Button
+
+button = <span class="fn">Button</span>(<span class="num">2</span>)  <span class="cm"># GPIO2</span>
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    button.<span class="fn">wait_for_press</span>()
+    <span class="fn">print</span>(<span class="str">"Button pressed!"</span>)</pre>
+    </div>
+    <p><code>gpiozero</code> automatically handles the internal pull-up/pull-down resistor configuration for you here — a detail RPi.GPIO makes you set manually. This is part of why gpiozero reads so much cleaner for beginners.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Combining Input and Output</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — button_led.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> LED, Button
+
+led    = <span class="fn">LED</span>(<span class="num">17</span>)
+button = <span class="fn">Button</span>(<span class="num">2</span>)
+
+button.<span class="fn">when_pressed</span>  = led.on
+button.<span class="fn">when_released</span> = led.off
+
+<span class="kw">from</span> signal <span class="kw">import</span> pause
+<span class="fn">pause</span>()</pre>
+    </div>
+    <p><code>when_pressed</code> and <code>when_released</code> let you assign a function to run automatically on an event, instead of manually polling in a loop. <code>pause()</code> just keeps the script alive waiting for those events.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A tutorial says "GPIO27." In this course's convention, what does that number refer to?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Physical pin position is the BOARD system — GPIO27 is a BCM number, a different numbering system entirely.">Physical pin position 27 on the header</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="This course uses BCM numbering by default, so GPIO27 refers to the chip's internal pin 27, not its physical header position.">The chip's internal BCM pin number 27</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="GPIO pin numbers and USB ports are unrelated systems.">One of the USB ports</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(4)">← Linux & Command Line Essentials</button>
+    <button class="btn btn-prev" onclick="prev(4)">← Linux &amp; Command Line Essentials</button>
     <button class="btn btn-next" onclick="next(4)">Digital I/O Projects →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 5: Digital I/O Projects (placeholder) ===== -->
+
+
+<!-- ===== LESSON 5: Digital I/O Projects ===== -->
 <section class="lesson" id="l5">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 06</div>
     <h2>💡 Digital I/O Projects</h2>
-    <p class="lesson-intro">LEDs, buttons, and buzzers — wiring plus working code for each.</p>
+    <p class="lesson-intro">Three complete projects — LED patterns, a debounced button, and a buzzer — combining the wiring from Module 1 with the code patterns from Module 5.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🚦 Project 1: Traffic Light Sequence</div>
+    <p>Wire three LEDs (red, yellow, green) each with their own 220Ω resistor, each to a separate GPIO pin, all sharing one ground connection back to the negative rail.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — traffic_light.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> LED
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+red    = <span class="fn">LED</span>(<span class="num">17</span>)
+yellow = <span class="fn">LED</span>(<span class="num">27</span>)
+green  = <span class="fn">LED</span>(<span class="num">22</span>)
+
+<span class="kw">try</span>:
+    <span class="kw">while</span> <span class="kw">True</span>:
+        red.<span class="fn">on</span>();    <span class="fn">sleep</span>(<span class="num">4</span>);  red.<span class="fn">off</span>()
+        green.<span class="fn">on</span>();  <span class="fn">sleep</span>(<span class="num">4</span>);  green.<span class="fn">off</span>()
+        yellow.<span class="fn">on</span>(); <span class="fn">sleep</span>(<span class="num">1</span>);  yellow.<span class="fn">off</span>()
+<span class="kw">except</span> KeyboardInterrupt:
+    <span class="fn">print</span>(<span class="str">"Stopped."</span>)</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>try/except KeyboardInterrupt</strong>Wrapping the loop this way catches Ctrl+C cleanly instead of dumping a traceback error — good practice for every long-running GPIO script from here on.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔘 Project 2: Debounced Button Counter</div>
+    <p>Mechanical buttons don't switch cleanly — the metal contacts physically bounce for a few milliseconds, which can register as several rapid presses instead of one. This is called <strong>bounce</strong>, and it's why a naive button script sometimes counts 3 presses for 1 press.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — button_counter.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> Button
+
+count = <span class="num">0</span>
+<span class="cm"># bounce_time filters out rapid duplicate triggers within 0.1 seconds</span>
+button = <span class="fn">Button</span>(<span class="num">2</span>, bounce_time=<span class="num">0.1</span>)
+
+<span class="kw">def</span> <span class="fn">on_press</span>():
+    <span class="kw">global</span> count
+    count += <span class="num">1</span>
+    <span class="fn">print</span>(<span class="str">f"Press #{count}"</span>)
+
+button.when_pressed = on_press
+
+<span class="kw">from</span> signal <span class="kw">import</span> pause
+<span class="fn">pause</span>()</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>If your button counter jumps by 2-3 per press</strong>That's bounce. Increase <code>bounce_time</code> slightly (e.g. to 0.2), or check your wiring — a loose breadboard connection can also mimic bounce.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔊 Project 3: Buzzer Alert</div>
+    <p>A passive piezo buzzer wires exactly like an LED (one leg to a GPIO pin through a resistor, one to ground) and is controlled identically in code.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — buzzer_alert.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> Buzzer, Button
+<span class="kw">from</span> signal <span class="kw">import</span> pause
+
+buzzer = <span class="fn">Buzzer</span>(<span class="num">27</span>)
+button = <span class="fn">Button</span>(<span class="num">2</span>)
+
+button.when_pressed  = buzzer.on
+button.when_released = buzzer.off
+
+<span class="fn">pause</span>()</pre>
+    </div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🎯 Checkpoint Challenge</div>
+    <h4>Combine All Three</h4>
+    <p>Build one circuit with all three LEDs, the button, and the buzzer on one breadboard. Write a script where pressing the button cycles through the traffic light sequence once, then sounds the buzzer for half a second at the end. This forces you to manage multiple gpiozero objects and event handlers together in one script — the same shape of problem you'll face in the Module 12 capstone.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your button script registers 3 presses every time you press it once. What's the most likely cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Mechanical switch bounce causes rapid duplicate triggers — increasing bounce_time (or checking for a loose connection) fixes it.">Switch bounce — the button's bounce_time is too low or unset</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A missing resistor would typically cause the button not to register cleanly at all, or read constantly high/low — not a clean triple-count.">A missing pull-down resistor</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="GPIO pins run at a fixed 3.3V logic level; voltage fluctuation isn't the typical cause of a multi-press readout.">The Pi's power supply is fluctuating</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
   </div>
 
   <div class="lesson-nav">
@@ -374,119 +748,568 @@
   </div>
 </section>
 
-<!-- ===== LESSON 6: Analog Sensing with ADCs (placeholder) ===== -->
+
+
+<!-- ===== LESSON 6: Analog Sensing with ADCs ===== -->
 <section class="lesson" id="l6">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 07</div>
     <h2>📊 Analog Sensing with ADCs</h2>
-    <p class="lesson-intro">The Pi has no analog input — here's how an ADC like the MCP3008 fixes that.</p>
+    <p class="lesson-intro">The Raspberry Pi's GPIO pins are digital-only — they can only read HIGH or LOW, never "somewhere in between." Here's how to add real analog sensing with an external chip.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">❓ Why Doesn't the Pi Have Analog Input?</div>
+    <p>Digital pins read exactly two states: roughly 0V (LOW/off) or roughly 3.3V (HIGH/on) — nothing in between. Many real-world sensors — a potentiometer's position, a light sensor's brightness, a flex sensor's bend — output a continuously varying voltage, not a clean on/off signal. Microcontrollers like Arduino have built-in circuitry (an ADC) to read those in-between voltages directly. The Raspberry Pi's GPIO does not — you need to add that circuitry yourself with an external chip.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔌 The MCP3008 — An 8-Channel ADC</div>
+    <p>The <strong>MCP3008</strong> is a small chip that reads up to 8 separate analog inputs and reports each one back to the Pi as a digital number (0–1023) over a protocol called <strong>SPI</strong> (covered in more depth in Module 8). It's the standard, well-documented choice for adding analog sensing to a Pi project.</p>
+    <table>
+      <tr><th>MCP3008 Pin</th><th>Connects To</th></tr>
+      <tr><td>VDD, VREF</td><td>Pi 3.3V</td></tr>
+      <tr><td>AGND, DGND</td><td>Pi GND</td></tr>
+      <tr><td>CLK, DOUT, DIN, CS</td><td>Pi SPI pins (GPIO11, 9, 10, 8 respectively)</td></tr>
+      <tr><td>CH0–CH7</td><td>Your analog sensors — up to 8 at once</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Enable SPI first</strong>SPI is disabled by default. Run <code>sudo raspi-config</code> → Interface Options → SPI → Enable, then reboot, before any code below will work.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ Reading a Potentiometer</div>
+    <p>Wire a potentiometer's outer two legs to 3.3V and GND, and its middle (wiper) leg to MCP3008 channel 0.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — read_pot.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> MCP3008
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+pot = <span class="fn">MCP3008</span>(channel=<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="fn">print</span>(<span class="str">f"Value: {pot.value:.2f}"</span>)  <span class="cm"># 0.0 to 1.0</span>
+    <span class="fn">sleep</span>(<span class="num">0.5</span>)</pre>
+    </div>
+    <p>gpiozero's <code>MCP3008</code> class handles the SPI communication for you and gives back a clean 0.0–1.0 float, regardless of the chip's internal 0–1023 resolution — the same "let the library handle the messy part" pattern from Module 5.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Combining Analog Input With Digital Output</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — pot_led_brightness.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> MCP3008, PWMLED
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+pot = <span class="fn">MCP3008</span>(channel=<span class="num">0</span>)
+led = <span class="fn">PWMLED</span>(<span class="num">17</span>)  <span class="cm"># PWMLED supports variable brightness, not just on/off</span>
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    led.value = pot.value  <span class="cm"># directly map 0.0-1.0 pot reading to 0.0-1.0 LED brightness</span>
+    <span class="fn">sleep</span>(<span class="num">0.05</span>)</pre>
+    </div>
+    <p>Turning the potentiometer now smoothly dims the LED — your first real analog-to-digital-to-analog pipeline: a physical continuous input, read through the ADC, driving a continuously variable output (PWM, covered fully in Module 9).</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why can't you plug a potentiometer's wiper pin directly into a Raspberry Pi GPIO pin and read its position?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="GPIO pins only read HIGH or LOW — a potentiometer's continuously varying voltage needs an ADC chip like the MCP3008 to be converted into a number the Pi can read.">GPIO pins are digital-only and can't read a continuously varying voltage</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Potentiometers work fine at 3.3V — the real limitation is that GPIO pins can't read analog voltage levels at all, regardless of voltage range.">The potentiometer needs 5V and GPIO only supplies 3.3V</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="SPI must be enabled specifically for the MCP3008 ADC chip's communication — it's not a general requirement for all sensors on the Pi.">SPI is required for all sensors, not just analog ones</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
   </div>
 
   <div class="lesson-nav">
     <button class="btn btn-prev" onclick="prev(6)">← Digital I/O Projects</button>
-    <button class="btn btn-next" onclick="next(6)">I2C & SPI — Displays & Sensors →</button>
+    <button class="btn btn-next" onclick="next(6)">I2C &amp; SPI — Displays &amp; Sensors →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 7: I2C & SPI — Displays & Sensors (placeholder) ===== -->
+
+
+<!-- ===== LESSON 7: I2C & SPI — Displays & Sensors ===== -->
 <section class="lesson" id="l7">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 08</div>
-    <h2>🔗 I2C & SPI — Displays & Sensors</h2>
-    <p class="lesson-intro">Talking to displays, sensors, and RTC modules over I2C and SPI.</p>
+    <h2>🔗 I2C &amp; SPI — Displays &amp; Sensors</h2>
+    <p class="lesson-intro">Two communication protocols that let you connect complex devices — displays, sensors, real-time clocks — using just a few shared wires instead of one GPIO pin per signal.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🆚 I2C vs SPI — What's the Difference?</div>
+    <table>
+      <tr><th></th><th>I2C</th><th>SPI</th></tr>
+      <tr><td>Wires needed</td><td>2 (SDA, SCL) — shared by ALL I2C devices</td><td>4+ (MOSI, MISO, CLK, plus one CS per device)</td></tr>
+      <tr><td>Speed</td><td>Slower</td><td>Faster</td></tr>
+      <tr><td>Multiple devices</td><td>Easy — each has a unique address on the same 2 wires</td><td>Needs a separate CS (chip select) wire per device</td></tr>
+      <tr><td>Common uses</td><td>Sensors, small OLED displays, RTC modules</td><td>ADCs (Module 7), SD cards, faster displays</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Rule of thumb</strong>If you're wiring several sensors at once and don't need blazing speed, I2C is usually the simpler choice — same 2 wires for every device. If you need speed or you're using something that specifically requires SPI (like the MCP3008), use SPI.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Enabling I2C</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>sudo raspi-config
+<span class="cm"># Interface Options → I2C → Enable → reboot</span></pre>
+    </div>
+    <p>Once enabled and rebooted, install the detection tool:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>sudo apt install -y i2c-tools
+i2cdetect -y 1</pre>
+    </div>
+    <p>This prints a grid showing every I2C device's address currently detected on the bus — the fastest way to confirm a sensor is wired correctly before writing a single line of code.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌡️ Example: BME280 Temperature/Humidity/Pressure Sensor (I2C)</div>
+    <p>Wire VIN→3.3V, GND→GND, SCL→GPIO3, SDA→GPIO2 — the same two I2C pins every I2C device shares.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — Install the Library</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>pip3 install adafruit-circuitpython-bme280</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — read_bme280.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> board
+<span class="kw">from</span> adafruit_bme280 <span class="kw">import</span> basic <span class="kw">as</span> adafruit_bme280
+
+i2c = board.I2C()
+bme = adafruit_bme280.Adafruit_BME280_I2C(i2c)
+
+<span class="fn">print</span>(<span class="str">f"Temp: {bme.temperature:.1f} C"</span>)
+<span class="fn">print</span>(<span class="str">f"Humidity: {bme.humidity:.1f} %"</span>)
+<span class="fn">print</span>(<span class="str">f"Pressure: {bme.pressure:.1f} hPa"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📺 Example: SSD1306 OLED Display (I2C)</div>
+    <p>A small 128×64 OLED screen — same two I2C wires, different address on the bus.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — Install the Library</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>pip3 install adafruit-circuitpython-ssd1306 pillow</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — oled_hello.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> board
+<span class="kw">import</span> adafruit_ssd1306
+<span class="kw">from</span> PIL <span class="kw">import</span> Image, ImageDraw
+
+i2c = board.I2C()
+oled = adafruit_ssd1306.SSD1306_I2C(<span class="num">128</span>, <span class="num">64</span>, i2c)
+oled.<span class="fn">fill</span>(<span class="num">0</span>)
+oled.<span class="fn">show</span>()
+
+image = Image.<span class="fn">new</span>(<span class="str">"1"</span>, (oled.width, oled.height))
+draw  = ImageDraw.<span class="fn">Draw</span>(image)
+draw.<span class="fn">text</span>((<span class="num">0</span>, <span class="num">0</span>), <span class="str">"Hello, Pi!"</span>, fill=<span class="num">255</span>)
+oled.<span class="fn">image</span>(image)
+oled.<span class="fn">show</span>()</pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You want to wire both a BME280 sensor and an SSD1306 display at the same time. How many extra GPIO pins does the second device need?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="I2C devices share the same 2 wires (SDA, SCL) and are told apart by their unique bus address — adding a second I2C device needs zero extra signal pins.">Zero — both devices share the same SDA/SCL wires</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This is true for SPI, which needs a dedicated CS pin per device — but I2C devices share the same two wires and don't need this.">2 more pins, one CLK and one CS</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="I2C devices are distinguished by their bus address, not by separate physical wiring per device.">4 more pins, a full separate bus</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
   </div>
 
   <div class="lesson-nav">
     <button class="btn btn-prev" onclick="prev(7)">← Analog Sensing with ADCs</button>
-    <button class="btn btn-next" onclick="next(7)">PWM & Motors →</button>
+    <button class="btn btn-next" onclick="next(7)">PWM &amp; Motors →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 8: PWM & Motors (placeholder) ===== -->
+
+
+<!-- ===== LESSON 8: PWM & Motors ===== -->
 <section class="lesson" id="l8">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 09</div>
-    <h2>⚙️ PWM & Motors</h2>
-    <p class="lesson-intro">Servos, DC motors, and the motor drivers that keep your Pi safe.</p>
+    <h2>⚙️ PWM &amp; Motors</h2>
+    <p class="lesson-intro">Controlling servos and DC motors — and the one rule that protects your Pi: motors never connect straight to GPIO.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">📶 What Is PWM?</div>
+    <p><strong>PWM (Pulse Width Modulation)</strong> is how a digital-only pin fakes an analog-style output. Instead of a steady voltage, the pin switches on and off very rapidly — the <strong>duty cycle</strong> (the percentage of time it's on vs. off) determines the effective average power. A 100% duty cycle is full on, 50% is roughly half power, 0% is off.</p>
+    <p>You already saw this in Module 7's <code>PWMLED</code> — dimming an LED is PWM. Servos and motor speed control both use the exact same underlying concept.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎚️ Servo Motors</div>
+    <p>A servo moves to a specific angle (usually 0°–180°) based on the PWM signal it receives, and holds that position — unlike a continuous DC motor, which just spins.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — servo_sweep.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> Servo
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+servo = <span class="fn">Servo</span>(<span class="num">17</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    servo.min()  <span class="cm"># -1, roughly 0 degrees</span>
+    <span class="fn">sleep</span>(<span class="num">1</span>)
+    servo.mid()  <span class="cm"># 0, roughly 90 degrees</span>
+    <span class="fn">sleep</span>(<span class="num">1</span>)
+    servo.max()  <span class="cm"># 1, roughly 180 degrees</span>
+    <span class="fn">sleep</span>(<span class="num">1</span>)</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Servos need their own power</strong>A single small servo can sometimes run directly off the Pi's 5V pin for quick tests, but anything beyond one small servo needs an external 5V power supply — the Pi's own power rail can't supply enough current for multiple servos or continuous heavy movement.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚗 DC Motors — Why You Need a Motor Driver</div>
+    <p>DC motors draw far more current than a GPIO pin can safely provide, and — critically — spinning a motor down generates a voltage spike (back-EMF) that can damage the Pi if wired directly. A <strong>motor driver</strong> chip (like the L298N or TB6612) sits between the Pi and the motor: the Pi sends it a low-power control signal, and the driver switches the motor's separate, higher-current power supply.</p>
+    <table>
+      <tr><th>Pi Side</th><th>Motor Driver</th><th>Motor Side</th></tr>
+      <tr><td>GPIO control pins (low current)</td><td>Switches high current based on GPIO signal</td><td>External motor power supply (separate from Pi)</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Never wire a DC motor directly to GPIO</strong>Even a small hobby motor can pull more current than a GPIO pin is rated for, and the back-EMF from the motor's coil can damage the pin when it stops. Always go through a motor driver.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 Driving a DC Motor</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — dc_motor.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> Motor
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+<span class="cm"># forward and backward pins go to the motor driver's control inputs, NOT the motor directly</span>
+motor = <span class="fn">Motor</span>(forward=<span class="num">17</span>, backward=<span class="num">27</span>)
+
+motor.<span class="fn">forward</span>()
+<span class="fn">sleep</span>(<span class="num">2</span>)
+motor.<span class="fn">backward</span>()
+<span class="fn">sleep</span>(<span class="num">2</span>)
+motor.<span class="fn">stop</span>()</pre>
+    </div>
+    <p>gpiozero's <code>Motor</code> class assumes you've wired those two GPIO pins into a motor driver's inputs — it's controlling the driver, which controls the motor.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why can't you wire a DC motor's power leads directly to a GPIO pin, the same way you'd wire an LED?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Motors draw more current than a GPIO pin can safely supply, and generate a back-EMF voltage spike when stopping — both can damage the pin or the Pi without a motor driver in between.">Motors draw too much current and can send damaging voltage spikes back into the pin</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't the core issue — even a slow motor draws more current and creates back-EMF risks that GPIO pins aren't built to handle.">Motors spin too fast for GPIO to keep up with</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Motor drivers aren't primarily about numbering — they exist to handle current and voltage safely between the Pi and the motor.">GPIO pins don't support the BCM numbering motors require</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(8)">← I2C & SPI — Displays & Sensors</button>
-    <button class="btn btn-next" onclick="next(8)">Networking & Remote Access →</button>
+    <button class="btn btn-prev" onclick="prev(8)">← I2C &amp; SPI — Displays &amp; Sensors</button>
+    <button class="btn btn-next" onclick="next(8)">Networking &amp; Remote Access →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 9: Networking & Remote Access (placeholder) ===== -->
+
+
+<!-- ===== LESSON 9: Networking & Remote Access ===== -->
 <section class="lesson" id="l9">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 10</div>
-    <h2>📡 Networking & Remote Access</h2>
-    <p class="lesson-intro">SSH, VNC, and setting up a reliable static IP for your Pi.</p>
+    <h2>📡 Networking &amp; Remote Access</h2>
+    <p class="lesson-intro">Going fully headless — reliable SSH, a graphical remote desktop when you need one, and giving your Pi an address that doesn't change.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🔑 SSH — The Basics You'll Use Every Session</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>ssh jude@mypi.local
+<span class="cm"># or, if the hostname doesn't resolve:</span>
+ssh jude@192.168.1.42</pre>
+    </div>
+    <p>If <code>mypi.local</code> doesn't resolve on your network, find the Pi's IP address instead — either check your router's connected-devices list, or run <code>hostname -I</code> directly on the Pi if you have any access to it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖥️ VNC — When You Need a Full Desktop</div>
+    <p>SSH gives you a terminal only. For a full graphical desktop remotely (useful for Module 11's camera preview, for example), enable VNC:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>sudo raspi-config
+<span class="cm"># Interface Options → VNC → Enable</span></pre>
+    </div>
+    <p>Then install <strong>RealVNC Viewer</strong> on your PC/Mac/phone and connect using the same hostname or IP you use for SSH. Note this only works if you installed the full Raspberry Pi OS Desktop, not the Lite version from Module 3.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Giving Your Pi a Static IP</div>
+    <p>By default, your router can hand the Pi a different IP address each time it reconnects, which breaks any script or bookmark relying on a fixed address. Two ways to fix this:</p>
+    <table>
+      <tr><th>Method</th><th>How</th><th>Best For</th></tr>
+      <tr><td>DHCP Reservation</td><td>Set in your router's admin page — tell the router to always assign the Pi's MAC address the same IP</td><td>Most setups — doesn't touch the Pi's own config at all</td></tr>
+      <tr><td>Static IP on the Pi</td><td>Edit <code>/etc/dhcpcd.conf</code> directly on the Pi</td><td>When you don't have router admin access</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Prefer the router method</strong>It's the same result with less risk — misconfiguring dhcpcd.conf can knock the Pi off the network entirely, at which point you're back to needing a monitor to fix it.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 Moving Files To and From the Pi</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — from your PC</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># copy a file TO the Pi</span>
+scp myscript.py jude@mypi.local:/home/jude/
+
+<span class="cm"># copy a file FROM the Pi</span>
+scp jude@mypi.local:/home/jude/data.csv ./</pre>
+    </div>
+    <p><code>scp</code> ("secure copy") uses the same SSH connection you already have configured — no extra setup required.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your Pi's IP address keeps changing every time it reboots, breaking your SSH shortcut. What's the recommended fix?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="VNC is for graphical remote desktop access — it doesn't affect or fix IP address assignment.">Enable VNC instead of SSH</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A DHCP reservation in your router tells it to always assign the Pi's MAC address the same IP, without touching any config on the Pi itself.">Set a DHCP reservation for the Pi's MAC address in your router</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="scp only copies files over an existing connection — it has nothing to do with IP address stability.">Use scp to copy a new IP onto the Pi</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(9)">← PWM & Motors</button>
-    <button class="btn btn-next" onclick="next(9)">Camera & Computer Vision Basics →</button>
+    <button class="btn btn-prev" onclick="prev(9)">← PWM &amp; Motors</button>
+    <button class="btn btn-next" onclick="next(9)">Camera &amp; Computer Vision Basics →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 10: Camera & Computer Vision Basics (placeholder) ===== -->
+
+
+<!-- ===== LESSON 10: Camera & Computer Vision Basics ===== -->
 <section class="lesson" id="l10">
   <div class="lesson-header">
     <div class="lesson-num">MODULE 11</div>
-    <h2>📷 Camera & Computer Vision Basics</h2>
-    <p class="lesson-intro">The Camera Module and a first pass at basic computer vision.</p>
+    <h2>📷 Camera &amp; Computer Vision Basics</h2>
+    <p class="lesson-intro">Connecting the official Camera Module, capturing photos and video, and a first pass at real computer vision with OpenCV.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🔌 Connecting the Camera Module</div>
+    <ol class="step-list">
+      <li>Power off the Pi completely before connecting the ribbon cable — this port isn't hot-swappable.</li>
+      <li>Gently pull up the black plastic clip on the CSI camera port (from Module 2's board anatomy).</li>
+      <li>Insert the ribbon cable with the blue side facing the Ethernet port (orientation varies slightly by Pi model — check silkscreen labels if unsure), then push the clip back down to lock it.</li>
+      <li>Power on, then enable the camera interface: <code>sudo raspi-config</code> → Interface Options → Camera → Enable → reboot.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📸 Capturing a Photo — libcamera</div>
+    <p>Modern Raspberry Pi OS uses <strong>libcamera</strong> tools instead of the older <code>raspistill</code>/<code>raspivid</code> commands you may see in older tutorials.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm"># Take a single photo</span>
+libcamera-still -o photo.jpg
+
+<span class="cm"># Record 10 seconds of video</span>
+libcamera-vid -t 10000 -o video.h264</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>-t is in milliseconds</strong><code>-t 10000</code> means 10,000 milliseconds — 10 seconds. This trips people up because most other places in Linux measure time in seconds.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🐍 Capturing From Python</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — capture.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> picamera2 <span class="kw">import</span> Picamera2
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+picam2 = Picamera2()
+picam2.<span class="fn">start</span>()
+<span class="fn">sleep</span>(<span class="num">2</span>)  <span class="cm"># let the sensor's auto-exposure settle first</span>
+picam2.<span class="fn">capture_file</span>(<span class="str">"photo.jpg"</span>)
+picam2.<span class="fn">stop</span>()</pre>
+    </div>
+    <p><strong>Picamera2</strong> is the current official Python library, replacing the older (now deprecated) <code>picamera</code> package — if you find tutorials using <code>import picamera</code> without the "2", they're written for the older Pi OS and won't work the same way here.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👁️ First Steps With OpenCV</div>
+    <p><strong>OpenCV</strong> is the standard computer vision library — face detection, motion detection, edge detection, and far more, all built on the idea of treating an image as a grid of numbers you can process.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Terminal — Install</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre>pip3 install opencv-python</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — motion_detect.py</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">import</span> cv2
+<span class="kw">from</span> picamera2 <span class="kw">import</span> Picamera2
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration())
+picam2.<span class="fn">start</span>()
+
+prev_frame = <span class="kw">None</span>
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    frame = picam2.<span class="fn">capture_array</span>()
+    gray  = cv2.<span class="fn">cvtColor</span>(frame, cv2.COLOR_BGR2GRAY)
+    gray  = cv2.<span class="fn">GaussianBlur</span>(gray, (<span class="num">21</span>, <span class="num">21</span>), <span class="num">0</span>)
+
+    <span class="kw">if</span> prev_frame <span class="kw">is not</span> <span class="kw">None</span>:
+        diff = cv2.<span class="fn">absdiff</span>(prev_frame, gray)
+        <span class="kw">if</span> diff.<span class="fn">mean</span>() &gt; <span class="num">5</span>:
+            <span class="fn">print</span>(<span class="str">"Motion detected!"</span>)
+
+    prev_frame = gray</pre>
+    </div>
+    <p>This compares each frame to the previous one — a meaningful difference between frames means something moved. It's a simple, CPU-cheap technique, not full object recognition, but it's the foundation most beginner vision projects start from.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You find an old tutorial using <code>import picamera</code> (no "2") and <code>raspistill</code> commands. What should you do?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Those tools are from the older camera stack. Current Raspberry Pi OS uses libcamera tools and the Picamera2 library instead.">Recognize it's written for the older camera stack and use libcamera / Picamera2 instead</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't a hardware issue — it's that the software stack itself changed. Even current-model Pis need the updated libcamera/Picamera2 tools.">Assume your camera module is a different hardware revision</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="OpenCV is a separate computer vision library, unrelated to which camera capture stack (old vs new) you're using.">Install OpenCV to replace the missing commands</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(10)">← Networking & Remote Access</button>
+    <button class="btn btn-prev" onclick="prev(10)">← Networking &amp; Remote Access</button>
     <button class="btn btn-next" onclick="next(10)">Capstone Project →</button>
   </div>
 </section>
 
-<!-- ===== LESSON 11: Capstone Project (placeholder) ===== -->
+
+
+<!-- ===== LESSON 11: Capstone Project ===== -->
 <section class="lesson" id="l11">
   <div class="lesson-header">
-    <div class="lesson-num">MODULE 12</div>
-    <h2>🏁 Capstone Project</h2>
-    <p class="lesson-intro">Combine everything into one complete sensor/IoT build.</p>
+    <div class="lesson-num">MODULE 12 🏁</div>
+    <h2>🏁 Capstone — Environmental Monitor &amp; Alert Station</h2>
+    <p class="lesson-intro">One project pulling together every module: breadboard wiring, GPIO, analog sensing, I2C, PWM, networking, and (optionally) the camera — built into a single device that actually does something useful.</p>
   </div>
 
   <div class="card">
-    <div class="card-title">🚧 Coming Soon</div>
-    <p>This module is planned but not published yet. It'll follow the same format as Module 1 — full explanations from zero assumed knowledge, wiring diagrams, worked examples, and quick-check quizzes.</p>
+    <div class="card-title">🧩 The Build</div>
+    <p>A desk or room monitor that reads real environmental data, displays it locally, alerts you when something crosses a threshold, and is checkable remotely — the same shape of project as any real IoT sensor node.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ The Build Plan</div>
+    <ol class="step-list">
+      <li><strong>Sensing:</strong> A BME280 (Module 8) reading temperature, humidity, and pressure over I2C.</li>
+      <li><strong>Display:</strong> An SSD1306 OLED (Module 8) showing current readings, updating every few seconds — same I2C bus as the sensor, different address.</li>
+      <li><strong>Alerting:</strong> An LED + buzzer (Module 6) that trigger when temperature crosses a threshold you set — e.g. too hot, flash the LED and beep.</li>
+      <li><strong>Input:</strong> A button (Module 6) that cycles the OLED display between temperature, humidity, and pressure views on press.</li>
+      <li><strong>Dimming:</strong> A potentiometer through the MCP3008 (Module 7) controlling the OLED's or LED's brightness, so the display isn't blinding in a dark room.</li>
+      <li><strong>Remote check-in:</strong> A small Python script reachable over SSH (Module 10) that prints the latest reading on demand — or, as a stretch goal, logs readings to a file you can <code>scp</code> off the Pi.</li>
+      <li><strong>Optional stretch:</strong> Add the Camera Module (Module 11) with simple motion detection to snap a photo whenever someone's in the room, timestamped alongside the sensor log.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧵 Tying It Together — Structure, Not Just Snippets</div>
+    <p>The real skill this capstone tests isn't any single sensor — it's combining several independent event sources (a timer for sensor polling, a button press, a threshold check) into one script that doesn't block itself. A pattern worth using:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Python — monitor.py (skeleton)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">from</span> gpiozero <span class="kw">import</span> LED, Buzzer, Button, MCP3008
+<span class="kw">import</span> board, adafruit_bme280.basic <span class="kw">as</span> adafruit_bme280
+<span class="kw">import</span> adafruit_ssd1306
+<span class="kw">from</span> time <span class="kw">import</span> sleep
+
+TEMP_THRESHOLD = <span class="num">28.0</span>  <span class="cm"># Celsius — adjust to your room</span>
+
+i2c  = board.I2C()
+bme  = adafruit_bme280.Adafruit_BME280_I2C(i2c)
+oled = adafruit_ssd1306.SSD1306_I2C(<span class="num">128</span>, <span class="num">64</span>, i2c)
+
+led     = <span class="fn">LED</span>(<span class="num">17</span>)
+buzzer  = <span class="fn">Buzzer</span>(<span class="num">27</span>)
+button  = <span class="fn">Button</span>(<span class="num">2</span>)
+dimmer  = <span class="fn">MCP3008</span>(channel=<span class="num">0</span>)
+
+view = <span class="num">0</span>  <span class="cm"># 0=temp, 1=humidity, 2=pressure</span>
+<span class="kw">def</span> <span class="fn">cycle_view</span>():
+    <span class="kw">global</span> view
+    view = (view + <span class="num">1</span>) % <span class="num">3</span>
+button.when_pressed = cycle_view
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    temp = bme.temperature
+
+    <span class="cm"># alerting</span>
+    <span class="kw">if</span> temp &gt; TEMP_THRESHOLD:
+        led.<span class="fn">on</span>(); buzzer.<span class="fn">on</span>()
+    <span class="kw">else</span>:
+        led.<span class="fn">off</span>(); buzzer.<span class="fn">off</span>()
+
+    <span class="cm"># display — update based on current view + dimmer-controlled contrast could go here</span>
+    oled.<span class="fn">fill</span>(<span class="num">0</span>)
+    <span class="cm"># ... draw whichever reading `view` selects ...</span>
+    oled.<span class="fn">show</span>()
+
+    <span class="fn">sleep</span>(<span class="num">1</span>)</pre>
+    </div>
+    <p>Notice the loop never blocks on any single thing for long — the button's <code>when_pressed</code> callback fires independently of the main loop's timing, which is the same event-driven pattern from Module 5, just with more pieces running at once.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Definition of Done</div>
+    <table>
+      <tr><th>System</th><th>Passes When…</th></tr>
+      <tr><td>Sensing</td><td>The BME280 returns live, plausible temperature/humidity/pressure values (not 0 or an error)</td></tr>
+      <tr><td>Display</td><td>The OLED shows a current reading and updates without a manual restart</td></tr>
+      <tr><td>Alerting</td><td>Crossing your chosen threshold reliably triggers the LED and buzzer, and stops when it drops back below</td></tr>
+      <tr><td>Input</td><td>Pressing the button cycles the display view without duplicate/bounced triggers</td></tr>
+      <tr><td>Remote access</td><td>You can SSH in from another device on the network and read the latest value without touching the Pi physically</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Ship It</h4>
+    <p>Get every checkpoint above running as one continuous script, wired on a single breadboard, and leave it running unattended for at least an hour. This is the same bar every real embedded project has to clear — not just "the code runs once," but "it keeps running correctly without you standing over it."</p>
+    <ul>
+      <li>BME280 sensor reading over I2C</li>
+      <li>SSD1306 OLED display showing live readings</li>
+      <li>LED + buzzer alert on a temperature threshold</li>
+      <li>Button-driven view cycling, debounced</li>
+      <li>Reachable and checkable over SSH from another device</li>
+      <li>Runs unattended for 60+ minutes without crashing or hanging</li>
+    </ul>
   </div>
 
   <div class="lesson-nav">
-    <button class="btn btn-prev" onclick="prev(11)">← Camera & Computer Vision Basics</button>
+    <button class="btn btn-prev" onclick="prev(11)">← Camera &amp; Computer Vision Basics</button>
     <button class="btn btn-next" disabled>Course Complete! 🎉</button>
   </div>
 </section>
+
+
 </main>
 </div>
 
