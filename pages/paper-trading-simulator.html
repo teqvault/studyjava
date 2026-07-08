@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Paper Trading Simulator | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<style>
+  .layout { max-width: 1100px; }
+  .main { padding: 32px 40px; }
+  .sim-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
+  @media (max-width: 860px) { .sim-grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px; margin-bottom: 20px;
+  }
+  .panel h3 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 14px; }
+  .acct-row { display: flex; gap: 18px; flex-wrap: wrap; }
+  .acct-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 18px; flex: 1; min-width: 120px; }
+  .acct-stat .lbl { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .acct-stat .val { font-family: 'Fira Code', monospace; font-size: 1.25rem; font-weight: 700; margin-top: 4px; }
+  .pos  { color: #06d6a0; } .neg { color: #ff6b6b; }
+  .price-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 16px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s;
+  }
+  .price-row.selected { border-color: #06d6a0; }
+  .price-row .pair { font-weight: 800; }
+  .price-row .px { font-family: 'Fira Code', monospace; font-weight: 700; }
+  .px-up   { color: #06d6a0; } .px-down { color: #ff6b6b; }
+  .frm label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin: 12px 0 4px; }
+  .frm input, .frm select {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px; color: var(--text);
+    font-family: 'Fira Code', monospace; font-size: 0.95rem;
+  }
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; }
+  .btn-buy, .btn-sell {
+    flex: 1; border: none; border-radius: 12px; padding: 14px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+    color: #fff; cursor: pointer; transition: transform 0.15s;
+  }
+  .btn-buy  { background: linear-gradient(135deg, #06d6a0, #0aa87e); }
+  .btn-sell { background: linear-gradient(135deg, #ff6b6b, #d94f4f); }
+  .btn-buy:hover, .btn-sell:hover { transform: translateY(-2px); }
+  .risk-note { font-size: 12px; color: var(--muted); margin-top: 10px; font-family: 'Fira Code', monospace; }
+  .risk-note.warn { color: #ffd166; }
+  .risk-note.danger { color: #ff6b6b; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { font-family: 'Fira Code', monospace; }
+  .close-btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
+  }
+  .sim-banner {
+    background: rgba(255,209,102,0.08); border: 1px solid rgba(255,209,102,0.3);
+    border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.85rem; color: #ffd166;
+  }
+  .reset-acct {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 6px 14px; font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Paper Trading Simulator</h1>
+  <p>Practice real order mechanics — market orders, required stop loss and take profit, position sizing, running P&amp;L — with zero real money. Your account and history persist in this browser.</p>
+  <div class="header-stars">📈 🧪 🛡️</div>
+</header>
+
+<div class="layout">
+<main class="main">
+
+  <div class="sim-banner">⚠️ <strong>Simulated prices.</strong> Movement is generated (anchored to recent real reference rates where available) to train mechanics and discipline — it does not represent or predict any real market. This tool is education, not financial advice.</div>
+
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <h3 style="margin:0;">💼 Account</h3>
+      <button class="reset-acct" onclick="resetAccount()">Reset Account to $10,000</button>
+    </div>
+    <div class="acct-row" style="margin-top:14px;">
+      <div class="acct-stat"><div class="lbl">Balance</div><div class="val" id="balance">$10,000.00</div></div>
+      <div class="acct-stat"><div class="lbl">Open P&amp;L</div><div class="val" id="openpnl">$0.00</div></div>
+      <div class="acct-stat"><div class="lbl">Equity</div><div class="val" id="equity">$10,000.00</div></div>
+      <div class="acct-stat"><div class="lbl">Closed Trades</div><div class="val" id="tradecount">0</div></div>
+    </div>
+  </div>
+
+  <div class="sim-grid">
+    <div>
+      <div class="panel">
+        <h3>💱 Market Watch <span style="font-size:11px;color:var(--muted);font-weight:400;">(click a pair to select)</span></h3>
+        <div id="watchlist"></div>
+      </div>
+
+      <div class="panel">
+        <h3>📂 Open Positions</h3>
+        <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Pair</th><th>Dir</th><th>Lots</th><th>Entry</th><th>SL</th><th>TP</th><th>P&amp;L</th><th></th></tr></thead>
+          <tbody id="positions"><tr><td colspan="8" style="color:var(--muted);">No open positions</td></tr></tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>📜 Trade History</h3>
+        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+        <table>
+          <thead><tr><th>Pair</th><th>Dir</th><th>Lots</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&amp;L</th></tr></thead>
+          <tbody id="history"><tr><td colspan="7" style="color:var(--muted);">No closed trades yet</td></tr></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel frm">
+        <h3>🎯 New Order — <span id="selPair">EUR/USD</span></h3>
+        <label>Lot size (0.01 = micro, 0.1 = mini, 1 = standard)</label>
+        <input type="number" id="lots" value="0.1" step="0.01" min="0.01" max="5">
+        <label>Stop Loss (pips) — required</label>
+        <input type="number" id="slPips" value="30" step="1" min="5">
+        <label>Take Profit (pips) — required</label>
+        <input type="number" id="tpPips" value="60" step="1" min="5">
+        <div class="risk-note" id="riskNote"></div>
+        <div class="btn-row">
+          <button class="btn-buy"  onclick="placeOrder('buy')">▲ BUY</button>
+          <button class="btn-sell" onclick="placeOrder('sell')">▼ SELL</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>🛡️ Course Rules Reminder</h3>
+        <ul style="font-size:0.85rem;line-height:1.7;padding-left:18px;">
+          <li>Risk ≤ <strong>1% of equity</strong> per trade (the sizing box warns you live)</li>
+          <li>Minimum <strong>1:2 risk:reward</strong> — TP pips ≥ 2× SL pips</li>
+          <li>Stop after <strong>3 consecutive losses</strong> for the day</li>
+          <li>Journal every trade — this simulator is your Module 12 capstone</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── Instruments: anchor prices are recent realistic reference levels.
+//    On load we try to refresh anchors from a free public rates API (frankfurter.app);
+//    if unreachable, the hardcoded anchors are used. Tick movement is always simulated.
+const INSTRUMENTS = {
+  'EUR/USD': { price: 1.0850, decimals: 4, pipSize: 0.0001, pipValuePerLot: 10, vol: 0.00012 },
+  'GBP/USD': { price: 1.2700, decimals: 4, pipSize: 0.0001, pipValuePerLot: 10, vol: 0.00015 },
+  'USD/JPY': { price: 155.00, decimals: 2, pipSize: 0.01,   pipValuePerLot: 6.5, vol: 0.018  },
+  'AUD/USD': { price: 0.6600, decimals: 4, pipSize: 0.0001, pipValuePerLot: 10, vol: 0.00013 },
+};
+const SPREAD_PIPS = 1.0;
+
+const ACCT_KEY = 'teqstudy_papertrading_v1';
+let state = {
+  balance: 10000,
+  positions: [],   // {id, pair, dir, lots, entry, sl, tp}
+  history: [],     // {pair, dir, lots, entry, exit, reason, pnl}
+  nextId: 1
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(ACCT_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (typeof s.balance === 'number' && Array.isArray(s.positions) && Array.isArray(s.history)) state = s;
+    }
+  } catch (e) {}
+}
+function saveState() {
+  try { localStorage.setItem(ACCT_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function resetAccount() {
+  if (!confirm('Reset the paper account to $10,000 and clear all positions and history?')) return;
+  state = { balance: 10000, positions: [], history: [], nextId: 1 };
+  saveState(); renderAll();
+}
+
+// ── Try to anchor starting prices to real reference rates (best-effort, CORS-friendly public API)
+async function anchorRealRates() {
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=EUR,GBP,JPY,AUD');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && data.rates) {
+      if (data.rates.EUR) INSTRUMENTS['EUR/USD'].price = +(1 / data.rates.EUR).toFixed(4);
+      if (data.rates.GBP) INSTRUMENTS['GBP/USD'].price = +(1 / data.rates.GBP).toFixed(4);
+      if (data.rates.JPY) INSTRUMENTS['USD/JPY'].price = +data.rates.JPY.toFixed(2);
+      if (data.rates.AUD) INSTRUMENTS['AUD/USD'].price = +(1 / data.rates.AUD).toFixed(4);
+    }
+  } catch (e) { /* offline or blocked — simulated anchors used */ }
+}
+
+let selectedPair = 'EUR/USD';
+const lastDir = {}; // for up/down price coloring
+
+// ── Simulated tick engine: random walk with mild mean reversion
+function tick() {
+  for (const [pair, inst] of Object.entries(INSTRUMENTS)) {
+    const shock = (Math.random() - 0.5) * 2 * inst.vol;
+    const next = inst.price + shock;
+    lastDir[pair] = next > inst.price ? 'up' : 'down';
+    inst.price = next;
+  }
+  checkStops();
+  renderPrices();
+  renderPositions();
+  renderAccount();
+}
+
+function bidAsk(inst) {
+  // IMPORTANT: no rounding here. Rounding intermediate values with toFixed()
+  // before subtracting them causes floating-point drift (e.g. a 1-pip spread
+  // silently becoming ~2 pips). All P&L / trigger math uses these raw values;
+  // rounding only happens at display time via fmt().
+  const half = (SPREAD_PIPS * inst.pipSize) / 2;
+  return { bid: inst.price - half, ask: inst.price + half };
+}
+function fmt(inst, px) { return px.toFixed(inst.decimals); }
+
+function pipsBetween(inst, a, b) { return (a - b) / inst.pipSize; }
+
+function positionPnl(p) {
+  const inst = INSTRUMENTS[p.pair];
+  const { bid, ask } = bidAsk(inst);
+  const exitPx = p.dir === 'buy' ? bid : ask;
+  const pips = p.dir === 'buy' ? pipsBetween(inst, exitPx, p.entry) : pipsBetween(inst, p.entry, exitPx);
+  return pips * inst.pipValuePerLot * p.lots;
+}
+
+function placeOrder(dir) {
+  const inst = INSTRUMENTS[selectedPair];
+  const lots = parseFloat(document.getElementById('lots').value);
+  const slPips = parseFloat(document.getElementById('slPips').value);
+  const tpPips = parseFloat(document.getElementById('tpPips').value);
+
+  if (!(lots > 0) || !(slPips >= 5) || !(tpPips >= 5)) {
+    alert('Lot size, Stop Loss, and Take Profit are all required (SL/TP minimum 5 pips). The course rules exist for a reason!');
+    return;
+  }
+
+  const { bid, ask } = bidAsk(inst);
+  const entry = dir === 'buy' ? ask : bid;
+  const sl = dir === 'buy' ? entry - slPips * inst.pipSize : entry + slPips * inst.pipSize;
+  const tp = dir === 'buy' ? entry + tpPips * inst.pipSize : entry - tpPips * inst.pipSize;
+
+  state.positions.push({
+    id: state.nextId++,
+    pair: selectedPair, dir, lots,
+    entry: entry,
+    sl: sl,
+    tp: tp
+  });
+  saveState(); renderPositions(); renderAccount();
+}
+
+function closePosition(id, reason) {
+  const idx = state.positions.findIndex(p => p.id === id);
+  if (idx === -1) return;
+  const p = state.positions[idx];
+  const inst = INSTRUMENTS[p.pair];
+  const { bid, ask } = bidAsk(inst);
+  const exit = p.dir === 'buy' ? bid : ask;
+  const pnl = positionPnl(p);
+  state.balance = +(state.balance + pnl).toFixed(2);
+  state.history.unshift({
+    pair: p.pair, dir: p.dir, lots: p.lots,
+    entry: p.entry, exit: exit,
+    reason, pnl: +pnl.toFixed(2)
+  });
+  state.positions.splice(idx, 1);
+  saveState();
+  renderPositions(); renderHistory(); renderAccount();
+}
+
+function checkStops() {
+  // iterate over a copy since closePosition mutates the array
+  for (const p of [...state.positions]) {
+    const inst = INSTRUMENTS[p.pair];
+    const { bid, ask } = bidAsk(inst);
+    const px = p.dir === 'buy' ? bid : ask;
+    if (p.dir === 'buy') {
+      if (px <= p.sl) closePosition(p.id, 'SL');
+      else if (px >= p.tp) closePosition(p.id, 'TP');
+    } else {
+      if (px >= p.sl) closePosition(p.id, 'SL');
+      else if (px <= p.tp) closePosition(p.id, 'TP');
+    }
+  }
+}
+
+// ── Rendering
+function renderPrices() {
+  const el = document.getElementById('watchlist');
+  el.innerHTML = '';
+  for (const [pair, inst] of Object.entries(INSTRUMENTS)) {
+    const { bid, ask } = bidAsk(inst);
+    const row = document.createElement('div');
+    row.className = 'price-row' + (pair === selectedPair ? ' selected' : '');
+    row.onclick = () => { selectedPair = pair; document.getElementById('selPair').textContent = pair; renderPrices(); updateRiskNote(); };
+    row.innerHTML = `<span class="pair">${pair}</span>
+      <span class="px ${lastDir[pair] === 'up' ? 'px-up' : 'px-down'}">${fmt(inst, bid)} / ${fmt(inst, ask)}</span>`;
+    el.appendChild(row);
+  }
+}
+
+function renderPositions() {
+  const tbody = document.getElementById('positions');
+  if (state.positions.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);">No open positions</td></tr>';
+    return;
+  }
+  tbody.innerHTML = '';
+  for (const p of state.positions) {
+    const inst = INSTRUMENTS[p.pair];
+    const pnl = positionPnl(p);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.pair}</td><td>${p.dir.toUpperCase()}</td><td>${p.lots}</td>
+      <td>${fmt(inst, p.entry)}</td><td>${fmt(inst, p.sl)}</td><td>${fmt(inst, p.tp)}</td>
+      <td class="${pnl >= 0 ? 'pos' : 'neg'}">$${pnl.toFixed(2)}</td>
+      <td><button class="close-btn" onclick="closePosition(${p.id}, 'Manual')">Close</button></td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function renderHistory() {
+  const tbody = document.getElementById('history');
+  if (state.history.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted);">No closed trades yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = '';
+  for (const h of state.history.slice(0, 100)) {
+    const inst = INSTRUMENTS[h.pair];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${h.pair}</td><td>${h.dir.toUpperCase()}</td><td>${h.lots}</td>
+      <td>${fmt(inst, h.entry)}</td><td>${fmt(inst, h.exit)}</td><td>${h.reason}</td>
+      <td class="${h.pnl >= 0 ? 'pos' : 'neg'}">$${h.pnl.toFixed(2)}</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function renderAccount() {
+  const openPnl = state.positions.reduce((s, p) => s + positionPnl(p), 0);
+  const equity = state.balance + openPnl;
+  document.getElementById('balance').textContent = '$' + state.balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const pnlEl = document.getElementById('openpnl');
+  pnlEl.textContent = (openPnl >= 0 ? '+$' : '-$') + Math.abs(openPnl).toFixed(2);
+  pnlEl.className = 'val ' + (openPnl >= 0 ? 'pos' : 'neg');
+  document.getElementById('equity').textContent = '$' + equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  document.getElementById('tradecount').textContent = state.history.length;
+  updateRiskNote();
+}
+
+function updateRiskNote() {
+  const inst = INSTRUMENTS[selectedPair];
+  const lots = parseFloat(document.getElementById('lots').value) || 0;
+  const slPips = parseFloat(document.getElementById('slPips').value) || 0;
+  const tpPips = parseFloat(document.getElementById('tpPips').value) || 0;
+  const openPnl = state.positions.reduce((s, p) => s + positionPnl(p), 0);
+  const equity = state.balance + openPnl;
+  const riskDollars = slPips * inst.pipValuePerLot * lots;
+  const riskPct = equity > 0 ? (riskDollars / equity) * 100 : 0;
+  const rr = slPips > 0 ? (tpPips / slPips) : 0;
+
+  const note = document.getElementById('riskNote');
+  let cls = 'risk-note', extra = '';
+  if (riskPct > 1.01) { cls += ' danger'; extra = ' — EXCEEDS the 1% rule!'; }
+  else if (rr < 2)    { cls += ' warn';   extra = ' — R:R below the 1:2 course minimum'; }
+  note.className = cls;
+  note.textContent = `Risk: $${riskDollars.toFixed(2)} (${riskPct.toFixed(2)}% of equity) · R:R = 1:${rr.toFixed(1)}${extra}`;
+}
+
+function renderAll() {
+  renderPrices(); renderPositions(); renderHistory(); renderAccount();
+}
+
+['lots','slPips','tpPips'].forEach(id => document.getElementById(id).addEventListener('input', updateRiskNote));
+
+loadState();
+renderAll();
+anchorRealRates().then(renderAll);
+setInterval(tick, 900);
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

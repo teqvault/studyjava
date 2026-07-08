@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Trading &amp; Investing for Complete Beginners | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/networking-course.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Trading &amp; Investing for Complete Beginners</h1>
+  <p>How markets, forex, and investing actually work — mechanics, risk management, analysis, and psychology, taught honestly. Includes a paper trading simulator so you can practice without risking a cent.</p>
+  <div class="header-stars">📈 💱 🛡️ 🧠 📊</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+  <button onclick="resetProgress()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🏛️</span> What Trading Actually Is <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">💱</span> Forex Fundamentals <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">📊</span> Stocks, ETFs &amp; Other Instruments <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🎯</span> How Orders Work <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🛡️</span> Risk Management First <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🕯️</span> Technical Analysis Basics <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">📉</span> Indicators &amp; Their Limits <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">📰</span> Fundamental Analysis <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🧠</span> Trading Psychology <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">📔</span> Your Trading Plan &amp; Journal <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🚨</span> Brokers, Regulation &amp; Scams <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🏁</span> Capstone — Paper Trade <span class="nav-check" id="chk11"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- ===== LESSON 0: What Trading Actually Is ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>🏛️ What Trading Actually Is</h2>
+    <p class="lesson-intro">Before any chart or strategy: what markets are, who's on the other side of your trade, and the honest odds — because a course that skips this part is selling you something.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Read This First — The Honest Odds</div>
+    <p>Regulated brokers in the EU and UK are required to publish the percentage of their retail clients who lose money trading leveraged products. The figure is consistently in the range of <strong>70–80%</strong>. That's not a scare tactic — it's a disclosure requirement precisely because so many beginners arrive expecting easy profits.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Nobody reliably predicts markets</strong>Not banks, not hedge funds, and definitely not social media gurus selling signals. Anyone promising guaranteed returns, secret loopholes, or "95% win rates" is describing a scam, not a strategy (Module 11 covers how to spot them). What separates surviving traders from blown accounts isn't prediction — it's <strong>risk management</strong>, which is why it's Module 5 here and not an afterthought.</div>
+    </div>
+    <p>This course will not make you a profitable trader by itself. It will make you someone who understands the mechanics, protects their capital, practices before risking money, and can't be easily fooled — which is the only honest starting point there is.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏛️ What a Market Is</div>
+    <p>A market is just a venue where buyers and sellers meet and prices are set by supply and demand. When you buy, someone else is selling to you — usually a professional or an institution. That's worth internalizing: <strong>every trade has a counterparty who thinks the opposite of you</strong>, and they're often better resourced.</p>
+    <table>
+      <tr><th>Market</th><th>What's Traded</th><th>Notes</th></tr>
+      <tr><td>Stock market</td><td>Shares of companies</td><td>Exchange hours, regulated exchanges (NYSE, NASDAQ)</td></tr>
+      <tr><td>Forex (FX)</td><td>Currencies, in pairs</td><td>Largest market on earth (~$7 trillion/day), open 24/5, decentralized</td></tr>
+      <tr><td>Commodities</td><td>Gold, oil, wheat, etc.</td><td>Traded mostly via futures contracts</td></tr>
+      <tr><td>Crypto</td><td>Digital assets</td><td>24/7, extremely volatile, patchy regulation</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆚 Trading vs. Investing</div>
+    <table>
+      <tr><th></th><th>Investing</th><th>Trading</th></tr>
+      <tr><td>Time horizon</td><td>Years to decades</td><td>Minutes to weeks</td></tr>
+      <tr><td>Thesis</td><td>The asset's long-term value grows</td><td>The price will move a certain direction soon</td></tr>
+      <tr><td>Typical activity</td><td>Buy-and-hold index funds, dividend stocks</td><td>Frequent entries and exits, often with leverage</td></tr>
+      <tr><td>Historical odds for individuals</td><td>Broad index investing has strong long-run track record</td><td>Most active retail traders underperform or lose</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>An honest framing</strong>For most people, most of the time, boring long-term investing beats active trading. Learn trading because you want to understand markets deeply or genuinely enjoy the craft — not because you've been told it's a shortcut to income.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Who's in the Market</div>
+    <ul>
+      <li><strong>Retail traders</strong> — individuals trading their own money. That's you.</li>
+      <li><strong>Institutional traders</strong> — banks, hedge funds, pension funds moving enormous size, with better data, faster execution, and full-time teams.</li>
+      <li><strong>Market makers</strong> — firms that continuously quote both buy and sell prices, earning the spread (Module 2) in exchange for providing liquidity.</li>
+      <li><strong>Brokers</strong> — your access point to the market. They execute your orders and, importantly, make money whether you win or lose (Module 11).</li>
+    </ul>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Roughly what percentage of retail traders lose money on leveraged products, per regulated brokers' own required disclosures?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="It's much higher — EU/UK brokers consistently disclose loss rates around 70–80% of retail accounts.">Around 20–30%</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Correct — regulated brokers are required to publish this, and it consistently lands around 70–80%. That's exactly why risk management is this course's centerpiece.">Around 70–80%</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Nearly universal loss would mean no retail traders survive — the disclosed figure is high (70–80%) but not total.">Around 99%</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Forex Fundamentals →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 1: Forex Fundamentals ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>💱 Forex Fundamentals</h2>
+    <p class="lesson-intro">Currency pairs, pips, lots, spreads, and leverage — the vocabulary and math every forex quote is built on.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💱 Currencies Trade in Pairs</div>
+    <p>You never buy "the euro" alone — you buy one currency <em>with</em> another. <strong>EUR/USD = 1.0850</strong> means 1 euro costs 1.0850 US dollars. The first currency is the <strong>base</strong>, the second is the <strong>quote</strong>.</p>
+    <table>
+      <tr><th>Pair Type</th><th>Examples</th><th>Character</th></tr>
+      <tr><td>Majors</td><td>EUR/USD, USD/JPY, GBP/USD</td><td>Most liquid, tightest spreads — where beginners should stay</td></tr>
+      <tr><td>Crosses</td><td>EUR/GBP, AUD/JPY</td><td>No USD; wider spreads</td></tr>
+      <tr><td>Exotics</td><td>USD/TRY, USD/ZAR</td><td>Thin liquidity, huge spreads, violent moves — avoid as a beginner</td></tr>
+    </table>
+    <p>Buying EUR/USD ("going long") profits if the euro strengthens against the dollar. Selling it ("going short") profits if the euro weakens. Being able to profit in both directions is a defining feature of forex.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Pips and Lots — The Units</div>
+    <p>A <strong>pip</strong> is the standard unit of price movement — for most pairs, the 4th decimal place. EUR/USD moving from 1.0850 to 1.0851 is a 1-pip move. (JPY pairs use the 2nd decimal instead.)</p>
+    <table>
+      <tr><th>Lot Size</th><th>Units of Base Currency</th><th>Approx. Value per Pip (EUR/USD)</th></tr>
+      <tr><td>Standard lot</td><td>100,000</td><td>~$10</td></tr>
+      <tr><td>Mini lot (0.1)</td><td>10,000</td><td>~$1</td></tr>
+      <tr><td>Micro lot (0.01)</td><td>1,000</td><td>~$0.10</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Position size math you'll use constantly</strong>Profit or loss = pips moved × pip value × lots. A 50-pip move on 0.1 lots of EUR/USD ≈ 50 × $1 = $50. This one formula is the backbone of the position-sizing rules in Module 5.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">↔️ The Spread — Your Cost of Entry</div>
+    <p>Brokers quote two prices: the <strong>bid</strong> (what you can sell at) and the <strong>ask</strong> (what you can buy at). The gap between them is the <strong>spread</strong> — you pay it on every single trade, which means every position starts slightly in the red. Tight spreads on majors (often under 1 pip) are exactly why beginners should stay there.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Leverage — The Reason Most Accounts Die</div>
+    <p><strong>Leverage</strong> lets you control a position far larger than your deposit. At 30:1, a $1,000 account can control $30,000 of currency. That multiplies profits <em>and losses</em> identically.</p>
+    <div class="net-diagram"><span class="label">$1,000 account, 30:1 leverage, full size on EUR/USD (0.3 lots ≈ $3/pip)</span>
+
+Price moves <span class="flow">+100 pips in your favor</span>  →  +$300  (+30% of account)
+Price moves <span class="device">-100 pips against you</span>      →  -$300  (-30% of account)
+<span class="dim">Three of those losses in a row and the account is nearly gone.
+100-pip daily swings on majors are completely ordinary.</span></div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Leverage is a loss amplifier, not free money</strong>Regulators cap retail leverage (30:1 in EU/UK on majors, 50:1 in the US) specifically because higher leverage correlates directly with faster account destruction. A <strong>margin call</strong> — your broker force-closing positions when losses eat your deposit — is the mechanical end state. Module 5's position-sizing rules exist to keep you permanently far away from it.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">EUR/USD moves from 1.0850 to 1.0900 while you hold 0.1 lots long. Approximately what's your profit?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="That would be the result at a full standard lot (~$10/pip). At 0.1 lots the pip value is ~$1.">~$500</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="1.0850 → 1.0900 is 50 pips; at 0.1 lots (~$1/pip) that's ~$50. Pips × pip value × lots.">~$50</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="That would be a 0.01 (micro) lot result at ~$0.10/pip. At 0.1 lots, 50 pips ≈ $50.">~$5</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← What Trading Actually Is</button>
+    <button class="btn btn-next" onclick="next(1)">Stocks, ETFs &amp; Other Instruments →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 2: Stocks, ETFs & Other Instruments ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>📊 Stocks, ETFs &amp; Other Instruments</h2>
+    <p class="lesson-intro">Forex isn't the only market — and for most people it shouldn't be the first one. Here's the wider instrument landscape and where each fits.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏢 Stocks — Owning a Slice of a Company</div>
+    <p>A share is fractional ownership. Its price reflects the market's collective estimate of the company's future — earnings, growth, risk. Stockholders can profit two ways: price appreciation, and <strong>dividends</strong> (a share of profits paid out, typically quarterly).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧺 ETFs — The Beginner's Best Friend</div>
+    <p>An <strong>ETF (Exchange-Traded Fund)</strong> is a single tradeable share that holds a whole basket of assets. An S&amp;P 500 ETF holds all 500 companies at once — instant diversification for the price of one share.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why professionals recommend index ETFs to beginners</strong>Picking individual winning stocks is hard even for professionals — most actively managed funds underperform the plain index over long periods. A broad, low-fee index ETF sidesteps the stock-picking problem entirely, which is why it's the standard "boring but effective" core of long-term investing.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧾 The Rest of the Landscape</div>
+    <table>
+      <tr><th>Instrument</th><th>What It Is</th><th>Beginner Suitability</th></tr>
+      <tr><td>Bonds</td><td>Loans to governments/companies paying fixed interest</td><td>Fine — the stability side of a portfolio</td></tr>
+      <tr><td>Index funds / ETFs</td><td>Baskets tracking a whole market</td><td>Ideal starting point</td></tr>
+      <tr><td>Options</td><td>Contracts giving the right to buy/sell at a set price by a date</td><td>Advanced — easy to lose 100% of a position; learn much later</td></tr>
+      <tr><td>Futures</td><td>Obligation to buy/sell at a set price on a date; leveraged</td><td>Advanced — institutional tool first</td></tr>
+      <tr><td>CFDs</td><td>Leveraged bets on price without owning the asset (how most retail "forex" is actually traded)</td><td>This is where those 70–80% loss disclosures come from — extreme caution</td></tr>
+      <tr><td>Crypto</td><td>Digital assets, 24/7, very volatile</td><td>If at all: small, money you can afford to lose entirely</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗺️ A Sane Order of Operations</div>
+    <ol class="step-list">
+      <li><strong>Emergency fund first</strong> — never trade or invest money you may need within months.</li>
+      <li><strong>Long-term core</strong> — broad index ETFs, boring and consistent.</li>
+      <li><strong>Then, if genuinely interested, learn trading</strong> — on a paper account (Modules 10, 12) with money you could lose entirely once live.</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why do professionals so often point beginners to broad index ETFs instead of stock picking?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Even most professional fund managers fail to beat the plain index over long periods — a low-fee index ETF captures market returns without needing to pick winners.">Most professionals fail to beat the index, so owning the whole index sidesteps stock-picking entirely</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="ETFs carry market risk like anything else — they can absolutely lose value. Their advantage is diversification and low cost, not immunity to loss.">ETFs are guaranteed not to lose money</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="ETFs typically have the *lowest* fees of any managed product — that's part of the appeal, not a downside being traded off.">ETFs pay higher fees to professional managers</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Forex Fundamentals</button>
+    <button class="btn btn-next" onclick="next(2)">How Orders Work →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 3: How Orders Work ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>🎯 How Orders Work</h2>
+    <p class="lesson-intro">Market, limit, stop — and the two orders that should be attached to every trade you ever place: the stop loss and take profit.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Core Order Types</div>
+    <table>
+      <tr><th>Order</th><th>What It Does</th><th>Use When</th></tr>
+      <tr><td>Market order</td><td>Executes immediately at the best available price</td><td>You want in/out right now and accept small slippage</td></tr>
+      <tr><td>Limit order</td><td>Executes only at your price or better</td><td>You want to buy lower / sell higher than the current price, and will wait</td></tr>
+      <tr><td>Stop order</td><td>Becomes a market order once price crosses your trigger</td><td>Entering on momentum, or exiting to cut a loss</td></tr>
+    </table>
+    <p><strong>Slippage</strong> — the gap between the price you expected and the price you actually got — is normal in fast markets, and it's why a "stop" is a trigger, not a guarantee of an exact fill price.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Stop Loss &amp; Take Profit — Non-Negotiable</div>
+    <p>A <strong>stop loss (SL)</strong> automatically closes your trade at a predefined loss level. A <strong>take profit (TP)</strong> automatically closes it at a predefined gain. Together they define your trade's outcome range <em>before</em> you enter — while you're calm, not while you're watching money move.</p>
+    <div class="net-diagram"><span class="label">Long EUR/USD @ 1.0850</span>
+
+  1.0950 ── <span class="flow">Take Profit (+100 pips)</span>
+     ▲
+  1.0850 ── <span class="dim">Entry</span>
+     ▼
+  1.0800 ── <span class="device">Stop Loss (-50 pips)</span>
+
+<span class="label">Risk : Reward = 50 : 100 = 1 : 2</span></div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Trading without a stop loss is how single trades destroy accounts</strong>"It'll come back" is the most expensive sentence in trading. Decide your exit before entry, place the SL as part of the order, and never widen it after the fact. The simulator in Module 12 requires an SL on every trade for exactly this reason.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Risk:Reward Ratio</div>
+    <p>The diagram above risks 50 pips to target 100 — a 1:2 risk:reward. At 1:2, you only need to win <strong>34% of trades to break even</strong>. That's the arithmetic that makes disciplined traders survivable despite losing more often than winning — and it's set entirely by where you place SL and TP.</p>
+    <table>
+      <tr><th>R:R</th><th>Win Rate Needed to Break Even</th></tr>
+      <tr><td>1:1</td><td>50%</td></tr>
+      <tr><td>1:2</td><td>33.4%</td></tr>
+      <tr><td>1:3</td><td>25%</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">With a consistent 1:2 risk:reward ratio, roughly what win rate do you need just to break even?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="50% is the break-even rate at 1:1. At 1:2, each win pays double each loss, so you need far fewer wins.">About 50%</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="At 1:2, one win covers two losses — so roughly a third (33.4%) of trades winning is break-even. This is why exits matter more than predictions.">About 33%</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A 66% win rate at 1:2 would be strongly profitable, not break-even — break-even at 1:2 is about 33%.">About 66%</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Stocks, ETFs &amp; Other Instruments</button>
+    <button class="btn btn-next" onclick="next(3)">Risk Management First →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 4: Risk Management First ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>🛡️ Risk Management First</h2>
+    <p class="lesson-intro">The centerpiece of this course. Strategy determines whether you win a given trade; risk management determines whether you're still around after a losing streak — and losing streaks are guaranteed.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">1️⃣ The 1% Rule</div>
+    <p>Risk no more than <strong>1% of your account on any single trade</strong> (2% at the aggressive end). "Risk" means the amount you lose if your stop loss is hit — not your position size.</p>
+    <div class="net-diagram"><span class="label">Why small risk per trade is survival math — 10 consecutive losses:</span>
+
+Risking  1% per trade →  account down ~9.6%   <span class="flow">(fully recoverable)</span>
+Risking  5% per trade →  account down ~40%    <span class="device">(needs +67% to recover)</span>
+Risking 10% per trade →  account down ~65%    <span class="device">(needs +186% to recover)</span>
+
+<span class="dim">A 10-trade losing streak is not rare bad luck.
+Over enough trades it's a statistical certainty.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧮 Position Sizing — The Formula</div>
+    <p>Position size isn't a feeling; it's derived from three numbers you already know before entering:</p>
+    <div class="net-diagram"><span class="label">Lots = (Account × Risk%) ÷ (Stop distance in pips × pip value per lot)</span>
+
+Account $5,000, risking 1% = $50
+Stop loss distance: 25 pips
+Pip value (EUR/USD, per mini lot): $1
+
+Lots = $50 ÷ (25 × $10 per standard lot) = <span class="flow">0.2 lots</span></div>
+    <p>Notice the causality: the stop loss location (a chart decision) and the risk budget (an account decision) together <em>determine</em> position size. Beginners do it backwards — pick a size that "feels right," then discover their real risk was 10× intended.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📉 Drawdown &amp; the Asymmetry of Loss</div>
+    <table>
+      <tr><th>Loss</th><th>Gain Needed to Recover</th></tr>
+      <tr><td>-10%</td><td>+11%</td></tr>
+      <tr><td>-25%</td><td>+33%</td></tr>
+      <tr><td>-50%</td><td>+100%</td></tr>
+      <tr><td>-75%</td><td>+300%</td></tr>
+    </table>
+    <p>Losses hurt more than equivalent gains help — a halved account must double just to get back to even. This asymmetry is the mathematical argument for everything in this module: it is far easier to avoid deep drawdowns than to climb out of them.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 The Rules, All Together</div>
+    <ol class="step-list">
+      <li>Never risk more than 1% of the account on one trade.</li>
+      <li>Every trade has a stop loss placed at entry. No exceptions, no widening.</li>
+      <li>Position size is calculated from the formula — never from feel.</li>
+      <li>Target a minimum 1:2 risk:reward on every setup.</li>
+      <li>Cap total simultaneous exposure (e.g. max 3 open trades / 3% total risk).</li>
+      <li>After 3 consecutive losses, stop for the day. Streak-chasing is how tilt becomes a blown account (Module 9).</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Account: $10,000. Risk: 1%. Stop loss: 50 pips on EUR/USD ($10/pip per standard lot). What position size?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="1 full lot would risk 50 × $10 = $500, which is 5% of the account — five times the intended risk.">1 standard lot</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="$100 risk ÷ (50 pips × $10/lot) = 0.2 lots. At 0.2 lots, a 50-pip stop loses exactly $100 = 1%.">0.2 lots</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="0.5 lots would risk 50 × $5 = $250 = 2.5% — more than double the 1% target.">0.5 lots</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← How Orders Work</button>
+    <button class="btn btn-next" onclick="next(4)">Technical Analysis Basics →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 5: Technical Analysis Basics ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>🕯️ Technical Analysis Basics</h2>
+    <p class="lesson-intro">Reading price charts — candlesticks, support and resistance, and trends. Useful as a framework for structuring trades; not a crystal ball, and this module is explicit about the difference.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕯️ Candlesticks — What One Candle Tells You</div>
+    <div class="net-diagram">        <span class="dim">high</span>                  <span class="dim">high</span>
+          │                     │
+       ┌──┴──┐               ┌──┴──┐
+       │     │ <span class="flow">bullish</span>       │     │ <span class="device">bearish</span>
+       │close│ <span class="flow">(green)</span>       │open │ <span class="device">(red)</span>
+       │     │  close > open  │     │  close < open
+       │open │               │close│
+       └──┬──┘               └──┬──┘
+          │                     │
+        <span class="dim">low</span>                   <span class="dim">low</span></div>
+    <p>Each candle summarizes one time period (1 minute, 1 hour, 1 day — your chosen timeframe): where price opened, closed, and the highest/lowest it reached (the "wicks"). Long wicks show rejection — price went there and got pushed back.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 Support &amp; Resistance</div>
+    <p><strong>Support</strong> is a price area where falling price has repeatedly stopped and bounced; <strong>resistance</strong> is where rising price has repeatedly stalled. They matter because enough traders watch the same levels that reactions become partially self-fulfilling — and they give you logical, structural places for stop losses (just beyond the level) rather than arbitrary distances.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Zones, not lines</strong>Support/resistance are areas a few pips wide, not exact prices. Treating them as precise lines leads to stops placed one pip beyond a level — exactly where they're most likely to get clipped before price reverses.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Trends &amp; Structure</div>
+    <ul>
+      <li><strong>Uptrend</strong> — successively higher highs and higher lows.</li>
+      <li><strong>Downtrend</strong> — successively lower highs and lower lows.</li>
+      <li><strong>Range</strong> — price oscillating between horizontal support and resistance.</li>
+    </ul>
+    <p>"Trade with the trend" survives as advice because trading against a strong trend requires precisely timing a reversal — the single hardest thing in markets. Trend-following at least puts the prevailing flow behind you.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ What TA Is — and Isn't</div>
+    <p>Honest framing: academic evidence on technical analysis is mixed at best. Its real, defensible value for a disciplined trader isn't prediction — it's <strong>structure</strong>: consistent, pre-defined places to enter, to put stops, and to take profit, which makes the risk math of Modules 4–5 executable. A trader with mediocre analysis and excellent risk management outlasts a brilliant analyst with none, every time.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What's the most defensible practical use of support/resistance levels for a disciplined trader?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="No level 'guarantees' anything — levels break constantly. Their value is structural, not predictive certainty.">They guarantee price will reverse there</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Exactly — they provide logical, consistent structure for entries and especially stop-loss placement, which is what makes the risk-management math executable.">They give logical, consistent places to structure entries and stop losses</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Levels are visible to everyone — there's no secret information in a horizontal line on a public chart.">They reveal secret institutional information</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Risk Management First</button>
+    <button class="btn btn-next" onclick="next(5)">Indicators &amp; Their Limits →</button>
+  </div>
+</section>
+<!-- ===== LESSON 6: Indicators & Their Limits ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>📉 Indicators &amp; Their Limits</h2>
+    <p class="lesson-intro">Moving averages, RSI, and MACD — what each actually computes, what it's useful for, and the trap of stacking five of them and calling it a strategy.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Moving Averages (MA)</div>
+    <p>A moving average smooths price by averaging the last N candles — a 50-period MA averages the last 50 closes. <strong>SMA</strong> weights all equally; <strong>EMA</strong> weights recent prices more heavily, so it reacts faster.</p>
+    <ul>
+      <li><strong>Trend filter</strong> — price above a rising 200 MA is the classic "uptrend" definition.</li>
+      <li><strong>Crossovers</strong> — a fast MA crossing above a slow one (e.g. 50 over 200, the "golden cross") is a common trend-change signal. It's inherently <em>late</em> — averages lag by construction.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💪 RSI — Relative Strength Index</div>
+    <p>RSI (0–100) measures the speed of recent gains vs. losses. Traditional reading: above 70 = "overbought", below 30 = "oversold".</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The classic RSI trap</strong>In a strong trend, RSI can sit "overbought" for weeks while price keeps climbing. Overbought does not mean "about to fall" — it means "has been rising fast." Selling something just because RSI hit 70 is one of the most common beginner losses.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌊 MACD</div>
+    <p>MACD plots the gap between two EMAs (typically 12 and 26) plus a signal line — essentially a trend-momentum gauge. Signal-line crossovers and divergence (price making new highs while MACD doesn't) are its common uses. Like all MA-derived tools, it lags.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚫 The Indicator Trap</div>
+    <p>Every indicator is computed <em>from the same price data</em>. Stacking five indicators doesn't add five independent confirmations — it adds four echoes. More indicators mostly means more conflicting signals and more reasons to rationalize a bad trade.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>A sane starting toolkit</strong>One trend filter (e.g. 200 EMA), one momentum gauge (e.g. RSI), clean support/resistance — and the discipline from Module 5. If a setup needs six indicators to justify itself, it isn't a setup.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">RSI on a strong uptrending pair has read above 70 for two weeks. What does that actually tell you?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This is the classic trap — in strong trends, RSI can stay 'overbought' for extended periods while price keeps rising.">The price must fall soon — time to short</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Right — 'overbought' describes recent speed, not an imminent reversal. Strong trends routinely pin RSI high for long stretches.">Price has been rising fast — not that a fall is imminent</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="RSI is computed purely from price history — it contains no information about other traders' positions.">Most traders are currently long, so liquidity is exhausted</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Technical Analysis Basics</button>
+    <button class="btn btn-next" onclick="next(6)">Fundamental Analysis →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 7: Fundamental Analysis ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>📰 Fundamental Analysis</h2>
+    <p class="lesson-intro">The forces that actually move currencies and stocks — interest rates, economic data, earnings — and the economic calendar every trader checks before placing anything.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏦 Interest Rates — The Biggest Force in Forex</div>
+    <p>Currencies broadly follow interest-rate expectations. Higher rates make holding a currency more rewarding, attracting capital. That's why central bank decisions — the Fed (USD), ECB (EUR), BoE (GBP), BoJ (JPY) — are the most market-moving scheduled events that exist, and why markets move on <em>expectations shifting</em>, not just the decision itself.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 The Economic Calendar</div>
+    <table>
+      <tr><th>Release</th><th>What It Measures</th><th>Typical Impact</th></tr>
+      <tr><td>Central bank rate decisions</td><td>The price of money itself</td><td>Extreme</td></tr>
+      <tr><td>NFP (US Non-Farm Payrolls)</td><td>US job creation, first Friday monthly</td><td>Extreme, famous for violent minutes</td></tr>
+      <tr><td>CPI (inflation)</td><td>Price growth — drives rate expectations</td><td>High</td></tr>
+      <tr><td>GDP</td><td>Overall economic growth</td><td>Moderate–high</td></tr>
+      <tr><td>PMI surveys</td><td>Business activity/sentiment</td><td>Moderate</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Beginners should not trade through red-calendar events</strong>Spreads widen, slippage explodes, and price can gap straight through stop losses. Check a free economic calendar before every session; if a high-impact release is due on your pair, standing aside <em>is</em> the professional move.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏢 Fundamentals for Stocks</div>
+    <ul>
+      <li><strong>Earnings reports</strong> (quarterly) — the stock market's equivalent of NFP; single stocks routinely gap 5–15% overnight on results.</li>
+      <li><strong>P/E ratio</strong> — price relative to earnings; a rough "how expensive is this company" gauge, most meaningful vs. its sector peers.</li>
+      <li><strong>Guidance</strong> — management's own forecast, which often moves the stock more than the reported quarter itself.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤝 How Traders Actually Combine the Two</div>
+    <p>A common, sane division of labor: <strong>fundamentals for direction bias</strong> ("rate expectations favor USD strength this month"), <strong>technicals for execution</strong> (where exactly to enter, where the stop goes). Neither predicts; together they give a trade a reasoned thesis and a defined structure — which is all a good trade ever has.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A high-impact release (NFP) is due in 20 minutes on the pair you want to trade. The professional beginner move is…</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Trading into a known volatility bomb with widened spreads and gap risk is exactly how stop losses get blown through.">Enter now to catch the big move</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Standing aside through scheduled chaos is a position too — the market will still be there afterward, with normal spreads and readable structure.">Stand aside until well after the release</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Doubling size into an event is amplifying risk precisely when execution quality is at its worst.">Double position size since volatility means opportunity</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Indicators &amp; Their Limits</button>
+    <button class="btn btn-next" onclick="next(7)">Trading Psychology →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 8: Trading Psychology ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>🧠 Trading Psychology</h2>
+    <p class="lesson-intro">The uncomfortable truth: most blown accounts aren't analysis failures — they're discipline failures. The patterns below are so universal they have names.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">☠️ The Four Classic Account-Killers</div>
+    <table>
+      <tr><th>Pattern</th><th>What It Looks Like</th><th>The Defense</th></tr>
+      <tr><td>Revenge trading</td><td>Immediately re-entering after a loss to "win it back", usually bigger</td><td>The 3-losses-stop-for-the-day rule (Module 5)</td></tr>
+      <tr><td>Moving the stop</td><td>Widening a stop loss as price approaches it — "it'll turn around"</td><td>SL is placed at entry and never widened. Ever.</td></tr>
+      <tr><td>FOMO entries</td><td>Chasing a move that already happened because "everyone's making money"</td><td>No setup from your written plan = no trade</td></tr>
+      <tr><td>Oversizing after wins</td><td>Tripling size because you feel invincible after a streak</td><td>Position size comes from the formula, not the mood</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎲 Thinking in Probabilities</div>
+    <p>The single biggest mental shift: <strong>a good trade is one that followed your rules, regardless of outcome.</strong> A rule-following trade that loses was still a good trade; a reckless trade that wins was still a bad one — the market just paid you to reinforce a habit that will eventually destroy you. Any individual outcome is mostly noise; only the process compounds.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧊 Practical Discipline Mechanics</div>
+    <ol class="step-list">
+      <li><strong>Pre-commit everything</strong> — entry, SL, TP, size — before the position is open, while nothing is at stake emotionally.</li>
+      <li><strong>Daily loss limit</strong> — e.g. down 3% on the day, platform closed. Written, not vibes.</li>
+      <li><strong>The journal is the mirror</strong> (Module 10) — most people can't see their own tilt in real time, but it's unmissable in a written record two weeks later.</li>
+      <li><strong>Size down when emotional</strong> — if you notice yourself hoping rather than assessing, you're oversized by definition.</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You followed every rule in your plan and the trade lost. What was that trade?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Exactly — outcomes on individual trades are largely noise. A rule-following loss is a good trade; only the repeatable process compounds over hundreds of trades.">A good trade — it followed the process; individual outcomes are mostly noise</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Judging trades purely by outcome is precisely the trap — it teaches you to abandon good process when variance goes against you.">A bad trade — it lost money, so something was wrong</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="One outcome proves nothing either way — a plan is evaluated over dozens of trades in a journal, not a single result.">Proof the plan is broken and needs changing immediately</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Fundamental Analysis</button>
+    <button class="btn btn-next" onclick="next(8)">Your Trading Plan &amp; Journal →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 9: Your Trading Plan & Journal ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>📔 Your Trading Plan &amp; Journal</h2>
+    <p class="lesson-intro">A trading plan turns everything so far into a written, checkable document — and the journal is how you find out whether you're actually following it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📜 What a Written Plan Contains</div>
+    <ol class="step-list">
+      <li><strong>Markets &amp; sessions</strong> — e.g. "EUR/USD and GBP/USD only, London session only."</li>
+      <li><strong>Setup definition</strong> — the exact, objective conditions that constitute a trade. If two people reading it would disagree on whether a setup exists, it isn't specific enough.</li>
+      <li><strong>Risk rules</strong> — 1% per trade, max 3% total exposure, daily loss limit, the losing-streak stop.</li>
+      <li><strong>Exit rules</strong> — where SL and TP go, and the minimum 1:2 R:R filter.</li>
+      <li><strong>Review schedule</strong> — when you audit the journal (weekly) and when the plan itself may be revised (monthly at most — never mid-losing-streak).</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📓 The Journal — Every Trade, Every Field</div>
+    <table>
+      <tr><th>Field</th><th>Why It Matters</th></tr>
+      <tr><td>Date, pair, direction, size</td><td>The basics for any later statistics</td></tr>
+      <tr><td>Entry, SL, TP, planned R:R</td><td>Was the structure right at entry?</td></tr>
+      <tr><td>Reason for entry (one sentence)</td><td>"It looked like it would go up" written down is self-diagnosing</td></tr>
+      <tr><td>Followed plan? (yes/no)</td><td>The single most predictive field in the whole journal</td></tr>
+      <tr><td>Emotional state (one word)</td><td>Patterns like "bored" or "angry" preceding losses become visible fast</td></tr>
+      <tr><td>Outcome in R (not dollars)</td><td>+2R / -1R normalizes results across position sizes</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The two-week revelation</strong>Nearly everyone who journals honestly discovers the same thing: their rule-following trades perform fine, and nearly all their losses cluster in the "didn't follow plan" rows. That discovery — made with your own data — is worth more than any strategy video.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧪 Paper Trade Before Real Money — With Graduation Criteria</div>
+    <p>Practice on the simulator (Module 12) exactly as if it were real. Vague practice proves nothing, so set explicit graduation criteria before going live with any real money:</p>
+    <ol class="step-list">
+      <li>Minimum <strong>50 journaled paper trades</strong> following the written plan.</li>
+      <li>Plan-compliance above 90% (the yes/no field).</li>
+      <li>Not down more than 10% over the full sample.</li>
+      <li>Then, if ever going live: the smallest possible real size (micro lots), treating the first months as paid tuition.</li>
+    </ol>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What's the most predictive single field in a trading journal?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Dollar outcomes vary with size and are mostly noise trade-to-trade — they're the least informative field on their own.">The dollar profit/loss of each trade</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Right — 'followed plan: yes/no' is where nearly everyone discovers their losses cluster in the 'no' rows. It's the discipline mirror.">"Followed plan? yes/no"</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Useful context, but the pair matters far less than whether the trade followed the written process.">Which currency pair was traded</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Trading Psychology</button>
+    <button class="btn btn-next" onclick="next(9)">Brokers, Regulation &amp; Scams →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 10: Brokers, Regulation & Scams ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>🚨 Brokers, Regulation &amp; Scams</h2>
+    <p class="lesson-intro">Trading education attracts more predators than almost any other niche online. This module is your immune system.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏦 Choosing a Broker — Regulation Is Everything</div>
+    <p>A broker holds your money. The only meaningful safety signal is regulation by a serious authority:</p>
+    <table>
+      <tr><th>Regulator</th><th>Region</th></tr>
+      <tr><td>FCA</td><td>United Kingdom</td></tr>
+      <tr><td>CFTC / NFA</td><td>United States</td></tr>
+      <tr><td>ASIC</td><td>Australia</td></tr>
+      <tr><td>CySEC</td><td>EU (Cyprus — common for EU brokers)</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Verify on the regulator's own site</strong>Scam brokers claim licenses constantly. Every real regulator has a public register — search the broker's name there directly, not on the broker's own site. An offshore-only "license" (or none) means your deposit has no protection whatsoever.</div>
+    </div>
+    <p>Also understand the incentive structure: many retail forex brokers profit from spreads either way, and some internalize your trades — meaning your loss can literally be their gain. Regulation is what keeps that conflict of interest policed.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎣 The Scam Field Guide</div>
+    <table>
+      <tr><th>Scam</th><th>The Pitch</th><th>The Tell</th></tr>
+      <tr><td>Signal sellers</td><td>"Copy my trades — 95% win rate"</td><td>Verified long-term track records essentially never accompany these. Screenshots are trivially faked.</td></tr>
+      <tr><td>Account managers / HYIPs</td><td>"Send funds, we guarantee 10%/month"</td><td><strong>Guaranteed returns do not exist.</strong> This is the definitional Ponzi structure.</td></tr>
+      <tr><td>Guru lifestyle marketing</td><td>Rented Lambos, "quit your job" courses</td><td>Their income is course sales, not trading. Real professionals' results are audited, not Instagrammed.</td></tr>
+      <tr><td>Romance/"pig butchering"</td><td>Online friend guides you into a "special platform"</td><td>The platform is fake; deposits vanish. One of the largest fraud categories on earth right now.</td></tr>
+      <tr><td>Unwithdrawable brokers</td><td>Deposits easy, withdrawals "pending" forever</td><td>Exactly what regulation exists to prevent — see above.</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>One rule filters nearly all of it</strong>Anyone who profits from your <em>belief</em> that they can predict markets — via subscriptions, deposits, or course sales priced on that promise — has told you their actual business model. Real edge is never sold for $99/month.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A service guarantees 10% monthly returns if you deposit with their recommended platform. What is this?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Guaranteed returns don't exist in markets — this combination (guarantee + deposit funnel) is the definitional structure of investment fraud.">Almost certainly fraud — guaranteed returns do not exist</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="No legitimate operation guarantees returns — even the best real funds have losing months and say so.">A great opportunity if the platform looks professional</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Professional-looking websites are the cheapest part of running a scam — polish is not a safety signal; regulation registers are.">Legitimate as long as the website has good reviews</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Your Trading Plan &amp; Journal</button>
+    <button class="btn btn-next" onclick="next(10)">Capstone — Paper Trade →</button>
+  </div>
+</section>
+
+<!-- ===== LESSON 11: Capstone ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12 🏁</div>
+    <h2>🏁 Capstone — 50 Paper Trades</h2>
+    <p class="lesson-intro">Everything in this course converges here: write your plan, then execute 50 journaled trades on the paper trading simulator — real order mechanics, zero real money.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎮 The Paper Trading Simulator</div>
+    <p>This course ships with a built-in simulator: live-updating simulated prices on major pairs (anchored to real recent exchange rates), market orders with required stop loss and take profit, automatic position sizing feedback, running P&amp;L, and a full trade history that persists in your browser.</p>
+    <p style="margin-top:14px;"><a href="paper-trading-simulator.html" style="display:inline-block;background:linear-gradient(135deg,#06d6a0,#118ab2);color:#fff;padding:14px 28px;border-radius:12px;font-weight:800;text-decoration:none;">🚀 Open the Paper Trading Simulator →</a></p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Simulated prices, real habits</strong>The simulator's price movement is simulated (anchored to real reference rates) — it exists to train mechanics and discipline, not to predict any market. Nothing in this course or simulator is financial advice; whether and how to ever trade real money is entirely your own decision, made with money you can afford to lose.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Capstone Protocol</div>
+    <ol class="step-list">
+      <li><strong>Write the plan first</strong> (Module 10's five sections) — markets, setup definition, risk rules, exit rules, review schedule.</li>
+      <li><strong>Execute 50 trades on the simulator</strong>, each with SL and TP set at entry, sized by the Module 5 formula against the simulator's starting balance.</li>
+      <li><strong>Journal every trade</strong> — all fields, especially "followed plan?" and the one-word emotional state.</li>
+      <li><strong>Weekly review</strong> — compliance rate, results in R, and where the "no" rows cluster.</li>
+      <li><strong>Evaluate against the graduation criteria</strong> — 90%+ compliance, drawdown under 10%. If not met, that's not failure; that's the simulator doing its job at zero cost.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Definition of Done</div>
+    <table>
+      <tr><th>Requirement</th><th>Passes When…</th></tr>
+      <tr><td>Written plan</td><td>All five sections exist and a stranger could execute your setup definition</td></tr>
+      <tr><td>50 trades</td><td>Every one has SL/TP set at entry and a complete journal row</td></tr>
+      <tr><td>Discipline</td><td>Plan-compliance ≥ 90% across the sample</td></tr>
+      <tr><td>Risk control</td><td>No single trade risked over 1%; max drawdown under 10%</td></tr>
+      <tr><td>Self-knowledge</td><td>You can name your own most common discipline failure from the journal data</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>The 50-Trade Gauntlet</h4>
+    <p>Complete the full protocol above. The goal is not to finish with a profit — simulated profit proves little. The goal is to finish with a written plan you actually followed, a journal that shows it, and honest knowledge of your own weakest discipline point. That combination puts you ahead of the large majority of people who ever open a trading account.</p>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Brokers, Regulation &amp; Scams</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const TOTAL = 12;
+const done  = new Set();
+let   cur   = 0;
+
+const STORAGE_KEY = 'teqstudy_progress::' + location.pathname.split('/').pop();
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  location.reload();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ done: [...done], cur }));
+  } catch (e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { done.add(0); updateBar(); return; }
+    const data = JSON.parse(raw);
+    (data.done || []).forEach(i => done.add(i));
+    if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
+      go(data.cur);
+    } else {
+      done.add(0);
+      updateBar();
+    }
+  } catch (e) {
+    done.add(0);
+    updateBar();
+  }
+}
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+loadProgress();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>

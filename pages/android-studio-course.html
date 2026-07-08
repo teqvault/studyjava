@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Android Studio: Build a 2D Side-Scroller | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/android-studio-course.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>Android Studio: Build a 2D Side-Scroller</h1>
+  <p>From an empty install to a fully playable game — Kotlin, the Android app lifecycle, a hand-built game loop, sprites, physics, and a complete side-scroller as your capstone. Zero assumed knowledge.</p>
+  <div class="header-stars">🤖 🎮 📱 🧩 🏁</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+  <button onclick="resetProgress()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">🛠️</span> Setup &amp; Your First Project <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🅺</span> Kotlin Crash Course <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">📱</span> App Fundamentals &amp; Lifecycle <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">🧱</span> Views, Layouts &amp; the UI Toolkit <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">🖌️</span> Custom Views &amp; Canvas Drawing <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🔁</span> The Game Loop <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🖼️</span> Sprites, Bitmaps &amp; Animation <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">👆</span> Touch Input &amp; Controls <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">💥</span> Physics &amp; Collision Detection <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🎥</span> Scrolling Camera &amp; Parallax <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🗺️</span> Tilemaps &amp; Level Design <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🔊</span> Sound Effects &amp; Music <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">🏆</span> Game State — Menus &amp; Score <span class="nav-check" id="chk12"></span></div>
+  <div class="nav-item" onclick="go(13)" id="nav13"><span class="nav-icon">🚀</span> Performance &amp; Publishing <span class="nav-check" id="chk13"></span></div>
+  <div class="nav-item" onclick="go(14)" id="nav14"><span class="nav-icon">🏁</span> Capstone — The Side-Scroller <span class="nav-check" id="chk14"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- ===== LESSON 0: Setup & Your First Project ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>🛠️ Setup &amp; Your First Project</h2>
+    <p class="lesson-intro">Every module after this one assumes Android Studio is installed, an emulator works, and you've run one app successfully. This module gets you there from a completely blank computer.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💻 What You Actually Need</div>
+    <table>
+      <tr><th>Requirement</th><th>Minimum</th><th>Notes</th></tr>
+      <tr><td>OS</td><td>Windows 10/11, macOS 12+, or Linux</td><td>All three fully supported</td></tr>
+      <tr><td>RAM</td><td>8GB</td><td>16GB strongly recommended — the emulator alone is hungry</td></tr>
+      <tr><td>Disk space</td><td>~15GB free</td><td>IDE, SDKs, and emulator images add up fast</td></tr>
+      <tr><td>A phone (optional)</td><td>Any Android phone, USB cable</td><td>Testing on real hardware is faster and often easier than the emulator</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📥 Step 1 — Download &amp; Install</div>
+    <ol class="step-list">
+      <li>Go to <strong>developer.android.com/studio</strong> and download the installer for your OS.</li>
+      <li><strong>Windows:</strong> run the .exe, accept defaults, let it install the Android SDK when prompted.</li>
+      <li><strong>macOS:</strong> open the .dmg, drag Android Studio to Applications, launch it — macOS will ask to confirm opening software from outside the App Store, that's expected.</li>
+      <li><strong>Linux:</strong> extract the tar.gz, run <code>studio.sh</code> from the extracted <code>bin/</code> folder.</li>
+      <li>On first launch, the <strong>Setup Wizard</strong> appears — choose "Standard" install type unless you have a specific reason not to. This downloads the Android SDK, platform tools, and a default emulator image automatically.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This first download is large</strong>Expect several GB and 10-20+ minutes depending on your connection. This is normal — Android Studio is downloading the actual Android platform/SDK, not just the IDE itself.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Step 2 — Understand What You Just Installed</div>
+    <table>
+      <tr><th>Component</th><th>What It Does</th></tr>
+      <tr><td>Android Studio</td><td>The IDE itself — code editor, layout designer, debugger, all in one</td></tr>
+      <tr><td>Android SDK</td><td>The actual Android platform APIs your code compiles against</td></tr>
+      <tr><td>SDK Platform Tools</td><td>Command-line tools like <code>adb</code> (Android Debug Bridge) that talk to devices/emulators</td></tr>
+      <tr><td>Gradle</td><td>The build system that compiles your project — every Android project is a Gradle project</td></tr>
+      <tr><td>AVD Manager</td><td>Creates and runs virtual Android devices (emulators) on your computer</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📲 Step 3 — Create a Virtual Device (AVD)</div>
+    <ol class="step-list">
+      <li>From the Welcome screen (or Tools menu once a project is open), open <strong>Device Manager</strong>.</li>
+      <li>Click <strong>Create Device</strong>.</li>
+      <li>Pick a phone profile — <strong>Pixel 6</strong> or similar is a safe, modern default.</li>
+      <li>Pick a system image — choose a recent API level (API 34 / Android 14 is a solid current default) with the <strong>Google APIs</strong> or <strong>Google Play</strong> label. It'll download if not already present.</li>
+      <li>Finish — the AVD now appears in Device Manager, ready to launch.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Emulator running slow or won't start?</strong>This is almost always a virtualization setting. On Windows, ensure Hyper-V/Windows Hypervisor Platform is enabled (or disabled, depending on your emulator type — HAXM vs. built-in). On Mac/Linux this is rarely an issue. If it stays slow, testing on a real USB-connected phone (Step 5) is a completely valid workaround.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆕 Step 4 — Create Your First Project</div>
+    <ol class="step-list">
+      <li>From the Welcome screen, click <strong>New Project</strong>.</li>
+      <li>Choose the <strong>Empty Activity</strong> template — the plainest possible starting point, exactly what you want for learning.</li>
+      <li>Name it (e.g. "MyFirstApp"), leave the package name as generated, choose a save location.</li>
+      <li><strong>Language: Kotlin.</strong> This course uses Kotlin throughout — it's Google's recommended and modern language for Android (Module 2 covers it from scratch, no prior Kotlin needed).</li>
+      <li><strong>Minimum SDK:</strong> API 24 (Android 7.0) is a reasonable default — covers the vast majority of active devices without limiting you unnecessarily.</li>
+      <li>Click Finish. Android Studio generates the project and runs its first <strong>Gradle sync</strong> — a progress bar at the bottom that resolves dependencies and prepares the build. This can take a few minutes the first time.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ Step 5 — The Project Structure, Explained</div>
+    <div class="net-diagram">app/
+├── manifests/
+│   └── <span class="layer">AndroidManifest.xml</span>   <span class="dim">← declares your app: activities, permissions, icon</span>
+├── java/
+│   └── com.example.myfirstapp/
+│       └── <span class="layer">MainActivity.kt</span>   <span class="dim">← your first screen's code</span>
+├── res/
+│   ├── layout/
+│   │   └── <span class="layer">activity_main.xml</span> <span class="dim">← your first screen's UI, defined in XML</span>
+│   ├── values/
+│   │   └── <span class="layer">strings.xml, colors.xml, themes.xml</span>
+│   └── drawable/                     <span class="dim">← images, icons</span>
+└── <span class="layer">build.gradle.kts</span>          <span class="dim">← this module's dependencies &amp; build config</span></div>
+    <p>Two files matter most while you're starting out: <strong>MainActivity.kt</strong> (your code) and <strong>activity_main.xml</strong> (your screen's layout). Module 3 covers exactly how they connect.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">▶️ Step 6 — Run It</div>
+    <ol class="step-list">
+      <li>Select your AVD (or a connected physical device) from the device dropdown in the toolbar.</li>
+      <li>Click the green <strong>Run ▶</strong> button (or Shift+F10).</li>
+      <li>Android Studio builds the project, installs it on the emulator/device, and launches it automatically.</li>
+      <li>You should see a plain screen with "Hello World!" — the default Empty Activity template's only content.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Testing on a real phone instead</strong>Enable Developer Options (Settings → About Phone → tap "Build Number" 7 times), then enable USB Debugging inside the new Developer Options menu. Plug in via USB, accept the "allow USB debugging" prompt on the phone, and it appears in Android Studio's device dropdown exactly like an emulator.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ You're Set Up When…</div>
+    <ul>
+      <li>Android Studio opens without errors</li>
+      <li>An AVD launches and shows the Android home screen</li>
+      <li>"Hello World!" appears when you run the default project</li>
+      <li>You can locate <code>MainActivity.kt</code> and <code>activity_main.xml</code> in the project panel</li>
+    </ul>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What does Gradle sync actually do when you open or create a project?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Gradle sync happens on your own machine, resolving and preparing the build — it doesn't involve installing anything on a device.">Installs the app on your connected emulator</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Gradle is the build system every Android project uses — sync resolves dependencies and prepares everything needed to actually compile the project.">Resolves the project's dependencies and prepares the build system</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Downloading a system image happens in the AVD Manager, a separate step from Gradle sync.">Downloads a new Android system image</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Kotlin Crash Course →</button>
+  </div>
+</section>
+<!-- ===== LESSON 1: Kotlin Crash Course ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🅺 Kotlin Crash Course for Android</h2>
+    <p class="lesson-intro">Just enough Kotlin to read and write everything in the rest of this course — variables, functions, classes, and the null-safety feature that defines the language.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Variables — val vs. var</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">val</span> playerName = <span class="str">"Hero"</span>   <span class="cm">// val = cannot be reassigned (prefer this by default)</span>
+<span class="kw">var</span> health = <span class="num">100</span>          <span class="cm">// var = can change — use only when it actually will</span>
+
+health = <span class="num">90</span>                  <span class="cm">// fine, health is a var</span>
+<span class="cm">// playerName = "Villain"    // ERROR — playerName is a val</span></pre>
+    </div>
+    <p>Kotlin infers types automatically (<code>playerName</code> is inferred as <code>String</code>, <code>health</code> as <code>Int</code>) — you rarely write the type explicitly unless it helps readability.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">❓ Null Safety — Kotlin's Signature Feature</div>
+    <p>A variable can only be null if its type explicitly allows it, marked with <code>?</code>. This eliminates most null-pointer crashes at compile time instead of runtime.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">var</span> name: <span class="cl">String</span> = <span class="str">"Hero"</span>       <span class="cm">// cannot be null — compiler enforces it</span>
+<span class="kw">var</span> nickname: <span class="cl">String</span>? = <span class="kw">null</span>   <span class="cm">// CAN be null — the ? says so explicitly</span>
+
+<span class="cm">// nickname.length          // ERROR — might be null, compiler won't allow direct access</span>
+nickname<span class="op">?.</span>length              <span class="cm">// safe call — returns null instead of crashing if nickname is null</span>
+nickname <span class="op">?:</span> <span class="str">"no nickname"</span>       <span class="cm">// elvis operator — provide a fallback if null</span></pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why this matters for game code</strong>Game objects constantly reference each other (a bullet references its shooter, an enemy references its target). Kotlin forces you to explicitly handle the "what if that reference is gone" case, which prevents an entire category of crashes that plague native game code in other languages.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Functions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">takeDamage</span>(amount: <span class="cl">Int</span>): <span class="cl">Int</span> {
+    <span class="kw">return</span> health <span class="op">-</span> amount
+}
+
+<span class="cm">// single-expression shorthand for simple functions</span>
+<span class="kw">fun</span> <span class="fn">isAlive</span>(hp: <span class="cl">Int</span>): <span class="cl">Boolean</span> = hp <span class="op">></span> <span class="num">0</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Classes &amp; Data Classes</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">Player</span>(<span class="kw">var</span> x: <span class="cl">Float</span>, <span class="kw">var</span> y: <span class="cl">Float</span>) {
+    <span class="kw">var</span> health = <span class="num">100</span>
+    <span class="kw">fun</span> <span class="fn">moveRight</span>(amount: <span class="cl">Float</span>) { x <span class="op">+=</span> amount }
+}
+
+<span class="cm">// data class — auto-generates equals(), toString(), copy() — great for simple data holders</span>
+<span class="kw">data class</span> <span class="cl">Vector2</span>(<span class="kw">val</span> x: <span class="cl">Float</span>, <span class="kw">val</span> y: <span class="cl">Float</span>)
+
+<span class="kw">val</span> player = <span class="cl">Player</span>(<span class="num">0f</span>, <span class="num">0f</span>)
+player.<span class="fn">moveRight</span>(<span class="num">10f</span>)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 Control Flow &amp; Collections</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">val</span> enemies = <span class="fn">mutableListOf</span>(<span class="str">"Goomba"</span>, <span class="str">"Koopa"</span>)
+enemies.<span class="fn">add</span>(<span class="str">"Piranha"</span>)
+
+<span class="kw">for</span> (enemy <span class="kw">in</span> enemies) {
+    <span class="fn">println</span>(<span class="str">"Enemy: $enemy"</span>)   <span class="cm">// string templates with $variable</span>
+}
+
+<span class="kw">when</span> (health) {                  <span class="cm">// Kotlin's switch, but more powerful</span>
+    <span class="kw">in</span> <span class="num">0</span><span class="op">..</span><span class="num">20</span>  <span class="op">-></span> <span class="fn">println</span>(<span class="str">"Critical!"</span>)
+    <span class="kw">in</span> <span class="num">21</span><span class="op">..</span><span class="num">99</span> <span class="op">-></span> <span class="fn">println</span>(<span class="str">"Hurt"</span>)
+    <span class="kw">else</span>       <span class="op">-></span> <span class="fn">println</span>(<span class="str">"Full health"</span>)
+}</pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You declare <code>var nickname: String? = null</code>. Why does the compiler allow this but not <code>var name: String = null</code>?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="The ? explicitly marks a type as nullable. Without it, Kotlin's null-safety system won't allow null at all — that's the whole point of the feature.">The ? explicitly marks the type as nullable — without it, null isn't allowed at all</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Both are declared with var — mutability isn't the distinguishing factor here, nullability is.">nickname is a var and name should have been a val</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't about built-in vs custom types — String itself can be nullable or not depending on whether you write the ?.">String is a built-in type that's always nullable</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← Setup &amp; Your First Project</button>
+    <button class="btn btn-next" onclick="next(1)">App Fundamentals &amp; Lifecycle →</button>
+  </div>
+</section>
+<!-- ===== LESSON 2: App Fundamentals & Lifecycle ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>📱 App Fundamentals &amp; Lifecycle</h2>
+    <p class="lesson-intro">What an Activity actually is, and the lifecycle every Android screen goes through — critical for a game, since pausing/resuming correctly is the difference between a polished app and one that crashes when a phone call comes in.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏠 What an Activity Is</div>
+    <p>An <strong>Activity</strong> represents one screen of your app. <code>MainActivity.kt</code> from Module 1 is a class extending <code>Activity</code> (or more commonly, <code>AppCompatActivity</code> for backward-compatible features). Its <code>onCreate()</code> method runs once when the screen is first created — this is where you set up what the user sees.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — MainActivity.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">MainActivity</span> : <span class="cl">AppCompatActivity</span>() {
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>(savedInstanceState: <span class="cl">Bundle</span>?) {
+        <span class="kw">super</span>.<span class="fn">onCreate</span>(savedInstanceState)
+        <span class="fn">setContentView</span>(R.layout.activity_main)  <span class="cm">// connects to the XML layout</span>
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 The Lifecycle — Every Screen Goes Through This</div>
+    <div class="net-diagram"><span class="label">onCreate()</span>  <span class="dim">← screen created, one-time setup</span>
+    │
+<span class="label">onStart()</span>   <span class="dim">← becoming visible</span>
+    │
+<span class="label">onResume()</span>  <span class="dim">← now interactive — user can touch it</span>
+    │                <span class="flow">◄── app is RUNNING here ──►</span>
+<span class="label">onPause()</span>   <span class="dim">← losing focus (a dialog appeared, phone call, etc.)</span>
+    │
+<span class="label">onStop()</span>    <span class="dim">← fully hidden (user hit Home, switched apps)</span>
+    │
+<span class="label">onDestroy()</span> <span class="dim">← screen being destroyed</span></div>
+    <table>
+      <tr><th>Method</th><th>Typical Use</th></tr>
+      <tr><td><code>onCreate()</code></td><td>One-time setup — inflate layout, initialize objects</td></tr>
+      <tr><td><code>onResume()</code></td><td>Resume anything paused — critically, your game loop (Module 6) restarts here</td></tr>
+      <tr><td><code>onPause()</code></td><td>Pause anything active — your game loop must stop here or it keeps running invisibly, draining battery and possibly crashing</td></tr>
+      <tr><td><code>onDestroy()</code></td><td>Release resources — close files, stop threads for good</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This is not optional for games</strong>A game that doesn't properly pause its loop in <code>onPause()</code> keeps its background thread running after the user switches apps — burning battery, and potentially crashing when it tries to draw to a screen that no longer exists. Module 6 builds this correctly from the start.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 The Manifest — Your App's Table of Contents</div>
+    <p><code>AndroidManifest.xml</code> declares everything the system needs to know before running your app: every Activity it contains, required permissions, the app icon, and which Activity launches first.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">XML — AndroidManifest.xml (excerpt)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">&lt;activity</span>
+    <span class="cl">android:name</span>=<span class="str">".MainActivity"</span>
+    <span class="cl">android:exported</span>=<span class="str">"true"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;intent-filter&gt;</span>
+        <span class="kw">&lt;action</span> <span class="cl">android:name</span>=<span class="str">"android.intent.action.MAIN"</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;category</span> <span class="cl">android:name</span>=<span class="str">"android.intent.category.LAUNCHER"</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;/intent-filter&gt;</span>
+<span class="kw">&lt;/activity&gt;</span></pre>
+    </div>
+    <p>The <code>MAIN</code>/<code>LAUNCHER</code> intent-filter combination marks this Activity as the one that opens when a user taps your app's icon.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why must a game's loop be explicitly stopped in onPause() rather than left running?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A loop left running after the app loses focus keeps consuming battery and CPU, and can crash trying to draw to a screen surface that's no longer valid.">It would keep draining battery and could crash trying to draw to an invalid screen</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="onPause() is a real, necessary lifecycle callback, not an optional debug-only hook — every well-behaved Android app implements it.">onPause() is only called in debug builds, so it doesn't matter for a real release</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The manifest declares static app info — it has no role in runtime lifecycle behavior like pausing a running loop.">The manifest automatically stops all threads when the app loses focus</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Kotlin Crash Course</button>
+    <button class="btn btn-next" onclick="next(2)">Views, Layouts &amp; the UI Toolkit →</button>
+  </div>
+</section>
+<!-- ===== LESSON 3: Views, Layouts & the UI Toolkit ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>🧱 Views, Layouts &amp; the UI Toolkit</h2>
+    <p class="lesson-intro">Every menu, button, and score display in your finished game is built from these same pieces. This module covers standard Android UI before Module 5 breaks from it to build custom game rendering.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 View — The Base of Everything On Screen</div>
+    <p>A <strong>View</strong> is the base class for anything drawn on screen — a button, a text label, an image. A <strong>ViewGroup</strong> is a View that contains other Views (a layout). Every screen is a tree of Views inside ViewGroups.</p>
+    <table>
+      <tr><th>Common View</th><th>Purpose</th></tr>
+      <tr><td><code>TextView</code></td><td>Displays text</td></tr>
+      <tr><td><code>Button</code></td><td>A tappable button</td></tr>
+      <tr><td><code>ImageView</code></td><td>Displays an image</td></tr>
+      <tr><td><code>EditText</code></td><td>Text input field</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 Layouts — Arranging Views</div>
+    <table>
+      <tr><th>Layout</th><th>Arranges Children</th></tr>
+      <tr><td><code>LinearLayout</code></td><td>In a single row or column</td></tr>
+      <tr><td><code>ConstraintLayout</code></td><td>By constraints relative to each other/the parent — the modern default, flexible for complex screens</td></tr>
+      <tr><td><code>FrameLayout</code></td><td>Stacked on top of each other — exactly what you'll use to overlay a game's UI (score, pause button) on top of its rendering surface in the capstone</td></tr>
+    </table>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">XML — activity_main.xml</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">&lt;LinearLayout</span>
+    <span class="cl">android:layout_width</span>=<span class="str">"match_parent"</span>
+    <span class="cl">android:layout_height</span>=<span class="str">"match_parent"</span>
+    <span class="cl">android:orientation</span>=<span class="str">"vertical"</span><span class="kw">&gt;</span>
+
+    <span class="kw">&lt;TextView</span>
+        <span class="cl">android:layout_width</span>=<span class="str">"wrap_content"</span>
+        <span class="cl">android:layout_height</span>=<span class="str">"wrap_content"</span>
+        <span class="cl">android:text</span>=<span class="str">"Score: 0"</span>
+        <span class="cl">android:id</span>=<span class="str">"@+id/scoreText"</span> <span class="kw">/&gt;</span>
+
+    <span class="kw">&lt;Button</span>
+        <span class="cl">android:layout_width</span>=<span class="str">"wrap_content"</span>
+        <span class="cl">android:layout_height</span>=<span class="str">"wrap_content"</span>
+        <span class="cl">android:text</span>=<span class="str">"Start Game"</span>
+        <span class="cl">android:id</span>=<span class="str">"@+id/startButton"</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/LinearLayout&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Connecting XML to Kotlin — View Binding</div>
+    <p>Every View with an <code>android:id</code> can be referenced from Kotlin. Modern Android projects use <strong>View Binding</strong> — type-safe, no manual <code>findViewById</code> casting required.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — with View Binding</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">MainActivity</span> : <span class="cl">AppCompatActivity</span>() {
+    <span class="kw">private lateinit var</span> binding: <span class="cl">ActivityMainBinding</span>
+
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>(savedInstanceState: <span class="cl">Bundle</span>?) {
+        <span class="kw">super</span>.<span class="fn">onCreate</span>(savedInstanceState)
+        binding = <span class="cl">ActivityMainBinding</span>.<span class="fn">inflate</span>(layoutInflater)
+        <span class="fn">setContentView</span>(binding.root)
+
+        binding.startButton.<span class="fn">setOnClickListener</span> {
+            binding.scoreText.text = <span class="str">"Game Started!"</span>
+        }
+    }
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Enable it once per project</strong>Add <code>buildFeatures { viewBinding = true }</code> inside the <code>android {}</code> block of your module's <code>build.gradle.kts</code>. Android Studio then auto-generates a <code>Binding</code> class matching each XML layout's filename.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">You need to overlay a score display on top of your game's rendering surface, not beside it. Which layout fits?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="LinearLayout arranges children in a row or column — side by side, not stacked on top of each other.">LinearLayout</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="FrameLayout stacks its children directly on top of each other — exactly what's needed to overlay UI on top of a game surface.">FrameLayout</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="EditText is a text input View, not a layout at all.">EditText</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← App Fundamentals &amp; Lifecycle</button>
+    <button class="btn btn-next" onclick="next(3)">Custom Views &amp; Canvas Drawing →</button>
+  </div>
+</section>
+<!-- ===== LESSON 4: Custom Views & Canvas Drawing ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>🖌️ Custom Views &amp; Canvas Drawing</h2>
+    <p class="lesson-intro">Standard Views (Module 4) are for menus and UI. A game world needs to draw arbitrary shapes and images every frame — that's what Canvas is for, and this module is the bridge into everything the rest of the course builds on.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ What a Canvas Actually Is</div>
+    <p>A <strong>Canvas</strong> is a drawing surface you paint onto directly with code — lines, shapes, text, images — pixel by pixel, frame by frame. Instead of declaring UI in XML, you override a method and issue drawing commands yourself.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏗️ Building a Custom View</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameView.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">GameView</span>(context: <span class="cl">Context</span>) : <span class="cl">View</span>(context) {
+
+    <span class="kw">private val</span> playerPaint = <span class="cl">Paint</span>().<span class="fn">apply</span> {
+        color = <span class="cl">Color</span>.RED
+        style = <span class="cl">Paint</span>.Style.FILL
+    }
+
+    <span class="kw">private var</span> playerX = <span class="num">100f</span>
+    <span class="kw">private var</span> playerY = <span class="num">300f</span>
+
+    <span class="kw">override fun</span> <span class="fn">onDraw</span>(canvas: <span class="cl">Canvas</span>) {
+        <span class="kw">super</span>.<span class="fn">onDraw</span>(canvas)
+        canvas.<span class="fn">drawColor</span>(<span class="cl">Color</span>.CYAN)  <span class="cm">// clear/fill background each frame</span>
+        canvas.<span class="fn">drawRect</span>(playerX, playerY, playerX <span class="op">+</span> <span class="num">80f</span>, playerY <span class="op">+</span> <span class="num">80f</span>, playerPaint)
+    }
+}</pre>
+    </div>
+    <p><code>onDraw()</code> is where every drawing command goes. <code>Paint</code> objects define color, style, stroke width — think of them as the "brush," while Canvas drawing calls are the "strokes."</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 The Core Drawing Commands</div>
+    <table>
+      <tr><th>Method</th><th>Draws</th></tr>
+      <tr><td><code>drawColor()</code></td><td>Fills the entire canvas with one color — typically used to clear the frame</td></tr>
+      <tr><td><code>drawRect()</code></td><td>A rectangle</td></tr>
+      <tr><td><code>drawCircle()</code></td><td>A circle</td></tr>
+      <tr><td><code>drawBitmap()</code></td><td>An image — this is how real sprites get drawn (Module 7)</td></tr>
+      <tr><td><code>drawText()</code></td><td>Text — score displays, debug info</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Why onDraw() Alone Isn't a Game</div>
+    <p>A plain custom View only calls <code>onDraw()</code> when the system decides something changed — it doesn't run continuously. A game needs to redraw 30-60 times per second regardless, updating positions and checking collisions every single frame. That continuous loop is <em>not</em> something a plain View gives you automatically — it's the entire subject of Module 6, which introduces <code>SurfaceView</code> specifically to solve this.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why learn plain Canvas first, then</strong>Every drawing command here — <code>drawRect</code>, <code>drawBitmap</code>, <code>Paint</code> — is identical whether it's called from a plain View's <code>onDraw()</code> or from the game loop's render step in Module 6. This module teaches the drawing vocabulary; Module 6 teaches when and how often to call it.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why can't a plain custom View's onDraw() alone power a real-time game?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A plain View only redraws when the system decides something changed — a game needs continuous, forced redraws dozens of times per second, which requires the dedicated loop covered in Module 6.">It only redraws when the system decides something changed, not continuously</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Canvas fully supports images via drawBitmap() — that's exactly how sprites get rendered.">Canvas can't draw images, only shapes</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Paint objects work identically in both plain Views and SurfaceView-based rendering — that's not the limiting factor.">Paint objects only work inside XML layouts</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Views, Layouts &amp; the UI Toolkit</button>
+    <button class="btn btn-next" onclick="next(4)">The Game Loop →</button>
+  </div>
+</section>
+<!-- ===== LESSON 5: The Game Loop ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>🔁 The Game Loop</h2>
+    <p class="lesson-intro">The technical backbone of every game in this course. SurfaceView, a dedicated thread, and the update-then-render cycle that runs dozens of times per second for as long as the game is alive.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 What a Game Loop Actually Is</div>
+    <p>At its core, every game — from Pong to a AAA title — runs the same cycle, forever, until the game ends:</p>
+    <div class="net-diagram"><span class="label">while (running) {</span>
+    <span class="flow">update()</span>   <span class="dim">← move things, check input, check collisions</span>
+    <span class="flow">render()</span>   <span class="dim">← draw the current state to the screen</span>
+<span class="label">}</span></div>
+    <p><strong>update()</strong> changes the game's data. <strong>render()</strong> draws that data. Keeping these separate — never drawing inside update logic, never changing positions inside drawing code — is what keeps a growing game's code manageable.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ SurfaceView — A Canvas With Its Own Thread</div>
+    <p>Module 5's plain View only draws when the system asks. <strong>SurfaceView</strong> gives you a dedicated drawing surface plus the ability to run your own thread that redraws continuously and independently of the main UI thread — exactly what a real-time game needs.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameView.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">GameView</span>(context: <span class="cl">Context</span>) : <span class="cl">SurfaceView</span>(context), <span class="cl">SurfaceHolder</span>.<span class="cl">Callback</span> {
+
+    <span class="kw">private var</span> gameThread: <span class="cl">GameThread</span>? = <span class="kw">null</span>
+
+    init {
+        holder.<span class="fn">addCallback</span>(<span class="kw">this</span>)
+    }
+
+    <span class="kw">override fun</span> <span class="fn">surfaceCreated</span>(holder: <span class="cl">SurfaceHolder</span>) {
+        gameThread = <span class="cl">GameThread</span>(holder, <span class="kw">this</span>)
+        gameThread<span class="op">?.</span>running = <span class="kw">true</span>
+        gameThread<span class="op">?.</span><span class="fn">start</span>()
+    }
+
+    <span class="kw">override fun</span> <span class="fn">surfaceDestroyed</span>(holder: <span class="cl">SurfaceHolder</span>) {
+        gameThread<span class="op">?.</span>running = <span class="kw">false</span>
+        gameThread<span class="op">?.</span><span class="fn">join</span>()  <span class="cm">// wait for the thread to actually finish before continuing</span>
+    }
+
+    <span class="kw">override fun</span> <span class="fn">surfaceChanged</span>(holder: <span class="cl">SurfaceHolder</span>, format: <span class="cl">Int</span>, width: <span class="cl">Int</span>, height: <span class="cl">Int</span>) {}
+
+    <span class="kw">fun</span> <span class="fn">update</span>() { <span class="cm">// game logic goes here — Module 8+ builds this out</span> }
+
+    <span class="kw">fun</span> <span class="fn">render</span>(canvas: <span class="cl">Canvas</span>) {
+        canvas.<span class="fn">drawColor</span>(<span class="cl">Color</span>.CYAN)
+        <span class="cm">// draw game objects here — Module 7 covers real sprites</span>
+    }
+}</pre>
+    </div>
+    <p><code>surfaceCreated</code>/<code>surfaceDestroyed</code> are called automatically as the surface becomes available or goes away — this is where the thread actually starts and stops, tied directly to whether there's a valid surface to draw on.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧵 The Thread Itself</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameThread.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">GameThread</span>(
+    <span class="kw">private val</span> surfaceHolder: <span class="cl">SurfaceHolder</span>,
+    <span class="kw">private val</span> gameView: <span class="cl">GameView</span>
+) : <span class="cl">Thread</span>() {
+
+    <span class="kw">var</span> running = <span class="kw">false</span>
+
+    <span class="kw">override fun</span> <span class="fn">run</span>() {
+        <span class="kw">while</span> (running) {
+            <span class="kw">val</span> canvas = surfaceHolder.<span class="fn">lockCanvas</span>() <span class="op">?:</span> <span class="kw">continue</span>
+            <span class="kw">try</span> {
+                gameView.<span class="fn">update</span>()
+                gameView.<span class="fn">render</span>(canvas)
+            } <span class="kw">finally</span> {
+                surfaceHolder.<span class="fn">unlockCanvasAndPost</span>(canvas)  <span class="cm">// ALWAYS release the canvas, even if render() throws</span>
+            }
+        }
+    }
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>lockCanvas() / unlockCanvasAndPost() must always pair up</strong>Locking the canvas gives your thread exclusive access to draw; forgetting to unlock it (or crashing between lock and unlock) freezes rendering entirely. The <code>try/finally</code> above guarantees the unlock always happens, even if <code>render()</code> throws an exception.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ Frame Rate — Why Unthrottled Loops Are a Problem</div>
+    <p>The loop above runs as fast as the CPU allows — potentially hundreds of times per second, burning battery for no visual benefit (the screen can't refresh that fast anyway) and making game speed dependent on device performance. A simple fixed-rate throttle solves this:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Throttled to ~60 FPS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">run</span>() {
+    <span class="kw">val</span> targetFrameTimeMs = <span class="num">1000L</span> <span class="op">/</span> <span class="num">60</span>  <span class="cm">// ~16.6ms per frame for 60 FPS</span>
+    <span class="kw">while</span> (running) {
+        <span class="kw">val</span> startTime = <span class="cl">System</span>.<span class="fn">currentTimeMillis</span>()
+        <span class="kw">val</span> canvas = surfaceHolder.<span class="fn">lockCanvas</span>() <span class="op">?:</span> <span class="kw">continue</span>
+        <span class="kw">try</span> {
+            gameView.<span class="fn">update</span>()
+            gameView.<span class="fn">render</span>(canvas)
+        } <span class="kw">finally</span> {
+            surfaceHolder.<span class="fn">unlockCanvasAndPost</span>(canvas)
+        }
+        <span class="kw">val</span> frameTime = <span class="cl">System</span>.<span class="fn">currentTimeMillis</span>() <span class="op">-</span> startTime
+        <span class="kw">val</span> sleepTime = targetFrameTimeMs <span class="op">-</span> frameTime
+        <span class="kw">if</span> (sleepTime <span class="op">></span> <span class="num">0</span>) <span class="fn">sleep</span>(sleepTime)
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Wiring It Into the Activity's Lifecycle</div>
+    <p>Directly connecting back to Module 3: <code>surfaceCreated</code>/<code>surfaceDestroyed</code> already handle most of it, but the Activity itself should also explicitly pause/resume:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — MainActivity.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">onPause</span>() {
+    <span class="kw">super</span>.<span class="fn">onPause</span>()
+    gameView.<span class="fn">pause</span>()  <span class="cm">// stop the thread — from Module 3, don't let it run invisibly</span>
+}
+
+<span class="kw">override fun</span> <span class="fn">onResume</span>() {
+    <span class="kw">super</span>.<span class="fn">onResume</span>()
+    gameView.<span class="fn">resume</span>()  <span class="cm">// restart it</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why wrap the render call in try/finally with unlockCanvasAndPost() in the finally block?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="If render() threw an exception without the finally block, the canvas would never be unlocked — freezing all future drawing. finally guarantees it always releases.">To guarantee the canvas is always released, even if render() throws an exception</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Frame rate throttling is handled separately via sleep() timing — try/finally is about guaranteeing cleanup, not controlling speed.">To make the game run faster</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="try/finally doesn't create or manage threads — GameThread is already a full Thread subclass on its own.">It's required syntax for creating any Thread subclass</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Custom Views &amp; Canvas Drawing</button>
+    <button class="btn btn-next" onclick="next(5)">Sprites, Bitmaps &amp; Animation →</button>
+  </div>
+</section>
+<!-- ===== LESSON 6: Sprites, Bitmaps & Animation ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>🖼️ Sprites, Bitmaps &amp; Animation</h2>
+    <p class="lesson-intro">Colored rectangles were fine for learning Canvas — real games draw images. Here's how to load them efficiently and animate a walk cycle from a sprite sheet.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ Loading a Bitmap</div>
+    <p>Place image assets in <code>res/drawable/</code>. A <strong>Bitmap</strong> is the in-memory representation of that image, ready to be drawn onto a Canvas.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">val</span> playerBitmap = <span class="cl">BitmapFactory</span>.<span class="fn">decodeResource</span>(resources, R.drawable.player)
+
+<span class="cm">// in render():</span>
+canvas.<span class="fn">drawBitmap</span>(playerBitmap, playerX, playerY, <span class="kw">null</span>)</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Load bitmaps once, not every frame</strong>Decoding an image from disk is expensive. Load every bitmap once in <code>onCreate()</code> or an <code>init</code> block and keep the reference — never call <code>decodeResource</code> inside <code>update()</code> or <code>render()</code>, which run dozens of times per second.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎞️ Sprite Sheets — One Image, Many Frames</div>
+    <p>A <strong>sprite sheet</strong> packs multiple animation frames into a single image, arranged in a grid — far more efficient than loading dozens of separate files. You draw one rectangular slice of it per frame.</p>
+    <div class="net-diagram"><span class="label">player_walk.png — 4 frames, 64×64 each, laid out horizontally</span>
+
+<span class="device">┌────────┬────────┬────────┬────────┐</span>
+<span class="device">│Frame 0 │Frame 1 │Frame 2 │Frame 3 │</span>
+<span class="device">└────────┴────────┴────────┴────────┘</span>
+ 0,0      64,0     128,0    192,0    <span class="dim">← source rectangle X offsets</span></div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Drawing One Frame From a Sheet</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">val</span> frameWidth = <span class="num">64</span>
+<span class="kw">val</span> frameHeight = <span class="num">64</span>
+<span class="kw">var</span> currentFrame = <span class="num">0</span>
+
+<span class="kw">fun</span> <span class="fn">drawPlayer</span>(canvas: <span class="cl">Canvas</span>) {
+    <span class="kw">val</span> srcRect = <span class="cl">Rect</span>(
+        currentFrame <span class="op">*</span> frameWidth, <span class="num">0</span>,
+        (currentFrame <span class="op">+</span> <span class="num">1</span>) <span class="op">*</span> frameWidth, frameHeight
+    )
+    <span class="kw">val</span> dstRect = <span class="cl">Rect</span>(
+        playerX.<span class="fn">toInt</span>(), playerY.<span class="fn">toInt</span>(),
+        playerX.<span class="fn">toInt</span>() <span class="op">+</span> frameWidth, playerY.<span class="fn">toInt</span>() <span class="op">+</span> frameHeight
+    )
+    canvas.<span class="fn">drawBitmap</span>(playerSheet, srcRect, dstRect, <span class="kw">null</span>)
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ Animating — Advancing Frames Over Time</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Frame Timer in update()</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private var</span> frameTimer = <span class="num">0L</span>
+<span class="kw">private val</span> frameDurationMs = <span class="num">120L</span>  <span class="cm">// ~8 frames per second walk cycle</span>
+<span class="kw">private val</span> totalFrames = <span class="num">4</span>
+
+<span class="kw">fun</span> <span class="fn">update</span>(deltaTime: <span class="cl">Long</span>) {
+    frameTimer <span class="op">+=</span> deltaTime
+    <span class="kw">if</span> (frameTimer <span class="op">>=</span> frameDurationMs) {
+        frameTimer = <span class="num">0</span>
+        currentFrame = (currentFrame <span class="op">+</span> <span class="num">1</span>) <span class="op">%</span> totalFrames  <span class="cm">// loop back to 0 after the last frame</span>
+    }
+}</pre>
+    </div>
+    <p>Note the pattern: animation speed is driven by elapsed <em>time</em>, not by frame count — this keeps the walk cycle at a consistent real-world speed regardless of the device's actual frame rate.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why load bitmaps once in onCreate() rather than inside update() or render()?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Decoding an image is expensive — doing it dozens of times per second inside the loop would tank performance. Load once, reuse the reference every frame.">Decoding images is expensive, and update()/render() run dozens of times per second</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Bitmaps can be loaded and used the same way at any point in the lifecycle — the issue is performance cost from repeated decoding, not lifecycle restrictions.">Bitmaps can only be loaded during onCreate() due to Android restrictions</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Sprite sheets don't require special loading-time restrictions — the concern is purely the performance cost of repeated decoding.">Sprite sheets require a different loading method than single images</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← The Game Loop</button>
+    <button class="btn btn-next" onclick="next(6)">Touch Input &amp; Controls →</button>
+  </div>
+</section>
+<!-- ===== LESSON 7: Touch Input & Controls ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>👆 Touch Input &amp; Controls</h2>
+    <p class="lesson-intro">Reading raw touch events and turning them into game actions — tap-to-jump, an on-screen d-pad, and the debouncing considerations that mirror what you'd see with a physical button.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👆 Overriding onTouchEvent</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — inside GameView</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">onTouchEvent</span>(event: <span class="cl">MotionEvent</span>): <span class="cl">Boolean</span> {
+    <span class="kw">when</span> (event.action) {
+        <span class="cl">MotionEvent</span>.ACTION_DOWN -> {
+            <span class="cm">// finger just touched the screen</span>
+            <span class="fn">handleJump</span>()
+        }
+        <span class="cl">MotionEvent</span>.ACTION_MOVE -> {
+            <span class="cm">// finger is dragging — event.x, event.y give current position</span>
+        }
+        <span class="cl">MotionEvent</span>.ACTION_UP -> {
+            <span class="cm">// finger lifted</span>
+        }
+    }
+    <span class="kw">return true</span>  <span class="cm">// tells Android you consumed the event</span>
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Always return true for events you handle</strong>Returning <code>false</code> tells the system you didn't consume the touch, and it may stop delivering subsequent events (like ACTION_MOVE and ACTION_UP) for that gesture — a common source of "my controls stopped working after one tap" bugs.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕹️ Tap Zones — A Simple, Reliable Control Scheme</div>
+    <p>For a side-scroller, the simplest reliable control scheme splits the screen into zones rather than drawing a virtual joystick — easier to implement correctly and easier for players to use without looking down.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Left/Right Screen Halves</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">onTouchEvent</span>(event: <span class="cl">MotionEvent</span>): <span class="cl">Boolean</span> {
+    <span class="kw">when</span> (event.action) {
+        <span class="cl">MotionEvent</span>.ACTION_DOWN, <span class="cl">MotionEvent</span>.ACTION_MOVE -> {
+            <span class="kw">if</span> (event.x <span class="op">&lt;</span> width <span class="op">/</span> <span class="num">2</span>) {
+                moveDirection = <span class="op">-</span><span class="num">1</span>  <span class="cm">// left half — move left</span>
+            } <span class="kw">else</span> {
+                moveDirection = <span class="num">1</span>   <span class="cm">// right half — move right</span>
+            }
+        }
+        <span class="cl">MotionEvent</span>.ACTION_UP -> moveDirection = <span class="num">0</span>
+    }
+    <span class="kw">return true</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔘 Overlaying Real Buttons Instead</div>
+    <p>An alternative, often more precise for a platformer: overlay actual <code>ImageButton</code> Views (Module 4) on top of the GameView using a <code>FrameLayout</code>, with jump/left/right buttons using standard <code>setOnClickListener</code> / <code>setOnTouchListener</code> handlers instead of manually computing screen zones.</p>
+    <table>
+      <tr><th>Approach</th><th>Pro</th><th>Con</th></tr>
+      <tr><td>Screen-zone touch</td><td>Simple, no extra Views, works anywhere on screen</td><td>Less visually obvious to new players</td></tr>
+      <tr><td>Overlaid buttons</td><td>Clear visual affordance, standard Android input handling</td><td>More setup, needs careful layout for different screen sizes</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ Debouncing a Jump Button</div>
+    <p>Same underlying idea as a physical button's bounce — without a guard, a single tap can register a jump multiple times per frame if held even briefly across frame boundaries. Track jump state explicitly:</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private var</span> isJumping = <span class="kw">false</span>
+
+<span class="kw">fun</span> <span class="fn">handleJump</span>() {
+    <span class="kw">if</span> (!isJumping) {
+        velocityY = jumpVelocity  <span class="cm">// only apply jump force once per press</span>
+        isJumping = <span class="kw">true</span>
+    }
+}
+<span class="cm">// isJumping is reset to false only once the player lands — Module 9 covers that check</span></pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your onTouchEvent handles ACTION_DOWN but the player's finger movements (ACTION_MOVE) are never received afterward. Most likely cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Returning false tells Android you didn't consume the touch — it can then stop delivering the rest of that gesture's events, including ACTION_MOVE.">onTouchEvent is returning false instead of true</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="MotionEvent.ACTION_MOVE is a real, standard constant — it exists and fires normally when true is returned for the gesture's start.">ACTION_MOVE doesn't exist as a MotionEvent constant</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Touch handling works the same in both plain Views and SurfaceView — that's not what's blocking event delivery here.">SurfaceView doesn't support touch input at all</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Sprites, Bitmaps &amp; Animation</button>
+    <button class="btn btn-next" onclick="next(7)">Physics &amp; Collision Detection →</button>
+  </div>
+</section>
+<!-- ===== LESSON 8: Physics & Collision Detection ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>💥 Physics &amp; Collision Detection</h2>
+    <p class="lesson-intro">No physics engine here — just enough hand-rolled gravity, velocity, and rectangle-overlap math to make a platformer feel right. This is the module the whole side-scroller capstone leans on hardest.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⬇️ Gravity &amp; Velocity — The Core Loop</div>
+    <p>Real platformer "physics" is almost always just: apply a constant downward acceleration every frame, add it to vertical velocity, add velocity to position.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Player physics in update()</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private var</span> velocityY = <span class="num">0f</span>
+<span class="kw">private val</span> gravity = <span class="num">1.5f</span>       <span class="cm">// tune this — higher feels "heavier"</span>
+<span class="kw">private val</span> jumpVelocity = <span class="op">-</span><span class="num">28f</span>  <span class="cm">// negative = upward in screen coordinates</span>
+
+<span class="kw">fun</span> <span class="fn">update</span>() {
+    velocityY <span class="op">+=</span> gravity
+    playerY <span class="op">+=</span> velocityY
+
+    <span class="kw">if</span> (playerY <span class="op">>=</span> groundY) {   <span class="cm">// hit the ground</span>
+        playerY = groundY
+        velocityY = <span class="num">0f</span>
+        isJumping = <span class="kw">false</span>       <span class="cm">// from Module 8 — allows jumping again</span>
+    }
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Screen coordinates are flipped from math class</strong>On a Canvas, Y increases <em>downward</em> — (0,0) is the top-left corner. That's why gravity is a positive value added to velocity, and a jump is negative. This trips up nearly every beginner exactly once.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 AABB Collision — Axis-Aligned Bounding Box</div>
+    <p>The standard, cheap collision check for rectangular sprites: two rectangles overlap if and only if they overlap on <em>both</em> the X axis and the Y axis simultaneously.</p>
+    <div class="net-diagram"><span class="label">Two rectangles overlap when ALL four conditions hold:</span>
+
+A.left   <span class="flow">&lt;</span>  B.right
+A.right  <span class="flow">&gt;</span>  B.left
+A.top    <span class="flow">&lt;</span>  B.bottom
+A.bottom <span class="flow">&gt;</span>  B.top</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — AABB Check</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">isColliding</span>(a: <span class="cl">RectF</span>, b: <span class="cl">RectF</span>): <span class="cl">Boolean</span> {
+    <span class="kw">return</span> a.left <span class="op">&lt;</span> b.right <span class="op">&amp;&amp;</span>
+           a.right <span class="op">&gt;</span> b.left <span class="op">&amp;&amp;</span>
+           a.top <span class="op">&lt;</span> b.bottom <span class="op">&amp;&amp;</span>
+           a.bottom <span class="op">&gt;</span> b.top
+}
+
+<span class="cm">// Android's RectF has this built in:</span>
+<span class="kw">val</span> colliding = playerRect.<span class="fn">intersects</span>(enemyRect.left, enemyRect.top, enemyRect.right, enemyRect.bottom)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 Platform Collision — Landing on Top vs. Hitting the Side</div>
+    <p>A platformer needs more than "are they touching" — it needs to know <em>which side</em> the collision happened on, so the player lands on top of a platform instead of getting stuck inside it. A reliable approach: check the player's <em>previous</em> frame position to infer direction of approach.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Landing on Top of a Platform</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">resolvePlatformCollision</span>(player: <span class="cl">RectF</span>, prevPlayerBottom: <span class="cl">Float</span>, platform: <span class="cl">RectF</span>) {
+    <span class="kw">if</span> (player.<span class="fn">intersects</span>(platform.left, platform.top, platform.right, platform.bottom)) {
+        <span class="kw">val</span> wasAbove = prevPlayerBottom <span class="op">&lt;=</span> platform.top
+        <span class="kw">if</span> (wasAbove <span class="op">&amp;&amp;</span> velocityY <span class="op">>=</span> <span class="num">0f</span>) {
+            <span class="cm">// falling AND was above the platform last frame → land on top</span>
+            playerY = platform.top <span class="op">-</span> playerHeight
+            velocityY = <span class="num">0f</span>
+            isJumping = <span class="kw">false</span>
+        }
+        <span class="cm">// side/bottom collisions handled separately if the game needs them (e.g. head-bump blocks)</span>
+    }
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Why "previous frame position" matters</strong>Without it, a player moving sideways into a platform's edge can appear to "land" on top of it incorrectly, since a simple overlap check alone can't distinguish "falling onto it" from "walking into its side." Tracking the previous frame's bottom edge is the cheap, reliable fix used throughout the capstone.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">On an Android Canvas, why does a jump use a negative velocity value?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Canvas Y coordinates increase downward, with (0,0) at the top-left — so moving 'up' on screen means decreasing Y, i.e. a negative velocity.">Canvas Y coordinates increase downward, so moving up on screen means decreasing Y</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Negative values work fine as floats in Kotlin — this is purely a coordinate-system convention, not a language restriction.">Kotlin requires jump forces to be negative by convention</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Gravity works the same regardless of frame rate settings — the negative jump value is about the coordinate system, not FPS.">It only matters at frame rates above 60 FPS</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Touch Input &amp; Controls</button>
+    <button class="btn btn-next" onclick="next(8)">Scrolling Camera &amp; Parallax →</button>
+  </div>
+</section>
+<!-- ===== LESSON 9: Scrolling Camera & Parallax ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>🎥 Scrolling Camera &amp; Parallax</h2>
+    <p class="lesson-intro">A side-scroller's defining feature: the world moves as the player advances. Here's the trick — nothing about the world actually moves. The camera does.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📷 The Core Trick — There Is No Camera</div>
+    <p>Android's Canvas has no concept of a "camera." The illusion of scrolling is created entirely by tracking one number — <strong>cameraX</strong> — and subtracting it from every world object's position before drawing. The world's actual coordinates never change; only what you subtract when rendering does.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — The Camera Offset Pattern</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private var</span> cameraX = <span class="num">0f</span>
+
+<span class="kw">fun</span> <span class="fn">update</span>() {
+    <span class="cm">// keep the camera centered on the player, but never let it go negative</span>
+    cameraX = (player.x <span class="op">-</span> screenWidth <span class="op">/</span> <span class="num">2</span>).<span class="fn">coerceAtLeast</span>(<span class="num">0f</span>)
+}
+
+<span class="kw">fun</span> <span class="fn">render</span>(canvas: <span class="cl">Canvas</span>) {
+    <span class="kw">val</span> playerScreenX = player.x <span class="op">-</span> cameraX  <span class="cm">// world position minus camera = screen position</span>
+    canvas.<span class="fn">drawBitmap</span>(playerBitmap, playerScreenX, player.y, <span class="kw">null</span>)
+
+    <span class="kw">for</span> (enemy <span class="kw">in</span> enemies) {
+        <span class="kw">val</span> enemyScreenX = enemy.x <span class="op">-</span> cameraX
+        canvas.<span class="fn">drawBitmap</span>(enemyBitmap, enemyScreenX, enemy.y, <span class="kw">null</span>)
+    }
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Everything in the world stays in "world space"</strong>Collision checks, physics, and game logic all operate on the true world coordinates (<code>player.x</code>, <code>enemy.x</code>). Only the very last step — drawing — subtracts <code>cameraX</code>. Mixing world and screen coordinates anywhere else is the single most common source of bugs in a scrolling game.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏔️ Parallax — Depth Through Different Scroll Speeds</div>
+    <p>Real depth perception comes from distant objects appearing to move slower than close ones — exactly what you notice looking out a car window. A <strong>parallax background</strong> fakes this with 2-4 background layers, each scrolling at a different fraction of the camera's speed.</p>
+    <div class="net-diagram"><span class="label">Layer</span>          <span class="label">Scroll Speed</span>     <span class="label">Feel</span>
+Sky/clouds     <span class="flow">× 0.1</span>            barely moves — far away
+Distant hills  <span class="flow">× 0.3</span>            drifts slowly
+Mid trees      <span class="flow">× 0.6</span>            moderate
+Foreground     <span class="flow">× 1.0</span>            moves exactly with the camera</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Parallax Layer Rendering</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">data class</span> <span class="cl">ParallaxLayer</span>(<span class="kw">val</span> bitmap: <span class="cl">Bitmap</span>, <span class="kw">val</span> scrollSpeed: <span class="cl">Float</span>)
+
+<span class="kw">fun</span> <span class="fn">renderBackground</span>(canvas: <span class="cl">Canvas</span>, layers: <span class="cl">List</span>&lt;<span class="cl">ParallaxLayer</span>&gt;) {
+    <span class="kw">for</span> (layer <span class="kw">in</span> layers) {
+        <span class="kw">val</span> offsetX = <span class="op">-</span>(cameraX <span class="op">*</span> layer.scrollSpeed) <span class="op">%</span> layer.bitmap.width
+        canvas.<span class="fn">drawBitmap</span>(layer.bitmap, offsetX, <span class="num">0f</span>, <span class="kw">null</span>)
+        <span class="cm">// draw a second copy right after the first, so there's no gap when it wraps</span>
+        canvas.<span class="fn">drawBitmap</span>(layer.bitmap, offsetX <span class="op">+</span> layer.bitmap.width, <span class="num">0f</span>, <span class="kw">null</span>)
+    }
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The two-copy trick prevents gaps</strong>As a background scrolls and wraps back around, drawing only one copy leaves a visible blank gap right as it resets. Drawing a second copy immediately after the first means one of the two always fills the screen, seamlessly.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">In the camera offset pattern, where should cameraX actually be subtracted from object positions?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Collision and physics should stay in true world coordinates — subtracting the camera there would break collision detection as the camera moves.">Inside the collision detection and physics code</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Only the final drawing step converts world coordinates to screen coordinates by subtracting cameraX — everything else (physics, collision, game logic) stays in world space.">Only in the render step, right before drawing</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Storing world positions with the camera baked in would make every position dependent on wherever the camera currently is — collision and logic need stable, true world coordinates.">Directly in each object's stored x position</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Physics &amp; Collision Detection</button>
+    <button class="btn btn-next" onclick="next(9)">Tilemaps &amp; Level Design →</button>
+  </div>
+</section>
+<!-- ===== LESSON 10: Tilemaps & Level Design ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>🗺️ Tilemaps &amp; Level Design</h2>
+    <p class="lesson-intro">Hand-placing every platform in code doesn't scale past one tiny test level. A tilemap turns level design into editing a grid of numbers — the same approach real games use.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 A Level as a Grid of Numbers</div>
+    <p>A tilemap represents a level as a 2D array, where each number identifies which tile type goes in that grid cell. This makes a level editable as plain data instead of hardcoded drawing calls.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — A Level Defined as Data</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="cm">// 0 = empty, 1 = ground, 2 = platform</span>
+<span class="kw">val</span> level = <span class="fn">arrayOf</span>(
+    <span class="fn">intArrayOf</span>(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>),
+    <span class="fn">intArrayOf</span>(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">0</span>),
+    <span class="fn">intArrayOf</span>(<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>)
+)
+<span class="kw">const val</span> TILE_SIZE = <span class="num">64</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖌️ Rendering the Tilemap</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Draw Only Visible Tiles</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">renderLevel</span>(canvas: <span class="cl">Canvas</span>) {
+    <span class="kw">for</span> (row <span class="kw">in</span> level.indices) {
+        <span class="kw">for</span> (col <span class="kw">in</span> level[row].indices) {
+            <span class="kw">val</span> tile = level[row][col]
+            <span class="kw">if</span> (tile == <span class="num">0</span>) <span class="kw">continue</span>  <span class="cm">// skip empty cells</span>
+
+            <span class="kw">val</span> worldX = col <span class="op">*</span> TILE_SIZE
+            <span class="kw">val</span> screenX = worldX <span class="op">-</span> cameraX  <span class="cm">// Module 9's camera pattern</span>
+
+            <span class="cm">// skip tiles fully off-screen — cheap and meaningfully faster on big levels</span>
+            <span class="kw">if</span> (screenX <span class="op">&lt;</span> <span class="op">-</span>TILE_SIZE <span class="op">||</span> screenX <span class="op">></span> screenWidth) <span class="kw">continue</span>
+
+            <span class="kw">val</span> bitmap = <span class="kw">if</span> (tile == <span class="num">1</span>) groundBitmap <span class="kw">else</span> platformBitmap
+            canvas.<span class="fn">drawBitmap</span>(bitmap, screenX, (row <span class="op">*</span> TILE_SIZE).<span class="fn">toFloat</span>(), <span class="kw">null</span>)
+        }
+    }
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Off-screen culling matters more than it looks</strong>A long level might have thousands of tiles total — drawing every single one every frame regardless of visibility wastes enormous time. The bounds check above is a simple, meaningful performance win covered further in Module 14.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 Collision From the Same Grid</div>
+    <p>The payoff for representing a level as data: collision detection can query the same array instead of maintaining a separate list of collision rectangles.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — World Position to Grid Cell</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">isSolidAt</span>(worldX: <span class="cl">Float</span>, worldY: <span class="cl">Float</span>): <span class="cl">Boolean</span> {
+    <span class="kw">val</span> col = (worldX <span class="op">/</span> TILE_SIZE).<span class="fn">toInt</span>()
+    <span class="kw">val</span> row = (worldY <span class="op">/</span> TILE_SIZE).<span class="fn">toInt</span>()
+    <span class="kw">if</span> (row <span class="op">!in</span> level.indices <span class="op">||</span> col <span class="op">!in</span> level[<span class="num">0</span>].indices) <span class="kw">return false</span>
+    <span class="kw">return</span> level[row][col] <span class="op">!=</span> <span class="num">0</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Beyond Hand-Typed Arrays</div>
+    <p>For anything beyond a short test level, dedicated tools like <strong>Tiled</strong> (free, open-source) let you visually paint a level and export it as data your game reads at runtime — the same grid concept, just with an actual editor instead of counting commas in a Kotlin array by hand.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why check whether a tile is off-screen before drawing it, on a large level?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A long level can have thousands of tiles — drawing every single one regardless of visibility wastes significant time each frame. Skipping off-screen tiles is a simple, meaningful performance win.">Drawing every tile in a large level regardless of visibility wastes significant performance</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Off-screen drawImageBitmap calls don't crash — Canvas simply clips them, they just waste time being computed unnecessarily.">Canvas throws an exception if you draw outside the visible screen area</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Collision detection uses the isSolidAt() grid lookup, independent of what gets rendered — visibility culling is purely a rendering performance concern.">It's required for collision detection to work correctly</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Scrolling Camera &amp; Parallax</button>
+    <button class="btn btn-next" onclick="next(10)">Sound Effects &amp; Music →</button>
+  </div>
+</section>
+<!-- ===== LESSON 11: Sound Effects & Music ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>🔊 Sound Effects &amp; Music</h2>
+    <p class="lesson-intro">SoundPool for snappy sound effects, MediaPlayer for background music — and why using the wrong one for the wrong job causes either lag or wasted memory.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆚 SoundPool vs. MediaPlayer</div>
+    <table>
+      <tr><th></th><th>SoundPool</th><th>MediaPlayer</th></tr>
+      <tr><td>Best for</td><td>Short sound effects (jump, coin, hit)</td><td>Background music, long audio</td></tr>
+      <tr><td>Latency</td><td>Very low — loaded into memory, plays instantly</td><td>Higher — streams from disk</td></tr>
+      <tr><td>Memory use</td><td>Low per clip, but all loaded at once</td><td>Low — streams rather than fully loading</td></tr>
+      <tr><td>Concurrent sounds</td><td>Multiple at once (e.g. rapid jumps)</td><td>One stream at a time per instance</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Using MediaPlayer for jump sounds is the classic mistake</strong>MediaPlayer's setup overhead per play call causes a noticeable delay — completely wrong for something that needs to fire the instant a player taps the screen. SoundPool exists specifically to solve this.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔊 SoundPool — Sound Effects</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">val</span> soundPool = <span class="cl">SoundPool</span>.<span class="cl">Builder</span>().<span class="fn">setMaxStreams</span>(<span class="num">5</span>).<span class="fn">build</span>()
+<span class="kw">val</span> jumpSoundId = soundPool.<span class="fn">load</span>(context, R.raw.jump, <span class="num">1</span>)  <span class="cm">// load once, keep the ID</span>
+
+<span class="cm">// later, inside handleJump():</span>
+soundPool.<span class="fn">play</span>(jumpSoundId, <span class="num">1f</span>, <span class="num">1f</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1f</span>)
+<span class="cm">// params: soundId, leftVolume, rightVolume, priority, loop, playbackRate</span></pre>
+    </div>
+    <p><code>setMaxStreams(5)</code> means up to 5 sounds can overlap simultaneously — important for something like rapid jumps or multiple simultaneous hits.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎵 MediaPlayer — Background Music</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">var</span> musicPlayer: <span class="cl">MediaPlayer</span>? = <span class="kw">null</span>
+
+<span class="kw">fun</span> <span class="fn">startMusic</span>() {
+    musicPlayer = <span class="cl">MediaPlayer</span>.<span class="fn">create</span>(context, R.raw.background_music)
+    musicPlayer<span class="op">?.</span>isLooping = <span class="kw">true</span>
+    musicPlayer<span class="op">?.</span><span class="fn">start</span>()
+}
+
+<span class="kw">fun</span> <span class="fn">stopMusic</span>() {
+    musicPlayer<span class="op">?.</span><span class="fn">stop</span>()
+    musicPlayer<span class="op">?.</span><span class="fn">release</span>()  <span class="cm">// always release — it holds real system resources</span>
+    musicPlayer = <span class="kw">null</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Tying Audio to the Lifecycle</div>
+    <p>Directly extending Module 3/6's pause pattern: music should stop in <code>onPause()</code> just like the game thread, and resume in <code>onResume()</code> — otherwise background music keeps playing after the user switches away from the app entirely.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — MainActivity.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">onPause</span>() {
+    <span class="kw">super</span>.<span class="fn">onPause</span>()
+    gameView.<span class="fn">pause</span>()
+    musicPlayer<span class="op">?.</span><span class="fn">pause</span>()
+}
+
+<span class="kw">override fun</span> <span class="fn">onDestroy</span>() {
+    <span class="kw">super</span>.<span class="fn">onDestroy</span>()
+    soundPool.<span class="fn">release</span>()
+    musicPlayer<span class="op">?.</span><span class="fn">release</span>()
+}</pre>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A jump sound effect has a noticeable, annoying delay every time it plays. What's the likely cause?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="MediaPlayer's per-play setup overhead causes exactly this kind of delay — SoundPool exists specifically for low-latency effects like jump sounds.">MediaPlayer is being used instead of SoundPool for a short effect</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="SoundPool is specifically designed for exactly this kind of short, rapid-fire effect — it's the correct tool, not the cause of delay.">SoundPool can't handle jump sounds at all</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The game loop's frame rate doesn't control audio playback latency — that's determined by which audio API is used.">The game loop's frame rate is set too low</button>
+    </div>
+    <div class="quiz-feedback" id="qfb11"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Tilemaps &amp; Level Design</button>
+    <button class="btn btn-next" onclick="next(11)">Game State — Menus &amp; Score →</button>
+  </div>
+</section>
+<!-- ===== LESSON 12: Game State — Menus & Score ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13</div>
+    <h2>🏆 Game State — Menus, Score &amp; Game Over</h2>
+    <p class="lesson-intro">A real game is more than the play loop — it's a menu, a playing state, a pause, and a game-over screen, all sharing one codebase without turning into a tangle of booleans.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ A State Machine, Not a Pile of Booleans</div>
+    <p>The tempting-but-wrong approach is a growing set of flags: <code>isPlaying</code>, <code>isPaused</code>, <code>isGameOver</code>, <code>isMenuShowing</code> — which quickly allows contradictory combinations. An <strong>enum-based state machine</strong> makes "what state is the game in" a single, unambiguous value.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameState.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">enum class</span> <span class="cl">GameState</span> { MENU, PLAYING, PAUSED, GAME_OVER }
+
+<span class="kw">class</span> <span class="cl">GameView</span>(context: <span class="cl">Context</span>) : <span class="cl">SurfaceView</span>(context), <span class="cl">SurfaceHolder</span>.<span class="cl">Callback</span> {
+    <span class="kw">private var</span> state = <span class="cl">GameState</span>.MENU
+
+    <span class="kw">fun</span> <span class="fn">update</span>() {
+        <span class="kw">when</span> (state) {
+            <span class="cl">GameState</span>.MENU      -> { <span class="cm">/* waiting for tap to start */</span> }
+            <span class="cl">GameState</span>.PLAYING   -> <span class="fn">updateGameplay</span>()
+            <span class="cl">GameState</span>.PAUSED    -> { <span class="cm">/* frozen — no updates */</span> }
+            <span class="cl">GameState</span>.GAME_OVER -> { <span class="cm">/* waiting for tap to restart */</span> }
+        }
+    }
+
+    <span class="kw">fun</span> <span class="fn">render</span>(canvas: <span class="cl">Canvas</span>) {
+        <span class="kw">when</span> (state) {
+            <span class="cl">GameState</span>.MENU      -> <span class="fn">renderMenu</span>(canvas)
+            <span class="cl">GameState</span>.PLAYING,
+            <span class="cl">GameState</span>.PAUSED    -> <span class="fn">renderGameplay</span>(canvas)  <span class="cm">// paused still shows the frozen world</span>
+            <span class="cl">GameState</span>.GAME_OVER -> <span class="fn">renderGameOver</span>(canvas)
+        }
+    }
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The compiler enforces completeness</strong>Kotlin's <code>when</code> over an enum won't compile unless every case is handled (or there's an <code>else</code>) — add a new state later and the compiler immediately flags every place that now needs to handle it. This is worth far more than it sounds once a project grows.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Tracking Score</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">private var</span> score = <span class="num">0</span>
+
+<span class="kw">fun</span> <span class="fn">onCoinCollected</span>() {
+    score <span class="op">+=</span> <span class="num">10</span>
+}
+
+<span class="cm">// in render(), drawn every frame regardless of camera position — this is UI, not world space</span>
+canvas.<span class="fn">drawText</span>(<span class="str">"Score: $score"</span>, <span class="num">20f</span>, <span class="num">60f</span>, scoreTextPaint)</pre>
+    </div>
+    <p>Note score text is drawn at a fixed screen position, never adjusted by <code>cameraX</code> — it's UI, living in screen space, unlike the world objects from Module 9.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💀 Game Over &amp; Restart</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">onPlayerDied</span>() {
+    state = <span class="cl">GameState</span>.GAME_OVER
+}
+
+<span class="kw">fun</span> <span class="fn">restartGame</span>() {
+    player = <span class="cl">Player</span>(startX, startY)   <span class="cm">// fresh player state</span>
+    cameraX = <span class="num">0f</span>
+    score = <span class="num">0</span>
+    enemies.<span class="fn">clear</span>()
+    enemies.<span class="fn">addAll</span>(<span class="fn">loadLevelEnemies</span>())
+    state = <span class="cl">GameState</span>.PLAYING
+}</pre>
+    </div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Reset everything, not just the player</strong>A common bug: restarting resets the player's position but forgets the camera, score, or enemy list — leaving stale state from the previous run bleeding into the new one. Treat restart as building a clean game world from scratch.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why is an enum-based GameState generally better than several separate boolean flags?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Booleans can be set into contradictory combinations (e.g. isPaused=true AND isGameOver=true at once); an enum guarantees exactly one state at a time, and the compiler enforces handling every case.">It guarantees the game is in exactly one unambiguous state, and the compiler enforces handling every case</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Performance isn't the reason — both approaches are essentially free at runtime. The real benefit is correctness and preventing contradictory states.">Enums run faster than boolean checks at runtime</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Kotlin's when works over many types, not exclusively enums — the specific benefit here is exhaustiveness checking and preventing invalid state combinations.">Booleans aren't supported inside Kotlin's when expression</button>
+    </div>
+    <div class="quiz-feedback" id="qfb12"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(12)">← Sound Effects &amp; Music</button>
+    <button class="btn btn-next" onclick="next(12)">Performance &amp; Publishing →</button>
+  </div>
+</section>
+<!-- ===== LESSON 13: Performance & Publishing ===== -->
+<section class="lesson" id="l13">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 14</div>
+    <h2>🚀 Performance &amp; Publishing</h2>
+    <p class="lesson-intro">Making the game run smoothly on real devices, then getting it out of Android Studio and onto the Google Play Store.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Performance Checklist</div>
+    <table>
+      <tr><th>Rule</th><th>Why</th></tr>
+      <tr><td>Never allocate inside update()/render()</td><td>Creating new objects every frame (e.g. <code>Rect()</code>, <code>Paint()</code>) triggers garbage collection pauses — allocate once, reuse the reference</td></tr>
+      <tr><td>Cull off-screen objects</td><td>Covered in Module 11 — don't draw or update what's nowhere near the camera</td></tr>
+      <tr><td>Reuse Paint objects</td><td>Same allocation concern — one Paint per visual style, created once, not per draw call</td></tr>
+      <tr><td>Keep bitmaps appropriately sized</td><td>A 4000×4000 image scaled down at runtime wastes memory and decode time — resize source assets to what's actually needed</td></tr>
+      <tr><td>Profile before optimizing blindly</td><td>Android Studio's built-in Profiler (View → Tool Windows → Profiler) shows real CPU/memory data — fix what's actually slow, not what you assume is slow</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The single most common beginner performance bug</strong>Creating a <code>new Rect()</code> or <code>new Paint()</code> inside <code>update()</code> or <code>render()</code>. At 60 FPS that's 60+ new objects every second doing nothing but generating garbage collection work. Declare them once as class fields and mutate their values instead.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Building a Release APK/AAB</div>
+    <ol class="step-list">
+      <li>Build menu → <strong>Generate Signed App Bundle / APK</strong>.</li>
+      <li>Choose <strong>Android App Bundle (AAB)</strong> — the format Google Play requires for new apps, letting Play generate optimized APKs per device automatically.</li>
+      <li>Create a new <strong>keystore</strong> (or use an existing one) — this is your app's signing identity. <strong>Back this up somewhere safe</strong> — losing it means you can never update the app under the same listing again.</li>
+      <li>Choose the <strong>release</strong> build variant, which strips debug info and can shrink/optimize code via R8 (Android's code shrinker).</li>
+      <li>Android Studio outputs a signed <code>.aab</code> file, ready to upload.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏬 Publishing to Google Play</div>
+    <ol class="step-list">
+      <li>Create a <strong>Google Play Console</strong> developer account (one-time fee).</li>
+      <li>Create a new app listing — title, description, screenshots, feature graphic, icon.</li>
+      <li>Fill out the required content rating questionnaire and privacy policy (a URL is required even for a simple game).</li>
+      <li>Upload the signed AAB to a testing track first (Internal or Closed testing) before going to Production — this catches issues with real reviewers before the public sees them.</li>
+      <li>Submit for review. Approval typically takes anywhere from a few hours to a few days.</li>
+    </ol>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Test the actual release build before submitting</strong>Debug and release builds can behave differently (R8 shrinking can occasionally strip something your code actually needed via reflection). Always install and play through the signed release build once before uploading, not just the debug build you've been testing throughout development.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Your game stutters periodically even though gameplay logic seems simple. A likely culprit is…</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Allocating new objects every frame (like a new Rect() or Paint()) generates constant garbage collection work, which is a very common source of periodic stutter.">New objects (like Rect or Paint) are being created inside update() or render() every frame</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A signed release build doesn't inherently run slower than debug — in fact R8 optimization in release builds often improves performance, not degrades it.">The app was built as a signed release APK instead of debug</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="SoundPool is specifically designed to be lightweight and non-blocking for exactly this kind of use — it's not a typical stutter source.">SoundPool is being used for sound effects</button>
+    </div>
+    <div class="quiz-feedback" id="qfb13"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(13)">← Game State — Menus &amp; Score</button>
+    <button class="btn btn-next" onclick="next(13)">Capstone — The Side-Scroller →</button>
+  </div>
+</section>
+<!-- ===== LESSON 14: Capstone — The Side-Scroller ===== -->
+<section class="lesson" id="l14">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 15 🏁</div>
+    <h2>🏁 Capstone — Build a Complete 2D Side-Scroller</h2>
+    <p class="lesson-intro">Every module in this course, assembled into one playable game: a running/jumping player, a scrolling parallax level, platforms, enemies, coins, a score HUD, sound, and a proper menu → play → game over → restart cycle.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎮 What You're Building</div>
+    <p>A single-level runner/platformer: the player automatically faces right, taps to jump over gaps and enemies, collects coins for score, and dies on enemy contact or falling into a pit — triggering Game Over with a tap-to-restart. Small in scope on purpose: this is the shape of game you can actually finish, then expand.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ Step 1 — Project Skeleton</div>
+    <p>Starting from Module 1's Empty Activity project, you need three new Kotlin files alongside <code>MainActivity.kt</code>:</p>
+    <div class="net-diagram">app/java/com.example.sidescroller/
+├── <span class="layer">MainActivity.kt</span>   <span class="dim">← hosts GameView, wires lifecycle (Module 3, 6)</span>
+├── <span class="layer">GameView.kt</span>       <span class="dim">← SurfaceView, thread, state machine, update/render</span>
+├── <span class="layer">GameThread.kt</span>     <span class="dim">← the loop itself (Module 6)</span>
+└── <span class="layer">Player.kt</span>         <span class="dim">← player physics + animation (Modules 7-9)</span></div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — MainActivity.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">MainActivity</span> : <span class="cl">AppCompatActivity</span>() {
+    <span class="kw">private lateinit var</span> gameView: <span class="cl">GameView</span>
+
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>(savedInstanceState: <span class="cl">Bundle</span>?) {
+        <span class="kw">super</span>.<span class="fn">onCreate</span>(savedInstanceState)
+        gameView = <span class="cl">GameView</span>(<span class="kw">this</span>)
+        <span class="fn">setContentView</span>(gameView)   <span class="cm">// the whole screen IS the game — no XML layout needed here</span>
+    }
+
+    <span class="kw">override fun</span> <span class="fn">onPause</span>() { <span class="kw">super</span>.<span class="fn">onPause</span>(); gameView.<span class="fn">pause</span>() }
+    <span class="kw">override fun</span> <span class="fn">onResume</span>() { <span class="kw">super</span>.<span class="fn">onResume</span>(); gameView.<span class="fn">resume</span>() }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎛️ Step 2 — GameState &amp; the GameView Skeleton</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameView.kt (skeleton)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">enum class</span> <span class="cl">GameState</span> { MENU, PLAYING, GAME_OVER }
+
+<span class="kw">class</span> <span class="cl">GameView</span>(context: <span class="cl">Context</span>) : <span class="cl">SurfaceView</span>(context), <span class="cl">SurfaceHolder</span>.<span class="cl">Callback</span> {
+
+    <span class="kw">private var</span> thread: <span class="cl">GameThread</span>? = <span class="kw">null</span>
+    <span class="kw">private var</span> state = <span class="cl">GameState</span>.MENU
+
+    <span class="kw">private val</span> player = <span class="cl">Player</span>(<span class="fn">x</span> = <span class="num">100f</span>, <span class="fn">groundY</span> = <span class="num">600f</span>)
+    <span class="kw">private var</span> cameraX = <span class="num">0f</span>
+    <span class="kw">private var</span> score = <span class="num">0</span>
+
+    <span class="cm">// level as a tile grid — Module 11. 0=empty, 1=ground, 2=platform</span>
+    <span class="kw">private val</span> level = <span class="fn">arrayOf</span>(
+        <span class="fn">intArrayOf</span>(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">2</span>,<span class="num">2</span>),
+        <span class="fn">intArrayOf</span>(<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>,<span class="num">1</span>)  <span class="cm">// note the 2-tile gap = a pit</span>
+    )
+    <span class="kw">private val</span> tileSize = <span class="num">64</span>
+
+    <span class="kw">private data class</span> <span class="cl">Enemy</span>(<span class="kw">var</span> x: <span class="cl">Float</span>, <span class="kw">val</span> y: <span class="cl">Float</span>, <span class="kw">var</span> alive: <span class="cl">Boolean</span> = <span class="kw">true</span>)
+    <span class="kw">private data class</span> <span class="cl">Coin</span>(<span class="kw">val</span> x: <span class="cl">Float</span>, <span class="kw">val</span> y: <span class="cl">Float</span>, <span class="kw">var</span> collected: <span class="cl">Boolean</span> = <span class="kw">false</span>)
+    <span class="kw">private val</span> enemies = <span class="fn">mutableListOf</span>(<span class="cl">Enemy</span>(<span class="num">700f</span>, <span class="num">536f</span>), <span class="cl">Enemy</span>(<span class="num">1100f</span>, <span class="num">536f</span>))
+    <span class="kw">private val</span> coins = <span class="fn">mutableListOf</span>(<span class="cl">Coin</span>(<span class="num">300f</span>, <span class="num">450f</span>), <span class="cl">Coin</span>(<span class="num">500f</span>, <span class="num">450f</span>), <span class="cl">Coin</span>(<span class="num">900f</span>, <span class="num">450f</span>))
+
+    init { holder.<span class="fn">addCallback</span>(<span class="kw">this</span>) }
+
+    <span class="kw">override fun</span> <span class="fn">surfaceCreated</span>(holder: <span class="cl">SurfaceHolder</span>) {
+        thread = <span class="cl">GameThread</span>(holder, <span class="kw">this</span>).<span class="fn">apply</span> { running = <span class="kw">true</span>; <span class="fn">start</span>() }
+    }
+    <span class="kw">override fun</span> <span class="fn">surfaceDestroyed</span>(holder: <span class="cl">SurfaceHolder</span>) {
+        thread<span class="op">?.</span>running = <span class="kw">false</span>
+        thread<span class="op">?.</span><span class="fn">join</span>()
+    }
+    <span class="kw">override fun</span> <span class="fn">surfaceChanged</span>(h: <span class="cl">SurfaceHolder</span>, f: <span class="cl">Int</span>, w: <span class="cl">Int</span>, ht: <span class="cl">Int</span>) {}
+
+    <span class="kw">fun</span> <span class="fn">pause</span>() { thread<span class="op">?.</span>running = <span class="kw">false</span> }
+    <span class="kw">fun</span> <span class="fn">resume</span>() { thread<span class="op">?.</span>running = <span class="kw">true</span> }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏃 Step 3 — The Player Class</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — Player.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">Player</span>(<span class="kw">var</span> x: <span class="cl">Float</span>, <span class="kw">val</span> groundY: <span class="cl">Float</span>) {
+    <span class="kw">var</span> y = groundY
+    <span class="kw">var</span> velocityY = <span class="num">0f</span>
+    <span class="kw">var</span> isJumping = <span class="kw">false</span>
+    <span class="kw">val</span> width = <span class="num">48f</span>
+    <span class="kw">val</span> height = <span class="num">64f</span>
+    <span class="kw">private val</span> gravity = <span class="num">1.6f</span>
+    <span class="kw">private val</span> jumpVelocity = <span class="op">-</span><span class="num">28f</span>
+    <span class="kw">val</span> runSpeed = <span class="num">4f</span>  <span class="cm">// auto-runner — always moving right</span>
+
+    <span class="kw">fun</span> <span class="fn">jump</span>() {
+        <span class="kw">if</span> (!isJumping) { velocityY = jumpVelocity; isJumping = <span class="kw">true</span> }
+    }
+
+    <span class="kw">fun</span> <span class="fn">update</span>() {
+        x <span class="op">+=</span> runSpeed
+        velocityY <span class="op">+=</span> gravity
+        y <span class="op">+=</span> velocityY
+        <span class="kw">if</span> (y <span class="op">>=</span> groundY) { y = groundY; velocityY = <span class="num">0f</span>; isJumping = <span class="kw">false</span> }
+    }
+
+    <span class="kw">fun</span> <span class="fn">bounds</span>() = <span class="cl">RectF</span>(x, y, x <span class="op">+</span> width, y <span class="op">+</span> height)
+    <span class="kw">fun</span> <span class="fn">isFalling</span>() = velocityY <span class="op">></span> <span class="num">15f</span>  <span class="cm">// used for "fell into a pit" death check</span>
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is an auto-runner, not free movement</strong>Keeping the player always moving right (Module 8's control scope reduced to just "jump") is a deliberate scope decision — it removes an entire axis of physics/collision complexity while still producing a genuinely playable side-scroller. Expanding to free left/right movement afterward is a great first modification once this version works.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧵 Step 4 — GameThread (unchanged from Module 6)</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — GameThread.kt</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">class</span> <span class="cl">GameThread</span>(<span class="kw">private val</span> holder: <span class="cl">SurfaceHolder</span>, <span class="kw">private val</span> view: <span class="cl">GameView</span>) : <span class="cl">Thread</span>() {
+    <span class="kw">var</span> running = <span class="kw">false</span>
+    <span class="kw">override fun</span> <span class="fn">run</span>() {
+        <span class="kw">val</span> targetMs = <span class="num">1000L</span> <span class="op">/</span> <span class="num">60</span>
+        <span class="kw">while</span> (running) {
+            <span class="kw">val</span> start = <span class="cl">System</span>.<span class="fn">currentTimeMillis</span>()
+            <span class="kw">val</span> canvas = holder.<span class="fn">lockCanvas</span>() <span class="op">?:</span> <span class="kw">continue</span>
+            <span class="kw">try</span> { view.<span class="fn">update</span>(); view.<span class="fn">render</span>(canvas) }
+            <span class="kw">finally</span> { holder.<span class="fn">unlockCanvasAndPost</span>(canvas) }
+            <span class="kw">val</span> sleepTime = targetMs <span class="op">-</span> (<span class="cl">System</span>.<span class="fn">currentTimeMillis</span>() <span class="op">-</span> start)
+            <span class="kw">if</span> (sleepTime <span class="op">></span> <span class="num">0</span>) <span class="fn">sleep</span>(sleepTime)
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Step 5 — Wiring update(): Camera, Collision, Score, Death</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — inside GameView</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">update</span>() {
+    <span class="kw">if</span> (state <span class="op">!=</span> <span class="cl">GameState</span>.PLAYING) <span class="kw">return</span>
+
+    player.<span class="fn">update</span>()
+    cameraX = player.x <span class="op">-</span> <span class="num">200f</span>
+
+    <span class="cm">// Module 9 AABB checks against enemies</span>
+    <span class="kw">val</span> pBounds = player.<span class="fn">bounds</span>()
+    <span class="kw">for</span> (enemy <span class="kw">in</span> enemies) {
+        <span class="kw">if</span> (!enemy.alive) <span class="kw">continue</span>
+        <span class="kw">val</span> eBounds = <span class="cl">RectF</span>(enemy.x, enemy.y, enemy.x <span class="op">+</span> <span class="num">48f</span>, enemy.y <span class="op">+</span> <span class="num">48f</span>)
+        <span class="kw">if</span> (pBounds.<span class="fn">intersects</span>(eBounds.left, eBounds.top, eBounds.right, eBounds.bottom)) {
+            <span class="kw">if</span> (player.isFalling() <span class="op">&amp;&amp;</span> pBounds.bottom <span class="op">&lt;</span> eBounds.top <span class="op">+</span> <span class="num">16f</span>) {
+                enemy.alive = <span class="kw">false</span>  <span class="cm">// stomped from above — classic platformer rule</span>
+                score <span class="op">+=</span> <span class="num">50</span>
+            } <span class="kw">else</span> {
+                state = <span class="cl">GameState</span>.GAME_OVER
+            }
+        }
+    }
+
+    <span class="cm">// coin collection</span>
+    <span class="kw">for</span> (coin <span class="kw">in</span> coins) {
+        <span class="kw">if</span> (coin.collected) <span class="kw">continue</span>
+        <span class="kw">val</span> cBounds = <span class="cl">RectF</span>(coin.x, coin.y, coin.x <span class="op">+</span> <span class="num">24f</span>, coin.y <span class="op">+</span> <span class="num">24f</span>)
+        <span class="kw">if</span> (pBounds.<span class="fn">intersects</span>(cBounds.left, cBounds.top, cBounds.right, cBounds.bottom)) {
+            coin.collected = <span class="kw">true</span>
+            score <span class="op">+=</span> <span class="num">10</span>
+        }
+    }
+
+    <span class="cm">// fell into a pit — Module 11's grid lookup at the player's feet</span>
+    <span class="kw">val</span> col = (player.x <span class="op">/</span> tileSize).<span class="fn">toInt</span>()
+    <span class="kw">if</span> (player.y <span class="op">></span> <span class="num">700f</span>) state = <span class="cl">GameState</span>.GAME_OVER
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖼️ Step 6 — Wiring render(): World, HUD, Menu, Game Over</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — inside GameView</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">fun</span> <span class="fn">render</span>(canvas: <span class="cl">Canvas</span>) {
+    canvas.<span class="fn">drawColor</span>(<span class="cl">Color</span>.<span class="fn">rgb</span>(<span class="num">135</span>,<span class="num">206</span>,<span class="num">235</span>))  <span class="cm">// sky</span>
+
+    <span class="kw">when</span> (state) {
+        <span class="cl">GameState</span>.MENU -> {
+            canvas.<span class="fn">drawText</span>(<span class="str">"TAP TO START"</span>, width <span class="op">/</span> <span class="num">2f</span> <span class="op">-</span> <span class="num">150f</span>, height <span class="op">/</span> <span class="num">2f</span>, hudPaint)
+        }
+        <span class="cl">GameState</span>.PLAYING -> {
+            <span class="fn">renderLevel</span>(canvas)   <span class="cm">// Module 11, offset by cameraX (Module 9)</span>
+            <span class="kw">for</span> (coin <span class="kw">in</span> coins) <span class="kw">if</span> (!coin.collected)
+                canvas.<span class="fn">drawCircle</span>(coin.x <span class="op">-</span> cameraX, coin.y, <span class="num">12f</span>, coinPaint)
+            <span class="kw">for</span> (enemy <span class="kw">in</span> enemies) <span class="kw">if</span> (enemy.alive)
+                canvas.<span class="fn">drawRect</span>(enemy.x <span class="op">-</span> cameraX, enemy.y, enemy.x <span class="op">-</span> cameraX <span class="op">+</span> <span class="num">48f</span>, enemy.y <span class="op">+</span> <span class="num">48f</span>, enemyPaint)
+            canvas.<span class="fn">drawRect</span>(player.x <span class="op">-</span> cameraX, player.y, player.x <span class="op">-</span> cameraX <span class="op">+</span> player.width, player.y <span class="op">+</span> player.height, playerPaint)
+            canvas.<span class="fn">drawText</span>(<span class="str">"Score: $score"</span>, <span class="num">20f</span>, <span class="num">60f</span>, hudPaint)  <span class="cm">// screen space — no camera offset</span>
+        }
+        <span class="cl">GameState</span>.GAME_OVER -> {
+            canvas.<span class="fn">drawText</span>(<span class="str">"GAME OVER — Score: $score"</span>, width <span class="op">/</span> <span class="num">2f</span> <span class="op">-</span> <span class="num">220f</span>, height <span class="op">/</span> <span class="num">2f</span>, hudPaint)
+            canvas.<span class="fn">drawText</span>(<span class="str">"Tap to restart"</span>, width <span class="op">/</span> <span class="num">2f</span> <span class="op">-</span> <span class="num">140f</span>, height <span class="op">/</span> <span class="num">2f</span> <span class="op">+</span> <span class="num">60f</span>, hudPaint)
+        }
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👆 Step 7 — Touch Input Ties the State Machine Together</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Kotlin — inside GameView</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">override fun</span> <span class="fn">onTouchEvent</span>(event: <span class="cl">MotionEvent</span>): <span class="cl">Boolean</span> {
+    <span class="kw">if</span> (event.action <span class="op">!=</span> <span class="cl">MotionEvent</span>.ACTION_DOWN) <span class="kw">return true</span>
+    <span class="kw">when</span> (state) {
+        <span class="cl">GameState</span>.MENU      -> state = <span class="cl">GameState</span>.PLAYING
+        <span class="cl">GameState</span>.PLAYING   -> player.<span class="fn">jump</span>()
+        <span class="cl">GameState</span>.GAME_OVER -> <span class="fn">restartGame</span>()
+    }
+    <span class="kw">return true</span>
+}
+
+<span class="kw">private fun</span> <span class="fn">restartGame</span>() {
+    player.x = <span class="num">100f</span>; player.y = player.groundY; player.velocityY = <span class="num">0f</span>
+    cameraX = <span class="num">0f</span>; score = <span class="num">0</span>
+    enemies.<span class="fn">forEach</span> { it.alive = <span class="kw">true</span> }
+    coins.<span class="fn">forEach</span> { it.collected = <span class="kw">false</span> }
+    state = <span class="cl">GameState</span>.PLAYING
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔊 Step 8 — Adding Sound (Module 12)</div>
+    <p>Load a SoundPool in an <code>init</code> block, hold sound IDs for jump/coin/stomp, and call <code>soundPool.play()</code> at each corresponding point above — jump inside <code>Player.jump()</code>'s caller, coin inside the coin-collection loop, stomp inside the enemy-defeated branch. Release the SoundPool in <code>surfaceDestroyed</code>.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Definition of Done</div>
+    <table>
+      <tr><th>System</th><th>Passes When…</th></tr>
+      <tr><td>Menu → Play → Game Over → Restart</td><td>All four states are reachable by tapping, with no way to get stuck</td></tr>
+      <tr><td>Jump &amp; gravity</td><td>Feels controllable — not floaty, not instant; tune <code>gravity</code>/<code>jumpVelocity</code> until it feels right</td></tr>
+      <tr><td>Scrolling world</td><td>Camera follows the player smoothly; nothing jitters or lags behind</td></tr>
+      <tr><td>Collision</td><td>Stomping an enemy from above defeats it; touching it from the side ends the game; falling into the pit ends the game</td></tr>
+      <tr><td>Score</td><td>Coins and stomps both increase it; it resets correctly on restart</td></tr>
+      <tr><td>Performance</td><td>No new object allocation inside update()/render() (Module 14); runs smoothly on the emulator</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Ship a Playable Build</h4>
+    <p>Get every system above running together in one project, and play through it start to death to restart at least ten times without a crash. Then pick ONE expansion and add it: real sprite art replacing the colored rectangles (Module 7), a second level, a parallax background (Module 9), or background music (Module 12). Finishing something small is worth more than an unfinished ambitious version — this is the same discipline every shipped game, indie or AAA, was actually built with.</p>
+    <ul>
+      <li>Full MENU → PLAYING → GAME_OVER → restart cycle with no dead ends</li>
+      <li>Player runs automatically, jumps on tap, with tuned gravity/jump feel</li>
+      <li>At least one pit, one platform gap, and two enemies in the level</li>
+      <li>Coins that increase score, enemies stompable from above</li>
+      <li>Camera scrolls correctly with zero world/screen coordinate mixing bugs</li>
+      <li>One chosen expansion (art, level, parallax, or music) beyond the base build</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(14)">← Performance &amp; Publishing</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+const TOTAL = 15;
+const done  = new Set();
+let   cur   = 0;
+
+const STORAGE_KEY = 'teqstudy_progress::' + location.pathname.split('/').pop();
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  location.reload();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ done: [...done], cur }));
+  } catch (e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { done.add(0); updateBar(); return; }
+    const data = JSON.parse(raw);
+    (data.done || []).forEach(i => done.add(i));
+    if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
+      go(data.cur);
+    } else {
+      done.add(0);
+      updateBar();
+    }
+  } catch (e) {
+    done.add(0);
+    updateBar();
+  }
+}
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+loadProgress();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
