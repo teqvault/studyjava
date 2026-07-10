@@ -249,7 +249,7 @@ th { color: var(--text); background: color-mix(in srgb, #a855f7 10%, transparent
 .quiz-feedback.ok { border: 1px solid rgba(34,197,94,0.35); background: rgba(34,197,94,0.10); }
 .quiz-feedback.bad { border: 1px solid rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); }
 .lesson-nav { display: flex; justify-content: space-between; gap: 12px; margin: 24px 0 12px; }
-.lesson-nav button {
+.lesson-nav button, .lesson-nav a {
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.05);
   color: var(--text);
@@ -257,6 +257,10 @@ th { color: var(--text); background: color-mix(in srgb, #a855f7 10%, transparent
   padding: 13px 16px;
   font-weight: 900;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .lesson-nav .next { background: linear-gradient(135deg, var(--green), var(--blue)); color: #03100d; border: none; }
 .lesson-nav button:disabled { opacity: 0.45; cursor: default; }

@@ -265,8 +265,8 @@ th { color: var(--text); background: rgba(255,255,255,0.055); }
 .quiz-feedback.ok { color: #bbf7d0; background: rgba(74,222,128,.10); border: 1px solid rgba(74,222,128,.28); }
 .quiz-feedback.bad { color: #fecdd3; background: rgba(251,113,133,.10); border: 1px solid rgba(251,113,133,.28); }
 .lesson-nav { display:flex; justify-content:space-between; gap: 12px; margin-top: 22px; }
-.lesson-nav button { min-height: 46px; padding: 0 18px; border-radius: 14px; font-weight: 900; cursor: pointer; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); }
-.lesson-nav button.next { background: var(--amber); color: #111827; border-color: rgba(255,255,255,.18); }
+.lesson-nav button, .lesson-nav a { min-height: 46px; padding: 0 18px; border-radius: 14px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; font-weight: 900; cursor: pointer; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); }
+.lesson-nav button.next, .lesson-nav a.next { background: var(--amber); color: #111827; border-color: rgba(255,255,255,.18); }
 .lesson-nav button:disabled { opacity:.45; cursor:not-allowed; }
 
 @media (max-width: 920px) {

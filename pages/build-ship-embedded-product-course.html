@@ -15,19 +15,19 @@
 <a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
 
 <header>
-  <div class="header-badge">Embedded Systems & IoT · Course 08</div>
-  <h1>Build & Ship<br><span>an Embedded Product</span></h1>
-  <p>Turn a working prototype into a portfolio-ready product: definition, bill of materials, enclosure planning, onboarding, documentation, testing, demos, and release package.</p>
+  <div class="header-badge">Embedded Systems &amp; IoT · Course 08</div>
+  <h1>Build &amp; Ship<br><span>an Embedded Product</span></h1>
+  <p>Turn a working prototype into a portfolio-ready embedded product with a spec, architecture, BOM, setup automation, boot service, enclosure plan, test plan, documentation, demo assets, and final release package.</p>
   <div class="header-actions">
     <a class="btn primary" href="#course">Start Course 08</a>
     <a class="btn" href="edge-ai-computer-vision-course.html">← Course 07</a>
     <a class="btn" href="embedded-systems-track.html">Track complete ✓</a>
   </div>
   <div class="course-meta" aria-label="Course summary">
-    <div><strong>8</strong><span>Modules</span></div>
-    <div><strong>Ship-It</strong><span>Docs + testing</span></div>
-    <div><strong>Productization</strong><span>BOM, demo, release</span></div>
-    <div><strong>Capstone</strong><span>Launch package</span></div>
+    <div><strong>12</strong><span>Modules</span></div>
+    <div><strong>6</strong><span>Templates</span></div>
+    <div><strong>Productization</strong><span>Docs + setup + tests</span></div>
+    <div><strong>Capstone</strong><span>Portfolio release</span></div>
   </div>
 </header>
 
@@ -40,129 +40,622 @@
 
 <div class="mobile-select-wrap">
   <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
-    <option value="0">01 · Product Definition</option>
-    <option value="1">02 · BOM &amp; Cost</option>
-    <option value="2">03 · Enclosure Planning</option>
-    <option value="3">04 · Install &amp; Onboarding</option>
-    <option value="4">05 · Documentation</option>
-    <option value="5">06 · Testing</option>
-    <option value="6">07 · Demo &amp; Release Assets</option>
-    <option value="7">08 · Launch Package</option>
+    <option value="0">01 · Choose Product</option>
+    <option value="1">02 · Product Spec</option>
+    <option value="2">03 · Architecture</option>
+    <option value="3">04 · BOM &amp; Budget</option>
+    <option value="4">05 · Repo Structure</option>
+    <option value="5">06 · Setup Automation</option>
+    <option value="6">07 · Run on Boot</option>
+    <option value="7">08 · Enclosure</option>
+    <option value="8">09 · Testing</option>
+    <option value="9">10 · Documentation</option>
+    <option value="10">11 · Demo &amp; Portfolio</option>
+    <option value="11">12 · Launch Package</option>
   </select>
 </div>
 
 <div class="layout" id="course">
   <nav class="sidebar" aria-label="Course modules">
     <div class="sidebar-title">Course Modules</div>
-    <div class="nav-item active" onclick="showLesson(0)">🎯 Product Definition <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(1)">🧾 BOM &amp; Cost <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(2)">📦 Enclosure Planning <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(3)">🚪 Install &amp; Onboarding <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(4)">📚 Documentation <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(5)">🧪 Testing <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(6)">🎬 Demo &amp; Release Assets <span class="nav-check"></span></div>
-    <div class="nav-item" onclick="showLesson(7)">🏁 Launch Package <span class="nav-check"></span></div>
+    <div class="nav-item active" onclick="showLesson(0)">🎯 Choose Product <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">📄 Product Spec <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">🧠 Architecture <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🧾 BOM &amp; Budget <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">🗂️ Repo Structure <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">⚙️ Setup Automation <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">🔁 Run on Boot <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">📦 Enclosure <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">🧪 Testing <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">📚 Documentation <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(10)">🎬 Demo &amp; Portfolio <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(11)">🏁 Launch Package <span class="nav-check"></span></div>
   </nav>
 
   <main class="main">
     <!-- Google AdSense -->
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    
+
+    <div class="overview-panel">
+      <div class="lesson-num">// final_capstone_standard</div>
+      <h2>Ship the strongest project in the track.</h2>
+      <p>This course is not another beginner tutorial. It is the finishing lab for the full Embedded Systems &amp; IoT track. The goal is to take one working prototype and make it understandable, rebuildable, testable, presentable, and reliable enough to show in a portfolio.</p>
+      <div class="deliverable-grid">
+        <div><strong>Define</strong><span>Product idea, spec, MVP, out-of-scope list</span></div>
+        <div><strong>Build</strong><span>Clean repo, setup script, service, enclosure plan</span></div>
+        <div><strong>Prove</strong><span>Test plan, cold boot, failure handling, demo</span></div>
+        <div><strong>Ship</strong><span>README, BOM, assets, release checklist</span></div>
+      </div>
+    </div>
+
     <section class="lesson active" id="lesson-0">
-      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Product Definition</h2><p class="lesson-intro">A shippable project starts with a clear user, problem, promise, and success criteria.</p></div>
-      <div class="card"><div class="card-title">🚀 Definition pieces</div><ul><li>Who is it for?</li><li>What problem does it solve?</li><li>What must it do on day one?</li><li>What is intentionally out of scope?</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: One-Sentence Product</div><p>Write one sentence describing your device, the user, and the problem solved.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a product definition include?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">User, problem, and core promise</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Every possible feature</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Only the color of the case</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 01</div>
+        <h2>Choose Your Product</h2>
+        <p class="lesson-intro">The final course starts by choosing one prototype from the track and turning it into a product with a clear user, purpose, and finish line.</p>
+      </div>
+      <div class="card"><div class="card-title">🚀 What counts as a product?</div><div>A product is not just code that runs once. For this capstone, a product is a device someone else could understand, rebuild, test, and demo without needing you standing beside them. It can be simple, but it must be complete.</div></div>
+<div class="card"><div class="card-title">🧭 Good capstone candidates</div><div><div class="grid-2"><div class="mini-card"><h4>Smart room monitor</h4><p>ESP32 or Pi reads motion, temperature, light, or air quality and publishes status to a dashboard.</p></div><div class="mini-card"><h4>Network appliance</h4><p>Raspberry Pi runs a useful local service such as monitoring, dashboarding, backup, or filtering.</p></div><div class="mini-card"><h4>Robot rover</h4><p>Motor control, obstacle detection, and a clear control loop with documented wiring.</p></div><div class="mini-card"><h4>AI camera</h4><p>Camera capture, object/person detection, event logging, and notification behavior.</p></div></div></div></div>
+<div class="card"><div class="card-title">🛑 Avoid these traps</div><div><ul><li><strong>Too broad:</strong> "Smart home system" is too vague. "Door monitor with local dashboard" is better.</li><li><strong>Too dependent:</strong> Avoid a product that only works when five cloud services are perfect.</li><li><strong>Too fragile:</strong> If one loose wire ruins the demo, plan strain relief, enclosure, and restart behavior.</li></ul></div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: PRODUCT_IDEA.md</div><pre class="code-block"><code># Product Idea
+
+Product name:
+Target user:
+Problem solved:
+One-sentence promise:
+
+Chosen prototype:
+Why this one:
+
+MVP features:
+- 
+- 
+- 
+
+Out of scope:
+- 
+- 
+
+Success criteria:
+- The device can be powered on from cold boot.
+- The main feature works without manual code edits.
+- A new user can follow the README and run it.
+- A 60-90 second demo clearly shows the product value.</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Pick the capstone product</div><p>Choose one previous build and write the product idea file. Do not add features yet. The goal is focus.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes a prototype ready to become a capstone product?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A shippable capstone needs clarity and repeatability before extra features.')">It has a clear user, problem, MVP, and success criteria</button>
+<button class="quiz-option" onclick="quiz(this,false,'A shippable capstone needs clarity and repeatability before extra features.')">It has every feature you can imagine</button>
+<button class="quiz-option" onclick="quiz(this,false,'A shippable capstone needs clarity and repeatability before extra features.')">It only works on your laptop with secret steps</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-1">
-      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Bill of Materials &amp; Cost</h2><p class="lesson-intro">Learners create a bill of materials so a project can be rebuilt, priced, and improved.</p></div>
-      <div class="card"><div class="card-title">🚀 BOM fields</div><ul><li>Part name.</li><li>Quantity.</li><li>Purpose.</li><li>Estimated cost.</li><li>Supplier or search term.</li><li>Substitute options.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: Create a BOM</div><p>Make a BOM for one previous capstone and calculate approximate total cost.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why create a BOM?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">So the build can be priced and repeated</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">To hide parts from learners</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">To remove documentation</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 02</div>
+        <h2>Write the Product Spec</h2>
+        <p class="lesson-intro">The product spec turns a cool idea into a build contract. It tells the learner what must be true when the course is finished.</p>
+      </div>
+      <div class="card"><div class="card-title">📌 Spec versus notes</div><div>Random notes describe what you were thinking. A spec describes what the product must do. It becomes the source of truth for testing, documentation, and the final demo.</div></div>
+<div class="card"><div class="card-title">✅ Acceptance criteria</div><div>Acceptance criteria are pass/fail statements. "Looks nice" is not testable. "Dashboard shows a new temperature reading within 10 seconds of refresh" is testable.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: PRODUCT_SPEC.md</div><pre class="code-block"><code># Product Spec
+
+## 1. Product Summary
+Name:
+One-liner:
+Target user:
+Primary environment: home / classroom / lab / field / desk
+
+## 2. Problem
+What problem does this solve?
+Why does the problem matter?
+What happens today without this device?
+
+## 3. MVP Features
+| Feature | User value | Acceptance test | Priority |
+|---|---|---|---|
+| | | | Must |
+| | | | Must |
+| | | | Should |
+
+## 4. Out of Scope
+- 
+- 
+- 
+
+## 5. Operating Conditions
+Power source:
+Network required? yes / no
+Expected runtime:
+Indoor/outdoor:
+Temperature or placement constraints:
+
+## 6. Success Criteria
+- 
+- 
+- 
+
+## 7. Demo Criteria
+In the final demo, viewers must be able to see:
+- The device powering on.
+- The main input or sensor working.
+- The output, dashboard, notification, motion, or AI result.
+- The documentation and repo structure.</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Write the spec before building</div><p>Create PRODUCT_SPEC.md and define exactly three must-have features. Anything else goes into “future improvements.”</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which acceptance criterion is strongest?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Strong acceptance criteria can be tested with a clear pass or fail.')">The dashboard updates within 10 seconds after new sensor data arrives</button>
+<button class="quiz-option" onclick="quiz(this,false,'Strong acceptance criteria can be tested with a clear pass or fail.')">The project feels professional</button>
+<button class="quiz-option" onclick="quiz(this,false,'Strong acceptance criteria can be tested with a clear pass or fail.')">The device has a lot of useful stuff</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-2">
-      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>Enclosure &amp; Physical Design</h2><p class="lesson-intro">A project becomes more real when wiring, power, ports, airflow, and mounting are considered.</p></div>
-      <div class="card"><div class="card-title">🚀 Physical concerns</div><ul><li>Cable strain relief.</li><li>Access to power and reset.</li><li>Ventilation and heat.</li><li>Sensor exposure.</li><li>Mounting holes or adhesive plan.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: Paper Enclosure Plan</div><p>Sketch an enclosure layout showing board, power, ports, sensors, and airflow.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why plan sensor placement?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Bad placement can ruin readings or camera view</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">It changes Python indentation</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">It removes power needs</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 03</div>
+        <h2>Plan the Architecture &amp; Risks</h2>
+        <p class="lesson-intro">A product needs a visible plan: hardware blocks, software blocks, data flow, power flow, and the places where failure can happen.</p>
+      </div>
+      <div class="card"><div class="card-title">🧩 Four diagrams to think through</div><div><div class="grid-2"><div class="mini-card"><h4>Hardware diagram</h4><p>Board, sensors, actuators, power supply, display, camera, and connections.</p></div><div class="mini-card"><h4>Software diagram</h4><p>Scripts, services, dashboard, database, API, model, scheduler, and logs.</p></div><div class="mini-card"><h4>Data flow</h4><p>Where data starts, how it is processed, where it is stored, and how the user sees it.</p></div><div class="mini-card"><h4>Power flow</h4><p>Power source, voltage levels, regulators, current-heavy components, and safety limits.</p></div></div></div></div>
+<div class="card"><div class="card-title">⚠️ Risk register</div><div>Every embedded product has risks: bad Wi-Fi, brownouts, overheating, loose wires, sensor noise, stuck motors, full SD cards, or broken dependencies. Writing risks down early makes the device more reliable.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: ARCHITECTURE.md</div><pre class="code-block"><code># Architecture
+
+## Hardware Blocks
+- Controller board:
+- Sensors:
+- Actuators / outputs:
+- Power source:
+- Network connection:
+- Enclosure / mounting:
+
+## Software Blocks
+- Main application:
+- Background service:
+- Dashboard / UI:
+- Data storage:
+- Notification path:
+- Logs:
+
+## Data Flow
+Input -&gt; Processing -&gt; Storage -&gt; Output
+
+Example:
+Sensor reading -&gt; Python service -&gt; SQLite / JSON log -&gt; Web dashboard
+
+## Power Flow
+Power source -&gt; regulator / board -&gt; sensors -&gt; actuators
+
+## Risk Register
+| Risk | Impact | Prevention | Recovery |
+|---|---|---|---|
+| Wi-Fi disconnects | Dashboard stops updating | Local cache | Auto reconnect / retry |
+| Loose sensor wire | Bad readings | Strain relief | Error message + status LED |
+| Service crashes | Product stops | systemd restart | Logs + auto restart |</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Draw the product map</div><p>Create ARCHITECTURE.md and include at least one hardware diagram, one software diagram, and five risks with recovery plans.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why include a risk register in a capstone?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Risk planning is part of turning a prototype into something reliable.')">It forces you to design recovery paths before the demo fails</button>
+<button class="quiz-option" onclick="quiz(this,false,'Risk planning is part of turning a prototype into something reliable.')">It replaces wiring documentation</button>
+<button class="quiz-option" onclick="quiz(this,false,'Risk planning is part of turning a prototype into something reliable.')">It makes the product more complicated for no reason</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-3">
-      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Installation &amp; Onboarding</h2><p class="lesson-intro">The first-run experience matters. Learners design setup steps, defaults, and recovery paths.</p></div>
-      <div class="card"><div class="card-title">🚀 Onboarding flow</div><ul><li>Unbox or clone repo.</li><li>Install dependencies.</li><li>Create config file.</li><li>Run first test.</li><li>Start service.</li><li>Verify dashboard.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: First-Run Checklist</div><p>Write a setup checklist for a fresh machine and test it from a clean folder.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is onboarding for?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Helping someone get the device working for the first time</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Making errors harder to find</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Skipping setup</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 04</div>
+        <h2>Build the BOM &amp; Budget</h2>
+        <p class="lesson-intro">A bill of materials makes the project rebuildable. It also shows cost awareness, substitutes, and hardware decision-making.</p>
+      </div>
+      <div class="card"><div class="card-title">💵 Why a BOM matters</div><div>The BOM answers: What parts did you use? How many? Why those parts? What did it cost? What can be substituted? Without this, another learner cannot rebuild the project confidently.</div></div>
+<div class="card"><div class="card-title">🔋 Include a power budget</div><div>For embedded work, cost is not enough. List voltage and current assumptions. Motors, servos, LEDs, cameras, and radios can draw more current than beginners expect.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: BOM.md</div><pre class="code-block"><code># Bill of Materials
+
+## Parts List
+| Part | Qty | Purpose | Est. cost | Substitute | Notes |
+|---|---:|---|---:|---|---|
+| | 1 | | $ | | |
+| | 1 | | $ | | |
+
+## Tools Used
+- 
+- 
+
+## Power Budget
+| Component | Voltage | Estimated current | Notes |
+|---|---:|---:|---|
+| Controller board | | | |
+| Sensor | | | |
+| Motor / output | | | |
+
+Estimated total current:
+Power supply chosen:
+Why this supply is safe:
+
+## Cost Summary
+Prototype cost:
+Nice-to-have upgrades:
+Minimum build cost:
+
+## Purchasing Notes
+Search terms:
+Part links or supplier notes:
+Known compatibility warnings:</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Create a rebuildable parts list</div><p>Make BOM.md with every board, sensor, cable, resistor, supply, enclosure material, and tool required to recreate the product.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the best reason to include substitute parts in a BOM?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Good BOMs make a build practical, not fragile.')">So the project can still be rebuilt if one exact part is unavailable</button>
+<button class="quiz-option" onclick="quiz(this,false,'Good BOMs make a build practical, not fragile.')">So the learner never has to test compatibility</button>
+<button class="quiz-option" onclick="quiz(this,false,'Good BOMs make a build practical, not fragile.')">So the BOM looks longer</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-4">
-      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Documentation &amp; README</h2><p class="lesson-intro">Documentation is part of the product. Learners write READMEs that explain purpose, wiring, install, usage, troubleshooting, and limitations.</p></div>
-      <div class="card"><div class="card-title">🚀 README sections</div><ul><li>Overview.</li><li>Hardware list.</li><li>Wiring table.</li><li>Install steps.</li><li>Usage.</li><li>Troubleshooting.</li><li>Known limitations.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: README Upgrade</div><p>Rewrite a rough project note into a structured README.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What belongs in a good README?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Purpose, setup, usage, troubleshooting, and limitations</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Private passwords</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Only a title</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 05</div>
+        <h2>Prepare the Repository</h2>
+        <p class="lesson-intro">A clean repository is part of the product. It tells users where the code lives, where docs live, and how to safely configure the device.</p>
+      </div>
+      <div class="card"><div class="card-title">📁 Recommended structure</div><div>A portfolio project should not be one folder full of mystery files. Separate source code, docs, assets, setup scripts, tests, and wiring notes.</div></div>
+<div class="card"><div class="card-title">🔐 Configuration rule</div><div>Never commit real passwords, API keys, Wi-Fi credentials, tokens, or private endpoints. Commit a safe <code>config.example.json</code> instead.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: Repository tree</div><pre class="code-block"><code>embedded-product/
+├── README.md
+├── PRODUCT_SPEC.md
+├── ARCHITECTURE.md
+├── BOM.md
+├── TEST_PLAN.md
+├── RELEASE_CHECKLIST.md
+├── config.example.json
+├── setup.sh
+├── src/
+│   ├── main.py
+│   ├── sensors.py
+│   ├── outputs.py
+│   └── dashboard.py
+├── docs/
+│   ├── wiring.md
+│   ├── setup.md
+│   ├── troubleshooting.md
+│   └── images/
+├── assets/
+│   ├── thumbnail.png
+│   └── demo-script.md
+└── tests/
+    ├── hardware-checklist.md
+    └── smoke-test.md</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Clean the project folder</div><p>Create the folder structure above. Move old prototype files into the right places and remove unused experiments.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use config.example.json instead of committing your real config?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Professional repos teach users how to configure safely.')">It shows required settings without exposing secrets</button>
+<button class="quiz-option" onclick="quiz(this,false,'Professional repos teach users how to configure safely.')">It makes the code impossible to run</button>
+<button class="quiz-option" onclick="quiz(this,false,'Professional repos teach users how to configure safely.')">It deletes the need for setup instructions</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-5">
-      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Testing &amp; Troubleshooting</h2><p class="lesson-intro">Learners create a test plan instead of relying on vibes. Each important feature gets a pass/fail check.</p></div>
-      <div class="card"><div class="card-title">🚀 Test plan types</div><ul><li>Power-on test.</li><li>Sensor test.</li><li>Network test.</li><li>Service restart test.</li><li>Failure recovery test.</li><li>User demo test.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: Pass/Fail Test Sheet</div><p>Create a table of at least eight tests for the selected capstone device.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why write tests for a hardware project?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To prove each behavior works repeatably</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">To avoid building it</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">To replace the parts list</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 06</div>
+        <h2>Add Setup Automation</h2>
+        <p class="lesson-intro">A product should not require a long list of mystery commands. A setup script captures dependencies and reduces onboarding pain.</p>
+      </div>
+      <div class="card"><div class="card-title">🧰 What setup should do</div><div>The setup process should install packages, create a virtual environment when needed, copy example config files, and run a first sanity check.</div></div>
+<div class="card"><div class="card-title">🧪 Keep it boring</div><div>Setup automation should be predictable. Avoid clever scripts that hide errors. Print clear messages, stop on failure, and tell the user what to do next.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: setup.sh</div><pre class="code-block"><code>#!/usr/bin/env bash
+set -e
+
+echo &quot;== TeqStudy Embedded Product Setup ==&quot;
+
+if ! command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  echo &quot;Python 3 is required. Install it first.&quot;
+  exit 1
+fi
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+
+if [ -f requirements.txt ]; then
+  pip install -r requirements.txt
+fi
+
+if [ ! -f config.json ] &amp;&amp; [ -f config.example.json ]; then
+  cp config.example.json config.json
+  echo &quot;Created config.json from config.example.json&quot;
+fi
+
+echo &quot;Running smoke test...&quot;
+python src/main.py --self-test || {
+  echo &quot;Self-test failed. Check wiring, config, and logs.&quot;
+  exit 1
+}
+
+echo &quot;Setup complete. Next: edit config.json, then run ./start.sh&quot;</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Make first-run setup repeatable</div><p>Add setup.sh, requirements.txt, config.example.json, and a self-test command to your project.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a setup script do when a required command fails?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A reliable setup script fails loudly and clearly.')">Stop and print a clear error</button>
+<button class="quiz-option" onclick="quiz(this,false,'A reliable setup script fails loudly and clearly.')">Ignore the error and continue silently</button>
+<button class="quiz-option" onclick="quiz(this,false,'A reliable setup script fails loudly and clearly.')">Delete the project folder</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-6">
-      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Demo &amp; Release Assets</h2><p class="lesson-intro">A project needs proof. Learners prepare screenshots, photos, diagrams, and a short demo video.</p></div>
-      <div class="card"><div class="card-title">🚀 Release assets</div><ul><li>Architecture diagram.</li><li>Wiring photo.</li><li>Dashboard screenshot.</li><li>Short demo video.</li><li>Troubleshooting screenshot.</li><li>Final README.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: Demo Script</div><p>Write a 60-second demo script that shows the problem, device, live behavior, and result.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a demo prove?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">That the device solves the stated problem</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">That nothing works</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">That setup is impossible</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 07</div>
+        <h2>Make It Run on Boot &amp; Recover</h2>
+        <p class="lesson-intro">A real embedded product should start itself after power loss, log what happened, and recover from ordinary failures.</p>
+      </div>
+      <div class="card"><div class="card-title">🧱 The product behavior standard</div><div>After unplugging and plugging the device back in, the main service should start without opening an editor. If it crashes, it should restart. If it cannot start, logs should explain why.</div></div>
+<div class="card"><div class="card-title">📜 Logs are product features</div><div>Logs are not just for developers. They are how a user, maintainer, or future employer sees that you designed the device for real operation.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: systemd service example</div><pre class="code-block"><code># /etc/systemd/system/teq-device.service
+[Unit]
+Description=TeqStudy Embedded Product Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/home/pi/embedded-product
+ExecStart=/home/pi/embedded-product/.venv/bin/python src/main.py
+Restart=always
+RestartSec=5
+User=pi
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+
+# Commands
+# sudo systemctl daemon-reload
+# sudo systemctl enable teq-device
+# sudo systemctl start teq-device
+# journalctl -u teq-device -f</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Cold boot test</div><p>Configure run-on-boot behavior. Then power cycle the device and prove the product starts without manual code commands.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should happen if the main service crashes?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Recovery behavior separates a product from a fragile demo.')">It should log the error and restart when appropriate</button>
+<button class="quiz-option" onclick="quiz(this,false,'Recovery behavior separates a product from a fragile demo.')">It should fail silently forever</button>
+<button class="quiz-option" onclick="quiz(this,false,'Recovery behavior separates a product from a fragile demo.')">It should require editing source code before every boot</button></div><div class="quiz-feedback"></div></div>
       <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-7">
-      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Capstone: Launch Package</h2><p class="lesson-intro">The final capstone turns any previous embedded project into a polished portfolio launch package.</p></div>
-      <div class="card"><div class="card-title">🚀 Final package</div><ul><li>Clean repository.</li><li>README.</li><li>BOM.</li><li>Wiring diagram.</li><li>Install checklist.</li><li>Test sheet.</li><li>Demo video.</li><li>Future improvements.</li></ul></div>
-      
-      
-      
-      <div class="lab-card"><div class="card-title">🧪 Lab: Ship Portfolio Project</div><p>Package one previous course capstone as if you were publishing it for employers, teammates, or customers to review.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes an embedded project shippable?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Clear docs, repeatable setup, tests, and demo evidence</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">A secret folder only you understand</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">No way to rebuild it</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Finish Course ✓</button></div>
+      <div class="lesson-header">
+        <div class="lesson-num">Module 08</div>
+        <h2>Design the Enclosure &amp; Field Readiness</h2>
+        <p class="lesson-intro">Even a simple project feels more real when the wires, ports, sensors, airflow, labels, and mounting plan are considered.</p>
+      </div>
+      <div class="card"><div class="card-title">🔩 Enclosure questions</div><div><ul><li>Can the power cable be pulled without ripping wires loose?</li><li>Can the sensor see, breathe, touch, or measure what it needs?</li><li>Can the board cool itself?</li><li>Can the user reach reset, USB, HDMI, or buttons if needed?</li><li>Can the device be mounted or placed safely?</li></ul></div></div>
+<div class="card"><div class="card-title">🏷️ Label everything</div><div>Good labels reduce mistakes. Label ports, power input, sensor direction, LED meanings, and button behavior. A product someone can use safely is better than a pretty mystery box.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: ENCLOSURE_PLAN.md</div><pre class="code-block"><code># Enclosure Plan
+
+## Physical Layout
+Board location:
+Sensor location:
+Output/display location:
+Power input location:
+Cable exit points:
+Mounting plan:
+
+## Safety and Reliability
+Strain relief method:
+Ventilation / heat plan:
+Protection from shorts:
+Access to reset/power:
+
+## User-Facing Labels
+- Power:
+- Status LED:
+- Sensor direction:
+- Button behavior:
+
+## Maintenance
+How to open the enclosure:
+How to replace the SD card / battery / sensor:
+How to check logs:</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Build a paper or cardboard enclosure prototype</div><p>Sketch or mock up the enclosure. Photograph it and add the image to docs/images/ with notes about port placement and airflow.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why is sensor placement part of product design?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Physical design directly affects device behavior.')">Bad placement can make the product produce wrong readings</button>
+<button class="quiz-option" onclick="quiz(this,false,'Physical design directly affects device behavior.')">Sensor placement only affects CSS</button>
+<button class="quiz-option" onclick="quiz(this,false,'Physical design directly affects device behavior.')">It replaces the need for testing</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
-    <div class="footer-note">// TeqStudy Course 08 — Build & Ship an Embedded Product</div>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 09</div>
+        <h2>Test Like a Product</h2>
+        <p class="lesson-intro">Final capstone testing should cover the happy path, bad inputs, hardware failure, network failure, reboot behavior, and demo readiness.</p>
+      </div>
+      <div class="card"><div class="card-title">✅ Test categories</div><div><div class="grid-2"><div class="mini-card"><h4>Smoke test</h4><p>Does the device start and perform the core action?</p></div><div class="mini-card"><h4>Hardware test</h4><p>Do sensors, buttons, displays, motors, cameras, and LEDs respond?</p></div><div class="mini-card"><h4>Recovery test</h4><p>What happens after power loss, Wi-Fi loss, or service crash?</p></div><div class="mini-card"><h4>User test</h4><p>Can another person follow the README and use the device?</p></div></div></div></div>
+<div class="card"><div class="card-title">🔥 Soak test</div><div>Run the device longer than a demo. Even a 2-hour test can reveal memory leaks, overheating, log spam, power instability, or poor reconnection behavior.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: TEST_PLAN.md</div><pre class="code-block"><code># Test Plan
+
+## Smoke Test
+| Test | Steps | Expected result | Pass/Fail | Notes |
+|---|---|---|---|---|
+| Cold boot | Unplug, plug in, wait | Service starts | | |
+| Main feature | Trigger input | Output appears | | |
+
+## Hardware Tests
+| Component | Test | Expected result | Pass/Fail |
+|---|---|---|---|
+| Sensor | | | |
+| Output | | | |
+
+## Failure Tests
+| Failure | What you do | Expected recovery | Pass/Fail |
+|---|---|---|---|
+| Wi-Fi lost | Disconnect network | Device retries / local mode | |
+| Service crash | Kill service | systemd restarts | |
+| Bad config | Rename config | Clear error shown | |
+
+## Soak Test
+Start time:
+End time:
+Issues found:
+Fixes applied:
+
+## Demo Test
+Can the final demo be completed in 90 seconds? yes / no</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Run the pass/fail test sheet</div><p>Fill out TEST_PLAN.md honestly. Do not mark a test passed unless you actually performed it.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which test best proves the product can recover after power loss?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Cold boot testing is essential for embedded products.')">Unplug the device, plug it back in, and verify the service starts</button>
+<button class="quiz-option" onclick="quiz(this,false,'Cold boot testing is essential for embedded products.')">Refresh the README page</button>
+<button class="quiz-option" onclick="quiz(this,false,'Cold boot testing is essential for embedded products.')">Rename the project folder without running anything</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 10</div>
+        <h2>Write Documentation &amp; Onboarding</h2>
+        <p class="lesson-intro">The README is the product manual, sales page, setup guide, troubleshooting page, and portfolio explanation all in one.</p>
+      </div>
+      <div class="card"><div class="card-title">🧑‍🏫 Write for a new builder</div><div>Assume the reader is smart but has never seen your desk. Tell them what hardware they need, how to wire it, how to install it, how to run it, and what success looks like.</div></div>
+<div class="card"><div class="card-title">📸 Use images</div><div>A wiring photo, screenshot, diagram, or short GIF can prevent confusion faster than five paragraphs. Store visuals in <code>docs/images/</code> and reference them in the README.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: README.md</div><pre class="code-block"><code># Project Name
+
+One-sentence product promise.
+
+## What It Does
+- 
+- 
+- 
+
+## Demo
+Screenshot or demo video link:
+
+## Hardware Required
+See BOM.md for full parts list.
+
+## Wiring
+Add diagram/photo here.
+
+## Setup
+```bash
+git clone &lt;repo-url&gt;
+cd embedded-product
+chmod +x setup.sh
+./setup.sh
+```
+
+## Configuration
+Copy config.example.json to config.json and edit values.
+
+## Run
+```bash
+python src/main.py
+```
+
+## Run on Boot
+Explain service setup or link to docs/setup.md.
+
+## Testing
+See TEST_PLAN.md.
+
+## Troubleshooting
+| Problem | Likely cause | Fix |
+|---|---|---|
+| Device does not boot | Power supply issue | Use rated supply |
+| No sensor data | Wiring/config | Check wiring.md |
+
+## Future Improvements
+- 
+- 
+
+## Credits / License
+</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Make the project rebuildable from the README</div><p>Ask someone else to follow only your README. Record where they get stuck, then fix the docs.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the README’s job in the final capstone?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Good documentation makes the project real outside your own machine.')">Help someone understand, rebuild, run, and evaluate the product</button>
+<button class="quiz-option" onclick="quiz(this,false,'Good documentation makes the project real outside your own machine.')">Hide setup steps</button>
+<button class="quiz-option" onclick="quiz(this,false,'Good documentation makes the project real outside your own machine.')">Replace all testing</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-10">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 11</div>
+        <h2>Record the Demo &amp; Portfolio Assets</h2>
+        <p class="lesson-intro">A strong capstone needs evidence. The demo should show the product working, not just talk about the idea.</p>
+      </div>
+      <div class="card"><div class="card-title">🎥 90-second demo structure</div><div><ol class="step-list"><li><strong>0–10 sec:</strong> Name the product and the problem.</li><li><strong>10–30 sec:</strong> Show the hardware and inputs.</li><li><strong>30–65 sec:</strong> Trigger the main feature and show the output.</li><li><strong>65–80 sec:</strong> Show docs, setup, or test results.</li><li><strong>80–90 sec:</strong> Say what you would improve next.</li></ol></div></div>
+<div class="card"><div class="card-title">💼 Portfolio polish</div><div>Your portfolio page should include a thumbnail, one-liner, stack, hardware list, screenshots, demo link, GitHub link, and two or three honest engineering challenges you solved.</div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: DEMO_SCRIPT.md</div><pre class="code-block"><code># Demo Script
+
+## Product Name
+
+## 0-10 sec: Problem
+This device helps [user] solve [problem] by [promise].
+
+## 10-30 sec: Hardware Tour
+Controller:
+Sensors:
+Outputs:
+Power:
+
+## 30-65 sec: Live Demo
+Action I will trigger:
+Expected device behavior:
+What viewers should watch for:
+
+## 65-80 sec: Productization Proof
+Show README / BOM / test plan / service logs.
+
+## 80-90 sec: Next Step
+If I had another week, I would improve:
+
+## Assets Needed
+- thumbnail image
+- wiring photo
+- dashboard screenshot
+- short demo video
+- GitHub repo link</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Create the launch assets</div><p>Create a thumbnail, wiring photo, screenshot, and 60–90 second demo script. Add them to assets/ and docs/images/.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should the demo prove?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A demo is proof, not just a pitch.')">The product works and can be understood quickly</button>
+<button class="quiz-option" onclick="quiz(this,false,'A demo is proof, not just a pitch.')">The code has the most files possible</button>
+<button class="quiz-option" onclick="quiz(this,false,'A demo is proof, not just a pitch.')">The device only works when explained verbally for ten minutes</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-11">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 12</div>
+        <h2>Final Launch Package &amp; Rubric</h2>
+        <p class="lesson-intro">The final module packages the product for release and grades it like a real portfolio artifact.</p>
+      </div>
+      <div class="card"><div class="card-title">📦 Final package contents</div><div>By the end, the repo should include source code, setup automation, docs, BOM, architecture, test plan, enclosure plan, demo assets, and release checklist. The device should run from cold boot and survive ordinary failure cases.</div></div>
+<div class="card"><div class="card-title">🧮 Final rubric</div><div><table><tr><th>Category</th><th>Excellent</th><th>Needs work</th></tr><tr><td>Functionality</td><td>Main feature works repeatedly from cold boot.</td><td>Only works once or needs manual editing.</td></tr><tr><td>Documentation</td><td>A new user can rebuild and run the project.</td><td>Important setup/wiring steps are missing.</td></tr><tr><td>Reliability</td><td>Handles restart, bad config, and basic failure cases.</td><td>Crashes silently or cannot recover.</td></tr><tr><td>Presentation</td><td>Demo clearly shows problem, hardware, result, and proof.</td><td>Demo is vague or only describes the idea.</td></tr><tr><td>Code quality</td><td>Organized, named clearly, configurable, and logged.</td><td>Messy prototype files with hidden assumptions.</td></tr></table></div></div>
+      <div class="template-card"><div class="card-title">🧩 Template: RELEASE_CHECKLIST.md</div><pre class="code-block"><code># Release Checklist
+
+## Product Files
+- [ ] README.md complete
+- [ ] PRODUCT_SPEC.md complete
+- [ ] ARCHITECTURE.md complete
+- [ ] BOM.md complete
+- [ ] TEST_PLAN.md complete
+- [ ] ENCLOSURE_PLAN.md complete
+- [ ] DEMO_SCRIPT.md complete
+- [ ] config.example.json included
+- [ ] setup.sh tested
+- [ ] no secrets committed
+
+## Device Checks
+- [ ] cold boot passes
+- [ ] main feature passes
+- [ ] logs are readable
+- [ ] bad config produces clear error
+- [ ] network loss behavior tested
+- [ ] enclosure/wiring is safe enough for demo
+
+## Portfolio Checks
+- [ ] thumbnail added
+- [ ] screenshots added
+- [ ] demo video recorded
+- [ ] GitHub description updated
+- [ ] resume bullet written
+
+## Final Reflection
+What worked:
+What failed:
+What you fixed:
+What you would build next:</code></pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Submit the final product package</div><p>Complete the release checklist, tag a v1.0 release in your repo, and prepare the project for portfolio review.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the strongest final capstone submission?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'The final capstone should prove both engineering skill and product thinking.')">A working device with code, setup, tests, docs, demo assets, and a clear release checklist</button>
+<button class="quiz-option" onclick="quiz(this,false,'The final capstone should prove both engineering skill and product thinking.')">A single script with no README</button>
+<button class="quiz-option" onclick="quiz(this,false,'The final capstone should prove both engineering skill and product thinking.')">A list of future ideas but no working build</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Mark Course Complete ✓</button></div>
+    </section>
+    <div class="footer-note">// TeqStudy Course 08 — Build &amp; Ship an Embedded Product</div>
   </main>
 </div>
 
 <script>
-const totalLessons = 8;
-const storageKey = 'teqstudy-build-ship-embedded-product-course-progress-v1';
+const totalLessons = 12;
+const storageKey = 'teqstudy-build-ship-embedded-product-course-progress-v2';
 let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
 let currentLesson = 0;
 function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
@@ -193,7 +686,7 @@ function updateProgress(){
 }
 function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
 function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
-function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); document.getElementById('progressPct').textContent = '100% — Complete'; }
 function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
 function quiz(btn, isCorrect, feedback){
   const block = btn.closest('.quiz-block');
