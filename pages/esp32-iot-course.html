@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ESP32 & Internet of Things | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/esp32-iot-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 03</div>
+  <h1>ESP32 &<br><span>Internet of Things</span></h1>
+  <p>Move from local electronics to connected devices. Learners build Wi-Fi projects, MQTT clients, HTTP dashboards, Bluetooth controls, data logging, alerts, and a complete smart room monitor.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 03</a>
+    <a class="btn" href="arduino-electronics-course.html">← Course 02</a>
+    <a class="btn" href="raspberry-pi-intermediate-course.html">Course 04 →</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>10</strong><span>Modules</span></div>
+    <div><strong>ESP32</strong><span>Wi-Fi + Bluetooth</span></div>
+    <div><strong>MQTT / HTTP</strong><span>IoT networking</span></div>
+    <div><strong>Capstone</strong><span>Smart room monitor</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Meet the ESP32</option>
+    <option value="1">02 · Setup & First Upload</option>
+    <option value="2">03 · GPIO on the ESP32</option>
+    <option value="3">04 · Wi-Fi Fundamentals</option>
+    <option value="4">05 · Web Server Dashboard</option>
+    <option value="5">06 · Sensors & Data</option>
+    <option value="6">07 · MQTT Messaging</option>
+    <option value="7">08 · HTTP APIs & Webhooks</option>
+    <option value="8">09 · Bluetooth & Power</option>
+    <option value="9">10 · Capstone Build</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">📶 Meet the ESP32 <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">⚙️ Setup & First Upload <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">💡 GPIO on the ESP32 <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🌐 Wi-Fi Fundamentals <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">🖥️ Web Server Dashboard <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">🌡️ Sensors & Data <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">📨 MQTT Messaging <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🔗 HTTP APIs & Webhooks <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">🔋 Bluetooth & Power <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">🏁 Capstone Build <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Meet the ESP32</h2><p class="lesson-intro">The ESP32 is where beginner electronics becomes IoT. It has GPIO like Arduino, but also Wi-Fi, Bluetooth, more processing power, and enough memory to run connected device projects.</p></div>
+      <div class="overview-panel"><div class="card-title">🎯 Course Outcome</div><p>By the end of this course, learners build a connected smart room monitor that reads temperature, humidity, light, and motion, publishes sensor readings over MQTT, serves a local dashboard, and can trigger alerts through an HTTP webhook.</p><div class="chips"><span>Arduino IDE</span><span>ESP32 DevKit</span><span>DHT sensor</span><span>PIR motion</span><span>MQTT broker</span></div></div>
+      <div class="grid-2"><div class="mini-card"><h4>Microcontroller side</h4><p>The ESP32 can read pins, control LEDs, handle buttons, read sensors, and run fast loops just like an Arduino-style board.</p></div><div class="mini-card"><h4>Network side</h4><p>It can join Wi-Fi, serve a web page, send HTTP requests, publish MQTT messages, and act like a tiny connected product.</p></div></div>
+      <div class="card"><div class="card-title">🧰 Recommended Hardware</div><table><tr><th>Item</th><th>Use</th></tr><tr><td>ESP32 DevKit board</td><td>Main controller for the course.</td></tr><tr><td>Micro USB or USB-C cable</td><td>Power and programming connection. Make sure it supports data, not just charging.</td></tr><tr><td>Breadboard + jumper wires</td><td>Prototyping sensor and LED circuits.</td></tr><tr><td>DHT22 or DHT11</td><td>Temperature and humidity readings.</td></tr><tr><td>PIR motion sensor</td><td>Room movement detection for the capstone.</td></tr><tr><td>LEDs + 220Ω/330Ω resistors</td><td>Visible status indicators.</td></tr></table></div>
+      <div class="callout warn"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Voltage rule</strong>The ESP32 is a 3.3V logic board. Some dev boards provide a 5V/VIN pin from USB, but GPIO signal pins should not receive 5V.</div></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes the ESP32 especially useful for IoT compared to a basic Arduino Uno?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Built-in Wi-Fi and Bluetooth make it ready for connected devices.')">Built-in Wi-Fi and Bluetooth</button><button class="quiz-option" onclick="quiz(this,false,'The ESP32 still needs code, libraries, and correct wiring.')">It never needs programming</button><button class="quiz-option" onclick="quiz(this,false,'The ESP32 uses 3.3V logic, not 12V logic.')">It runs GPIO at 12V</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Setup & First Upload →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Setup & First Upload</h2><p class="lesson-intro">Install ESP32 board support, select the right board and port, then upload a first sketch to prove the toolchain works before adding hardware complexity.</p></div>
+      <div class="card"><div class="card-title">🛠️ Setup Flow</div><ol class="step-list"><li>Install Arduino IDE.</li><li>Add the ESP32 board package through Boards Manager.</li><li>Connect the ESP32 with a data-capable USB cable.</li><li>Select a matching ESP32 Dev Module board.</li><li>Select the serial port that appears after plugging in the board.</li><li>Upload a simple Blink sketch.</li></ol></div>
+      <pre class="code-block">const int ledPin = 2; // many ESP32 boards have onboard LED on GPIO 2
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
+}</pre>
+      <div class="callout info"><span class="callout-emoji">🔎</span><div class="callout-body"><strong>Boot button note</strong>Some ESP32 boards require holding BOOT while upload begins. If upload gets stuck at connecting, press and hold BOOT until writing starts.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: First Upload Proof</div><p>Upload Blink, change the delay from 500ms to 100ms, upload again, and confirm the device changes behavior. This proves the board, cable, driver, IDE, and upload process are working.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">If the ESP32 appears powered but uploads fail, what should you check first?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Many USB cables only charge and cannot transfer program data.')">Whether the USB cable supports data</button><button class="quiz-option" onclick="quiz(this,false,'The Wi-Fi password is not used during USB upload.')">The Wi-Fi password</button><button class="quiz-option" onclick="quiz(this,false,'A sensor is not required for basic upload.')">The temperature sensor wiring</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Meet the ESP32</button><button class="next" onclick="next()">GPIO on the ESP32 →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>GPIO on the ESP32</h2><p class="lesson-intro">The ESP32 has many pins, but not every pin is safe for every purpose. Learners practice LEDs, buttons, pull-ups, and safe pin selection.</p></div>
+      <div class="card"><div class="card-title">📌 Pin Selection Rules</div><ul><li>Use common safe GPIO pins such as 2, 4, 5, 18, 19, 21, 22, 23, 25, 26, 27, 32, and 33 for beginner projects.</li><li>Avoid changing boot-strapping pins until you understand their startup behavior.</li><li>Remember that input-only pins exist on some ESP32 boards.</li><li>Keep all signal wiring at 3.3V logic.</li></ul></div>
+      <pre class="code-block">const int buttonPin = 27;
+const int ledPin = 2;
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  bool pressed = digitalRead(buttonPin) == LOW;
+  digitalWrite(ledPin, pressed ? HIGH : LOW);
+}</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Status Button</div><ol><li>Wire a button from GPIO 27 to GND.</li><li>Use INPUT_PULLUP.</li><li>Light the onboard LED while the button is pressed.</li><li>Print the state to Serial for debugging.</li></ol></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">With INPUT_PULLUP, what does the button usually read when pressed?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Pressing connects the pin to ground, so it reads LOW.')">LOW</button><button class="quiz-option" onclick="quiz(this,false,'HIGH is normally the unpressed default when pull-up is enabled.')">HIGH</button><button class="quiz-option" onclick="quiz(this,false,'Digital input reads HIGH or LOW, not an analog range.')">0 to 4095</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Setup</button><button class="next" onclick="next()">Wi-Fi Fundamentals →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Wi-Fi Fundamentals</h2><p class="lesson-intro">A connected device must join a network reliably. This module covers SSID, password, station mode, IP addresses, connection status, and basic troubleshooting.</p></div>
+      <div class="card"><div class="card-title">🌐 Station Mode</div><p>Most beginner ESP32 projects use station mode, meaning the ESP32 joins an existing Wi-Fi network like a laptop or phone. Once connected, it receives an IP address and can communicate on the local network or internet.</p></div>
+      <pre class="code-block">#include &lt;WiFi.h&gt;
+
+const char* ssid = "YOUR_WIFI_NAME";
+const char* password = "YOUR_WIFI_PASSWORD";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  Serial.print("Connecting");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.print("Connected. IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {}</pre>
+      <div class="callout warn"><span class="callout-emoji">🔐</span><div class="callout-body"><strong>Credential habit</strong>For real projects, keep Wi-Fi credentials outside code you publish. Beginners can hard-code locally while learning, but public repositories should not contain private passwords.</div></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does the ESP32 need before other devices can open its local dashboard?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. The dashboard is reached through the ESP32 IP address on the network.')">A network IP address</button><button class="quiz-option" onclick="quiz(this,false,'An LED is useful for status, but not required for web access.')">A red LED</button><button class="quiz-option" onclick="quiz(this,false,'A motor driver is unrelated to Wi-Fi access.')">A motor driver</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← GPIO</button><button class="next" onclick="next()">Web Server Dashboard →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Web Server Dashboard</h2><p class="lesson-intro">The ESP32 can host a tiny web server. Learners create a browser dashboard that shows device state and controls an LED from any phone or laptop on the same network.</p></div>
+      <div class="card"><div class="card-title">🖥️ Device as a Web Server</div><p>When the ESP32 runs a web server, it listens for browser requests. A phone opens the ESP32 IP address, the ESP32 sends HTML back, and button links can trigger GPIO actions.</p></div>
+      <pre class="code-block">#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+
+const char* ssid = "YOUR_WIFI_NAME";
+const char* password = "YOUR_WIFI_PASSWORD";
+const int ledPin = 2;
+
+WebServer server(80);
+bool ledOn = false;
+
+void handleHome() {
+  String page = "&lt;h1&gt;ESP32 Dashboard&lt;/h1&gt;";
+  page += "&lt;p&gt;LED: " + String(ledOn ? "ON" : "OFF") + "&lt;/p&gt;";
+  page += "&lt;a href='/toggle'&gt;Toggle LED&lt;/a&gt;";
+  server.send(200, "text/html", page);
+}
+
+void handleToggle() {
+  ledOn = !ledOn;
+  digitalWrite(ledPin, ledOn ? HIGH : LOW);
+  server.sendHeader("Location", "/");
+  server.send(303);
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(300);
+  server.on("/", handleHome);
+  server.on("/toggle", handleToggle);
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+}</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Phone-Controlled LED</div><p>Connect the ESP32 to Wi-Fi, open the printed IP address on a phone, and toggle the LED from the dashboard.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which line keeps the ESP32 web server responding to browser requests?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. server.handleClient() checks for incoming requests repeatedly.')">server.handleClient();</button><button class="quiz-option" onclick="quiz(this,false,'pinMode configures a GPIO pin.')">pinMode(ledPin, OUTPUT);</button><button class="quiz-option" onclick="quiz(this,false,'Serial output is helpful but does not serve web requests.')">Serial.println()</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Wi-Fi</button><button class="next" onclick="next()">Sensors & Data →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Sensors & Data</h2><p class="lesson-intro">An IoT device becomes useful when it collects real measurements. This module reads temperature, humidity, light, and motion, then formats clean data for dashboards and messages.</p></div>
+      <div class="card"><div class="card-title">🌡️ Data Pipeline</div><ol class="step-list"><li>Read the sensor.</li><li>Validate the reading.</li><li>Store it in variables.</li><li>Print it for debugging.</li><li>Display or publish it.</li></ol></div>
+      <pre class="code-block">#include "DHT.h"
+
+#define DHTPIN 4
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+}
+
+void loop() {
+  float tempC = dht.readTemperature();
+  float humidity = dht.readHumidity();
+
+  if (isnan(tempC) || isnan(humidity)) {
+    Serial.println("Sensor read failed");
+    return;
+  }
+
+  Serial.print("Temp C: ");
+  Serial.print(tempC);
+  Serial.print("  Humidity: ");
+  Serial.println(humidity);
+  delay(2000);
+}</pre>
+      <div class="callout info"><span class="callout-emoji">🧠</span><div class="callout-body"><strong>Why validation matters</strong>Sensors sometimes fail or return invalid values. A professional device checks data before displaying, saving, or publishing it.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Room Readings</div><p>Read a DHT sensor, print values to Serial, then add the readings to the web dashboard from Module 05.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should sensor readings be checked before publishing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Invalid readings can break dashboards, alerts, and logs.')">Sensors can fail or return invalid values</button><button class="quiz-option" onclick="quiz(this,false,'Checking data does not charge the board.')">It charges the ESP32 battery</button><button class="quiz-option" onclick="quiz(this,false,'Validation does not replace Wi-Fi.')">It removes the need for Wi-Fi</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Web Server</button><button class="next" onclick="next()">MQTT Messaging →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>MQTT Messaging</h2><p class="lesson-intro">MQTT is one of the most common IoT messaging patterns. Devices publish messages to topics, and dashboards or services subscribe to receive them.</p></div>
+      <div class="grid-2"><div class="mini-card"><h4>Publisher</h4><p>The ESP32 sends a message such as temperature data to a named topic.</p></div><div class="mini-card"><h4>Subscriber</h4><p>A dashboard, server, or another device listens to the topic and reacts when a message arrives.</p></div></div>
+      <div class="card"><div class="card-title">📨 Topic Design</div><table><tr><th>Topic</th><th>Purpose</th></tr><tr><td>home/room1/temperature</td><td>Temperature readings</td></tr><tr><td>home/room1/humidity</td><td>Humidity readings</td></tr><tr><td>home/room1/motion</td><td>Motion status</td></tr><tr><td>home/room1/status</td><td>Device online/offline heartbeat</td></tr></table></div>
+      <pre class="code-block">#include &lt;WiFi.h&gt;
+#include &lt;PubSubClient.h&gt;
+
+WiFiClient wifiClient;
+PubSubClient mqtt(wifiClient);
+
+void publishReading(float tempC) {
+  char payload[16];
+  dtostrf(tempC, 4, 1, payload);
+  mqtt.publish("home/room1/temperature", payload);
+}</pre>
+      <div class="callout warn"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Reliability rule</strong>MQTT publishing only works when Wi-Fi is connected and the broker connection is alive. Real code should reconnect when either one drops.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Publish Sensor Data</div><p>Run a local MQTT broker, connect the ESP32, publish temperature readings every few seconds, and view messages from a desktop MQTT client.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">In MQTT, what does a device publish to?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. MQTT messages are organized by topic names.')">A topic</button><button class="quiz-option" onclick="quiz(this,false,'A resistor is hardware, not an MQTT destination.')">A resistor</button><button class="quiz-option" onclick="quiz(this,false,'GPIO pins do not receive MQTT messages directly.')">A GPIO pin</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Sensors</button><button class="next" onclick="next()">HTTP APIs & Webhooks →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>HTTP APIs & Webhooks</h2><p class="lesson-intro">HTTP lets the ESP32 talk to web services. Learners send data to an API endpoint and trigger a webhook-style alert when a sensor crosses a threshold.</p></div>
+      <div class="card"><div class="card-title">🔗 MQTT vs HTTP</div><table><tr><th>Protocol</th><th>Best For</th></tr><tr><td>MQTT</td><td>Continuous small messages between devices and dashboards.</td></tr><tr><td>HTTP</td><td>Calling web APIs, sending form-like data, triggering webhook endpoints.</td></tr></table></div>
+      <pre class="code-block">#include &lt;HTTPClient.h&gt;
+
+void sendWebhook(String message) {
+  HTTPClient http;
+  http.begin("https://example.com/webhook");
+  http.addHeader("Content-Type", "application/json");
+
+  String body = "{\"message\":\"" + message + "\"}";
+  int code = http.POST(body);
+
+  Serial.print("HTTP status: ");
+  Serial.println(code);
+  http.end();
+}</pre>
+      <div class="callout warn"><span class="callout-emoji">🔐</span><div class="callout-body"><strong>Security habit</strong>API keys and webhook URLs should be treated like passwords. Do not publish private keys in public code repositories.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Motion Alert</div><p>When the PIR sensor detects motion, send a webhook message. Add cooldown logic so the ESP32 does not spam repeated alerts.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why add cooldown logic to alerts?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Cooldowns prevent repeated messages from a noisy or constantly triggered sensor.')">To avoid alert spam</button><button class="quiz-option" onclick="quiz(this,false,'Cooldown logic does not increase voltage.')">To raise GPIO voltage</button><button class="quiz-option" onclick="quiz(this,false,'It does not install libraries automatically.')">To install MQTT libraries</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← MQTT</button><button class="next" onclick="next()">Bluetooth & Power →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Bluetooth & Power</h2><p class="lesson-intro">Not every connected device needs Wi-Fi all the time. This module introduces Bluetooth use cases and power-aware design for battery-powered projects.</p></div>
+      <div class="grid-2"><div class="mini-card"><h4>Bluetooth use cases</h4><p>Local phone control, setup mode, short-range device configuration, and simple nearby interactions.</p></div><div class="mini-card"><h4>Power awareness</h4><p>Reduce radio time, avoid unnecessary delays, dim indicators, and use deep sleep for periodic sensor projects.</p></div></div>
+      <div class="card"><div class="card-title">🔋 Power Design Questions</div><ul><li>Does the device need to be always-on?</li><li>Can it wake, read, publish, then sleep?</li><li>How often does the sensor actually need to report?</li><li>Are LEDs wasting power?</li><li>Is Wi-Fi required, or is Bluetooth enough?</li></ul></div>
+      <pre class="code-block">#define SECONDS_TO_SLEEP 60
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Read sensor, publish data, then sleep...");
+
+  esp_sleep_enable_timer_wakeup(SECONDS_TO_SLEEP * 1000000ULL);
+  esp_deep_sleep_start();
+}
+
+void loop() {}</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Sleep Cycle Concept</div><p>Build a sketch that wakes, prints a sensor reading, waits briefly, and enters deep sleep. Discuss how this changes battery life compared to always-on Wi-Fi.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the main reason to use deep sleep?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Deep sleep drastically reduces power consumption between useful work cycles.')">Saving power between readings</button><button class="quiz-option" onclick="quiz(this,false,'Deep sleep does not make GPIO 5V tolerant.')">Making pins accept 5V</button><button class="quiz-option" onclick="quiz(this,false,'Deep sleep is not a display technology.')">Displaying HTML</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← HTTP APIs</button><button class="next" onclick="next()">Capstone Build →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Capstone: Smart Room Monitor</h2><p class="lesson-intro">Learners combine everything from the course into one product-style build: sensing, dashboard, MQTT publishing, motion alerts, status LED, and deployment notes.</p></div>
+      <div class="project-card"><div class="card-title">🏁 Final Build Requirements</div><ol class="step-list"><li>Read temperature and humidity from a DHT sensor.</li><li>Read motion from a PIR sensor.</li><li>Show current readings on a local ESP32 web dashboard.</li><li>Publish readings to MQTT topics every fixed interval.</li><li>Send an HTTP webhook alert when motion is detected.</li><li>Use a status LED pattern for booting, connected, error, and alert states.</li><li>Document wiring, setup steps, screenshots, and troubleshooting notes.</li></ol></div>
+      <div class="card"><div class="card-title">🧱 Suggested Architecture</div><pre class="code-block">ESP32
+├── inputs
+│   ├── DHT22 temperature/humidity
+│   └── PIR motion sensor
+├── outputs
+│   └── status LED
+├── local dashboard
+│   └── WebServer on port 80
+├── MQTT publisher
+│   ├── home/room1/temperature
+│   ├── home/room1/humidity
+│   └── home/room1/motion
+└── HTTP alert
+    └── webhook on motion event</pre></div>
+      <div class="card"><div class="card-title">📦 Ship-It Checklist</div><ul><li>README with parts list and wiring table.</li><li>Screenshot of local dashboard.</li><li>Photo of the breadboard build.</li><li>Short demo video or GIF.</li><li>Known issues and future improvements.</li><li>Clean code with credentials removed.</li></ul></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Final Check</div><div class="quiz-q">What separates a course project from a portfolio project?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. A portfolio project includes clear documentation, setup steps, and proof that it works.')">Documentation, demo proof, and repeatable setup</button><button class="quiz-option" onclick="quiz(this,false,'Messy wiring alone does not make a project portfolio-ready.')">More loose wires</button><button class="quiz-option" onclick="quiz(this,false,'Private credentials should not be published.')">Publishing Wi-Fi passwords in code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Bluetooth & Power</button><button class="next" onclick="finishCourse()">Finish Course 03 ✓</button></div>
+    </section>
+
+    <div class="footer-note">// TeqStudy Course 03 — ESP32 & Internet of Things</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 10;
+const storageKey = 'teqstudy-esp32-iot-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+
+function persist() {
+  localStorage.setItem(storageKey, JSON.stringify([...completed]));
+}
+
+function showLesson(idx) {
+  if (idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if (lesson) lesson.classList.add('active');
+  if (nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if (sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if (check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+
+function next() { showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev() { showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse() { completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress() { completed = new Set([0]); persist(); showLesson(0); }
+
+function quiz(btn, isCorrect, feedback) {
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if (click.includes('true')) o.classList.add('correct');
+  });
+  if (!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  completed.add(0);
+  persist();
+  updateProgress();
+});
+</script>
+</body>
+</html>

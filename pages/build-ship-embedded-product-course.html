@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Build & Ship an Embedded Product | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/build-ship-embedded-product-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 08</div>
+  <h1>Build & Ship<br><span>an Embedded Product</span></h1>
+  <p>Turn a working prototype into a portfolio-ready product: definition, bill of materials, enclosure planning, onboarding, documentation, testing, demos, and release package.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 08</a>
+    <a class="btn" href="edge-ai-computer-vision-course.html">← Course 07</a>
+    <a class="btn" href="embedded-systems-track.html">Track complete ✓</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>8</strong><span>Modules</span></div>
+    <div><strong>Ship-It</strong><span>Docs + testing</span></div>
+    <div><strong>Productization</strong><span>BOM, demo, release</span></div>
+    <div><strong>Capstone</strong><span>Launch package</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Product Definition</option>
+    <option value="1">02 · BOM &amp; Cost</option>
+    <option value="2">03 · Enclosure Planning</option>
+    <option value="3">04 · Install &amp; Onboarding</option>
+    <option value="4">05 · Documentation</option>
+    <option value="5">06 · Testing</option>
+    <option value="6">07 · Demo &amp; Release Assets</option>
+    <option value="7">08 · Launch Package</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">🎯 Product Definition <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">🧾 BOM &amp; Cost <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">📦 Enclosure Planning <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🚪 Install &amp; Onboarding <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">📚 Documentation <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">🧪 Testing <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">🎬 Demo &amp; Release Assets <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🏁 Launch Package <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Product Definition</h2><p class="lesson-intro">A shippable project starts with a clear user, problem, promise, and success criteria.</p></div>
+      <div class="card"><div class="card-title">🚀 Definition pieces</div><ul><li>Who is it for?</li><li>What problem does it solve?</li><li>What must it do on day one?</li><li>What is intentionally out of scope?</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: One-Sentence Product</div><p>Write one sentence describing your device, the user, and the problem solved.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a product definition include?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">User, problem, and core promise</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Every possible feature</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Only the color of the case</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Bill of Materials &amp; Cost</h2><p class="lesson-intro">Learners create a bill of materials so a project can be rebuilt, priced, and improved.</p></div>
+      <div class="card"><div class="card-title">🚀 BOM fields</div><ul><li>Part name.</li><li>Quantity.</li><li>Purpose.</li><li>Estimated cost.</li><li>Supplier or search term.</li><li>Substitute options.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Create a BOM</div><p>Make a BOM for one previous capstone and calculate approximate total cost.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why create a BOM?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">So the build can be priced and repeated</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">To hide parts from learners</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">To remove documentation</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>Enclosure &amp; Physical Design</h2><p class="lesson-intro">A project becomes more real when wiring, power, ports, airflow, and mounting are considered.</p></div>
+      <div class="card"><div class="card-title">🚀 Physical concerns</div><ul><li>Cable strain relief.</li><li>Access to power and reset.</li><li>Ventilation and heat.</li><li>Sensor exposure.</li><li>Mounting holes or adhesive plan.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Paper Enclosure Plan</div><p>Sketch an enclosure layout showing board, power, ports, sensors, and airflow.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why plan sensor placement?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Bad placement can ruin readings or camera view</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">It changes Python indentation</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">It removes power needs</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Installation &amp; Onboarding</h2><p class="lesson-intro">The first-run experience matters. Learners design setup steps, defaults, and recovery paths.</p></div>
+      <div class="card"><div class="card-title">🚀 Onboarding flow</div><ul><li>Unbox or clone repo.</li><li>Install dependencies.</li><li>Create config file.</li><li>Run first test.</li><li>Start service.</li><li>Verify dashboard.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: First-Run Checklist</div><p>Write a setup checklist for a fresh machine and test it from a clean folder.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is onboarding for?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Helping someone get the device working for the first time</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Making errors harder to find</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Skipping setup</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Documentation &amp; README</h2><p class="lesson-intro">Documentation is part of the product. Learners write READMEs that explain purpose, wiring, install, usage, troubleshooting, and limitations.</p></div>
+      <div class="card"><div class="card-title">🚀 README sections</div><ul><li>Overview.</li><li>Hardware list.</li><li>Wiring table.</li><li>Install steps.</li><li>Usage.</li><li>Troubleshooting.</li><li>Known limitations.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: README Upgrade</div><p>Rewrite a rough project note into a structured README.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What belongs in a good README?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Purpose, setup, usage, troubleshooting, and limitations</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">Private passwords</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">Only a title</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Testing &amp; Troubleshooting</h2><p class="lesson-intro">Learners create a test plan instead of relying on vibes. Each important feature gets a pass/fail check.</p></div>
+      <div class="card"><div class="card-title">🚀 Test plan types</div><ul><li>Power-on test.</li><li>Sensor test.</li><li>Network test.</li><li>Service restart test.</li><li>Failure recovery test.</li><li>User demo test.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Pass/Fail Test Sheet</div><p>Create a table of at least eight tests for the selected capstone device.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why write tests for a hardware project?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To prove each behavior works repeatably</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">To avoid building it</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">To replace the parts list</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Demo &amp; Release Assets</h2><p class="lesson-intro">A project needs proof. Learners prepare screenshots, photos, diagrams, and a short demo video.</p></div>
+      <div class="card"><div class="card-title">🚀 Release assets</div><ul><li>Architecture diagram.</li><li>Wiring photo.</li><li>Dashboard screenshot.</li><li>Short demo video.</li><li>Troubleshooting screenshot.</li><li>Final README.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Demo Script</div><p>Write a 60-second demo script that shows the problem, device, live behavior, and result.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a demo prove?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">That the device solves the stated problem</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">That nothing works</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">That setup is impossible</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Capstone: Launch Package</h2><p class="lesson-intro">The final capstone turns any previous embedded project into a polished portfolio launch package.</p></div>
+      <div class="card"><div class="card-title">🚀 Final package</div><ul><li>Clean repository.</li><li>README.</li><li>BOM.</li><li>Wiring diagram.</li><li>Install checklist.</li><li>Test sheet.</li><li>Demo video.</li><li>Future improvements.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Ship Portfolio Project</div><p>Package one previous course capstone as if you were publishing it for employers, teammates, or customers to review.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes an embedded project shippable?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Clear docs, repeatable setup, tests, and demo evidence</button><button class="quiz-option" onclick="quiz(this,false,'That answer works against a shippable product experience.')">A secret folder only you understand</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the repeatability and presentation goal.')">No way to rebuild it</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Finish Course ✓</button></div>
+    </section>
+    <div class="footer-note">// TeqStudy Course 08 — Build & Ship an Embedded Product</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 8;
+const storageKey = 'teqstudy-build-ship-embedded-product-course-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
+function showLesson(idx){
+  if(idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if(lesson) lesson.classList.add('active');
+  if(nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(){
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if(check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
+function quiz(btn, isCorrect, feedback){
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if(click.includes('true')) o.classList.add('correct');
+  });
+  if(!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+document.addEventListener('DOMContentLoaded', () => { completed.add(0); persist(); updateProgress(); });
+</script>
+</body>
+</html>

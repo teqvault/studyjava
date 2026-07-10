@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Edge AI & Computer Vision | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/edge-ai-computer-vision-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 07</div>
+  <h1>Edge AI &<br><span>Computer Vision</span></h1>
+  <p>Build camera projects that are useful and responsible: capture, OpenCV basics, motion detection, object detection concepts, notifications, and performance tuning.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 07</a>
+    <a class="btn" href="robotics-sensors-motors-course.html">← Course 06</a>
+    <a class="btn" href="build-ship-embedded-product-course.html">Course 08 →</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>10</strong><span>Modules</span></div>
+    <div><strong>OpenCV</strong><span>Camera + images</span></div>
+    <div><strong>AI events</strong><span>Detection + alerts</span></div>
+    <div><strong>Capstone</strong><span>AI camera</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Edge AI Mindset</option>
+    <option value="1">02 · Camera Capture</option>
+    <option value="2">03 · Image Basics</option>
+    <option value="3">04 · OpenCV Preprocessing</option>
+    <option value="4">05 · Motion Detection</option>
+    <option value="5">06 · Object Detection</option>
+    <option value="6">07 · Face Recognition Concepts</option>
+    <option value="7">08 · Notifications</option>
+    <option value="8">09 · Performance</option>
+    <option value="9">10 · AI Camera Capstone</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">👁️ Edge AI Mindset <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">📷 Camera Capture <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">🖼️ Image Basics <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🧼 OpenCV Preprocessing <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">🏃 Motion Detection <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">📦 Object Detection <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">🙂 Face Recognition Concepts <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🔔 Notifications <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">⚡ Performance <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">🏁 AI Camera Capstone <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Edge AI Mindset</h2><p class="lesson-intro">Edge AI means useful intelligence near the camera or sensor rather than only in a cloud dashboard.</p></div>
+      <div class="card"><div class="card-title">👁️ Device AI goals</div><ul><li>Capture useful input.</li><li>Process it reliably.</li><li>Respect privacy and consent.</li><li>Send only necessary alerts or summaries.</li><li>Measure performance.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: AI Use Case Filter</div><p>Pick three camera ideas and decide whether each should run locally, call an API, or not be built.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should come before adding AI to a camera project?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">A clear and ethical use case</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">A random model download</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">Ignoring privacy</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Camera Capture</h2><p class="lesson-intro">Learners capture still images and video frames, then understand resolution, frame rate, lighting, and focus.</p></div>
+      <div class="card"><div class="card-title">👁️ Capture factors</div><ul><li>Resolution affects detail and performance.</li><li>Lighting affects detection quality.</li><li>Frame rate affects CPU load.</li><li>Stable mounting improves results.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: First Capture</div><p>Capture a test image, change lighting, and compare quality.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why does lighting matter?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Poor lighting can ruin detection quality</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">It changes Python syntax</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">It removes the need for a camera</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>Image Basics</h2><p class="lesson-intro">Images are arrays of pixels. Learners understand width, height, channels, grayscale, and why preprocessing matters.</p></div>
+      <div class="card"><div class="card-title">👁️ Image terms</div><ul><li>Pixels hold color or brightness values.</li><li>Grayscale reduces data.</li><li>Cropping focuses on the useful area.</li><li>Resizing can improve speed.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Image Inspection</div><p>Load an image and print its width, height, and channel count.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why resize images before processing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To reduce work and improve speed when full resolution is unnecessary</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">To increase voltage</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">To install Linux</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>OpenCV Preprocessing</h2><p class="lesson-intro">Preprocessing prepares frames for detection: grayscale, blur, threshold, edges, and regions of interest.</p></div>
+      <div class="card"><div class="card-title">👁️ Preprocessing tools</div><ul><li>Grayscale simplifies color data.</li><li>Blur reduces noise.</li><li>Thresholding separates light/dark regions.</li><li>Regions of interest avoid wasted work.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Preprocess Pipeline</div><p>Create a simple pipeline that grayscales, blurs, and thresholds an image.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is a region of interest?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">The part of the image you choose to analyze</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">A Wi-Fi password</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">A motor driver</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Motion Detection</h2><p class="lesson-intro">Motion detection is often more practical than heavy AI. Learners compare frames and trigger alerts only when change matters.</p></div>
+      <div class="card"><div class="card-title">👁️ Motion ideas</div><ul><li>Background comparison detects change.</li><li>Thresholds ignore tiny differences.</li><li>Cooldowns prevent alert spam.</li><li>False positives must be tested.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Motion Alert</div><p>Build a motion detector that logs when movement is detected.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use cooldowns in motion alerts?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To avoid repeated notifications from one event</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">To make images bigger</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">To disable logs</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Object Detection</h2><p class="lesson-intro">Learners understand object detection outputs: labels, confidence, boxes, and why model choice affects speed.</p></div>
+      <div class="card"><div class="card-title">👁️ Detection outputs</div><ul><li>Label tells what was detected.</li><li>Confidence estimates certainty.</li><li>Bounding box locates the object.</li><li>Small devices need efficient models.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Detection Review</div><p>Run or mock object detection output and explain label, confidence, and box values.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does confidence mean?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">How sure the model is about a prediction</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">Battery percentage only</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">The camera resolution</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Face Recognition Concepts &amp; Privacy</h2><p class="lesson-intro">This module explains face recognition at a high level with strong privacy boundaries: consent, local-only testing, and alternatives like person detection.</p></div>
+      <div class="card"><div class="card-title">👁️ Privacy boundaries</div><ul><li>Use consent-based datasets only.</li><li>Prefer person detection when identity is unnecessary.</li><li>Do not build covert identification tools.</li><li>Store as little biometric data as possible.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Privacy Decision</div><p>Rewrite a face-recognition idea into a safer person-detection or opt-in visitor project.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">When is person detection better than face recognition?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">When identity is not required for the task</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">When you want to identify people secretly</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">When the camera is unplugged</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Notifications &amp; Events</h2><p class="lesson-intro">AI is useful when it produces an action. Learners turn detections into clean events, logs, dashboard updates, or alerts.</p></div>
+      <div class="card"><div class="card-title">👁️ Event design</div><ul><li>Only alert on meaningful events.</li><li>Include timestamp and confidence.</li><li>Avoid sending private images unnecessarily.</li><li>Throttle repeated events.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Event Message</div><p>Design an alert payload with event type, time, confidence, and device name.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes an alert useful?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It is specific, timely, and not spammy</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">It fires constantly</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">It exposes secrets</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Performance Optimization</h2><p class="lesson-intro">Learners improve device performance through resolution control, frame skipping, local caching, and measuring latency.</p></div>
+      <div class="card"><div class="card-title">👁️ Performance levers</div><ul><li>Lower resolution can be faster.</li><li>Frame skipping reduces workload.</li><li>Cropping focuses compute.</li><li>Measure before optimizing.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Benchmark Pass</div><p>Time three image-processing runs and compare resolution versus speed.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should you do before optimizing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Measure current performance</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">Guess randomly</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">Delete tests</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Capstone: AI Camera</h2><p class="lesson-intro">The capstone builds an ethical AI camera that detects motion or objects, logs events, shows a dashboard, and sends restrained alerts.</p></div>
+      <div class="card"><div class="card-title">👁️ Final requirements</div><ul><li>Camera capture works.</li><li>Detection or motion pipeline works.</li><li>Dashboard shows recent events.</li><li>Alerts have cooldowns.</li><li>Privacy choices are documented.</li><li>README includes setup and demo evidence.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Ship AI Camera</div><p>Build a local-first AI camera demo with documentation, event logs, and a short recorded demo.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes the AI camera responsible?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Consent, privacy limits, useful alerts, and clear documentation</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the practical or ethical AI-device point.')">Secret monitoring</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not fit responsible computer vision work.')">No testing</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Finish Course ✓</button></div>
+    </section>
+    <div class="footer-note">// TeqStudy Course 07 — Edge AI & Computer Vision</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 10;
+const storageKey = 'teqstudy-edge-ai-computer-vision-course-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
+function showLesson(idx){
+  if(idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if(lesson) lesson.classList.add('active');
+  if(nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(){
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if(check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
+function quiz(btn, isCorrect, feedback){
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if(click.includes('true')) o.classList.add('correct');
+  });
+  if(!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+document.addEventListener('DOMContentLoaded', () => { completed.add(0); persist(); updateProgress(); });
+</script>
+</body>
+</html>

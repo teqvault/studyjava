@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Raspberry Pi Intermediate Projects | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/raspberry-pi-intermediate-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 04</div>
+  <h1>Raspberry Pi<br><span>Intermediate Projects</span></h1>
+  <p>Turn a Raspberry Pi into useful always-on appliances: dashboard, DNS ad blocker, file server, camera, remote access endpoint, and network monitor.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 04</a>
+    <a class="btn" href="esp32-iot-course.html">← Course 03</a>
+    <a class="btn" href="embedded-linux-device-services-course.html">Course 05 →</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>10</strong><span>Modules</span></div>
+    <div><strong>Linux</strong><span>Services + storage</span></div>
+    <div><strong>Networking</strong><span>DNS, SSH, dashboards</span></div>
+    <div><strong>Capstone</strong><span>Home operations box</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Appliance Mindset</option>
+    <option value="1">02 · Secure SSH & Updates</option>
+    <option value="2">03 · Static IP & Hostnames</option>
+    <option value="3">04 · Pi-hole DNS Appliance</option>
+    <option value="4">05 · Home Dashboard</option>
+    <option value="5">06 · Personal NAS</option>
+    <option value="6">07 · Camera Station</option>
+    <option value="7">08 · Remote Access Endpoint</option>
+    <option value="8">09 · Network Monitor</option>
+    <option value="9">10 · Capstone Operations Box</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">🧱 Appliance Mindset <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">🔐 Secure SSH & Updates <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">🌐 Static IP & Hostnames <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🛡️ Pi-hole DNS Appliance <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">📊 Home Dashboard <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">💾 Personal NAS <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">📷 Camera Station <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🖥️ Remote Access Endpoint <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">📡 Network Monitor <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">🏁 Operations Box <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Appliance Mindset</h2><p class="lesson-intro">Beginner Raspberry Pi lessons teach the board. This course teaches the Pi as a product: a small, reliable, always-on computer that performs one useful job.</p></div>
+      <div class="overview-panel"><div class="card-title">🎯 Course Outcome</div><p>Learners turn a Raspberry Pi into a home operations box that combines network blocking, status dashboard, file sharing, camera monitoring, and device health checks.</p><div class="chips"><span>Raspberry Pi 4/5</span><span>Linux services</span><span>Networking</span><span>Storage</span><span>Security basics</span></div></div>
+      <div class="grid-2"><div class="mini-card"><h4>Prototype</h4><p>Something works once while you are watching it.</p></div><div class="mini-card"><h4>Appliance</h4><p>Something starts on boot, logs errors, survives reboots, and is easy to maintain.</p></div></div>
+      <div class="card"><div class="card-title">📦 Appliance Checklist</div><ul><li>Has a clear purpose.</li><li>Uses a stable power supply and cooling.</li><li>Has predictable network access.</li><li>Starts required services automatically.</li><li>Documents install, update, backup, and recovery steps.</li></ul></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the biggest difference between a prototype and an appliance?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Appliances are built to restart, run unattended, and be maintained.')">Reliability and repeatable operation</button><button class="quiz-option" onclick="quiz(this,false,'More wires can make a prototype harder to maintain.')">More jumper wires</button><button class="quiz-option" onclick="quiz(this,false,'A bigger monitor is not the point.')">A larger display</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Secure SSH & Updates →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Secure SSH & Updates</h2><p class="lesson-intro">Intermediate Pi work starts with remote access. Learners enable SSH, update the system, create safer habits, and avoid exposing services carelessly.</p></div>
+      <div class="card"><div class="card-title">🔐 First Hardening Steps</div><ol class="step-list"><li>Change default passwords and use a named user account.</li><li>Run system updates before installing services.</li><li>Use SSH keys where practical.</li><li>Only expose services to the local network unless you know exactly why they need internet access.</li><li>Document how to log in, update, and restart.</li></ol></div>
+      <pre class="code-block">sudo apt update
+sudo apt full-upgrade -y
+sudo reboot
+
+hostname -I
+ssh pi@YOUR_PI_IP</pre>
+      <div class="callout warn"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Safety rule</strong>Do not port-forward SSH or dashboards to the public internet as a beginner. Keep projects on your LAN or use a reputable VPN/tunnel approach after you understand the risk.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Remote Admin Ready</div><p>Update the Pi, confirm SSH access from your laptop, write down the hostname/IP, and reboot to confirm you can reconnect without a monitor.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should beginners avoid exposing SSH directly to the internet?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Public SSH exposure invites brute-force attempts and configuration mistakes.')">It increases attack risk</button><button class="quiz-option" onclick="quiz(this,false,'SSH does not require a camera.')">It disables the camera</button><button class="quiz-option" onclick="quiz(this,false,'It does not make the Pi physically heavier.')">It makes the Pi heavier</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Appliance Mindset</button><button class="next" onclick="next()">Static IP & Hostnames →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>Static IP & Hostnames</h2><p class="lesson-intro">A home appliance is annoying if its address keeps changing. This module teaches predictable access through hostnames, DHCP reservations, and simple network documentation.</p></div>
+      <div class="card"><div class="card-title">🧭 Addressing Options</div><table><tr><th>Method</th><th>Best For</th></tr><tr><td>Hostname</td><td>Easy local access like raspberrypi.local when mDNS works.</td></tr><tr><td>Router DHCP reservation</td><td>Most reliable beginner option: router always gives the Pi the same IP.</td></tr><tr><td>Manual static IP on Pi</td><td>Useful, but easier to misconfigure if router range is not understood.</td></tr></table></div>
+      <pre class="code-block">hostname
+hostname -I
+ping raspberrypi.local
+ssh pi@raspberrypi.local</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Network Card</div><p>Create a small network card for the device: hostname, IP address, purpose, installed services, admin URL, and recovery notes.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use a DHCP reservation for a Pi appliance?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. The router consistently gives the Pi the same IP without manual Pi-side mistakes.')">To keep its IP predictable</button><button class="quiz-option" onclick="quiz(this,false,'It does not install storage drives.')">To add storage</button><button class="quiz-option" onclick="quiz(this,false,'It does not replace backups.')">To back up files automatically</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← SSH</button><button class="next" onclick="next()">Pi-hole DNS Appliance →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Pi-hole DNS Appliance</h2><p class="lesson-intro">Learners build a real network appliance: a DNS-based blocker that filters requests for devices on a home network.</p></div>
+      <div class="card"><div class="card-title">🛡️ How DNS Blocking Works</div><p>Devices ask DNS where a domain lives. Pi-hole answers normal domains normally, but blocks known unwanted domains by returning an empty or blocked response. It works at the network request level, not inside a specific browser.</p></div>
+      <pre class="code-block"># Typical install approach from a trusted shell command source:
+# Review official instructions before running installers.
+
+pihole status
+pihole -t
+pihole restartdns</pre>
+      <div class="callout info"><span class="callout-emoji">🧠</span><div class="callout-body"><strong>Teaching point</strong>Pi-hole is not just about ads. It teaches DNS, clients, router configuration, allowlists, blocklists, logs, and why infrastructure changes should be reversible.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: DNS Test</div><p>Point one test device to the Pi-hole as DNS, browse normally, then inspect the query log. Do not change the whole router until one test device works.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should you test before changing DNS for the whole network?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Test with one device first so mistakes do not break everyone on the network.')">One client device</button><button class="quiz-option" onclick="quiz(this,false,'Changing every device first makes troubleshooting harder.')">Every device at once</button><button class="quiz-option" onclick="quiz(this,false,'A buzzer is unrelated to DNS.')">A buzzer circuit</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Static IP</button><button class="next" onclick="next()">Home Dashboard →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Home Dashboard</h2><p class="lesson-intro">A dashboard turns a headless device into something understandable. Learners build a simple web page showing system health, network links, and project shortcuts.</p></div>
+      <div class="card"><div class="card-title">📊 Dashboard Content</div><ul><li>Device hostname and IP address.</li><li>CPU temperature and uptime.</li><li>Disk usage.</li><li>Links to Pi-hole, NAS share notes, camera stream, and network monitor.</li><li>Status cards for installed services.</li></ul></div>
+      <pre class="code-block">uptime
+vcgencmd measure_temp
+df -h
+systemctl status ssh --no-pager</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Static Status Page</div><p>Create a small HTML dashboard served by a lightweight web server. Add command outputs manually first, then discuss how later courses will automate them.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why is a dashboard useful on a headless Pi?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. It makes the appliance understandable without plugging in a monitor.')">It shows status without a monitor</button><button class="quiz-option" onclick="quiz(this,false,'A dashboard does not physically cool the CPU.')">It cools the CPU</button><button class="quiz-option" onclick="quiz(this,false,'It does not replace the operating system.')">It removes Linux</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Pi-hole</button><button class="next" onclick="next()">Personal NAS →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Personal NAS</h2><p class="lesson-intro">Learners add external storage and share files across a local network. The goal is practical file access, not enterprise-grade storage.</p></div>
+      <div class="card"><div class="card-title">💾 NAS Concepts</div><table><tr><th>Concept</th><th>Meaning</th></tr><tr><td>Mount point</td><td>Folder where a drive appears in Linux.</td></tr><tr><td>Share</td><td>Network-accessible folder.</td></tr><tr><td>Permissions</td><td>Rules for who can read or write files.</td></tr><tr><td>Backup</td><td>A second copy. A NAS alone is not a backup.</td></tr></table></div>
+      <pre class="code-block">lsblk
+df -h
+mkdir -p ~/shared
+chmod 755 ~/shared</pre>
+      <div class="callout warn"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Storage truth</strong>A Raspberry Pi NAS is great for learning and light home use. It is not a replacement for serious backups unless you also design redundancy and off-device copies.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Shared Folder</div><p>Create a shared folder, add a test file, connect from another computer, and document permissions and recovery steps.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why is a NAS not automatically a backup?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. If files only live on the NAS, loss or corruption can still destroy them.')">It may still be the only copy</button><button class="quiz-option" onclick="quiz(this,false,'Network access does not equal backup.')">Because it uses a network</button><button class="quiz-option" onclick="quiz(this,false,'LED color is unrelated.')">Because LEDs are blue</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Dashboard</button><button class="next" onclick="next()">Camera Station →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Camera Station</h2><p class="lesson-intro">Learners add a camera feed or periodic snapshots, then think about privacy, storage, and motion-based recording.</p></div>
+      <div class="card"><div class="card-title">📷 Camera Project Modes</div><table><tr><th>Mode</th><th>Use</th></tr><tr><td>Snapshot</td><td>Occasional image capture for simple monitoring.</td></tr><tr><td>Timelapse</td><td>Progress tracking for plants, projects, or rooms.</td></tr><tr><td>Motion capture</td><td>Record only when change is detected.</td></tr><tr><td>Stream</td><td>Live local viewing, higher network and CPU load.</td></tr></table></div>
+      <pre class="code-block"># Examples depend on camera stack and OS version.
+# Common checks:
+
+libcamera-hello
+libcamera-still -o test.jpg</pre>
+      <div class="callout warn"><span class="callout-emoji">🔒</span><div class="callout-body"><strong>Privacy rule</strong>Only place cameras where people know they are being used, and keep streams local unless you fully understand access control.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Snapshot Button</div><p>Create a simple command or page link that takes a snapshot and saves it to a dated folder.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should camera streams stay local for beginner projects?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Public streams create serious privacy and security risk.')">Privacy and security risk</button><button class="quiz-option" onclick="quiz(this,false,'Local-only does not make the camera heavier.')">Weight control</button><button class="quiz-option" onclick="quiz(this,false,'It does not change resistor values.')">Resistor color codes</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← NAS</button><button class="next" onclick="next()">Remote Access Endpoint →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Remote Access Endpoint</h2><p class="lesson-intro">The Pi can become a safe remote endpoint for learning remote administration, local desktop access, and service control. This module stays defensive and permission-based.</p></div>
+      <div class="card"><div class="card-title">🖥️ Remote Access Types</div><table><tr><th>Type</th><th>Purpose</th></tr><tr><td>SSH</td><td>Command-line administration.</td></tr><tr><td>VNC / remote desktop</td><td>Graphical access to the Pi desktop.</td></tr><tr><td>VPN / tunnel</td><td>Controlled access into your own network without exposing random ports.</td></tr><tr><td>Web dashboard</td><td>Browser-based device control and status.</td></tr></table></div>
+      <div class="callout warn"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Permission rule</strong>Only connect to systems you own or have explicit permission to manage. Remote access tools are for administration, support, and learning — not stealth access.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Local Remote Desktop</div><p>Enable a local-only desktop access method, connect from another computer on the same network, then disable it and document when it should be used.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the safest beginner scope for remote desktop practice?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. Practice locally on your own device before thinking about remote internet access.')">Your own Pi on your local network</button><button class="quiz-option" onclick="quiz(this,false,'Connecting without permission is not acceptable.')">A stranger's computer</button><button class="quiz-option" onclick="quiz(this,false,'Random public IPs are not a learning lab.')">Random public IP addresses</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Camera</button><button class="next" onclick="next()">Network Monitor →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Network Monitor</h2><p class="lesson-intro">Learners build a simple monitor that checks whether important local devices and services are online, then displays the result on the dashboard.</p></div>
+      <div class="card"><div class="card-title">📡 What to Monitor</div><ul><li>Router reachable by ping.</li><li>Internet DNS reachable.</li><li>Pi-hole service running.</li><li>Dashboard service running.</li><li>NAS share reachable.</li><li>Camera command working.</li></ul></div>
+      <pre class="code-block">ping -c 2 192.168.1.1
+systemctl is-active ssh
+systemctl is-active lighttpd
+curl -I http://localhost</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Status Script</div><p>Write a simple script that checks three services and writes PASS/FAIL results to a text file the dashboard can display.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes a monitor useful?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. A useful monitor checks things that matter and reports clearly.')">Clear checks and understandable results</button><button class="quiz-option" onclick="quiz(this,false,'Mystery errors make monitors less useful.')">Vague mystery errors</button><button class="quiz-option" onclick="quiz(this,false,'Random blinking does not explain system health.')">Random LED blinking only</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Remote Access</button><button class="next" onclick="next()">Operations Box →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Capstone: Home Operations Box</h2><p class="lesson-intro">The final project combines the course into a practical local appliance that teaches services, dashboards, DNS, files, camera, and monitoring.</p></div>
+      <div class="project-card"><div class="card-title">🏁 Final Build Requirements</div><ol class="step-list"><li>Pi has a stable hostname or reserved IP.</li><li>SSH is enabled and documented safely.</li><li>Pi-hole or DNS learning lab is installed and tested on one client.</li><li>Dashboard page links to all services and shows device notes.</li><li>Shared folder exists for local file transfer.</li><li>Camera snapshot or timelapse command works if hardware is available.</li><li>Status script checks at least three services.</li><li>README documents setup, admin URLs, backup notes, and rollback steps.</li></ol></div>
+      <div class="card"><div class="card-title">📦 Portfolio Deliverables</div><ul><li>Architecture diagram.</li><li>Photos or screenshots of services.</li><li>Network card with IP/hostname.</li><li>Install commands used.</li><li>Troubleshooting section.</li><li>Short demo video showing dashboard and at least two working services.</li></ul></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Final Check</div><div class="quiz-q">What makes this capstone stronger than a random collection of Pi tools?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. The services are documented as one maintainable local appliance.')">It is integrated and documented as one appliance</button><button class="quiz-option" onclick="quiz(this,false,'Installing many tools without purpose creates clutter.')">It installs the most random tools possible</button><button class="quiz-option" onclick="quiz(this,false,'Ignoring documentation weakens the project.')">It has no README</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Network Monitor</button><button class="next" onclick="finishCourse()">Finish Course 04 ✓</button></div>
+    </section>
+
+    <div class="footer-note">// TeqStudy Course 04 — Raspberry Pi Intermediate Projects</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 10;
+const storageKey = 'teqstudy-raspberry-pi-intermediate-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
+function showLesson(idx){
+  if(idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if(lesson) lesson.classList.add('active');
+  if(nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(){
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if(check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
+function quiz(btn, isCorrect, feedback){
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if(click.includes('true')) o.classList.add('correct');
+  });
+  if(!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+document.addEventListener('DOMContentLoaded', () => { completed.add(0); persist(); updateProgress(); });
+</script>
+</body>
+</html>

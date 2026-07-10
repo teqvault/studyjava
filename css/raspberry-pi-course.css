@@ -36,3 +36,108 @@
 /* Resistor color band chips */
 .band-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 0.92rem; }
 .band-chip { width: 22px; height: 22px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2); }
+
+
+/* Course 01 series polish */
+.course-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto 0;
+  max-width: 960px;
+}
+.course-meta-strip span {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+.header-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.header-actions a {
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--text, #fff);
+  background: rgba(255,255,255,0.06);
+  font-weight: 900;
+  font-size: 0.86rem;
+}
+.header-actions a:hover { transform: translateY(-2px); }
+.mobile-lesson-jump {
+  width: min(1100px, calc(100% - 28px));
+  margin: 14px auto 0;
+  display: none;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 10px;
+}
+.mobile-lesson-jump label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.mobile-lesson-jump select {
+  flex: 1;
+  min-width: 0;
+  background: var(--code-bg);
+  color: var(--text, #fff);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 800;
+}
+.course-overview-panel {
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(229,57,53,.12), rgba(6,214,160,.06));
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 22px;
+}
+.course-overview-panel h2 {
+  font-family: 'Fredoka One', cursive;
+  margin: 8px 0 10px;
+}
+.course-overview-panel p { color: var(--muted); line-height: 1.7; }
+.overview-eyebrow {
+  color: #06d6a0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.overview-grid div {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(0,0,0,.16);
+}
+.overview-grid strong { display: block; margin-bottom: 6px; }
+.overview-grid span { display: block; color: var(--muted); font-size: .88rem; line-height: 1.55; }
+@media (max-width: 860px) {
+  .mobile-lesson-jump { display: flex; }
+  .sidebar { display: none; }
+}
+@media (max-width: 560px) {
+  .mobile-lesson-jump { align-items: stretch; flex-direction: column; }
+  .course-meta-strip span { width: 100%; text-align: center; }
+}

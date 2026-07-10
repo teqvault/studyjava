@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Raspberry Pi for Complete Beginners | Teqvault.study</title>
+<title>Course 01 — Raspberry Pi for Complete Beginners | Teqvault.study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="../css/oop-java-course.css"/>
@@ -18,9 +18,19 @@
 <body>
 
 <header>
-  <div class="header-badge">Teqvault.study</div>
+  <div class="header-badge">Embedded Systems &amp; IoT · Course 01</div>
   <h1>Raspberry Pi for Complete Beginners</h1>
   <p>Zero to confident — breadboards, GPIO, Linux, sensors, and real projects. Written for people who have never seen a Raspberry Pi in their life.</p>
+  <div class="course-meta-strip" aria-label="Course summary">
+    <span>🍓 Beginner</span>
+    <span>12 modules</span>
+    <span>Python + Linux</span>
+    <span>Capstone: Smart room monitor</span>
+  </div>
+  <div class="header-actions">
+    <a href="embedded-systems-track.html">← Back to Embedded Track</a>
+    <a href="arduino-electronics-course.html">Next: Course 02 →</a>
+  </div>
   <div class="header-stars">🍓 🔌 🧰 💡 🐧</div>
 </header>
 
@@ -29,6 +39,24 @@
   <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
   <span class="progress-pct" id="ppct">0%</span>
   <button onclick="resetProgress()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="mobile-lesson-jump">
+  <label for="mobileLessonSelect">Jump to module</label>
+  <select id="mobileLessonSelect" onchange="go(Number(this.value))">
+    <option value="0">01 · Breadboards, Assembly & Add-Ons</option>
+    <option value="1">02 · Meet the Raspberry Pi</option>
+    <option value="2">03 · Raspberry Pi OS & First Boot</option>
+    <option value="3">04 · Linux & Command Line Essentials</option>
+    <option value="4">05 · GPIO Programming Basics</option>
+    <option value="5">06 · Digital I/O Projects</option>
+    <option value="6">07 · Analog Sensing with ADCs</option>
+    <option value="7">08 · I2C & SPI — Displays & Sensors</option>
+    <option value="8">09 · PWM & Motors</option>
+    <option value="9">10 · Networking & Remote Access</option>
+    <option value="10">11 · Camera & Computer Vision Basics</option>
+    <option value="11">12 · Capstone Project</option>
+  </select>
 </div>
 
 <div class="layout">
@@ -63,6 +91,18 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+
+<section class="course-overview-panel" aria-label="Course 01 overview">
+  <div class="overview-eyebrow">// course_01_blueprint</div>
+  <h2>What learners build in this course</h2>
+  <p>This course is the hardware-first starting point for the Embedded Systems &amp; IoT track. Learners move from safe breadboard wiring to a Raspberry Pi-powered device that reads sensors, controls outputs, displays live data, and can be checked remotely over the network.</p>
+  <div class="overview-grid">
+    <div><strong>Foundation</strong><span>Breadboards, jumper wires, resistors, GPIO voltage safety, and first circuits.</span></div>
+    <div><strong>Linux device skills</strong><span>Raspberry Pi OS, SSH, terminal navigation, updates, and remote workflows.</span></div>
+    <div><strong>Hardware control</strong><span>LEDs, buttons, buzzers, analog sensing through ADCs, I2C/SPI modules, PWM, servos, and motors.</span></div>
+    <div><strong>Portfolio capstone</strong><span>A smart room monitor with BME280 sensing, OLED output, button view switching, LED/buzzer alerts, and SSH access.</span></div>
+  </div>
+</section>
 <!-- ===== LESSON 0: Breadboards, Assembly & Add-Ons ===== -->
 <section class="lesson active" id="l0">
   <div class="lesson-header">
@@ -1335,7 +1375,7 @@ function saveProgress() {
 function loadProgress() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) { updateBar(); return; }
+    if (!raw) { done.add(0); updateBar(); return; }
     const data = JSON.parse(raw);
     (data.done || []).forEach(i => done.add(i));
     if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
@@ -1356,6 +1396,8 @@ function go(i) {
   cur = i;
   document.getElementById('l' + i).classList.add('active');
   document.getElementById('nav' + i).classList.add('active');
+  const sel = document.getElementById('mobileLessonSelect');
+  if (sel) sel.value = String(i);
   done.add(i);
   updateBar();
   saveProgress();
@@ -1384,9 +1426,9 @@ function quiz(btn, result) {
 
 loadProgress();
 </script>
-  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+  <a href="embedded-systems-track.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
-    Roadmap
+    Embedded Track
 </a>
 </body>
 </html>

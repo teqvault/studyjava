@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arduino & Electronics Fundamentals | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/arduino-electronics-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html" aria-label="Back to Embedded Systems track">← Track</a>
+
+<header>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">// teqstudy.embedded.course_02</div>
+      <h1>Arduino &<br><span>Electronics</span></h1>
+      <p class="hero-sub">A hands-on bridge between theory and real hardware. Learners wire circuits, write Arduino sketches, read sensors, control outputs, debug mistakes, and finish with a working mini alarm system.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#course">Start course</a>
+        <a class="btn ghost" href="embedded-systems-track.html">View track</a>
+      </div>
+    </div>
+
+    <div class="parts-card" aria-label="Course toolkit">
+      <div class="parts-top"><span></span><span></span><span></span><strong>course toolkit</strong></div>
+      <div class="parts-grid">
+        <div class="part"><b>Board</b><span>Arduino Uno R3 or compatible starter board</span></div>
+        <div class="part"><b>Code</b><span>Arduino IDE, C/C++ basics, serial monitor</span></div>
+        <div class="part"><b>Parts</b><span>LEDs, resistors, buttons, buzzer, potentiometer, sensors</span></div>
+        <div class="part"><b>Capstone</b><span>Room-entry mini alarm with sensor input and status output</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="go(Number(this.value))" aria-label="Select lesson">
+    <option value="0">01 — Setup, Safety & Hardware</option>
+    <option value="1">02 — Electricity Basics</option>
+    <option value="2">03 — Breadboards & LEDs</option>
+    <option value="3">04 — Arduino Sketches</option>
+    <option value="4">05 — Digital Input</option>
+    <option value="5">06 — Analog Input</option>
+    <option value="6">07 — PWM & Output Control</option>
+    <option value="7">08 — Serial Debugging</option>
+    <option value="8">09 — Sensors & Modules</option>
+    <option value="9">10 — Capstone Build</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="go(0)"><span class="nav-icon">🧰</span>Setup, Safety & Hardware <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(1)"><span class="nav-icon">⚡</span>Electricity Basics <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(2)"><span class="nav-icon">💡</span>Breadboards & LEDs <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(3)"><span class="nav-icon">⌨️</span>Arduino Sketches <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(4)"><span class="nav-icon">🔘</span>Digital Input <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(5)"><span class="nav-icon">🎚️</span>Analog Input <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(6)"><span class="nav-icon">🌈</span>PWM & Output Control <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(7)"><span class="nav-icon">🧪</span>Serial Debugging <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(8)"><span class="nav-icon">📡</span>Sensors & Modules <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="go(9)"><span class="nav-icon">🏁</span>Capstone Build <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Module 01</div>
+        <h2>Setup, Safety & Hardware</h2>
+        <p class="lesson-intro">Before a learner writes code, they need to know what is safe to plug in, what parts they are holding, and how Arduino differs from a Raspberry Pi.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 Learning Objectives</div>
+        <ul>
+          <li>Identify the Arduino board, USB port, power pins, digital pins, analog pins, and reset button.</li>
+          <li>Explain the difference between a microcontroller and a Linux computer.</li>
+          <li>Build a safe beginner parts kit and avoid wiring mistakes that can damage hardware.</li>
+        </ul>
+      </div>
+      <div class="grid-2">
+        <div class="mini-card"><h4>Arduino</h4><p>Runs one program directly on a microcontroller. Excellent for simple, reliable hardware control.</p></div>
+        <div class="mini-card"><h4>Raspberry Pi</h4><p>Runs a full Linux operating system. Excellent for servers, cameras, dashboards, networking, and heavier software.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🧰 Starter Kit Checklist</div>
+        <table>
+          <tr><th>Part</th><th>Why it matters</th></tr>
+          <tr><td>Arduino Uno or compatible board</td><td>The main controller. The Uno layout is beginner-friendly and widely supported.</td></tr>
+          <tr><td>Breadboard + jumper wires</td><td>Lets learners build circuits without soldering.</td></tr>
+          <tr><td>LEDs + 220Ω/330Ω resistors</td><td>First output circuit and current-limiting practice.</td></tr>
+          <tr><td>Pushbuttons</td><td>First digital input component.</td></tr>
+          <tr><td>Potentiometer</td><td>First analog input component.</td></tr>
+          <tr><td>Buzzer, LDR, temperature sensor</td><td>Small parts that make final projects feel alive.</td></tr>
+        </table>
+      </div>
+      <div class="callout danger"><span class="callout-emoji">⚠️</span><div class="callout-body"><strong>Safety rule</strong>Never connect power directly to ground. That is a short circuit. Unplug USB before changing a messy circuit.</div></div>
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">Why is Arduino a good beginner embedded board?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="quiz(this,false,'Arduino is not a full desktop computer. It runs firmware directly on a microcontroller.')">Because it runs a full desktop operating system</button>
+          <button class="quiz-option" onclick="quiz(this,true,'Exactly. Arduino is simple, predictable, and built for direct hardware control.')">Because it makes simple hardware control easy to learn</button>
+          <button class="quiz-option" onclick="quiz(this,false,'Arduino can use sensors, but that is not the main reason it is beginner-friendly.')">Because it only works with one sensor type</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Electricity Basics →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Electricity Basics</h2><p class="lesson-intro">Voltage, current, resistance, polarity, and ground explained with the exact level of depth a beginner needs before wiring components.</p></div>
+      <div class="card">
+        <div class="card-title">⚡ The Three Big Ideas</div>
+        <ul>
+          <li><strong>Voltage</strong> is electrical pressure. It pushes current through a circuit.</li>
+          <li><strong>Current</strong> is the flow of electric charge. Too much current can burn components.</li>
+          <li><strong>Resistance</strong> limits current. Resistors protect LEDs and input circuits.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🧮 Ohm's Law for Makers</div>
+        <p>You do not need to become an electrical engineer before building. You do need one formula:</p>
+        <pre class="code-block">Voltage = Current × Resistance
+V = I × R</pre>
+        <p>Example: if an LED circuit uses 5V and a safe current is around 0.02A, a resistor is used to keep current from running wild. In beginner Arduino LED circuits, 220Ω or 330Ω is a safe default.</p>
+      </div>
+      <div class="callout tip"><span class="callout-emoji">💡</span><div class="callout-body"><strong>Ground is not optional</strong>Every circuit needs a shared reference point. If the Arduino and a component do not share ground, signals may behave randomly.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Trace a Circuit Before Building It</div><ol><li>Draw a battery, resistor, LED, and ground path on paper.</li><li>Use arrows to show current flow from positive to ground.</li><li>Label where the resistor protects the LED.</li></ol></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does a resistor do in a basic LED circuit?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. The resistor limits current so the LED and board are protected.')">Limits current</button><button class="quiz-option" onclick="quiz(this,false,'A resistor does not store code.')">Stores the program</button><button class="quiz-option" onclick="quiz(this,false,'A resistor does not create wireless signals.')">Creates Wi-Fi</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Setup</button><button class="next" onclick="next()">Breadboards & LEDs →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>Breadboards & LEDs</h2><p class="lesson-intro">Learners assemble their first circuit, understand connected rows, and make an LED blink from a digital pin.</p></div>
+      <div class="card"><div class="card-title">🍞 Breadboard Rules</div><ul><li>Rows on each side of the center gap are connected in small groups.</li><li>The center gap separates the two halves of the board.</li><li>Power rails are used to distribute 5V and GND, but some breadboards split rails in the middle.</li></ul></div>
+      <div class="card"><div class="card-title">💡 First LED Circuit</div><ol class="step-list"><li>Connect Arduino GND to the breadboard ground rail.</li><li>Place the LED across separate breadboard rows.</li><li>Connect the LED's short leg to GND.</li><li>Connect the LED's long leg through a 220Ω or 330Ω resistor to digital pin 13.</li><li>Upload the Blink sketch.</li></ol></div>
+      <pre class="code-block">const int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
+}</pre>
+      <div class="callout warn"><span class="callout-emoji">🔎</span><div class="callout-body"><strong>Troubleshooting</strong>If the LED does not light, check polarity first. The longer LED leg is usually positive. Then check whether the resistor is actually in series.</div></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What function tells an Arduino pin to output voltage?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,false,'delay pauses the program, but it does not write voltage.')">delay()</button><button class="quiz-option" onclick="quiz(this,true,'Correct. digitalWrite(pin, HIGH) or LOW changes a digital output.')">digitalWrite()</button><button class="quiz-option" onclick="quiz(this,false,'Serial.begin starts serial communication.')">Serial.begin()</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Electricity</button><button class="next" onclick="next()">Arduino Sketches →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Arduino Sketches</h2><p class="lesson-intro">A beginner-friendly introduction to Arduino code structure, variables, constants, setup, loop, comments, and compile errors.</p></div>
+      <div class="grid-2"><div class="mini-card"><h4>setup()</h4><p>Runs once when the board powers on or resets. Use it for pin modes and starting tools like Serial.</p></div><div class="mini-card"><h4>loop()</h4><p>Runs forever after setup. Use it for repeated behavior: read inputs, make decisions, control outputs.</p></div></div>
+      <div class="card"><div class="card-title">🧱 Sketch Anatomy</div><pre class="code-block">const int ledPin = 9;  // constant pin number
+int blinkDelay = 250;  // variable value
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(blinkDelay);
+  digitalWrite(ledPin, LOW);
+  delay(blinkDelay);
+}</pre></div>
+      <div class="card"><div class="card-title">🛠️ Common Compile Errors</div><table><tr><th>Error</th><th>Likely cause</th></tr><tr><td>expected ';'</td><td>Missing semicolon at the end of a statement.</td></tr><tr><td>not declared in this scope</td><td>Misspelled variable or variable created in the wrong place.</td></tr><tr><td>expected '}'</td><td>Missing closing brace after setup, loop, or an if statement.</td></tr></table></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Custom Blink Pattern</div><p>Change the code so the LED blinks two fast pulses, waits one second, then repeats. This teaches sequence thinking and timing.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which function repeats forever on an Arduino?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,false,'setup runs once.')">setup()</button><button class="quiz-option" onclick="quiz(this,true,'Correct. loop repeats while the board is powered.')">loop()</button><button class="quiz-option" onclick="quiz(this,false,'pinMode configures a pin.')">pinMode()</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← LEDs</button><button class="next" onclick="next()">Digital Input →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Digital Input</h2><p class="lesson-intro">Buttons teach learners the core embedded pattern: read an input, decide what it means, then control an output.</p></div>
+      <div class="card"><div class="card-title">🔘 Buttons Are Not Magic</div><p>A pushbutton is a switch. When pressed, it connects two sides of a circuit. When released, it opens the circuit. The Arduino needs a clean HIGH or LOW signal, not a floating unknown signal.</p></div>
+      <div class="callout tip"><span class="callout-emoji">✅</span><div class="callout-body"><strong>Use INPUT_PULLUP first</strong>Arduino can enable an internal pull-up resistor. That means the input reads HIGH by default, and LOW when the button connects the pin to ground.</div></div>
+      <pre class="code-block">const int buttonPin = 2;
+const int ledPin = 13;
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  int pressed = digitalRead(buttonPin) == LOW;
+  digitalWrite(ledPin, pressed ? HIGH : LOW);
+}</pre>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Press-to-Light</div><ol><li>Wire one side of a button to digital pin 2.</li><li>Wire the other side to GND.</li><li>Upload the sketch above.</li><li>Confirm the LED lights only while the button is pressed.</li></ol></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">With INPUT_PULLUP, what does a pressed button usually read?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. The button connects the pin to ground, so pressed reads LOW.')">LOW</button><button class="quiz-option" onclick="quiz(this,false,'HIGH is the default unpressed state when the internal pull-up is enabled.')">HIGH</button><button class="quiz-option" onclick="quiz(this,false,'Analog values are not used here.')">512</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Sketches</button><button class="next" onclick="next()">Analog Input →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Analog Input</h2><p class="lesson-intro">Analog input turns real-world variation into numbers. This is the doorway to knobs, light sensors, temperature sensors, and responsive devices.</p></div>
+      <div class="card"><div class="card-title">🎚️ What analogRead() Returns</div><p>On classic Arduino Uno-style boards, analog input reads a value from 0 to 1023. A potentiometer is the easiest first analog sensor because learners can turn it by hand and see the value change immediately.</p></div>
+      <pre class="code-block">const int knobPin = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(knobPin);
+  Serial.println(value);
+  delay(100);
+}</pre>
+      <div class="card"><div class="card-title">🧠 Mapping Values</div><p>Raw sensor values are rarely the final behavior. The maker's job is to map a reading to an output.</p><pre class="code-block">int sensor = analogRead(A0);
+int brightness = map(sensor, 0, 1023, 0, 255);</pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Knob-Controlled Brightness</div><p>Use a potentiometer on A0 to control LED brightness on a PWM pin. This connects analog input to visible output.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What kind of value does analogRead(A0) return on a typical Uno?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,false,'HIGH/LOW is digital input.')">Only HIGH or LOW</button><button class="quiz-option" onclick="quiz(this,true,'Correct. The ADC converts voltage into a number from 0 to 1023.')">A number from 0 to 1023</button><button class="quiz-option" onclick="quiz(this,false,'It does not return text.')">A sentence</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Digital Input</button><button class="next" onclick="next()">PWM & Output →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>PWM & Output Control</h2><p class="lesson-intro">Pulse-width modulation makes digital pins act like variable outputs for brightness, simple motor speed control, and buzzer effects.</p></div>
+      <div class="card"><div class="card-title">🌈 What PWM Means</div><p>An Arduino digital pin can only be ON or OFF, but PWM switches it on and off very quickly. Changing how long it stays on changes the average power a component receives.</p></div>
+      <pre class="code-block">const int ledPin = 9;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  for (int level = 0; level <= 255; level++) {
+    analogWrite(ledPin, level);
+    delay(8);
+  }
+}</pre>
+      <div class="callout warn"><span class="callout-emoji">⚙️</span><div class="callout-body"><strong>Motors need drivers</strong>Do not power motors directly from an Arduino pin. Use a motor driver or transistor circuit because motors draw more current than a pin should supply.</div></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Fade an LED</div><p>Wire an LED to a PWM-capable pin through a resistor, then fade it smoothly from off to bright.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which Arduino function is used for PWM output?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,false,'analogRead reads input.')">analogRead()</button><button class="quiz-option" onclick="quiz(this,true,'Correct. analogWrite sends a PWM signal on supported pins.')">analogWrite()</button><button class="quiz-option" onclick="quiz(this,false,'Serial.println prints text to the serial monitor.')">Serial.println()</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Analog Input</button><button class="next" onclick="next()">Serial Debugging →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Serial Debugging</h2><p class="lesson-intro">Learners stop guessing and start inspecting. Serial output is the beginner's first embedded debugging tool.</p></div>
+      <div class="card"><div class="card-title">🧪 Why Serial Matters</div><p>When a circuit acts wrong, beginners often stare at wires and hope. The Serial Monitor lets them print what the board is reading and what decisions the code is making.</p></div>
+      <pre class="code-block">void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int light = analogRead(A0);
+  Serial.print("Light value: ");
+  Serial.println(light);
+  delay(250);
+}</pre>
+      <div class="card"><div class="card-title">🔍 Debugging Checklist</div><ol><li>Print sensor values before using them in logic.</li><li>Print button state to confirm wiring.</li><li>Print which branch an if statement enters.</li><li>Reduce delays while debugging so feedback feels instant.</li></ol></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Debug a Broken Button</div><p>Intentionally wire a button, print its state, then fix the wiring or code until the serial output changes exactly when pressed.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the Serial Monitor best for in beginner projects?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. It shows internal values so learners can debug with evidence.')">Seeing values and messages from the board</button><button class="quiz-option" onclick="quiz(this,false,'It does not replace resistors.')">Protecting LEDs from current</button><button class="quiz-option" onclick="quiz(this,false,'It is not a power supply.')">Powering sensors</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← PWM</button><button class="next" onclick="next()">Sensors & Modules →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Sensors & Modules</h2><p class="lesson-intro">This module moves from single components to small modules: light sensing, sound output, distance sensing, and status indicators.</p></div>
+      <div class="card"><div class="card-title">📡 Sensor Pattern</div><p>Most Arduino sensor projects follow the same loop:</p><pre class="code-block">read sensor → clean value → compare threshold → control output → print debug info</pre></div>
+      <div class="grid-2"><div class="mini-card"><h4>LDR / Photoresistor</h4><p>Detects light level. Great for night-light projects and alarms.</p></div><div class="mini-card"><h4>Ultrasonic Sensor</h4><p>Measures distance using sound pulses. Great for parking assistants and motion triggers.</p></div><div class="mini-card"><h4>Buzzer</h4><p>Makes sound for alarms, timers, and feedback.</p></div><div class="mini-card"><h4>RGB LED</h4><p>Shows device state with color: armed, warning, triggered, idle.</p></div></div>
+      <div class="card"><div class="card-title">🚦 Threshold Logic</div><pre class="code-block">int light = analogRead(A0);
+
+if (light < 300) {
+  // room is dark
+} else {
+  // room is bright
+}</pre></div>
+      <div class="lab-card"><div class="card-title">🧪 Lab: Smart Night Light</div><ol><li>Read an LDR value on A0.</li><li>Print the raw value to Serial.</li><li>Choose a threshold.</li><li>Turn an LED on automatically when the room gets dark.</li></ol></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is a threshold in a sensor project?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,false,'A threshold is not the upload cable.')">The USB cable</button><button class="quiz-option" onclick="quiz(this,true,'Correct. It is the cutoff value used to make a decision.')">A cutoff value that changes program behavior</button><button class="quiz-option" onclick="quiz(this,false,'A resistor may be part of the circuit, but threshold is a logic idea.')">A resistor color band</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Serial</button><button class="next" onclick="next()">Capstone →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Capstone: Mini Room Alarm</h2><p class="lesson-intro">The final build combines digital input, analog input, PWM output, serial debugging, and sensor thresholds into a portfolio-ready beginner device.</p></div>
+      <div class="card"><div class="card-title">🏁 Project Goal</div><p>Build a small room-entry alarm that can be armed with a button, triggered by a sensor, and communicate its state with an LED and buzzer.</p></div>
+      <div class="card"><div class="card-title">📦 Required Parts</div><ul><li>Arduino Uno or compatible board</li><li>Breadboard and jumper wires</li><li>Pushbutton</li><li>LED or RGB LED + resistors</li><li>Buzzer</li><li>LDR or ultrasonic sensor</li></ul></div>
+      <div class="card"><div class="card-title">🧠 System States</div><table><tr><th>State</th><th>Behavior</th></tr><tr><td>Idle</td><td>System is not armed. LED is off or dim.</td></tr><tr><td>Armed</td><td>Button has armed the system. LED shows ready state.</td></tr><tr><td>Triggered</td><td>Sensor crosses threshold. Buzzer sounds and LED flashes.</td></tr><tr><td>Reset</td><td>Button press returns the alarm to idle.</td></tr></table></div>
+      <pre class="code-block">// Capstone starter structure
+bool armed = false;
+bool triggered = false;
+
+void setup() {
+  Serial.begin(9600);
+  // configure pins here
+}
+
+void loop() {
+  // 1. read button
+  // 2. read sensor
+  // 3. update armed/triggered state
+  // 4. control LED and buzzer
+  // 5. print debug info
+}</pre>
+      <div class="lab-card"><div class="card-title">🚀 Ship-It Checklist</div><ol><li>Draw the wiring diagram.</li><li>Write the final sketch with comments.</li><li>Add a troubleshooting section.</li><li>Record a short demo video.</li><li>Write a README explaining what the device does and how to rebuild it.</li></ol></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Final Check</div><div class="quiz-q">What makes this capstone stronger than a random LED exercise?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. It combines input, output, logic, debugging, and documentation into one useful device.')">It combines multiple skills into a working device</button><button class="quiz-option" onclick="quiz(this,false,'More wires alone do not make a project better.')">It simply uses more wires</button><button class="quiz-option" onclick="quiz(this,false,'It still requires careful wiring and code.')">It avoids all debugging</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Sensors</button><button disabled>Course Complete ✓</button></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const totalLessons = 10;
+const storageKey = 'teqstudy-arduino-electronics-progress-v1';
+let currentLesson = 0;
+let completed = new Set([0]);
+
+function loadProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (saved && Array.isArray(saved.completed)) {
+      completed = new Set(saved.completed.filter(n => Number.isInteger(n) && n >= 0 && n < totalLessons));
+      currentLesson = Number.isInteger(saved.currentLesson) ? Math.min(Math.max(saved.currentLesson, 0), totalLessons - 1) : 0;
+    }
+  } catch (err) {
+    completed = new Set([0]);
+    currentLesson = 0;
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem(storageKey, JSON.stringify({ currentLesson, completed: Array.from(completed) }));
+}
+
+function updateProgress() {
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, index) => {
+    item.classList.toggle('active', index === currentLesson);
+    item.classList.toggle('done', completed.has(index));
+    const check = item.querySelector('.nav-check');
+    if (check) check.textContent = completed.has(index) ? '✓' : '';
+  });
+  const sel = document.getElementById('mobileLessonSelect');
+  if (sel) sel.value = String(currentLesson);
+}
+
+function go(idx) {
+  if (idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(section => section.classList.remove('active'));
+  const target = document.getElementById('lesson-' + idx);
+  if (target) target.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  saveProgress();
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next() { go(currentLesson + 1); }
+function prev() { go(currentLesson - 1); }
+function resetProgress() {
+  localStorage.removeItem(storageKey);
+  completed = new Set([0]);
+  currentLesson = 0;
+  go(0);
+}
+
+function quiz(btn, correct, feedback) {
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  options.forEach(option => option.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    options.forEach(option => {
+      const action = option.getAttribute('onclick') || '';
+      if (action.includes('true')) option.classList.add('correct');
+    });
+  }
+  const fb = block.querySelector('.quiz-feedback');
+  fb.textContent = (correct ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (correct ? 'ok' : 'bad');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadProgress();
+  go(currentLesson);
+});
+</script>
+</body>
+</html>

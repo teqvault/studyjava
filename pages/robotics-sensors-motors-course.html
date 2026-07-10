@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Robotics with Sensors & Motors | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/robotics-sensors-motors-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 06</div>
+  <h1>Robotics with<br><span>Sensors & Motors</span></h1>
+  <p>Build a small rover from motor control to autonomy: power, drivers, servos, distance sensing, line following, encoders, state machines, and testing.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 06</a>
+    <a class="btn" href="embedded-linux-device-services-course.html">← Course 05</a>
+    <a class="btn" href="edge-ai-computer-vision-course.html">Course 07 →</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>12</strong><span>Modules</span></div>
+    <div><strong>Motors</strong><span>Drivers + servos</span></div>
+    <div><strong>Control logic</strong><span>Sensors + autonomy</span></div>
+    <div><strong>Capstone</strong><span>Autonomous rover</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Robot Safety</option>
+    <option value="1">02 · Power &amp; Motor Drivers</option>
+    <option value="2">03 · DC Motors</option>
+    <option value="3">04 · Servos</option>
+    <option value="4">05 · Ultrasonic Distance</option>
+    <option value="5">06 · Line Sensors</option>
+    <option value="6">07 · Encoders</option>
+    <option value="7">08 · Manual Control</option>
+    <option value="8">09 · Obstacle Avoidance</option>
+    <option value="9">10 · State Machines</option>
+    <option value="10">11 · Calibration &amp; Testing</option>
+    <option value="11">12 · Capstone Rover</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">⚙️ Robot Safety <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">🔋 Power &amp; Motor Drivers <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">🚗 DC Motors <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🦾 Servos <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">📏 Ultrasonic Distance <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">🛤️ Line Sensors <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">🔁 Encoders <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🎮 Manual Control <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">🚧 Obstacle Avoidance <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">🧠 State Machines <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(10)">🧪 Calibration &amp; Testing <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(11)">🏁 Capstone Rover <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Robot Safety &amp; Build Planning</h2><p class="lesson-intro">Robotics combines code, current, motion, and mechanical risk. Learners start with safe power, stable wiring, and testable design.</p></div>
+      <div class="card"><div class="card-title">🤖 Safety habits</div><ul><li>Disconnect power before rewiring.</li><li>Keep wheels off the ground for first motor tests.</li><li>Separate logic power from motor power when required.</li><li>Use motor drivers instead of GPIO pins for motors.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Bench Safety Check</div><p>Create a pre-power checklist and test motor code with the robot lifted off the table.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should wheels be lifted during first motor tests?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It prevents runaway movement while code is unproven</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">Because robots cannot run on tables</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">Because sensors need darkness</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Power &amp; Motor Drivers</h2><p class="lesson-intro">Motors draw more current than logic pins can supply. Learners use motor drivers, shared ground, and separate power planning.</p></div>
+      <div class="card"><div class="card-title">🤖 Power concepts</div><ul><li>GPIO signals control drivers; they do not power motors directly.</li><li>Motor supplies must match motor requirements.</li><li>Ground must be shared between controller and driver.</li><li>Brownouts happen when motors steal current from the controller.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Driver Wiring Map</div><p>Draw and wire a controller, motor driver, battery pack, and motor with a shared ground.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use a motor driver?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To let low-current logic control higher-current motors</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">To replace all code</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">To make sensors analog</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>DC Motors</h2><p class="lesson-intro">DC motors teach direction, speed, and driver control. Learners run forward, reverse, stop, and simple speed changes.</p></div>
+      <div class="card"><div class="card-title">🤖 Motor commands</div><ul><li>IN1/IN2 often control direction.</li><li>PWM controls average speed.</li><li>Stop can mean coast or brake depending on driver behavior.</li><li>Test one motor before controlling two.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Single Motor Test</div><p>Write code to run one motor forward, stop, reverse, and stop again.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What commonly controls DC motor speed?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">PWM duty cycle</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">HTML tags</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">A pull-up resistor alone</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Servos</h2><p class="lesson-intro">Servos move to an angle rather than spinning continuously. Learners use them for steering, doors, arms, and sensor mounts.</p></div>
+      <div class="card"><div class="card-title">🤖 Servo basics</div><ul><li>A standard servo expects timed control pulses.</li><li>Servos need enough current.</li><li>Mechanical limits matter.</li><li>Jitter often means power or signal issues.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Sweep Servo</div><p>Move a servo between three angles and document its safe mechanical range.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why avoid forcing a servo past its physical limit?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It can strip gears or damage the mechanism</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">It improves Wi-Fi speed</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">It changes MQTT topics</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Ultrasonic Distance Sensors</h2><p class="lesson-intro">Distance sensors let robots detect walls and obstacles. Learners read trigger/echo timing and convert it into distance.</p></div>
+      <div class="card"><div class="card-title">🤖 Distance concepts</div><ul><li>Trigger pulse starts measurement.</li><li>Echo duration represents travel time.</li><li>Soft surfaces and angles can affect readings.</li><li>Multiple readings should be filtered.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Distance Readout</div><p>Print distance readings and test against near, medium, and far objects.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why take multiple distance readings?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">To smooth noise and avoid reacting to one bad reading</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">To drain the battery faster</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">To erase calibration</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Line Sensors</h2><p class="lesson-intro">Line sensors teach surface detection and feedback. Learners read reflected light and decide whether the robot is over a dark or light line.</p></div>
+      <div class="card"><div class="card-title">🤖 Line following ideas</div><ul><li>Sensors need calibration for the actual surface.</li><li>Thresholds separate line from background.</li><li>Two sensors can steer left or right.</li><li>Lighting changes can affect readings.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Line Threshold Test</div><p>Record sensor values over line and background, then choose a threshold.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why calibrate line sensors?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Different floors and lighting change readings</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">Calibration replaces motors</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">Calibration disables power</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Encoders</h2><p class="lesson-intro">Encoders measure wheel movement. Learners understand ticks, speed estimation, and why dead reckoning drifts.</p></div>
+      <div class="card"><div class="card-title">🤖 Encoder concepts</div><ul><li>Ticks count wheel rotation.</li><li>Wheel diameter affects distance calculation.</li><li>Slipping wheels create error.</li><li>Interrupts often read encoder pulses.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Tick Counter</div><p>Spin a wheel slowly and count encoder ticks in Serial output.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does an encoder measure?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Wheel movement or rotation pulses</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">Temperature only</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">Web requests</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Joystick &amp; Manual Control</h2><p class="lesson-intro">Before autonomy, learners build manual control to verify drive direction, steering, and response.</p></div>
+      <div class="card"><div class="card-title">🤖 Control mapping</div><ul><li>Map joystick axes to motor speed.</li><li>Dead zones prevent drift.</li><li>Manual mode helps debug hardware.</li><li>Start at low speed.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Joystick Drive</div><p>Use a joystick or button controls to drive forward, reverse, left, and right.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why build manual mode first?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It proves the hardware works before autonomy</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">It removes the need for motors</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">It prevents all bugs forever</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Obstacle Avoidance</h2><p class="lesson-intro">Learners combine distance sensing with motor decisions so a rover can stop, turn, and continue.</p></div>
+      <div class="card"><div class="card-title">🤖 Avoidance logic</div><ul><li>Read distance.</li><li>Compare to a threshold.</li><li>Stop before collision.</li><li>Turn and re-check.</li><li>Avoid rapid oscillation with delays or states.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Avoid the Box</div><p>Program the rover to stop before an obstacle and turn away.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What triggers an avoidance maneuver?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">A distance below the safety threshold</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">A CSS file</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">A missing README</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Robot State Machines</h2><p class="lesson-intro">State machines make robot behavior easier to reason about than giant nested if statements.</p></div>
+      <div class="card"><div class="card-title">🤖 States</div><ul><li>IDLE</li><li>DRIVE_FORWARD</li><li>AVOID_OBSTACLE</li><li>TURN_LEFT</li><li>ERROR</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: State Machine Sketch</div><p>Refactor obstacle avoidance into named states and print the current state.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use named states?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">They make behavior easier to debug and extend</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">They hide all bugs</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">They replace wiring</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-10">
+      <div class="lesson-header"><div class="lesson-num">Module 11</div><h2>Calibration &amp; Testing</h2><p class="lesson-intro">Robots need repeatable tests. Learners tune thresholds, speeds, turn times, and sensor positions.</p></div>
+      <div class="card"><div class="card-title">🤖 Test plan</div><ul><li>Test one subsystem at a time.</li><li>Record values before changing thresholds.</li><li>Use slow speeds first.</li><li>Document known limitations.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Rover Test Sheet</div><p>Create a test sheet with pass/fail rows for motors, sensors, turns, and obstacle avoidance.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should you do before changing thresholds?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Record the current readings and behavior</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">Delete old code randomly</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">Increase speed to maximum</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-11">
+      <div class="lesson-header"><div class="lesson-num">Module 12</div><h2>Capstone: Autonomous Rover</h2><p class="lesson-intro">The capstone combines safe wiring, motors, distance sensing, line or obstacle logic, manual mode, and documentation.</p></div>
+      <div class="card"><div class="card-title">🤖 Final requirements</div><ul><li>Manual drive mode works.</li><li>Obstacle avoidance works.</li><li>Status LED or serial output explains state.</li><li>Battery and wiring are secured.</li><li>README includes wiring diagram and test results.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Build the Rover</div><p>Build and demo an autonomous rover that avoids obstacles and includes a documented test plan.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes a rover portfolio-ready?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Demo proof, wiring notes, code, and test results</button><button class="quiz-option" onclick="quiz(this,false,'That answer does not match safe or reliable robotics practice.')">Only a blurry photo</button><button class="quiz-option" onclick="quiz(this,false,'That answer misses the hardware-control concept.')">No explanation at all</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Finish Course ✓</button></div>
+    </section>
+    <div class="footer-note">// TeqStudy Course 06 — Robotics with Sensors & Motors</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 12;
+const storageKey = 'teqstudy-robotics-sensors-motors-course-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
+function showLesson(idx){
+  if(idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if(lesson) lesson.classList.add('active');
+  if(nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(){
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if(check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
+function quiz(btn, isCorrect, feedback){
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if(click.includes('true')) o.classList.add('correct');
+  });
+  if(!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+document.addEventListener('DOMContentLoaded', () => { completed.add(0); persist(); updateProgress(); });
+</script>
+</body>
+</html>

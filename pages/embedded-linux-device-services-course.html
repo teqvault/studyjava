@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Embedded Linux & Device Services | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/embedded-linux-device-services-course.css" />
+<link rel="stylesheet" href="../css/mobile-fixes.css" />
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="back-link" href="embedded-systems-track.html">← Embedded Track</a>
+
+<header>
+  <div class="header-badge">Embedded Systems & IoT · Course 05</div>
+  <h1>Embedded Linux<br><span>& Device Services</span></h1>
+  <p>Make Raspberry Pi and Linux-based embedded devices behave like products: services, logs, boot behavior, update scripts, health checks, and deployment routines.</p>
+  <div class="header-actions">
+    <a class="btn primary" href="#course">Start Course 05</a>
+    <a class="btn" href="raspberry-pi-intermediate-course.html">← Course 04</a>
+    <a class="btn" href="robotics-sensors-motors-course.html">Course 06 →</a>
+  </div>
+  <div class="course-meta" aria-label="Course summary">
+    <div><strong>12</strong><span>Modules</span></div>
+    <div><strong>systemd</strong><span>Services + boot</span></div>
+    <div><strong>Device agents</strong><span>Logs, updates, health</span></div>
+    <div><strong>Capstone</strong><span>Device agent</span></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="mobile-select-wrap">
+  <select id="mobileLessonSelect" onchange="showLesson(Number(this.value))">
+    <option value="0">01 · Embedded Linux Mindset</option>
+    <option value="1">02 · Filesystem &amp; Permissions</option>
+    <option value="2">03 · systemd Services</option>
+    <option value="3">04 · Logs &amp; journalctl</option>
+    <option value="4">05 · Python Device Agent</option>
+    <option value="5">06 · Config &amp; Secrets</option>
+    <option value="6">07 · Boot Behavior</option>
+    <option value="7">08 · Updates &amp; Rollback</option>
+    <option value="8">09 · Health Checks</option>
+    <option value="9">10 · Secure Device Access</option>
+    <option value="10">11 · Deployment Checklist</option>
+    <option value="11">12 · Capstone Device Agent</option>
+  </select>
+</div>
+
+<div class="layout" id="course">
+  <nav class="sidebar" aria-label="Course modules">
+    <div class="sidebar-title">Course Modules</div>
+    <div class="nav-item active" onclick="showLesson(0)">🐧 Embedded Linux Mindset <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(1)">📁 Filesystem &amp; Permissions <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(2)">⚙️ systemd Services <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(3)">🧾 Logs &amp; journalctl <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(4)">🐍 Python Device Agent <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(5)">🔑 Config &amp; Secrets <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(6)">🚀 Boot Behavior <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(7)">🔄 Updates &amp; Rollback <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(8)">❤️ Health Checks <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(9)">🛡️ Secure Device Access <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(10)">📋 Deployment Checklist <span class="nav-check"></span></div>
+    <div class="nav-item" onclick="showLesson(11)">🏁 Capstone Device Agent <span class="nav-check"></span></div>
+  </nav>
+
+  <main class="main">
+    <!-- Google AdSense -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7932735753046865" data-ad-slot="1368307586" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    
+    <section class="lesson active" id="lesson-0">
+      <div class="lesson-header"><div class="lesson-num">Module 01</div><h2>Embedded Linux Mindset</h2><p class="lesson-intro">Linux turns a board into a maintainable device. This module explains why products need predictable boot, services, logs, and recovery behavior.</p></div>
+      <div class="card"><div class="card-title">🧱 Product expectations</div><ul><li>A device should restart cleanly after power loss.</li><li>A useful app should start without a human opening a terminal.</li><li>Logs should explain what happened after failure.</li><li>Configuration should be separated from code.</li><li>Updates should be repeatable and reversible.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Service Inventory</div><p>Pick one Pi project and list every process, port, file, and command required to keep it running.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes Linux device work different from running a script manually?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">The device must run predictably without a human babysitting it</button><button class="quiz-option" onclick="quiz(this,false,'A device that only works once is still a prototype.')">The code should only work once</button><button class="quiz-option" onclick="quiz(this,false,'Logs are essential for understanding failures.')">Logs should be deleted</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-1">
+      <div class="lesson-header"><div class="lesson-num">Module 02</div><h2>Filesystem, Users &amp; Permissions</h2><p class="lesson-intro">Learners understand where apps, logs, configs, and data belong, then practice safe ownership and permissions.</p></div>
+      <div class="card"><div class="card-title">📁 Useful locations</div><ul><li>/home holds user files and prototypes.</li><li>/etc holds system configuration.</li><li>/var/log holds logs.</li><li>/opt is a good place for self-contained apps.</li><li>File ownership affects whether services can read or write.</li></ul></div>
+      <pre class="code-block">ls -la
+whoami
+groups
+sudo chown -R $USER:$USER ~/my-device
+chmod +x run.sh</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Clean App Folder</div><p>Create an app folder with src, config, logs, and README files. Set permissions so your user can edit it safely.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why does file ownership matter for services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">A service may fail if it cannot read code or write logs</button><button class="quiz-option" onclick="quiz(this,false,'Permissions control file access, not LED brightness.')">Ownership changes LED brightness</button><button class="quiz-option" onclick="quiz(this,false,'Services still need code and configuration.')">Ownership removes the need for code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-2">
+      <div class="lesson-header"><div class="lesson-num">Module 03</div><h2>systemd Services</h2><p class="lesson-intro">A systemd unit lets a device app start on boot, restart on failure, and become visible to standard Linux admin tools.</p></div>
+      <div class="card"><div class="card-title">⚙️ Unit file basics</div><ul><li>Description explains the service purpose.</li><li>ExecStart points to the command.</li><li>Restart controls failure behavior.</li><li>WantedBy makes the service start during boot.</li></ul></div>
+      <pre class="code-block">[Unit]
+Description=TeqStudy Device Agent
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/teq-device
+ExecStart=/usr/bin/python3 /opt/teq-device/agent.py
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Create a Service</div><p>Turn a simple Python script into a systemd service, enable it, reboot, and confirm it starts automatically.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the main job of systemd in this course?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Start and supervise device programs</button><button class="quiz-option" onclick="quiz(this,false,'Circuit diagrams are separate from system service management.')">Draw circuit diagrams</button><button class="quiz-option" onclick="quiz(this,false,'systemd manages services; it does not replace Linux storage.')">Replace the filesystem</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-3">
+      <div class="lesson-header"><div class="lesson-num">Module 04</div><h2>Logs &amp; journalctl</h2><p class="lesson-intro">When a device fails overnight, logs are the evidence. Learners inspect service status and read logs with journalctl.</p></div>
+      <div class="card"><div class="card-title">🧾 Debugging commands</div><ul><li>systemctl status shows current service state.</li><li>journalctl shows service history.</li><li>Timestamps reveal when failure happened.</li><li>Clear log messages make support easier.</li></ul></div>
+      <pre class="code-block">systemctl status teq-device --no-pager
+journalctl -u teq-device -n 80 --no-pager
+journalctl -u teq-device -f</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Log a Failure</div><p>Intentionally break a service path, restart the service, then use journalctl to explain exactly what failed.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why are logs more useful than guessing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">They preserve evidence of what the service actually did</button><button class="quiz-option" onclick="quiz(this,false,'Logs do not speed up hardware.')">They make the CPU faster</button><button class="quiz-option" onclick="quiz(this,false,'Logs help testing; they do not replace it.')">They remove the need for testing</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-4">
+      <div class="lesson-header"><div class="lesson-num">Module 05</div><h2>Python Device Agent</h2><p class="lesson-intro">A device agent is a small background program that reads state, makes decisions, and reports health.</p></div>
+      <div class="card"><div class="card-title">🐍 Agent loop pattern</div><ul><li>Initialize configuration.</li><li>Connect to required resources.</li><li>Run a controlled loop.</li><li>Handle exceptions without crashing silently.</li><li>Log status regularly.</li></ul></div>
+      <pre class="code-block">import logging, time
+
+logging.basicConfig(level=logging.INFO)
+
+while True:
+    try:
+        logging.info(&quot;device heartbeat&quot;)
+        time.sleep(10)
+    except Exception as exc:
+        logging.exception(&quot;agent failed: %s&quot;, exc)
+        time.sleep(5)</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Heartbeat Agent</div><p>Build a Python agent that writes a heartbeat every 10 seconds and runs under systemd.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a background agent do when an error occurs?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Log the error clearly and recover when possible</button><button class="quiz-option" onclick="quiz(this,false,'Silent failures make devices impossible to support.')">Fail silently forever</button><button class="quiz-option" onclick="quiz(this,false,'Deleting code is not recovery.')">Delete its own code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-5">
+      <div class="lesson-header"><div class="lesson-num">Module 06</div><h2>Configuration &amp; Secrets</h2><p class="lesson-intro">Learners separate settings from code and avoid hard-coding private tokens, Wi-Fi data, and API keys in public repositories.</p></div>
+      <div class="card"><div class="card-title">🔑 Config practices</div><ul><li>Use config files or environment variables.</li><li>Keep secrets out of Git.</li><li>Provide example config files without real credentials.</li><li>Validate required settings at startup.</li></ul></div>
+      <pre class="code-block"># .env.example
+MQTT_HOST=192.168.1.10
+MQTT_TOPIC=home/device/status
+API_TOKEN=replace_me</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Example Config</div><p>Create a .env.example file and update the README so someone else knows which settings are required.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should real secrets stay out of public code?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">They can give strangers access to private systems</button><button class="quiz-option" onclick="quiz(this,false,'Secrets are about access control, not appearance.')">They make HTML prettier</button><button class="quiz-option" onclick="quiz(this,false,'Credentials do not affect GPIO voltage.')">They increase GPIO voltage</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-6">
+      <div class="lesson-header"><div class="lesson-num">Module 07</div><h2>Boot Behavior &amp; Recovery</h2><p class="lesson-intro">A real device needs to know what happens after power loss, network delay, and partial startup failures.</p></div>
+      <div class="card"><div class="card-title">🚀 Boot questions</div><ul><li>Does the app wait for the network?</li><li>What happens if the sensor is missing?</li><li>Does the dashboard start after reboot?</li><li>Can the device recover without keyboard and monitor?</li></ul></div>
+      <pre class="code-block">systemctl enable teq-device
+systemctl restart teq-device
+systemctl is-enabled teq-device</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Power Pull Test</div><p>Reboot the device three times and record whether the service starts, logs correctly, and recovers network access.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why test boot behavior repeatedly?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Power loss is normal for devices, so recovery must be proven</button><button class="quiz-option" onclick="quiz(this,false,'Reboot testing does not alter the enclosure.')">It changes the case color</button><button class="quiz-option" onclick="quiz(this,false,'Reliable boot still requires good code.')">It avoids writing code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-7">
+      <div class="lesson-header"><div class="lesson-num">Module 08</div><h2>Update Scripts &amp; Rollback</h2><p class="lesson-intro">Learners write basic update scripts and plan what to do if a deployment breaks a device.</p></div>
+      <div class="card"><div class="card-title">🔄 Update design</div><ul><li>Pull or copy the new release.</li><li>Install dependencies repeatably.</li><li>Restart services in a controlled way.</li><li>Keep a known-good version or rollback plan.</li><li>Write update notes.</li></ul></div>
+      <pre class="code-block">#!/usr/bin/env bash
+set -e
+cd /opt/teq-device
+git pull
+python3 -m pip install -r requirements.txt
+sudo systemctl restart teq-device</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Safe Update Script</div><p>Create an update.sh script, run it twice, and confirm the second run does not break anything.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does set -e help with in a shell update script?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It stops the script when a command fails</button><button class="quiz-option" onclick="quiz(this,false,'set -e is shell behavior, not Bluetooth.')">It turns on Bluetooth</button><button class="quiz-option" onclick="quiz(this,false,'Formatting storage is not its purpose.')">It formats the SD card</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-8">
+      <div class="lesson-header"><div class="lesson-num">Module 09</div><h2>Health Checks &amp; Watchdogs</h2><p class="lesson-intro">Health checks let the device tell you whether its service, network, disk, and sensors are working.</p></div>
+      <div class="card"><div class="card-title">❤️ Health signals</div><ul><li>Service active state.</li><li>Free disk space.</li><li>Network connectivity.</li><li>Recent sensor reading age.</li><li>Last successful API or MQTT publish.</li></ul></div>
+      <pre class="code-block">systemctl is-active teq-device
+df -h /
+ping -c 1 8.8.8.8</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Health Report</div><p>Write a script that prints OK or FAIL for service state, disk space, and network connectivity.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a good health check report?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Specific OK/FAIL signals a maintainer can act on</button><button class="quiz-option" onclick="quiz(this,false,'Cute output is fine, but not without actionable status.')">Only random emojis</button><button class="quiz-option" onclick="quiz(this,false,'Health reports should not expose secrets.')">Private API keys</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-9">
+      <div class="lesson-header"><div class="lesson-num">Module 10</div><h2>Secure Device Access</h2><p class="lesson-intro">This module reinforces safe remote administration, local firewalls, least privilege, and avoiding unnecessary exposed services.</p></div>
+      <div class="card"><div class="card-title">🛡️ Safer access habits</div><ul><li>Use strong passwords or SSH keys.</li><li>Disable services you do not use.</li><li>Keep software updated.</li><li>Avoid public exposure by default.</li><li>Document who should access the device.</li></ul></div>
+      <pre class="code-block">sudo systemctl list-unit-files --type=service
+ss -tulpn
+sudo ufw status</pre>
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Service Surface Review</div><p>List listening ports and installed services. Disable anything that is unnecessary for the project.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the safest default for device services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Expose only what the device actually needs</button><button class="quiz-option" onclick="quiz(this,false,'Opening every port increases risk.')">Expose every port to the internet</button><button class="quiz-option" onclick="quiz(this,false,'Updates are part of maintenance.')">Never update software</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-10">
+      <div class="lesson-header"><div class="lesson-num">Module 11</div><h2>Deployment Checklist</h2><p class="lesson-intro">Learners turn loose instructions into a repeatable deployment checklist that someone else can follow.</p></div>
+      <div class="card"><div class="card-title">📋 Checklist sections</div><ul><li>Hardware requirements.</li><li>OS image and setup steps.</li><li>Install commands.</li><li>Configuration files.</li><li>Service names.</li><li>Admin URLs and recovery notes.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: One-Page Runbook</div><p>Write a one-page runbook explaining how to install, start, stop, update, and troubleshoot the device.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why write a deployment checklist?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">So setup can be repeated and supported</button><button class="quiz-option" onclick="quiz(this,false,'A good checklist reduces mystery.')">So nobody knows how it works</button><button class="quiz-option" onclick="quiz(this,false,'Checklists make errors easier to find, not hide.')">To hide errors</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
+    </section>
+
+    <section class="lesson" id="lesson-11">
+      <div class="lesson-header"><div class="lesson-num">Module 12</div><h2>Capstone: Device Agent</h2><p class="lesson-intro">The capstone packages everything into a Linux device agent that starts on boot, logs status, exposes a health report, and includes update and recovery notes.</p></div>
+      <div class="card"><div class="card-title">🏁 Final requirements</div><ul><li>Python agent runs under systemd.</li><li>Agent logs a heartbeat.</li><li>Health script reports service, disk, and network status.</li><li>Configuration is separated from code.</li><li>Update script is documented.</li><li>README includes install and rollback instructions.</li></ul></div>
+      
+      
+      
+      <div class="lab-card"><div class="card-title">🧪 Lab: Ship the Agent</div><p>Build the final agent, reboot-test it, intentionally break one config value, then use logs to diagnose and recover.</p></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes the capstone product-like?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It has service management, logs, health checks, and documentation</button><button class="quiz-option" onclick="quiz(this,false,'Terminal-only operation is not appliance-ready.')">It only runs from an open terminal</button><button class="quiz-option" onclick="quiz(this,false,'Recovery planning is part of shipping.')">It has no recovery plan</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Finish Course ✓</button></div>
+    </section>
+    <div class="footer-note">// TeqStudy Course 05 — Embedded Linux & Device Services</div>
+  </main>
+</div>
+
+<script>
+const totalLessons = 12;
+const storageKey = 'teqstudy-embedded-linux-device-services-course-progress-v1';
+let completed = new Set(JSON.parse(localStorage.getItem(storageKey) || '[0]'));
+let currentLesson = 0;
+function persist(){ localStorage.setItem(storageKey, JSON.stringify([...completed])); }
+function showLesson(idx){
+  if(idx < 0 || idx >= totalLessons) return;
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const lesson = document.getElementById('lesson-' + idx);
+  const nav = document.querySelectorAll('.nav-item')[idx];
+  if(lesson) lesson.classList.add('active');
+  if(nav) nav.classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  persist();
+  updateProgress();
+  const sel = document.getElementById('mobileLessonSelect');
+  if(sel) sel.value = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(){
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((item, i) => {
+    const check = item.querySelector('.nav-check');
+    if(check) check.textContent = completed.has(i) ? '✓' : '';
+  });
+}
+function next(){ showLesson(Math.min(currentLesson + 1, totalLessons - 1)); }
+function prev(){ showLesson(Math.max(currentLesson - 1, 0)); }
+function finishCourse(){ completed = new Set(Array.from({length: totalLessons}, (_, i) => i)); persist(); updateProgress(); }
+function resetProgress(){ completed = new Set([0]); persist(); showLesson(0); }
+function quiz(btn, isCorrect, feedback){
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const fb = block.querySelector('.quiz-feedback');
+  options.forEach(o => {
+    o.disabled = true;
+    const click = o.getAttribute('onclick') || '';
+    if(click.includes('true')) o.classList.add('correct');
+  });
+  if(!isCorrect) btn.classList.add('wrong');
+  fb.textContent = (isCorrect ? '✓ Correct. ' : '✗ Not quite. ') + feedback;
+  fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+}
+document.addEventListener('DOMContentLoaded', () => { completed.add(0); persist(); updateProgress(); });
+</script>
+</body>
+</html>
