@@ -36,7 +36,7 @@
   </h1>
 
   <p class="hero-sub">
-    Seven developer tracks — Java, Python, DevOps, Game Dev, AI, and more. 30 courses, one home.
+    Eleven developer tracks — Java, Python, DevOps, Game Dev, AI, Embedded & IoT, and more. 42 courses, one home.
   </p>
 
   <div class="compile-widget">
@@ -89,7 +89,7 @@
     <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
     <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
     <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
-    <a href="#track-embedded" class="track-pill" style="--tc:#e53935">🍓 Embedded Systems</a>
+    <a href="#track-embedded" class="track-pill" style="--tc:#e53935">🍓 Embedded &amp; IoT</a>
     <a href="#track-networking" class="track-pill" style="--tc:#3b82f6">🌐 Networking</a>
     <a href="#track-trading" class="track-pill" style="--tc:#06d6a0">📈 Trading &amp; Investing</a>
     <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
@@ -123,10 +123,10 @@
       <span class="track-card-title">Game Development</span>
       <span class="track-card-desc">Unity mobile dev and a full particle-effects course.</span>
     </a>
-    <a href="#track-embedded" class="track-card" style="--tc:#e53935">
+    <a href="pages/embedded-systems-track.html" class="track-card" style="--tc:#e53935">
       <span class="track-card-icon">🍓</span>
-      <span class="track-card-title">Embedded Systems</span>
-      <span class="track-card-desc">Raspberry Pi from breadboard basics to sensors, GPIO, and a capstone build.</span>
+      <span class="track-card-title">Embedded Systems &amp; IoT</span>
+      <span class="track-card-desc">Hardware-first learning: Raspberry Pi, Arduino, ESP32, sensors, robotics, Linux devices, and edge AI.</span>
     </a>
     <a href="#track-networking" class="track-card" style="--tc:#3b82f6">
       <span class="track-card-icon">🌐</span>
@@ -172,7 +172,7 @@
       <p class="card-desc">The most direct path into a first networking support role — how networks work, hands-on hardware and troubleshooting, then the security fundamentals every help desk ticket eventually touches.</p>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
         <a href="pages/networking-course.html" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:#3b82f6;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Networking</a>
-        <a href="pages/raspberry-pi-course.html" style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);color:#e53935;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Embedded Systems</a>
+        <a href="pages/embedded-systems-track.html" style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);color:#e53935;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Embedded &amp; IoT</a>
         <a href="pages/cybersecurity-beginner-course.html" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Cybersecurity</a>
       </div>
     </div>
@@ -620,20 +620,26 @@
   <div class="phase reveal" id="track-embedded">
     <div class="phase-header">
       <span class="phase-num" style="color:#e53935;border-color:rgba(229,57,53,0.35)">🍓 Track</span>
-      <span class="phase-name">Embedded Systems</span>
+      <span class="phase-name">Embedded Systems &amp; IoT</span>
       <span class="phase-line"></span>
     </div>
     <div class="cards-grid">
 
-      <a href="pages/raspberry-pi-course.html" class="course-card featured">
+      <a href="pages/embedded-systems-track.html" class="course-card featured">
         <div class="featured-inner">
           <div>
-            <div class="card-tag">Raspberry Pi · Hardware · Zero Assumed Knowledge</div>
-            <div class="card-title">Raspberry Pi for Complete Beginners</div>
-            <p class="card-desc">12 modules from breadboard basics to a full sensor/IoT capstone. Starts with breadboard anatomy, safe GPIO wiring, and add-ons before ever touching code — then GPIO programming, Linux essentials, analog sensing, I2C/SPI, motors, networking, and computer vision.</p>
+            <div class="card-tag">Embedded · IoT · Robotics · Edge AI</div>
+            <div class="card-title">Embedded Systems &amp; IoT Track</div>
+            <p class="card-desc">A full hardware-builder pathway: Raspberry Pi, Arduino, ESP32, Linux device services, sensors, motors, robotics, computer vision, and a final ship-ready embedded product. Course 01 is already live.</p>
           </div>
-          <span class="featured-badge">New ✦</span>
+          <span class="featured-badge">Track ✦</span>
         </div>
+      </a>
+
+      <a href="pages/raspberry-pi-course.html" class="course-card">
+        <div class="card-tag">Course 01 · Raspberry Pi · Zero Assumed Knowledge</div>
+        <div class="card-title">Raspberry Pi for Complete Beginners</div>
+        <p class="card-desc">12 modules from breadboard basics to a full sensor/IoT capstone. Starts with safe GPIO wiring and add-ons before moving into Python, Linux, sensors, motors, networking, and computer vision.</p>
       </a>
 
     </div>
@@ -813,7 +819,7 @@ const lines = [
   { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1580 },
   { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1780 },
   { text: '', cls: '', delay: 1980 },
-  { text: '[BUILD] Loading 30 courses across 7 tracks...', cls: 'cl-warn', delay: 2180 },
+  { text: '[BUILD] Loading 42 courses across 11 tracks...', cls: 'cl-warn', delay: 2180 },
   { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2780 },
   { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3280 },
 ];
