@@ -41,4 +41,27 @@
         max-width: 100%;
         height: auto;
     }
+
+    /* 6. Tables don't reflow on their own — wide cells (long code, long comparison
+          text) push them past the viewport with no way to reach the rest. Making
+          the table a horizontally-scrollable block (same approach already used for
+          code blocks above) means every column stays readable and aligned — the
+          user swipes sideways within the table instead of content being cut off. */
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        border-collapse: collapse;
+        white-space: nowrap;
+    }
+
+    /* Belt-and-suspenders: even inside the nowrap table above, a single very
+       long code token (e.g. a long generic type or method signature) can still
+       be wider than the whole screen. This lets it break internally as a last
+       resort instead of demanding an extreme amount of horizontal scroll. */
+    table code {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
 }
