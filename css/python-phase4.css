@@ -645,4 +645,5 @@ pre code {
 @media (max-width: 800px) {
   .sidebar { display: none; }
   .lesson-header, .lesson-body { padding: 24px 20px; }
+  .compare { grid-template-columns: 1fr; }
 }

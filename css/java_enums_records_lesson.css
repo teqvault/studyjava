@@ -148,4 +148,5 @@
     .main { width: 100% !important; padding: 15px !important; }
     .lesson-nav { flex-direction: column; gap: 10px; }
     button, .nav-btn, .btn { min-height: 44px !important; padding: 12px !important; }
+    .concept-row, .enum-member-grid, .ba-grid { grid-template-columns: 1fr !important; }
 }
