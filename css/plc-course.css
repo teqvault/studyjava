@@ -1,0 +1,42 @@
+/* PLC Programming course — page-specific accents on top of oop-java-course.css base */
+
+.dev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 22px 0; }
+.dev-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  border-top: 3px solid var(--accent, #f97316);
+  transition: transform 0.2s;
+}
+.dev-card:hover { transform: translateY(-4px); }
+.dev-card .dev-icon { font-size: 2rem; margin-bottom: 10px; }
+.dev-card h4 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 6px; }
+.dev-card p { font-size: 0.87rem; color: var(--muted); }
+
+.net-diagram {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.82rem;
+  line-height: 1.9;
+  white-space: pre;
+}
+.net-diagram .layer  { color: #f97316; }
+.net-diagram .flow   { color: #06d6a0; }
+.net-diagram .device { color: #118ab2; }
+.net-diagram .label  { color: #ffd166; }
+.net-diagram .dim    { color: #5a5880; }
+
+/* Comparison grid pattern — min-width:0 baked in from the start so a wide
+   code/ladder-logic block inside a column can never force the track wider
+   than its container (the exact bug found and fixed elsewhere this session). */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
+.compare-col { min-width: 0; }
+@media (max-width: 700px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PLC Programming for Complete Beginners | Teqvault.study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/oop-java-course.css"/>
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/plc-course.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Teqvault.study</div>
+  <h1>PLC Programming for Complete Beginners</h1>
+  <p>How industrial automation actually works — wiring, ladder logic, timers and counters, motor control, safety systems, and a full automated system as your capstone. Zero assumed knowledge.</p>
+  <div class="header-stars">⚙️ 🔌 🏭 🛡️ 🏁</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+  <button onclick="resetProgress()" style="background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">⚙️</span> What a PLC Actually Is <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🔌</span> Digital I/O — Wiring <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">🪜</span> Ladder Logic Fundamentals <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">⏱️</span> Timers &amp; Counters <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">📊</span> Analog I/O &amp; Scaling <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🔢</span> Data Types &amp; Addressing <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🗂️</span> Program Organization <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🌀</span> Motor Control Circuits <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🛑</span> Safety Systems &amp; E-Stops <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🖥️</span> HMI Basics <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">📡</span> Communication Protocols <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🛠️</span> Troubleshooting a PLC System <span class="nav-check" id="chk11"></span></div>
+  <div class="nav-item" onclick="go(12)" id="nav12"><span class="nav-icon">🏁</span> Capstone — Sorting System <span class="nav-check" id="chk12"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- ===== LESSON 0: What a PLC Actually Is ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>⚙️ What a PLC Actually Is</h2>
+    <p class="lesson-intro">Before any wiring or programming: what a PLC actually is, why it exists, and how it's different from a regular computer or a microcontroller like the Raspberry Pi.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏭 What Problem a PLC Solves</div>
+    <p>A <strong>PLC (Programmable Logic Controller)</strong> is an industrial computer built to control machinery — conveyor belts, motors, valves, pumps, packaging lines, elevators, traffic lights — reliably, continuously, for years, in environments a regular computer would never survive: heat, vibration, dust, electrical noise, and constant on/off power cycling.</p>
+    <p>Before PLCs existed (pre-1970s), factory control was done entirely with physical relays — electromechanical switches wired together in large panels. Changing the control logic meant physically rewiring the panel. A PLC replaced that panel with a computer that runs a <em>program</em> instead — the same physical wiring stays in place, and changing the logic means editing software, not rewiring hardware.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🆚 PLC vs. Regular Computer vs. Microcontroller</div>
+    <table>
+      <tr><th></th><th>Regular Computer</th><th>Microcontroller (e.g. Raspberry Pi)</th><th>PLC</th></tr>
+      <tr><td>Built for</td><td>General-purpose computing</td><td>Hobbyist/embedded projects, prototyping</td><td>Industrial control, running for years unattended</td></tr>
+      <tr><td>Environment</td><td>Climate-controlled office/home</td><td>Usually indoors, mild conditions</td><td>Factory floors — heat, vibration, dust, electrical noise</td></tr>
+      <tr><td>How it runs logic</td><td>Multitasking OS, many programs at once</td><td>Usually one program, general-purpose code (Python, C)</td><td>One continuous scan cycle (this module, below), often ladder logic</td></tr>
+      <tr><td>Failure tolerance</td><td>Reboots are normal/expected</td><td>Reboots are normal/expected</td><td>Designed to almost never need a reboot — an unplanned stop can halt a whole production line</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>If you've done the Raspberry Pi course</strong>A lot of this will feel familiar — GPIO pins, digital inputs/outputs, wiring a switch or a motor. A PLC is that same core idea, built to industrial-grade reliability standards, with a different programming style (ladder logic instead of Python) that traces directly back to how electricians already think about relay circuits.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 The Scan Cycle — How a PLC "Thinks"</div>
+    <p>A PLC doesn't run code top-to-bottom once and stop — it repeats the same three-step cycle continuously, often hundreds of times per second, for as long as it's powered on:</p>
+    <div class="net-diagram"><span class="label">┌─────────────────────────────────────────────┐</span>
+<span class="label">│</span>  <span class="flow">1. READ INPUTS</span>   → snapshot every input's current state
+<span class="label">│</span>  <span class="flow">2. RUN PROGRAM</span>   → execute the logic against that snapshot
+<span class="label">│</span>  <span class="flow">3. WRITE OUTPUTS</span>  → update every output based on the result
+<span class="label">└─────────────────────────────────────────────┘</span>
+         <span class="dim">▲</span>                                    <span class="dim">│</span>
+         <span class="dim">└────────────── repeat forever ─────────────┘</span></div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Inputs are "frozen" during one scan</strong>Step 1 takes a snapshot of every input at the start of the cycle — if a sensor changes state mid-scan, the program doesn't see that change until the <em>next</em> cycle. This is a deliberate design choice: it keeps the logic's behavior predictable and consistent within a single scan, instead of inputs changing out from under the program mid-calculation.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 The Physical Pieces</div>
+    <div class="dev-grid">
+      <div class="dev-card" style="--accent:#f97316"><div class="dev-icon">🧠</div><h4>CPU Module</h4><p>Runs the scan cycle and stores the program — the "brain" of the system.</p></div>
+      <div class="dev-card" style="--accent:#118ab2"><div class="dev-icon">🔋</div><h4>Power Supply</h4><p>Converts incoming AC power (often 120V/240V) into the low-voltage DC (typically 24V) the PLC's electronics actually run on.</p></div>
+      <div class="dev-card" style="--accent:#06d6a0"><div class="dev-icon">📥</div><h4>Input Modules</h4><p>Where field devices connect in — switches, sensors, pushbuttons — read every scan cycle (Module 2).</p></div>
+      <div class="dev-card" style="--accent:#ffd166"><div class="dev-icon">📤</div><h4>Output Modules</h4><p>Where field devices connect out — motor starters, solenoid valves, indicator lights — written every scan cycle.</p></div>
+      <div class="dev-card" style="--accent:#c77dff"><div class="dev-icon">🛤️</div><h4>Backplane/Rack</h4><p>The physical chassis the modules plug into, providing power and a communication bus between them.</p></div>
+      <div class="dev-card" style="--accent:#ff6b6b"><div class="dev-icon">💻</div><h4>Programming Software</h4><p>Runs on a separate laptop/PC, used to write, download, and monitor the program running on the PLC — not run on the PLC itself.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏢 Common PLC Brands You'll See</div>
+    <table>
+      <tr><th>Brand</th><th>Notes</th></tr>
+      <tr><td>Allen-Bradley / Rockwell Automation</td><td>Extremely common in the US, including many government/military facilities</td></tr>
+      <tr><td>Siemens</td><td>Dominant in Europe, very common globally</td></tr>
+      <tr><td>Schneider Electric (Modicon)</td><td>Widespread, invented the first commercial PLC line</td></tr>
+      <tr><td>Omron, Mitsubishi</td><td>Common in machine building and robotics, especially in Asia</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This course teaches concepts, not one vendor's software</strong>Every brand's programming software looks a little different, but the underlying concepts — scan cycle, ladder logic, timers, I/O wiring — are essentially universal across all of them. Once you understand the concepts here, picking up any specific vendor's software is a much smaller jump.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A sensor changes state exactly halfway through a PLC's scan cycle. When does the program actually see that change?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Inputs are only read at the start of each scan (step 1) — a mid-scan change isn't seen immediately, precisely so the program's behavior stays predictable within one cycle.">Immediately, mid-scan</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Inputs are snapshotted once at the start of each scan cycle. A change happening mid-scan isn't picked up until the next cycle's input-read step.">Not until the next scan cycle begins</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="PLCs don't work as continuously-updating event streams the way some other systems do — they operate on discrete scan cycles specifically for predictability.">Never — the PLC would need to be restarted</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Digital I/O — Wiring →</button>
+  </div>
+</section>
+<!-- ===== LESSON 1: Digital I/O — Wiring ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🔌 Digital I/O — Inputs, Outputs &amp; Wiring</h2>
+    <p class="lesson-intro">How real switches, sensors, and motors actually connect to a PLC — voltage levels, sourcing vs. sinking, and the two contact types every electrician needs to recognize on sight.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ What "Digital I/O" Means</div>
+    <p>A <strong>digital input</strong> reads one of two states: ON or OFF (also called 1/0, TRUE/FALSE, or High/Low). A pushbutton, a limit switch, a proximity sensor — anything that's simply "triggered or not" connects to a digital input. A <strong>digital output</strong> is the same idea in reverse: the PLC turns something ON or OFF — a motor starter coil, an indicator light, a solenoid valve.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔋 Common Voltage Levels</div>
+    <table>
+      <tr><th>Voltage</th><th>Where You'll See It</th></tr>
+      <tr><td>24V DC</td><td>The most common industrial I/O voltage — sensors, pushbuttons, most modern PLC I/O modules</td></tr>
+      <tr><td>120V AC</td><td>Older/legacy equipment, some motor control circuits directly</td></tr>
+      <tr><td>5V DC / 3.3V DC</td><td>Rare directly on PLC I/O — this is more the territory of microcontrollers like the Raspberry Pi's GPIO</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Always check the module's rated voltage before wiring anything</strong>Connecting a 120V AC device to a 24V DC-rated input module (or vice versa) can destroy the module instantly. This is the industrial equivalent of the Raspberry Pi course's "never connect 5V to a 3.3V GPIO pin" rule — the exact voltage differs, but the principle is identical: always match voltage before connecting.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 Sourcing vs. Sinking — The Concept That Confuses Every Beginner</div>
+    <p>This describes which direction current flows through an input or output, and it's the single most common point of confusion for anyone new to industrial wiring.</p>
+    <table>
+      <tr><th></th><th>Sourcing (PNP)</th><th>Sinking (NPN)</th></tr>
+      <tr><td>Current flows</td><td><strong>Out of</strong> the PLC module, through the device, to ground</td><td><strong>Into</strong> the PLC module, from the device, from the supply</td></tr>
+      <tr><td>The PLC module provides</td><td>The positive voltage</td><td>The path to ground (0V)</td></tr>
+      <tr><td>More common in</td><td>North America</td><td>Europe and Asia</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>A simpler way to think about it</strong>Ask "does this module supply the positive voltage, or does it supply the path to ground?" A sourcing (PNP) module pushes voltage out to the device; a sinking (NPN) module pulls current in from the device. Mixing sourcing and sinking devices on the wrong type of module is a common real-world wiring mistake — the device often simply won't work, with no damage, but it also won't be obvious why.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔘 Normally Open vs. Normally Closed Contacts</div>
+    <p>Every switch, sensor, or pushbutton has a "resting" state before it's triggered — this is what NO/NC describes, and it matters enormously for both wiring and logic design.</p>
+    <table>
+      <tr><th>Type</th><th>Resting State</th><th>When Triggered</th><th>Typical Use</th></tr>
+      <tr><td>Normally Open (NO)</td><td>Circuit open — no current flows</td><td>Closes, current flows</td><td>Start buttons — you want "nothing happens" until pressed</td></tr>
+      <tr><td>Normally Closed (NC)</td><td>Circuit closed — current flows</td><td>Opens, current stops</td><td>Stop buttons and safety circuits — see the callout below</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Why stop buttons and safety devices are almost always Normally Closed</strong>An NC stop button means current is flowing <em>while everything is fine</em>. If a wire breaks, the button fails, or someone unplugs it entirely — the circuit opens exactly as if the button were pressed, and the machine stops safely. If a stop button were wired Normally Open instead, a broken wire would mean the stop button silently stops working, and the machine would have no way to know something failed. This "fail-safe" wiring principle is foundational to Module 9's safety systems.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 A Basic Wiring Example — A Pushbutton to an Input</div>
+    <div class="net-diagram"><span class="label">24V DC Sourcing Input Module (PNP)</span>
+
+<span class="device">[24V+]</span> ────────┐
+                <span class="dim">│</span>
+             <span class="device">[Pushbutton]</span>  <span class="dim">(Normally Open)</span>
+                <span class="dim">│</span>
+<span class="device">[Input 1]</span> ──────┘   <span class="dim">← module reads HIGH only while pressed</span>
+
+<span class="device">[24V COM]</span> ──────────  <span class="dim">← common/ground reference for the module</span></div>
+    <p>When the button is pressed, it completes the circuit from 24V, through the button, into Input 1 — the module reads that as ON. Release the button, the circuit opens, the module reads OFF. Every digital input works on this same basic principle, regardless of the specific sensor or switch involved.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why are emergency stop buttons almost always wired Normally Closed instead of Normally Open?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="With NC wiring, a broken wire or disconnected button opens the circuit exactly like pressing it — the machine stops safely by default instead of silently losing its stop function.">A broken wire or disconnected button then fails safely — it stops the machine instead of silently doing nothing</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="NC wiring isn't about response speed — both NO and NC switches respond immediately. The reason is fail-safe behavior when a wire breaks.">NC contacts respond faster than NO contacts</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="NC wiring works with standard digital input voltages just like NO — no special voltage requirement is involved.">NC is required for any circuit above 24V</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← What a PLC Actually Is</button>
+    <button class="btn btn-next" onclick="next(1)">Ladder Logic Fundamentals →</button>
+  </div>
+</section>
+<!-- ===== LESSON 2: Ladder Logic Fundamentals ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>🪜 Ladder Logic Fundamentals</h2>
+    <p class="lesson-intro">The most common PLC programming language, designed on purpose to look like the relay wiring diagrams it replaced. Rails, rungs, contacts, and coils — the entire visual vocabulary.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🪜 Why It's Called "Ladder" Logic</div>
+    <p>A ladder logic program is drawn to look like a ladder: two vertical lines (the <strong>rails</strong>) representing power and ground, with horizontal <strong>rungs</strong> connecting them — each rung is one independent piece of logic, evaluated top to bottom, every scan cycle.</p>
+    <div class="net-diagram">Rail             Rung                              Rail
+ <span class="device">│</span>   <span class="flow">──┤ ├──┤ ├──────────────────( )</span>   <span class="device">│</span>   <span class="dim">← Rung 1</span>
+ <span class="device">│</span>                                              <span class="device">│</span>
+ <span class="device">│</span>   <span class="flow">──┤/├───────────────────────( )</span>   <span class="device">│</span>   <span class="dim">← Rung 2</span>
+ <span class="device">│</span>                                              <span class="device">│</span></div>
+    <p>Electricians already read relay diagrams this way — ladder logic was designed deliberately to feel familiar to someone who already understood relay control panels, which is exactly why it became the dominant PLC language.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Contacts — Reading the Symbols</div>
+    <table>
+      <tr><th>Symbol</th><th>Name</th><th>True (passes power) When…</th></tr>
+      <tr><td><code>──┤ ├──</code></td><td>Normally Open contact (XIC)</td><td>The referenced bit is ON</td></tr>
+      <tr><td><code>──┤/├──</code></td><td>Normally Closed contact (XIO)</td><td>The referenced bit is OFF</td></tr>
+    </table>
+    <p>A contact doesn't control power itself — it represents a <em>condition being checked</em>. "Is this input ON?" (Normally Open contact) or "Is this input OFF?" (Normally Closed contact). If the condition is true, that contact "passes power" along the rung, continuing to the next element.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Don't confuse ladder logic's NO/NC with the physical switch's NO/NC from Module 2</strong>A physical Normally Closed stop button, wired correctly, is read by the PLC as ON while everything is fine (since current is flowing). In the ladder program, you'd typically use a <strong>Normally Open contact (XIC)</strong> referencing that input — checking "is the stop button's input ON (i.e., not pressed)?" This mismatch between physical wiring convention and ladder logic symbol trips up almost every beginner at least once.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💡 Coils — The Output of a Rung</div>
+    <table>
+      <tr><th>Symbol</th><th>Name</th><th>Behavior</th></tr>
+      <tr><td><code>──( )──</code></td><td>Output Energize (OTE)</td><td>Turns ON when the rung's conditions are true, turns OFF when they're false — re-evaluated every scan</td></tr>
+      <tr><td><code>──(L)──</code></td><td>Output Latch (OTL)</td><td>Turns ON when triggered and <strong>stays ON</strong> even after the condition goes false — until explicitly unlatched</td></tr>
+      <tr><td><code>──(U)──</code></td><td>Output Unlatch (OTU)</td><td>Turns a latched output back OFF</td></tr>
+    </table>
+    <p>A coil sits at the end of a rung and represents the actual output — either a real physical output (a light, a motor starter) or an internal memory bit used elsewhere in the program.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔀 Series vs. Parallel — AND vs. OR</div>
+    <p>How contacts are arranged on a rung directly maps to logical AND/OR — exactly like circuit theory.</p>
+    <div class="net-diagram"><span class="label">SERIES = AND</span>  (both must be true)
+ <span class="device">│</span>  <span class="flow">──┤ ├──┤ ├──( )</span>  <span class="dim">Input1 AND Input2 → Output</span>
+ <span class="device">│</span>
+
+<span class="label">PARALLEL = OR</span>  (either can be true)
+ <span class="device">│</span>  <span class="flow">┌──┤ ├──┐</span>
+ <span class="device">│</span>  <span class="flow">├──┤ ├──┤──( )</span>  <span class="dim">Input1 OR Input2 → Output</span>
+ <span class="device">│</span>  <span class="flow">└────────┘</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌱 A Complete First Rung — Start/Stop with a Seal-In</div>
+    <p>This single pattern is one of the most common circuits in all of industrial control — it appears constantly starting in Module 8's motor control circuits.</p>
+    <div class="net-diagram"> <span class="device">│</span>  <span class="flow">──┤ ├────┤/├────────────( )</span>   <span class="dim">← Start (NO)  Stop (NC)   Motor coil</span>
+ <span class="device">│</span>  <span class="flow">┌─┤ ├─┐</span>
+ <span class="device">│</span>  <span class="flow">└──────┘</span>                          <span class="dim">← Motor's own contact, in parallel with Start</span></div>
+    <p>Pressing Start energizes the Motor coil. The Motor's own contact (wired in parallel with Start) also closes at the same moment — so even after you release the Start button, that parallel contact "seals in" the circuit, keeping the motor running. Pressing Stop breaks the circuit entirely, dropping the seal-in along with it.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Two contacts are wired in parallel on a rung, both leading to the same coil. What logic does this represent?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Series wiring (one after another on the same path) represents AND. Parallel wiring — separate paths that both lead to the same place — represents OR.">AND — both contacts must be true</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Parallel contacts each provide an independent path to the coil — if either one is true, power reaches the coil, which is exactly OR logic.">OR — either contact being true energizes the coil</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="NOT would be represented by a Normally Closed contact symbol, not by how two contacts are arranged relative to each other.">NOT — the coil only energizes if both are false</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Digital I/O — Wiring</button>
+    <button class="btn btn-next" onclick="next(2)">Timers &amp; Counters →</button>
+  </div>
+</section>
+<!-- ===== LESSON 3: Timers & Counters ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>⏱️ Timers &amp; Counters</h2>
+    <p class="lesson-intro">The building blocks that turn simple on/off logic into real automation — delaying an action, counting parts, and building a repeating sequence.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ TON — Timer On-Delay</div>
+    <p>The most common timer type. Starts counting the moment its input goes true; once the preset time elapses, its <strong>Done (DN)</strong> bit turns ON. If the input goes false before the preset is reached, the timer resets to zero.</p>
+    <table>
+      <tr><th>Parameter</th><th>Meaning</th></tr>
+      <tr><td>PRE (Preset)</td><td>How long to wait, e.g. 3000ms (3 seconds)</td></tr>
+      <tr><td>ACC (Accumulated)</td><td>How much time has elapsed so far, resets to 0 whenever the input goes false</td></tr>
+      <tr><td>DN (Done) bit</td><td>Turns ON once ACC reaches PRE — this is what the rest of your program reacts to</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>A real example</strong>A conveyor motor starts, but you want the discharge gate to stay closed for 3 seconds before opening (to let product build up first). Wire a TON timer's input to "motor running," set PRE to 3000ms, and use the timer's DN bit to open the gate.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏳ TOF — Timer Off-Delay</div>
+    <p>The mirror image of TON. The DN bit turns ON <em>immediately</em> when the input goes true, and stays ON for the preset duration <em>after</em> the input goes false — useful for "keep something running a little longer after the trigger stops," like a cooling fan.</p>
+    <table>
+      <tr><th>Scenario</th><th>Timer Choice</th></tr>
+      <tr><td>Wait before starting something</td><td>TON</td></tr>
+      <tr><td>Keep something running briefly after it should've stopped</td><td>TOF</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔁 RTO — Retentive Timer</div>
+    <p>Like a TON, except the accumulated time is <strong>not</strong> reset when the input goes false — it holds its progress and resumes counting next time the input goes true again. Requires a separate explicit "reset" instruction to zero it out. Used for things like tracking total accumulated run-time toward a maintenance interval, across many separate on/off cycles.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Counters — CTU &amp; CTD</div>
+    <table>
+      <tr><th>Counter</th><th>Behavior</th></tr>
+      <tr><td>CTU (Count Up)</td><td>Increments by 1 every time its input transitions from false to true; DN bit turns ON once the count reaches the preset</td></tr>
+      <tr><td>CTD (Count Down)</td><td>Decrements by 1 on each true transition — commonly paired with a CTU to count something down from a starting batch size</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Counters count transitions, not "is it true right now"</strong>A counter only increments on the false-to-true edge, not for every scan the input happens to be true. A part sitting in front of a sensor for several scan cycles in a row still only counts once — it's counting <em>events</em> (a part arriving), not measuring how long the input stays on (that's what a timer is for).</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Combining Timers and Counters — A Simple Batch Example</div>
+    <p>A real, common pattern: count 10 boxes onto a pallet, then pause 5 seconds (to let a wrapper machine finish), then reset and start the next pallet.</p>
+    <div class="net-diagram">Box sensor input  <span class="flow">──►</span>  CTU (preset: 10)
+                                <span class="dim">│</span>
+                             DN bit
+                                <span class="dim">│</span>
+                                <span class="flow">──►</span>  TON (preset: 5000ms) — pause for wrap
+                                            <span class="dim">│</span>
+                                         DN bit
+                                            <span class="dim">│</span>
+                                            <span class="flow">──►</span>  Reset CTU, start next pallet</div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A part sensor stays triggered (true) for 4 full scan cycles in a row as one box passes by. How many times does a CTU counter connected to it increment?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="A counter increments once per false-to-true transition, not once per scan the input happens to be true.">4 times — once per scan</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="CTU increments on the false-to-true transition only — one box passing by, however many scans it stays triggered for, is still just one transition and one count.">Once — it only counts the transition from false to true</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Counters don't reset themselves on every false input — a CTU only resets when explicitly told to via a reset instruction.">Zero — the counter resets every time the input goes false</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Ladder Logic Fundamentals</button>
+    <button class="btn btn-next" onclick="next(3)">Analog I/O &amp; Scaling →</button>
+  </div>
+</section>
+<!-- ===== LESSON 4: Analog I/O & Scaling ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>📊 Analog I/O &amp; Scaling</h2>
+    <p class="lesson-intro">Not everything in the real world is simply on or off. Temperature, pressure, level, speed — these need analog I/O, and a conversion step called scaling to turn raw numbers into something meaningful.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Digital vs. Analog Signals</div>
+    <p>A digital signal is one of two states — on or off. An <strong>analog signal</strong> is a continuously variable value — a tank's water level isn't "full or empty," it's anywhere from 0% to 100%. Analog inputs/outputs read and write these continuous values, most commonly using one of two standard signal ranges.</p>
+    <table>
+      <tr><th>Signal Standard</th><th>Range</th><th>Notes</th></tr>
+      <tr><td>4-20mA current loop</td><td>4mA = 0%, 20mA = 100%</td><td>The industrial standard — resistant to electrical noise over long wire runs</td></tr>
+      <tr><td>0-10V DC</td><td>0V = 0%, 10V = 100%</td><td>Common on shorter wire runs, simpler wiring</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why 4-20mA starts at 4, not 0</strong>Starting the range at 4mA instead of 0mA means a broken wire (reading 0mA) is instantly distinguishable from a legitimate "0%" reading. This is the same fail-safe design principle from Module 2's Normally Closed stop button — a wiring fault produces an obviously-wrong value instead of silently looking like a valid low reading.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Raw Counts — What the PLC Actually Sees</div>
+    <p>An analog input module doesn't directly store "4-20mA" — it converts the incoming signal into a raw digital number, typically over a range like 0-32767 (a common 15-bit resolution). The PLC program then has to convert that raw number into an actual engineering value (like degrees, PSI, or gallons) — this conversion is called <strong>scaling</strong>.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧮 The Scaling Formula</div>
+    <p>Scaling maps one range of numbers onto another — the raw count range onto the real-world engineering unit range.</p>
+    <div class="net-diagram">Scaled Value = <span class="flow">(Raw − RawMin)</span> × <span class="flow">(EngMax − EngMin)</span> ÷ <span class="flow">(RawMax − RawMin)</span> + <span class="flow">EngMin</span></div>
+    <p><strong>Worked example:</strong> a pressure transmitter reads 4-20mA, scaled by the analog module into raw counts 0-32767. The transmitter is rated for 0-150 PSI. If the current raw reading is 16,384 (roughly the midpoint):</p>
+    <div class="net-diagram">Scaled = <span class="flow">(16384 − 0)</span> × <span class="flow">(150 − 0)</span> ÷ <span class="flow">(32767 − 0)</span> + <span class="flow">0</span>
+       = 16384 × 150 ÷ 32767
+       ≈ <span class="label">75 PSI</span></div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Getting the min/max values wrong is a common, subtle bug</strong>If the transmitter is actually rated 0-200 PSI but the program is scaled assuming 0-150 PSI, every single reading will be wrong by a consistent, predictable amount — often not obviously wrong at a glance, which makes it a dangerous bug to leave unnoticed. Always double check a sensor's actual rated range against the datasheet, not against what "seems reasonable."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📤 Analog Outputs</div>
+    <p>Analog outputs work the same way in reverse — the program calculates a desired real-world value (like "run this valve 60% open"), scales it back down into a raw count, and the output module converts that into an actual 4-20mA or 0-10V signal driving the physical device (often a variable speed drive or a proportional valve).</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why does the 4-20mA standard start at 4mA instead of 0mA?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Starting at 4mA means a broken wire (reading 0mA) is instantly distinguishable from a legitimate 0% reading — a fail-safe design choice.">So a broken wire (0mA) can be distinguished from a legitimate 0% reading</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't about power consumption — it's specifically a fault-detection design choice, distinguishing a real zero reading from a wiring fault.">To reduce power consumption on the signal wire</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Digital input voltage compatibility isn't the reason — 4-20mA is a current loop standard used specifically for analog signals, not digital inputs.">Because PLC digital inputs require a minimum of 4mA to register</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Timers &amp; Counters</button>
+    <button class="btn btn-next" onclick="next(4)">Data Types &amp; Addressing →</button>
+  </div>
+</section>
+<!-- ===== LESSON 5: Data Types & Addressing ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>🔢 Data Types &amp; Memory Addressing</h2>
+    <p class="lesson-intro">Every input, output, timer, and calculated value needs somewhere to live in the PLC's memory, and a type describing what kind of value it holds. This is the vocabulary every ladder rung and every piece of documentation depends on.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 The Core Data Types</div>
+    <table>
+      <tr><th>Type</th><th>Holds</th><th>Example Use</th></tr>
+      <tr><td>BOOL</td><td>A single bit — ON/OFF, TRUE/FALSE</td><td>A digital input, a coil, an internal flag</td></tr>
+      <tr><td>INT</td><td>A whole number, typically -32768 to 32767</td><td>A part count, a raw analog value</td></tr>
+      <tr><td>DINT</td><td>A larger whole number (32-bit)</td><td>A large running total, a high-resolution counter</td></tr>
+      <tr><td>REAL</td><td>A decimal/floating-point number</td><td>A scaled engineering value like 75.3 PSI</td></tr>
+      <tr><td>TIMER / COUNTER</td><td>A structured type bundling PRE, ACC, and status bits together (Module 4)</td><td>Every TON, TOF, CTU, CTD instruction</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why the type matters</strong>Using a BOOL where a REAL is needed (or vice versa) isn't just a style issue — a scaled PSI value like 75.3 simply can't be stored correctly in a BOOL or an INT. Picking the right type is the difference between a program that calculates correctly and one that silently loses precision or won't compile at all.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ Two Addressing Styles: Tags vs. Direct Addresses</div>
+    <table>
+      <tr><th></th><th>Direct Addressing (older style)</th><th>Tag-Based (modern style)</th></tr>
+      <tr><td>Looks like</td><td><code>I:1/0</code>, <code>O:2/3</code></td><td><code>ConveyorMotorRunning</code>, <code>Tank1_Level</code></td></tr>
+      <tr><td>Meaning</td><td>A specific memory location/module slot/bit position</td><td>A human-readable name you assign yourself</td></tr>
+      <tr><td>Readability</td><td>Requires memorizing what each address represents</td><td>Self-documenting — the name describes the purpose</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Modern platforms are almost entirely tag-based now</strong>Direct addressing still exists (and you'll see it in older programs and some documentation), but nearly all current PLC programming uses tags — you name a piece of data once, and the underlying memory address is handled automatically. This course uses tag names throughout for exactly that readability reason.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📛 Good Tag Naming Conventions</div>
+    <ul>
+      <li><strong>Be specific and consistent</strong> — <code>Conveyor1_MotorRunning</code> beats <code>M1</code> for anyone maintaining the program later, including future-you.</li>
+      <li><strong>Group related tags with a shared prefix</strong> — <code>Tank1_Level</code>, <code>Tank1_HighAlarm</code>, <code>Tank1_LowAlarm</code> makes it obvious at a glance which equipment a tag belongs to.</li>
+      <li><strong>Match physical labels where possible</strong> — if the wiring diagram calls a device "PB-101" (pushbutton 101), naming the tag <code>PB101_Start</code> keeps the software and the physical panel traceable to each other.</li>
+    </ul>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Undocumented direct addresses are a real, common maintenance nightmare</strong>Walking into an older facility with a program full of bare <code>I:1/0</code>-style addresses and zero documentation is one of the most common frustrations in industrial maintenance — nobody currently on staff may remember what half the addresses actually control. Good tag names are cheap to write now and expensive to reconstruct later.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A scaled pressure reading needs to store a value like 75.3 PSI. Which data type is appropriate?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="BOOL only holds ON/OFF — it can't represent a decimal value like 75.3 at all.">BOOL</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="INT holds whole numbers only — it would truncate 75.3 down to 75, losing precision.">INT</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="REAL (floating-point) is designed exactly for decimal values like a scaled engineering reading of 75.3 PSI.">REAL</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Analog I/O &amp; Scaling</button>
+    <button class="btn btn-next" onclick="next(5)">Program Organization →</button>
+  </div>
+</section>
+<!-- ===== LESSON 6: Program Organization ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>🗂️ Program Organization — Routines &amp; Structured Text</h2>
+    <p class="lesson-intro">A real facility's program can be thousands of rungs long. Here's how it's kept manageable — breaking it into organized pieces, and a second PLC language better suited to math-heavy logic than ladder.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📁 Why One Giant Program Doesn't Work</div>
+    <p>A single flat ladder program thousands of rungs long is nearly impossible to navigate, test, or safely modify. Real PLC programs are broken into <strong>routines</strong> (sometimes called programs or subroutines depending on platform) — each one handling one specific piece of equipment or one specific job, called from a main routine that coordinates them.</p>
+    <div class="net-diagram">MainRoutine
+ ├── <span class="flow">Conveyor1_Control</span>
+ ├── <span class="flow">Conveyor2_Control</span>
+ ├── <span class="flow">Tank_LevelControl</span>
+ ├── <span class="flow">Alarms_Monitoring</span>
+ └── <span class="flow">HMI_Faceplate_Handling</span></div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>The same instinct as organizing code into functions</strong>If you've done any of this platform's programming courses, this is the exact same reasoning behind breaking a program into functions or classes instead of one giant script — smaller, named, single-purpose pieces are easier to test, easier to reuse, and dramatically easier for someone else (or future-you) to understand.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 IEC 61131-3 — The Standard Behind Every PLC Language</div>
+    <p>Ladder Logic isn't the only PLC programming language — it's one of five standardized languages defined by IEC 61131-3, the international standard nearly every PLC platform follows in some form.</p>
+    <table>
+      <tr><th>Language</th><th>Looks Like</th><th>Best For</th></tr>
+      <tr><td>Ladder Diagram (LD)</td><td>Relay-style rungs (Module 3)</td><td>On/off control logic, the most common starting language</td></tr>
+      <tr><td>Structured Text (ST)</td><td>Text-based code, resembling Pascal/BASIC</td><td>Math-heavy logic, loops, complex calculations</td></tr>
+      <tr><td>Function Block Diagram (FBD)</td><td>Connected boxes representing functions</td><td>Signal-flow-style processes (common in process/chemical industries)</td></tr>
+      <tr><td>Sequential Function Chart (SFC)</td><td>A flowchart of steps and transitions</td><td>Clearly sequential, step-by-step processes (like a batching recipe)</td></tr>
+      <tr><td>Instruction List (IL)</td><td>Low-level, assembly-like</td><td>Rare today — mostly legacy</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 A Taste of Structured Text</div>
+    <p>The same conveyor gate-delay example from Module 4, written in Structured Text instead of ladder — notice how much more naturally a mix of conditions and math reads as text versus as rungs.</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Structured Text</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+      <pre><span class="kw">IF</span> ConveyorRunning <span class="kw">THEN</span>
+    GateDelayTimer.<span class="fn">TON</span>(IN := <span class="kw">TRUE</span>, PT := T#3s);
+<span class="kw">ELSE</span>
+    GateDelayTimer.<span class="fn">TON</span>(IN := <span class="kw">FALSE</span>, PT := T#3s);
+<span class="kw">END_IF</span>;
+
+<span class="kw">IF</span> GateDelayTimer.Q <span class="kw">THEN</span>
+    DischargeGate_Open := <span class="kw">TRUE</span>;
+<span class="kw">END_IF</span>;</pre>
+    </div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Ladder and Structured Text aren't rivals — they coexist</strong>Many real programs mix both: ladder for the overall on/off control flow (since it's intuitive to trace and matches how electricians troubleshoot with a multimeter), with Structured Text used inside specific routines that need heavier math or complex conditional logic ladder handles clumsily.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A routine needs to calculate a complex scaling formula with several nested conditions. Which language is generally the better fit?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Ladder logic can technically do math, but it becomes clumsy and hard to read for anything beyond simple on/off control — text-based math reads far more naturally.">Ladder Diagram</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Structured Text handles math-heavy, conditional logic far more naturally than ladder rungs — this is exactly the kind of task it's suited for.">Structured Text</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Sequential Function Chart is built for step-by-step sequential processes, not for complex mathematical calculations.">Sequential Function Chart</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Data Types &amp; Addressing</button>
+    <button class="btn btn-next" onclick="next(6)">Motor Control Circuits →</button>
+  </div>
+</section>
+<!-- ===== LESSON 7: Motor Control Circuits ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>🌀 Motor Control Circuits</h2>
+    <p class="lesson-intro">The single most common thing a PLC actually controls in the real world. Motor starters, overload protection, and the standard start/stop pattern from Module 3, now applied to a real physical motor.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Why a PLC Never Switches a Motor Directly</div>
+    <p>A PLC's digital output is only rated for a small current — enough to energize a relay coil, not enough to directly handle a motor's actual running current. Instead, the PLC output energizes a <strong>motor starter</strong> (a large relay/contactor plus overload protection), and the starter's much heavier-duty contacts handle the motor's real current.</p>
+    <div class="net-diagram">PLC Output <span class="flow">──►</span> Motor Starter Coil <span class="flow">──►</span> Starter Contacts <span class="flow">──►</span> Motor
+  <span class="dim">(small current,          (energizes the           (heavy-duty,
+   just enough to           starter, doesn't          handles actual
+   energize a coil)         carry motor current)      motor current)</span></div>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This mirrors the Raspberry Pi course's motor driver lesson exactly</strong>A GPIO pin can't safely drive a DC motor directly — it goes through a motor driver chip instead. A PLC output can't safely drive an industrial motor directly either — it goes through a motor starter instead. Same underlying principle, different scale.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Overload Protection</div>
+    <p>A motor starter includes <strong>overload relays</strong> — devices that monitor the actual current the motor is drawing and trip the circuit if it draws too much for too long (a sign of a jammed mechanism, a failing motor, or a mechanical overload). This protects the motor from burning out, and the overload's own contact is typically wired directly into the motor's stop circuit — hardware-level protection that works even if the PLC program has a bug.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌱 The Full Start/Stop/Seal-In, Applied to a Real Motor</div>
+    <p>This is Module 3's seal-in rung, now with real motor control components labeled:</p>
+    <div class="net-diagram"> <span class="device">│</span>  <span class="flow">──┤ ├────┤/├────┤/├──────( )</span>   <span class="dim">Start   Stop   Overload   Starter coil</span>
+ <span class="device">│</span>  <span class="flow">┌─┤ ├─┐</span>
+ <span class="device">│</span>  <span class="flow">└──────┘</span>                     <span class="dim">Starter's own auxiliary contact, sealing in Start</span></div>
+    <p>Notice the overload relay's contact is wired the same way as the Stop button — Normally Closed, in series. If the overload trips (motor drawing too much current), that contact opens exactly like someone pressed Stop, and the motor shuts down.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 Variable Frequency Drives (VFDs) — Conceptually</div>
+    <p>For motors that need variable speed rather than just on/off, a <strong>VFD</strong> sits between the motor starter and the motor, controlling the motor's speed by varying the frequency of the power sent to it. The PLC typically controls a VFD one of two ways:</p>
+    <table>
+      <tr><th>Control Method</th><th>How It Works</th></tr>
+      <tr><td>Analog output</td><td>A 0-10V or 4-20mA signal (Module 5) tells the VFD what speed to run at</td></tr>
+      <tr><td>Digital communication</td><td>The PLC sends speed commands over a network protocol (Module 11) instead of a wired analog signal</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why does a PLC energize a motor starter's coil instead of switching the motor's power directly from its own output?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A PLC digital output is only rated for small currents — enough to energize a relay/contactor coil, not enough to safely carry a motor's actual running current.">A PLC output's current rating is far too low to safely carry a motor's actual running current</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't a programming/software limitation — it's a hardware current-rating limitation of the PLC's output circuitry itself.">Motor starters are required by the PLC's programming software</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Overload protection is a real, important reason to use a motor starter, but the more fundamental reason is the PLC output's current rating — it physically can't carry motor current at all, overload protection or not.">Motor starters make the motor run faster</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Program Organization</button>
+    <button class="btn btn-next" onclick="next(7)">Safety Systems &amp; E-Stops →</button>
+  </div>
+</section>
+<!-- ===== LESSON 8: Safety Systems & E-Stops ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>🛑 Safety Systems &amp; E-Stops</h2>
+    <p class="lesson-intro">The single most important module in this course. Safety circuits protect people, and they're built on a principle that shows up everywhere else you've seen it so far: fail safely, in hardware, not just in software.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Why Safety Is Never "Just Software"</div>
+    <p>A PLC program can have bugs. A PLC can freeze, lose power unexpectedly, or run corrupted logic. Because of this, safety-critical functions — emergency stops, guard door interlocks, light curtains — are built using dedicated <strong>hardware</strong> safety circuits that work independently of whether the PLC's program is even running correctly at all.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The core principle, stated directly</strong>Never rely solely on PLC program logic to stop a machine in an emergency. An E-stop button should physically remove power from the hazard through hardware — relays, contactors — not just set a bit that the program then reacts to. If the PLC has crashed, a purely software-based "safety" check does nothing at all.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔴 The Emergency Stop Button</div>
+    <p>An E-stop is a Normally Closed, mushroom-head pushbutton (Module 2's fail-safe principle, applied at its most critical) wired directly into a hardware safety circuit — pressing it physically breaks the circuit supplying power to the hazard, immediately, regardless of what the PLC program is doing.</p>
+    <table>
+      <tr><th>Property</th><th>Why</th></tr>
+      <tr><td>Normally Closed</td><td>A cut wire or failed button trips the safety circuit exactly like pressing it — fails safe, not silent</td></tr>
+      <tr><td>Mushroom-head, red on yellow</td><td>Instantly recognizable and easy to hit under stress, standardized internationally</td></tr>
+      <tr><td>Latching (stays pressed until twisted/pulled to release)</td><td>Prevents the machine from restarting the instant someone releases the button</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Safety Relays &amp; Redundancy</div>
+    <p>A <strong>safety relay</strong> is a specialized relay built specifically for safety circuits, often monitoring TWO independent contacts for every safety input — if those two contacts ever disagree with each other, the safety relay assumes a fault has occurred and trips to the safe state, rather than guessing which one is correct.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Redundancy catches failures a single circuit can't</strong>If a safety circuit only used one contact and that one contact welded itself shut (a real failure mode for relay contacts), the circuit would appear to work fine forever — until the day it actually needed to trip and didn't. Two independently-monitored contacts dramatically reduce the odds of that single point of failure going undetected.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Safety Categories — A Brief Overview</div>
+    <p>Machine safety standards (like ISO 13849) define <strong>Categories</strong> and <strong>Performance Levels</strong> describing how robust a safety circuit needs to be, based on the severity and likelihood of the hazard it's protecting against. This is genuinely deep, certification-level territory — the key beginner takeaway is simply that <em>not every safety circuit needs to be built identically</em>; the required level of redundancy and monitoring scales with how dangerous the specific hazard actually is.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚧 Other Common Safety Devices</div>
+    <table>
+      <tr><th>Device</th><th>Purpose</th></tr>
+      <tr><td>Light curtains</td><td>An invisible infrared barrier — breaking it (e.g., reaching into a machine) trips the safety circuit</td></tr>
+      <tr><td>Guard door interlocks</td><td>A switch confirming a safety guard/door is fully closed before allowing the machine to run</td></tr>
+      <tr><td>Two-hand control</td><td>Requires both of an operator's hands on separate buttons simultaneously to run a cycle, physically keeping hands out of a hazard zone</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why shouldn't an emergency stop rely solely on the PLC program detecting a button press and then commanding a shutdown?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="If the PLC has crashed, frozen, or is running corrupted logic, a purely software-based safety check does nothing — hardware safety circuits work independently of whether the program is functioning at all.">If the PLC itself has crashed or frozen, a purely software-based check would do nothing at all</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Software-based checks can actually run very fast — the real issue is that they depend entirely on the PLC functioning correctly in the first place, which can't be guaranteed in an emergency.">Software-based checks are always too slow to react in time</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="E-stops are standard on essentially all industrial equipment, not a rare special case — and the reasoning holds regardless of program size.">This only matters for very large, complex programs</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Motor Control Circuits</button>
+    <button class="btn btn-next" onclick="next(8)">HMI Basics →</button>
+  </div>
+</section>
+<!-- ===== LESSON 9: HMI Basics ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>🖥️ HMI Basics</h2>
+    <p class="lesson-intro">The touchscreen an operator actually interacts with on the factory floor — how it connects to the PLC, and the design principles that separate a genuinely usable HMI from a confusing one.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖥️ What an HMI Is</div>
+    <p>An <strong>HMI (Human-Machine Interface)</strong> is the screen an operator uses to monitor and control a process — start/stop buttons, live readings (tank levels, temperatures, speeds), alarms, and setpoint entry. It's a separate device from the PLC, communicating with it over a network connection (Module 11) to read and write the same tags the ladder program uses.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 How an HMI Connects to Tags</div>
+    <p>An HMI screen doesn't run its own independent logic — every button, gauge, and indicator on the screen is bound directly to a PLC tag. Pressing an HMI "Start" button writes TRUE to a tag; the ladder program's Start rung reads that exact same tag, same as if a physical button had been pressed.</p>
+    <div class="net-diagram">HMI "Start" Button  <span class="flow">──writes──►</span>  PLC Tag: <span class="label">Conveyor1_StartCmd</span>
+                                              <span class="dim">│</span>
+                                    <span class="flow">read by the ladder rung, exactly like a physical button</span></div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is why good tag naming (Module 6) matters even more here</strong>An HMI project might reference hundreds of tags across dozens of screens. Clear, consistent tag names make building and maintaining the HMI dramatically easier — the same <code>Tank1_Level</code> tag gets used in the ladder logic, the HMI's gauge, and the alarm system, all pointing at one single source of truth.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 Alarms</div>
+    <p>An HMI's alarm system watches specific tags against defined limits (e.g., "Tank1_Level below 10%") and displays an alert when the condition is true — often with a log of every alarm's time, description, and whether it's been acknowledged by an operator. Good alarm design deliberately limits how many alarms can fire at once; a screen flooded with 200 simultaneous alarms during a real emergency is far less useful than a screen showing the 3 that actually matter right now.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Basic HMI Design Principles</div>
+    <ul>
+      <li><strong>Match the physical layout</strong> — if Tank 1 is physically on the left side of a building, put it on the left side of the overview screen too. Operators build a mental map that should match reality.</li>
+      <li><strong>Use color deliberately, not decoratively</strong> — red should consistently mean "problem," green "running/good," rather than colors chosen for visual appeal that end up meaning different things on different screens.</li>
+      <li><strong>Show what matters, hide what doesn't</strong> — an overview screen with 40 dense data points is harder to act on quickly than one showing the 5 numbers that actually drive a decision, with detail screens available a tap away.</li>
+      <li><strong>Confirm destructive actions</strong> — stopping a whole production line or resetting a batch should require a confirmation step, not a single accidental tap.</li>
+    </ul>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">An operator presses "Start" on the HMI screen. What actually happens, mechanically?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The HMI doesn't run independent control logic of its own — it writes to the same tags the PLC's ladder program reads.">The HMI runs its own separate control logic to start the equipment</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="The HMI button writes to a PLC tag, which the ladder logic's Start rung then reads — functionally identical to a physical button press.">The HMI writes to a PLC tag, which the ladder program's Start rung reads, same as a physical button</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The PLC's scan cycle continues running normally — the HMI communicates with it over the network without interrupting the scan.">The PLC pauses its scan cycle to process the HMI command directly</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← Safety Systems &amp; E-Stops</button>
+    <button class="btn btn-next" onclick="next(9)">Communication Protocols →</button>
+  </div>
+</section>
+<!-- ===== LESSON 10: Communication Protocols ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>📡 Communication Protocols</h2>
+    <p class="lesson-intro">How a PLC talks to an HMI, other PLCs, and the wider plant network. Real networking concepts, applied to the industrial floor.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔌 Why PLCs Need to Communicate</div>
+    <p>A single machine rarely stands alone — a PLC typically needs to talk to an HMI (Module 10), other PLCs controlling adjacent equipment, and often a central SCADA (Supervisory Control and Data Acquisition) system giving plant-wide visibility. Communication protocols are the agreed-upon rules that let all of this talk to each other reliably.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📶 Common Industrial Protocols</div>
+    <table>
+      <tr><th>Protocol</th><th>Notes</th></tr>
+      <tr><td>Modbus (RTU / TCP)</td><td>Simple, extremely widespread, works over serial (RTU) or standard Ethernet (TCP) — often the "universal fallback" that nearly everything supports</td></tr>
+      <tr><td>EtherNet/IP</td><td>Allen-Bradley/Rockwell's primary Ethernet-based protocol, very common in North America</td></tr>
+      <tr><td>PROFINET</td><td>Siemens' primary Ethernet-based protocol, very common in Europe</td></tr>
+      <tr><td>DeviceNet, PROFIBUS</td><td>Older, non-Ethernet industrial networks — still found on existing equipment, less common in new installs</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>If this feels familiar</strong>This is the exact same idea as the Networking course's discussion of TCP/IP and application protocols — different specific standards, but the same underlying concept: agreed-upon rules that let different devices exchange data reliably. Modern industrial protocols increasingly run over standard Ethernet, converging with the same infrastructure IT networks already use.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 Modbus, a Closer Look</div>
+    <p>Modbus is worth understanding in a bit more detail since it's so widespread. It organizes data into simple numbered <strong>registers</strong> — a device (the "slave"/"server") holds data at specific register addresses, and a controller (the "master"/"client") reads or writes those registers.</p>
+    <table>
+      <tr><th>Register Type</th><th>Holds</th></tr>
+      <tr><td>Coils</td><td>Single ON/OFF bits, read/write</td></tr>
+      <tr><td>Discrete Inputs</td><td>Single ON/OFF bits, read-only</td></tr>
+      <tr><td>Holding Registers</td><td>16-bit numeric values, read/write</td></tr>
+      <tr><td>Input Registers</td><td>16-bit numeric values, read-only</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌐 IP Addressing on the Plant Floor</div>
+    <p>Ethernet-based industrial protocols use the same IP addressing concepts from general networking — every PLC, HMI, and networked device gets its own IP address on the plant network. Industrial networks are very commonly segmented (kept physically or logically separate from the general office network) specifically for security and reliability — a problem on the office network shouldn't be able to affect production equipment, and vice versa.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why are industrial plant-floor networks commonly kept segmented/separate from a facility's general office network?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Segmentation means a problem on one network (like office IT issues or a cyberattack) can't easily spread to affect production equipment, and vice versa — a real, deliberate security and reliability practice.">So a problem on one network can't easily spread to affect the other</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Industrial protocols like EtherNet/IP and PROFINET run over standard Ethernet hardware — segmentation is a design choice, not a technical requirement of the wiring itself.">Industrial devices are physically incapable of using standard Ethernet cabling</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="IP addressing works the same way regardless of network segmentation — segmentation isn't about the addressing scheme itself.">IP addresses aren't compatible between industrial and office equipment</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← HMI Basics</button>
+    <button class="btn btn-next" onclick="next(10)">Troubleshooting a PLC System →</button>
+  </div>
+</section>
+<!-- ===== LESSON 11: Troubleshooting a PLC System ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12</div>
+    <h2>🛠️ Troubleshooting a PLC System</h2>
+    <p class="lesson-intro">Everything from this course, applied to the actual job of figuring out why a machine stopped working — a real methodology, not just guessing.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖥️ Online/Monitor Mode — Watching Logic Run Live</div>
+    <p>Every PLC programming platform has an "online" or "monitor" mode — connecting a laptop to the running PLC and watching the actual ladder logic execute in real time, with every contact and coil highlighted to show its current true/false state. This is the single most powerful troubleshooting tool available: instead of guessing what the program is doing, you watch it happen.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Trace power flow, not just the end result</strong>If a motor won't start, don't just stare at the coil — look at the entire rung leading up to it. Which specific contact is not passing power? That's your actual starting point: is the Start button input not reading true? Is the Stop or overload contact open when it shouldn't be? Monitor mode shows you exactly which piece of the rung is breaking the chain.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧭 A Systematic Troubleshooting Order</div>
+    <ol class="step-list">
+      <li><strong>Check the physical machine first</strong> — is there an obvious mechanical jam, a tripped overload, a door interlock open? Many "PLC problems" are actually simple physical/electrical issues.</li>
+      <li><strong>Check field device power</strong> — does the sensor/switch actually have power? A surprising number of "broken sensor" calls are actually a blown fuse or a loose terminal.</li>
+      <li><strong>Check the physical input LED on the PLC module</strong> — most input/output modules have small indicator LEDs showing each point's current state, independent of the program. If the input LED isn't lighting when it should, the problem is upstream of the PLC program entirely (wiring, the sensor itself, power).</li>
+      <li><strong>Go online and monitor the actual rung</strong> — if the input LED is correct but the expected output still isn't happening, the issue is in the logic itself — trace power flow through the rung as described above.</li>
+      <li><strong>Check the output LED and the field wiring beyond it</strong> — if the program is correctly energizing the output but the physical device still isn't responding, the problem has moved back out to the field wiring or the device itself.</li>
+    </ol>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This mirrors the Networking course's troubleshooting methodology directly</strong>Working from the physical layer up (or down) through each layer in order — checking power and wiring before assuming it's a software/logic problem — is the exact same "bottom-up methodology" idea from that course's OSI-model-based troubleshooting. The layers are different (relay/wiring vs. network protocols), but the discipline of ruling out the physical layer first is identical.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Common Real-World Failure Points</div>
+    <table>
+      <tr><th>Symptom</th><th>Common Cause</th></tr>
+      <tr><td>Input LED never lights, regardless of the switch</td><td>Loose wire terminal, blown fuse, or the field device itself has failed</td></tr>
+      <tr><td>Motor won't start, Start button LED confirms it's pressed</td><td>Overload tripped, seal-in contact not sealing, wrong tag referenced in the rung</td></tr>
+      <tr><td>Everything worked, then suddenly the whole system stopped</td><td>E-stop circuit tripped somewhere — check every E-stop and safety device in the chain</td></tr>
+      <tr><td>Analog reading is a fixed, obviously-wrong number (like 0 or full-scale)</td><td>Broken signal wire, disconnected sensor, or the 4-20mA fault-detection scenario from Module 5</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A motor won't start. The physical input LED for the Start button correctly lights up when pressed. What's the appropriate next troubleshooting step?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="The input LED lighting correctly already confirms the wiring and physical button are working fine — the field wiring isn't the current suspect.">Re-check the field wiring between the button and the input module</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Since the input is confirmed good, the next step is going online and monitoring the actual rung to see which contact in the logic isn't passing power through to the coil.">Go online and monitor the ladder rung to see which contact isn't passing power</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Replacing the button is jumping ahead — the input LED already confirms the button and its wiring are functioning correctly.">Replace the physical Start button</button>
+    </div>
+    <div class="quiz-feedback" id="qfb11"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← Communication Protocols</button>
+    <button class="btn btn-next" onclick="next(11)">Capstone — Sorting System →</button>
+  </div>
+</section>
+<!-- ===== LESSON 12: Capstone — Sorting System ===== -->
+<section class="lesson" id="l12">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 13 🏁</div>
+    <h2>🏁 Capstone — Program a Complete Automated Sorting System</h2>
+    <p class="lesson-intro">Every module in this course, combined into one system: a conveyor that runs, counts boxes, sorts rejects with a pusher, tracks a batch total, and shuts down safely — on command or in an emergency.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏭 The Scenario</div>
+    <p>A small sorting station: boxes arrive on a conveyor. A sensor detects each box. A second sensor (a simple height/weight-style "reject" sensor) flags bad boxes. Good boxes continue to the end; bad boxes get pushed off onto a reject line by a pneumatic pusher. The system tracks how many boxes have passed, pauses briefly for the pusher to cycle, and can be stopped instantly at any time.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🗂️ The I/O List — Start Here, Always</div>
+    <p>Every real PLC project starts with a documented I/O list before a single rung is written — directly applying Module 6's tag naming discipline.</p>
+    <table>
+      <tr><th>Tag Name</th><th>Type</th><th>Description</th></tr>
+      <tr><td>StartPB</td><td>BOOL (Input)</td><td>Start pushbutton, Normally Open</td></tr>
+      <tr><td>StopPB</td><td>BOOL (Input)</td><td>Stop pushbutton, Normally Closed</td></tr>
+      <tr><td>EStop</td><td>BOOL (Input)</td><td>Emergency stop, Normally Closed, hardwired safety circuit (Module 9)</td></tr>
+      <tr><td>BoxSensor</td><td>BOOL (Input)</td><td>Detects any box arriving</td></tr>
+      <tr><td>RejectSensor</td><td>BOOL (Input)</td><td>Detects a box that fails inspection</td></tr>
+      <tr><td>ConveyorMotor</td><td>BOOL (Output)</td><td>Runs the conveyor, via a motor starter (Module 8)</td></tr>
+      <tr><td>PusherSolenoid</td><td>BOOL (Output)</td><td>Fires the reject pusher</td></tr>
+      <tr><td>BoxCount</td><td>DINT</td><td>Running total of good boxes passed</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌱 Rung 1 — Conveyor Start/Stop/Seal-In</div>
+    <p>Directly from Modules 3 and 8, with the E-stop added as an additional Normally Closed condition in series — anywhere along this chain going false stops the conveyor immediately.</p>
+    <div class="net-diagram"> <span class="device">│</span>  <span class="flow">──┤ ├────┤/├────┤/├────────( )</span>   <span class="dim">StartPB  StopPB  EStop   ConveyorMotor</span>
+ <span class="device">│</span>  <span class="flow">┌─┤ ├─┐</span>
+ <span class="device">│</span>  <span class="flow">└──────┘</span>                       <span class="dim">ConveyorMotor's own contact — seals in Start</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Rung 2 — Counting Good Boxes</div>
+    <p>Only count a box as "good" if it triggered the box sensor but <em>not</em> the reject sensor — Module 3's series/AND logic combined with a Normally Closed contact acting as a NOT condition.</p>
+    <div class="net-diagram"> <span class="device">│</span>  <span class="flow">──┤ ├────┤/├──────────────( CTU )</span>   <span class="dim">BoxSensor  RejectSensor    Count up</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ Rung 3 — The Reject Pusher, With a Timed Pulse</div>
+    <p>Directly applying Module 4's TON pattern — the reject sensor triggers the pusher, and a timer holds it extended just long enough to push the box off, then automatically retracts it.</p>
+    <div class="net-diagram"> <span class="device">│</span>  <span class="flow">──┤ ├──────────────────────( )</span>          <span class="dim">RejectSensor → PusherSolenoid</span>
+ <span class="device">│</span>  <span class="flow">──┤ ├──────────────────────( TON, PRE=500ms )</span>  <span class="dim">Same condition also starts a timer</span>
+ <span class="device">│</span>  <span class="flow">──┤/├( from TON DN )────────( U ) PusherSolenoid</span>  <span class="dim">Timer done → unlatch/retract</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖥️ HMI Screen — What the Operator Sees</div>
+    <p>Applying Module 10's principles: an overview screen showing conveyor running/stopped status (color-coded, matching Module 10's "red means problem" convention), the live BoxCount, a Start and Stop button bound to the same tags the ladder logic reads, and an alarm tile that lights if EStop is ever tripped.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Definition of Done</div>
+    <table>
+      <tr><th>System</th><th>Passes When…</th></tr>
+      <tr><td>Start/Stop/Seal-in</td><td>Conveyor starts on Start, keeps running after the button is released, and stops immediately on Stop or E-stop</td></tr>
+      <tr><td>Safety</td><td>E-stop breaks the circuit in the same rung as Stop — not as a separate "check" elsewhere in the program</td></tr>
+      <tr><td>Counting</td><td>BoxCount increments only for good boxes — verified against Module 4's "counts transitions, not scans" rule</td></tr>
+      <tr><td>Reject handling</td><td>Pusher fires for exactly 500ms per reject and correctly retracts — no sticking on or staying retracted</td></tr>
+      <tr><td>Documentation</td><td>A complete I/O list exists, with tag names any future maintainer could understand without asking you</td></tr>
+    </table>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Build, Simulate, and Explain It</h4>
+    <p>Using any PLC simulation software (many vendors offer free trial/educational versions, or use a ladder logic simulator), build this complete system from the I/O list up. Then — the part that actually proves understanding — write a one-paragraph explanation of what happens, in order, if the E-stop is pressed while a box is mid-reject-cycle. Being able to trace that exact sequence through your own rungs is the real test of whether you understand the system, not just whether it runs.</p>
+    <ul>
+      <li>A complete, documented I/O list with clear tag names</li>
+      <li>Start/Stop/Seal-in conveyor control with E-stop wired into the same safety chain</li>
+      <li>Accurate box counting that only counts good boxes, verified against transition-counting logic</li>
+      <li>A working timed reject-pusher cycle</li>
+      <li>A written explanation tracing the E-stop-during-reject scenario through your actual logic</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(12)">← Troubleshooting a PLC System</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+const TOTAL = 13;
+const done  = new Set();
+let   cur   = 0;
+
+const STORAGE_KEY = 'teqstudy_progress::' + location.pathname.split('/').pop();
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  location.reload();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ done: [...done], cur }));
+  } catch (e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { done.add(0); updateBar(); return; }
+    const data = JSON.parse(raw);
+    (data.done || []).forEach(i => done.add(i));
+    if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
+      go(data.cur);
+    } else {
+      done.add(0);
+      updateBar();
+    }
+  } catch (e) {
+    done.add(0);
+    updateBar();
+  }
+}
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+loadProgress();
+</script>
+  <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+</body>
+</html>
