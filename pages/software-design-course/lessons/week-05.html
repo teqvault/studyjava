@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 5: SOLID Part 1: SRP, OCP, and LSP | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 5 Lesson</p>
+  <h1>SOLID Part 1: SRP, OCP, and LSP</h1>
+  <p>The first three SOLID principles help you avoid classes that break when requirements change.</p>
+  <div class="pill-row"><span class="pill">Single Responsibility Principle</span><span class="pill">Open/Closed Principle</span><span class="pill">Liskov Substitution Principle</span><span class="pill">extension point</span><span class="pill">substitution</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-04.html">Previous Week</a><a class="primary" href="week-06.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="5"> Mark Week 5 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Apply Single Responsibility Principle to split classes.</li><li>Use Open/Closed Principle to add behavior safely.</li><li>Recognize Liskov Substitution violations.</li><li>Refactor a brittle inheritance design.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>SOLID is a set of object-oriented design principles. The goal is not to memorize slogans. The goal is to notice design pressure before a system becomes painful. SRP, OCP, and LSP are especially useful for students because they expose common beginner designs: classes that do too much, switch statements that grow forever, and inheritance trees that look logical but behave incorrectly.</p><p>The Single Responsibility Principle says a class should have one main reason to change. This does not mean every class has only one method. It means the class has one coherent responsibility. A Report class might format report content. A ReportRepository might save reports. An EmailSender might deliver reports. If one class handles all three, a change in file storage can accidentally affect formatting.</p><p>The Open/Closed Principle says software should be open for extension but closed for repeated modification. Imagine a shipping calculator with a switch statement for Standard, Express, Overnight, International, Drone, and LocalCourier. Every new shipping type changes the same function. A better design defines a ShippingStrategy interface and adds new strategies without editing the main checkout policy each time.</p><p>The Liskov Substitution Principle says subclasses should be usable wherever the base type is expected. The classic Rectangle/Square example shows the danger. If Square extends Rectangle but rejects independent width and height changes, code that expects a Rectangle may break. The issue is not math; the issue is behavior. A child type must honor the expectations of the parent type.</p><p>SOLID is not a command to create endless interfaces. Applying SOLID well requires judgment. For a tiny script, a simple conditional may be fine. For a growing app with changing rules, extension points matter. The designer’s job is to protect the parts most likely to change without turning every line into an abstraction.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Open/Closed with shipping strategies</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>function shippingCost(type: string, weight: number) {
+  if (type === &#x27;standard&#x27;) return weight * 1.2;
+  if (type === &#x27;express&#x27;) return weight * 2.1;
+  if (type === &#x27;overnight&#x27;) return weight * 4.8;
+  throw new Error(&#x27;Unknown shipping type&#x27;);
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>interface ShippingStrategy {
+  cost(weight: number): number;
+}
+
+class StandardShipping implements ShippingStrategy {
+  cost(weight: number) { return weight * 1.2; }
+}
+
+class ExpressShipping implements ShippingStrategy {
+  cost(weight: number) { return weight * 2.1; }
+}
+
+class Checkout {
+  constructor(private shipping: ShippingStrategy) {}
+  totalWithShipping(subtotal: number, weight: number) {
+    return subtotal + this.shipping.cost(weight);
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> Adding a new shipping method no longer requires editing Checkout. The changing behavior has a clear extension point.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: SOLID Refactor: Reports</h2>
+  <p><strong>Scenario:</strong> A ReportManager class loads data, calculates totals, formats HTML, saves files, and emails the report.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>List each reason ReportManager might change.</li><li>Split the class into focused responsibilities.</li><li>Identify one behavior that should be open for extension.</li><li>Write or sketch the new interfaces/classes.</li><li>Explain how the design improves testing.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Refactored design</li><li>Class list</li><li>Short SOLID explanation</li><li>Testability note</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Refactor a payment, shipping, grading, or enemy-behavior example to use SRP and OCP. Include before/after code.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>Does SRP mean one method per class?</li><li>When is OCP overkill?</li><li>What makes a subclass unsafe?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 5 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>SRP says a class should have:</p><label class="quiz-option"><input type="radio" name="w5-q1" value="0">One main reason to change</label><label class="quiz-option"><input type="radio" name="w5-q1" value="1">Exactly one line</label><label class="quiz-option"><input type="radio" name="w5-q1" value="2">No dependencies ever</label><label class="quiz-option"><input type="radio" name="w5-q1" value="3">Only static methods</label><button class="secondary small" data-check-quiz="w5-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 2</h3><p>OCP encourages:</p><label class="quiz-option"><input type="radio" name="w5-q2" value="0">Constantly editing old code for every new behavior</label><label class="quiz-option"><input type="radio" name="w5-q2" value="1">Adding new behavior through extension points</label><label class="quiz-option"><input type="radio" name="w5-q2" value="2">Avoiding all interfaces</label><label class="quiz-option"><input type="radio" name="w5-q2" value="3">Using one giant switch forever</label><button class="secondary small" data-check-quiz="w5-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>LSP is mainly about:</p><label class="quiz-option"><input type="radio" name="w5-q3" value="0">Subtypes honoring parent expectations</label><label class="quiz-option"><input type="radio" name="w5-q3" value="1">CSS inheritance</label><label class="quiz-option"><input type="radio" name="w5-q3" value="2">Database indexes</label><label class="quiz-option"><input type="radio" name="w5-q3" value="3">File names</label><button class="secondary small" data-check-quiz="w5-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A growing switch statement over behavior may suggest:</p><label class="quiz-option"><input type="radio" name="w5-q4" value="0">A possible strategy or polymorphism opportunity</label><label class="quiz-option"><input type="radio" name="w5-q4" value="1">Perfect OCP compliance</label><label class="quiz-option"><input type="radio" name="w5-q4" value="2">No design issue ever</label><label class="quiz-option"><input type="radio" name="w5-q4" value="3">A need for global variables</label><button class="secondary small" data-check-quiz="w5-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>SOLID should be used:</p><label class="quiz-option"><input type="radio" name="w5-q5" value="0">With judgment based on change and complexity</label><label class="quiz-option"><input type="radio" name="w5-q5" value="1">By creating interfaces for every single line</label><label class="quiz-option"><input type="radio" name="w5-q5" value="2">Only in games</label><label class="quiz-option"><input type="radio" name="w5-q5" value="3">Only in databases</label><button class="secondary small" data-check-quiz="w5-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="5" placeholder="Write notes, questions, or project ideas for Week 5..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-04.html">Previous Week</a><a class="primary" href="week-06.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

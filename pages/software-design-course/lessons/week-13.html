@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 13: Refactoring, Code Smells, and Technical Debt | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 13 Lesson</p>
+  <h1>Refactoring, Code Smells, and Technical Debt</h1>
+  <p>Improve design without changing external behavior.</p>
+  <div class="pill-row"><span class="pill">refactoring</span><span class="pill">code smell</span><span class="pill">technical debt</span><span class="pill">god class</span><span class="pill">long method</span><span class="pill">shotgun surgery</span><span class="pill">feature envy</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-12.html">Previous Week</a><a class="primary" href="week-14.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="13"> Mark Week 13 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Identify common code smells.</li><li>Plan safe refactoring steps.</li><li>Explain technical debt without drama.</li><li>Use tests and small commits to reduce refactor risk.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Refactoring means improving internal structure without changing external behavior. It is not rewriting from scratch. It is not adding features. It is disciplined cleanup that keeps the program working while making future work easier. Good refactoring is usually done in small safe steps.</p><p>Code smells are warning signs. A long method may be fine once, but it often hides multiple responsibilities. A god class knows too much and does too much. Shotgun surgery means one small feature requires tiny edits across many files. Feature envy means a method seems more interested in another object’s data than its own.</p><p>Technical debt is the future cost of today’s shortcuts. Not all debt is irresponsible. Sometimes teams take debt intentionally to meet a deadline or learn quickly. The danger is pretending debt does not exist. Honest teams track debt, explain its impact, and pay it down when the cost of carrying it becomes too high.</p><p>Safe refactoring depends on feedback. Tests are the strongest feedback, but careful manual checks, small commits, and code reviews also help. A useful refactor process is: lock behavior with tests, make one structural change, run tests, commit, repeat. Large secret rewrites often fail because they change too many things at once.</p><p>Students should learn to refactor toward better names, smaller functions, clearer boundaries, and explicit dependencies. The goal is not aesthetic perfection. The goal is to reduce risk and make the next change easier.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Extracting a method to reveal intent</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>function printInvoice(order: Order) {
+  let total = 0;
+  for (const item of order.items) {
+    total += item.price * item.qty;
+  }
+  if (order.customer.type === &#x27;student&#x27;) {
+    total = total * 0.9;
+  }
+  console.log(&#x27;Invoice total: &#x27; + total);
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>function calculateSubtotal(order: Order): number {
+  return order.items.reduce((sum, item) =&gt; sum + item.price * item.qty, 0);
+}
+
+function applyCustomerDiscount(total: number, customer: Customer): number {
+  return customer.type === &#x27;student&#x27; ? total * 0.9 : total;
+}
+
+function printInvoice(order: Order) {
+  const subtotal = calculateSubtotal(order);
+  const total = applyCustomerDiscount(subtotal, order.customer);
+  console.log(&#x27;Invoice total: &#x27; + total);
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The refactor keeps behavior but reveals separate ideas: subtotal calculation, discount policy, and printing.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Refactor Safely</h2>
+  <p><strong>Scenario:</strong> You receive a working but messy invoice system.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Write or identify expected behavior.</li><li>Find at least five code smells.</li><li>Choose one smell to refactor first.</li><li>Make small changes and verify behavior after each step.</li><li>Write a technical debt note.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Code smell list</li><li>Refactored code</li><li>Test/check evidence</li><li>Technical debt note</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Write a refactoring plan for your capstone. Include what you would fix first and why.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>When is rewriting better than refactoring?</li><li>How can technical debt be intentional?</li><li>What makes a refactor risky?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 13 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>Refactoring means:</p><label class="quiz-option"><input type="radio" name="w13-q1" value="0">Changing internal structure without changing external behavior</label><label class="quiz-option"><input type="radio" name="w13-q1" value="1">Adding every feature at once</label><label class="quiz-option"><input type="radio" name="w13-q1" value="2">Deleting tests</label><label class="quiz-option"><input type="radio" name="w13-q1" value="3">Changing the product goal</label><button class="secondary small" data-check-quiz="w13-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>A code smell is:</p><label class="quiz-option"><input type="radio" name="w13-q2" value="0">A warning sign of possible design trouble</label><label class="quiz-option"><input type="radio" name="w13-q2" value="1">Proof the code cannot run</label><label class="quiz-option"><input type="radio" name="w13-q2" value="2">A syntax error only</label><label class="quiz-option"><input type="radio" name="w13-q2" value="3">A CSS class</label><button class="secondary small" data-check-quiz="w13-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>Shotgun surgery means:</p><label class="quiz-option"><input type="radio" name="w13-q3" value="0">One change requires edits in many places</label><label class="quiz-option"><input type="radio" name="w13-q3" value="1">A method is too short</label><label class="quiz-option"><input type="radio" name="w13-q3" value="2">A variable is well named</label><label class="quiz-option"><input type="radio" name="w13-q3" value="3">Tests run quickly</label><button class="secondary small" data-check-quiz="w13-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>Technical debt is:</p><label class="quiz-option"><input type="radio" name="w13-q4" value="0">Future cost created by current shortcuts</label><label class="quiz-option"><input type="radio" name="w13-q4" value="1">Always evil</label><label class="quiz-option"><input type="radio" name="w13-q4" value="2">Only unpaid invoices</label><label class="quiz-option"><input type="radio" name="w13-q4" value="3">A compiler feature</label><button class="secondary small" data-check-quiz="w13-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Safe refactoring usually uses:</p><label class="quiz-option"><input type="radio" name="w13-q5" value="0">Small steps and feedback</label><label class="quiz-option"><input type="radio" name="w13-q5" value="1">One huge secret rewrite</label><label class="quiz-option"><input type="radio" name="w13-q5" value="2">No tests or commits</label><label class="quiz-option"><input type="radio" name="w13-q5" value="3">Random file moves</label><button class="secondary small" data-check-quiz="w13-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="13" placeholder="Write notes, questions, or project ideas for Week 13..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-12.html">Previous Week</a><a class="primary" href="week-14.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 3: Decomposition, Modularity, Cohesion, and Coupling | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 3 Lesson</p>
+  <h1>Decomposition, Modularity, Cohesion, and Coupling</h1>
+  <p>Large systems become manageable when responsibilities are separated cleanly.</p>
+  <div class="pill-row"><span class="pill">module</span><span class="pill">component</span><span class="pill">separation of concerns</span><span class="pill">cohesion</span><span class="pill">coupling</span><span class="pill">boundary</span><span class="pill">responsibility</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-02.html">Previous Week</a><a class="primary" href="week-04.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="3"> Mark Week 3 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Break a software system into modules and responsibilities.</li><li>Explain high cohesion and low coupling.</li><li>Recognize god classes and mixed responsibilities.</li><li>Create a first-pass component map for a small system.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Decomposition is the process of breaking a system into smaller parts. This is not just about creating more files. A bad decomposition can make a system more confusing. A good decomposition creates parts that match the main ideas of the problem: users, orders, tasks, products, payments, reports, courses, grades, or game entities.</p><p>Separation of concerns means each part of the software focuses on one concern. In a web app, display concerns should not be mixed with payment rules. In a game, rendering should not be mixed with save-file parsing. In a student planner, due-date calculation should not be hidden in a button click handler. When concerns are separated, the system is easier to test and change.</p><p>Cohesion describes how well the contents of a module belong together. A highly cohesive Cart module contains cart items, quantity updates, totals, and cart validation. A low-cohesion UtilityManager that validates emails, calculates tax, writes logs, and updates the screen has no clear purpose. Low cohesion is a warning sign that the code was grouped by convenience instead of meaning.</p><p>Coupling describes dependency between parts. Some coupling is necessary. A CheckoutService must use pricing and payment in some way. The problem is unnecessary or concrete coupling. If CheckoutService directly creates a StripePaymentGateway, it becomes harder to test and harder to swap payment providers. If it depends on a PaymentProcessor interface, the design becomes more flexible.</p><p>A practical decomposition process is to list nouns and verbs from requirements. Nouns often suggest data or modules: Student, Course, Assignment, Reminder. Verbs suggest behavior: enroll, submit, notify, calculate, export. Then group behavior near the data or policy it belongs with. This is not a perfect algorithm, but it helps students move from vague requirements to a workable design.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Decomposing a student planner</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>StudentPlannerApp
+- stores courses
+- draws the dashboard
+- sends reminders
+- saves files
+- calculates overdue tasks
+- imports calendar events
+- validates task names
+- prints reports</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>TaskRepository
+- saves and loads tasks
+
+TaskService
+- creates tasks
+- marks tasks complete
+- validates task rules
+
+ScheduleService
+- finds overdue and upcoming tasks
+- handles recurring due dates
+
+ReminderService
+- decides when reminders should be sent
+
+DashboardView
+- displays task groups to the user</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The improved breakdown gives each module a reason to exist. It also makes testing easier because scheduling rules can be tested without rendering the dashboard.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Modular Refactor Plan</h2>
+  <p><strong>Scenario:</strong> You are given a single-file gradebook app. It reads scores, calculates grades, saves results, and prints reports.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Identify every responsibility in the file.</li><li>Group related responsibilities into modules.</li><li>Draw arrows showing dependencies between modules.</li><li>Find at least two dependencies that should be inverted or removed.</li><li>Write a refactor order that avoids breaking behavior.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Responsibility list</li><li>Module map</li><li>Dependency sketch</li><li>Refactor plan</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Design a module breakdown for your capstone idea. Include at least six modules/classes and describe how they communicate.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>Can a system have too many modules?</li><li>What makes a module name good or bad?</li><li>Should modules be based on technical layers or business concepts?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 3 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>High cohesion means:</p><label class="quiz-option"><input type="radio" name="w3-q1" value="0">A module has a clear focused purpose</label><label class="quiz-option"><input type="radio" name="w3-q1" value="1">A module imports many libraries</label><label class="quiz-option"><input type="radio" name="w3-q1" value="2">A module is very long</label><label class="quiz-option"><input type="radio" name="w3-q1" value="3">A module has no tests</label><button class="secondary small" data-check-quiz="w3-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 2</h3><p>Low coupling means:</p><label class="quiz-option"><input type="radio" name="w3-q2" value="0">Parts depend on unnecessary details</label><label class="quiz-option"><input type="radio" name="w3-q2" value="1">Parts are less unnecessarily dependent on each other</label><label class="quiz-option"><input type="radio" name="w3-q2" value="2">All code is in one file</label><label class="quiz-option"><input type="radio" name="w3-q2" value="3">No module can talk to another</label><button class="secondary small" data-check-quiz="w3-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>A god class is usually a class that:</p><label class="quiz-option"><input type="radio" name="w3-q3" value="0">Has too many responsibilities</label><label class="quiz-option"><input type="radio" name="w3-q3" value="1">Has a useful name</label><label class="quiz-option"><input type="radio" name="w3-q3" value="2">Uses an interface</label><label class="quiz-option"><input type="radio" name="w3-q3" value="3">Has one private method</label><button class="secondary small" data-check-quiz="w3-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A good decomposition should be based mostly on:</p><label class="quiz-option"><input type="radio" name="w3-q4" value="0">Meaningful responsibilities</label><label class="quiz-option"><input type="radio" name="w3-q4" value="1">Random file size</label><label class="quiz-option"><input type="radio" name="w3-q4" value="2">Alphabetical order</label><label class="quiz-option"><input type="radio" name="w3-q4" value="3">Color themes</label><button class="secondary small" data-check-quiz="w3-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Separation of concerns helps because:</p><label class="quiz-option"><input type="radio" name="w3-q5" value="0">Changes stay more localized</label><label class="quiz-option"><input type="radio" name="w3-q5" value="1">It removes all bugs</label><label class="quiz-option"><input type="radio" name="w3-q5" value="2">It avoids all requirements</label><label class="quiz-option"><input type="radio" name="w3-q5" value="3">It guarantees performance</label><button class="secondary small" data-check-quiz="w3-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="3" placeholder="Write notes, questions, or project ideas for Week 3..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-02.html">Previous Week</a><a class="primary" href="week-04.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

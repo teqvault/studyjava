@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Labs | TeqVault Study</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link " href="index.html">Home</a><a class="nav-link " href="syllabus.html">Syllabus</a><a class="nav-link active" href="labs.html">Labs</a><a class="nav-link " href="quizzes.html">Quizzes</a><a class="nav-link " href="capstone.html">Capstone</a><a class="nav-link " href="challenges.html">Challenges</a><a class="nav-link " href="dashboard.html">Dashboard</a><a class="nav-link " href="certificate.html">Certificate</a><a class="nav-link " href="instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="lessons/week-01.html">Week 1</a><a href="lessons/week-02.html">Week 2</a><a href="lessons/week-03.html">Week 3</a><a href="lessons/week-04.html">Week 4</a><a href="lessons/week-05.html">Week 5</a><a href="lessons/week-06.html">Week 6</a><a href="lessons/week-07.html">Week 7</a><a href="lessons/week-08.html">Week 8</a><a href="lessons/week-09.html">Week 9</a><a href="lessons/week-10.html">Week 10</a><a href="lessons/week-11.html">Week 11</a><a href="lessons/week-12.html">Week 12</a><a href="lessons/week-13.html">Week 13</a><a href="lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero"><p class="eyebrow">Labs</p><h1>Hands-On Design Labs</h1><p>These labs are not filler. Each one asks students to diagnose, design, refactor, diagram, test, or review software.</p></section>
+<section class="panel"><h2>Lab Submission Standard</h2><p class="muted">Every lab submission should include the artifact, a short explanation of design choices, and one paragraph describing what the student would improve with more time.</p></section>
+<div class="grid two">
+<article class="card">
+  <span class="week-badge">Lab 1</span>
+  <h3>Bad Code Diagnosis</h3>
+  <p><strong>Connected lesson:</strong> Week 1 — What Software Design Really Means</p>
+  <p><strong>Scenario:</strong> You receive a small program that works but mixes input, calculation, storage, and output in one function.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Run or read the program and describe what it does.</li><li>Highlight every place where two responsibilities are mixed together.</li><li>Name at least three changes that would be risky in the current design.</li><li>Rewrite the design as a simple module list. Do not refactor yet; just diagnose.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>One-page design critique</li><li>List of responsibilities</li><li>List of likely future changes</li><li>Proposed module breakdown</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 2</span>
+  <h3>Requirement Recovery</h3>
+  <p><strong>Connected lesson:</strong> Week 2 — Requirements, Constraints, and Acceptance Criteria</p>
+  <p><strong>Scenario:</strong> A client says: “I need an app for managing campus events.”</p>
+  <h4>Steps</h4><ol class="clean-list"><li>List stakeholders: students, organizers, admins, visitors.</li><li>Write at least 12 functional requirements.</li><li>Write at least 6 non-functional requirements.</li><li>Write 5 user stories with acceptance criteria.</li><li>Identify 5 assumptions and 5 constraints.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Requirements document</li><li>Acceptance criteria table</li><li>Assumptions and constraints section</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 3</span>
+  <h3>Modular Refactor Plan</h3>
+  <p><strong>Connected lesson:</strong> Week 3 — Decomposition, Modularity, Cohesion, and Coupling</p>
+  <p><strong>Scenario:</strong> You are given a single-file gradebook app. It reads scores, calculates grades, saves results, and prints reports.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Identify every responsibility in the file.</li><li>Group related responsibilities into modules.</li><li>Draw arrows showing dependencies between modules.</li><li>Find at least two dependencies that should be inverted or removed.</li><li>Write a refactor order that avoids breaking behavior.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Responsibility list</li><li>Module map</li><li>Dependency sketch</li><li>Refactor plan</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 4</span>
+  <h3>Domain Modeling with Objects</h3>
+  <p><strong>Connected lesson:</strong> Week 4 — Object-Oriented Design That Does Not Fight You</p>
+  <p><strong>Scenario:</strong> Design an inventory system for a small campus bookstore.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Identify core objects: Product, InventoryItem, Supplier, PurchaseOrder.</li><li>Write the rules each object must protect.</li><li>Create a class diagram.</li><li>Implement at least three classes with validation.</li><li>Write a short note on where composition is better than inheritance.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Class diagram</li><li>Starter code</li><li>Rule list</li><li>Composition explanation</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 5</span>
+  <h3>SOLID Refactor: Reports</h3>
+  <p><strong>Connected lesson:</strong> Week 5 — SOLID Part 1: SRP, OCP, and LSP</p>
+  <p><strong>Scenario:</strong> A ReportManager class loads data, calculates totals, formats HTML, saves files, and emails the report.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>List each reason ReportManager might change.</li><li>Split the class into focused responsibilities.</li><li>Identify one behavior that should be open for extension.</li><li>Write or sketch the new interfaces/classes.</li><li>Explain how the design improves testing.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Refactored design</li><li>Class list</li><li>Short SOLID explanation</li><li>Testability note</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 6</span>
+  <h3>Notification System Design</h3>
+  <p><strong>Connected lesson:</strong> Week 6 — SOLID Part 2: Interfaces, Dependency Inversion, and Testability</p>
+  <p><strong>Scenario:</strong> A campus app must send announcements by email today, SMS next semester, and push notifications later.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Define a focused NotificationSender interface.</li><li>Create at least two implementations.</li><li>Create a service that depends on the interface, not implementations.</li><li>Write a fake implementation for tests.</li><li>Explain how ISP and DIP appear in your design.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Interface design</li><li>Implementation code or pseudocode</li><li>Test fake</li><li>Explanation</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 7</span>
+  <h3>Clarity Refactor</h3>
+  <p><strong>Connected lesson:</strong> Week 7 — DRY, KISS, YAGNI, and Naming</p>
+  <p><strong>Scenario:</strong> You receive code with vague names, duplicated conditions, and several unnecessary abstractions.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Rename variables and methods to reveal intent.</li><li>Identify duplicated knowledge vs harmless similar code.</li><li>Remove one abstraction that does not serve a requirement.</li><li>Write a short explanation of how the code became easier to read.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Before/after code</li><li>Naming improvements list</li><li>Removed overengineering note</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 8</span>
+  <h3>Diagram a Workflow</h3>
+  <p><strong>Connected lesson:</strong> Week 8 — UML and Practical Design Diagrams</p>
+  <p><strong>Scenario:</strong> Model the checkout workflow for a food ordering app.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Write the workflow in plain English.</li><li>Create a sequence diagram for the workflow.</li><li>Create a class or component diagram for the same system.</li><li>Mark one dependency that could become a problem.</li><li>Explain the design improvement you would make.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Sequence diagram</li><li>Class/component diagram</li><li>Design note</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 9</span>
+  <h3>Pattern Choice Lab</h3>
+  <p><strong>Connected lesson:</strong> Week 9 — Design Patterns Part 1: Strategy, Factory, Observer, Singleton</p>
+  <p><strong>Scenario:</strong> A mini game needs enemies with different movement and attack styles.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Identify which behavior varies.</li><li>Choose Strategy or Factory where appropriate.</li><li>Implement two movement behaviors.</li><li>Create a factory that builds enemies from configuration.</li><li>Explain one pattern you chose not to use.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Pattern implementation</li><li>Short pattern justification</li><li>One warning about overuse</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 10</span>
+  <h3>Repository and UI Separation</h3>
+  <p><strong>Connected lesson:</strong> Week 10 — Design Patterns Part 2: Adapter, Decorator, Command, Repository, MVC/MVVM</p>
+  <p><strong>Scenario:</strong> A task tracker stores data directly inside button click handlers.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Move validation into a service.</li><li>Create a repository interface.</li><li>Create one in-memory repository for tests.</li><li>Keep UI handlers focused on user interaction.</li><li>Explain how this resembles MVC or MVVM separation.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Refactored code</li><li>Repository interface</li><li>Short architecture note</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 11</span>
+  <h3>Make It Testable</h3>
+  <p><strong>Connected lesson:</strong> Week 11 — Testing and Testable Design</p>
+  <p><strong>Scenario:</strong> A service has hard-coded file access and sends real emails during tests.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Identify all external side effects.</li><li>Introduce interfaces for external services.</li><li>Inject dependencies through constructors.</li><li>Create fakes for tests.</li><li>Write tests for at least three important rules.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Refactored service</li><li>Test doubles</li><li>Test cases</li><li>Design reflection</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 12</span>
+  <h3>Architecture Sketch</h3>
+  <p><strong>Connected lesson:</strong> Week 12 — Software Architecture Basics</p>
+  <p><strong>Scenario:</strong> Design a course registration system for a college.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Identify users and core use cases.</li><li>Draw a layered architecture.</li><li>Define the main API or service operations.</li><li>Identify external systems such as identity, payment, or email.</li><li>Write three architectural tradeoffs.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Architecture diagram</li><li>API/service list</li><li>Tradeoff explanation</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 13</span>
+  <h3>Refactor Safely</h3>
+  <p><strong>Connected lesson:</strong> Week 13 — Refactoring, Code Smells, and Technical Debt</p>
+  <p><strong>Scenario:</strong> You receive a working but messy invoice system.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Write or identify expected behavior.</li><li>Find at least five code smells.</li><li>Choose one smell to refactor first.</li><li>Make small changes and verify behavior after each step.</li><li>Write a technical debt note.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Code smell list</li><li>Refactored code</li><li>Test/check evidence</li><li>Technical debt note</li></ul>
+</article>
+<article class="card">
+  <span class="week-badge">Lab 14</span>
+  <h3>Final Design Review</h3>
+  <p><strong>Connected lesson:</strong> Week 14 — Final Design Review and Professional Presentation</p>
+  <p><strong>Scenario:</strong> Students review each other’s capstone projects before final submission.</p>
+  <h4>Steps</h4><ol class="clean-list"><li>Present the system in five minutes.</li><li>Show one diagram and one code example.</li><li>Explain one principle and one pattern used.</li><li>Receive peer feedback on clarity and design risk.</li><li>Revise final submission based on feedback.</li></ol>
+  <h4>Deliverables</h4><ul class="clean-list"><li>Presentation draft</li><li>Peer feedback form</li><li>Final revision note</li></ul>
+</article></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="js/app.js"></script>
+</body>
+</html>

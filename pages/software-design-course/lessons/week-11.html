@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 11: Testing and Testable Design | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 11 Lesson</p>
+  <h1>Testing and Testable Design</h1>
+  <p>If important behavior is hard to test, the design is probably telling you something.</p>
+  <div class="pill-row"><span class="pill">unit test</span><span class="pill">integration test</span><span class="pill">end-to-end test</span><span class="pill">mock</span><span class="pill">stub</span><span class="pill">fake</span><span class="pill">test seam</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-10.html">Previous Week</a><a class="primary" href="week-12.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="11"> Mark Week 11 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Distinguish unit tests, integration tests, and end-to-end tests.</li><li>Design small testable units.</li><li>Use fakes, stubs, or mocks appropriately.</li><li>Refactor code that is hard to test.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Testing is not separate from design. The way code is structured determines how easy it is to verify. If a method reads the keyboard, calls the database, sends email, calculates pricing, and prints output all at once, testing one rule requires the whole environment. That is a design problem, not just a testing problem.</p><p>Unit tests focus on small pieces of behavior, usually without real external systems. Integration tests check that multiple parts work together, such as a service and database. End-to-end tests simulate real user flows. All three can be valuable, but unit tests are where design problems often become obvious first.</p><p>A test seam is a place where you can replace real behavior with controlled behavior. Interfaces and dependency injection create seams. If OrderService receives a PaymentGateway, a test can provide a fake gateway that succeeds, fails, or records calls. Without that seam, tests may require real payment credentials or network access.</p><p>Mocks, stubs, and fakes are test doubles. A stub returns controlled answers. A mock verifies that something was called. A fake is a working simplified implementation, such as an in-memory repository. Students should not overuse mocks to test implementation details. Tests should usually focus on observable behavior and important rules.</p><p>Testable design often looks like clean design: small methods, clear inputs and outputs, separated side effects, dependency inversion, and domain rules outside the UI. When tests are painful, ask why. The answer often points to tight coupling, hidden global state, or mixed responsibilities.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Testing with an in-memory repository</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>// Hard to test because storage is hard-coded.
+class CourseService {
+  enroll(studentId: string, courseId: string) {
+    database.insert(&#x27;enrollments&#x27;, { studentId, courseId });
+  }
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>interface EnrollmentRepository {
+  save(enrollment: Enrollment): void;
+  exists(studentId: string, courseId: string): boolean;
+}
+
+class CourseService {
+  constructor(private repo: EnrollmentRepository) {}
+
+  enroll(studentId: string, courseId: string) {
+    if (this.repo.exists(studentId, courseId)) {
+      throw new Error(&#x27;Student already enrolled&#x27;);
+    }
+    this.repo.save({ studentId, courseId });
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The duplicate-enrollment rule can be tested with an in-memory repository, without a real database.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Make It Testable</h2>
+  <p><strong>Scenario:</strong> A service has hard-coded file access and sends real emails during tests.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Identify all external side effects.</li><li>Introduce interfaces for external services.</li><li>Inject dependencies through constructors.</li><li>Create fakes for tests.</li><li>Write tests for at least three important rules.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Refactored service</li><li>Test doubles</li><li>Test cases</li><li>Design reflection</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Write at least five tests for your capstone. Explain one design change you made because testing exposed a problem.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>What makes a test valuable?</li><li>When should a test use a fake instead of a mock?</li><li>Can code be over-tested?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 11 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>A unit test usually checks:</p><label class="quiz-option"><input type="radio" name="w11-q1" value="0">A small piece of behavior</label><label class="quiz-option"><input type="radio" name="w11-q1" value="1">The entire internet</label><label class="quiz-option"><input type="radio" name="w11-q1" value="2">Only deployment settings</label><label class="quiz-option"><input type="radio" name="w11-q1" value="3">A logo file</label><button class="secondary small" data-check-quiz="w11-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>A fake repository is useful because:</p><label class="quiz-option"><input type="radio" name="w11-q2" value="0">It can replace real storage in tests</label><label class="quiz-option"><input type="radio" name="w11-q2" value="1">It makes tests impossible</label><label class="quiz-option"><input type="radio" name="w11-q2" value="2">It sends real payments</label><label class="quiz-option"><input type="radio" name="w11-q2" value="3">It removes all code</label><button class="secondary small" data-check-quiz="w11-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>Hard-to-test code often has:</p><label class="quiz-option"><input type="radio" name="w11-q3" value="0">Tight coupling or mixed responsibilities</label><label class="quiz-option"><input type="radio" name="w11-q3" value="1">Too many good names</label><label class="quiz-option"><input type="radio" name="w11-q3" value="2">Too much clarity</label><label class="quiz-option"><input type="radio" name="w11-q3" value="3">No behavior</label><button class="secondary small" data-check-quiz="w11-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A test seam is:</p><label class="quiz-option"><input type="radio" name="w11-q4" value="0">A place to replace real behavior with controlled behavior</label><label class="quiz-option"><input type="radio" name="w11-q4" value="1">A CSS border</label><label class="quiz-option"><input type="radio" name="w11-q4" value="2">A production outage</label><label class="quiz-option"><input type="radio" name="w11-q4" value="3">A database password</label><button class="secondary small" data-check-quiz="w11-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Tests should usually focus on:</p><label class="quiz-option"><input type="radio" name="w11-q5" value="0">Important observable behavior</label><label class="quiz-option"><input type="radio" name="w11-q5" value="1">Only private implementation details</label><label class="quiz-option"><input type="radio" name="w11-q5" value="2">Making code longer</label><label class="quiz-option"><input type="radio" name="w11-q5" value="3">Avoiding requirements</label><button class="secondary small" data-check-quiz="w11-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="11" placeholder="Write notes, questions, or project ideas for Week 11..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-10.html">Previous Week</a><a class="primary" href="week-12.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

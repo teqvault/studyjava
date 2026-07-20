@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instructor Guide | TeqVault Study</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link " href="index.html">Home</a><a class="nav-link " href="syllabus.html">Syllabus</a><a class="nav-link " href="labs.html">Labs</a><a class="nav-link " href="quizzes.html">Quizzes</a><a class="nav-link " href="capstone.html">Capstone</a><a class="nav-link active" href="instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="lessons/week-01.html">Week 1</a><a href="lessons/week-02.html">Week 2</a><a href="lessons/week-03.html">Week 3</a><a href="lessons/week-04.html">Week 4</a><a href="lessons/week-05.html">Week 5</a><a href="lessons/week-06.html">Week 6</a><a href="lessons/week-07.html">Week 7</a><a href="lessons/week-08.html">Week 8</a><a href="lessons/week-09.html">Week 9</a><a href="lessons/week-10.html">Week 10</a><a href="lessons/week-11.html">Week 11</a><a href="lessons/week-12.html">Week 12</a><a href="lessons/week-13.html">Week 13</a><a href="lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero"><p class="eyebrow">Instructor Guide</p><h1>Teaching Notes and Rubrics</h1><p>This page helps an instructor or self-study mentor run the course without needing extra framework files.</p></section>
+<section class="panel"><h2>Teaching Approach</h2><p>Teach this course as a design studio, not only a lecture course. Students should repeatedly inspect bad designs, propose alternatives, explain tradeoffs, and refactor in small steps. Encourage them to say why a design is better, not just that it uses a famous principle.</p><p>Use short code examples in class and longer labs outside class. The most valuable classroom moments are design reviews where students compare two designs and identify what each one makes easier or harder.</p></section>
+<section class="grid two"><article class="card"><h3>Weekly Rhythm</h3><ul class="clean-list"><li>Start with one design problem or messy code sample.</li><li>Introduce the principle or pattern.</li><li>Walk through a worked example.</li><li>Have students diagnose a new example in pairs.</li><li>End with a short reflection question.</li></ul></article><article class="card"><h3>Grading Priorities</h3><ul class="clean-list"><li>Clarity of responsibility.</li><li>Evidence of design reasoning.</li><li>Appropriate simplicity.</li><li>Ability to discuss tradeoffs.</li><li>Improvement through feedback.</li></ul></article></section>
+<section class="panel"><h2>Midterm Design Review</h2><p>Give students a small but poorly designed project. They should identify design smells, write a refactor plan, improve at least part of the code, and explain which principles were involved.</p><div class="table-wrap"><table><thead><tr><th>Criterion</th><th>Weight</th><th>Excellent</th></tr></thead><tbody><tr><td>Problem Diagnosis</td><td>25%</td><td>Finds meaningful design issues and explains impact.</td></tr><tr><td>Refactor Plan</td><td>25%</td><td>Provides safe, ordered steps with reasoning.</td></tr><tr><td>Improved Design</td><td>30%</td><td>Separates responsibilities and improves testability.</td></tr><tr><td>Explanation</td><td>20%</td><td>Connects changes to principles and tradeoffs.</td></tr></tbody></table></div></section>
+<section class="panel"><h2>Capstone Review Questions</h2><ul class="clean-list"><li>What requirement most shaped your design?</li><li>Which part of the system is easiest to change?</li><li>Which part is hardest to change?</li><li>Where did you use abstraction and why?</li><li>Which design pattern did you use, and what problem did it solve?</li><li>What did testing reveal about your design?</li><li>What technical debt did you knowingly accept?</li><li>What would you change with two more weeks?</li></ul></section>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="js/app.js"></script>
+</body>
+</html>

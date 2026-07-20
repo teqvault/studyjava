@@ -126,7 +126,7 @@ Success criteria:
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes a prototype ready to become a capstone product?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A shippable capstone needs clarity and repeatability before extra features.')">It has a clear user, problem, MVP, and success criteria</button>
 <button class="quiz-option" onclick="quiz(this,false,'A shippable capstone needs clarity and repeatability before extra features.')">It has every feature you can imagine</button>
 <button class="quiz-option" onclick="quiz(this,false,'A shippable capstone needs clarity and repeatability before extra features.')">It only works on your laptop with secret steps</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Product Spec →</button></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-1">
@@ -184,7 +184,7 @@ In the final demo, viewers must be able to see:
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which acceptance criterion is strongest?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Strong acceptance criteria can be tested with a clear pass or fail.')">The dashboard updates within 10 seconds after new sensor data arrives</button>
 <button class="quiz-option" onclick="quiz(this,false,'Strong acceptance criteria can be tested with a clear pass or fail.')">The project feels professional</button>
 <button class="quiz-option" onclick="quiz(this,false,'Strong acceptance criteria can be tested with a clear pass or fail.')">The device has a lot of useful stuff</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Choose Product</button><button class="next" onclick="next()">Architecture →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-2">
@@ -232,7 +232,7 @@ Power source -&gt; regulator / board -&gt; sensors -&gt; actuators
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why include a risk register in a capstone?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Risk planning is part of turning a prototype into something reliable.')">It forces you to design recovery paths before the demo fails</button>
 <button class="quiz-option" onclick="quiz(this,false,'Risk planning is part of turning a prototype into something reliable.')">It replaces wiring documentation</button>
 <button class="quiz-option" onclick="quiz(this,false,'Risk planning is part of turning a prototype into something reliable.')">It makes the product more complicated for no reason</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Product Spec</button><button class="next" onclick="next()">BOM &amp; Budget →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-3">
@@ -279,7 +279,7 @@ Known compatibility warnings:</code></pre></div>
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the best reason to include substitute parts in a BOM?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Good BOMs make a build practical, not fragile.')">So the project can still be rebuilt if one exact part is unavailable</button>
 <button class="quiz-option" onclick="quiz(this,false,'Good BOMs make a build practical, not fragile.')">So the learner never has to test compatibility</button>
 <button class="quiz-option" onclick="quiz(this,false,'Good BOMs make a build practical, not fragile.')">So the BOM looks longer</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Architecture</button><button class="next" onclick="next()">Repo Structure →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-4">
@@ -319,7 +319,7 @@ Known compatibility warnings:</code></pre></div>
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why use config.example.json instead of committing your real config?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Professional repos teach users how to configure safely.')">It shows required settings without exposing secrets</button>
 <button class="quiz-option" onclick="quiz(this,false,'Professional repos teach users how to configure safely.')">It makes the code impossible to run</button>
 <button class="quiz-option" onclick="quiz(this,false,'Professional repos teach users how to configure safely.')">It deletes the need for setup instructions</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← BOM &amp; Budget</button><button class="next" onclick="next()">Setup Automation →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-5">
@@ -364,7 +364,7 @@ echo &quot;Setup complete. Next: edit config.json, then run ./start.sh&quot;</co
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a setup script do when a required command fails?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A reliable setup script fails loudly and clearly.')">Stop and print a clear error</button>
 <button class="quiz-option" onclick="quiz(this,false,'A reliable setup script fails loudly and clearly.')">Ignore the error and continue silently</button>
 <button class="quiz-option" onclick="quiz(this,false,'A reliable setup script fails loudly and clearly.')">Delete the project folder</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Repo Structure</button><button class="next" onclick="next()">Run on Boot →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-6">
@@ -401,7 +401,7 @@ WantedBy=multi-user.target
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should happen if the main service crashes?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Recovery behavior separates a product from a fragile demo.')">It should log the error and restart when appropriate</button>
 <button class="quiz-option" onclick="quiz(this,false,'Recovery behavior separates a product from a fragile demo.')">It should fail silently forever</button>
 <button class="quiz-option" onclick="quiz(this,false,'Recovery behavior separates a product from a fragile demo.')">It should require editing source code before every boot</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Setup Automation</button><button class="next" onclick="next()">Enclosure →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-7">
@@ -442,7 +442,7 @@ How to check logs:</code></pre></div>
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why is sensor placement part of product design?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Physical design directly affects device behavior.')">Bad placement can make the product produce wrong readings</button>
 <button class="quiz-option" onclick="quiz(this,false,'Physical design directly affects device behavior.')">Sensor placement only affects CSS</button>
 <button class="quiz-option" onclick="quiz(this,false,'Physical design directly affects device behavior.')">It replaces the need for testing</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Run on Boot</button><button class="next" onclick="next()">Testing →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-8">
@@ -486,7 +486,7 @@ Can the final demo be completed in 90 seconds? yes / no</code></pre></div>
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Which test best proves the product can recover after power loss?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Cold boot testing is essential for embedded products.')">Unplug the device, plug it back in, and verify the service starts</button>
 <button class="quiz-option" onclick="quiz(this,false,'Cold boot testing is essential for embedded products.')">Refresh the README page</button>
 <button class="quiz-option" onclick="quiz(this,false,'Cold boot testing is essential for embedded products.')">Rename the project folder without running anything</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Enclosure</button><button class="next" onclick="next()">Documentation →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-9">
@@ -553,7 +553,7 @@ See TEST_PLAN.md.
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the README’s job in the final capstone?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Good documentation makes the project real outside your own machine.')">Help someone understand, rebuild, run, and evaluate the product</button>
 <button class="quiz-option" onclick="quiz(this,false,'Good documentation makes the project real outside your own machine.')">Hide setup steps</button>
 <button class="quiz-option" onclick="quiz(this,false,'Good documentation makes the project real outside your own machine.')">Replace all testing</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Testing</button><button class="next" onclick="next()">Demo &amp; Portfolio →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-10">
@@ -598,7 +598,7 @@ If I had another week, I would improve:
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should the demo prove?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'A demo is proof, not just a pitch.')">The product works and can be understood quickly</button>
 <button class="quiz-option" onclick="quiz(this,false,'A demo is proof, not just a pitch.')">The code has the most files possible</button>
 <button class="quiz-option" onclick="quiz(this,false,'A demo is proof, not just a pitch.')">The device only works when explained verbally for ten minutes</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Documentation</button><button class="next" onclick="next()">Launch Package →</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-11">
@@ -647,7 +647,7 @@ What you would build next:</code></pre></div>
       <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the strongest final capstone submission?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'The final capstone should prove both engineering skill and product thinking.')">A working device with code, setup, tests, docs, demo assets, and a clear release checklist</button>
 <button class="quiz-option" onclick="quiz(this,false,'The final capstone should prove both engineering skill and product thinking.')">A single script with no README</button>
 <button class="quiz-option" onclick="quiz(this,false,'The final capstone should prove both engineering skill and product thinking.')">A list of future ideas but no working build</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Demo &amp; Portfolio</button><button class="next" onclick="finishCourse()">Mark Course Complete ✓</button></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="finishCourse()">Mark Course Complete ✓</button></div>
     </section>
     <div class="footer-note">// TeqStudy Course 08 — Build &amp; Ship an Embedded Product</div>
   </main>

@@ -1,0 +1,22 @@
+Software Design & Principles - Full Course Summary
+
+This course includes 14 weeks of complete lesson notes, labs, assignments, quizzes, capstone, and instructor guide.
+
+Course Motto:
+Good software is not just software that works. Good software is software that can be understood, changed, tested, and trusted.
+
+Weekly Topics:
+Week 1: What Software Design Really Means
+Week 2: Requirements, Constraints, and Acceptance Criteria
+Week 3: Decomposition, Modularity, Cohesion, and Coupling
+Week 4: Object-Oriented Design That Does Not Fight You
+Week 5: SOLID Part 1: SRP, OCP, and LSP
+Week 6: SOLID Part 2: Interfaces, Dependency Inversion, and Testability
+Week 7: DRY, KISS, YAGNI, and Naming
+Week 8: UML and Practical Design Diagrams
+Week 9: Design Patterns Part 1: Strategy, Factory, Observer, Singleton
+Week 10: Design Patterns Part 2: Adapter, Decorator, Command, Repository, MVC/MVVM
+Week 11: Testing and Testable Design
+Week 12: Software Architecture Basics
+Week 13: Refactoring, Code Smells, and Technical Debt
+Week 14: Final Design Review and Professional Presentation

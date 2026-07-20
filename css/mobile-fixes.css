@@ -41,46 +41,4 @@
         max-width: 100%;
         height: auto;
     }
-
-    /* 6. Tables don't reflow on their own — wide cells (long code, long comparison
-          text) push them past the viewport with no way to reach the rest. Making
-          the table a horizontally-scrollable block (same approach already used for
-          code blocks above) means every column stays readable and aligned — the
-          user swipes sideways within the table instead of content being cut off. */
-    table {
-        display: block;
-        position: relative;
-        max-width: 100%;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
-        border-collapse: collapse;
-        white-space: nowrap;
-        margin-bottom: 28px !important;
-    }
-
-    /* Belt-and-suspenders: even inside the nowrap table above, a single very
-       long code token (e.g. a long generic type or method signature) can still
-       be wider than the whole screen. This lets it break internally as a last
-       resort instead of demanding an extreme amount of horizontal scroll. */
-    table code {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    /* 7. Mobile browsers hide the scrollbar by default on touch-scrolled
-          elements, so a table that's genuinely scrollable (above) is visually
-          indistinguishable from one that's just broken/clipped — there's no cue
-          telling the user they can swipe. This adds a small, persistent hint
-          so a working scrollable table doesn't look like a bug. */
-    table::after {
-        content: "↔ swipe to see more";
-        display: block;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-        color: rgba(255,255,255,0.45);
-        text-align: right;
-        padding: 6px 4px 0;
-        white-space: normal;
-    }
 }

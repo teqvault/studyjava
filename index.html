@@ -4,12 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TeqStudy — Developer Learning Tracks</title>
-<link rel="icon" href="images/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="images/icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -33,7 +27,6 @@
 
 <!-- ── HERO ────────────────────────────────────── -->
 <section class="hero">
-  <img src="images/hero-bg-icon.jpg" alt="" aria-hidden="true" class="hero-icon-bg">
   <div class="hero-eyebrow">// teqstudy v3.0</div>
 
   <h1 class="hero-title">
@@ -43,7 +36,7 @@
   </h1>
 
   <p class="hero-sub">
-    Eleven developer tracks — Java, Python, DevOps, Game Dev, AI, Embedded & IoT, and more. 42 courses, one home.
+    Twelve developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded & IoT, and more. 43 courses, one home.
   </p>
 
   <div class="compile-widget">
@@ -71,7 +64,7 @@
     </div>
     <div class="stat-div"></div>
     <div class="stat">
-      <div class="stat-num">11</div>
+      <div class="stat-num">12</div>
       <div class="stat-label">Tracks</div>
     </div>
     <div class="stat-div"></div>
@@ -93,6 +86,7 @@
   <nav class="track-nav reveal" aria-label="Jump to track">
     <a href="#track-java" class="track-pill" style="--tc:var(--orange)">☕ Java</a>
     <a href="#track-python" class="track-pill" style="--tc:var(--green)">🐍 Python</a>
+    <a href="#track-design" class="track-pill" style="--tc:#f0b94d">🏗️ Software Design</a>
     <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
     <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
     <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
@@ -114,6 +108,11 @@
       <span class="track-card-icon">🐍</span>
       <span class="track-card-title">Python</span>
       <span class="track-card-desc">An 8-phase roadmap from fast-track syntax to job-ready.</span>
+    </a>
+    <a href="#track-design" class="track-card" style="--tc:#f0b94d">
+      <span class="track-card-icon">🏗️</span>
+      <span class="track-card-title">Software Design &amp; Principles</span>
+      <span class="track-card-desc">SOLID, architecture, patterns, refactoring, testing, and a complete design capstone.</span>
     </a>
     <a href="#track-ai" class="track-card" style="--tc:var(--teal)">
       <span class="track-card-icon">🤖</span>
@@ -465,6 +464,27 @@
     <p class="section-sub">Standalone tracks in AI, Python, DevOps, game development, tooling, and security.</p>
   </div>
 
+  <!-- Software Design & Principles -->
+  <div class="phase reveal" id="track-design">
+    <div class="phase-header">
+      <span class="phase-num" style="color:#f0b94d;border-color:rgba(240,185,77,0.35)">🏗️ Track</span>
+      <span class="phase-name">Software Design &amp; Architecture</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+      <a href="pages/software-design-course/index.html" class="course-card featured">
+        <div class="featured-inner">
+          <div>
+            <div class="card-tag" style="color:#f0b94d;">Software Engineering · College Level · Language-Agnostic</div>
+            <div class="card-title">Software Design &amp; Principles</div>
+            <p class="card-desc">A complete 14-week course on requirements, modularity, object-oriented design, SOLID, design patterns, UML, testable architecture, refactoring, code smells, and technical debt. Includes full lessons, hands-on labs, saved quizzes, XP, badges, capstone milestones, a student dashboard, and a printable completion certificate.</p>
+          </div>
+          <span class="featured-badge" style="color:#f0b94d;border-color:rgba(240,185,77,0.35);background:rgba(240,185,77,0.1);">New ✦</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
   <!-- AI & Prompt Engineering -->
   <div class="phase reveal" id="track-ai">
     <div class="phase-header">
@@ -649,12 +669,6 @@
         <p class="card-desc">12 modules from breadboard basics to a full sensor/IoT capstone. Starts with safe GPIO wiring and add-ons before moving into Python, Linux, sensors, motors, networking, and computer vision.</p>
       </a>
 
-      <a href="pages/plc-programming-course.html" class="course-card">
-        <div class="card-tag">Industrial Automation · Zero Assumed Knowledge</div>
-        <div class="card-title">PLC Programming for Complete Beginners</div>
-        <p class="card-desc">13 modules on how industrial automation actually works — digital/analog I/O wiring, ladder logic, timers and counters, motor control circuits, hardware-first safety systems, HMI basics, and a capstone programming a complete automated sorting system.</p>
-      </a>
-
     </div>
   </div>
 
@@ -829,12 +843,13 @@ const lines = [
   { text: 'load python.roadmap;    // 8 phases', cls: 'cl-kw', delay: 800 },
   { text: 'load devops.k8s;        // docker + ckad', cls: 'cl-cmt', delay: 1100 },
   { text: 'load unity.gamedev;     // ship to android', cls: 'cl-cmt', delay: 1350 },
-  { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1580 },
-  { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1780 },
-  { text: '', cls: '', delay: 1980 },
-  { text: '[BUILD] Loading 42 courses across 11 tracks...', cls: 'cl-warn', delay: 2180 },
-  { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2780 },
-  { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3280 },
+  { text: 'load design.principles; // solid + architecture', cls: 'cl-cmt', delay: 1580 },
+  { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1780 },
+  { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1980 },
+  { text: '', cls: '', delay: 2180 },
+  { text: '[BUILD] Loading 43 courses across 12 tracks...', cls: 'cl-warn', delay: 2380 },
+  { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2980 },
+  { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3480 },
 ];
 
 const terminal = document.getElementById('terminal-output');

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 14: Final Design Review and Professional Presentation | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 14 Lesson</p>
+  <h1>Final Design Review and Professional Presentation</h1>
+  <p>A designer must explain not only what was built, but why it was built that way.</p>
+  <div class="pill-row"><span class="pill">design review</span><span class="pill">tradeoff</span><span class="pill">rationale</span><span class="pill">presentation</span><span class="pill">reflection</span><span class="pill">maintainability</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-13.html">Previous Week</a><a class="primary" href="../capstone.html">Go to Capstone</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="14"> Mark Week 14 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Prepare a final design presentation.</li><li>Explain tradeoffs clearly.</li><li>Connect requirements to design choices.</li><li>Reflect on design weaknesses and future improvements.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>A final project is not just a demo. In a software design course, the student must explain the design behind the demo. What requirements shaped the system? What modules were created? Which responsibilities were separated? What design pattern was used, and why was it appropriate? What was deliberately kept simple?</p><p>A strong design review connects decisions to reasons. “I used a repository” is not enough. A better explanation is: “I used a TaskRepository interface because task storage may move from local storage to a server later, and it lets me test TaskService without browser storage.” That sentence shows context, design choice, and benefit.</p><p>Tradeoffs are the heart of design. Every design gives up something. A simple local app may be easy to deploy but weak for multi-device sync. A microservice architecture may scale teams but increase operational burden. A strategy pattern may support new behavior but add more files. Students should not pretend their design is perfect. Honest tradeoff discussion is a sign of maturity.</p><p>The final presentation should include requirements, architecture diagram, class or module diagram, important workflow, design principles used, pattern explanation, testing approach, refactoring decisions, and future work. The code does not need to be huge. A small, clean, explainable system is better than a large tangled one.</p><p>Professional communication matters. Use diagrams that can be read from the back of the room. Keep slides or pages focused. Use examples. Show one before/after design improvement. Explain one mistake made during development and how it was corrected. A designer who can reflect honestly is more valuable than one who claims every choice was perfect.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Weak vs strong design rationale</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>I used interfaces because interfaces are good.</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>I introduced PaymentGateway because checkout rules should not depend directly on one payment provider. This made the service easier to test with a fake gateway and would allow a second provider later without rewriting checkout logic.</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The stronger rationale connects design choice, design principle, testing benefit, and future change.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Final Design Review</h2>
+  <p><strong>Scenario:</strong> Students review each other’s capstone projects before final submission.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Present the system in five minutes.</li><li>Show one diagram and one code example.</li><li>Explain one principle and one pattern used.</li><li>Receive peer feedback on clarity and design risk.</li><li>Revise final submission based on feedback.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Presentation draft</li><li>Peer feedback form</li><li>Final revision note</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Submit final project code, README, diagrams, tests, and design reflection. Prepare a 7–10 minute presentation.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>What makes a design explanation convincing?</li><li>Why should students discuss weaknesses?</li><li>How much code should appear in a final presentation?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 14 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>A strong design review should explain:</p><label class="quiz-option"><input type="radio" name="w14-q1" value="0">Why choices were made</label><label class="quiz-option"><input type="radio" name="w14-q1" value="1">Only the color palette</label><label class="quiz-option"><input type="radio" name="w14-q1" value="2">Only how many files exist</label><label class="quiz-option"><input type="radio" name="w14-q1" value="3">Nothing about tradeoffs</label><button class="secondary small" data-check-quiz="w14-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>A tradeoff is:</p><label class="quiz-option"><input type="radio" name="w14-q2" value="0">A benefit/cost decision in design</label><label class="quiz-option"><input type="radio" name="w14-q2" value="1">Always a mistake</label><label class="quiz-option"><input type="radio" name="w14-q2" value="2">A syntax error</label><label class="quiz-option"><input type="radio" name="w14-q2" value="3">A quiz type</label><button class="secondary small" data-check-quiz="w14-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>A good pattern explanation includes:</p><label class="quiz-option"><input type="radio" name="w14-q3" value="0">The problem it solved</label><label class="quiz-option"><input type="radio" name="w14-q3" value="1">Only the pattern name</label><label class="quiz-option"><input type="radio" name="w14-q3" value="2">A claim that all patterns are required</label><label class="quiz-option"><input type="radio" name="w14-q3" value="3">No context</label><button class="secondary small" data-check-quiz="w14-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A small clean capstone is:</p><label class="quiz-option"><input type="radio" name="w14-q4" value="0">Often better than a large messy project</label><label class="quiz-option"><input type="radio" name="w14-q4" value="1">Always unacceptable</label><label class="quiz-option"><input type="radio" name="w14-q4" value="2">Not software</label><label class="quiz-option"><input type="radio" name="w14-q4" value="3">Impossible to grade</label><button class="secondary small" data-check-quiz="w14-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Honest reflection shows:</p><label class="quiz-option"><input type="radio" name="w14-q5" value="0">Design maturity</label><label class="quiz-option"><input type="radio" name="w14-q5" value="1">Failure only</label><label class="quiz-option"><input type="radio" name="w14-q5" value="2">No learning</label><label class="quiz-option"><input type="radio" name="w14-q5" value="3">That tests are unnecessary</label><button class="secondary small" data-check-quiz="w14-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="14" placeholder="Write notes, questions, or project ideas for Week 14..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-13.html">Previous Week</a><a class="primary" href="../capstone.html">Go to Capstone</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

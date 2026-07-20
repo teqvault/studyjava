@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 12: Software Architecture Basics | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 12 Lesson</p>
+  <h1>Software Architecture Basics</h1>
+  <p>Architecture is the system’s big shape and its most important boundaries.</p>
+  <div class="pill-row"><span class="pill">architecture</span><span class="pill">layered architecture</span><span class="pill">client-server</span><span class="pill">API</span><span class="pill">monolith</span><span class="pill">microservice</span><span class="pill">boundary</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-11.html">Previous Week</a><a class="primary" href="week-13.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="12"> Mark Week 12 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Explain architecture vs lower-level design.</li><li>Design a simple layered architecture.</li><li>Compare monoliths and microservices honestly.</li><li>Identify boundaries around UI, domain, data, and external systems.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Software architecture is the high-level structure of a system. It includes major components, communication paths, deployment decisions, data ownership, security boundaries, and technology choices. If class design is about organizing rooms, architecture is about designing the building.</p><p>Layered architecture is a common starting point. A simple app may have a UI layer, application/service layer, domain layer, and data layer. The UI handles interaction. Services coordinate use cases. The domain contains important rules. The data layer handles storage. The key design concern is dependency direction: business rules should not depend directly on UI widgets or database details.</p><p>Client-server architecture separates user-facing clients from backend services. The client might be a web app or mobile app. The server exposes APIs, validates rules, manages data, and integrates with other systems. API design becomes part of architecture because it defines the contract between client and server.</p><p>A monolith is an application deployed as one unit. Monoliths are not automatically bad. For small teams and early products, a well-structured monolith is often simpler, faster, and more reliable than a distributed system. Microservices split capabilities into independently deployable services, which can help large organizations but adds network, data consistency, monitoring, and deployment complexity.</p><p>Architecture is about tradeoffs. A design that is perfect for a five-person class project may fail at million-user scale. A design for million-user scale may be absurd for a prototype. Good architects explain context: team size, change rate, risk, budget, performance needs, and operational complexity.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Layered task app architecture</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>Button click handler -&gt; localStorage -&gt; email provider -&gt; overdue calculation -&gt; HTML rendering -&gt; analytics</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>UI Layer
+- Renders screens and captures user actions
+
+Application Layer
+- TaskService, ReminderService, CourseService
+
+Domain Layer
+- Task, Course, DueDatePolicy, RecurrenceRule
+
+Infrastructure Layer
+- LocalStorageTaskRepository, EmailNotificationSender, AnalyticsClient</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The improved architecture gives each layer a purpose and keeps domain rules away from UI and infrastructure details.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Architecture Sketch</h2>
+  <p><strong>Scenario:</strong> Design a course registration system for a college.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Identify users and core use cases.</li><li>Draw a layered architecture.</li><li>Define the main API or service operations.</li><li>Identify external systems such as identity, payment, or email.</li><li>Write three architectural tradeoffs.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Architecture diagram</li><li>API/service list</li><li>Tradeoff explanation</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Create an architecture diagram for your capstone and explain why you chose that structure.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>When is a monolith the better choice?</li><li>What complexity do microservices add?</li><li>Which layer should own business rules?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 12 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>Architecture is mostly concerned with:</p><label class="quiz-option"><input type="radio" name="w12-q1" value="0">High-level structure and boundaries</label><label class="quiz-option"><input type="radio" name="w12-q1" value="1">Only line formatting</label><label class="quiz-option"><input type="radio" name="w12-q1" value="2">Only variable names</label><label class="quiz-option"><input type="radio" name="w12-q1" value="3">Only keyboard shortcuts</label><button class="secondary small" data-check-quiz="w12-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>A layered architecture usually separates:</p><label class="quiz-option"><input type="radio" name="w12-q2" value="0">UI, services/domain, and data concerns</label><label class="quiz-option"><input type="radio" name="w12-q2" value="1">All code by color</label><label class="quiz-option"><input type="radio" name="w12-q2" value="2">Students by alphabet only</label><label class="quiz-option"><input type="radio" name="w12-q2" value="3">CSS from HTML only</label><button class="secondary small" data-check-quiz="w12-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>A monolith is:</p><label class="quiz-option"><input type="radio" name="w12-q3" value="0">An app deployed as one unit</label><label class="quiz-option"><input type="radio" name="w12-q3" value="1">Always bad</label><label class="quiz-option"><input type="radio" name="w12-q3" value="2">Always a database</label><label class="quiz-option"><input type="radio" name="w12-q3" value="3">A design pattern only for games</label><button class="secondary small" data-check-quiz="w12-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>Microservices add complexity because:</p><label class="quiz-option"><input type="radio" name="w12-q4" value="0">Systems communicate over networks and deploy separately</label><label class="quiz-option"><input type="radio" name="w12-q4" value="1">They remove all operations work</label><label class="quiz-option"><input type="radio" name="w12-q4" value="2">They need no monitoring</label><label class="quiz-option"><input type="radio" name="w12-q4" value="3">They avoid APIs</label><button class="secondary small" data-check-quiz="w12-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Architecture decisions should be judged by:</p><label class="quiz-option"><input type="radio" name="w12-q5" value="0">Context and tradeoffs</label><label class="quiz-option"><input type="radio" name="w12-q5" value="1">Trendiness only</label><label class="quiz-option"><input type="radio" name="w12-q5" value="2">Number of diagrams</label><label class="quiz-option"><input type="radio" name="w12-q5" value="3">Logo size</label><button class="secondary small" data-check-quiz="w12-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="12" placeholder="Write notes, questions, or project ideas for Week 12..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-11.html">Previous Week</a><a class="primary" href="week-13.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

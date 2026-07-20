@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 1: What Software Design Really Means | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 1 Lesson</p>
+  <h1>What Software Design Really Means</h1>
+  <p>Design is the structure that lets working code survive change.</p>
+  <div class="pill-row"><span class="pill">software design</span><span class="pill">architecture</span><span class="pill">maintainability</span><span class="pill">readability</span><span class="pill">change cost</span><span class="pill">technical decision</span></div>
+  <div class="hero-actions"><a class="secondary" href="../index.html">Course Home</a><a class="primary" href="week-02.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="1"> Mark Week 1 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Explain the difference between coding, software design, and architecture.</li><li>Identify design problems in code that technically works.</li><li>Describe why maintainability becomes a real cost in software projects.</li><li>Use a simple design review checklist on an existing program.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>A beginner often thinks software is finished when the program runs. A professional learns that running is only the first standard. Real software is read, changed, fixed, extended, tested, deployed, and handed to other people. Software design is the discipline of shaping code so those future actions are possible without turning every change into a fight.</p><p>Coding is the act of writing instructions. Design is deciding where those instructions belong, what each part is responsible for, and how the parts communicate. Architecture is the larger structure of the system: major boundaries, deployment choices, data flow, storage, security, and integration points. The three overlap, but they are not the same. A student can write code that produces the correct output while still creating a design that will be painful to modify.</p><p>Bad design usually hides at first. A single file can be fast to write for a class exercise. A single class that handles input, validation, database access, calculations, and display can feel convenient. But the pain appears when requirements change. If a professor says, “Now support CSV and JSON,” or a client says, “Add mobile notifications,” a tangled design forces you to edit unrelated parts of the system. This is why software design is about reducing the cost of change.</p><p>Design quality is not about showing off patterns or making code look complicated. Good design is boring in the best way. Names reveal intent. Modules have clear responsibilities. Dependencies are visible. Business rules are not buried inside user interface code. Tests can exercise important behavior without launching the whole app. When something breaks, the likely location is easier to find.</p><p>One useful design habit is to ask three questions before and after coding: What can change? What should not know about what? What rule must be protected? The first question reveals flexible points. The second reveals boundaries. The third reveals invariants, which are rules that should always stay true, such as “an account balance cannot go below zero” or “a completed order cannot be edited like a draft.”</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Messy code vs designed code</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>// Everything is in one place. This works, but it is hard to change.
+function checkout(cart: any[], email: string) {
+  let total = 0;
+  for (const item of cart) total += item.price * item.qty;
+  const tax = total * 0.0825;
+  const finalTotal = total + tax;
+
+  console.log(&#x27;Charging card for &#x27; + finalTotal);
+  console.log(&#x27;Saving order to database&#x27;);
+  console.log(&#x27;Sending receipt to &#x27; + email);
+
+  return finalTotal;
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>type CartItem = { price: number; qty: number };
+
+class PriceCalculator {
+  total(cart: CartItem[]): number {
+    return cart.reduce((sum, item) =&gt; sum + item.price * item.qty, 0);
+  }
+}
+
+class TaxCalculator {
+  constructor(private rate: number) {}
+  taxFor(amount: number): number {
+    return amount * this.rate;
+  }
+}
+
+class CheckoutService {
+  constructor(
+    private prices: PriceCalculator,
+    private taxes: TaxCalculator
+  ) {}
+
+  checkout(cart: CartItem[]): number {
+    const subtotal = this.prices.total(cart);
+    return subtotal + this.taxes.taxFor(subtotal);
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The second version separates pricing from tax calculation and checkout coordination. It is not bigger because bigger is better; it is organized so future changes have obvious homes.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Bad Code Diagnosis</h2>
+  <p><strong>Scenario:</strong> You receive a small program that works but mixes input, calculation, storage, and output in one function.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Run or read the program and describe what it does.</li><li>Highlight every place where two responsibilities are mixed together.</li><li>Name at least three changes that would be risky in the current design.</li><li>Rewrite the design as a simple module list. Do not refactor yet; just diagnose.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>One-page design critique</li><li>List of responsibilities</li><li>List of likely future changes</li><li>Proposed module breakdown</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Pick an app you use often. Write 600–900 words explaining its likely modules, likely data, and three design choices the developers probably had to make.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>Why is working code not always good software?</li><li>What is one program you have written that would be hard to change now?</li><li>When is it acceptable to write quick messy code?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 1 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 1</h3><p>What is software design mainly concerned with?</p><label class="quiz-option"><input type="radio" name="w1-q1" value="0">Choosing the most popular language</label><label class="quiz-option"><input type="radio" name="w1-q1" value="1">Organizing software so it can be understood and changed</label><label class="quiz-option"><input type="radio" name="w1-q1" value="2">Writing the fewest possible lines</label><label class="quiz-option"><input type="radio" name="w1-q1" value="3">Avoiding all documentation</label><button class="secondary small" data-check-quiz="w1-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 2</h3><p>A program with all logic in one function may be okay for a tiny exercise, but becomes risky because:</p><label class="quiz-option"><input type="radio" name="w1-q2" value="0">It cannot run on Windows</label><label class="quiz-option"><input type="radio" name="w1-q2" value="1">Every change can affect unrelated behavior</label><label class="quiz-option"><input type="radio" name="w1-q2" value="2">It uses too many comments</label><label class="quiz-option"><input type="radio" name="w1-q2" value="3">It has no colors</label><button class="secondary small" data-check-quiz="w1-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 3</h3><p>Architecture usually refers to:</p><label class="quiz-option"><input type="radio" name="w1-q3" value="0">Only variable names</label><label class="quiz-option"><input type="radio" name="w1-q3" value="1">High-level system structure and boundaries</label><label class="quiz-option"><input type="radio" name="w1-q3" value="2">Only CSS styling</label><label class="quiz-option"><input type="radio" name="w1-q3" value="3">The keyboard shortcuts used by developers</label><button class="secondary small" data-check-quiz="w1-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 4</h3><p>A good early design question is:</p><label class="quiz-option"><input type="radio" name="w1-q4" value="0">Can I use the newest framework?</label><label class="quiz-option"><input type="radio" name="w1-q4" value="1">What can change later?</label><label class="quiz-option"><input type="radio" name="w1-q4" value="2">Can I avoid testing forever?</label><label class="quiz-option"><input type="radio" name="w1-q4" value="3">How do I hide all code in one file?</label><button class="secondary small" data-check-quiz="w1-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 5</h3><p>Good design should make software:</p><label class="quiz-option"><input type="radio" name="w1-q5" value="0">Impossible to modify</label><label class="quiz-option"><input type="radio" name="w1-q5" value="1">Easier to understand, test, and change</label><label class="quiz-option"><input type="radio" name="w1-q5" value="2">Longer no matter what</label><label class="quiz-option"><input type="radio" name="w1-q5" value="3">Dependent on one developer</label><button class="secondary small" data-check-quiz="w1-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="1" placeholder="Write notes, questions, or project ideas for Week 1..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="../index.html">Course Home</a><a class="primary" href="week-02.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

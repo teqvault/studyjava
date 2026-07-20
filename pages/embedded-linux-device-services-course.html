@@ -84,8 +84,8 @@
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Service Inventory</div><p>Pick one Pi project and list every process, port, file, and command required to keep it running.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes Linux device work different from running a script manually?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — a real device has to keep working unattended, restart cleanly, and behave predictably without someone manually running commands each time.')">The device must run predictably without a human babysitting it</button><button class="quiz-option" onclick="quiz(this,false,'A device that only works once is still a prototype.')">The code should only work once</button><button class="quiz-option" onclick="quiz(this,false,'Logs are essential for understanding failures.')">Logs should be deleted</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Filesystem &amp; Permissions →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes Linux device work different from running a script manually?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">The device must run predictably without a human babysitting it</button><button class="quiz-option" onclick="quiz(this,false,'A device that only works once is still a prototype.')">The code should only work once</button><button class="quiz-option" onclick="quiz(this,false,'Logs are essential for understanding failures.')">Logs should be deleted</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button disabled>← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-1">
@@ -99,8 +99,8 @@ chmod +x run.sh</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Clean App Folder</div><p>Create an app folder with src, config, logs, and README files. Set permissions so your user can edit it safely.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why does file ownership matter for services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — a systemd service runs as a specific user, and if that user can't read the code or write logs, the service can fail silently.')">A service may fail if it cannot read code or write logs</button><button class="quiz-option" onclick="quiz(this,false,'Permissions control file access, not LED brightness.')">Ownership changes LED brightness</button><button class="quiz-option" onclick="quiz(this,false,'Services still need code and configuration.')">Ownership removes the need for code</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Embedded Linux Mindset</button><button class="next" onclick="next()">systemd Services →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why does file ownership matter for services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">A service may fail if it cannot read code or write logs</button><button class="quiz-option" onclick="quiz(this,false,'Permissions control file access, not LED brightness.')">Ownership changes LED brightness</button><button class="quiz-option" onclick="quiz(this,false,'Services still need code and configuration.')">Ownership removes the need for code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-2">
@@ -121,8 +121,8 @@ WantedBy=multi-user.target</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Create a Service</div><p>Turn a simple Python script into a systemd service, enable it, reboot, and confirm it starts automatically.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the main job of systemd in this course?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — systemd's job here is starting your program on boot, restarting it if it crashes, and giving you standard tools to check its status.')">Start and supervise device programs</button><button class="quiz-option" onclick="quiz(this,false,'Circuit diagrams are separate from system service management.')">Draw circuit diagrams</button><button class="quiz-option" onclick="quiz(this,false,'systemd manages services; it does not replace Linux storage.')">Replace the filesystem</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Filesystem &amp; Permissions</button><button class="next" onclick="next()">Logs &amp; journalctl →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the main job of systemd in this course?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Start and supervise device programs</button><button class="quiz-option" onclick="quiz(this,false,'Circuit diagrams are separate from system service management.')">Draw circuit diagrams</button><button class="quiz-option" onclick="quiz(this,false,'systemd manages services; it does not replace Linux storage.')">Replace the filesystem</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-3">
@@ -134,8 +134,8 @@ journalctl -u teq-device -f</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Log a Failure</div><p>Intentionally break a service path, restart the service, then use journalctl to explain exactly what failed.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why are logs more useful than guessing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — journalctl preserves a timestamped record of exactly what happened, which is the difference between diagnosing a real failure and guessing at one after the fact.')">They preserve evidence of what the service actually did</button><button class="quiz-option" onclick="quiz(this,false,'Logs do not speed up hardware.')">They make the CPU faster</button><button class="quiz-option" onclick="quiz(this,false,'Logs help testing; they do not replace it.')">They remove the need for testing</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← systemd Services</button><button class="next" onclick="next()">Python Device Agent →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why are logs more useful than guessing?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">They preserve evidence of what the service actually did</button><button class="quiz-option" onclick="quiz(this,false,'Logs do not speed up hardware.')">They make the CPU faster</button><button class="quiz-option" onclick="quiz(this,false,'Logs help testing; they do not replace it.')">They remove the need for testing</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-4">
@@ -155,8 +155,8 @@ while True:
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Heartbeat Agent</div><p>Build a Python agent that writes a heartbeat every 10 seconds and runs under systemd.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a background agent do when an error occurs?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — wrapping the loop in try/except and logging the exception means a single bad reading doesn't silently kill the whole agent.')">Log the error clearly and recover when possible</button><button class="quiz-option" onclick="quiz(this,false,'Silent failures make devices impossible to support.')">Fail silently forever</button><button class="quiz-option" onclick="quiz(this,false,'Deleting code is not recovery.')">Delete its own code</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Logs &amp; journalctl</button><button class="next" onclick="next()">Config &amp; Secrets →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a background agent do when an error occurs?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Log the error clearly and recover when possible</button><button class="quiz-option" onclick="quiz(this,false,'Silent failures make devices impossible to support.')">Fail silently forever</button><button class="quiz-option" onclick="quiz(this,false,'Deleting code is not recovery.')">Delete its own code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-5">
@@ -169,8 +169,8 @@ API_TOKEN=replace_me</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Example Config</div><p>Create a .env.example file and update the README so someone else knows which settings are required.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should real secrets stay out of public code?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — a leaked API token or MQTT password in a public repo can let anyone with a search engine access systems that were only ever meant to be private.')">They can give strangers access to private systems</button><button class="quiz-option" onclick="quiz(this,false,'Secrets are about access control, not appearance.')">They make HTML prettier</button><button class="quiz-option" onclick="quiz(this,false,'Credentials do not affect GPIO voltage.')">They increase GPIO voltage</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Python Device Agent</button><button class="next" onclick="next()">Boot Behavior →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why should real secrets stay out of public code?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">They can give strangers access to private systems</button><button class="quiz-option" onclick="quiz(this,false,'Secrets are about access control, not appearance.')">They make HTML prettier</button><button class="quiz-option" onclick="quiz(this,false,'Credentials do not affect GPIO voltage.')">They increase GPIO voltage</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-6">
@@ -182,8 +182,8 @@ systemctl is-enabled teq-device</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Power Pull Test</div><p>Reboot the device three times and record whether the service starts, logs correctly, and recovers network access.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why test boot behavior repeatedly?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — an embedded device will lose power unexpectedly at some point; the only way to know it recovers cleanly is to actually pull the plug and test it, more than once.')">Power loss is normal for devices, so recovery must be proven</button><button class="quiz-option" onclick="quiz(this,false,'Reboot testing does not alter the enclosure.')">It changes the case color</button><button class="quiz-option" onclick="quiz(this,false,'Reliable boot still requires good code.')">It avoids writing code</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Config &amp; Secrets</button><button class="next" onclick="next()">Updates &amp; Rollback →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why test boot behavior repeatedly?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Power loss is normal for devices, so recovery must be proven</button><button class="quiz-option" onclick="quiz(this,false,'Reboot testing does not alter the enclosure.')">It changes the case color</button><button class="quiz-option" onclick="quiz(this,false,'Reliable boot still requires good code.')">It avoids writing code</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-7">
@@ -198,8 +198,8 @@ sudo systemctl restart teq-device</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Safe Update Script</div><p>Create an update.sh script, run it twice, and confirm the second run does not break anything.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does set -e help with in a shell update script?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — without set -e, a failed command (like a bad pip install) wouldn't stop the script, and it could go on to restart a service with a broken update.')">It stops the script when a command fails</button><button class="quiz-option" onclick="quiz(this,false,'set -e is shell behavior, not Bluetooth.')">It turns on Bluetooth</button><button class="quiz-option" onclick="quiz(this,false,'Formatting storage is not its purpose.')">It formats the SD card</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Boot Behavior</button><button class="next" onclick="next()">Health Checks →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What does set -e help with in a shell update script?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It stops the script when a command fails</button><button class="quiz-option" onclick="quiz(this,false,'set -e is shell behavior, not Bluetooth.')">It turns on Bluetooth</button><button class="quiz-option" onclick="quiz(this,false,'Formatting storage is not its purpose.')">It formats the SD card</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-8">
@@ -211,8 +211,8 @@ ping -c 1 8.8.8.8</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Health Report</div><p>Write a script that prints OK or FAIL for service state, disk space, and network connectivity.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a good health check report?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — a health check is only useful if its output tells you exactly what's wrong and what to do next, not just that something might be off.')">Specific OK/FAIL signals a maintainer can act on</button><button class="quiz-option" onclick="quiz(this,false,'Cute output is fine, but not without actionable status.')">Only random emojis</button><button class="quiz-option" onclick="quiz(this,false,'Health reports should not expose secrets.')">Private API keys</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Updates &amp; Rollback</button><button class="next" onclick="next()">Secure Device Access →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What should a good health check report?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Specific OK/FAIL signals a maintainer can act on</button><button class="quiz-option" onclick="quiz(this,false,'Cute output is fine, but not without actionable status.')">Only random emojis</button><button class="quiz-option" onclick="quiz(this,false,'Health reports should not expose secrets.')">Private API keys</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-9">
@@ -224,8 +224,8 @@ sudo ufw status</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Service Surface Review</div><p>List listening ports and installed services. Disable anything that is unnecessary for the project.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the safest default for device services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — every open port and running service is a potential attack surface; disabling what you don't need is the single biggest low-effort security win.')">Expose only what the device actually needs</button><button class="quiz-option" onclick="quiz(this,false,'Opening every port increases risk.')">Expose every port to the internet</button><button class="quiz-option" onclick="quiz(this,false,'Updates are part of maintenance.')">Never update software</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Health Checks</button><button class="next" onclick="next()">Deployment Checklist →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What is the safest default for device services?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">Expose only what the device actually needs</button><button class="quiz-option" onclick="quiz(this,false,'Opening every port increases risk.')">Expose every port to the internet</button><button class="quiz-option" onclick="quiz(this,false,'Updates are part of maintenance.')">Never update software</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-10">
@@ -235,8 +235,8 @@ sudo ufw status</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: One-Page Runbook</div><p>Write a one-page runbook explaining how to install, start, stop, update, and troubleshoot the device.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why write a deployment checklist?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — a checklist turns 'I remember how I set this up' into something anyone, including future-you, can follow to reproduce or recover the deployment.')">So setup can be repeated and supported</button><button class="quiz-option" onclick="quiz(this,false,'A good checklist reduces mystery.')">So nobody knows how it works</button><button class="quiz-option" onclick="quiz(this,false,'Checklists make errors easier to find, not hide.')">To hide errors</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Secure Device Access</button><button class="next" onclick="next()">Capstone Device Agent →</button></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">Why write a deployment checklist?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">So setup can be repeated and supported</button><button class="quiz-option" onclick="quiz(this,false,'A good checklist reduces mystery.')">So nobody knows how it works</button><button class="quiz-option" onclick="quiz(this,false,'Checklists make errors easier to find, not hide.')">To hide errors</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><button class="next" onclick="next()">Next Module →</button></div>
     </section>
 
     <section class="lesson" id="lesson-11">
@@ -246,8 +246,8 @@ sudo ufw status</pre>
       
       
       <div class="lab-card"><div class="card-title">🧪 Lab: Ship the Agent</div><p>Build the final agent, reboot-test it, intentionally break one config value, then use logs to diagnose and recover.</p></div>
-      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes the capstone product-like?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct — this is exactly what separates a script that happens to work from a device someone else could actually maintain: supervision, visibility, and documentation.')">It has service management, logs, health checks, and documentation</button><button class="quiz-option" onclick="quiz(this,false,'Terminal-only operation is not appliance-ready.')">It only runs from an open terminal</button><button class="quiz-option" onclick="quiz(this,false,'Recovery planning is part of shipping.')">It has no recovery plan</button></div><div class="quiz-feedback"></div></div>
-      <div class="lesson-nav"><button onclick="prev()">← Deployment Checklist</button><a class="next" href="robotics-sensors-motors-course.html">Course 06 →</a></div>
+      <div class="quiz-block"><div class="quiz-title">🧠 Quick Check</div><div class="quiz-q">What makes the capstone product-like?</div><div class="quiz-options"><button class="quiz-option" onclick="quiz(this,true,'Correct. That answer focuses on reliability, clarity, and maintainable device behavior.')">It has service management, logs, health checks, and documentation</button><button class="quiz-option" onclick="quiz(this,false,'Terminal-only operation is not appliance-ready.')">It only runs from an open terminal</button><button class="quiz-option" onclick="quiz(this,false,'Recovery planning is part of shipping.')">It has no recovery plan</button></div><div class="quiz-feedback"></div></div>
+      <div class="lesson-nav"><button onclick="prev()">← Previous</button><a class="next" href="robotics-sensors-motors-course.html">Course 06 →</a></div>
     </section>
     <div class="footer-note">// TeqStudy Course 05 — Embedded Linux & Device Services</div>
   </main>

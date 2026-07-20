@@ -21,7 +21,7 @@
   <span class="topbar-sep">·</span>
   <span class="topbar-title">3E051 Study Guide</span>
   <div class="topbar-right">
-    <span class="score-pill" id="scorePill">0 / 240 reviewed</span>
+    <span class="score-pill" id="scorePill">0 / 200 reviewed</span>
     <button class="menu-btn" onclick="toggleSidebar()">☰</button>
   </div>
 </header>
@@ -57,12 +57,6 @@
   <a class="sb-link" onclick="go('fire')" id="nav-fire">
     <span class="sb-dot"></span> Fire Protection <span class="sb-count">25</span>
   </a>
-  <a class="sb-link" onclick="go('ceops')" id="nav-ceops">
-    <span class="sb-dot"></span> CE Operations &amp; Asset Mgmt <span class="sb-count">20</span>
-  </a>
-  <a class="sb-link" onclick="go('airfieldlighting')" id="nav-airfieldlighting">
-    <span class="sb-dot"></span> Airfield Ground Lighting <span class="sb-count">20</span>
-  </a>
 </nav>
 
 <!-- MAIN -->
@@ -82,12 +76,12 @@
 <div class="category active" id="cat-overview">
   <div class="hero">
     <div class="hero-eyebrow">// 3E051 · electrical systems journeyman</div>
-    <h1>WAPS Study Guide<br><em>240 Questions</em></h1>
+    <h1>WAPS Study Guide<br><em>200 Questions</em></h1>
     <p>Comprehensive question bank drawn from all WAPS reference documents. Covers UFC standards, NFPA 70, AFMAN requirements, and core electrical theory tested on the SKT/PFE.</p>
     <div class="hero-stats">
-      <div><div class="hs-val" style="color:var(--cyan)">240</div><div class="hs-label">Total Questions</div></div>
-      <div><div class="hs-val" style="color:var(--green)">9</div><div class="hs-label">Reference Areas</div></div>
-      <div><div class="hs-val" style="color:var(--amber)">10</div><div class="hs-label">Source Documents</div></div>
+      <div><div class="hs-val" style="color:var(--cyan)">200</div><div class="hs-label">Total Questions</div></div>
+      <div><div class="hs-val" style="color:var(--green)">7</div><div class="hs-label">Reference Areas</div></div>
+      <div><div class="hs-val" style="color:var(--amber)">8</div><div class="hs-label">Source Documents</div></div>
     </div>
   </div>
 
@@ -406,8 +400,8 @@
       <div class="qa-answer"><div class="qa-answer-inner">For AF facilities with perimeters larger than 300 feet, <strong>LPS inspection certificate by UL or another third-party</strong> organization is required. Additionally, metallic fences must be grounded or bonded to the grounding electrode system, and metallic access doors/doorframes must be bonded to ground. <span class="ref">AFMAN 32-1065 / DOD Lightning Protection guidance</span></div></div>
     </div>
     <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">G-19</span><span class="qa-q-text">What is the maximum allowable resistance for a single made electrode, and what must be done if it's exceeded?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">A single made electrode (such as a ground rod) must have a resistance to earth of <strong>25 ohms or less</strong>. If a single rod does not meet this value, it must be <strong>augmented by one additional electrode</strong> (a second rod, plate, or other electrode). NEC does not require a specific resistance value once a second electrode is added — the requirement is met by installing the additional electrode itself. <span class="ref">NFPA 70, Art. 250.53(A)(2)</span></div></div>
+      <div class="qa-question"><span class="qa-num">G-19</span><span class="qa-q-text">What are the DAFI 32-1001 chapters covered in 3E051 WAPS study, and what do they address?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">Chapters 2, 4, and 6 of DAFI 32-1001 are covered. DAFI 32-1001 is the <strong>Civil Engineer Operations instruction</strong> governing how Civil Engineer squadrons operate and manage facilities. Chapter 2 covers organization and responsibilities, Chapter 4 covers maintenance management, and Chapter 6 covers operations policies applicable to electrical systems maintenance. <span class="ref">DAFI 32-1001, Ch. 2, 4, 6</span></div></div>
     </div>
     <div class="qa-card" data-type="grounding" onclick="toggleCard(this)">
       <div class="qa-question"><span class="qa-num">G-20</span><span class="qa-q-text">What are the visual inspection requirements for grounding systems?</span><span class="qa-chevron">▶</span></div>
@@ -890,7 +884,7 @@
       <div class="qa-answer"><div class="qa-answer-inner">UFC 3-550-07 covers chapters <strong>1 through 5, 7, 9, and Appendices C and J</strong> per WAPS. UFC 3-550-07 deals with specific aspects of <strong>electrical power distribution</strong> for DoD facilities. Chapters cover design requirements, equipment specifications, and installation standards for distribution systems. <span class="ref">UFC 3-550-07</span></div></div>
     </div>
     <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">D-08</span><span class="qa-q-text">What is the purpose of underground electrical distribution, and what are the advantages over overhead systems?</span><span class="qa-chevron">▶</span></div>
+      <div class="qa-question"><span class="qa-num">D-08</span><span class="qa-q-text">What is the purpose of underground electrical distribution, and what are the advantages over overhead systems?</span><span class="qa-pursuit"><span class="qa-chevron">▶</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">Underground distribution provides: <strong>(1) Protection from weather and wind damage; (2) Improved aesthetics on base; (3) Reduced vulnerability to sabotage and attack; (4) Elimination of tree-trimming requirements; (5) Reduced outage frequency</strong>. Disadvantages include higher initial cost, harder fault location, and higher repair costs. DoD installations prefer underground distribution for security and reliability. <span class="ref">UFC 3-550-01</span></div></div>
     </div>
     <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
@@ -1040,250 +1034,13 @@
       <div class="qa-question"><span class="qa-num">F-15</span><span class="qa-q-text">What are the safety documentation requirements for explosive-area electrical work unique to the Air Force?</span><span class="qa-chevron">▶</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">For explosive-area electrical work, beyond standard LOTO requirements, personnel need: <strong>(1) Completed AMMO-47 or AMMO-48 training; (2) Explosive safety officer coordination; (3) Facility-specific permits and clearances; (4) Compliance with AFMAN 91-201 (Explosive Safety Standards); (5) Grounding resistance testing per AFMAN 32-1065 Attachment 5 (Maintenance Self-Check for Explosives Facilities)</strong>. <span class="ref">AFMAN 32-1065 / AFMAN 91-201</span></div></div>
     </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-16</span><span class="qa-q-text">What is the difference between a UFC and a UFM, and which one is enforceable?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Only <strong>UFC (Unified Facilities Criteria)</strong> establish enforceable requirements. A <strong>UFM (Unified Facilities Manual)</strong> — like UFM 3-601-02 — is non-mandatory, <strong>For Information Only (FIO)</strong> guidance that supports UFC implementation with operational procedures and practical examples. A UFM does not create new requirements or modify UFC content. <span class="ref">UFM 3-601-02, Foreword</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-17</span><span class="qa-q-text">What reliability objective are UFM 3-601-02's ITM task frequencies designed to achieve?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">ITM tasks represent the minimum required to achieve <strong>99 percent overall system reliability</strong> in response to an actual fire event. The underlying reliability-centered maintenance model assumes a system demand of <strong>one event in fifty (1/50) years</strong> and a task effectiveness of 99 percent. <span class="ref">UFM 3-601-02, Para. 1-7</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-18</span><span class="qa-q-text">What NICET certification is required for a technician to be considered "qualified" to inspect fire alarm systems?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>NICET Level II or higher</strong> certification in Fire Alarm Systems, or NICET Level II in Inspection and Testing of Fire Alarm Systems. NICET Level I personnel must work under the <strong>direct supervision</strong> of a NICET Level III or IV technician — apprentice-level technicians are never allowed to perform ITM tasks without a qualified co-worker present. <span class="ref">UFM 3-601-02, Para. 1-10.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-19</span><span class="qa-q-text">What minimum information must an impaired or out-of-service fire protection system's red tag include?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The red tag must identify: <strong>(1) the system inspected; (2) the employer of the technician; (3) the technician's name; (4) required license/certification information; (5) the inspection interval</strong>. Tags must be durable, weatherproof, colorfast material, securely attached to the pressure gauge, control panel, or other readily visible part of the system. <span class="ref">UFM 3-601-02, Para. 1-12</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-20</span><span class="qa-q-text">What are the format specifications for a System Out-of-Service or Impaired warning sign?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The sign must be <strong>7 inches high by 10 inches wide</strong>, in an ANSI Z535.2-2011-compliant format, with a <strong>safety orange background</strong>, black type and graphics, in Arial font (per ANSI Z535.1). It must be posted at all principal public and employee entrances to the affected building. <span class="ref">UFM 3-601-02, Para. 1-13</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-21</span><span class="qa-q-text">Per NFPA 72, what are the required response times for supervisory signals versus trouble signals?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Supervisory signals</strong> require personnel to arrive within <strong>2 hours</strong> to investigate and correct the abnormal condition. <strong>Trouble signals</strong> require personnel to arrive within <strong>4 hours</strong> to initiate maintenance and repair. Alarm signals require immediate notification of appropriate responders. <span class="ref">UFM 3-601-02, Para. 1-14.1 / NFPA 72, Ch. 26</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-22</span><span class="qa-q-text">At what point does a fire protection system impairment require jointly-developed written compensatory measures, and who leads that coordination?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">When an impairment will exist for <strong>more than 72 hours</strong>, the maintenance activity, local fire authority, local safety authority, and facility/area user must jointly develop written compensatory measures. The <strong>facility user leads</strong> coordination of the compensatory measures package. In the absence of compensatory measures, the facility must be evacuated or operations stopped. <span class="ref">UFM 3-601-02, Para. 1-14.4</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-23</span><span class="qa-q-text">What are the minimum requirements for personnel performing a compensatory fire watch?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Fire watch is a <strong>dedicated function</strong> — personnel must not have other duties beyond fire/occupational safety or security, and must be trained in the use of <strong>portable fire extinguishers</strong>. They must make visual rounds of the watched area <strong>at least once an hour</strong>, keep a signed log of all duty periods, and have telephone or radio equipment to summon aid in an emergency. <span class="ref">UFM 3-601-02, Para. 1-14.4.4</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-24</span><span class="qa-q-text">How often must the maintenance activity report system impairments and corrections to installation and operational commanders?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The maintenance activity must inform commanders <strong>not less than twice a year</strong> of system impairments, compensatory measures in place, projected correction completion dates, and corrections completed since the last report. New extended impairments (over 72 hours) must also be separately reported when they occur. <span class="ref">UFM 3-601-02, Para. 1-15 / 1-14.4.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="distribution" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">F-25</span><span class="qa-q-text">What pre-event ITM actions are recommended before a hurricane or tornado to protect fire protection systems?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Pre-event actions include: <strong>securing the building envelope</strong> (doors, windows, skylights); verifying <strong>electrical/fire alarm junction boxes and conduit are closed and secured</strong>; verifying <strong>firewater storage tanks are filled</strong>; and confirming <strong>sufficient fuel supplies for engine-driven fire pumps and emergency generators</strong>. During the event itself, personnel safety always takes priority over inspection or repair work. <span class="ref">UFM 3-601-02, Para. 1-16.1.1 / 1-16.2.1</span></div></div>
-    </div>
   </div>
 
   <div class="cat-nav">
     <button class="nav-btn prev" onclick="go('distribution')">← Exterior Distribution</button>
-    <button class="nav-btn next" onclick="go('ceops')">CE Operations &amp; Asset Mgmt →</button>
-  </div>
-</div>
-
-<div class="category" id="cat-ceops">
-  <div class="cat-header">
-    <div class="cat-eyebrow">// reference document</div>
-    <div class="cat-title">CE Operations &amp; Asset Management</div>
-    <div class="cat-ref">DAFI 32-1001 · Only Chapters 2, 4, and 6</div>
-  </div>
-
-  <div class="callout warn"><strong>Scope note:</strong> For 3E051 WAPS, only Chapters 2 (Requirement Processing), 4 (Asset Management), and 6 (Organizational Equipment) of DAFI 32-1001 are covered. This is the instruction governing how the entire operations flight — not just electrical — prioritizes, tracks, and manages work.</div>
-
-  <div class="qa-list">
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-01</span><span class="qa-q-text">What is NexGen IT / iEMS, and what must be tracked in it?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">NexGen IT (or iEMS for ANG units) is the <strong>DAF-mandated system used to manage work, collect labor hours, document annual operating costs, manage warranties, validate inventories, and record condition assessments</strong>. Units must maintain a continuity plan and train annually for record-keeping during an IT outage. <span class="ref">DAFI 32-1001, Para. 2.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-02</span><span class="qa-q-text">What are the work priority categories defined in DAFI 32-1001, Table 2.1?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">In order: <strong>1</strong> (Emergency Work), <strong>2A-PM</strong> (Preventive Maintenance), <strong>2A-Plant Operations</strong> (Physical Plant Operations), <strong>2B</strong> (Contingency Training Projects), <strong>3A/3B/3C</strong> (High/Medium/Low Scheduled Sustainment — corrective maintenance), and <strong>4A/4B</strong> (Scheduled/All Other Enhancement Work). PM is prioritized ahead of all other scheduled work. <span class="ref">DAFI 32-1001, Table 2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-03</span><span class="qa-q-text">How is Priority 1 (Emergency) work defined, and what is the completion timeframe?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Emergency work is <strong>unscheduled corrective maintenance requiring immediate response</strong> to sustain the mission, prevent significant additional damage, or protect safety/security — only the minimum action necessary to mitigate the emergency is performed initially. Operations flights must provide 24/7 response capability and <strong>eliminate the emergency condition within 24 hours</strong> of notification. <span class="ref">DAFI 32-1001, Para. 2.3.1–2.3.1.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-04</span><span class="qa-q-text">If emergency notification is received outside normal duty hours, when does the 24-hour clock start?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The work task should be established at the <strong>next normal duty day</strong> — the IT system's created date/time cannot be backdated. Instead, the <strong>first labor entry's date and time is treated as the notification time</strong> for the emergency, and completion is measured from the final labor entry. <span class="ref">DAFI 32-1001, Para. 2.3.1.2.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-05</span><span class="qa-q-text">What restrictions apply to Priority 2B (Contingency Training) work?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Contingency training projects are governed by AFI 10-210 for scope and intent, and must be <strong>performed exclusively by military personnel</strong> — US civilians, local nationals, and contractors are excluded. Open Priority 2B work task records must be updated <strong>no less than every three months</strong>. <span class="ref">DAFI 32-1001, Para. 2.3.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-06</span><span class="qa-q-text">What completion rate goal exists for scheduled Preventive Maintenance (PM), and why is PM prioritized?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The goal is a <strong>95% completion rate</strong> of scheduled PM work tasks. PM is prioritized ahead of all other forms of scheduled work because it's a <strong>proactive approach to identifying assets before they fail</strong>, rather than reacting after a failure has already occurred. <span class="ref">DAFI 32-1001, Para. 2.3.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-07</span><span class="qa-q-text">What is the difference between the Work Request Working Group (WRWG) and the Work Request Review Board (WRRB)?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The <strong>WRWG</strong> reviews requirements above the Requirements and Optimization section's (CEOER) approval authority to recommend whether they should be managed as a facility project or a capital project. The <strong>WRRB</strong> is the BCE's approval body that actually determines the execution course of action for maintenance and construction requirements. <span class="ref">DAFI 32-1001, Para. 2.4–2.5</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-08</span><span class="qa-q-text">Who submits a Fire Safety Deficiency (FSD), and what work priority is it assigned?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">FSDs found during fire prevention inspections are submitted by the <strong>facility manager</strong>; FSDs found during recurring maintenance are submitted by the <strong>technician who discovers them</strong> — both into NexGen IT/iEMS. Non-emergency FSD/RAC corrective work tasks are assigned <strong>Priority 3A</strong> and prioritized in scheduling. <span class="ref">DAFI 32-1001, Para. 2.6</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-09</span><span class="qa-q-text">Under "Contract by Requestor," within how many days must work be under contract after BCE approval?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Work must be <strong>under contract within 120 days</strong> of BCE approval, or the approval is automatically withdrawn. Customers must notify the BCE <strong>two weeks prior</strong> to projected completion to schedule a CE project completion inspection. <span class="ref">DAFI 32-1001, Para. 2.8.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-10</span><span class="qa-q-text">At what point must a facility project or work task requiring WRRB approval be re-evaluated for a scope change?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Re-evaluation is required when scope <strong>increases cost by more than 25%</strong> of the originally approved amount. Other triggers for re-evaluation include costs exceeding the approving individual's authority, and a scope change from repair to replace. <span class="ref">DAFI 32-1001, Para. 2.10.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-11</span><span class="qa-q-text">What are the six data quality tenets reviewed under Maintenance Management Business Process Oversight?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Completeness</strong> (are all required elements present), <strong>Consistency</strong> (do values conflict between systems), <strong>Uniqueness</strong> (any duplicate records), <strong>Timeliness/currency</strong> (is data kept current), <strong>Validity</strong> (correct values/structure), and <strong>Conformity</strong> (adherence to standard formats). Review is performed <strong>semi-annually</strong> at minimum. <span class="ref">DAFI 32-1001, Para. 2.12.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-12</span><span class="qa-q-text">What is the difference between an Activity Management Plan (AMP) and a sub-AMP?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">An <strong>AMP</strong> specifies the activities, resources, and timescales needed for an asset or grouping of assets to achieve the organization's asset management objectives. A <strong>sub-AMP</strong> is a subset of an AMP with assets grouped by type or common characteristics — minor overlap between AMPs/sub-AMPs is normal and requires coordination between managers. <span class="ref">DAFI 32-1001, Para. 4.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-13</span><span class="qa-q-text">How many AMPs and sub-AMPs does DAFI 32-1001 require an installation to establish, and what are the 3 AMPs?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Every installation must establish <strong>3 AMPs and 9 sub-AMPs</strong>. The 3 AMPs are: <strong>Transportation Network &amp; Airfield Pavement (TNAP)</strong>, <strong>Utilities</strong>, and <strong>Facilities</strong> (executed by the engineering flight). <span class="ref">DAFI 32-1001, Para. 4.3, Fig. 4.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-14</span><span class="qa-q-text">What does the Electrical sub-AMP cover, and which AMP does it fall under?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The Electrical sub-AMP (under the <strong>Utilities AMP</strong>) covers all AF-owned electrical power production and electrical systems within the base boundary — overhead/underground distribution, substations, switching stations, generation plants, most backup generators, utility poles, area lighting, and grounding/bonding/cathodic protection systems. It also covers arc flash, relay coordination, and electrical system modeling. <span class="ref">DAFI 32-1001, Para. 4.3.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-15</span><span class="qa-q-text">What is the "five-foot line" rule for the Electrical sub-AMP, and what's the exception?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The Electrical sub-AMP's responsibility extends to points of demarcation or <strong>five feet</strong> from a serviced facility, or up to and including the <strong>secondary tap of distribution transformers</strong>. The exception: where electrical service entrances <strong>exceed 600 volts</strong>, the five-foot line rule does not apply. <span class="ref">DAFI 32-1001, Para. 4.3.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-16</span><span class="qa-q-text">What training must AMP Managers and sub-AMP Managers (SAMs) complete?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">SAMs must complete, at minimum, AFIT course <strong>WMGT 301 (Introduction to Asset Management)</strong> and <strong>WMGT 417 (Activity Management)</strong>. AMPs and SAMs also coordinate on and participate in the installation's integrated priority list (IPL) and facilities board. <span class="ref">DAFI 32-1001, Para. 4.3.5–4.4</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-17</span><span class="qa-q-text">What is Category Management (CM), and what does it directly support?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Category Management is a <strong>structured, data-driven business practice</strong> that strategically analyzes and manages common categories of spending to eliminate redundancies, increase efficiencies, and enhance mission effectiveness. It directly supports OUSD A&amp;S's initiative to achieve small business goals and DoD's Small Business Strategy. <span class="ref">DAFI 32-1001, Para. 4.5</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-18</span><span class="qa-q-text">What defines "organizational equipment," and who is responsible for it?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Organizational equipment is <strong>equipment that does not meet the criteria to be capitalized as Real Property (RP) or RPIE</strong>. Its accountability, operation, purchase, and maintenance — including emergency repairs — is the <strong>owning organization's responsibility</strong>, not CE's, unless the BCE accepts responsibility in writing. <span class="ref">DAFI 32-1001, Para. 6.1–6.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-19</span><span class="qa-q-text">If the BCE accepts responsibility for organizational equipment, how must that support be documented and funded?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Support must be documented with a <strong>memorandum of understanding (MOU)</strong> with the owning organization, provided on a <strong>fully reimbursable basis</strong>, and remains subject to labor-hour availability based on the Table 2.1 work priorities. Accepting emergency work on organizational equipment does <strong>not</strong> convert it into RP or guarantee future CE support. <span class="ref">DAFI 32-1001, Para. 6.2.1–6.2.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="ceops" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">CE-20</span><span class="qa-q-text">What is the utility demarcation point for utilities (water, gas, electric) supplying organizational equipment?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The utilities supplying organizational equipment are typically real property and remain a CE function — but CE is <strong>only responsible for the utility up to the appropriate point of demarcation</strong>, such as a panel, branch circuit, or meter, provided the installation meets building codes. <span class="ref">DAFI 32-1001, Para. 6.2.3</span></div></div>
-    </div>
-  </div>
-  <div class="cat-nav">
-    <button class="nav-btn prev" onclick="go('fire')">← Fire Protection</button>
-    <button class="nav-btn next" onclick="go('airfieldlighting')">Airfield Ground Lighting →</button>
-  </div>
-</div>
-
-<div class="category" id="cat-airfieldlighting">
-  <div class="cat-header">
-    <div class="cat-eyebrow">// reference document</div>
-    <div class="cat-title">Airfield Ground Lighting Standards</div>
-    <div class="cat-ref">UFC 3-535-01 · Ch. 2, 3 (3.7–3.7.11), 5, 6, 9, 10, and 13</div>
-  </div>
-
-  <div class="callout warn"><strong>Scope note:</strong> This covers permanent, fixed-base airfield lighting standards — a different reference scope than the Module 7 study guide's EALS/RALS/BEAR content, which comes from Chapter 11B (Expeditionary Airfield Lighting System) and separate BEAR equipment references. Both are real, distinct parts of the 3E051 job.</div>
-
-  <div class="qa-list">
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-01</span><span class="qa-q-text">What are the three application designations used in UFC 3-535-01's visual aid requirement tables, and what does each mean?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Not Required (NR)</strong> — not specifically needed for that operation. <strong>Not Applicable (NA)</strong> — the visual aid's function isn't necessary or the supported operation isn't required. <strong>Optional (OPT)</strong> — not required under normal conditions, but may be installed to enhance operations or support certain weather conditions. <span class="ref">UFC 3-535-01, Para. 2-4.1–2-4.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-02</span><span class="qa-q-text">Can LED and incandescent light fixtures of the same type be mixed on a single taxiway or runway section?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>No.</strong> LED fixtures are essentially monochromatic and their perceived color/brightness differs from incandescent counterparts, which can distort the visual presentation to a pilot. LED fixtures must not be interspersed with incandescent lights of the same type — and a defective incandescent fixture must be replaced with the same technology, not swapped to LED. <span class="ref">UFC 3-535-01, Para. 2-5</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-03</span><span class="qa-q-text">On straight taxiway sections, what is the maximum edge light spacing, and how does it change based on section length?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Where the section is <strong>greater than 400 feet (120m)</strong>, spacing must not exceed <strong>200 feet (60m)</strong>. Where the section is <strong>400 feet or less</strong>, spacing must not exceed <strong>100 feet (30m)</strong>. Taxiway edge lights are centered no more than 10 feet from the edge of full-strength paving, no closer than the edge itself. <span class="ref">UFC 3-535-01, Para. 5-1.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-04</span><span class="qa-q-text">What must trigger obstruction lighting on a permanent structure?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Any object that <strong>penetrates the imaginary surfaces defined in UFC 3-260-01</strong> is a hazard to air navigation and must have obstruction lights. Objects hazardous due to nature or location — even without penetrating those surfaces — must also be lighted, including anything affecting TERPS criteria or located along the Building Restriction Line. <span class="ref">UFC 3-535-01, Para. 6-2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-05</span><span class="qa-q-text">What distinguishes a military airfield's rotating beacon signal from a civil airport's?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">A military airfield rotating beacon (FAA Type L-802M) shows a <strong>double-peaked white beam</strong> plus a <strong>single-peaked green beam</strong>, 180° apart, rotating at <strong>6 RPM</strong>, visible through 360° of azimuth. A civil airport instead alternates plain white and green flashes (lighted) or white-only flashes (unlighted). <span class="ref">UFC 3-535-01, Para. 10-1.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-06</span><span class="qa-q-text">Where is an Identification/Code Beacon used, and what does its signal look like?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Air Force only — used where the airfield rotating beacon is <strong>more than 6,000 feet from the nearest runway</strong>, or where one rotating beacon serves multiple airfields. It's a non-rotating, omnidirectional light flashing a <strong>green coded signal at ~40 flashes per minute</strong>, using an assigned character code to identify the specific airfield. <span class="ref">UFC 3-535-01, Para. 10-1.2.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-07</span><span class="qa-q-text">On which side are mandatory instruction signs installed, and when are they required on both sides of a runway/taxiway?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Mandatory signs are installed on the <strong>left-hand side</strong> at taxiway/runway intersections, ILS critical areas, and no-entry areas. Both-sides installation is required for runways <strong>more than 150 feet wide</strong>, runways used for "land and hold short" operations, or taxiways 150+ feet wide. <span class="ref">UFC 3-535-01, Para. 9-2.2–9-2.2.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-08</span><span class="qa-q-text">What are the two standard output current levels for an AGL constant current series circuit, and what limits the primary circuit's voltage?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">Standard output current is either <strong>6.6 amperes or 20 amperes</strong> at highest intensity. The loaded output voltage is limited to <strong>5,000 volts</strong> because the primary circuit cable is rated for 5kV — this is why a heavily-loaded circuit may need to shift from 6.6A to 20A to stay within that cable rating. <span class="ref">UFC 3-535-01, Para. 13-11</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-09</span><span class="qa-q-text">In an airfield ground lighting series circuit, what happens on the primary side vs. the secondary side when the load changes?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">The <strong>current stays constant</strong> throughout the primary loop regardless of load — that's the entire point of a constant current regulator (CCR). The <strong>voltage varies</strong> with the number and size of connected loads. The primary side is high voltage (up to 5kV); the isolation transformer's secondary side is low voltage, typically under 30V. <span class="ref">UFC 3-535-01, Para. 13-1.2, 13-11.1–13-11.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-10</span><span class="qa-q-text">What does an isolation transformer do when a connected lamp fails, and why does this matter for a series circuit?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">A lamp filament failure opens the secondary circuit, but the isolation transformer provides an <strong>effective short on the primary side</strong> — so one failed light does <strong>not</strong> cause an open-circuit condition on the whole series primary loop. Without this, a single burned-out lamp would disable the entire circuit. <span class="ref">UFC 3-535-01, Para. 13-1.2, 13-4.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-11</span><span class="qa-q-text">List two advantages and two disadvantages of series lighting circuits versus parallel circuits.</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Advantages:</strong> all lamps operate at the same intensity; wide-range intensity control is achievable; a single ground fault doesn't affect light operation and faults are easy to locate. <strong>Disadvantages:</strong> high installation cost (CCR + isolation transformers); poor electrical efficiency; an open-circuit anywhere on the primary disables the <em>entire</em> circuit and can damage the CCR. <span class="ref">UFC 3-535-01, Para. 13-4.2–13-4.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-12</span><span class="qa-q-text">Why is a single ground fault more disruptive on a parallel circuit than on a series circuit?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">On a <strong>parallel</strong> circuit, a single ground fault on the high voltage feeder disables the circuit, and such faults are difficult to locate. On a <strong>series</strong> circuit, a single ground fault does <em>not</em> affect light operation and is comparatively easy to locate — this is one of series lighting's core advantages for runway/taxiway use. <span class="ref">UFC 3-535-01, Para. 13-4.2, 13-10.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-13</span><span class="qa-q-text">What three types of Constant Current Regulators (CCRs) exist, and which type is no longer approved for new installations?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">(1) <strong>Resonant network circuit</strong> (ferro-resonant), (2) <strong>Saturable reactor</strong> (ferro-resonant), and (3) <strong>Silicon Controlled Rectifier (SCR)</strong>. SCR-type CCRs are <strong>not ferro-resonant</strong> and, per the 2017/2023 update, are <strong>no longer approved for new installations</strong> — only ferro-resonant types are required going forward. <span class="ref">UFC 3-535-01, Para. 1-3.f, 13-5.1</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-14</span><span class="qa-q-text">Roughly how much does light output drop if CCR output current is reduced by just 3%, and why does this matter for maintenance?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">For a 6.6A circuit, reducing current by <strong>3% (to 6.4A) drops light output over 15%</strong>; reducing it <strong>6% (to 6.2A) drops output over 30%</strong>. CCR output tolerances are deliberately tight because small current changes cause disproportionately large light-output changes — this is why CCR calibration is a precision task, not a rough adjustment. <span class="ref">UFC 3-535-01, Para. 13-5.5</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-15</span><span class="qa-q-text">What CCR power ratings and input voltages are no longer approved for new airfield lighting installations?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>50 kW and 70 kW CCRs</strong> operating at 20A output, and <strong>2400V input regulators</strong>, are no longer approved for new installations — they're allowed for replacement of existing equipment only. New installations use 480V input. <span class="ref">UFC 3-535-01, Para. 1-3.g, 13-5.7</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-16</span><span class="qa-q-text">List two advantages and two disadvantages of parallel lighting circuits.</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Advantages:</strong> lower installation cost, more efficient use of power, easier to add/remove fixtures, faults are easier to locate. <strong>Disadvantages:</strong> intensity drops with voltage drop along the circuit, requires two conductors along the full run, and a single ground fault on the high-voltage feeder disables the whole circuit. <span class="ref">UFC 3-535-01, Para. 13-10.1–13-10.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-17</span><span class="qa-q-text">What kind of loads are parallel circuits typically used for on an airfield, versus series circuits?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner"><strong>Series circuits</strong> are used for runway/taxiway lighting and steady-burning approach lights, because they give more uniform intensity and better intensity control. <strong>Parallel circuits</strong> are used for apron floodlighting, sequence-flashing lights, beacons, wind direction indicators, and general electrical distribution. <span class="ref">UFC 3-535-01, Para. 13-4.4, 13-10.3</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-18</span><span class="qa-q-text">What device allows equipment with a fixed voltage requirement (like a wind cone or PAPI) to draw power from a constant current series circuit?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">A <strong>power adapter</strong>, which isolates the device from the primary side similarly to an isolation transformer, while supplying the fixed 120/240V the equipment needs. Critically, <strong>the lighting circuit must be energized</strong> for equipment connected this way to receive power at all. <span class="ref">UFC 3-535-01, Para. 13-1.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-19</span><span class="qa-q-text">What are the three types of control/monitoring systems used for airfield ground lighting, and what's the main drawback of the traditional type?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">(1) <strong>Traditional relay panels</strong> (FAA Type L-821) — reliable, but require costly multi-pair (50+) cable between the vault and tower. (2) <strong>PLC-based systems</strong> — reduce cable needs to 2–6 pairs or fiber. (3) <strong>PC-based systems</strong> — the most flexible, touch-screen control, also using 2–6 pairs or fiber optic cable. <span class="ref">UFC 3-535-01, Para. 13-3–13-3.2</span></div></div>
-    </div>
-    <div class="qa-card" data-type="lighting" onclick="toggleCard(this)">
-      <div class="qa-question"><span class="qa-num">AGL-20</span><span class="qa-q-text">On a constant current series circuit, what type of electrical fault is a short-circuit vs. an open-circuit?</span><span class="qa-chevron">▶</span></div>
-      <div class="qa-answer"><div class="qa-answer-inner">On a CCR-fed circuit, a <strong>short-circuit across the output is a no-load condition</strong>, while an <strong>open-circuit is treated as an overload</strong>. This is the reverse of how a typical constant-voltage circuit behaves, and is exactly why isolation transformers/film disc cutouts are required — a single lamp failure would otherwise open the entire primary loop. <span class="ref">UFC 3-535-01, Para. 13-4.1</span></div></div>
-    </div>
-  </div>
-
-  <div class="cat-nav">
-    <button class="nav-btn prev" onclick="go('ceops')">← CE Operations &amp; Asset Mgmt</button>
     <button class="nav-btn next" onclick="go('overview')" style="background:var(--green); color:var(--navy);">↺ Back to Overview</button>
   </div>
 </div>
-
-
 
 </main>
 </div>

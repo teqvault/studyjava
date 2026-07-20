@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 10: Design Patterns Part 2: Adapter, Decorator, Command, Repository, MVC/MVVM | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 10 Lesson</p>
+  <h1>Design Patterns Part 2: Adapter, Decorator, Command, Repository, MVC/MVVM</h1>
+  <p>Some patterns help connect systems, extend behavior, and separate application layers.</p>
+  <div class="pill-row"><span class="pill">Adapter</span><span class="pill">Decorator</span><span class="pill">Command</span><span class="pill">Repository</span><span class="pill">MVC</span><span class="pill">MVVM</span><span class="pill">layering</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-09.html">Previous Week</a><a class="primary" href="week-11.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="10"> Mark Week 10 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Use Adapter to connect incompatible interfaces.</li><li>Use Decorator to add behavior around an object.</li><li>Use Command to represent actions.</li><li>Use Repository to separate persistence from business logic.</li><li>Explain MVC and MVVM separation.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Adapter is used when one interface does not match what your code expects. Suppose your app expects a PaymentGateway with charge(amount), but a provider library exposes createPaymentIntent(valueInCents). An adapter translates between your stable application interface and the provider’s interface. This protects the rest of the system from provider-specific details.</p><p>Decorator adds behavior before or after another object without changing that object’s code. A NotifyingTaskRepository might wrap a normal TaskRepository and publish an event after saving. A CachedCatalogRepository might wrap a database repository and cache results. Decorator is useful when behavior should be layered flexibly.</p><p>Command turns an action into an object. This is useful for undo/redo, queues, logging, and menu actions. In a drawing app, DrawLineCommand and MoveShapeCommand can both execute and undo. In a task app, CompleteTaskCommand can represent a user action that can be stored in history.</p><p>Repository separates data access from business logic. A service should not need to know whether tasks are stored in memory, localStorage, SQLite, or an API. It asks a repository for tasks. This keeps business rules testable and makes storage easier to replace.</p><p>MVC, MVP, and MVVM are architectural presentation patterns. Their shared goal is separation between interface, state, and behavior. MVC separates Model, View, and Controller. MVVM often uses a ViewModel to expose state and commands to the View. The exact pattern matters less than the principle: UI code should not own every business rule.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Repository separates storage</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>class TaskService {
+  createTask(title: string) {
+    const tasks = JSON.parse(localStorage.getItem(&#x27;tasks&#x27;) || &#x27;[]&#x27;);
+    tasks.push({ title, completed: false });
+    localStorage.setItem(&#x27;tasks&#x27;, JSON.stringify(tasks));
+  }
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>interface TaskRepository {
+  findAll(): Task[];
+  save(task: Task): void;
+}
+
+class TaskService {
+  constructor(private repo: TaskRepository) {}
+
+  createTask(title: string) {
+    if (title.trim().length === 0) throw new Error(&#x27;Title required&#x27;);
+    this.repo.save({ title, completed: false });
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> TaskService owns the business rule. The repository owns storage details.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Repository and UI Separation</h2>
+  <p><strong>Scenario:</strong> A task tracker stores data directly inside button click handlers.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Move validation into a service.</li><li>Create a repository interface.</li><li>Create one in-memory repository for tests.</li><li>Keep UI handlers focused on user interaction.</li><li>Explain how this resembles MVC or MVVM separation.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Refactored code</li><li>Repository interface</li><li>Short architecture note</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Build a small app screen using a service and repository. The UI should not directly own business rules.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>What does Adapter protect you from?</li><li>When is Repository unnecessary?</li><li>How much logic should live in the UI?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 10 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>Adapter is used to:</p><label class="quiz-option"><input type="radio" name="w10-q1" value="0">Translate between incompatible interfaces</label><label class="quiz-option"><input type="radio" name="w10-q1" value="1">Make all classes global</label><label class="quiz-option"><input type="radio" name="w10-q1" value="2">Remove all dependencies</label><label class="quiz-option"><input type="radio" name="w10-q1" value="3">Write CSS</label><button class="secondary small" data-check-quiz="w10-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>Decorator is useful when:</p><label class="quiz-option"><input type="radio" name="w10-q2" value="0">Adding behavior around an object without changing it</label><label class="quiz-option"><input type="radio" name="w10-q2" value="1">Deleting all objects</label><label class="quiz-option"><input type="radio" name="w10-q2" value="2">Avoiding composition</label><label class="quiz-option"><input type="radio" name="w10-q2" value="3">Replacing requirements</label><button class="secondary small" data-check-quiz="w10-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>Command represents:</p><label class="quiz-option"><input type="radio" name="w10-q3" value="0">An action as an object</label><label class="quiz-option"><input type="radio" name="w10-q3" value="1">A database table only</label><label class="quiz-option"><input type="radio" name="w10-q3" value="2">A font size</label><label class="quiz-option"><input type="radio" name="w10-q3" value="3">A server address</label><button class="secondary small" data-check-quiz="w10-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>Repository separates:</p><label class="quiz-option"><input type="radio" name="w10-q4" value="0">Persistence from business logic</label><label class="quiz-option"><input type="radio" name="w10-q4" value="1">Comments from variables</label><label class="quiz-option"><input type="radio" name="w10-q4" value="2">Colors from fonts</label><label class="quiz-option"><input type="radio" name="w10-q4" value="3">Students from quizzes only</label><button class="secondary small" data-check-quiz="w10-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>MVC/MVVM mainly help separate:</p><label class="quiz-option"><input type="radio" name="w10-q5" value="0">UI, state, and behavior</label><label class="quiz-option"><input type="radio" name="w10-q5" value="1">Only images</label><label class="quiz-option"><input type="radio" name="w10-q5" value="2">Only deployment scripts</label><label class="quiz-option"><input type="radio" name="w10-q5" value="3">All code into one file</label><button class="secondary small" data-check-quiz="w10-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="10" placeholder="Write notes, questions, or project ideas for Week 10..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-09.html">Previous Week</a><a class="primary" href="week-11.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

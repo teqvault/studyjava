@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 6: SOLID Part 2: Interfaces, Dependency Inversion, and Testability | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 6 Lesson</p>
+  <h1>SOLID Part 2: Interfaces, Dependency Inversion, and Testability</h1>
+  <p>Design improves when high-level rules stop depending directly on low-level details.</p>
+  <div class="pill-row"><span class="pill">Interface Segregation Principle</span><span class="pill">Dependency Inversion Principle</span><span class="pill">dependency injection</span><span class="pill">abstraction</span><span class="pill">provider</span><span class="pill">mock</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-05.html">Previous Week</a><a class="primary" href="week-07.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="6"> Mark Week 6 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Apply Interface Segregation Principle.</li><li>Apply Dependency Inversion Principle.</li><li>Use dependency injection to make software easier to test.</li><li>Design a notification system with replaceable providers.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>The Interface Segregation Principle says clients should not be forced to depend on methods they do not use. A giant Worker interface with print, scan, fax, staple, email, and archive methods creates problems for simple devices or services that only support one behavior. Smaller focused interfaces let classes depend only on the capabilities they need.</p><p>The Dependency Inversion Principle says high-level policy should not depend directly on low-level implementation details. A BillingService is high-level policy. Stripe, PayPal, file logs, SMTP servers, and SQL clients are details. If BillingService constructs those details directly, it becomes hard to test and hard to change. If BillingService depends on PaymentGateway and ReceiptSender abstractions, the design is more stable.</p><p>Dependency injection means dependencies are provided from the outside rather than created inside the class. This can be as simple as passing an object into a constructor. Students sometimes think dependency injection requires a large framework. It does not. The core idea is that an object should receive collaborators instead of secretly building them.</p><p>This principle strongly affects testing. If OrderService directly calls a real email provider, every test may send emails or require network access. If OrderService depends on a NotificationSender interface, tests can use a fake sender that records what would have been sent. Good design makes important behavior testable without expensive external systems.</p><p>Dependency inversion does not mean every dependency must be abstracted. Abstract what is volatile, expensive, external, or policy-sensitive. A Math.max call does not need an interface. A payment gateway probably does. Design is about judgment and tradeoffs, not rituals.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Injecting a notification dependency</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>class OrderService {
+  completeOrder(orderId: string) {
+    // Business rule mixed with direct external detail
+    const email = new SmtpEmailSender(&#x27;smtp.example.com&#x27;);
+    email.send(&#x27;customer@example.com&#x27;, &#x27;Your order is complete&#x27;);
+  }
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>interface NotificationSender {
+  send(to: string, message: string): Promise&lt;void&gt;;
+}
+
+class OrderService {
+  constructor(private notifications: NotificationSender) {}
+
+  async completeOrder(orderId: string, customerEmail: string) {
+    // Business rule can be tested with a fake NotificationSender
+    await this.notifications.send(customerEmail, &#x27;Your order is complete&#x27;);
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> OrderService no longer knows how notifications are delivered. Email, SMS, push, and test fakes can all implement the same interface.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Notification System Design</h2>
+  <p><strong>Scenario:</strong> A campus app must send announcements by email today, SMS next semester, and push notifications later.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Define a focused NotificationSender interface.</li><li>Create at least two implementations.</li><li>Create a service that depends on the interface, not implementations.</li><li>Write a fake implementation for tests.</li><li>Explain how ISP and DIP appear in your design.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Interface design</li><li>Implementation code or pseudocode</li><li>Test fake</li><li>Explanation</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Create a small service that depends on at least two abstractions. Explain which details are hidden behind those abstractions and why.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>When should you not create an interface?</li><li>How does dependency injection help tests?</li><li>What is the difference between a policy and a detail?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 6 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>ISP says clients should not depend on:</p><label class="quiz-option"><input type="radio" name="w6-q1" value="0">Methods they do not use</label><label class="quiz-option"><input type="radio" name="w6-q1" value="1">Any code at all</label><label class="quiz-option"><input type="radio" name="w6-q1" value="2">Variable names</label><label class="quiz-option"><input type="radio" name="w6-q1" value="3">Comments</label><button class="secondary small" data-check-quiz="w6-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="1"><h3>Question 2</h3><p>DIP says high-level policy should depend on:</p><label class="quiz-option"><input type="radio" name="w6-q2" value="0">Low-level details directly</label><label class="quiz-option"><input type="radio" name="w6-q2" value="1">Abstractions</label><label class="quiz-option"><input type="radio" name="w6-q2" value="2">Console logs only</label><label class="quiz-option"><input type="radio" name="w6-q2" value="3">CSS files</label><button class="secondary small" data-check-quiz="w6-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>Dependency injection means:</p><label class="quiz-option"><input type="radio" name="w6-q3" value="0">Dependencies are passed in from outside</label><label class="quiz-option"><input type="radio" name="w6-q3" value="1">All code goes into one object</label><label class="quiz-option"><input type="radio" name="w6-q3" value="2">The database writes code</label><label class="quiz-option"><input type="radio" name="w6-q3" value="3">Tests are deleted</label><button class="secondary small" data-check-quiz="w6-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A good dependency to abstract is often:</p><label class="quiz-option"><input type="radio" name="w6-q4" value="0">A payment provider or email service</label><label class="quiz-option"><input type="radio" name="w6-q4" value="1">A simple addition operator</label><label class="quiz-option"><input type="radio" name="w6-q4" value="2">A local variable</label><label class="quiz-option"><input type="radio" name="w6-q4" value="3">A string literal always</label><button class="secondary small" data-check-quiz="w6-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>A fake object in tests can:</p><label class="quiz-option"><input type="radio" name="w6-q5" value="0">Replace an expensive external service</label><label class="quiz-option"><input type="radio" name="w6-q5" value="1">Eliminate the need for design</label><label class="quiz-option"><input type="radio" name="w6-q5" value="2">Guarantee no bugs</label><label class="quiz-option"><input type="radio" name="w6-q5" value="3">Deploy the app</label><button class="secondary small" data-check-quiz="w6-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="6" placeholder="Write notes, questions, or project ideas for Week 6..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-05.html">Previous Week</a><a class="primary" href="week-07.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

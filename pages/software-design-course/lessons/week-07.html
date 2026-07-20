@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 7: DRY, KISS, YAGNI, and Naming | TeqVault Study</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html"><span class="brand-mark">TQ</span><span><strong>TeqVault Study</strong><small>Software Design & Principles</small></span></a>
+    <button class="menu-toggle" data-menu-toggle>Menu</button>
+    <nav class="top-nav" data-top-nav><a class="nav-link" href="../index.html">Home</a><a class="nav-link" href="../syllabus.html">Syllabus</a><a class="nav-link" href="../labs.html">Labs</a><a class="nav-link" href="../quizzes.html">Quizzes</a><a class="nav-link" href="../capstone.html">Capstone</a><a class="nav-link" href="../instructor-guide.html">Instructor Guide</a></nav>
+  </header>
+  <div class="layout">
+    <aside class="course-sidebar">
+      <div class="progress-card">
+        <span>Course Progress</span>
+        <strong data-progress-text>0%</strong>
+        <div class="progress-track"><div class="progress-fill" data-progress-fill></div></div>
+      </div>
+      <h3>Lessons</h3>
+      <div class="lesson-list"><a href="../lessons/week-01.html">Week 1</a><a href="../lessons/week-02.html">Week 2</a><a href="../lessons/week-03.html">Week 3</a><a href="../lessons/week-04.html">Week 4</a><a href="../lessons/week-05.html">Week 5</a><a href="../lessons/week-06.html">Week 6</a><a href="../lessons/week-07.html">Week 7</a><a href="../lessons/week-08.html">Week 8</a><a href="../lessons/week-09.html">Week 9</a><a href="../lessons/week-10.html">Week 10</a><a href="../lessons/week-11.html">Week 11</a><a href="../lessons/week-12.html">Week 12</a><a href="../lessons/week-13.html">Week 13</a><a href="../lessons/week-14.html">Week 14</a></div>
+      <button class="secondary small" data-reset-progress>Reset Progress</button>
+    </aside>
+    <main class="page-content">
+      
+<section class="hero">
+  <p class="eyebrow">Week 7 Lesson</p>
+  <h1>DRY, KISS, YAGNI, and Naming</h1>
+  <p>Simple design is not lazy design. It is disciplined design.</p>
+  <div class="pill-row"><span class="pill">DRY</span><span class="pill">KISS</span><span class="pill">YAGNI</span><span class="pill">premature abstraction</span><span class="pill">intent-revealing name</span><span class="pill">least surprise</span></div>
+  <div class="hero-actions"><a class="secondary" href="week-06.html">Previous Week</a><a class="primary" href="week-08.html">Next Week</a><a class="secondary" href="../quizzes.html">Quiz Bank</a></div>
+</section>
+<section class="lesson-card">
+  <label class="complete-row"><input type="checkbox" data-complete-week="7"> Mark Week 7 complete</label>
+  <h2>Learning Objectives</h2>
+  <ul class="clean-list"><li>Apply DRY without creating harmful abstractions.</li><li>Use KISS and YAGNI to avoid overengineering.</li><li>Improve names so code communicates intent.</li><li>Recognize when duplication is cheaper than premature abstraction.</li></ul>
+</section>
+<section class="lesson-card"><h2>Lecture Notes</h2><p>Students often hear “Don’t Repeat Yourself” and immediately remove every piece of similar-looking code. DRY is really about duplicated knowledge. If the tax rate appears in ten files, that is dangerous duplicated knowledge. If two screens happen to have similar button code but are changing for different reasons, forcing them into one abstraction may create coupling that hurts more than it helps.</p><p>KISS means keep it simple. Simple does not mean careless. A simple design has fewer moving parts, clearer names, and fewer hidden assumptions. Complexity should be earned. Add complexity when a real requirement demands it, not because the developer wants to show off a pattern, framework, or clever trick.</p><p>YAGNI means You Aren’t Gonna Need It. It warns against building future features too early. A developer might create a plugin system, event bus, abstract factory, and microservice boundary for a class project that only needs a local task list. That design may sound professional, but if it slows understanding and adds no real value, it is overengineering.</p><p>Naming is one of the cheapest and most powerful design tools. Names such as data, handle, process, manager, and thing usually hide meaning. Better names tell the reader what role something plays: OverdueTaskFinder, PaymentReceipt, CourseEnrollmentPolicy, InventoryReorderService. A good name reduces the need to inspect implementation details.</p><p>The Principle of Least Surprise means code should behave the way a reasonable developer expects. If a method named getUser also creates a user, sends an email, and charges a card, the name lies. Design is not just structure; it is communication.</p></section>
+<section class="lesson-card">
+  <h2>Worked Example: Avoiding premature abstraction</h2>
+  <div class="split">
+    <div><div class="code-title">Before</div><pre><code>// Over-abstracted before the app needs it
+interface UniversalProcessor&lt;TInput, TOutput&gt; {
+  execute(input: TInput): Promise&lt;TOutput&gt;;
+}
+
+class AbstractTaskPipelineFactoryManager {
+  create(): UniversalProcessor&lt;any, any&gt; {
+    // nobody understands this yet
+    return {} as UniversalProcessor&lt;any, any&gt;;
+  }
+}</code></pre></div>
+    <div><div class="code-title">After / Better</div><pre><code>class OverdueTaskFinder {
+  findOverdue(tasks: Task[], today: Date): Task[] {
+    return tasks.filter(task =&gt; !task.completed &amp;&amp; task.dueDate &lt; today);
+  }
+}</code></pre></div>
+  </div>
+  <div class="callout"><strong>Design lesson:</strong> The second design is small and clear. It solves the actual current problem and can be refactored later if real variation appears.</div>
+</section>
+<section class="lesson-card">
+  <h2>Lab: Clarity Refactor</h2>
+  <p><strong>Scenario:</strong> You receive code with vague names, duplicated conditions, and several unnecessary abstractions.</p>
+  <h3>Steps</h3><ol class="clean-list"><li>Rename variables and methods to reveal intent.</li><li>Identify duplicated knowledge vs harmless similar code.</li><li>Remove one abstraction that does not serve a requirement.</li><li>Write a short explanation of how the code became easier to read.</li></ol>
+  <h3>Deliverables</h3><ul class="clean-list"><li>Before/after code</li><li>Naming improvements list</li><li>Removed overengineering note</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Assignment</h2><p>Take a small program you wrote before. Rename at least ten items and remove or simplify one unnecessary abstraction. Submit a reflection.</p>
+  <h3>Discussion Prompts</h3><ul class="clean-list"><li>Can DRY go too far?</li><li>What makes a name honest?</li><li>Why do developers overengineer?</li></ul>
+</section>
+<section class="lesson-card">
+  <h2>Week 7 Quiz</h2>
+  <p class="muted">Use these as quick checks after the lesson.</p>
+  <article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 1</h3><p>DRY is mostly about avoiding duplicated:</p><label class="quiz-option"><input type="radio" name="w7-q1" value="0">Knowledge and rules</label><label class="quiz-option"><input type="radio" name="w7-q1" value="1">All similar-looking characters</label><label class="quiz-option"><input type="radio" name="w7-q1" value="2">Every blank line</label><label class="quiz-option"><input type="radio" name="w7-q1" value="3">All functions</label><button class="secondary small" data-check-quiz="w7-q1">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 2</h3><p>YAGNI warns against:</p><label class="quiz-option"><input type="radio" name="w7-q2" value="0">Building unneeded future features too early</label><label class="quiz-option"><input type="radio" name="w7-q2" value="1">Writing readable code</label><label class="quiz-option"><input type="radio" name="w7-q2" value="2">Testing important behavior</label><label class="quiz-option"><input type="radio" name="w7-q2" value="3">Using simple designs</label><button class="secondary small" data-check-quiz="w7-q2">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 3</h3><p>KISS means:</p><label class="quiz-option"><input type="radio" name="w7-q3" value="0">Prefer clear simple solutions</label><label class="quiz-option"><input type="radio" name="w7-q3" value="1">Always write one-line code</label><label class="quiz-option"><input type="radio" name="w7-q3" value="2">Never use classes</label><label class="quiz-option"><input type="radio" name="w7-q3" value="3">Avoid requirements</label><button class="secondary small" data-check-quiz="w7-q3">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 4</h3><p>A name like processData is weak because:</p><label class="quiz-option"><input type="radio" name="w7-q4" value="0">It hides intent</label><label class="quiz-option"><input type="radio" name="w7-q4" value="1">It is too short only</label><label class="quiz-option"><input type="radio" name="w7-q4" value="2">It uses letters</label><label class="quiz-option"><input type="radio" name="w7-q4" value="3">It compiles</label><button class="secondary small" data-check-quiz="w7-q4">Check Answer</button><div class="feedback" data-feedback></div></article><article class="quiz-card" data-quiz-card data-answer="0"><h3>Question 5</h3><p>Premature abstraction can:</p><label class="quiz-option"><input type="radio" name="w7-q5" value="0">Create complexity before there is a real need</label><label class="quiz-option"><input type="radio" name="w7-q5" value="1">Always improve code</label><label class="quiz-option"><input type="radio" name="w7-q5" value="2">Remove every bug</label><label class="quiz-option"><input type="radio" name="w7-q5" value="3">Make requirements unnecessary</label><button class="secondary small" data-check-quiz="w7-q5">Check Answer</button><div class="feedback" data-feedback></div></article>
+</section>
+<section class="lesson-card">
+  <h2>Student Notes</h2>
+  <p class="muted">Saved in this browser only.</p>
+  <textarea class="note-box" data-note-week="7" placeholder="Write notes, questions, or project ideas for Week 7..."></textarea>
+</section>
+<div class="lesson-controls"><a class="secondary" href="week-06.html">Previous Week</a><a class="primary" href="week-08.html">Next Week</a></div>
+
+    </main>
+  </div>
+  <footer class="site-footer">Software Design & Principles Course · Static HTML/CSS/JS · TeqVault Study</footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>
