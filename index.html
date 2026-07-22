@@ -36,7 +36,7 @@
   </h1>
 
   <p class="hero-sub">
-    Twelve developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded & IoT, and more. 43 courses, one home.
+    Thirteen developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded & IoT, and more. 45 courses, one home.
   </p>
 
   <div class="compile-widget">
@@ -59,12 +59,12 @@
 
   <div class="stats-row">
     <div class="stat">
-      <div class="stat-num">43</div>
+      <div class="stat-num">45</div>
       <div class="stat-label">Courses</div>
     </div>
     <div class="stat-div"></div>
     <div class="stat">
-      <div class="stat-num">12</div>
+      <div class="stat-num">13</div>
       <div class="stat-label">Tracks</div>
     </div>
     <div class="stat-div"></div>
@@ -95,6 +95,7 @@
     <a href="#track-trading" class="track-pill" style="--tc:#06d6a0">📈 Trading &amp; Investing</a>
     <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
     <a href="#track-cyber" class="track-pill" style="--tc:#f87171">🛡️ Cybersecurity</a>
+    <a href="#track-interview" class="track-pill" style="--tc:#f0b94d">🎯 Interview Prep</a>
     <a href="#military" class="track-pill" style="--tc:var(--soft)">⭐ Military</a>
   </nav>
 
@@ -147,12 +148,17 @@
     <a href="#track-tools" class="track-card" style="--tc:var(--teal)">
       <span class="track-card-icon">🛠️</span>
       <span class="track-card-title">Dev Tools &amp; Environments</span>
-      <span class="track-card-desc">CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
+      <span class="track-card-desc">IDE setup and environments across every major language, CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
     </a>
     <a href="#track-cyber" class="track-card" style="--tc:#f87171">
       <span class="track-card-icon">🛡️</span>
       <span class="track-card-title">Cybersecurity</span>
       <span class="track-card-desc">Zero to confidently protected — no tech background needed.</span>
+    </a>
+    <a href="#track-interview" class="track-card" style="--tc:#f0b94d">
+      <span class="track-card-icon">🎯</span>
+      <span class="track-card-title">Interview Prep</span>
+      <span class="track-card-desc">Software engineering interview mastery — quizzes, coding/SQL/system-design labs, and a timed mock-interview room.</span>
     </a>
     <a href="#military" class="track-card" style="--tc:var(--soft)">
       <span class="track-card-icon">⭐</span>
@@ -737,6 +743,17 @@
     </div>
     <div class="cards-grid">
 
+      <a href="pages/ide-setup-environments-course.html" class="course-card featured">
+        <div class="featured-inner">
+          <div>
+            <div class="card-tag">IDEs &amp; Environments · Beginner-Friendly</div>
+            <div class="card-title">IDE Setup &amp; Environments Course</div>
+            <p class="card-desc">Install and configure every major IDE — VS Code, PyCharm, Visual Studio, IntelliJ, Xcode — and set up real environments and GUI development for Python, JavaScript, Java, C, and C++. Starts at the terminal/PATH basics before touching a single install.</p>
+          </div>
+          <span class="featured-badge">New ❖</span>
+        </div>
+      </a>
+
       <a href="pages/CLion_GUI_Development_Course.html" class="course-card featured">
         <div class="featured-inner">
           <div>
@@ -795,6 +812,29 @@
     </div>
   </div>
 
+  <!-- ── INTERVIEW PREP ──────────────────────────── -->
+  <div class="phase reveal" id="track-interview">
+    <div class="phase-header">
+      <span class="phase-num" style="color:#f0b94d;border-color:rgba(240,185,77,0.35)">🎯 Track</span>
+      <span class="phase-name">Interview Prep</span>
+      <span class="phase-line"></span>
+    </div>
+    <div class="cards-grid">
+
+      <a href="pages/software-engineering-interview-course/index.html" class="course-card featured">
+        <div class="featured-inner">
+          <div>
+            <div class="card-tag">Interview Prep · Job-Ready</div>
+            <div class="card-title">Software Engineering Interview Mastery</div>
+            <p class="card-desc">24 lesson modules, 120 quiz questions with explanations, and 16 coding/SQL/debugging/system-design labs across Python, JavaScript/TypeScript, Java, C#, C++, Go, Rust, Kotlin, Swift, SQL, and Bash/Linux. Includes a STAR-R behavioral answer builder, a timed mock-interview room, and a searchable question bank.</p>
+          </div>
+          <span class="featured-badge">New ❖</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
 </section>
 
 <!-- ── MILITARY (separate from the general dev tracks) ────────────── -->
@@ -847,7 +887,7 @@ const lines = [
   { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1780 },
   { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1980 },
   { text: '', cls: '', delay: 2180 },
-  { text: '[BUILD] Loading 43 courses across 12 tracks...', cls: 'cl-warn', delay: 2380 },
+  { text: '[BUILD] Loading 45 courses across 13 tracks...', cls: 'cl-warn', delay: 2380 },
   { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2980 },
   { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3480 },
 ];
