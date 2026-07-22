@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prompt Engineering 101: From Zero to Fantastic Music & AI Output</title>
+<style>
+  :root {
+    --bg: #0f0e17;
+    --panel: #1a1826;
+    --accent: #ff8906;
+    --accent2: #f25f4c;
+    --text: #e8e6f0;
+    --muted: #a7a5b8;
+    --line: #322f45;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 96px; }
+  header.hero {
+    padding: 40px 0 32px;
+    border-bottom: 2px solid var(--line);
+    margin-bottom: 40px;
+  }
+  header.hero h1 {
+    font-size: 2.1rem;
+    margin: 0 0 8px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.25;
+  }
+  header.hero p { color: var(--muted); font-size: 1.05rem; margin: 0; }
+  nav.toc {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+  nav.toc h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 12px; }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc a { color: var(--text); text-decoration: none; border-bottom: 1px dashed var(--line); }
+  nav.toc a:hover { color: var(--accent); }
+  section.module {
+    margin-bottom: 56px;
+    padding-top: 8px;
+  }
+  section.module h2 {
+    font-size: 1.5rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 10px;
+    margin-top: 0;
+  }
+  h3 { color: var(--accent2); font-size: 1.1rem; margin-top: 32px; }
+  p { color: var(--text); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.92rem;
+    background: var(--panel);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th { background: #241f38; color: var(--accent); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  tr:last-child td { border-bottom: none; }
+  code {
+    background: #241f38;
+    color: #ffd57e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  pre {
+    background: #161421;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    color: #c9f5d9;
+  }
+  pre code { background: none; padding: 0; color: inherit; }
+  .bad pre { border-left-color: var(--accent2); color: #ffb3ab; }
+  .good pre { border-left-color: #4ce0a3; color: #b8f5d6; }
+  .label { font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .bad .label { color: var(--accent2); }
+  .good .label { color: #4ce0a3; }
+  .exercise {
+    background: linear-gradient(135deg, rgba(255,137,6,0.12), rgba(242,95,76,0.08));
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 28px;
+  }
+  .exercise strong { color: var(--accent); }
+  .formula {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.9rem;
+    color: #ffd57e;
+    margin: 10px 0;
+  }
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 0.92rem;
+  }
+  .pipeline span.step {
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 14px;
+    border-radius: 20px;
+  }
+  .pipeline span.arrow { color: var(--muted); }
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>Prompt Engineering 101<br>From Zero to Fantastic Music &amp; AI Output</h1>
+    <p>A beginner's course focused on Suno + Claude, with cross-training in ChatGPT and Grok.</p>
+  </header>
+
+  <nav class="toc">
+    <h2>Course Contents</h2>
+    <ol>
+      <li><a href="#m0">The Universal Grammar of a Good Prompt</a></li>
+      <li><a href="#m1">Suno AI — Prompting for a Real Genre</a></li>
+      <li><a href="#m2">Claude — Precision Prompting for a Reasoning Model</a></li>
+      <li><a href="#m3">Cross-Training — ChatGPT and Grok</a></li>
+      <li><a href="#m4">Capstone Project</a></li>
+      <li><a href="#cheat">Quick-Reference Cheat Sheet</a></li>
+    </ol>
+  </nav>
+
+  <section class="module" id="m0">
+    <h2>Module 0 — The Universal Grammar of a Good Prompt</h2>
+    <p>Every AI prompt — whether you're generating a song, a paragraph, or a spreadsheet formula — is built from the same five ingredients. Weak prompts are missing one or more of these.</p>
+    <table>
+      <tr><th>Ingredient</th><th>What it does</th><th>Example</th></tr>
+      <tr><td>Subject/Task</td><td>What you actually want produced</td><td>"a driving synthwave track"</td></tr>
+      <tr><td>Constraints</td><td>Hard boundaries — length, format, tempo, rules</td><td>"under 3 minutes, instrumental only"</td></tr>
+      <tr><td>Style/Voice</td><td>The texture and tone</td><td>"moody, nostalgic, 1980s Miami"</td></tr>
+      <tr><td>Reference points</td><td>Anchors the model to something concrete</td><td>"like Kavinsky or The Midnight"</td></tr>
+      <tr><td>Negative space</td><td>What to avoid</td><td>"no vocals, no trap hi-hats"</td></tr>
+    </table>
+    <p><strong>The #1 beginner mistake in every tool covered in this course:</strong> vague adjectives with no anchor. "Make it epic" tells the model almost nothing — epic like a film score, epic like a stadium anthem, epic like a boss fight? Replace mood words with <strong>references + mechanics</strong> (tempo, instrumentation, structure) whenever you can.</p>
+    <div class="exercise"><strong>Exercise 0:</strong> Take a prompt you'd normally type ("write me a cool song" / "help me with my code") and rewrite it hitting all five ingredients above. Keep it — you'll reuse the pattern all course.</div>
+  </section>
+
+  <section class="module" id="m1">
+    <h2>Module 1 — Suno AI: Prompting for a Real Genre</h2>
+    <p>Suno turns text into full songs (music + often vocals). It responds to two separate inputs, and beginners usually only use one of them:</p>
+    <ul>
+      <li><strong>Style/genre prompt box</strong> — tells Suno <em>how</em> the song should sound (genre, mood, instrumentation, era, vocal type)</li>
+      <li><strong>Lyrics box</strong> — the actual words, which Suno also mines for phrasing/rhythm cues</li>
+    </ul>
+
+    <h3>1.1 — Building the Style Prompt</h3>
+    <p>Think of the style box as tagging metadata, not prose. Suno responds best to <strong>comma-separated descriptor stacks</strong> layered in this order:</p>
+    <div class="formula">[Genre/subgenre] , [Era/scene reference] , [Tempo/energy] , [Key instruments] , [Vocal style] , [Mood] , [Production texture]</div>
+
+    <div class="bad">
+      <div class="label">Weak</div>
+      <pre>make an epic rock song</pre>
+    </div>
+    <div class="good">
+      <div class="label">Strong</div>
+      <pre>melodic power metal, early 2000s European scene, fast 160bpm,
+soaring dual guitar leads, operatic male vocals, triumphant and
+defiant, polished symphonic production</pre>
+    </div>
+    <p>The strong version gives Suno six independent knobs to turn instead of one mood word. That's the difference between generic output and something that actually sounds like the genre you meant.</p>
+
+    <h3>1.2 — Genre-Blending (Suno's superpower)</h3>
+    <p>Suno is unusually good at <strong>hybrid genres</strong> if you name both parents explicitly rather than inventing a vague new word:</p>
+    <pre>darkwave x synthwave hybrid, retro-futuristic, analog synth bass,
+gated reverb drums, cold female vocals, cinematic and ominous</pre>
+    <p>Avoid invented genre names with no real-world anchor ("dreampunk fusion") — Suno has nothing to pattern-match to. Two or three <em>real</em> genre tags blended is far more reliable than one made-up label.</p>
+
+    <h3>1.3 — Structure Tags</h3>
+    <p>Use bracketed structure/production tags inside the <strong>lyrics box</strong> to control song architecture — Suno reads these as directives:</p>
+    <pre>[Intro]
+[Verse 1]
+[Pre-Chorus]
+[Chorus]
+[Verse 2]
+[Chorus]
+[Bridge]
+[Guitar Solo]
+[Final Chorus]
+[Outro]</pre>
+    <p>You can also drop mood/instrumentation tags mid-lyric to shift the track: <code>[soft piano break]</code>, <code>[drop the beat]</code>, <code>[whispered vocals]</code>.</p>
+
+    <h3>1.4 — Writing Lyrics That Suno Sings Well</h3>
+    <ul>
+      <li>Keep line lengths rhythmically consistent within a section — wildly uneven syllable counts confuse the phrasing.</li>
+      <li>Write for the <em>ear</em>, not the page: contractions, natural speech rhythm, and repetition (hooks) work better than literary prose.</li>
+      <li>A strong chorus hook is usually 4–8 words, repeated — this is what Suno leans on hardest.</li>
+    </ul>
+
+    <h3>1.5 — Common Suno Failure Modes &amp; Fixes</h3>
+    <table>
+      <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+      <tr><td>Generic "AI pop" sound regardless of genre tag</td><td>Too few/contradictory descriptors</td><td>Stack 5–7 specific tags, remove conflicting ones (e.g., "aggressive" + "dreamy")</td></tr>
+      <tr><td>Vocals don't match intended era/genre</td><td>No vocal descriptor</td><td>Add explicit vocal style: "raspy 90s grunge male vocals" not just "male vocals"</td></tr>
+      <tr><td>Song structure collapses/rambles</td><td>No structure tags in lyrics</td><td>Add <code>[Verse]/[Chorus]</code> tags</td></tr>
+      <tr><td>Instrumental bleeds in when you wanted vocals-only (or vice versa)</td><td>Ambiguous style box</td><td>State explicitly: "instrumental only, no vocals" or "lead vocals throughout"</td></tr>
+    </table>
+
+    <div class="exercise"><strong>Exercise 1:</strong> Pick a genre you love and one you've never made. Write a full style-prompt stack (6 descriptors) plus a structured lyric skeleton for each.</div>
+  </section>
+
+  <section class="module" id="m2">
+    <h2>Module 2 — Claude: Precision Prompting for a Reasoning Model</h2>
+    <p>Claude (and models like it) is less about "vibes" and more about <strong>giving it enough scaffolding to reason correctly</strong>. Beginners under-specify structure and over-specify tone.</p>
+
+    <h3>2.1 — The Core Claude Prompt Shape</h3>
+    <div class="formula">[Role/context] → [Task] → [Constraints] → [Examples] → [Output format]</div>
+
+    <div class="bad">
+      <div class="label">Weak</div>
+      <pre>Write me a description for my song</pre>
+    </div>
+    <div class="good">
+      <div class="label">Strong</div>
+      <pre>Write a 2-sentence Spotify bio-style description for a synthwave
+track called "Neon Exile." It's about escaping a dying city at
+night. Tone: cinematic, a little melancholic. No clichés like
+"sonic journey" or "takes you on a ride." Output just the two
+sentences, no preamble.</pre>
+    </div>
+
+    <h3>2.2 — Techniques That Actually Move Output Quality</h3>
+    <ul>
+      <li><strong>Be explicit about what "good" looks like.</strong> Claude can't read your taste — give a positive example and a negative example when style matters.</li>
+      <li><strong>Ask for reasoning before the answer</strong> on anything nontrivial: "think through the structure first, then write it."</li>
+      <li><strong>Use tags for multi-part asks</strong> — <code>&lt;lyrics&gt;</code>, <code>&lt;description&gt;</code>, <code>&lt;title_options&gt;</code> — to cleanly separate outputs in one response.</li>
+      <li><strong>Iterate, don't restart.</strong> Say exactly what's wrong ("the chorus is too on-the-nose") rather than re-prompting from scratch.</li>
+      <li><strong>Give constraints as guardrails, not suggestions.</strong> "Keep it under 100 words" beats "try to keep it short."</li>
+    </ul>
+
+    <h3>2.3 — Claude for Music Workflows Specifically</h3>
+    <p>Claude doesn't generate audio, but it's the best tool in this course for the <em>scaffolding</em> around a Suno track:</p>
+    <ul>
+      <li>Drafting/polishing lyrics before you paste them into Suno</li>
+      <li>Generating a stack of style-prompt candidates for you to A/B test in Suno</li>
+      <li>Writing release copy, track descriptions, or liner notes</li>
+      <li>Critiquing a lyric draft against a genre's conventions</li>
+    </ul>
+    <p><strong>Worked example — asking Claude to generate Suno prompt candidates:</strong></p>
+    <pre>Generate 5 distinct Suno style-prompt stacks for a dark synthwave
+song about a rogue AI. Each should be a single comma-separated
+line, 5-7 descriptors, no duplicate genre blends across the five.
+Output as a numbered list, nothing else.</pre>
+
+    <div class="exercise"><strong>Exercise 2:</strong> Take one lyric idea from Exercise 1 and have a real conversation with Claude: ask it to draft, then critique your own edit, then tighten it to exact syllable counts per line.</div>
+  </section>
+
+  <section class="module" id="m3">
+    <h2>Module 3 — Cross-Training: ChatGPT and Grok</h2>
+    <p>Same five ingredients from Module 0 apply everywhere. What changes is <em>personality</em> and <em>strengths</em>.</p>
+    <table>
+      <tr><th></th><th>Claude</th><th>ChatGPT</th><th>Grok</th></tr>
+      <tr>
+        <td>Strength</td>
+        <td>Long-form reasoning, careful instruction-following, nuanced writing/critique</td>
+        <td>Broad tool ecosystem (browsing, code execution, image gen), fast iteration</td>
+        <td>Real-time info (X/Twitter), more casual/irreverent tone by default</td>
+      </tr>
+      <tr>
+        <td>Prompting quirk</td>
+        <td>Rewards structured, explicit constraints; holds multi-step context well</td>
+        <td>Responds well to persona framing ("act as a..."); strong rapid back-and-forth</td>
+        <td>Good for topical/current-events framing; give explicit tone control or it defaults edgy</td>
+      </tr>
+      <tr>
+        <td>Best course use</td>
+        <td>Lyric polishing, prompt-stack generation, critique</td>
+        <td>Fast brainstorming of concept lists (genre ideas, title options)</td>
+        <td>Checking what's current/trending in a genre or scene for authenticity references</td>
+      </tr>
+    </table>
+    <p><strong>Portable rule:</strong> whatever tool you're in, the failure mode is the same — vague task, no constraints, no reference point. Fix that first before blaming the model.</p>
+    <div class="exercise"><strong>Exercise 3:</strong> Take your Exercise 0 rewritten prompt and run it, unmodified, through two different tools. Note where the outputs diverge and why — usually it traces back to a strength/quirk in the table above.</div>
+  </section>
+
+  <section class="module" id="m4">
+    <h2>Module 4 — Capstone Project</h2>
+    <p>Build one complete mini-release using the full pipeline:</p>
+    <div class="pipeline">
+      <span class="step">1. Concept</span><span class="arrow">→</span>
+      <span class="step">2. Claude drafts lyrics + prompt stacks</span><span class="arrow">→</span>
+      <span class="step">3. You edit &amp; finalize</span><span class="arrow">→</span>
+      <span class="step">4. Suno generates</span><span class="arrow">→</span>
+      <span class="step">5. Claude writes release copy</span><span class="arrow">→</span>
+      <span class="step">6. Review &amp; revise</span>
+    </div>
+    <ol>
+      <li><strong>Concept:</strong> One-sentence concept for a song within a chosen genre.</li>
+      <li><strong>Claude:</strong> Draft lyrics + generate 3 Suno style-prompt stacks for it.</li>
+      <li><strong>You:</strong> Pick/edit the best stack using the Module 1 formula; add structure tags to the lyrics.</li>
+      <li><strong>Suno:</strong> Generate the track from your finished style prompt + lyrics.</li>
+      <li><strong>Claude:</strong> Write a 2-sentence release description from the finished concept.</li>
+      <li><strong>Review:</strong> Compare against your original genre intent using the Module 1.5 failure-mode table, revise, regenerate.</li>
+    </ol>
+    <p>This loop — <strong>concept → Claude drafting → Suno generation → Claude critique → revise</strong> — is the actual production pipeline worth keeping as a habit, not just a course exercise.</p>
+  </section>
+
+  <section class="module" id="cheat">
+    <h2>Quick-Reference Cheat Sheet</h2>
+    <p><strong>Suno style prompt formula:</strong></p>
+    <div class="formula">Genre/subgenre, era/scene, tempo/energy, key instruments, vocal style, mood, production texture</div>
+    <p><strong>Claude prompt formula:</strong></p>
+    <div class="formula">Role/context + precise task + constraints + example(s) + exact output format</div>
+    <p><strong>Universal debug question when output is bad:</strong></p>
+    <div class="formula">"Which of the five ingredients (subject, constraints, style, reference, negative space) did I skip?"</div>
+  </section>
+
+  <footer>Prompt Engineering 101 — Suno + Claude Edition</footer>
+
+</div>
+</body>
+</html>
