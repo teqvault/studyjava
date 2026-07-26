@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Prefer the sitemap for discovery
+Sitemap: https://teqvault.study/sitemap.xml
