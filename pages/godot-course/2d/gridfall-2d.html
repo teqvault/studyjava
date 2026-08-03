@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d track-2d-page">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Godot 2D — Build GridFall · TeqStudy</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="../godot-course.html">Godot Course</a>
+  <span class="right">2D Track</span>
+</div></nav>
+<div class="wrap">
+  <header class="hero">
+	<p class="kicker">Godot 4.x · GDScript · Teach by example</p>
+	<h1>Build <span style="color:var(--blue)">GridFall</span> from an empty project</h1>
+	<p class="sub">A complete falling-block grid puzzle, built one working piece at a time. Every lesson adds a real, runnable feature — no theory dumps, no copy-paste-and-pray. By the last lesson you have a shippable game.</p>
+	<div class="meta">
+	  <span class="chip"><b>13</b> lessons</span>
+	  <span class="chip"><b>6</b> modules</span>
+	  <span class="chip">Godot <b>4.x</b></span>
+	  <span class="chip">Zero prior Godot needed</span>
+	  <span class="chip">Ends with an <b>exported build</b></span>
+	</div>
+  </header>
+
+  <div class="target-game">
+	<h3>The game you'll build</h3>
+	<p><strong>GridFall</strong> — tiles drop into a 10×18 well; slide, rotate, soft-drop and hard-drop them; fill a row to clear it and score; the game speeds up as you go and ends when the stack reaches the top. You'll build the data model, the piece system, collision, rotation with wall kicks, scoring, a HUD, next-piece preview, sound, pause, and export.</p>
+  </div>
+
+  <p class="section-title">Course syllabus</p>
+  
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M01</span>
+		<span class="mttl">Foundations</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">The engine&#x27;s mental model and your first working scripts.</p>
+	  <ul class="lessons"><li><a href="01-orientation.html"><span class="lz">01</span><span class="lt">What we are building &amp; how Godot thinks</span><span class="lg">A running empty Godot project and …</span></a></li><li><a href="02-first-script.html"><span class="lz">02</span><span class="lt">Your first node, script, and the game loop</span><span class="lg">A script that greets on start, cou…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M02</span>
+		<span class="mttl">The Grid &amp; the Board</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Coordinates, the reusable Cell, and the data model behind everything.</p>
+	  <ul class="lessons"><li><a href="03-grid-and-cell.html"><span class="lz">03</span><span class="lt">The grid, coordinates, and the Cell scene</span><span class="lg">A Cell scene you can place at any …</span></a></li><li><a href="04-board-state.html"><span class="lz">04</span><span class="lt">The board as data: separating logic from visuals</span><span class="lg">A Board data structure with helper…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M03</span>
+		<span class="mttl">Pieces in Motion</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Spawning shapes, gravity, and rock-solid collision.</p>
+	  <ul class="lessons"><li><a href="05-piece-and-spawn.html"><span class="lz">05</span><span class="lt">Pieces: shapes, spawning, and drawing them</span><span class="lg">A visible piece spawning at the to…</span></a></li><li><a href="06-gravity-timer.html"><span class="lz">06</span><span class="lt">Gravity: making pieces fall on a timer</span><span class="lg">A piece that falls one row per tic…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M04</span>
+		<span class="mttl">Player Control</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Movement, drops, and forgiving rotation with wall kicks.</p>
+	  <ul class="lessons"><li><a href="07-input-movement.html"><span class="lz">07</span><span class="lt">Player control: move and soft/hard drop</span><span class="lg">Full horizontal control plus soft …</span></a></li><li><a href="08-rotation.html"><span class="lz">08</span><span class="lt">Rotation and wall kicks</span><span class="lg">Working clockwise rotation with ba…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M05</span>
+		<span class="mttl">The Game Loop</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Clears, scoring, escalation, and losing.</p>
+	  <ul class="lessons"><li><a href="09-clears-scoring.html"><span class="lz">09</span><span class="lt">Clearing lines and keeping score</span><span class="lg">Full rows clear, everything above …</span></a></li><li><a href="10-escalation-gameover.html"><span class="lz">10</span><span class="lt">Speeding up and losing</span><span class="lg">Rising difficulty as you clear lin…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M06</span>
+		<span class="mttl">Feel &amp; Ship</span>
+		<span class="mcount">3 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">HUD, preview, juice, sound, pause, and export.</p>
+	  <ul class="lessons"><li><a href="11-hud-ui.html"><span class="lz">11</span><span class="lt">The HUD: score, level, and a restart screen</span><span class="lg">A live HUD and a working Restart b…</span></a></li><li><a href="12-preview-juice.html"><span class="lz">12</span><span class="lt">Next-piece preview and a little juice</span><span class="lg">A next-piece preview panel and a s…</span></a></li><li><a href="13-audio-export.html"><span class="lz">13</span><span class="lt">Sound, pause, and exporting GridFall</span><span class="lg">A pause toggle, sound on lock and …</span></a></li></ul>
+	</section>
+
+  <div class="target-game" style="border-left-color:var(--violet);margin-top:48px;">
+	<h3 style="color:var(--violet)">When you finish this track</h3>
+	<p>Move on to the <a href="../3d/glitchfall-3d.html">Godot 3D track</a>, where you'll build <strong>GlitchFall</strong>, a small third-person 3D adventure — reusing the node/scene/script instincts you build here in a 3D world.</p>
+  </div>
+</div>
+</body>
+</html>

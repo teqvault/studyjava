@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d track-3d-page">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Godot 3D — Build GlitchFall · TeqStudy</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="../godot-course.html">Godot Course</a>
+  <span class="right">3D Track</span>
+</div></nav>
+<div class="wrap">
+  <header class="hero">
+	<p class="kicker">Godot 4.x · GDScript · Teach by example</p>
+	<h1>Build <span style="color:var(--violet)">GlitchFall</span> in three dimensions</h1>
+	<p class="sub">A small third-person 3D adventure — explore a corrupted low-poly world, collect glitch fragments, dodge hazards, and reach the exit. Built the same way as the 2D track: one working feature per lesson, ending in a shippable game.</p>
+	<div class="meta">
+	  <span class="chip"><b>11</b> lessons</span>
+	  <span class="chip"><b>5</b> modules</span>
+	  <span class="chip">Godot <b>4.x</b></span>
+	  <span class="chip">2D track recommended first</span>
+	  <span class="chip">Ends with an <b>exported build</b></span>
+	</div>
+  </header>
+
+  <div class="target-game" style="border-left-color:var(--violet);">
+	<h3 style="color:var(--violet)">The game you'll build</h3>
+	<p><strong>GlitchFall</strong> — steer a third-person character through a glitched world, collect every fragment to unlock the exit, avoid hazards that respawn you, and escape. You'll build a lit 3D scene, a CharacterBody3D controller, a follow camera, Area3D triggers for pickups and hazards, a gated goal, a HUD and win screen, atmosphere, and export.</p>
+  </div>
+
+  <p class="section-title">Course syllabus</p>
+  
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M01</span>
+		<span class="mttl">Into the Third Dimension</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">The 3D mindset, a lit world, and navigating the editor.</p>
+	  <ul class="lessons"><li><a href="01-orientation.html"><span class="lz">01</span><span class="lt">From 2D to 3D: what changes and what doesn&#x27;t</span><span class="lg">A running 3D project and a clear p…</span></a></li><li><a href="02-world-basics.html"><span class="lz">02</span><span class="lt">A lit world: meshes, materials, and light</span><span class="lg">A lit floor with colored shapes an…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M02</span>
+		<span class="mttl">Character &amp; Camera</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">A physics player and a third-person follow camera.</p>
+	  <ul class="lessons"><li><a href="03-player-body.html"><span class="lz">03</span><span class="lt">The player: a CharacterBody3D that moves</span><span class="lg">A capsule player that walks around…</span></a></li><li><a href="04-camera.html"><span class="lz">04</span><span class="lt">A third-person follow camera</span><span class="lg">A smooth third-person camera you s…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M03</span>
+		<span class="mttl">Objectives &amp; Danger</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Collectible fragments, hazards, and respawning.</p>
+	  <ul class="lessons"><li><a href="05-fragments.html"><span class="lz">05</span><span class="lt">Collectible fragments with Area3D</span><span class="lg">Spinning fragments that disappear …</span></a></li><li><a href="06-hazards.html"><span class="lz">06</span><span class="lt">Hazards and respawning</span><span class="lg">A hazard that respawns the player …</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M04</span>
+		<span class="mttl">Closing the Loop</span>
+		<span class="mcount">2 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">The gated exit and a HUD with a win screen.</p>
+	  <ul class="lessons"><li><a href="07-exit-gate.html"><span class="lz">07</span><span class="lt">The exit: a gated goal</span><span class="lg">A locked exit that activates once …</span></a></li><li><a href="08-hud-win.html"><span class="lz">08</span><span class="lt">The HUD: fragment counter and win screen</span><span class="lg">A live fragment counter, an object…</span></a></li></ul>
+	</section>
+	<section class="module">
+	  <div class="module-head">
+		<span class="mnum">M05</span>
+		<span class="mttl">Feel &amp; Ship</span>
+		<span class="mcount">3 lessons</span>
+	  </div>
+	  <p style="padding:0 22px;color:var(--ink-dim);margin:12px 0 6px;">Glitch atmosphere, environment polish, sound, and export.</p>
+	  <ul class="lessons"><li><a href="09-glitch-juice.html"><span class="lz">09</span><span class="lt">Selling the &#x27;glitch&#x27;: visual flavor and feedback</span><span class="lg">A world that reads as &#x27;glitched&#x27; p…</span></a></li><li><a href="10-polish.html"><span class="lz">10</span><span class="lt">Atmosphere: fog, glow, and a fitting sky</span><span class="lg">A moody, glowing environment that …</span></a></li><li><a href="11-audio-export.html"><span class="lz">11</span><span class="lt">Sound, and exporting GlitchFall</span><span class="lg">Positional pickup audio, ambience,…</span></a></li></ul>
+	</section>
+
+  <div class="target-game" style="margin-top:48px;">
+	<h3>New to Godot?</h3>
+	<p>Start with the <a href="../2d/gridfall-2d.html">Godot 2D track</a> first — it builds GridFall from scratch and teaches the node/scene/script fundamentals this track assumes. You can jump straight in if you've used Godot before.</p>
+  </div>
+</div>
+</body>
+</html>

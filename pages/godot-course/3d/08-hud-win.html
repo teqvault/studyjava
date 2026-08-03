@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The HUD: fragment counter and win screen · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 08 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 08</p>
+    <h1>The HUD: fragment counter and win screen</h1>
+    <p class="lede">The player needs on-screen feedback, not Output logs. We add a 3D-game HUD — a fragment counter and an objective hint — plus a win screen with a restart, using the same Control/CanvasLayer approach as the 2D track.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A live fragment counter, an objective prompt, and a win screen with restart</b></div>
+  </header>
+  <h2><span class="num">8.1</span>Add a HUD layer</h2><ol class="steps"><li>Open <code>main.tscn</code>. Add a child <strong>CanvasLayer</strong> to <code>Main</code>, rename <code>HUD</code>. 2D UI sits on a CanvasLayer even in a 3D game — it renders on top of the 3D viewport.</li><li>Under <code>HUD</code>, add a <strong>Label</strong> named <code>FragmentLabel</code>, anchored top-left, text <code>Fragments: 0 / 0</code>.</li><li>Add another <strong>Label</strong> named <code>ObjectiveLabel</code> below it, text <code>Collect all fragments</code>.</li></ol><h2><span class="num">8.2</span>Drive the HUD from Main</h2><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> fragment_label: <span class="tok-type">Label</span> = <span class="tok-node">$HUD/FragmentLabel</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> objective_label: <span class="tok-type">Label</span> = <span class="tok-node">$HUD/ObjectiveLabel</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_refresh_hud</span>() -&gt; <span class="tok-type">void</span>:
+	fragment_label.text = <span class="tok-str">&quot;Fragments: %d / %d&quot;</span> <span class="tok-node">%</span> [collected_count, total_fragments]
+	<span class="tok-kw">if</span> collected_count &gt;= total_fragments:
+		objective_label.text = <span class="tok-str">&quot;Reach the exit!&quot;</span>
+	<span class="tok-kw">else</span>:
+		objective_label.text = <span class="tok-str">&quot;Collect all fragments&quot;</span></code></pre></div><p>Call <code>_refresh_hud()</code> at the end of <code>_ready()</code> and inside <code>_on_fragment_collected()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_on_fragment_collected</span>(_frag: <span class="tok-type">Area3D</span>) -&gt; <span class="tok-type">void</span>:
+	collected_count += <span class="tok-num">1</span>
+	_refresh_hud()
+	<span class="tok-kw">if</span> collected_count &gt;= total_fragments:
+		exit.activate()</code></pre></div><h2><span class="num">8.3</span>A win screen</h2><ol class="steps"><li>Under <code>HUD</code>, add a <strong>PanelContainer</strong> named <code>WinPanel</code>, centered.</li><li>Inside it add a <strong>VBoxContainer</strong> with a <strong>Label</strong> (text <code>You escaped the glitch!</code>) and a <strong>Button</strong> named <code>RestartButton</code> (text <code>Play Again</code>).</li><li>Select <code>WinPanel</code> and set its <strong>Visible</strong> to OFF.</li></ol><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> win_panel: <span class="tok-type">PanelContainer</span> = <span class="tok-node">$HUD/WinPanel</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> restart_button: <span class="tok-type">Button</span> = <span class="tok-node">$HUD/WinPanel/VBoxContainer/RestartButton</span>
+
+<span class="tok-com"># in _ready(), after other setup:</span>
+	win_panel.visible = <span class="tok-cst">false</span>
+	restart_button.pressed.connect(_on_restart_pressed)
+	_refresh_hud()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_exit_reached</span>() -&gt; <span class="tok-type">void</span>:
+	win_panel.visible = <span class="tok-cst">true</span>
+	<span class="tok-com"># Free the mouse so the player can click Play Again.</span>
+	<span class="tok-type">Input</span>.mouse_mode = <span class="tok-type">Input</span>.MOUSE_MODE_VISIBLE
+	get_tree().paused = <span class="tok-cst">true</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_restart_pressed</span>() -&gt; <span class="tok-type">void</span>:
+	get_tree().paused = <span class="tok-cst">false</span>
+	get_tree().reload_current_scene()</code></pre></div><div class="note gotcha"><p class="lbl">Unpause before reloading</p><p>We pause the tree on win for a clean freeze. If you reload the scene while still paused, the new scene starts frozen. Always set <code>paused = false</code> before <code>reload_current_scene()</code>.</p></div><div class="note gotcha"><p class="lbl">Restart button needs to run while paused</p><p>Because we pause on win, the button's node must process while paused. Select <code>HUD</code> (or the button) and set <strong>Process → Mode</strong> to <strong>Always</strong>, or the click won't register.</p></div><ol class="steps"><li>Run with <kbd>F6</kbd>. The counter updates as you collect; the objective text flips when the exit unlocks.</li><li>Win the game — the win panel appears, the mouse frees, and Play Again resets everything.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A CanvasLayer HUD with a live fragment counter and objective text.</li><li>A hidden win panel that appears on victory.</li><li>A working Play Again button that unpauses and reloads.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="07-exit-gate.html"><span class="dir">← Previous</span><span class="ttl">The exit: a gated goal</span></a>
+    <a class="next" href="09-glitch-juice.html"><span class="dir">Next →</span><span class="ttl">Selling the &#x27;glitch&#x27;: visual flavor and feedback</span></a>
+  </nav>
+</div>
+</body>
+</html>

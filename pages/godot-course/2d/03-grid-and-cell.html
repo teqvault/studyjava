@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The grid, coordinates, and the Cell scene · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 03 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 03</p>
+    <h1>The grid, coordinates, and the Cell scene</h1>
+    <p class="lede">GridFall is played on a grid, so we need two vocabularies: pixel coordinates (where things draw) and grid coordinates (row, column). This lesson builds the reusable Cell scene and the math that converts between the two.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A Cell scene you can place at any (column, row) and a Main scene that draws the empty well border</b></div>
+  </header>
+  <h2><span class="num">3.1</span>Two coordinate systems, never confuse them</h2><p>In Godot 2D, position is measured in <strong>pixels</strong>, with <code>(0,0)</code> at the top-left and <strong>y increasing downward</strong>. GridFall also thinks in <strong>grid cells</strong>: column 0..9, row 0..17. We convert with one constant — the cell size in pixels.</p><div class="code"><div class="code-head"><span class="lang">text</span></div><pre><code># grid (col, row)  -&gt;  pixels (x, y)
+# pixel_x = col * CELL_SIZE
+# pixel_y = row * CELL_SIZE
+#
+# Example with CELL_SIZE = 32:
+#   cell (3, 5)  -&gt;  pixel (96, 160)</code></pre></div><div class="note "><p class="lbl">Vector2 and Vector2i</p><p>Godot bundles an (x, y) pair into a <code>Vector2</code> (floats) or <code>Vector2i</code> (integers). Grid coordinates are whole numbers, so we use <code>Vector2i</code> for them and <code>Vector2</code> for pixel positions.</p></div><h2><span class="num">3.2</span>Build the Cell scene</h2><p>A cell is one colored square. We'll make it once and reuse it hundreds of times.</p><ol class="steps"><li>Scene menu → <kbd>New Scene</kbd>.</li><li>Click "Other Node", choose <strong>Node2D</strong> as the root, rename it <code>Cell</code>.</li><li>Right-click <code>Cell</code> → <kbd>Add Child Node</kbd> → <strong>ColorRect</strong>. This is the visible square.</li><li>Select the <code>ColorRect</code>. In the Inspector set <strong>Size</strong> to <code>(30, 30)</code> (leaving a 2px gap inside a 32px cell), and pick any <strong>Color</strong> for now.</li><li>Save as <code>cell.tscn</code>.</li></ol><p>Now give the Cell a script so it can recolor itself on command. Attach a script to the root <code>Cell</code> node:</p><div class="code"><div class="code-head"><span class="fname">cell.tscn → cell.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
+<span class="tok-kw">class_name</span> Cell
+
+<span class="tok-com"># Grid size in pixels. One source of truth for the whole game.</span>
+<span class="tok-kw">const</span> CELL_SIZE: <span class="tok-type">int</span> = <span class="tok-num">32</span>
+
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> rect: <span class="tok-type">ColorRect</span> = <span class="tok-node">$ColorRect</span>
+
+<span class="tok-com"># Place this cell at a grid coordinate.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">set_grid_position</span>(grid_pos: <span class="tok-type">Vector2i</span>) -&gt; <span class="tok-type">void</span>:
+	position = <span class="tok-type">Vector2</span>(grid_pos.x * CELL_SIZE, grid_pos.y * CELL_SIZE)
+
+<span class="tok-com"># Recolor the visible square.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">set_color</span>(c: <span class="tok-type">Color</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Guard in case this is called before _ready wires up the node.</span>
+	<span class="tok-kw">if</span> rect:
+		rect.color = c</code></pre></div><div class="note "><p class="lbl">class_name and @onready</p><p><code>class_name Cell</code> registers this scene as a type you can reference from other scripts. <code>@onready</code> delays a variable's assignment until the node is in the tree, so <code>$ColorRect</code> actually exists. <code>$ColorRect</code> means "the child named ColorRect".</p></div><h2><span class="num">3.3</span>Create the Main scene and the well constants</h2><ol class="steps"><li>Scene → <kbd>New Scene</kbd> → "Other Node" → <strong>Node2D</strong> as root, rename it <code>Main</code>.</li><li>Save as <code>main.tscn</code>.</li><li>Project → <kbd>Project Settings</kbd> → <strong>Application/Run</strong> → set <strong>Main Scene</strong> to <code>main.tscn</code>. Now ▶ (F5) launches GridFall.</li></ol><p>Attach a script to <code>Main</code> and define the well's dimensions. These constants drive everything downstream.</p><div class="code"><div class="code-head"><span class="fname">main.tscn → main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
+
+<span class="tok-com"># --- Well dimensions (the play field) ---</span>
+<span class="tok-kw">const</span> COLS: <span class="tok-type">int</span> = <span class="tok-num">10</span>
+<span class="tok-kw">const</span> ROWS: <span class="tok-type">int</span> = <span class="tok-num">18</span>
+<span class="tok-kw">const</span> CELL_SIZE: <span class="tok-type">int</span> = <span class="tok-num">32</span>
+
+<span class="tok-com"># Pixel size of the whole well, handy for centering / borders.</span>
+<span class="tok-kw">const</span> WELL_WIDTH: <span class="tok-type">int</span> = COLS * CELL_SIZE   <span class="tok-com"># 320</span>
+<span class="tok-kw">const</span> WELL_HEIGHT: <span class="tok-type">int</span> = ROWS * CELL_SIZE  <span class="tok-com"># 576</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Well is %d x %d cells (%d x %d px)&quot;</span> <span class="tok-node">%</span> [COLS, ROWS, WELL_WIDTH, WELL_HEIGHT])
+	_draw_border()
+
+<span class="tok-com"># Draw a simple frame so we can see the play field while building.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_draw_border</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">var</span> frame := <span class="tok-type">ColorRect</span>.new()
+	frame.color = <span class="tok-type">Color</span>(<span class="tok-num">0.15</span>, <span class="tok-num">0.18</span>, <span class="tok-num">0.22</span>)   <span class="tok-com"># dark slate</span>
+	frame.size = <span class="tok-type">Vector2</span>(WELL_WIDTH, WELL_HEIGHT)
+	frame.position = <span class="tok-type">Vector2</span>.ZERO
+	frame.z_index = -<span class="tok-num">1</span>                        <span class="tok-com"># behind everything else</span>
+	add_child(frame)</code></pre></div><div class="note gotcha"><p class="lbl">String format operator</p><p><code>"%d x %d" % [a, b]</code> substitutes values into a string. <code>%d</code> = integer, <code>%s</code> = anything, <code>%.2f</code> = float with 2 decimals. Get the placeholder count wrong and Godot errors at runtime — count them.</p></div><h2><span class="num">3.4</span>Drop one Cell in by code to prove it works</h2><p>Temporarily add this to the bottom of <code>Main._ready()</code> to confirm the Cell scene loads and positions correctly:</p><div class="code"><div class="code-head"><span class="fname">main.gd (inside _ready)</span><span class="lang">gdscript</span></div><pre><code>	<span class="tok-com"># --- temporary test, remove after Lesson 3 ---</span>
+	<span class="tok-kw">var</span> cell_scene: <span class="tok-type">PackedScene</span> = <span class="tok-kw">preload</span>(<span class="tok-str">&quot;res://cell.tscn&quot;</span>)
+	<span class="tok-kw">var</span> c: Cell = cell_scene.instantiate()
+	add_child(c)
+	c.set_grid_position(<span class="tok-type">Vector2i</span>(<span class="tok-num">4</span>, <span class="tok-num">2</span>))   <span class="tok-com"># column 4, row 2</span>
+	c.set_color(<span class="tok-type">Color</span>.ORANGE)</code></pre></div><div class="note warn"><p class="lbl">res:// paths</p><p><code>res://</code> is the project root. <code>preload()</code> loads a scene at compile time and is the standard way to reference other scenes. If the path is wrong, Godot underlines it in the editor.</p></div><ol class="steps"><li>Press <kbd>F5</kbd>. You should see the dark well frame with a single orange square four columns in and two rows down.</li><li>Change the <code>Vector2i(4, 2)</code> numbers and re-run to feel how grid coordinates map to the screen.</li><li>Once satisfied, delete the temporary test block — the real spawner comes in Lesson 5.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A reusable <code>cell.tscn</code> with <code>set_grid_position()</code> and <code>set_color()</code>.</li><li>A <code>main.tscn</code> set as the project's main scene, drawing the well border.</li><li>You watched a cell land at an exact (col, row) — grid math confirmed.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="02-first-script.html"><span class="dir">← Previous</span><span class="ttl">Your first node, script, and the game loop</span></a>
+    <a class="next" href="04-board-state.html"><span class="dir">Next →</span><span class="ttl">The board as data: separating logic from visuals</span></a>
+  </nav>
+</div>
+</body>
+</html>

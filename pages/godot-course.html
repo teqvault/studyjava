@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn Godot by Building Games · TeqStudy</title>
+<link rel="stylesheet" href="assets/course.css">
+<style>
+  .tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 44px 0; }
+  @media (max-width: 640px) { .tracks { grid-template-columns: 1fr; } }
+  .track-card {
+    display: block; text-decoration: none; color: var(--ink);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--bg-panel); padding: 30px 28px;
+    transition: border-color .15s, transform .15s;
+  }
+  .track-card:hover { transform: translateY(-3px); }
+  .track-card.two:hover { border-color: var(--blue); }
+  .track-card.three:hover { border-color: var(--violet); }
+  .track-card .tag {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .16em;
+    text-transform: uppercase; margin: 0 0 14px;
+  }
+  .track-card.two .tag { color: var(--blue); }
+  .track-card.three .tag { color: var(--violet); }
+  .track-card h2 { margin: 0 0 8px; font-size: 28px; padding: 0; }
+  .track-card h2 .game.two { color: var(--blue); }
+  .track-card h2 .game.three { color: var(--violet); }
+  .track-card .desc { color: var(--ink-dim); font-size: 15.5px; margin: 0 0 18px; }
+  .track-card .stat { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); }
+  .track-card .go { display: inline-block; margin-top: 18px; font-family: var(--mono); font-size: 13px; }
+  .track-card.two .go { color: var(--blue); }
+  .track-card.three .go { color: var(--violet); }
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <span>Godot Game Development</span>
+</div></nav>
+<div class="wrap">
+  <header class="hero">
+    <p class="kicker">Godot 4.x · GDScript · Two complete games</p>
+    <h1>Learn Godot by building<br>games, not by taking notes</h1>
+    <p class="sub">Two hands-on courses where every lesson adds one working feature to a real game. You follow along in the editor and finish each track with a complete, shippable title — not a pile of disconnected snippets.</p>
+    <div class="meta">
+      <span class="chip"><b>24</b> lessons total</span>
+      <span class="chip"><b>2</b> finished games</span>
+      <span class="chip">Godot <b>4.x</b> · GDScript</span>
+      <span class="chip">Beginner-friendly</span>
+    </div>
+  </header>
+
+  <div class="tracks">
+    <a class="track-card two" href="2d/gridfall-2d.html">
+      <p class="tag">Track 01 · 2D</p>
+      <h2>Build <span class="game two">GridFall</span></h2>
+      <p class="desc">A falling-block grid puzzle. Learn the node/scene/script model, grids and coordinates, collision-by-data, rotation with wall kicks, scoring, a HUD, and export.</p>
+      <p class="stat">13 lessons · 6 modules · start here if you're new</p>
+      <span class="go">Start the 2D track →</span>
+    </a>
+    <a class="track-card three" href="3d/glitchfall-3d.html">
+      <p class="tag">Track 02 · 3D</p>
+      <h2>Build <span class="game three">GlitchFall</span></h2>
+      <p class="desc">A third-person 3D adventure. Learn 3D space, meshes and materials, a physics character, a follow camera, Area3D triggers, a gated goal, atmosphere, and export.</p>
+      <p class="stat">11 lessons · 5 modules · builds on the 2D basics</p>
+      <span class="go">Start the 3D track →</span>
+    </a>
+  </div>
+
+  <div class="target-game">
+    <h3>How these courses work</h3>
+    <p>Each lesson has one job: add a single working feature and explain exactly why it works. You'll write real GDScript, wire real nodes in the editor, and press play to see each piece run before moving on. Gotchas and checkpoints are called out along the way so you never drift far from a working build. Start with GridFall for the fundamentals, then carry those instincts into GlitchFall in 3D.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clearing lines and keeping score · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 09 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 09</p>
+    <h1>Clearing lines and keeping score</h1>
+    <p class="lede">The payoff loop. When a piece locks, we clear any full rows using the Board logic from Lesson 4, award points that reward multi-line clears, and redraw the settled board.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>Full rows clear, everything above drops, and your score climbs — more for multi-clears</b></div>
+  </header>
+  <h2><span class="num">9.1</span>Clear on lock</h2><p>We already wrote <code>board.clear_full_rows()</code>. Now call it during locking and score the result. Update <code>_lock_piece()</code> in <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _lock_piece)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">var</span> score: <span class="tok-type">int</span> = <span class="tok-num">0</span>
+<span class="tok-kw">var</span> lines_cleared_total: <span class="tok-type">int</span> = <span class="tok-num">0</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_lock_piece</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">for</span> cell <span class="tok-kw">in</span> active_piece.get_cells():
+		board.set_cell(cell.x, cell.y, active_piece.color_id)
+	active_piece.queue_free()
+	active_piece = <span class="tok-cst">null</span>
+
+	<span class="tok-kw">var</span> cleared: <span class="tok-type">int</span> = board.clear_full_rows()
+	<span class="tok-kw">if</span> cleared &gt; <span class="tok-num">0</span>:
+		_award_score(cleared)
+
+	_render_board()
+	spawn_piece()</code></pre></div><h2><span class="num">9.2</span>Scoring that rewards multi-line clears</h2><p>Clearing four rows at once should be worth far more than four singles. A simple, satisfying table:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># Points for clearing N rows with a single piece.</span>
+<span class="tok-kw">const</span> LINE_SCORES: <span class="tok-type">Array</span>[<span class="tok-type">int</span>] = [<span class="tok-num">0</span>, <span class="tok-num">100</span>, <span class="tok-num">300</span>, <span class="tok-num">500</span>, <span class="tok-num">800</span>]
+
+<span class="tok-kw">func</span> <span class="tok-fn">_award_score</span>(cleared: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	cleared = clampi(cleared, <span class="tok-num">0</span>, <span class="tok-num">4</span>)
+	score += LINE_SCORES[cleared]
+	lines_cleared_total += cleared
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Cleared %d | score %d | lines %d&quot;</span> <span class="tok-node">%</span> [cleared, score, lines_cleared_total])</code></pre></div><div class="note "><p class="lbl">Why non-linear</p><p>1→100, 2→300, 3→500, 4→800. The jump from 4×100 (=400) to 800 for a "tetris" gives skilled players a reason to build up and clear four at once. <code>clampi</code> keeps the index safe even if logic ever reports 5+.</p></div><h2><span class="num">9.3</span>Verify the collapse visually</h2><ol class="steps"><li>Run with <kbd>F5</kbd>. Build a nearly-full bottom row, then drop a piece to complete it.</li><li>The full row vanishes and everything above shifts down by one.</li><li>Watch the Output panel — score and line counts update on each clear.</li><li>Complete two rows at once and confirm you get 300, not 200.</li></ol><div class="note gotcha"><p class="lbl">Redraw after clearing</p><p><code>_render_board()</code> runs <em>after</em> <code>clear_full_rows()</code>, so the screen always reflects post-collapse data. If you ever redraw before clearing, cleared rows briefly linger. Order matters.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Full rows clear on lock and everything above collapses down.</li><li>Score uses a non-linear table rewarding 2/3/4-line clears.</li><li>Total lines and score both tracked and updating.</li><li>The rendered board always matches the data after a clear.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="08-rotation.html"><span class="dir">← Previous</span><span class="ttl">Rotation and wall kicks</span></a>
+    <a class="next" href="10-escalation-gameover.html"><span class="dir">Next →</span><span class="ttl">Speeding up and losing</span></a>
+  </nav>
+</div>
+</body>
+</html>

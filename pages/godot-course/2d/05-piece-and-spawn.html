@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pieces: shapes, spawning, and drawing them · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 05 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 05</p>
+    <h1>Pieces: shapes, spawning, and drawing them</h1>
+    <p class="lede">A piece is a small set of cells with a shape and a color. This lesson defines the seven classic shapes as data, builds a Piece that draws itself from live Cell scenes, and spawns one at the top of the well.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A visible piece spawning at the top of the well, drawn from the data grid</b></div>
+  </header>
+  <h2><span class="num">5.1</span>Shapes as offset data</h2><p>Each shape is a list of (col, row) offsets from the piece's origin. This is all a shape <em>is</em> — no images required.</p><div class="code"><div class="code-head"><span class="fname">shapes.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># Seven shapes, each a list of Vector2i offsets from the piece origin,</span>
+<span class="tok-com"># plus a color id (1..7). We keep these in one place: shapes.gd.</span>
+<span class="tok-kw">extends</span> RefCounted
+<span class="tok-kw">class_name</span> Shapes
+
+<span class="tok-com"># Color id -&gt; actual Color, used when drawing.</span>
+<span class="tok-kw">const</span> COLORS: <span class="tok-type">Array</span>[<span class="tok-type">Color</span>] = [
+	<span class="tok-type">Color</span>.BLACK,                 <span class="tok-com"># 0 unused (empty)</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#4a8fe7&quot;</span>),            <span class="tok-com"># 1 I - blue</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#e8b24a&quot;</span>),            <span class="tok-com"># 2 O - amber</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#a988e0&quot;</span>),            <span class="tok-com"># 3 T - violet</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#5cc98b&quot;</span>),            <span class="tok-com"># 4 S - green</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#e56b6f&quot;</span>),            <span class="tok-com"># 5 Z - red</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#e0863f&quot;</span>),            <span class="tok-com"># 6 L - orange</span>
+	<span class="tok-type">Color</span>(<span class="tok-str">&quot;#6bd4c4&quot;</span>),            <span class="tok-com"># 7 J - teal</span>
+]
+
+<span class="tok-com"># Each entry: { &quot;id&quot;: int, &quot;cells&quot;: Array[Vector2i] }</span>
+<span class="tok-kw">const</span> SHAPES: <span class="tok-type">Array</span> = [
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">1</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">2</span>,<span class="tok-num">0</span>)] }, <span class="tok-com"># I</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">2</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>),  <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">1</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">1</span>)] }, <span class="tok-com"># O</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">3</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">1</span>)] }, <span class="tok-com"># T</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">4</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>),  <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">1</span>),<span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">1</span>)] }, <span class="tok-com"># S</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">5</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">1</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">1</span>)] }, <span class="tok-com"># Z</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">6</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">1</span>)] }, <span class="tok-com"># L</span>
+	{ <span class="tok-str">&quot;id&quot;</span>: <span class="tok-num">7</span>, <span class="tok-str">&quot;cells&quot;</span>: [<span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(<span class="tok-num">1</span>,<span class="tok-num">0</span>), <span class="tok-type">Vector2i</span>(-<span class="tok-num">1</span>,<span class="tok-num">1</span>)] },<span class="tok-com"># J</span>
+]
+
+<span class="tok-kw">static</span> <span class="tok-kw">func</span> <span class="tok-fn">random_shape</span>() -&gt; <span class="tok-type">Dictionary</span>:
+	<span class="tok-kw">return</span> SHAPES[randi() <span class="tok-node">%</span> SHAPES.size()]</code></pre></div><div class="note "><p class="lbl">static func</p><p><code>static func</code> belongs to the class, not an instance — call it as <code>Shapes.random_shape()</code> without creating a <code>Shapes</code> object. <code>randi() % n</code> gives a random int in 0..n-1.</p></div><h2><span class="num">5.2</span>Build the Piece scene</h2><ol class="steps"><li>Scene → <kbd>New Scene</kbd> → "Other Node" → <strong>Node2D</strong> root, rename <code>Piece</code>.</li><li>Save as <code>piece.tscn</code>.</li><li>Attach a script <code>piece.gd</code> to it (code below).</li></ol><p>The Piece holds its grid origin, its list of cell offsets, and the live <code>Cell</code> nodes it spawns to draw itself.</p><div class="code"><div class="code-head"><span class="fname">piece.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
+<span class="tok-kw">class_name</span> Piece
+
+<span class="tok-kw">const</span> CELL_SIZE: <span class="tok-type">int</span> = <span class="tok-num">32</span>
+<span class="tok-kw">const</span> CellScene: <span class="tok-type">PackedScene</span> = <span class="tok-kw">preload</span>(<span class="tok-str">&quot;res://cell.tscn&quot;</span>)
+
+<span class="tok-kw">var</span> color_id: <span class="tok-type">int</span> = <span class="tok-num">1</span>
+<span class="tok-kw">var</span> offsets: <span class="tok-type">Array</span> = []            <span class="tok-com"># Array[Vector2i], relative to origin</span>
+<span class="tok-kw">var</span> origin: <span class="tok-type">Vector2i</span> = <span class="tok-type">Vector2i</span>.ZERO   <span class="tok-com"># grid position of the piece</span>
+<span class="tok-kw">var</span> _cell_nodes: <span class="tok-type">Array</span> = []        <span class="tok-com"># the visual Cell instances</span>
+
+<span class="tok-com"># Configure from a Shapes dictionary and a starting origin.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">setup</span>(shape: <span class="tok-type">Dictionary</span>, start_origin: <span class="tok-type">Vector2i</span>) -&gt; <span class="tok-type">void</span>:
+	color_id = shape[<span class="tok-str">&quot;id&quot;</span>]
+	offsets = shape[<span class="tok-str">&quot;cells&quot;</span>].duplicate()
+	origin = start_origin
+	_build_visuals()
+	_redraw()
+
+<span class="tok-com"># Absolute grid cells this piece currently occupies.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">get_cells</span>() -&gt; <span class="tok-type">Array</span>:
+	<span class="tok-kw">var</span> result: <span class="tok-type">Array</span> = []
+	<span class="tok-kw">for</span> off <span class="tok-kw">in</span> offsets:
+		result.append(origin + off)
+	<span class="tok-kw">return</span> result
+
+<span class="tok-com"># Spawn one Cell node per offset (once).</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_build_visuals</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">for</span> off <span class="tok-kw">in</span> offsets:
+		<span class="tok-kw">var</span> c: Cell = CellScene.instantiate()
+		add_child(c)
+		c.set_color(Shapes.COLORS[color_id])
+		_cell_nodes.append(c)
+
+<span class="tok-com"># Move the visual cells to match origin + offsets.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_redraw</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-kw">range</span>(offsets.size()):
+		<span class="tok-kw">var</span> grid_pos: <span class="tok-type">Vector2i</span> = origin + offsets[i]
+		_cell_nodes[i].set_grid_position(grid_pos)</code></pre></div><div class="note gotcha"><p class="lbl">Visuals built once, moved often</p><p>We instantiate the <code>Cell</code> nodes a single time in <code>_build_visuals()</code>, then just reposition them in <code>_redraw()</code>. Re-instantiating every frame would leak nodes and tank performance. Build once, move many.</p></div><h2><span class="num">5.3</span>Spawn a piece from Main</h2><p>Replace any leftover temporary code in <code>main.gd</code>. Add a spawn method and call it once at start:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># add near the top of main.gd, with the other consts/vars:</span>
+<span class="tok-kw">const</span> PieceScene: <span class="tok-type">PackedScene</span> = <span class="tok-kw">preload</span>(<span class="tok-str">&quot;res://piece.tscn&quot;</span>)
+<span class="tok-kw">var</span> active_piece: Piece = <span class="tok-cst">null</span>
+
+<span class="tok-com"># The column where new pieces appear (middle-ish).</span>
+<span class="tok-kw">const</span> SPAWN_ORIGIN: <span class="tok-type">Vector2i</span> = <span class="tok-type">Vector2i</span>(<span class="tok-num">4</span>, <span class="tok-num">1</span>)
+
+<span class="tok-kw">func</span> <span class="tok-fn">spawn_piece</span>() -&gt; <span class="tok-type">void</span>:
+	active_piece = PieceScene.instantiate()
+	add_child(active_piece)
+	active_piece.setup(Shapes.random_shape(), SPAWN_ORIGIN)</code></pre></div><p>Then call <code>spawn_piece()</code> at the end of <code>_ready()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (_ready)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	_draw_border()
+	spawn_piece()</code></pre></div><ol class="steps"><li>Run with <kbd>F5</kbd>. A random colored shape appears near the top-center of the well.</li><li>Run several times — you'll get different shapes and colors.</li></ol><div class="note warn"><p class="lbl">Nothing falls yet</p><p>The piece just sits there — we haven't added the fall timer or movement. That's Lessons 6 and 7. Right now we're only confirming that shapes spawn and draw correctly.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A <code>shapes.gd</code> data file with 7 shapes and a color table.</li><li>A <code>piece.tscn</code> that draws itself from offset data.</li><li>Main spawns a random piece at the top of the well on start.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="04-board-state.html"><span class="dir">← Previous</span><span class="ttl">The board as data: separating logic from visuals</span></a>
+    <a class="next" href="06-gravity-timer.html"><span class="dir">Next →</span><span class="ttl">Gravity: making pieces fall on a timer</span></a>
+  </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selling the &#x27;glitch&#x27;: visual flavor and feedback · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 09 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 09</p>
+    <h1>Selling the &#x27;glitch&#x27;: visual flavor and feedback</h1>
+    <p class="lede">GlitchFall should feel corrupted and alive. We add cheap, high-impact effects: floating/tilted geometry, a subtle pickup pop, and a screen tint on hazard hits — all with tools you already know.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A world that reads as &#x27;glitched&#x27; plus satisfying feedback on pickups and hits</b></div>
+  </header>
+  <h2><span class="num">9.1</span>Floating, drifting glitch shapes</h2><p>Take a few of the scenery meshes from Lesson 2 and make them hover and rotate. Create a tiny reusable script <code>glitch_float.gd</code> and attach it to any MeshInstance3D you want to animate:</p><div class="code"><div class="code-head"><span class="fname">glitch_float.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">MeshInstance3D</span>
+
+<span class="tok-com"># Gentle bob + spin to make static geometry feel unstable/corrupted.</span>
+@<span class="tok-kw">export</span> <span class="tok-kw">var</span> bob_height: <span class="tok-type">float</span> = <span class="tok-num">0.4</span>
+@<span class="tok-kw">export</span> <span class="tok-kw">var</span> bob_speed: <span class="tok-type">float</span> = <span class="tok-num">2.0</span>
+@<span class="tok-kw">export</span> <span class="tok-kw">var</span> spin_speed: <span class="tok-type">float</span> = <span class="tok-num">0.6</span>
+
+<span class="tok-kw">var</span> _base_y: <span class="tok-type">float</span> = <span class="tok-num">0.0</span>
+<span class="tok-kw">var</span> _t: <span class="tok-type">float</span> = <span class="tok-num">0.0</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	_base_y = position.y
+
+<span class="tok-kw">func</span> <span class="tok-fn">_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	_t += delta
+	position.y = _base_y + sin(_t * bob_speed) * bob_height
+	rotate_y(spin_speed * delta)</code></pre></div><div class="note "><p class="lbl">@export makes it tweakable</p><p><code>@export</code> exposes a variable in the Inspector, so you can give each floating shape different bob height and speed without editing code. Reuse one script across many nodes, vary the numbers per instance.</p></div><ol class="steps"><li>Attach <code>glitch_float.gd</code> to a few scenery meshes. Tilt some of them (set an odd rotation) before running so they float at broken angles.</li><li>Run — the world now drifts and spins subtly. That instability <em>is</em> the glitch aesthetic.</li></ol><h2><span class="num">9.2</span>A pickup pop</h2><p>Give fragments a quick scale-up-and-vanish instead of an instant disappear. Update <code>fragment.gd</code>'s collection to tween before freeing:</p><div class="code"><div class="code-head"><span class="fname">fragment.gd (replace _on_body_entered)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_on_body_entered</span>(body: <span class="tok-type">Node3D</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> body.is_in_group(<span class="tok-str">&quot;player&quot;</span>):
+		collected.emit(<span class="tok-kw">self</span>)
+		_play_pickup_and_free()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_play_pickup_and_free</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Stop detecting further hits during the animation.</span>
+	set_deferred(<span class="tok-str">&quot;monitoring&quot;</span>, <span class="tok-cst">false</span>)
+	<span class="tok-com"># Scale the fragment up quickly, then remove it.</span>
+	<span class="tok-kw">var</span> tw: <span class="tok-type">Tween</span> = create_tween()
+	tw.tween_property(<span class="tok-kw">self</span>, <span class="tok-str">&quot;scale&quot;</span>, scale * <span class="tok-num">1.8</span>, <span class="tok-num">0.15</span>)
+	tw.tween_callback(queue_free)</code></pre></div><div class="note gotcha"><p class="lbl">Area3D has no modulate</p><p>Unlike 2D <code>CanvasItem</code> nodes, 3D nodes have no simple <code>modulate</code> alpha, so we can't fade them in one line. A scale pop is the clean, reliable cross-node effect. If you want a fade too, you'd tween the mesh material's <code>albedo_color</code> alpha instead — but the scale pop alone reads well.</p></div><h2><span class="num">9.3</span>Hazard screen flash</h2><p>Flash the screen red when the player hits a hazard. Add a full-screen <strong>ColorRect</strong> to the HUD and pulse it from Main.</p><ol class="steps"><li>Under <code>HUD</code>, add a <strong>ColorRect</strong> named <code>DamageFlash</code>. Set its anchors to Full Rect so it covers the screen, color to red, and its <strong>Modulate</strong> alpha to 0 (invisible).</li></ol><div class="code"><div class="code-head"><span class="fname">main.gd (replace _on_player_hit)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> damage_flash: <span class="tok-type">ColorRect</span> = <span class="tok-node">$HUD/DamageFlash</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_player_hit</span>(_body: <span class="tok-type">Node3D</span>) -&gt; <span class="tok-type">void</span>:
+	_respawn_player()
+	_flash_damage()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_flash_damage</span>() -&gt; <span class="tok-type">void</span>:
+	damage_flash.modulate.a = <span class="tok-num">0.5</span>
+	<span class="tok-kw">var</span> tw: <span class="tok-type">Tween</span> = create_tween()
+	tw.tween_property(damage_flash, <span class="tok-str">&quot;modulate:a&quot;</span>, <span class="tok-num">0.0</span>, <span class="tok-num">0.4</span>)</code></pre></div><ol class="steps"><li>Run with <kbd>F6</kbd>. Collect a fragment — it pops before vanishing. Touch a hazard — the screen flashes red as you respawn.</li><li>Floating glitch shapes drift in the background the whole time.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Reusable <code>glitch_float.gd</code> giving scenery an unstable bob and spin.</li><li>A scale-pop on fragment pickup.</li><li>A red screen flash on hazard hits.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="08-hud-win.html"><span class="dir">← Previous</span><span class="ttl">The HUD: fragment counter and win screen</span></a>
+    <a class="next" href="10-polish.html"><span class="dir">Next →</span><span class="ttl">Atmosphere: fog, glow, and a fitting sky</span></a>
+  </nav>
+</div>
+</body>
+</html>

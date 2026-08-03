@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atmosphere: fog, glow, and a fitting sky · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 10 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 10</p>
+    <h1>Atmosphere: fog, glow, and a fitting sky</h1>
+    <p class="lede">A few environment settings turn a flat scene into a mood. We tune the WorldEnvironment with fog and glow so GlitchFall's emissive fragments and hazards actually bloom, and the world feels like a place.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A moody, glowing environment that makes the emissive elements shine</b></div>
+  </header>
+  <h2><span class="num">10.1</span>Turn on glow (bloom)</h2><ol class="steps"><li>Open <code>main.tscn</code>, select the <strong>WorldEnvironment</strong>, and edit its <strong>Environment</strong> resource.</li><li>Expand <strong>Glow</strong> and enable it. Raise <strong>Glow → Intensity</strong> and lower <strong>Glow → HDR Threshold</strong> toward 1.0 so bright emissive surfaces bloom.</li></ol><div class="note "><p class="lbl">Why emission + glow</p><p>Emission makes a material output light-colored pixels; glow (bloom) makes bright pixels bleed into their surroundings. Together they make fragments and the unlocked exit feel like they're radiating — the payoff for using emissive materials earlier.</p></div><h2><span class="num">10.2</span>Add fog for depth</h2><ol class="steps"><li>In the same Environment, expand <strong>Fog</strong> and enable it. Set a low <strong>Density</strong> and a color that matches your mood (a cool blue-violet suits GlitchFall).</li><li>Optionally enable <strong>Volumetric Fog</strong> for god-ray depth, but plain fog is cheaper and reads fine.</li></ol><div class="note gotcha"><p class="lbl">Fog can swallow your level</p><p>Too much density and the whole scene fogs to a flat color. Start with a very low density (like 0.01) and nudge up. Fog is a seasoning, not a main course.</p></div><h2><span class="num">10.3</span>Tune ambient light and sky</h2><ol class="steps"><li>In the Environment, under <strong>Ambient Light</strong>, set the <strong>Source</strong> to <strong>Sky</strong> so surfaces pick up sky color in shadow — no pure-black shadows.</li><li>Adjust the <strong>ProceduralSkyMaterial</strong> sky/horizon colors toward the palette you want. A darker, desaturated sky sells a corrupted world.</li></ol><h2><span class="num">10.4</span>A camera adjustment for mood</h2><ol class="steps"><li>Select the <strong>Camera3D</strong> in <code>player.tscn</code>. Lower its <strong>FOV</strong> slightly (e.g. 65) for a less fisheye look, or raise it for a faster, tenser feel.</li><li>Optionally nudge the camera's offset (further back/higher) until framing feels right for exploration.</li></ol><div class="note "><p class="lbl">Iterate by running</p><p>Environment tuning is a feedback loop: change a value, press F6, look, adjust. There's no single correct setting — trust your eye. Take a screenshot before and after so you can compare.</p></div><ol class="steps"><li>Run with <kbd>F6</kbd>. Fragments and the unlocked exit now glow; distance fades into fog; shadows aren't dead black.</li><li>The game reads as a place with atmosphere, not a grey test box.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Glow enabled so emissive fragments and the exit bloom.</li><li>Light fog for depth without swallowing the level.</li><li>Sky-sourced ambient light and a fitting sky palette.</li><li>A camera FOV/offset tuned for the game's feel.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="09-glitch-juice.html"><span class="dir">← Previous</span><span class="ttl">Selling the &#x27;glitch&#x27;: visual flavor and feedback</span></a>
+    <a class="next" href="11-audio-export.html"><span class="dir">Next →</span><span class="ttl">Sound, and exporting GlitchFall</span></a>
+  </nav>
+</div>
+</body>
+</html>

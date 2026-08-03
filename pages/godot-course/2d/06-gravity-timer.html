@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gravity: making pieces fall on a timer · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 06 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 06</p>
+    <h1>Gravity: making pieces fall on a timer</h1>
+    <p class="lede">Pieces should drop one row at a time on a steady beat. We'll use a Timer node, move the piece down each tick, and — critically — check the data board so pieces stop instead of falling through the floor.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A piece that falls one row per tick and stops when it can&#x27;t move down</b></div>
+  </header>
+  <h2><span class="num">6.1</span>Give Main a real board and a fall timer</h2><p>Update <code>main.gd</code>'s top section so Main owns a <code>Board</code> instance and tracks fall timing:</p><div class="code"><div class="code-head"><span class="fname">main.gd (top)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
+
+<span class="tok-kw">const</span> COLS: <span class="tok-type">int</span> = <span class="tok-num">10</span>
+<span class="tok-kw">const</span> ROWS: <span class="tok-type">int</span> = <span class="tok-num">18</span>
+<span class="tok-kw">const</span> CELL_SIZE: <span class="tok-type">int</span> = <span class="tok-num">32</span>
+<span class="tok-kw">const</span> WELL_WIDTH: <span class="tok-type">int</span> = COLS * CELL_SIZE
+<span class="tok-kw">const</span> WELL_HEIGHT: <span class="tok-type">int</span> = ROWS * CELL_SIZE
+
+<span class="tok-kw">const</span> PieceScene: <span class="tok-type">PackedScene</span> = <span class="tok-kw">preload</span>(<span class="tok-str">&quot;res://piece.tscn&quot;</span>)
+<span class="tok-kw">const</span> SPAWN_ORIGIN: <span class="tok-type">Vector2i</span> = <span class="tok-type">Vector2i</span>(<span class="tok-num">4</span>, <span class="tok-num">1</span>)
+
+<span class="tok-kw">var</span> board: Board
+<span class="tok-kw">var</span> active_piece: Piece = <span class="tok-cst">null</span>
+
+<span class="tok-com"># Fall speed: seconds between automatic drops.</span>
+<span class="tok-kw">var</span> fall_interval: <span class="tok-type">float</span> = <span class="tok-num">0.6</span>
+<span class="tok-kw">var</span> _fall_accum: <span class="tok-type">float</span> = <span class="tok-num">0.0</span></code></pre></div><p>Initialize the board in <code>_ready()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (_ready)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	board = Board.new(COLS, ROWS)
+	_draw_border()
+	spawn_piece()</code></pre></div><div class="note "><p class="lbl">Timer node vs delta accumulator</p><p>Two ways to get a beat: a <code>Timer</code> node, or accumulate <code>delta</code> in <code>_process</code>. We use the accumulator because it makes speeding up the game later trivial — just shrink <code>fall_interval</code>. No node wiring needed.</p></div><h2><span class="num">6.2</span>Move the piece down each tick</h2><p>Add the fall logic. In <code>_process</code>, accumulate time; when it exceeds the interval, try to step the piece down one row.</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> active_piece == <span class="tok-cst">null</span>:
+		<span class="tok-kw">return</span>
+	_fall_accum += delta
+	<span class="tok-kw">if</span> _fall_accum &gt;= fall_interval:
+		_fall_accum = <span class="tok-num">0.0</span>
+		_step_down()
+
+<span class="tok-com"># Try to move the active piece down one row.</span>
+<span class="tok-com"># Returns true if it moved, false if it was blocked.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_step_down</span>() -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">if</span> _can_move(active_piece, <span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>, <span class="tok-num">1</span>)):
+		active_piece.move_by(<span class="tok-type">Vector2i</span>(<span class="tok-num">0</span>, <span class="tok-num">1</span>))
+		<span class="tok-kw">return</span> <span class="tok-cst">true</span>
+	<span class="tok-kw">else</span>:
+		_lock_piece()
+		<span class="tok-kw">return</span> <span class="tok-cst">false</span></code></pre></div><h2><span class="num">6.3</span>Collision, but against data — not sprites</h2><p>The whole game hinges on this: before moving, ask the <em>board</em> whether every target cell is free. Add the collision test to <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># Would the piece fit if we nudged it by &quot;delta_grid&quot;?</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_can_move</span>(piece: Piece, delta_grid: <span class="tok-type">Vector2i</span>) -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">for</span> cell <span class="tok-kw">in</span> piece.get_cells():
+		<span class="tok-kw">var</span> target: <span class="tok-type">Vector2i</span> = cell + delta_grid
+		<span class="tok-kw">if</span> <span class="tok-kw">not</span> board.is_free(target.x, target.y):
+			<span class="tok-kw">return</span> <span class="tok-cst">false</span>
+	<span class="tok-kw">return</span> <span class="tok-cst">true</span></code></pre></div><div class="note "><p class="lbl">One test, every direction</p><p><code>_can_move</code> works for falling, left, right, and even rotation — anything that produces a new set of cells. We reuse it in the next two lessons. Write it once, correctly, here.</p></div><h2><span class="num">6.4</span>Give Piece a move method</h2><p>Add this to <code>piece.gd</code> so the piece can shift and redraw:</p><div class="code"><div class="code-head"><span class="fname">piece.gd (append)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># Shift the piece by a grid delta and update visuals.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">move_by</span>(delta_grid: <span class="tok-type">Vector2i</span>) -&gt; <span class="tok-type">void</span>:
+	origin += delta_grid
+	_redraw()</code></pre></div><h2><span class="num">6.5</span>Locking: stamp the piece into the board</h2><p>When a piece can't fall, its cells become permanent. We write them into the board data, free the piece node, and spawn the next one. Add to <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_lock_piece</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Stamp each occupied cell into the board with this piece&#x27;s color id.</span>
+	<span class="tok-kw">for</span> cell <span class="tok-kw">in</span> active_piece.get_cells():
+		board.set_cell(cell.x, cell.y, active_piece.color_id)
+	<span class="tok-com"># We still need to SEE the locked cells. Leave the piece&#x27;s visual</span>
+	<span class="tok-com"># cells on screen by reparenting them, or simpler: draw the board.</span>
+	<span class="tok-com"># For now, keep it simple — free the piece and redraw the whole board.</span>
+	active_piece.queue_free()
+	active_piece = <span class="tok-cst">null</span>
+	_render_board()
+	spawn_piece()</code></pre></div><div class="note gotcha"><p class="lbl">queue_free, not free</p><p><code>queue_free()</code> deletes a node safely at the end of the frame. Calling <code>free()</code> mid-logic can crash if something still references the node this frame. Always <code>queue_free()</code> for scene nodes.</p></div><h2><span class="num">6.6</span>Render the locked board</h2><p>We need a way to draw the settled cells. Add a board renderer to <code>main.gd</code> that rebuilds the locked squares from data. We keep them under a dedicated child node so they're easy to clear and redraw.</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">const</span> CellScene: <span class="tok-type">PackedScene</span> = <span class="tok-kw">preload</span>(<span class="tok-str">&quot;res://cell.tscn&quot;</span>)
+<span class="tok-kw">var</span> _board_layer: <span class="tok-type">Node2D</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ensure_board_layer</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> _board_layer == <span class="tok-cst">null</span>:
+		_board_layer = <span class="tok-type">Node2D</span>.new()
+		add_child(_board_layer)
+
+<span class="tok-com"># Redraw every filled board cell from scratch. Simple and correct;</span>
+<span class="tok-com"># we optimize only if we ever need to.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_render_board</span>() -&gt; <span class="tok-type">void</span>:
+	_ensure_board_layer()
+	<span class="tok-kw">for</span> child <span class="tok-kw">in</span> _board_layer.get_children():
+		child.queue_free()
+	<span class="tok-kw">for</span> r <span class="tok-kw">in</span> <span class="tok-kw">range</span>(ROWS):
+		<span class="tok-kw">for</span> c <span class="tok-kw">in</span> <span class="tok-kw">range</span>(COLS):
+			<span class="tok-kw">var</span> id: <span class="tok-type">int</span> = board.get_cell(c, r)
+			<span class="tok-kw">if</span> id != <span class="tok-num">0</span>:
+				<span class="tok-kw">var</span> cell: Cell = CellScene.instantiate()
+				_board_layer.add_child(cell)
+				cell.set_grid_position(<span class="tok-type">Vector2i</span>(c, r))
+				cell.set_color(Shapes.COLORS[id])</code></pre></div><ol class="steps"><li>Run with <kbd>F5</kbd>. A piece spawns and falls one row every 0.6s.</li><li>When it hits the floor it locks in place (its squares stay), and a new piece spawns.</li><li>Let several pieces stack up at the bottom.</li></ol><div class="note gotcha"><p class="lbl">Clear the accumulator on lock</p><p>Because we reset <code>_fall_accum</code> only when it fires, the freshly spawned piece falls on a clean beat. If you ever see the first drop happen instantly, reset <code>_fall_accum = 0.0</code> inside <code>spawn_piece()</code> too.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Pieces fall one row per <code>fall_interval</code> using a delta accumulator.</li><li><code>_can_move</code> tests the data board — the reusable collision check.</li><li>Locking stamps the piece into board data and redraws settled cells.</li><li>Pieces stack at the bottom instead of falling through.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="05-piece-and-spawn.html"><span class="dir">← Previous</span><span class="ttl">Pieces: shapes, spawning, and drawing them</span></a>
+    <a class="next" href="07-input-movement.html"><span class="dir">Next →</span><span class="ttl">Player control: move and soft/hard drop</span></a>
+  </nav>
+</div>
+</body>
+</html>

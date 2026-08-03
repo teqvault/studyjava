@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A lit world: meshes, materials, and light · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 02 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 02</p>
+    <h1>A lit world: meshes, materials, and light</h1>
+    <p class="lede">A 3D scene needs three things to be visible: geometry, a light, and an environment. We'll build a ground plane and a couple of shapes, give them materials, and light the scene so GlitchFall's world exists.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A lit floor with colored shapes and a sky — the stage for everything else</b></div>
+  </header>
+  <h2><span class="num">2.1</span>Add a ground plane</h2><ol class="steps"><li>With <code>Main</code> selected, add a child <strong>StaticBody3D</strong>, rename it <code>Ground</code>. Static bodies don't move but collide — perfect for floors and walls.</li><li>Under <code>Ground</code>, add a <strong>MeshInstance3D</strong>. In the Inspector, click its <strong>Mesh</strong> property → New <strong>PlaneMesh</strong>. Set the plane's <strong>Size</strong> to <code>(30, 30)</code>.</li><li>Also under <code>Ground</code>, add a <strong>CollisionShape3D</strong>. Set its <strong>Shape</strong> → New <strong>BoxShape3D</strong>, and size it roughly <code>(30, 0.2, 30)</code> so the player has something solid to stand on.</li></ol><div class="note "><p class="lbl">Visual mesh vs collision shape</p><p>In 3D, what you <em>see</em> (MeshInstance3D) and what you <em>collide with</em> (CollisionShape3D) are separate nodes. They usually match, but they don't have to. Forgetting the collision shape is the #1 reason players fall through the floor.</p></div><h2><span class="num">2.2</span>Give it a material</h2><ol class="steps"><li>Select the ground's <strong>MeshInstance3D</strong>. In the Inspector find <strong>Surface Material Override → 0</strong> (or the mesh's Material) → New <strong>StandardMaterial3D</strong>.</li><li>Expand it and set <strong>Albedo → Color</strong> to a dark slate blue. This is GlitchFall's floor.</li></ol><div class="note "><p class="lbl">StandardMaterial3D</p><p>The all-purpose 3D material. Albedo is the base color; you can also set metallic, roughness, emission (glow), and more. For a stylized low-poly look, flat albedo colors with a bit of roughness go a long way.</p></div><h2><span class="num">2.3</span>Light the scene</h2><ol class="steps"><li>Add a child of <code>Main</code>: <strong>DirectionalLight3D</strong> (this is your sun). Rotate it in the viewport so it points down at an angle — set its rotation to about <code>(-45, -30, 0)</code> in the Inspector.</li><li>Turn on <strong>Shadow → Enabled</strong> in the light's Inspector for grounded-looking shapes.</li><li>Add another child of <code>Main</code>: <strong>WorldEnvironment</strong>. Set its <strong>Environment</strong> → New <strong>Environment</strong>. In that resource, set <strong>Background → Mode</strong> to <strong>Sky</strong> and add a New <strong>ProceduralSkyMaterial</strong> under Sky.</li></ol><div class="note gotcha"><p class="lbl">Black screen = no light or no environment</p><p>If your 3D scene renders pure black, you're missing a light, an environment, or both. Every new 3D scene needs at least one light and a WorldEnvironment (or ambient light) to be visible. Godot's editor adds a preview light, but the <em>running game</em> won't have one unless you add it.</p></div><h2><span class="num">2.4</span>Drop in some shapes</h2><ol class="steps"><li>Add a <strong>MeshInstance3D</strong> under <code>Main</code>, give it a New <strong>BoxMesh</strong>, and move it up so it sits on the floor (position y ≈ 0.5).</li><li>Add another with a <strong>CylinderMesh</strong> or <strong>SphereMesh</strong> nearby. Give each a colored StandardMaterial3D.</li><li>These are placeholder scenery — GlitchFall's 'glitched' aesthetic comes from tilting and floating some of these later.</li></ol><ol class="steps"><li>Press <kbd>F6</kbd> to run the current scene. You should see a lit floor with your shapes and a sky.</li><li>It renders from a default angle because there's no camera yet — that's the next lesson.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A ground with both a visible mesh and a collision shape.</li><li>A directional light with shadows and a WorldEnvironment with a sky.</li><li>A couple of colored shapes standing on the floor.</li><li>The running scene is lit, not black.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="01-orientation.html"><span class="dir">← Previous</span><span class="ttl">From 2D to 3D: what changes and what doesn&#x27;t</span></a>
+    <a class="next" href="03-player-body.html"><span class="dir">Next →</span><span class="ttl">The player: a CharacterBody3D that moves</span></a>
+  </nav>
+</div>
+</body>
+</html>

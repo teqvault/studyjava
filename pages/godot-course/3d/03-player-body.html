@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The player: a CharacterBody3D that moves · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 03 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 03</p>
+    <h1>The player: a CharacterBody3D that moves</h1>
+    <p class="lede">Now we build the player as a proper physics character — a capsule that walks on the ground, respects gravity, and moves relative to input. This is the CharacterBody3D pattern you'll reuse in every 3D project.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A capsule player that walks around the floor and falls under gravity</b></div>
+  </header>
+  <h2><span class="num">3.1</span>Build the Player scene</h2><ol class="steps"><li>New Scene → "Other Node" → <strong>CharacterBody3D</strong> as root. Rename it <code>Player</code>. Save as <code>player.tscn</code>.</li><li>Add a child <strong>MeshInstance3D</strong> → New <strong>CapsuleMesh</strong>. Give it a bright material so you can see it.</li><li>Add a child <strong>CollisionShape3D</strong> → New <strong>CapsuleShape3D</strong>. Match its height/radius to the mesh (defaults line up closely).</li></ol><div class="note "><p class="lbl">CharacterBody3D</p><p>The go-to node for player-controlled characters. Unlike a RigidBody, <em>you</em> drive it — you set <code>velocity</code> and call <code>move_and_slide()</code>, and it handles collision response (sliding along walls, stopping at floors). Predictable and easy to tune.</p></div><h2><span class="num">3.2</span>The movement script</h2><p>Attach a script <code>player.gd</code> to the root <code>Player</code> node:</p><div class="code"><div class="code-head"><span class="fname">player.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">CharacterBody3D</span>
+
+<span class="tok-kw">const</span> SPEED: <span class="tok-type">float</span> = <span class="tok-num">6.0</span>
+<span class="tok-kw">const</span> GRAVITY: <span class="tok-type">float</span> = <span class="tok-num">20.0</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_physics_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Apply gravity when airborne.</span>
+	<span class="tok-kw">if</span> <span class="tok-kw">not</span> is_on_floor():
+		velocity.y -= GRAVITY * delta
+
+	<span class="tok-com"># Read movement input as a 2D vector (x = strafe, y = forward/back).</span>
+	<span class="tok-kw">var</span> input_dir: <span class="tok-type">Vector2</span> = <span class="tok-type">Input</span>.get_vector(
+		<span class="tok-str">&quot;move_left&quot;</span>, <span class="tok-str">&quot;move_right&quot;</span>, <span class="tok-str">&quot;move_forward&quot;</span>, <span class="tok-str">&quot;move_back&quot;</span>)
+
+	<span class="tok-com"># Convert to a 3D direction on the XZ plane.</span>
+	<span class="tok-com"># input_dir.y maps to -Z because forward is -Z.</span>
+	<span class="tok-kw">var</span> direction: <span class="tok-type">Vector3</span> = <span class="tok-type">Vector3</span>(input_dir.x, <span class="tok-num">0</span>, input_dir.y)
+	direction = direction.normalized()
+
+	velocity.x = direction.x * SPEED
+	velocity.z = direction.z * SPEED
+
+	move_and_slide()</code></pre></div><div class="note gotcha"><p class="lbl">_physics_process, not _process</p><p>Physics and movement go in <code>_physics_process(delta)</code>, which runs at a fixed rate. Using <code>_process</code> for physics gives inconsistent movement on different framerates. Rule of thumb: anything touching <code>velocity</code> or <code>move_and_slide()</code> goes in <code>_physics_process</code>.</p></div><h2><span class="num">3.3</span>Set up the movement actions</h2><ol class="steps"><li>Project Settings → Input Map. Add actions <code>move_forward</code> (W/Up), <code>move_back</code> (S/Down), <code>move_left</code> (A/Left), <code>move_right</code> (D/Right), and <code>jump</code> (Space).</li></ol><div class="note "><p class="lbl">Input.get_vector</p><p><code>Input.get_vector(left, right, up, down)</code> returns a <code>Vector2</code> already normalized for diagonals, so moving diagonally isn't faster than moving straight — a subtle bug you'd otherwise have to fix by hand.</p></div><h2><span class="num">3.4</span>Add a jump</h2><p>Extend <code>player.gd</code> with a jump before the <code>move_and_slide()</code> call:</p><div class="code"><div class="code-head"><span class="fname">player.gd (insert)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">const</span> JUMP_VELOCITY: <span class="tok-type">float</span> = <span class="tok-num">8.0</span>
+
+<span class="tok-com"># ...inside _physics_process, after gravity, before move_and_slide():</span>
+	<span class="tok-kw">if</span> is_on_floor() <span class="tok-kw">and</span> <span class="tok-type">Input</span>.is_action_just_pressed(<span class="tok-str">&quot;jump&quot;</span>):
+		velocity.y = JUMP_VELOCITY</code></pre></div><h2><span class="num">3.5</span>Put the player in the world</h2><ol class="steps"><li>Open <code>main.tscn</code>. Drag <code>player.tscn</code> from the FileSystem dock into the scene tree under <code>Main</code> (or Instance Child Scene).</li><li>Move the player above the floor (y ≈ 1) so it drops onto the ground when the game starts.</li><li>Run with <kbd>F6</kbd>. The capsule falls, lands, and you can walk it around with WASD and jump with Space.</li></ol><div class="note gotcha"><p class="lbl">Falling forever</p><p>If the player falls through the floor, your ground is missing its CollisionShape3D, or the player's collision capsule is misaligned. Both bodies need collision shapes that actually overlap.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A <code>player.tscn</code> CharacterBody3D with mesh and collision capsule.</li><li>Gravity, WASD movement (normalized), and a jump.</li><li>Movement logic correctly in <code>_physics_process</code>.</li><li>The player walks around the lit floor from Lesson 2.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="02-world-basics.html"><span class="dir">← Previous</span><span class="ttl">A lit world: meshes, materials, and light</span></a>
+    <a class="next" href="04-camera.html"><span class="dir">Next →</span><span class="ttl">A third-person follow camera</span></a>
+  </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speeding up and losing · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 10 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 10</p>
+    <h1>Speeding up and losing</h1>
+    <p class="lede">A puzzle game needs pressure and a fail state. We tie fall speed to lines cleared so the game gets harder, and we detect game over when a fresh piece can't fit at the top.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>Rising difficulty as you clear lines, and a proper game-over stop</b></div>
+  </header>
+  <h2><span class="num">10.1</span>Level-based speed-up</h2><p>Derive a level from total lines cleared and shrink <code>fall_interval</code> accordingly. Add to <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">var</span> level: <span class="tok-type">int</span> = <span class="tok-num">1</span>
+<span class="tok-kw">const</span> LINES_PER_LEVEL: <span class="tok-type">int</span> = <span class="tok-num">8</span>
+<span class="tok-kw">const</span> MIN_INTERVAL: <span class="tok-type">float</span> = <span class="tok-num">0.12</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_update_level</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">var</span> new_level: <span class="tok-type">int</span> = <span class="tok-num">1</span> + <span class="tok-type">int</span>(lines_cleared_total / LINES_PER_LEVEL)
+	<span class="tok-kw">if</span> new_level != level:
+		level = new_level
+		<span class="tok-com"># Each level shaves the interval; never below MIN_INTERVAL.</span>
+		fall_interval = max(MIN_INTERVAL, <span class="tok-num">0.6</span> - <span class="tok-type">float</span>(level - <span class="tok-num">1</span>) * <span class="tok-num">0.05</span>)
+		<span class="tok-kw">print</span>(<span class="tok-str">&quot;Level up! Level %d, interval %.2f&quot;</span> <span class="tok-node">%</span> [level, fall_interval])</code></pre></div><p>Call it from <code>_award_score</code> so levels track with clears:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _award_score)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_award_score</span>(cleared: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	cleared = clampi(cleared, <span class="tok-num">0</span>, <span class="tok-num">4</span>)
+	score += LINE_SCORES[cleared]
+	lines_cleared_total += cleared
+	_update_level()</code></pre></div><div class="note "><p class="lbl">Clamp the floor</p><p><code>max(MIN_INTERVAL, ...)</code> stops the game becoming literally unplayable at high levels. Tune <code>MIN_INTERVAL</code> and the <code>0.05</code> step to taste once the game is playable.</p></div><h2><span class="num">10.2</span>Detect game over on spawn</h2><p>Game over means a new piece overlaps existing blocks the instant it appears. Check it in <code>spawn_piece()</code>. Update it in <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace spawn_piece)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">var</span> game_over: <span class="tok-type">bool</span> = <span class="tok-cst">false</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">spawn_piece</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> game_over:
+		<span class="tok-kw">return</span>
+	<span class="tok-kw">var</span> shape: <span class="tok-type">Dictionary</span> = Shapes.random_shape()
+	<span class="tok-com"># Peek: would this shape fit at the spawn origin?</span>
+	<span class="tok-kw">if</span> <span class="tok-kw">not</span> _shape_fits_at(shape, SPAWN_ORIGIN):
+		_trigger_game_over()
+		<span class="tok-kw">return</span>
+	active_piece = PieceScene.instantiate()
+	add_child(active_piece)
+	active_piece.setup(shape, SPAWN_ORIGIN)
+	_fall_accum = <span class="tok-num">0.0</span>
+
+<span class="tok-com"># Check a raw shape dict at an origin, before instancing a Piece.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_shape_fits_at</span>(shape: <span class="tok-type">Dictionary</span>, o: <span class="tok-type">Vector2i</span>) -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">for</span> off <span class="tok-kw">in</span> shape[<span class="tok-str">&quot;cells&quot;</span>]:
+		<span class="tok-kw">var</span> cell: <span class="tok-type">Vector2i</span> = o + off
+		<span class="tok-kw">if</span> <span class="tok-kw">not</span> board.is_free(cell.x, cell.y):
+			<span class="tok-kw">return</span> <span class="tok-cst">false</span>
+	<span class="tok-kw">return</span> <span class="tok-cst">true</span></code></pre></div><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_trigger_game_over</span>() -&gt; <span class="tok-type">void</span>:
+	game_over = <span class="tok-cst">true</span>
+	active_piece = <span class="tok-cst">null</span>
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;GAME OVER — final score %d, lines %d&quot;</span> <span class="tok-node">%</span> [score, lines_cleared_total])</code></pre></div><h2><span class="num">10.3</span>Stop the game loop when over</h2><p>Guard <code>_process</code> and <code>_input</code> so nothing runs after game over:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _process)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> game_over <span class="tok-kw">or</span> active_piece == <span class="tok-cst">null</span>:
+		<span class="tok-kw">return</span>
+	_handle_horizontal(delta)
+	_handle_soft_drop(delta)
+	_fall_accum += delta
+	<span class="tok-kw">if</span> _fall_accum &gt;= fall_interval:
+		_fall_accum = <span class="tok-num">0.0</span>
+		_step_down()</code></pre></div><ol class="steps"><li>Run with <kbd>F5</kbd>. Clear a bunch of lines and feel the fall speed ramp up.</li><li>Deliberately stack pieces to the top. When a new piece can't fit, Output prints GAME OVER and the game freezes.</li></ol><div class="note gotcha"><p class="lbl">Peek before you place</p><p>We test the raw shape dict <em>before</em> instancing a <code>Piece</code> node. If you instance first and check second, a game-over piece briefly appears jammed into the stack. Peek, then place.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Fall speed increases with a level derived from lines cleared, floored at <code>MIN_INTERVAL</code>.</li><li>Game over fires when a fresh shape can't fit at spawn.</li><li><code>_process</code> and <code>_input</code> stop cleanly on game over.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="09-clears-scoring.html"><span class="dir">← Previous</span><span class="ttl">Clearing lines and keeping score</span></a>
+    <a class="next" href="11-hud-ui.html"><span class="dir">Next →</span><span class="ttl">The HUD: score, level, and a restart screen</span></a>
+  </nav>
+</div>
+</body>
+</html>

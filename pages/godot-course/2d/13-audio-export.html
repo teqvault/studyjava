@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound, pause, and exporting GridFall · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 13 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 13</p>
+    <h1>Sound, pause, and exporting GridFall</h1>
+    <p class="lede">The finish line. We add a couple of sound effects, a pause toggle, and export a real build. By the end you have a complete, shippable GridFall.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A pause toggle, sound on lock and clear, and an exported build of the finished game</b></div>
+  </header>
+  <h2><span class="num">13.1</span>Add sound effects</h2><ol class="steps"><li>Drop two short <code>.wav</code> or <code>.ogg</code> files into the project (a soft 'thud' for lock, a brighter 'ding' for clear). You can grab free CC0 sounds or generate simple ones — any short clip works.</li><li>In <code>main.tscn</code>, under <code>Main</code>, add two <strong>AudioStreamPlayer</strong> nodes named <code>LockSound</code> and <code>ClearSound</code>.</li><li>Select each, and in the Inspector drag the matching audio file into the <strong>Stream</strong> slot.</li></ol><div class="code"><div class="code-head"><span class="fname">main.gd (wiring notes)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> lock_sound: <span class="tok-type">AudioStreamPlayer</span> = <span class="tok-node">$LockSound</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> clear_sound: <span class="tok-type">AudioStreamPlayer</span> = <span class="tok-node">$ClearSound</span>
+
+<span class="tok-com"># call lock_sound.play() at the end of _lock_piece(), before spawn_piece():</span>
+<span class="tok-com">#   ... board writes ...</span>
+<span class="tok-com">#   lock_sound.play()</span>
+<span class="tok-com">#   if cleared &gt; 0:</span>
+<span class="tok-com">#       _award_score(cleared)</span>
+<span class="tok-com">#       clear_sound.play()</span></code></pre></div><p>Concretely, update <code>_lock_piece()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _lock_piece)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_lock_piece</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">for</span> cell <span class="tok-kw">in</span> active_piece.get_cells():
+		board.set_cell(cell.x, cell.y, active_piece.color_id)
+	active_piece.queue_free()
+	active_piece = <span class="tok-cst">null</span>
+	lock_sound.play()
+
+	<span class="tok-kw">var</span> cleared: <span class="tok-type">int</span> = board.clear_full_rows()
+	<span class="tok-kw">if</span> cleared &gt; <span class="tok-num">0</span>:
+		_award_score(cleared)
+		clear_sound.play()
+
+	_render_board()
+	spawn_piece()</code></pre></div><div class="note gotcha"><p class="lbl">Guard against missing streams</p><p>If an AudioStreamPlayer has no stream assigned, <code>play()</code> does nothing harmful but logs a warning. Make sure each has a file in its Stream slot, or wrap calls in <code>if lock_sound.stream:</code>.</p></div><h2><span class="num">13.2</span>Pause</h2><ol class="steps"><li>In Project Settings → Input Map, add an action <code>pause</code> bound to <kbd>Esc</kbd> or <kbd>P</kbd>.</li></ol><p>Godot has a built-in pause system. Toggle the SceneTree's paused flag. Add to <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _input)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_input</span>(event: InputEvent) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> event.is_action_pressed(<span class="tok-str">&quot;pause&quot;</span>):
+		get_tree().paused = <span class="tok-kw">not</span> get_tree().paused
+		<span class="tok-kw">return</span>
+	<span class="tok-kw">if</span> active_piece == <span class="tok-cst">null</span> <span class="tok-kw">or</span> game_over:
+		<span class="tok-kw">return</span>
+	<span class="tok-kw">if</span> event.is_action_pressed(<span class="tok-str">&quot;hard_drop&quot;</span>):
+		_hard_drop()
+	<span class="tok-kw">elif</span> event.is_action_pressed(<span class="tok-str">&quot;rotate_cw&quot;</span>):
+		_try_rotate()</code></pre></div><div class="note gotcha"><p class="lbl">Pause needs a process mode</p><p>By default a paused tree freezes every node — including the one reading the pause key. Select <code>Main</code> in the Inspector, find <strong>Process → Mode</strong>, and set it to <strong>Always</strong> so <code>Main</code> keeps listening for the unpause key while everything else is frozen.</p></div><h2><span class="num">13.3</span>Export a real build</h2><ol class="steps"><li>Project → <kbd>Export</kbd>. Click <kbd>Add...</kbd> and choose a preset — <strong>Windows Desktop</strong>, <strong>Linux</strong>, <strong>macOS</strong>, or <strong>Web</strong>.</li><li>The first time, Godot prompts to download <strong>export templates</strong> — click Manage/Download and let it finish.</li><li>For a quick shareable build, pick <strong>Web</strong>: it produces an <code>index.html</code> plus support files you can host anywhere (including TeqStudy).</li><li>Click <kbd>Export Project</kbd>, choose an output folder, and export.</li></ol><div class="note "><p class="lbl">Android target</p><p>GridFall's touch-friendliness aside, exporting to Android needs the Android SDK + a debug keystore configured in Editor Settings. That's a larger setup covered by Godot's export docs; desktop and web work out of the box.</p></div><div class="note win"><p class="lbl">You built a complete game</p><p>Spawning, gravity, input, rotation with kicks, line clears, scoring, escalation, game over, HUD, preview, juice, sound, pause, and an export. That's GridFall — a full, shippable 2D game built entirely by example.</p></div><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>Sound plays on lock and on clear.</li><li>A pause toggle that correctly keeps Main listening while frozen.</li><li>An exported build (Web recommended) you can run outside the editor.</li><li>GridFall is complete.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="12-preview-juice.html"><span class="dir">← Previous</span><span class="ttl">Next-piece preview and a little juice</span></a>
+    <a class="next disabled"><span class="dir">Next →</span><span class="ttl">Course complete</span></a>
+  </nav>
+</div>
+</body>
+</html>

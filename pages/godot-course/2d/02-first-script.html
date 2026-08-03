@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your first node, script, and the game loop · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 02 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 02</p>
+    <h1>Your first node, script, and the game loop</h1>
+    <p class="lede">We'll make a node print to the screen, react to time, and respond to a key. These three things — ready, process, and input — are the heartbeat of every Godot game.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A script that greets on start, counts every frame, and reacts to a key press</b></div>
+  </header>
+  <h2><span class="num">2.1</span>Make a scene with a root node</h2><ol class="steps"><li>In the Scene dock, click <kbd>+ Other Node</kbd> (or the big "Other Node" button on an empty scene).</li><li>Search <code>Node</code>, pick plain <strong>Node</strong>, and click <kbd>Create</kbd>. It appears as the root.</li><li>Double-click its name and rename it <code>Playground</code>.</li><li>Save with <kbd>Ctrl/Cmd+S</kbd> as <code>playground.tscn</code>.</li></ol><h2><span class="num">2.2</span>Attach a script</h2><ol class="steps"><li>Right-click <code>Playground</code> → <kbd>Attach Script</kbd>.</li><li>Leave language as GDScript and path as <code>playground.gd</code>. Click <kbd>Create</kbd>.</li><li>The Script editor opens with a near-empty file.</li></ol><p>Replace everything in it with this:</p><div class="code"><div class="code-head"><span class="fname">playground.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node</span>
+
+<span class="tok-com"># _ready() runs once, the moment this node enters the scene tree.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;GridFall playground is alive.&quot;</span>)
+
+<span class="tok-com"># _process(delta) runs every rendered frame.</span>
+<span class="tok-com"># delta = seconds since the last frame (a small float like 0.016).</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Uncomment to see it fire constantly:</span>
+	<span class="tok-com"># print(delta)</span>
+	<span class="tok-kw">pass</span>
+
+<span class="tok-com"># _input(event) runs whenever an input event happens.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_input</span>(event: InputEvent) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> event <span class="tok-kw">is</span> InputEventKey <span class="tok-kw">and</span> event.pressed:
+		<span class="tok-kw">print</span>(<span class="tok-str">&quot;You pressed a key: &quot;</span>, event.as_text())</code></pre></div><div class="note gotcha"><p class="lbl">Indentation is tabs</p><p>GDScript uses indentation for blocks like Python. Godot's editor inserts a real <kbd>Tab</kbd> by default — don't mix tabs and spaces or you'll get a parse error. If you paste code, the editor usually fixes it; if not, select all and press the auto-indent shortcut.</p></div><h2><span class="num">2.3</span>Run this scene</h2><ol class="steps"><li>Press <kbd>F6</kbd> (Run Current Scene), or the clapperboard icon top-right.</li><li>A blank game window opens. Look at the <strong>Output</strong> panel at the bottom of the editor.</li><li>You should see <code>GridFall playground is alive.</code></li><li>Click the game window and press some keys — each press prints a line.</li></ol><div class="note "><p class="lbl">The three lifecycle methods</p><p><code>_ready()</code> = setup, once. <code>_process(delta)</code> = per-frame logic, uses <code>delta</code> so movement is framerate-independent. <code>_input(event)</code> = respond to raw input. You will use all three constantly.</p></div><h2><span class="num">2.4</span>Typed vs untyped — and why we type</h2><p>Notice <code>-> void</code> and <code>delta: float</code>. Those are optional type hints. GridFall uses them everywhere because they let Godot catch mistakes <em>before</em> you run, and they make autocomplete far better. Untyped GDScript works too, but typed code is how you avoid the silent bugs that plague bigger projects.</p><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A <code>playground.tscn</code> scene with a scripted root <code>Node</code>.</li><li>Output shows the ready message and a line per keypress.</li><li>You can explain what <code>_ready</code>, <code>_process</code>, and <code>_input</code> each do.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="01-orientation.html"><span class="dir">← Previous</span><span class="ttl">What we are building &amp; how Godot thinks</span></a>
+    <a class="next" href="03-grid-and-cell.html"><span class="dir">Next →</span><span class="ttl">The grid, coordinates, and the Cell scene</span></a>
+  </nav>
+</div>
+</body>
+</html>

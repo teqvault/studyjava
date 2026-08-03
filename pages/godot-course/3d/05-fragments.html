@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collectible fragments with Area3D · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 05 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 05</p>
+    <h1>Collectible fragments with Area3D</h1>
+    <p class="lede">Time to give GlitchFall a goal. We build a Fragment scene that spins and glows, detects the player with an Area3D trigger, and reports itself collected. This is the signal-driven pickup pattern.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>Spinning fragments that disappear when you touch them and tell Main they&#x27;re collected</b></div>
+  </header>
+  <h2><span class="num">5.1</span>Build the Fragment scene</h2><ol class="steps"><li>New Scene → "Other Node" → <strong>Area3D</strong> as root. Rename <code>Fragment</code>. Save as <code>fragment.tscn</code>.</li><li>Add a child <strong>MeshInstance3D</strong> → New <strong>PrismMesh</strong> or <strong>BoxMesh</strong> (a small crystal-ish shape). Scale it down to ~0.5.</li><li>Give it a StandardMaterial3D with a bright <strong>Albedo</strong> and set <strong>Emission → Enabled</strong> with a matching color so it glows.</li><li>Add a child <strong>CollisionShape3D</strong> → New <strong>SphereShape3D</strong>, radius ~0.6, so the pickup zone is a bit generous.</li></ol><div class="note "><p class="lbl">Area3D = trigger, not a wall</p><p>An <strong>Area3D</strong> detects overlaps without blocking movement — perfect for pickups, damage zones, and goals. A StaticBody3D would stop the player; an Area3D lets them pass through while firing a signal.</p></div><h2><span class="num">5.2</span>The fragment script: spin + detect</h2><p>Attach <code>fragment.gd</code> to the root <code>Fragment</code>:</p><div class="code"><div class="code-head"><span class="fname">fragment.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Area3D</span>
+
+<span class="tok-com"># Emitted when the player collects this fragment.</span>
+<span class="tok-kw">signal</span> collected(fragment: <span class="tok-type">Area3D</span>)
+
+<span class="tok-kw">const</span> SPIN_SPEED: <span class="tok-type">float</span> = <span class="tok-num">1.5</span>   <span class="tok-com"># radians per second</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># React when a body enters our area.</span>
+	body_entered.connect(_on_body_entered)
+
+<span class="tok-kw">func</span> <span class="tok-fn">_process</span>(delta: <span class="tok-type">float</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># A little idle spin so fragments read as collectible.</span>
+	rotate_y(SPIN_SPEED * delta)
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_body_entered</span>(body: <span class="tok-type">Node3D</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Only the player should trigger collection.</span>
+	<span class="tok-kw">if</span> body.is_in_group(<span class="tok-str">&quot;player&quot;</span>):
+		collected.emit(<span class="tok-kw">self</span>)
+		queue_free()</code></pre></div><div class="note "><p class="lbl">Groups</p><p><code>body.is_in_group("player")</code> checks a tag instead of a node name or type — flexible and rename-proof. We'll add the player to the <code>player</code> group in the next step. Groups are Godot's lightweight way to categorize nodes.</p></div><h2><span class="num">5.3</span>Tag the player</h2><ol class="steps"><li>Open <code>player.tscn</code>, select the root <code>Player</code>.</li><li>In the Inspector, open the <strong>Node</strong> tab (next to Inspector) → <strong>Groups</strong> → add a group named <code>player</code>.</li></ol><div class="note gotcha"><p class="lbl">body_entered needs monitoring on</p><p>Area3D detects bodies only if its <strong>Monitoring</strong> property is on (it is by default). If pickups silently never fire, check that Monitoring is enabled and that the player is a physics body (it is — a CharacterBody3D).</p></div><h2><span class="num">5.4</span>Place fragments and count them in Main</h2><ol class="steps"><li>Open <code>main.tscn</code>. Instance <code>fragment.tscn</code> a few times under <code>Main</code> and scatter them around the floor (vary X and Z, keep Y ≈ 0.5).</li><li>Group them for easy counting: select all fragments, Node tab → Groups → add <code>fragments</code>.</li></ol><p>Attach <code>main.gd</code> to <code>Main</code> to track collection:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node3D</span>
+
+<span class="tok-kw">var</span> total_fragments: <span class="tok-type">int</span> = <span class="tok-num">0</span>
+<span class="tok-kw">var</span> collected_count: <span class="tok-type">int</span> = <span class="tok-num">0</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-com"># Find every fragment and listen for its collected signal.</span>
+	<span class="tok-kw">var</span> frags: <span class="tok-type">Array</span> = get_tree().get_nodes_in_group(<span class="tok-str">&quot;fragments&quot;</span>)
+	total_fragments = frags.size()
+	<span class="tok-kw">for</span> frag <span class="tok-kw">in</span> frags:
+		frag.collected.connect(_on_fragment_collected)
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Fragments to collect: %d&quot;</span> <span class="tok-node">%</span> total_fragments)
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_fragment_collected</span>(_frag: <span class="tok-type">Area3D</span>) -&gt; <span class="tok-type">void</span>:
+	collected_count += <span class="tok-num">1</span>
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Collected %d / %d&quot;</span> <span class="tok-node">%</span> [collected_count, total_fragments])
+	<span class="tok-kw">if</span> collected_count &gt;= total_fragments:
+		<span class="tok-kw">print</span>(<span class="tok-str">&quot;All fragments collected! Exit is now active.&quot;</span>)</code></pre></div><ol class="steps"><li>Run with <kbd>F6</kbd>. Walk into a fragment — it vanishes and the Output shows the running count.</li><li>Collect them all; Output announces the exit is active. (We build the actual exit next lesson.)</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A <code>fragment.tscn</code> Area3D that spins, glows, and detects the player.</li><li>Fragments emit a <code>collected</code> signal and free themselves.</li><li>The player is in the <code>player</code> group; fragments in the <code>fragments</code> group.</li><li>Main counts collected fragments and detects completion.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="04-camera.html"><span class="dir">← Previous</span><span class="ttl">A third-person follow camera</span></a>
+    <a class="next" href="06-hazards.html"><span class="dir">Next →</span><span class="ttl">Hazards and respawning</span></a>
+  </nav>
+</div>
+</body>
+</html>

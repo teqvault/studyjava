@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The board as data: separating logic from visuals · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 04 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 04</p>
+    <h1>The board as data: separating logic from visuals</h1>
+    <p class="lede">The single most important idea in GridFall: the board is a 2D array of numbers, and the colored squares are just a picture of that array. Get this separation right and clearing, collision, and game-over all become easy.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A Board data structure with helpers to read, write, and query any cell safely</b></div>
+  </header>
+  <h2><span class="num">4.1</span>Why a data grid at all</h2><p>Beginners try to ask the <em>sprites</em> where they are. That gets messy fast. Instead we keep a plain 2D array — the <strong>logical board</strong> — as the truth, and redraw squares to match it. Collision becomes "is that array slot filled?" Clearing becomes "is this row all non-empty?"</p><div class="code"><div class="code-head"><span class="lang">text</span></div><pre><code># Conceptually, board is ROWS lists of COLS ints.
+# 0 = empty. Any other number = a filled cell (we&#x27;ll store a color id).
+#
+#   board[row][col]
+#
+#   row 0  [0,0,0,0,0,0,0,0,0,0]   &lt;- top
+#   ...
+#   row 17 [0,0,3,3,0,0,0,0,0,0]   &lt;- bottom, two filled cells
+#                ^ col 2, col 3</code></pre></div><h2><span class="num">4.2</span>Create the Board script</h2><p>We'll put board logic in its own script so it stays testable and separate from drawing. Create a new script file (in the FileSystem dock: right-click → <kbd>New Script</kbd>) named <code>board.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">board.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> RefCounted
+<span class="tok-kw">class_name</span> Board
+
+<span class="tok-com"># A pure-data model of the play field. No nodes, no drawing.</span>
+<span class="tok-com"># RefCounted = a lightweight object that frees itself automatically.</span>
+
+<span class="tok-kw">var</span> cols: <span class="tok-type">int</span>
+<span class="tok-kw">var</span> rows: <span class="tok-type">int</span>
+<span class="tok-kw">var</span> grid: <span class="tok-type">Array</span> = []   <span class="tok-com"># 2D array of ints; 0 means empty</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_init</span>(p_cols: <span class="tok-type">int</span>, p_rows: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	cols = p_cols
+	rows = p_rows
+	clear()
+
+<span class="tok-com"># Reset every slot to empty.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">clear</span>() -&gt; <span class="tok-type">void</span>:
+	grid = []
+	<span class="tok-kw">for</span> r <span class="tok-kw">in</span> <span class="tok-kw">range</span>(rows):
+		<span class="tok-kw">var</span> row_data: <span class="tok-type">Array</span> = []
+		<span class="tok-kw">for</span> c <span class="tok-kw">in</span> <span class="tok-kw">range</span>(cols):
+			row_data.append(<span class="tok-num">0</span>)
+		grid.append(row_data)
+
+<span class="tok-com"># Is (col, row) inside the well at all?</span>
+<span class="tok-kw">func</span> <span class="tok-fn">in_bounds</span>(col: <span class="tok-type">int</span>, row: <span class="tok-type">int</span>) -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">return</span> col &gt;= <span class="tok-num">0</span> <span class="tok-kw">and</span> col &lt; cols <span class="tok-kw">and</span> row &gt;= <span class="tok-num">0</span> <span class="tok-kw">and</span> row &lt; rows
+
+<span class="tok-com"># Is this slot empty AND on the board? Safe to call with any numbers.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">is_free</span>(col: <span class="tok-type">int</span>, row: <span class="tok-type">int</span>) -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">if</span> <span class="tok-kw">not</span> in_bounds(col, row):
+		<span class="tok-kw">return</span> <span class="tok-cst">false</span>
+	<span class="tok-kw">return</span> grid[row][col] == <span class="tok-num">0</span>
+
+<span class="tok-com"># Write a value (0 = clear, &gt;0 = a color id) into a slot.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">set_cell</span>(col: <span class="tok-type">int</span>, row: <span class="tok-type">int</span>, value: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> in_bounds(col, row):
+		grid[row][col] = value
+
+<span class="tok-com"># Read a slot (returns 0 if out of bounds).</span>
+<span class="tok-kw">func</span> <span class="tok-fn">get_cell</span>(col: <span class="tok-type">int</span>, row: <span class="tok-type">int</span>) -&gt; <span class="tok-type">int</span>:
+	<span class="tok-kw">if</span> in_bounds(col, row):
+		<span class="tok-kw">return</span> grid[row][col]
+	<span class="tok-kw">return</span> <span class="tok-num">0</span></code></pre></div><div class="note "><p class="lbl">RefCounted, not Node</p><p><code>Board</code> isn't in the scene tree — it's just data. Extending <code>RefCounted</code> means it's cleaned up automatically when nothing references it. Keeping pure logic out of nodes makes it easy to reason about and, later, to test.</p></div><h2><span class="num">4.3</span>The row-clear query — the heart of scoring</h2><p>Add these methods to <code>board.gd</code>. They find and remove full rows and report how many were cleared.</p><div class="code"><div class="code-head"><span class="fname">board.gd (append)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-com"># True if every column in this row is filled.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">is_row_full</span>(row: <span class="tok-type">int</span>) -&gt; <span class="tok-type">bool</span>:
+	<span class="tok-kw">for</span> c <span class="tok-kw">in</span> <span class="tok-kw">range</span>(cols):
+		<span class="tok-kw">if</span> grid[row][c] == <span class="tok-num">0</span>:
+			<span class="tok-kw">return</span> <span class="tok-cst">false</span>
+	<span class="tok-kw">return</span> <span class="tok-cst">true</span>
+
+<span class="tok-com"># Remove all full rows, drop everything above down, return count cleared.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">clear_full_rows</span>() -&gt; <span class="tok-type">int</span>:
+	<span class="tok-kw">var</span> cleared: <span class="tok-type">int</span> = <span class="tok-num">0</span>
+	<span class="tok-com"># Walk from the bottom up so shifting doesn&#x27;t skip rows.</span>
+	<span class="tok-kw">var</span> r: <span class="tok-type">int</span> = rows - <span class="tok-num">1</span>
+	<span class="tok-kw">while</span> r &gt;= <span class="tok-num">0</span>:
+		<span class="tok-kw">if</span> is_row_full(r):
+			_collapse_into(r)
+			cleared += <span class="tok-num">1</span>
+			<span class="tok-com"># Do NOT decrement r: the collapsed contents now occupy</span>
+			<span class="tok-com"># this row and must be checked again.</span>
+		<span class="tok-kw">else</span>:
+			r -= <span class="tok-num">1</span>
+	<span class="tok-kw">return</span> cleared
+
+<span class="tok-com"># Shift every row above target_row down by one, empty the top row.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_collapse_into</span>(target_row: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">for</span> r <span class="tok-kw">in</span> <span class="tok-kw">range</span>(target_row, <span class="tok-num">0</span>, -<span class="tok-num">1</span>):
+		grid[r] = grid[r - <span class="tok-num">1</span>].duplicate()
+	<span class="tok-com"># New empty top row.</span>
+	<span class="tok-kw">var</span> top: <span class="tok-type">Array</span> = []
+	<span class="tok-kw">for</span> c <span class="tok-kw">in</span> <span class="tok-kw">range</span>(cols):
+		top.append(<span class="tok-num">0</span>)
+	grid[<span class="tok-num">0</span>] = top</code></pre></div><div class="note gotcha"><p class="lbl">The classic clear bug</p><p>When you delete a full row and shift everything down, the row you just filled might <em>also</em> be full. That's why we don't decrement <code>r</code> after a clear — we re-test the same index. Skip this and stacked line-clears silently miss rows.</p></div><div class="note gotcha"><p class="lbl">duplicate() matters</p><p><code>grid[r] = grid[r-1]</code> would make both rows point at the <em>same</em> array. <code>.duplicate()</code> copies the values. Forgetting this is a subtle bug where editing one row changes another.</p></div><h2><span class="num">4.4</span>Quick self-test in _ready</h2><p>You can verify the logic without any graphics. Temporarily, in <code>main.gd _ready()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (temporary)</span><span class="lang">gdscript</span></div><pre><code>	<span class="tok-com"># --- temporary board test ---</span>
+	<span class="tok-kw">var</span> b := Board.new(COLS, ROWS)
+	<span class="tok-com"># Fill the bottom row completely.</span>
+	<span class="tok-kw">for</span> c <span class="tok-kw">in</span> <span class="tok-kw">range</span>(COLS):
+		b.set_cell(c, ROWS - <span class="tok-num">1</span>, <span class="tok-num">1</span>)
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Bottom row full? &quot;</span>, b.is_row_full(ROWS - <span class="tok-num">1</span>))   <span class="tok-com"># true</span>
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Cleared: &quot;</span>, b.clear_full_rows())               <span class="tok-com"># 1</span>
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;Bottom row full now? &quot;</span>, b.is_row_full(ROWS - <span class="tok-num">1</span>)) <span class="tok-com"># false</span></code></pre></div><ol class="steps"><li>Run with <kbd>F5</kbd> and read the Output panel: <code>true</code>, then <code>1</code>, then <code>false</code>.</li><li>If you see that, your board logic is correct. Remove the temporary test block.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A <code>Board</code> class holding a 2D int array, fully decoupled from visuals.</li><li><code>is_free</code>, <code>set_cell</code>, <code>get_cell</code> that never crash on out-of-range input.</li><li><code>clear_full_rows()</code> that collapses correctly and returns a count.</li><li>You verified all of it in the Output panel with zero graphics.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="03-grid-and-cell.html"><span class="dir">← Previous</span><span class="ttl">The grid, coordinates, and the Cell scene</span></a>
+    <a class="next" href="05-piece-and-spawn.html"><span class="dir">Next →</span><span class="ttl">Pieces: shapes, spawning, and drawing them</span></a>
+  </nav>
+</div>
+</body>
+</html>

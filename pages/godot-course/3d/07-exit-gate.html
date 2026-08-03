@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="track-3d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The exit: a gated goal · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="glitchfall-3d.html">GODOT 3D · GLITCHFALL</a>
+  <span class="right">Lesson 07 / 11</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 07</p>
+    <h1>The exit: a gated goal</h1>
+    <p class="lede">The win condition. We build an exit that stays locked until every fragment is collected, then activates and ends the game when the player reaches it. This ties the whole loop together.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A locked exit that activates once all fragments are collected and triggers a win on entry</b></div>
+  </header>
+  <h2><span class="num">7.1</span>Build the Exit scene</h2><ol class="steps"><li>New Scene → "Other Node" → <strong>Area3D</strong> root, rename <code>Exit</code>. Save as <code>exit.tscn</code>.</li><li>Add a child <strong>MeshInstance3D</strong> → a tall <strong>BoxMesh</strong> or <strong>CylinderMesh</strong> (a portal/door pillar).</li><li>Add a child <strong>CollisionShape3D</strong> → a <strong>BoxShape3D</strong> covering it.</li></ol><p>Attach <code>exit.gd</code>. The exit starts inactive and dim; it lights up when unlocked.</p><div class="code"><div class="code-head"><span class="fname">exit.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Area3D</span>
+
+<span class="tok-kw">signal</span> reached()
+
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> mesh: <span class="tok-type">MeshInstance3D</span> = <span class="tok-node">$MeshInstance3D</span>
+
+<span class="tok-kw">var</span> active: <span class="tok-type">bool</span> = <span class="tok-cst">false</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	body_entered.connect(_on_body_entered)
+	_set_visual_locked()
+
+<span class="tok-com"># Called by Main when all fragments are collected.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">activate</span>() -&gt; <span class="tok-type">void</span>:
+	active = <span class="tok-cst">true</span>
+	_set_visual_unlocked()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_body_entered</span>(body: <span class="tok-type">Node3D</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">if</span> active <span class="tok-kw">and</span> body.is_in_group(<span class="tok-str">&quot;player&quot;</span>):
+		reached.emit()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_set_visual_locked</span>() -&gt; <span class="tok-type">void</span>:
+	_tint(<span class="tok-type">Color</span>(<span class="tok-num">0.3</span>, <span class="tok-num">0.3</span>, <span class="tok-num">0.35</span>))    <span class="tok-com"># dull grey = locked</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_set_visual_unlocked</span>() -&gt; <span class="tok-type">void</span>:
+	_tint(<span class="tok-type">Color</span>(<span class="tok-num">0.35</span>, <span class="tok-num">0.9</span>, <span class="tok-num">0.6</span>))    <span class="tok-com"># bright green = open</span>
+
+<span class="tok-com"># Apply an emissive tint to the exit&#x27;s material at runtime.</span>
+<span class="tok-kw">func</span> <span class="tok-fn">_tint</span>(c: <span class="tok-type">Color</span>) -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">var</span> mat := StandardMaterial3D.new()
+	mat.albedo_color = c
+	mat.emission_enabled = <span class="tok-cst">true</span>
+	mat.emission = c
+	mesh.material_override = mat</code></pre></div><div class="note "><p class="lbl">material_override at runtime</p><p>Setting <code>material_override</code> in code swaps the look instantly — no editor material needed. We build a fresh StandardMaterial3D and assign it. This is how you show state changes (locked → unlocked) visually.</p></div><h2><span class="num">7.2</span>Wire the exit into Main</h2><ol class="steps"><li>Instance <code>exit.tscn</code> under <code>Main</code>, placed somewhere the player must return to.</li></ol><p>Update <code>main.gd</code>: grab the exit, activate it on completion, and win when reached:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _ready &amp; handlers)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> exit: <span class="tok-type">Area3D</span> = <span class="tok-node">$Exit</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">var</span> frags: <span class="tok-type">Array</span> = get_tree().get_nodes_in_group(<span class="tok-str">&quot;fragments&quot;</span>)
+	total_fragments = frags.size()
+	<span class="tok-kw">for</span> frag <span class="tok-kw">in</span> frags:
+		frag.collected.connect(_on_fragment_collected)
+	<span class="tok-kw">for</span> hz <span class="tok-kw">in</span> get_tree().get_nodes_in_group(<span class="tok-str">&quot;hazards&quot;</span>):
+		hz.player_hit.connect(_on_player_hit)
+
+	exit.reached.connect(_on_exit_reached)
+	_respawn_player()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_fragment_collected</span>(_frag: <span class="tok-type">Area3D</span>) -&gt; <span class="tok-type">void</span>:
+	collected_count += <span class="tok-num">1</span>
+	<span class="tok-kw">if</span> collected_count &gt;= total_fragments:
+		exit.activate()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_exit_reached</span>() -&gt; <span class="tok-type">void</span>:
+	<span class="tok-kw">print</span>(<span class="tok-str">&quot;YOU WIN! All fragments collected and exit reached.&quot;</span>)
+	<span class="tok-com"># HUD win screen comes in the next lesson.</span></code></pre></div><div class="note gotcha"><p class="lbl">Guard the activate call</p><p>If <code>total_fragments</code> is 0 (you forgot to place fragments or group them), <code>collected_count >= total_fragments</code> is true immediately and the exit activates at once. During testing that's a useful shortcut; before shipping, make sure fragments are actually grouped as <code>fragments</code>.</p></div><ol class="steps"><li>Run with <kbd>F6</kbd>. The exit starts dull grey. Reach it early — nothing happens (it's locked).</li><li>Collect every fragment; the exit turns bright green. Walk into it — Output prints the win message.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>An <code>exit.tscn</code> that starts locked and tints to show state.</li><li>Main activates the exit only when all fragments are collected.</li><li>Reaching the active exit fires a win.</li><li>The full core loop works: collect → unlock → reach → win.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="06-hazards.html"><span class="dir">← Previous</span><span class="ttl">Hazards and respawning</span></a>
+    <a class="next" href="08-hud-win.html"><span class="dir">Next →</span><span class="ttl">The HUD: fragment counter and win screen</span></a>
+  </nav>
+</div>
+</body>
+</html>

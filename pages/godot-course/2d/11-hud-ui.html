@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="track-2d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The HUD: score, level, and a restart screen · TeqStudy Godot</title>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner">
+  <span class="brand">TeqStudy</span><span class="sep">/</span>
+  <a href="gridfall-2d.html">GODOT 2D · GRIDFALL</a>
+  <span class="right">Lesson 11 / 13</span>
+</div></nav>
+<div class="wrap">
+  <header class="lesson-head">
+    <p class="eyebrow"><span class="dot"></span>Lesson 11</p>
+    <h1>The HUD: score, level, and a restart screen</h1>
+    <p class="lede">Numbers in the Output panel aren't a game. We add a proper on-screen HUD with score, level, and lines using Control nodes, plus a Game Over panel with a Restart button.</p>
+    <div class="build-goal">▸ By the end of this lesson: <b>A live HUD and a working Restart button, all wired to the game state</b></div>
+  </header>
+  <h2><span class="num">11.1</span>Control nodes live on a CanvasLayer</h2><p>UI should ignore the game camera and always sit on top. That's what a <strong>CanvasLayer</strong> is for. Build the HUD as children of one.</p><ol class="steps"><li>Open <code>main.tscn</code>. Right-click <code>Main</code> → Add Child → <strong>CanvasLayer</strong>, rename <code>HUD</code>.</li><li>Under <code>HUD</code>, add a <strong>Label</strong>. Rename it <code>ScoreLabel</code>. In the Inspector set its position to the right of the well (e.g. x=340, y=20) and type a placeholder like <code>Score: 0</code>.</li><li>Duplicate it (<kbd>Ctrl/Cmd+D</kbd>) twice to make <code>LevelLabel</code> and <code>LinesLabel</code>; stack them below (y=60, y=100).</li></ol><div class="note "><p class="lbl">Node paths for UI</p><p>From <code>main.gd</code> you reach these with <code>$HUD/ScoreLabel</code>. Because the HUD is a child of Main, the path is stable. If you nest deeper, update the path accordingly.</p></div><h2><span class="num">11.2</span>Push state into the labels</h2><p>Cache the labels and add an update method to <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> score_label: <span class="tok-type">Label</span> = <span class="tok-node">$HUD/ScoreLabel</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> level_label: <span class="tok-type">Label</span> = <span class="tok-node">$HUD/LevelLabel</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> lines_label: <span class="tok-type">Label</span> = <span class="tok-node">$HUD/LinesLabel</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_refresh_hud</span>() -&gt; <span class="tok-type">void</span>:
+	score_label.text = <span class="tok-str">&quot;Score: %d&quot;</span> <span class="tok-node">%</span> score
+	level_label.text = <span class="tok-str">&quot;Level: %d&quot;</span> <span class="tok-node">%</span> level
+	lines_label.text = <span class="tok-str">&quot;Lines: %d&quot;</span> <span class="tok-node">%</span> lines_cleared_total</code></pre></div><p>Call <code>_refresh_hud()</code> at the end of <code>_ready()</code> and inside <code>_award_score()</code> so it updates on every clear:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _award_score)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_award_score</span>(cleared: <span class="tok-type">int</span>) -&gt; <span class="tok-type">void</span>:
+	cleared = clampi(cleared, <span class="tok-num">0</span>, <span class="tok-num">4</span>)
+	score += LINE_SCORES[cleared]
+	lines_cleared_total += cleared
+	_update_level()
+	_refresh_hud()</code></pre></div><h2><span class="num">11.3</span>A Game Over panel with Restart</h2><ol class="steps"><li>Under <code>HUD</code>, add a <strong>PanelContainer</strong>, rename <code>GameOverPanel</code>. Center it over the well.</li><li>Inside it add a <strong>VBoxContainer</strong>, and inside that a <strong>Label</strong> (text: <code>Game Over</code>) and a <strong>Button</strong> (text: <code>Restart</code>, name it <code>RestartButton</code>).</li><li>Select <code>GameOverPanel</code> and turn its <strong>Visible</strong> property OFF in the Inspector — it should be hidden until you lose.</li></ol><p>Show the panel on game over and wire the button. In <code>main.gd</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _ready, add handler)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> game_over_panel: <span class="tok-type">PanelContainer</span> = <span class="tok-node">$HUD/GameOverPanel</span>
+@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> restart_button: <span class="tok-type">Button</span> = <span class="tok-node">$HUD/GameOverPanel/VBoxContainer/RestartButton</span>
+
+<span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
+	board = Board.new(COLS, ROWS)
+	_draw_border()
+	game_over_panel.visible = <span class="tok-cst">false</span>
+	restart_button.pressed.connect(_on_restart_pressed)
+	_refresh_hud()
+	spawn_piece()
+
+<span class="tok-kw">func</span> <span class="tok-fn">_on_restart_pressed</span>() -&gt; <span class="tok-type">void</span>:
+	get_tree().reload_current_scene()</code></pre></div><p>Reveal the panel in <code>_trigger_game_over()</code>:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_trigger_game_over</span>() -&gt; <span class="tok-type">void</span>:
+	game_over = <span class="tok-cst">true</span>
+	active_piece = <span class="tok-cst">null</span>
+	game_over_panel.visible = <span class="tok-cst">true</span></code></pre></div><div class="note "><p class="lbl">Signals: pressed.connect</p><p>Buttons emit a <code>pressed</code> signal. <code>restart_button.pressed.connect(_on_restart_pressed)</code> runs our function when clicked. <code>reload_current_scene()</code> is the simplest possible restart — it rebuilds the whole scene fresh.</p></div><div class="note gotcha"><p class="lbl">Match the node path exactly</p><p>The path <code>$HUD/GameOverPanel/VBoxContainer/RestartButton</code> must match your tree names <em>exactly</em>, including capitalization. A wrong path gives a null and a crash on the <code>@onready</code> line. Rename carefully or copy the path with right-click → Copy Node Path.</p></div><ol class="steps"><li>Run with <kbd>F5</kbd>. The HUD shows live score, level, and lines.</li><li>Lose on purpose — the Game Over panel appears. Click Restart and the game resets clean.</li></ol><div class="checkpoint"><p class="lbl">Checkpoint — you should now have</p><ul><li>A CanvasLayer HUD with live score, level, and lines labels.</li><li>A hidden Game Over panel that appears on loss.</li><li>A Restart button wired via the <code>pressed</code> signal that reloads the scene.</li></ul></div>
+  <nav class="lesson-nav">
+    <a href="10-escalation-gameover.html"><span class="dir">← Previous</span><span class="ttl">Speeding up and losing</span></a>
+    <a class="next" href="12-preview-juice.html"><span class="dir">Next →</span><span class="ttl">Next-piece preview and a little juice</span></a>
+  </nav>
+</div>
+</body>
+</html>

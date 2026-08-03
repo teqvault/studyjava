@@ -36,8 +36,7 @@
   </h1>
 
   <p class="hero-sub">
-    Thirteen developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded &amp; IoT, and more. 45 courses, one home.
-    Free, self-contained courses with lessons, quizzes, code, and capstones. No accounts. Progress stays in your browser.
+    Thirteen developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded & IoT, and more. 47 courses, one home.
   </p>
 
   <div class="compile-widget">
@@ -60,7 +59,7 @@
 
   <div class="stats-row">
     <div class="stat">
-      <div class="stat-num">45</div>
+      <div class="stat-num">47</div>
       <div class="stat-label">Courses</div>
     </div>
     <div class="stat-div"></div>
@@ -129,7 +128,7 @@
     <a href="#track-gamedev" class="track-card" style="--tc:var(--orange)">
       <span class="track-card-icon">🎮</span>
       <span class="track-card-title">Game Development</span>
-      <span class="track-card-desc">Unity mobile dev and a full particle-effects course.</span>
+      <span class="track-card-desc">Godot 2D &amp; 3D built game-by-game, Unity mobile dev, Android Studio native, and a full particle-effects course.</span>
     </a>
     <a href="pages/embedded-systems-track.html" class="track-card" style="--tc:#e53935">
       <span class="track-card-icon">🍓</span>
@@ -235,10 +234,12 @@
     <div class="course-card">
       <div class="card-tag" style="color:var(--orange);">🎮 Learning Path</div>
       <div class="card-title">Mobile Game Developer</div>
-      <p class="card-desc">Unity fundamentals through shipping a vertical slice, then a full library of production-ready particle effects to polish it with.</p>
+      <p class="card-desc">Learn game fundamentals by building complete games in Godot, then move into Unity through shipping a vertical slice, and finish with a full library of production-ready particle effects to polish it with.</p>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/unity-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Unity Mobile Game Dev</a>
-        <a href="pages/particle-systems-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Particle Systems</a>
+        <a href="pages/godot-course/2d/gridfall-2d.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Godot 2D</a>
+        <a href="pages/godot-course/3d/glitchfall-3d.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Godot 3D</a>
+        <a href="pages/unity-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Unity Mobile Game Dev</a>
+        <a href="pages/particle-systems-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">4. Particle Systems</a>
       </div>
     </div>
 
@@ -657,6 +658,29 @@
         </div>
       </a>
 
+      <a href="pages/godot-course/godot-course.html" class="course-card featured">
+        <div class="featured-inner">
+          <div>
+            <div class="card-tag">Godot 4.x · GDScript · 2D &amp; 3D</div>
+            <div class="card-title">Learn Godot by Building Games</div>
+            <p class="card-desc">Two teach-by-example courses, 24 lessons total, that build two complete games from an empty project — GridFall in 2D and GlitchFall in 3D. Every lesson adds one working, runnable feature until you have a shippable game. Start at the hub, then pick a track.</p>
+          </div>
+          <span class="featured-badge">New ✦</span>
+        </div>
+      </a>
+
+      <a href="pages/godot-course/2d/gridfall-2d.html" class="course-card">
+        <div class="card-tag">Godot · 2D · Start Here</div>
+        <div class="card-title">Godot 2D: Build GridFall</div>
+        <p class="card-desc">13 lessons building a falling-block grid puzzle from scratch. The node/scene/script model, grid coordinates, collision-by-data, rotation with wall kicks, line clears and scoring, a HUD, next-piece preview, sound, pause, and export. No prior Godot needed.</p>
+      </a>
+
+      <a href="pages/godot-course/3d/glitchfall-3d.html" class="course-card">
+        <div class="card-tag">Godot · 3D · Third-Person Adventure</div>
+        <div class="card-title">Godot 3D: Build GlitchFall</div>
+        <p class="card-desc">11 lessons building a third-person 3D adventure — a lit world, a CharacterBody3D player, a follow camera, Area3D pickups and hazards, a gated exit, a HUD and win screen, glitch atmosphere, positional sound, and export. Builds on the 2D fundamentals.</p>
+      </a>
+
     </div>
   </div>
 
@@ -882,13 +906,7 @@
 </section>
 
 <!-- ── FOOTER ───────────────────────────────────── -->
-<footer class="site-footer" style="padding: 32px 20px; text-align: center;">
-  <div style="margin-bottom: 12px; font-size: 13px;">
-    <a href="index.html" style="color: var(--soft); text-decoration: none; margin: 0 10px;">Home</a>
-    <a href="pages/privacy.html" style="color: var(--soft); text-decoration: none; margin: 0 10px;">Privacy Policy</a>
-    <a href="pages/about.html" style="color: var(--soft); text-decoration: none; margin: 0 10px;">About</a>
-    <a href="pages/contact.html" style="color: var(--soft); text-decoration: none; margin: 0 10px;">Contact</a>
-  </div>
+<footer class="site-footer">
   <span>// teqstudy — built for students, by obsessives</span>
 </footer>
 
@@ -904,7 +922,7 @@ const lines = [
   { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1780 },
   { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1980 },
   { text: '', cls: '', delay: 2180 },
-  { text: '[BUILD] Loading 45 courses across 13 tracks...', cls: 'cl-warn', delay: 2380 },
+  { text: '[BUILD] Loading 47 courses across 13 tracks...', cls: 'cl-warn', delay: 2380 },
   { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2980 },
   { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3480 },
 ];
