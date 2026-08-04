@@ -52,7 +52,7 @@
 	mat.albedo_color = c
 	mat.emission_enabled = <span class="tok-cst">true</span>
 	mat.emission = c
-	mesh.material_override = mat</code></pre></div><div class="note "><p class="lbl">material_override at runtime</p><p>Setting <code>material_override</code> in code swaps the look instantly — no editor material needed. We build a fresh StandardMaterial3D and assign it. This is how you show state changes (locked → unlocked) visually.</p></div><h2><span class="num">7.2</span>Wire the exit into Main</h2><ol class="steps"><li>Instance <code>exit.tscn</code> under <code>Main</code>, placed somewhere the player must return to.</li></ol><p>Update <code>main.gd</code>: grab the exit, activate it on completion, and win when reached:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _ready &amp; handlers)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> exit: <span class="tok-type">Area3D</span> = <span class="tok-node">$Exit</span>
+	mesh.material_override = mat</code></pre></div><div class="note"><p class="lbl">material_override at runtime</p><p>Setting <code>material_override</code> in code swaps the look instantly — no editor material needed. We build a fresh StandardMaterial3D and assign it. This is how you show state changes (locked → unlocked) visually.</p></div><h2><span class="num">7.2</span>Wire the exit into Main</h2><ol class="steps"><li>Instance <code>exit.tscn</code> under <code>Main</code>, placed somewhere the player must return to.</li></ol><p>Update <code>main.gd</code>: grab the exit, activate it on completion, and win when reached:</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _ready &amp; handlers)</span><span class="lang">gdscript</span></div><pre><code>@<span class="tok-kw">onready</span> <span class="tok-kw">var</span> exit: <span class="tok-type">Area3D</span> = <span class="tok-node">$Exit</span>
 
 <span class="tok-kw">func</span> <span class="tok-fn">_ready</span>() -&gt; <span class="tok-type">void</span>:
 	<span class="tok-kw">var</span> frags: <span class="tok-type">Array</span> = get_tree().get_nodes_in_group(<span class="tok-str">&quot;fragments&quot;</span>)
@@ -78,5 +78,6 @@
     <a class="next" href="08-hud-win.html"><span class="dir">Next →</span><span class="ttl">The HUD: fragment counter and win screen</span></a>
   </nav>
 </div>
+<script src="../assets/course.js" defer></script>
 </body>
 </html>

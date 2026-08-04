@@ -31,7 +31,7 @@
 <span class="tok-com"># Commit a new set of offsets and redraw.</span>
 <span class="tok-kw">func</span> <span class="tok-fn">apply_offsets</span>(new_offsets: <span class="tok-type">Array</span>) -&gt; <span class="tok-type">void</span>:
 	offsets = new_offsets
-	_redraw()</code></pre></div><div class="note "><p class="lbl">The O piece</p><p>The square (O) piece rotates onto itself, so rotation looks like nothing happens — that's correct. Every other shape visibly turns.</p></div><h2><span class="num">8.2</span>Test the rotation against the board</h2><p>In <code>main.gd</code>, handle the rotate action. We build the candidate cells from the rotated offsets and check them. If they fit, commit; if not, try small horizontal nudges (wall kicks) before giving up.</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _input)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_input</span>(event: InputEvent) -&gt; <span class="tok-type">void</span>:
+	_redraw()</code></pre></div><div class="note"><p class="lbl">The O piece</p><p>The square (O) piece rotates onto itself, so rotation looks like nothing happens — that's correct. Every other shape visibly turns.</p></div><h2><span class="num">8.2</span>Test the rotation against the board</h2><p>In <code>main.gd</code>, handle the rotate action. We build the candidate cells from the rotated offsets and check them. If they fit, commit; if not, try small horizontal nudges (wall kicks) before giving up.</p><div class="code"><div class="code-head"><span class="fname">main.gd (replace _input)</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">func</span> <span class="tok-fn">_input</span>(event: InputEvent) -&gt; <span class="tok-type">void</span>:
 	<span class="tok-kw">if</span> active_piece == <span class="tok-cst">null</span>:
 		<span class="tok-kw">return</span>
 	<span class="tok-kw">if</span> event.is_action_pressed(<span class="tok-str">&quot;hard_drop&quot;</span>):
@@ -63,5 +63,6 @@
     <a class="next" href="09-clears-scoring.html"><span class="dir">Next →</span><span class="ttl">Clearing lines and keeping score</span></a>
   </nav>
 </div>
+<script src="../assets/course.js" defer></script>
 </body>
 </html>

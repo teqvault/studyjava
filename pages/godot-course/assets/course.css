@@ -425,3 +425,147 @@ a:focus-visible, kbd:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* ================================================================
+   Interaction upgrades — copy, progress, nav hints
+   ================================================================ */
+
+/* Copy button on code blocks */
+.code-head { position: relative; }
+.copy-btn {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: var(--bg-code);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.copy-btn:hover {
+  color: var(--ink);
+  border-color: var(--blue);
+  background: rgba(74, 143, 231, 0.08);
+}
+.copy-btn.copied {
+  color: var(--green);
+  border-color: var(--green);
+}
+.copy-btn-float {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 2;
+}
+.code { position: relative; }
+
+/* Topbar lesson progress strip */
+.topbar { position: sticky; top: 0; z-index: 50; }
+.topbar-progress {
+  height: 2px;
+  background: transparent;
+  width: 100%;
+}
+.topbar-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--blue-soft));
+  transition: width .35s ease;
+}
+.track-3d .topbar-progress-fill,
+html.track-3d .topbar-progress-fill {
+  background: linear-gradient(90deg, var(--violet), #c4a8f0);
+}
+
+/* Syllabus completed lessons */
+.lessons a.done .lt { color: var(--ink-dim); }
+.lessons a.done .lz { color: var(--green); }
+.lessons .done-mark {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--green);
+  margin-left: 6px;
+  opacity: 0.9;
+}
+
+/* Progress summary on syllabus hero */
+.progress-summary {
+  margin-top: 28px;
+  max-width: 320px;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+.progress-track {
+  height: 6px;
+  background: var(--bg-code);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 99px;
+  transition: width .4s ease;
+}
+.track-3d-page .progress-fill,
+html.track-3d .progress-fill {
+  background: linear-gradient(90deg, var(--violet), var(--green));
+}
+
+/* Keyboard nav hint */
+.nav-hint {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: .02em;
+}
+
+/* Copy sits after the lang label; lang keeps margin-left:auto */
+.code-head .copy-btn {
+  flex-shrink: 0;
+}
+
+/* Focus ring for accessibility */
+.copy-btn:focus-visible,
+.lesson-nav a:focus-visible,
+.lessons a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Soft selection color inside code */
+.code pre ::selection {
+  background: rgba(74, 143, 231, 0.28);
+}
+
+/* Empty note class cleanup helper — keep default note styling */
+.note:not(.warn):not(.gotcha):not(.win) {
+  border-left-color: var(--blue);
+}
+
+/* Last-viewed lesson on syllabus */
+.lessons a.current {
+  background: rgba(74, 143, 231, 0.08);
+  border-left: 2px solid var(--blue);
+  padding-left: 20px;
+}
+html.track-3d .lessons a.current,
+.track-3d-page .lessons a.current {
+  background: rgba(169, 136, 224, 0.1);
+  border-left-color: var(--violet);
+}
+.lessons a.current .lt {
+  color: var(--ink);
+  font-weight: 600;
+}

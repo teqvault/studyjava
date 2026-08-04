@@ -48,7 +48,7 @@
 ]
 
 <span class="tok-kw">static</span> <span class="tok-kw">func</span> <span class="tok-fn">random_shape</span>() -&gt; <span class="tok-type">Dictionary</span>:
-	<span class="tok-kw">return</span> SHAPES[randi() <span class="tok-node">%</span> SHAPES.size()]</code></pre></div><div class="note "><p class="lbl">static func</p><p><code>static func</code> belongs to the class, not an instance — call it as <code>Shapes.random_shape()</code> without creating a <code>Shapes</code> object. <code>randi() % n</code> gives a random int in 0..n-1.</p></div><h2><span class="num">5.2</span>Build the Piece scene</h2><ol class="steps"><li>Scene → <kbd>New Scene</kbd> → "Other Node" → <strong>Node2D</strong> root, rename <code>Piece</code>.</li><li>Save as <code>piece.tscn</code>.</li><li>Attach a script <code>piece.gd</code> to it (code below).</li></ol><p>The Piece holds its grid origin, its list of cell offsets, and the live <code>Cell</code> nodes it spawns to draw itself.</p><div class="code"><div class="code-head"><span class="fname">piece.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
+	<span class="tok-kw">return</span> SHAPES[randi() <span class="tok-node">%</span> SHAPES.size()]</code></pre></div><div class="note"><p class="lbl">static func</p><p><code>static func</code> belongs to the class, not an instance — call it as <code>Shapes.random_shape()</code> without creating a <code>Shapes</code> object. <code>randi() % n</code> gives a random int in 0..n-1.</p></div><h2><span class="num">5.2</span>Build the Piece scene</h2><ol class="steps"><li>Scene → <kbd>New Scene</kbd> → "Other Node" → <strong>Node2D</strong> root, rename <code>Piece</code>.</li><li>Save as <code>piece.tscn</code>.</li><li>Attach a script <code>piece.gd</code> to it (code below).</li></ol><p>The Piece holds its grid origin, its list of cell offsets, and the live <code>Cell</code> nodes it spawns to draw itself.</p><div class="code"><div class="code-head"><span class="fname">piece.gd</span><span class="lang">gdscript</span></div><pre><code><span class="tok-kw">extends</span> <span class="tok-type">Node2D</span>
 <span class="tok-kw">class_name</span> Piece
 
 <span class="tok-kw">const</span> CELL_SIZE: <span class="tok-type">int</span> = <span class="tok-num">32</span>
@@ -104,5 +104,6 @@
     <a class="next" href="06-gravity-timer.html"><span class="dir">Next →</span><span class="ttl">Gravity: making pieces fall on a timer</span></a>
   </nav>
 </div>
+<script src="../assets/course.js" defer></script>
 </body>
 </html>
