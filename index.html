@@ -1,962 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TeqStudy — Developer Learning Tracks</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/mobile-fixes.css">
-  <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
-         crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeqStudy — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
-<!-- Google AdSense -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-7932735753046865"
-     data-ad-slot="1368307586"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-<!-- ── HERO ────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-eyebrow">// teqstudy v3.0</div>
-
-  <h1 class="hero-title">
-    Pick a track.<br>
-    <span class="accent">Build things.</span><br>
-    <span class="dim">Get hired.</span>
-  </h1>
-
-  <p class="hero-sub">
-    Thirteen developer tracks — Java, Python, Software Design, DevOps, Game Dev, AI, Embedded & IoT, and more. 47 courses, one home.
-  </p>
-
-  <div class="compile-widget">
-    <div class="compile-bar">
-      <span class="dot dot-r"></span>
-      <span class="dot dot-y"></span>
-      <span class="dot dot-g"></span>
-      <span class="compile-label">teqstudy.tracks</span>
-    </div>
-    <div class="compile-body" id="terminal-output">
-    </div>
-  </div>
-
-  <div class="hero-cta">
-    <a href="#tracks" class="cta-btn">
-      <span>./choose_track</span>
-      <span>→</span>
-    </a>
-  </div>
-
-  <div class="stats-row">
-    <div class="stat">
-      <div class="stat-num">47</div>
-      <div class="stat-label">Courses</div>
-    </div>
-    <div class="stat-div"></div>
-    <div class="stat">
-      <div class="stat-num">13</div>
-      <div class="stat-label">Tracks</div>
-    </div>
-    <div class="stat-div"></div>
-    <div class="stat">
-      <div class="stat-num">∞</div>
-      <div class="stat-label">Potential</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TRACK BROWSER ───────────────────────────── -->
-<section class="roadmap-section" id="tracks">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// browse_by_track</div>
-    <h2 class="section-title">Choose your track</h2>
-    <p class="section-sub">Independent tracks, not a sequence — jump to whichever one matches what you're working on right now.</p>
-  </div>
-
-  <nav class="track-nav reveal" aria-label="Jump to track">
-    <a href="#track-java" class="track-pill" style="--tc:var(--orange)">☕ Java</a>
-    <a href="#track-python" class="track-pill" style="--tc:var(--green)">🐍 Python</a>
-    <a href="#track-design" class="track-pill" style="--tc:#f0b94d">🏗️ Software Design</a>
-    <a href="#track-ai" class="track-pill" style="--tc:var(--teal)">🤖 AI &amp; Prompts</a>
-    <a href="#track-devops" class="track-pill" style="--tc:var(--purple)">⎈ DevOps</a>
-    <a href="#track-gamedev" class="track-pill" style="--tc:var(--orange)">🎮 Game Dev</a>
-    <a href="#track-embedded" class="track-pill" style="--tc:#e53935">🍓 Embedded &amp; IoT</a>
-    <a href="#track-networking" class="track-pill" style="--tc:#3b82f6">🌐 Networking</a>
-    <a href="#track-trading" class="track-pill" style="--tc:#06d6a0">📈 Trading &amp; Investing</a>
-    <a href="#track-tools" class="track-pill" style="--tc:var(--teal)">🛠️ Dev Tools</a>
-    <a href="#track-cyber" class="track-pill" style="--tc:#f87171">🛡️ Cybersecurity</a>
-    <a href="#track-interview" class="track-pill" style="--tc:#f0b94d">🎯 Interview Prep</a>
-    <a href="#military" class="track-pill" style="--tc:var(--soft)">⭐ Military</a>
-  </nav>
-
-  <div class="track-overview-grid reveal">
-    <a href="#track-java" class="track-card" style="--tc:var(--orange)">
-      <span class="track-card-icon">☕</span>
-      <span class="track-card-title">Java Mastery Roadmap</span>
-      <span class="track-card-desc">The flagship path — 13 courses across 7 phases, zero to Spring Boot.</span>
-    </a>
-    <a href="#track-python" class="track-card" style="--tc:var(--green)">
-      <span class="track-card-icon">🐍</span>
-      <span class="track-card-title">Python</span>
-      <span class="track-card-desc">An 8-phase roadmap from fast-track syntax to job-ready.</span>
-    </a>
-    <a href="#track-design" class="track-card" style="--tc:#f0b94d">
-      <span class="track-card-icon">🏗️</span>
-      <span class="track-card-title">Software Design &amp; Principles</span>
-      <span class="track-card-desc">SOLID, architecture, patterns, refactoring, testing, and a complete design capstone.</span>
-    </a>
-    <a href="#track-ai" class="track-card" style="--tc:var(--teal)">
-      <span class="track-card-icon">🤖</span>
-      <span class="track-card-title">AI &amp; Prompt Engineering</span>
-      <span class="track-card-desc">Prompting frameworks, agents, and real model examples.</span>
-    </a>
-    <a href="#track-devops" class="track-card" style="--tc:var(--purple)">
-      <span class="track-card-icon">⎈</span>
-      <span class="track-card-title">DevOps</span>
-      <span class="track-card-desc">Docker and Kubernetes, beginner through CKAD prep.</span>
-    </a>
-    <a href="#track-gamedev" class="track-card" style="--tc:var(--orange)">
-      <span class="track-card-icon">🎮</span>
-      <span class="track-card-title">Game Development</span>
-      <span class="track-card-desc">Godot 2D &amp; 3D built game-by-game, Unity mobile dev, Android Studio native, and a full particle-effects course.</span>
-    </a>
-    <a href="pages/embedded-systems-track.html" class="track-card" style="--tc:#e53935">
-      <span class="track-card-icon">🍓</span>
-      <span class="track-card-title">Embedded Systems &amp; IoT</span>
-      <span class="track-card-desc">Hardware-first learning: Raspberry Pi, Arduino, ESP32, sensors, robotics, Linux devices, and edge AI.</span>
-    </a>
-    <a href="#track-networking" class="track-card" style="--tc:#3b82f6">
-      <span class="track-card-icon">🌐</span>
-      <span class="track-card-title">Networking</span>
-      <span class="track-card-desc">Beginner to job-ready — IP addressing, routing, wireless, security, and troubleshooting.</span>
-    </a>
-    <a href="#track-trading" class="track-card" style="--tc:#06d6a0">
-      <span class="track-card-icon">📈</span>
-      <span class="track-card-title">Trading &amp; Investing</span>
-      <span class="track-card-desc">Markets, forex, and risk management taught honestly — plus a paper trading simulator.</span>
-    </a>
-    <a href="#track-tools" class="track-card" style="--tc:var(--teal)">
-      <span class="track-card-icon">🛠️</span>
-      <span class="track-card-title">Dev Tools &amp; Environments</span>
-      <span class="track-card-desc">IDE setup and environments across every major language, CLion for C/C++/C#, plus a Bash &amp; PowerShell reference.</span>
-    </a>
-    <a href="#track-cyber" class="track-card" style="--tc:#f87171">
-      <span class="track-card-icon">🛡️</span>
-      <span class="track-card-title">Cybersecurity</span>
-      <span class="track-card-desc">Zero to confidently protected — no tech background needed.</span>
-    </a>
-    <a href="#track-interview" class="track-card" style="--tc:#f0b94d">
-      <span class="track-card-icon">🎯</span>
-      <span class="track-card-title">Interview Prep</span>
-      <span class="track-card-desc">Software engineering interview mastery — quizzes, coding/SQL/system-design labs, and a timed mock-interview room.</span>
-    </a>
-    <a href="#military" class="track-card" style="--tc:var(--soft)">
-      <span class="track-card-icon">⭐</span>
-      <span class="track-card-title">Military Study Guides</span>
-      <span class="track-card-desc">Air Force 3E051 WAPS prep — study guides and flashcards.</span>
-    </a>
-  </div>
-</section>
-
-<!-- ── LEARNING PATHS ───────────────────────────── -->
-<section class="roadmap-section" id="learning-paths">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// job_shaped_bundles</div>
-    <h2 class="section-title">Learning paths</h2>
-    <p class="section-sub">Tracks are independent. These bundle several into the order you'd actually work through them for a specific goal.</p>
-  </div>
-
-  <div class="cards-grid reveal">
-
-    <div class="course-card" style="--orange:#3b82f6;">
-      <div class="card-tag" style="color:#3b82f6;">🧭 Learning Path</div>
-      <div class="card-title">NOC / Help Desk Technician</div>
-      <p class="card-desc">The most direct path into a first networking support role — how networks work, hands-on hardware and troubleshooting, then the security fundamentals every help desk ticket eventually touches.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/networking-course.html" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:#3b82f6;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Networking</a>
-        <a href="pages/embedded-systems-track.html" style="background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);color:#e53935;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Embedded &amp; IoT</a>
-        <a href="pages/cybersecurity-beginner-course.html" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Cybersecurity</a>
-      </div>
-    </div>
-
-    <div class="course-card">
-      <div class="card-tag">☕ Learning Path</div>
-      <div class="card-title">Full-Stack Java Developer</div>
-      <p class="card-desc">Zero to a job-ready Java backend developer — syntax and OOP fundamentals, then design patterns, then the Spring Boot framework most Java jobs actually run on.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/java-pre-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Pre-Course</a>
-        <a href="pages/java-beginner-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Beginner</a>
-        <a href="pages/corejava-portal.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Core Java</a>
-        <a href="pages/oop-java-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">4. OOP</a>
-        <a href="pages/oop-java-advanced-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">5. Advanced OOP</a>
-        <a href="pages/java_design_patterns_lesson.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">6. Design Patterns</a>
-        <a href="pages/springboot-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">7. Spring Boot</a>
-      </div>
-    </div>
-
-    <div class="course-card">
-      <div class="card-tag" style="color:var(--green);">🐍 Learning Path</div>
-      <div class="card-title">Modern Python Developer</div>
-      <p class="card-desc">The full 8-phase roadmap in order — fundamentals, the ecosystem, automation, a real FastAPI backend, AI integration, and professional testing/quality practices.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/python-phase1.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1</a>
-        <a href="pages/python-phase2.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2</a>
-        <a href="pages/python-phase3.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3</a>
-        <a href="pages/python-phase4.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">4</a>
-        <a href="pages/python-phase5.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">5</a>
-        <a href="pages/python-phase6.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">6</a>
-        <a href="pages/python-phase7.html" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:var(--green);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">7</a>
-      </div>
-    </div>
-
-    <div class="course-card">
-      <div class="card-tag" style="color:var(--purple);">⎈ Learning Path</div>
-      <div class="card-title">Cloud &amp; DevOps Engineer</div>
-      <p class="card-desc">Containers first, then orchestration — the standard progression for anyone moving into a DevOps or platform engineering role.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/docker-course.html" style="background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);color:var(--purple);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Docker Beginner</a>
-        <a href="pages/docker-intermediate-course.html" style="background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);color:var(--purple);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Docker Intermediate</a>
-        <a href="pages/kubernetes-beginner-course.html" style="background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);color:var(--purple);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Kubernetes Beginner</a>
-        <a href="pages/kubernetes-intermediate-course.html" style="background:rgba(192,132,252,0.1);border:1px solid rgba(192,132,252,0.3);color:var(--purple);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">4. Kubernetes Intermediate</a>
-      </div>
-    </div>
-
-    <div class="course-card">
-      <div class="card-tag" style="color:var(--orange);">🎮 Learning Path</div>
-      <div class="card-title">Mobile Game Developer</div>
-      <p class="card-desc">Learn game fundamentals by building complete games in Godot, then move into Unity through shipping a vertical slice, and finish with a full library of production-ready particle effects to polish it with.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
-        <a href="pages/godot-course/2d/gridfall-2d.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">1. Godot 2D</a>
-        <a href="pages/godot-course/3d/glitchfall-3d.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">2. Godot 3D</a>
-        <a href="pages/unity-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">3. Unity Mobile Game Dev</a>
-        <a href="pages/particle-systems-course.html" style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);color:var(--orange);padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;">4. Particle Systems</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── BOOKS ────────────────────────────────────── -->
-<section class="books-section">
-  <div class="books-inner">
-    <div class="books-eyebrow">// java_recommended_reading</div>
-    <div class="books-header">
-      <h2 class="books-title">Two books. The whole Java journey.</h2>
-      <p class="books-sub">These pair directly with the Java track — one for when you're starting out, one for when you're going deep.</p>
-    </div>
-    <div class="books-grid">
-      <div class="book-card">
-        <div class="book-cover book-cover-hfj">
-          <span class="book-cover-title">Head First<br>Java</span>
+  <div class="app">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">T</div>
+        <div class="logo-text">
+          <div class="logo-name">TeqStudy</div>
+          <div class="logo-tag">Focus. Learn. Achieve.</div>
         </div>
-        <div class="book-info">
-          <div class="book-phase">Phases 1 – 3</div>
-          <div class="book-name">Head First Java</div>
-          <div class="book-author">Kathy Sierra & Bert Bates</div>
-          <p class="book-desc">Visual, conversational, and genuinely fun. The best beginner Java book ever written — pairs with Pre-Course through Advanced OOP.</p>
-          <div class="book-tags">
-            <span class="btag">Beginner-friendly</span>
-            <span class="btag">OOP</span>
-            <span class="btag">Core Java</span>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-item active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Home
+        </a>
+        <a href="pages/courses.html" class="nav-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          My Learning
+        </a>
+        <a href="pages/courses.html#tracks" class="nav-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Subjects
+        </a>
+        <a href="pages/courses.html#books" class="nav-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+          Resources
+        </a>
+        <a href="#progress" class="nav-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Progress
+        </a>
+        <a href="#sessions" class="nav-item">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Calendar
+        </a>
+        <a href="#" class="nav-item soon" title="Not built yet">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          Notes
+          <span class="soon-tag">Soon</span>
+        </a>
+        <a href="#" class="nav-item soon" title="Not built yet">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Settings
+          <span class="soon-tag">Soon</span>
+        </a>
+      </nav>
+
+      <div class="user-card">
+        <div class="avatar">T</div>
+        <div class="user-info">
+          <div class="user-name">Learner</div>
+          <div class="user-status">Focus. Learn. Achieve.</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========== MAIN ========== -->
+    <main class="main">
+      <header class="hero">
+        <div class="hero-text">
+          <h1>Pick a track. Build something.</h1>
+          <p class="hero-sub">Structured tracks, practical projects, no accounts required.</p>
+          <p class="hero-highlight">Small steps today, big progress tomorrow.</p>
+        </div>
+      </header>
+
+      <!-- Stats + Streak (all real, computed on load by dashboard.js) -->
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Topics Mastered</div>
+          <div class="stat-ring cyan">
+            <svg viewBox="0 0 36 36">
+              <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="ring-fill" id="topicsRingFill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span><span id="topicsValue">0</span><span class="of" id="topicsOf">/0</span></span>
+          </div>
+          <div class="stat-footer">Across 6 tracked courses</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Study Time (7d)</div>
+          <div class="stat-ring blue">
+            <svg viewBox="0 0 36 36">
+              <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="ring-fill" id="studyRingFill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span><span id="studyValue">0.0</span><span class="of" id="studyOf">/10 hrs</span></span>
+          </div>
+          <div class="stat-footer">Rolling 7-day total</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Weekly Activity</div>
+          <div class="stat-ring amber">
+            <svg viewBox="0 0 36 36">
+              <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="ring-fill" id="goalRingFill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span id="goalValue">0%</span>
+          </div>
+          <div class="stat-footer" id="goalFooter">0 of 7 days active</div>
+        </div>
+
+        <!-- Big Streak Ring -->
+        <div class="streak-card">
+          <div class="streak-ring">
+            <svg viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="streakGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="100%" stop-color="#fbbf24"/>
+                </linearGradient>
+              </defs>
+              <circle class="streak-bg" cx="60" cy="60" r="52"/>
+              <circle class="streak-fill" id="streakRingFill" cx="60" cy="60" r="52" stroke="url(#streakGrad)" stroke-dasharray="0 400"/>
+            </svg>
+            <div class="streak-content">
+              <div class="streak-flame">🔥</div>
+              <div class="streak-number" id="streakNumber">0</div>
+              <div class="streak-label">Day Streak</div>
+            </div>
+          </div>
+          <div class="streak-sub" id="streakSub">Visit today to start a streak</div>
+        </div>
+      </section>
+
+      <!-- Continue Learning — populated entirely by dashboard.js from real lastVisited data -->
+      <section class="continue-section">
+        <div class="continue-card" id="continueCard">
+          <!-- filled on load -->
+        </div>
+      </section>
+
+      <!-- Quick Start — real Pomodoro/Deep Work/Quick Review timers -->
+      <section class="quick-start-section">
+        <h3 class="section-title">Quick Start</h3>
+        <div class="quick-grid">
+          <button class="qs-card pomodoro" data-timer="pomodoro">
+            <div class="qs-icon">🍅</div>
+            <div class="qs-text">
+              <div class="qs-name">Pomodoro</div>
+              <div class="qs-time">25 min focus</div>
+            </div>
+            <span class="qs-arrow">›</span>
+          </button>
+          <button class="qs-card deep" data-timer="deep">
+            <div class="qs-icon">🧠</div>
+            <div class="qs-text">
+              <div class="qs-name">Deep Work</div>
+              <div class="qs-time">50 min session</div>
+            </div>
+            <span class="qs-arrow">›</span>
+          </button>
+          <button class="qs-card review" data-timer="review">
+            <div class="qs-icon">✨</div>
+            <div class="qs-text">
+              <div class="qs-name">Quick Review</div>
+              <div class="qs-time">15 min refresh</div>
+            </div>
+            <span class="qs-arrow">›</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Your Progress — real per-course bars for the 6 lesson-tracked courses -->
+      <section class="progress-section" id="progress">
+        <h3 class="section-title">Your Progress</h3>
+        <div class="progress-list" id="progressList">
+          <!-- filled on load -->
+        </div>
+      </section>
+    </main>
+
+    <!-- ========== RIGHT PANEL ========== -->
+    <aside class="right-panel" id="sessions">
+      <div>
+        <div class="panel-header">
+          <span class="panel-title">Upcoming Sessions</span>
+        </div>
+
+        <div class="session-list" id="sessionList" style="margin-top:14px;">
+          <!-- filled on load -->
+        </div>
+
+        <button class="session-add-btn" id="sessionAddBtn" style="margin-top:10px;">+ Add Session</button>
+
+        <div class="session-form" id="sessionForm" style="display:none;margin-top:10px;">
+          <input type="text" id="sessionTitleInput" placeholder="What are you studying?" maxlength="80">
+          <input type="text" id="sessionNoteInput" placeholder="Note (optional)" maxlength="120">
+          <div class="session-form-row">
+            <input type="date" id="sessionDateInput">
+            <input type="time" id="sessionTimeInput">
+          </div>
+          <div class="session-form-actions">
+            <button class="cancel" id="sessionCancelBtn">Cancel</button>
+            <button class="save" id="sessionSaveBtn">Save</button>
           </div>
         </div>
       </div>
-      <div class="book-card">
-        <div class="book-cover book-cover-mja">
-          <span class="book-cover-title">Modern Java<br>in Action</span>
-        </div>
-        <div class="book-info">
-          <div class="book-phase">Phases 4 – 7</div>
-          <div class="book-name">Modern Java in Action</div>
-          <div class="book-author">Urma, Fusco & Mycroft</div>
-          <p class="book-desc">The definitive guide to lambdas, streams, Optional, concurrency, and modern Java features. Mirrors the second half of this curriculum exactly.</p>
-          <div class="book-tags">
-            <span class="btag">Lambdas & Streams</span>
-            <span class="btag">Concurrency</span>
-            <span class="btag">Modern Java</span>
-          </div>
-        </div>
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <p>The beautiful thing about learning is that no one can take it away from you.</p>
+        <cite>— B.B. King</cite>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── ROADMAP ─────────────────────────────────── -->
-<section class="roadmap-section" id="track-java">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// java_track</div>
-    <h2 class="section-title">☕ Java Mastery Roadmap</h2>
-    <p class="section-sub">The flagship track — a structured 7-phase path from zero to job-ready with Spring Boot.</p>
+    </aside>
   </div>
 
-  <!-- Phase 1 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_01</span>
-      <span class="phase-name">Preparation</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/java-pre-course.html" class="course-card">
-        <div class="card-tag">Preparation</div>
-        <div class="card-title">Java Pre-Course</div>
-        <p class="card-desc">Logic, problem-solving, and computational thinking before you write a single line of syntax.</p>
-      </a>
-      <a href="pages/intellij-idea-course.html" class="course-card">
-        <div class="card-tag">Preparation</div>
-        <div class="card-title">IntelliJ IDEA</div>
-        <p class="card-desc">Master your IDE. Shortcuts, debugger, refactoring tools — the setup that separates fast devs from slow ones.</p>
-      </a>
-      <a href="pages/git-github-course.html" class="course-card">
-        <div class="card-tag">Preparation</div>
-        <div class="card-title">Git & GitHub</div>
-        <p class="card-desc">Version control from first commit to collaborative pull requests. Non-negotiable for any dev role.</p>
-      </a>
+  <!-- ========== FOCUS TIMER MODAL ========== -->
+  <div class="timer-modal" id="timerModal">
+    <div class="timer-card">
+      <div class="timer-label">Focus Session</div>
+      <div class="timer-name" id="timerName">Pomodoro</div>
+      <div class="timer-display pomodoro" id="timerDisplay">25:00</div>
+      <div class="timer-actions">
+        <button class="timer-btn primary" id="timerStartPause">Start</button>
+        <button class="timer-btn" id="timerClose">Close</button>
+      </div>
+      <div class="timer-note">Time counts toward your real study-time stats.</div>
     </div>
   </div>
 
-  <!-- Phase 2 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_02</span>
-      <span class="phase-name">Fundamentals</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/java-beginner-course.html" class="course-card">
-        <div class="card-tag">Fundamentals</div>
-        <div class="card-title">Java Beginner Course</div>
-        <p class="card-desc">Syntax, primitives, control flow, arrays, and methods. The complete foundation, not the abridged version.</p>
-      </a>
-      <a href="pages/corejava-portal.html" class="course-card">
-        <div class="card-tag">Fundamentals</div>
-        <div class="card-title">Core Java Portal</div>
-        <p class="card-desc">The standard library in depth — collections, I/O, strings, and the classes you'll reach for every day.</p>
-      </a>
-      <a href="pages/loops-course.html" class="course-card">
-  <div class="card-tag">Fundamentals</div>
-  <div class="card-title">Java Loops</div>
-  <p class="card-desc">Game Loop logic, for/while structures, and matrix traversal.</p>
-</a>
-
-<a href="pages/arrays-course.html" class="course-card">
-  <div class="card-tag">Data Structures</div>
-  <div class="card-title">Arrays & ArrayLists</div>
-  <p class="card-desc">Master inventory systems and memory management.</p>
-</a>
-    </div>
-  </div>
-
-  <!-- Phase 3 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_03</span>
-      <span class="phase-name">OOP Concepts</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/oop-java-course.html" class="course-card">
-        <div class="card-tag">OOP Concepts</div>
-        <div class="card-title">OOP in Java</div>
-        <p class="card-desc">Classes, objects, constructors, encapsulation, and the object lifecycle from instantiation to garbage collection.</p>
-      </a>
-      <a href="pages/oop-java-advanced-course.html" class="course-card">
-        <div class="card-tag">OOP Concepts</div>
-        <div class="card-title">Advanced OOP</div>
-        <p class="card-desc">Inheritance hierarchies, polymorphism, abstract classes, and interfaces — how Java models the real world.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- Phase 4 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_04</span>
-      <span class="phase-name">Data Structures</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/java_enums_records_lesson.html" class="course-card">
-        <div class="card-tag">Data Structures</div>
-        <div class="card-title">Enums & Records</div>
-        <p class="card-desc">Modern Java data carriers. Write less boilerplate, express more intent, and model domain concepts precisely.</p>
-      </a>
-      <a href="pages/java_generics_lesson.html" class="course-card">
-        <div class="card-tag">Data Structures</div>
-        <div class="card-title">Java Generics</div>
-        <p class="card-desc">Type-safe containers and algorithms. Understand what &lt;T&gt; actually means and how to write your own generic types.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- Phase 5 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_05</span>
-      <span class="phase-name">Modern Java</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/java_lambdas_streams_lesson.html" class="course-card">
-        <div class="card-tag">Modern Java</div>
-        <div class="card-title">Lambdas & Streams</div>
-        <p class="card-desc">Functional-style Java. Write expressive data pipelines with filter, map, reduce, and the full Stream API.</p>
-      </a>
-      <a href="pages/java_optional_lesson.html" class="course-card">
-        <div class="card-tag">Modern Java</div>
-        <div class="card-title">Java Optional</div>
-        <p class="card-desc">Eliminate NullPointerExceptions by design. Model absence explicitly rather than hoping nothing is null.</p>
-      </a>
-      <a href="pages/java_concurrency_lesson.html" class="course-card">
-        <div class="card-tag">Modern Java</div>
-        <div class="card-title">Java Concurrency</div>
-        <p class="card-desc">Threads, executors, CompletableFuture, and synchronization primitives. Write code that runs in parallel safely.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- Phase 6 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_06</span>
-      <span class="phase-name">Architecture</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/java_design_patterns_lesson.html" class="course-card">
-        <div class="card-tag">Architecture</div>
-        <div class="card-title">Design Patterns</div>
-        <p class="card-desc">Singleton, Factory, Observer, Strategy, and more. The vocabulary senior devs use — start speaking it.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- Phase 7 -->
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num">phase_07</span>
-      <span class="phase-name">Enterprise Frameworks</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/springboot-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Enterprise · Final Phase</div>
-            <div class="card-title">Spring Boot Course</div>
-            <p class="card-desc">Build production-ready REST APIs with the framework behind half the Java jobs on the market. Dependency injection, JPA, validation, exception handling, and testing — all in one capstone course.</p>
-          </div>
-          <span class="featured-badge">Job-Ready ✓</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-</section>
-
-<!-- ── OTHER COURSES ──────────────────────────── -->
-<section class="roadmap-section" id="other-courses">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// specialized_tracks</div>
-    <h2 class="section-title">Specialized Tracks</h2>
-    <p class="section-sub">Standalone tracks in AI, Python, DevOps, game development, tooling, and security.</p>
-  </div>
-
-  <!-- Software Design & Principles -->
-  <div class="phase reveal" id="track-design">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#f0b94d;border-color:rgba(240,185,77,0.35)">🏗️ Track</span>
-      <span class="phase-name">Software Design &amp; Architecture</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/software-design-course/index.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag" style="color:#f0b94d;">Software Engineering · College Level · Language-Agnostic</div>
-            <div class="card-title">Software Design &amp; Principles</div>
-            <p class="card-desc">A complete 14-week course on requirements, modularity, object-oriented design, SOLID, design patterns, UML, testable architecture, refactoring, code smells, and technical debt. Includes full lessons, hands-on labs, saved quizzes, XP, badges, capstone milestones, a student dashboard, and a printable completion certificate.</p>
-          </div>
-          <span class="featured-badge" style="color:#f0b94d;border-color:rgba(240,185,77,0.35);background:rgba(240,185,77,0.1);">New ✦</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- AI & Prompt Engineering -->
-  <div class="phase reveal" id="track-ai">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--teal);border-color:rgba(56,189,248,0.35)">🤖 Track</span>
-      <span class="phase-name">AI &amp; Prompt Engineering</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/prompt-engineering-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">AI Skills · Job-Ready</div>
-            <div class="card-title">Prompt Engineering</div>
-            <p class="card-desc">Master the fastest-growing skill in tech. 18 lessons from zero to job-ready — frameworks, chain-of-thought, RAG, system prompts, agents, and real-world examples across every major AI model.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-      <a href="pages/prompt-engineering-suno-claude-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">AI Skills · Music &amp; Creative Prompting</div>
-            <div class="card-title">Prompt Engineering for Music: Suno &amp; Claude</div>
-            <p class="card-desc">A focused course on prompting Suno AI to nail a real genre and Claude to sharpen lyrics, copy, and creative scaffolding — plus a cross-training module comparing ChatGPT and Grok. Ends with a full concept-to-track capstone pipeline.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Python -->
-  <div class="phase reveal" id="track-python">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--green);border-color:rgba(74,222,128,0.35)">🐍 Track</span>
-      <span class="phase-name">Python — 2026 &amp; Beyond</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/python-roadmap.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Python · AI · Automation · Backend</div>
-            <div class="card-title">Python Mastery Roadmap</div>
-            <p class="card-desc">The honest answer to what you should learn in 2026 — and the full 8-phase path to act on it. Beginner to job-ready in ~19 weeks. Covers Pythonic thinking, the ecosystem, automation, FastAPI, AI integration with real LLM APIs, testing, and deploying a live product. One project that grows through every phase.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-      <a href="pages/python-phase1.html" class="course-card">
-        <div class="card-tag">Python · Phase 1 · Start Here</div>
-        <div class="card-title">Python Fast Track</div>
-        <p class="card-desc">Built for developers who already code. Translation, not tutorials — cover Python's fundamentals in 1–2 weeks using your Java and C# foundation. 11 lessons, side-by-side Java comparisons, and a real phase project.</p>
-      </a>
-      <a href="pages/python-phase2.html" class="course-card">
-        <div class="card-tag">Python · Phase 2</div>
-        <div class="card-title">Pythonic Thinking</div>
-        <p class="card-desc">Stop writing Java with Python syntax. Dunder methods, decorators, properties, context managers, generators, itertools, error handling, type hints, and dataclasses — 11 deeply detailed lessons with working code at every step.</p>
-      </a>
-      <a href="pages/python-phase3.html" class="course-card">
-        <div class="card-tag">Python · Phase 3</div>
-        <div class="card-title">The Ecosystem</div>
-        <p class="card-desc">Libraries are half of Python's value. The packages that appear everywhere in real projects, covered in 10 modules.</p>
-      </a>
-      <a href="pages/python-phase4.html" class="course-card">
-        <div class="card-tag">Python · Phase 4</div>
-        <div class="card-title">Files, Data &amp; Automation</div>
-        <p class="card-desc">Where Python pays dividends immediately — JSON/CSV/TOML/XML, pathlib, regex, web scraping with BeautifulSoup, task scheduling, and handling secrets the right way.</p>
-      </a>
-      <a href="pages/python-phase5.html" class="course-card">
-        <div class="card-tag">Python · Phase 5</div>
-        <div class="card-title">APIs &amp; Backend</div>
-        <p class="card-desc">Job-relevant territory. FastAPI, PostgreSQL, authentication, and testing — 9 modules building a real backend.</p>
-      </a>
-      <a href="pages/python-phase6.html" class="course-card">
-        <div class="card-tag">Python · Phase 6</div>
-        <div class="card-title">AI Integration</div>
-        <p class="card-desc">The layer that makes everything else 10x more powerful — real LLM API integration across 9 modules.</p>
-      </a>
-      <a href="pages/python-phase7.html" class="course-card">
-        <div class="card-tag">Python · Phase 7</div>
-        <div class="card-title">Testing, Quality &amp; Professionalism</div>
-        <p class="card-desc">The gap between hobbyist and professional Python. pytest, fixtures and mocking, Ruff, mypy, pre-commit hooks, structured logging, and profiling — 10 modules.</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- DevOps -->
-  <div class="phase reveal" id="track-devops">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--purple);border-color:rgba(192,132,252,0.35)">⎈ Track</span>
-      <span class="phase-name">DevOps — Docker &amp; Kubernetes</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/docker-course.html" class="course-card">
-        <div class="card-tag">DevOps · Beginner · Start Here</div>
-        <div class="card-title">Docker for Beginners</div>
-        <p class="card-desc">Images, containers, Dockerfiles, volumes, networking, and Compose — from zero to running a full stack in containers. The foundation every developer needs.</p>
-      </a>
-      <a href="pages/docker-intermediate-course.html" class="course-card">
-        <div class="card-tag">DevOps · Intermediate</div>
-        <div class="card-title">Docker Intermediate</div>
-        <p class="card-desc">Multi-stage builds, container security, health checks, resource limits, CI/CD integration, logging, Docker Swarm, and the production patterns that separate learning from shipping.</p>
-      </a>
-      <a href="pages/kubernetes-beginner-course.html" class="course-card">
-        <div class="card-tag">DevOps · Kubernetes · Beginner</div>
-        <div class="card-title">Kubernetes for Beginners ⎈</div>
-        <p class="card-desc">Cluster architecture, Pods, Deployments, Services, ConfigMaps, Secrets, persistent storage, and Ingress — the full foundational K8s object model, built on your Docker knowledge.</p>
-      </a>
-      <a href="pages/kubernetes-intermediate-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">DevOps · Kubernetes · CKAD Track</div>
-            <div class="card-title">Kubernetes Intermediate ⎈</div>
-            <p class="card-desc">Namespaces, RBAC, autoscaling, Jobs, Network Policies, StatefulSets, resource quotas, init containers, Helm, and a full CKAD exam prep lesson with timed practice scenarios and the exact kubectl shortcuts that win the exam.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Game Development -->
-  <div class="phase reveal" id="track-gamedev">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--orange);border-color:rgba(249,115,22,0.35)">🎮 Track</span>
-      <span class="phase-name">Game Development</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/unity-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Unity · 2D / 3D / 2.5D · Mobile</div>
-            <div class="card-title">Unity Mobile Game Dev</div>
-            <p class="card-desc">17 modules from core concepts to a shipped vertical slice. Starts with what a GameObject, Component, and Prefab actually are, then covers 2D tilemaps, 3D physics, and a full 2.5D hybrid pipeline — 3D characters on a locked plane, exactly like Last Day on Earth. NavMesh AI with full state machines, UI, draw-call and memory optimization, and a capstone build you sideload to a real device.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/particle-systems-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Unity · VFX · Bonus Course</div>
-            <div class="card-title">Particle Systems Mastery</div>
-            <p class="card-desc">13 effect modules — rain, snow, fire, water, bubbles, ocean, fireballs, magic, glow, bloom, dynamic lights, lightning, and explosions. Every effect built from scratch with exact property values, C# scripts, and a mobile optimization checklist.</p>
-          </div>
-          <span class="featured-badge">Bonus ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/android-studio-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Android Studio · Kotlin · Native</div>
-            <div class="card-title">Android Studio: Build a 2D Side-Scroller</div>
-            <p class="card-desc">15 modules from a blank install to a shipped, playable game — no engine, just Android Studio and Kotlin. Full setup walkthrough, a Kotlin crash course, the Activity lifecycle, a hand-built SurfaceView game loop, sprite animation, touch controls, AABB collision, a scrolling parallax camera, tilemap level design, sound, and a capstone that walks through building a complete side-scroller — menu, physics, enemies, coins, and game over — start to finish.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/godot-course/godot-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Godot 4.x · GDScript · 2D &amp; 3D</div>
-            <div class="card-title">Learn Godot by Building Games</div>
-            <p class="card-desc">Two teach-by-example courses, 24 lessons total, that build two complete games from an empty project — GridFall in 2D and GlitchFall in 3D. Every lesson adds one working, runnable feature until you have a shippable game. Start at the hub, then pick a track.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/godot-course/2d/gridfall-2d.html" class="course-card">
-        <div class="card-tag">Godot · 2D · Start Here</div>
-        <div class="card-title">Godot 2D: Build GridFall</div>
-        <p class="card-desc">13 lessons building a falling-block grid puzzle from scratch. The node/scene/script model, grid coordinates, collision-by-data, rotation with wall kicks, line clears and scoring, a HUD, next-piece preview, sound, pause, and export. No prior Godot needed.</p>
-      </a>
-
-      <a href="pages/godot-course/3d/glitchfall-3d.html" class="course-card">
-        <div class="card-tag">Godot · 3D · Third-Person Adventure</div>
-        <div class="card-title">Godot 3D: Build GlitchFall</div>
-        <p class="card-desc">11 lessons building a third-person 3D adventure — a lit world, a CharacterBody3D player, a follow camera, Area3D pickups and hazards, a gated exit, a HUD and win screen, glitch atmosphere, positional sound, and export. Builds on the 2D fundamentals.</p>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Embedded Systems -->
-  <div class="phase reveal" id="track-embedded">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#e53935;border-color:rgba(229,57,53,0.35)">🍓 Track</span>
-      <span class="phase-name">Embedded Systems &amp; IoT</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/embedded-systems-track.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Embedded · IoT · Robotics · Edge AI</div>
-            <div class="card-title">Embedded Systems &amp; IoT Track</div>
-            <p class="card-desc">A full hardware-builder pathway: Raspberry Pi, Arduino, ESP32, Linux device services, sensors, motors, robotics, computer vision, and a final ship-ready embedded product. Course 01 is already live.</p>
-          </div>
-          <span class="featured-badge">Track ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/raspberry-pi-course.html" class="course-card">
-        <div class="card-tag">Course 01 · Raspberry Pi · Zero Assumed Knowledge</div>
-        <div class="card-title">Raspberry Pi for Complete Beginners</div>
-        <p class="card-desc">12 modules from breadboard basics to a full sensor/IoT capstone. Starts with safe GPIO wiring and add-ons before moving into Python, Linux, sensors, motors, networking, and computer vision.</p>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Networking -->
-  <div class="phase reveal" id="track-networking">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#3b82f6;border-color:rgba(59,130,246,0.35)">🌐 Track</span>
-      <span class="phase-name">Networking</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/networking-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Networking · Beginner to Job-Ready</div>
-            <div class="card-title">Networking: Beginner to Job-Ready</div>
-            <p class="card-desc">15 modules covering how data actually moves, from a single cable to the entire internet. OSI/TCP-IP models, cabling, Ethernet/switching, IP addressing and subnetting, IPv6, routing, wireless, DHCP/DNS, transport protocols, security, troubleshooting tools, WAN/cloud networking, monitoring, and a capstone network build with certification and career guidance.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-      <a href="pages/subnetting-practice-tool.html" class="course-card">
-        <div class="card-tag">Networking · Practice Tool</div>
-        <div class="card-title">Subnetting Practice Trainer</div>
-        <p class="card-desc">Randomized subnetting scenarios with instant feedback and a full worked solution every time — the hands-on drill companion to Module 5 of the networking course.</p>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Trading & Investing -->
-  <div class="phase reveal" id="track-trading">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#06d6a0;border-color:rgba(6,214,160,0.35)">📈 Track</span>
-      <span class="phase-name">Trading &amp; Investing</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/trading-investing-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Trading · Beginner to Disciplined</div>
-            <div class="card-title">Trading &amp; Investing for Complete Beginners</div>
-            <p class="card-desc">12 modules covering how markets, forex, and investing actually work — taught honestly, leading with the real disclosed loss statistics rather than hype. Market mechanics, forex fundamentals, order types, risk management as the centerpiece, technical and fundamental analysis with explicit limits, trading psychology, a plan/journal system, scam recognition, and a capstone requiring 50 journaled paper trades before ever considering real money.</p>
-          </div>
-          <span class="featured-badge">New ✦</span>
-        </div>
-      </a>
-      <a href="pages/paper-trading-simulator.html" class="course-card">
-        <div class="card-tag">Trading · Practice Tool</div>
-        <div class="card-title">Paper Trading Simulator</div>
-        <p class="card-desc">Real order mechanics with zero real money — market orders, required stop loss and take profit, live position sizing risk feedback, and running P&amp;L. The hands-on companion to the course's capstone module.</p>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Dev Tools & Environments -->
-  <div class="phase reveal" id="track-tools">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--teal);border-color:rgba(56,189,248,0.35)">🛠️ Track</span>
-      <span class="phase-name">Dev Tools &amp; Environments</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/ide-setup-environments-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">IDEs &amp; Environments · Beginner-Friendly</div>
-            <div class="card-title">IDE Setup &amp; Environments Course</div>
-            <p class="card-desc">Install and configure every major IDE — VS Code, PyCharm, Visual Studio, IntelliJ, Xcode — and set up real environments and GUI development for Python, JavaScript, Java, C, and C++. Starts at the terminal/PATH basics before touching a single install.</p>
-          </div>
-          <span class="featured-badge">New ❖</span>
-        </div>
-      </a>
-
-      <a href="pages/CLion_GUI_Development_Course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">CLION - A Complete Guide</div>
-            <div class="card-title">Introduction to CLION</div>
-            <p class="card-desc">A Complete Course for C, C++, and C#. From Toolchain Setup to Shipping GUI Applications. 5 Modules • 25 Lessons • Hands-On Projects. </p>
-          </div>
-          <span class="featured-badge">Bonus ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/terminal-cheatsheet.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Terminals CheatSheet</div>
-            <div class="card-title">Introduction to Powershell and Bash CheatSheet</div>
-            <p class="card-desc"> The ultimate side-by-side cheatsheet for Bash and PowerShell, packed with real-world developer examples. </p>
-          </div>
-          <span class="featured-badge">Bonus ✦</span>
-        </div>
-      </a>
-
-      <a href="pages/terminal-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Terminals Course</div>
-            <div class="card-title">Introduction to Powershell and Bash</div>
-            <p class="card-desc"> The ultimate side-by-side cheatsheet for Bash and PowerShell, packed with real-world developer examples. </p>
-          </div>
-          <span class="featured-badge">Bonus ✦</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-
-  <!-- ── CYBERSECURITY ──────────────────────────── -->
-  <div class="phase reveal" id="track-cyber">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#f87171;border-color:rgba(248,113,113,0.35)">🛡️ Track</span>
-      <span class="phase-name">Cybersecurity</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/cybersecurity-beginner-course.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Cybersecurity · Beginner · No Tech Experience Needed</div>
-            <div class="card-title">Cybersecurity for Beginners</div>
-            <p class="card-desc">13 lessons from zero to confidently protected. Covers how threats actually work — phishing, malware, credential theft, public Wi-Fi risks — and the exact habits that stop them: password managers, 2FA, safe browsing, and a prioritized action checklist to lock down your digital life.</p>
-          </div>
-          <span class="featured-badge">New ❖</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- ── INTERVIEW PREP ──────────────────────────── -->
-  <div class="phase reveal" id="track-interview">
-    <div class="phase-header">
-      <span class="phase-num" style="color:#f0b94d;border-color:rgba(240,185,77,0.35)">🎯 Track</span>
-      <span class="phase-name">Interview Prep</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-
-      <a href="pages/software-engineering-interview-course/index.html" class="course-card featured">
-        <div class="featured-inner">
-          <div>
-            <div class="card-tag">Interview Prep · Job-Ready</div>
-            <div class="card-title">Software Engineering Interview Mastery</div>
-            <p class="card-desc">24 lesson modules, 120 quiz questions with explanations, and 16 coding/SQL/debugging/system-design labs across Python, JavaScript/TypeScript, Java, C#, C++, Go, Rust, Kotlin, Swift, SQL, and Bash/Linux. Includes a STAR-R behavioral answer builder, a timed mock-interview room, and a searchable question bank.</p>
-          </div>
-          <span class="featured-badge">New ❖</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-</section>
-
-<!-- ── MILITARY (separate from the general dev tracks) ────────────── -->
-<section class="roadmap-section" id="military">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// military_prep</div>
-    <h2 class="section-title">Military Study Guides</h2>
-    <p class="section-sub">WAPS prep for Air Force 3E051 Electrical Systems — a separate track built for military personnel, not part of the general dev curriculum above.</p>
-  </div>
-  <div class="phase reveal">
-    <div class="phase-header">
-      <span class="phase-num" style="color:var(--soft);border-color:var(--border-hi)">⭐ 3E051</span>
-      <span class="phase-name">Electrical Systems — Journeyman</span>
-      <span class="phase-line"></span>
-    </div>
-    <div class="cards-grid">
-      <a href="pages/3e051-study-guide.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — Electrical Systems</div>
-        <p class="card-desc">WAPS Study Guide — 200 questions covering electrical systems fundamentals for the Journeyman certification.</p>
-      </a>
-      <a href="pages/3e051-module7-study-guide.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — Module 7</div>
-        <p class="card-desc">Focused WAPS study questions for Electrical Systems Module 7. Targeted prep for the specific exam section.</p>
-      </a>
-      <a href="pages/3e051-flashcards.html" class="course-card">
-        <div class="card-tag">Journeyman Study Guide</div>
-        <div class="card-title">3E051 — FlashCards</div>
-        <p class="card-desc">Rapid-fire flashcard review across all WAPS study guide topics — quiz yourself before exam day.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ───────────────────────────────────── -->
-<footer class="site-footer">
-  <span>// teqstudy — built for students, by obsessives</span>
-</footer>
-
-<script>
-// Terminal animation
-const lines = [
-  { text: '$ teqstudy --list-tracks', cls: 'cl-prompt', delay: 0 },
-  { text: 'load java.mastery;      // the flagship', cls: 'cl-kw', delay: 500 },
-  { text: 'load python.roadmap;    // 8 phases', cls: 'cl-kw', delay: 800 },
-  { text: 'load devops.k8s;        // docker + ckad', cls: 'cl-cmt', delay: 1100 },
-  { text: 'load unity.gamedev;     // ship to android', cls: 'cl-cmt', delay: 1350 },
-  { text: 'load design.principles; // solid + architecture', cls: 'cl-cmt', delay: 1580 },
-  { text: 'load ai.prompting;      // agents + rag', cls: 'cl-cmt', delay: 1780 },
-  { text: 'load cyber.defense;     // lock it down', cls: 'cl-cmt', delay: 1980 },
-  { text: '', cls: '', delay: 2180 },
-  { text: '[BUILD] Loading 47 courses across 13 tracks...', cls: 'cl-warn', delay: 2380 },
-  { text: '[OK]    0 errors, 0 warnings', cls: 'cl-ok', delay: 2980 },
-  { text: '[OK]    Ready to run → pick a track', cls: 'cl-ok', delay: 3480 },
-];
-
-const terminal = document.getElementById('terminal-output');
-let lineIndex = 0;
-
-function typeNextLine() {
-  if (lineIndex >= lines.length) {
-    const cursor = document.createElement('span');
-    cursor.className = 'cursor';
-    terminal.appendChild(cursor);
-    return;
-  }
-  const { text, cls, delay } = lines[lineIndex++];
-  setTimeout(() => {
-    const span = document.createElement('span');
-    span.className = 'cl ' + cls;
-    span.textContent = text;
-    terminal.appendChild(span);
-    typeNextLine();
-  }, delay);
-}
-
-window.addEventListener('load', () => setTimeout(typeNextLine, 800));
-
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-
+  <script src="js/activity-tracker.js"></script>
+  <script src="js/course-manifest.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
-

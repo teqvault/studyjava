@@ -692,7 +692,7 @@ a:hover { color: var(--accent); }
 <li><strong>macOS:</strong> Apple’s operating system for Mac computers.</li>
 <li><strong>Linux:</strong> Ubuntu, Debian, Fedora, Arch, Mint, or another distribution.</li>
 </ul>
-<p>A command written for Linux may not work in Windows PowerShell. A Windows path such as <code>C:\Users\Jude\Projects</code> will not exist on macOS or Linux. A macOS package-manager command using Homebrew will not work on Ubuntu.</p>
+<p>A command written for Linux may not work in Windows PowerShell. A Windows path such as <code>C:\Users\Alex\Projects</code> will not exist on macOS or Linux. A macOS package-manager command using Homebrew will not work on Ubuntu.</p>
 <h3 id="module-0-before-you-install-anything-check-your-operating-system" tabindex="-1">Check your operating system</h3>
 <p><strong>Windows</strong></p>
 <ol>
@@ -747,10 +747,10 @@ a:hover { color: var(--accent); }
 <p>The terminal application is the window. The <strong>shell</strong> is the command interpreter running inside that window.</p>
 <h3 id="module-0-before-you-install-anything-what-is-the-prompt" tabindex="-1">What is the prompt?</h3>
 <p>You may see something like:</p>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">PS C:\Users\Jude&gt;
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">PS C:\Users\Alex&gt;
 </code></pre></div>
 <p>or:</p>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">jude@computer:~/Projects$
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">alex@computer:~/Projects$
 </code></pre></div>
 <p>This is the <strong>prompt</strong>. It normally tells you:</p>
 <ul>
@@ -805,15 +805,15 @@ cd hello-project
 </code></pre></div>
 <h3 id="module-0-before-you-install-anything-paths-with-spaces" tabindex="-1">Paths with spaces</h3>
 <p>Use quotation marks:</p>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="POWERSHELL"><code class="language-powershell">cd "C:\Users\Jude\My Projects"
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="POWERSHELL"><code class="language-powershell">cd "C:\Users\Alex\My Projects"
 </code></pre></div>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="BASH"><code class="language-bash">cd "/Users/jude/My Projects"
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="BASH"><code class="language-bash">cd "/Users/alex/My Projects"
 </code></pre></div>
 <h3 id="module-0-before-you-install-anything-absolute-and-relative-paths" tabindex="-1">Absolute and relative paths</h3>
 <p>An <strong>absolute path</strong> begins from the root of the drive or file system:</p>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">C:\Users\Jude\Projects\hello-project
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">C:\Users\Alex\Projects\hello-project
 </code></pre></div>
-<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">/home/jude/Projects/hello-project
+<div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">/home/alex/Projects/hello-project
 </code></pre></div>
 <p>A <strong>relative path</strong> begins from your current folder:</p>
 <div class="code-shell"><button aria-label="Copy code" class="copy-code" type="button">Copy</button><pre class="code-block" data-language="TEXT"><code class="language-text">./hello-project
@@ -8189,5 +8189,6 @@ What changed before the failure:
   initNotes(); initQuiz(); applyTheme(); showSection(state.current || 'overview', {scroll:false}); updateUI();
 })();
 </script>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

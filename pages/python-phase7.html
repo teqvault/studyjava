@@ -488,9 +488,9 @@ mock.some_method.<span class="fn">assert_called_once_with</span>(<span class="st
 mock.some_method.<span class="fn">assert_called_with</span>(<span class="str">"arg1"</span>, key=<span class="str">"val"</span>)
 
 <span class="cm"># Configure return values</span>
-mock.<span class="fn">get_user</span>.<span class="fn">return_value</span> = {<span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"Jude"</span>}
+mock.<span class="fn">get_user</span>.<span class="fn">return_value</span> = {<span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"name"</span>: <span class="str">"Alex"</span>}
 result = mock.<span class="fn">get_user</span>(<span class="num">1</span>)
-<span class="kw">assert</span> result[<span class="str">"name"</span>] == <span class="str">"Jude"</span>
+<span class="kw">assert</span> result[<span class="str">"name"</span>] == <span class="str">"Alex"</span>
 
 <span class="cm"># Configure to raise an exception</span>
 mock.<span class="fn">dangerous_call</span>.<span class="fn">side_effect</span> = <span class="cls">ConnectionError</span>(<span class="str">"Network down"</span>)
@@ -636,7 +636,7 @@ mock.<span class="fn">dangerous_call</span>.<span class="fn">side_effect</span> 
 
 <span class="cm"># ── Parametrize with pytest.param — add IDs and marks ──</span>
 <span class="dec">@pytest.mark.parametrize</span>(<span class="str">"email, valid"</span>, [
-    pytest.<span class="fn">param</span>(<span class="str">"jude@example.com"</span>, <span class="kw">True</span>,  id=<span class="str">"valid_email"</span>),
+    pytest.<span class="fn">param</span>(<span class="str">"alex@example.com"</span>, <span class="kw">True</span>,  id=<span class="str">"valid_email"</span>),
     pytest.<span class="fn">param</span>(<span class="str">"not-an-email"</span>,     <span class="kw">False</span>, id=<span class="str">"missing_at"</span>),
     pytest.<span class="fn">param</span>(<span class="str">"@nodomain"</span>,        <span class="kw">False</span>, id=<span class="str">"missing_local"</span>),
     pytest.<span class="fn">param</span>(<span class="str">"a@b.c"</span>,            <span class="kw">True</span>,  id=<span class="str">"minimal_valid"</span>),
@@ -861,7 +861,7 @@ ignore = [
 result = <span class="fn">expensive_call</span>()   <span class="cm"># ruff: local variable 'result' is assigned but never used</span>
 
 <span class="cm"># UP — use f-strings instead of format()</span>
-name = <span class="str">"Jude"</span>
+name = <span class="str">"Alex"</span>
 <span class="str">"Hello, {}"</span>.<span class="fn">format</span>(name)   <span class="cm"># ruff UP032: use f-string</span>
 <span class="fn">f</span><span class="str">"Hello, {name}"</span>           <span class="cm"># correct</span>
 
@@ -1353,5 +1353,6 @@ function quiz(btn, result) {
 done.add(0);
 updateProgress();
 </script>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

@@ -579,11 +579,11 @@ client = anthropic.<span class="cls">Anthropic</span>()
     <span class="kw">return</span> response.content[<span class="num">0</span>].text
 
 <span class="cm"># Extract tasks from a meeting transcript</span>
-transcript = <span class="str">"Jude needs to push the new feature by Thursday. The team will demo it on Friday."</span>
+transcript = <span class="str">"Alex needs to push the new feature by Thursday. The team will demo it on Friday."</span>
 result = <span class="fn">run_prompt</span>(<span class="fn">extract_tasks_prompt</span>(transcript))
 tasks  = json.<span class="fn">loads</span>(result)
 <span class="fn">print</span>(tasks)
-<span class="cm"># [{"task": "Push the new feature", "owner": "Jude", "due": "Thursday"}, ...]</span></pre>
+<span class="cm"># [{"task": "Push the new feature", "owner": "Alex", "due": "Thursday"}, ...]</span></pre>
     </div>
   </div>
 
@@ -1113,7 +1113,7 @@ log = logging.<span class="fn">getLogger</span>(__name__)
       <span class="callout-emoji">📋</span>
       <div class="callout-body">
         <strong>Your AI layer must include:</strong>
-        <br>✅ <strong>Natural language task creation</strong> — <code>cc ai add "remind jude to finish the api by thursday"</code> extracts title, due date, priority and creates the task
+        <br>✅ <strong>Natural language task creation</strong> — <code>cc ai add "remind alex to finish the api by thursday"</code> extracts title, due date, priority and creates the task
         <br>✅ <strong>Daily summary</strong> — <code>cc ai summary</code> sends pending tasks to Claude and gets a prioritized plain-English summary
         <br>✅ <strong>Smart complete</strong> — <code>cc ai complete "finish the api"</code> uses fuzzy natural language matching to find and complete the right task
         <br>✅ <strong>Tool-using assistant</strong> — <code>cc ai ask "what's the weather and do I have anything due today?"</code> uses tool use to answer with real data
@@ -1219,9 +1219,10 @@ function quiz(btn, result) {
 done.add(0);
 updateProgress();
 </script>
-    <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <a href="courses.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

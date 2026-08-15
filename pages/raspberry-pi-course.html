@@ -459,7 +459,7 @@ Pin 11 [GPIO17]      [GPIO18]  Pin 12
     </ol>
     <div class="code-block">
       <div class="code-header"><span class="code-lang">Terminal — First SSH Connection</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-      <pre>ssh jude@mypi.local
+      <pre>ssh alex@mypi.local
 <span class="cm"># First connection asks to confirm the host's fingerprint — type "yes"</span>
 <span class="cm"># Then enter the password you set in Imager</span></pre>
     </div>
@@ -1079,9 +1079,9 @@ motor.<span class="fn">stop</span>()</pre>
     <div class="card-title">🔑 SSH — The Basics You'll Use Every Session</div>
     <div class="code-block">
       <div class="code-header"><span class="code-lang">Terminal</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-      <pre>ssh jude@mypi.local
+      <pre>ssh alex@mypi.local
 <span class="cm"># or, if the hostname doesn't resolve:</span>
-ssh jude@192.168.1.42</pre>
+ssh alex@192.168.1.42</pre>
     </div>
     <p>If <code>mypi.local</code> doesn't resolve on your network, find the Pi's IP address instead — either check your router's connected-devices list, or run <code>hostname -I</code> directly on the Pi if you have any access to it.</p>
   </div>
@@ -1116,10 +1116,10 @@ ssh jude@192.168.1.42</pre>
     <div class="code-block">
       <div class="code-header"><span class="code-lang">Terminal — from your PC</span><div class="code-dots"><span></span><span></span><span></span></div></div>
       <pre><span class="cm"># copy a file TO the Pi</span>
-scp myscript.py jude@mypi.local:/home/jude/
+scp myscript.py alex@mypi.local:/home/alex/
 
 <span class="cm"># copy a file FROM the Pi</span>
-scp jude@mypi.local:/home/jude/data.csv ./</pre>
+scp alex@mypi.local:/home/alex/data.csv ./</pre>
     </div>
     <p><code>scp</code> ("secure copy") uses the same SSH connection you already have configured — no extra setup required.</p>
   </div>
@@ -1430,5 +1430,6 @@ loadProgress();
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Embedded Track
 </a>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

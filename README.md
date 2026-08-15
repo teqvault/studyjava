@@ -4,7 +4,7 @@ TeqStudy is a static, self-contained developer learning site built around one id
 
 > Pick a track. Build things. Get hired.
 
-The site started as a Java-focused curriculum and has grown into a multi-track learning platform covering software development, AI, DevOps, game development, networking, cybersecurity, embedded systems, trading fundamentals, developer tools, and military study guides.
+The site started as a Java-focused curriculum and has grown into a multi-track learning platform covering software development, AI, DevOps, game development, networking, cybersecurity, embedded systems, trading fundamentals, and developer tools.
 
 No app server is required. Courses are delivered as standalone HTML pages with supporting CSS/JS assets.
 
@@ -35,7 +35,6 @@ No app server is required. Courses are delivered as standalone HTML pages with s
 | Trading & Investing | Market fundamentals, forex, risk management, paper trading, and discipline |
 | Dev Tools & Environments | CLion, Bash, PowerShell, terminals, and workflow tooling |
 | Cybersecurity | Beginner-friendly digital safety, threat awareness, and defensive habits |
-| Military Study Guides | Air Force 3E051 WAPS study guides and flashcards |
 
 ---
 

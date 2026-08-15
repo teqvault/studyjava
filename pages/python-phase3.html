@@ -427,7 +427,7 @@ r = requests.<span class="fn">post</span>(
 <span class="fn">print</span>(<span class="str">"[cyan]https://teqvault.study[/cyan]"</span>)
 
 <span class="cm"># Rich auto-highlights Python objects</span>
-data = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"unity"</span>], <span class="str">"level"</span>: <span class="num">5</span>}
+data = {<span class="str">"name"</span>: <span class="str">"Alex"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"unity"</span>], <span class="str">"level"</span>: <span class="num">5</span>}
 <span class="fn">print</span>(data)   <span class="cm"># dict with colored keys, strings, numbers — automatic</span></pre>
     </div>
   </div>
@@ -735,14 +735,14 @@ user = <span class="fn">get_github_user</span>(<span class="str">"torvalds"</spa
       <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
 
 <span class="cm"># Series — a single column with an index</span>
-scores = pd.<span class="cls">Series</span>([<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">96</span>], index=[<span class="str">"Jude"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>])
-<span class="fn">print</span>(scores[<span class="str">"Jude"</span>])     <span class="cm"># 85</span>
+scores = pd.<span class="cls">Series</span>([<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">96</span>], index=[<span class="str">"Alex"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>])
+<span class="fn">print</span>(scores[<span class="str">"Alex"</span>])     <span class="cm"># 85</span>
 <span class="fn">print</span>(scores.<span class="fn">mean</span>())     <span class="cm"># 87.75</span>
 <span class="fn">print</span>(scores[scores &gt; <span class="num">85</span>]) <span class="cm"># Ana:92, Zoe:96 — boolean indexing</span>
 
 <span class="cm"># DataFrame — a table: multiple columns, each is a Series</span>
 df = pd.<span class="cls">DataFrame</span>({
-    <span class="str">"name"</span>:     [<span class="str">"Jude"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>],
+    <span class="str">"name"</span>:     [<span class="str">"Alex"</span>, <span class="str">"Ana"</span>, <span class="str">"Max"</span>, <span class="str">"Zoe"</span>],
     <span class="str">"score"</span>:    [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">96</span>],
     <span class="str">"level"</span>:    [<span class="num">5</span>, <span class="num">7</span>, <span class="num">3</span>, <span class="num">9</span>],
     <span class="str">"passing"</span>:  [<span class="kw">True</span>, <span class="kw">True</span>, <span class="kw">False</span>, <span class="kw">True</span>],
@@ -775,7 +775,7 @@ df = pd.<span class="fn">read_json</span>(<span class="str">"data.json"</span>) 
 df[<span class="str">"score"</span>]                  <span class="cm"># single column → Series</span>
 df[[<span class="str">"name"</span>, <span class="str">"score"</span>]]       <span class="cm"># multiple columns → DataFrame</span>
 df.<span class="fn">iloc</span>[<span class="num">0</span>]                  <span class="cm"># first row by integer index</span>
-df.<span class="fn">loc</span>[df[<span class="str">"name"</span>] == <span class="str">"Jude"</span>] <span class="cm"># rows where name is "Jude"</span>
+df.<span class="fn">loc</span>[df[<span class="str">"name"</span>] == <span class="str">"Alex"</span>] <span class="cm"># rows where name is "Alex"</span>
 
 <span class="cm"># ── Filtering — boolean indexing ──</span>
 passing = df[df[<span class="str">"score"</span>] &gt;= <span class="num">80</span>]
@@ -1252,9 +1252,10 @@ function quiz(btn, result) {
 done.add(0);
 updateProgress();
 </script>
-    <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+    <a href="courses.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

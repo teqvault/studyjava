@@ -68,7 +68,7 @@
   <nav class="fixed top-0 w-full z-50 bg-[#050810]/90 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <a href="../index.html"><img src="../imgs/tvault.png" class="h-8 w-auto filter brightness-110" alt="Logo"></a>
+        <a href="courses.html"><img src="../imgs/tvault.png" class="h-8 w-auto filter brightness-110" alt="Logo"></a>
         <span class="font-bold tracking-tighter text-lg uppercase font-space hidden sm:block text-slate-300">Teq Vault</span>
         <span class="hidden md:block text-slate-600">/</span>
         <span class="hidden md:block text-[10px] font-bold tracking-[0.3em] uppercase text-slate-500">TeqStudy</span>
@@ -193,7 +193,7 @@
             <pre class="code-block font-mono-teq"><span class="cm">// build.gradle</span>
 <span class="fn">testImplementation</span>(<span class="str">'org.junit.jupiter:junit-jupiter:5.10.2'</span>)
 <span class="fn">test</span> { <span class="fn">useJUnitPlatform</span>() }</pre>
-            <p>Project layout matters: Maven and Gradle both expect production code under <code class="font-mono-teq">src/main/java</code> and tests under <code class="font-mono-teq">src/test/java</code>, mirroring the same package structure. A class <code class="font-mono-teq">com.avgjude.forge.CombatEngine</code> gets its tests in <code class="font-mono-teq">com.avgjude.forge.CombatEngineTest</code> — same package, different source root. This lets tests access package-private members while staying physically separate from shipped code.</p>
+            <p>Project layout matters: Maven and Gradle both expect production code under <code class="font-mono-teq">src/main/java</code> and tests under <code class="font-mono-teq">src/test/java</code>, mirroring the same package structure. A class <code class="font-mono-teq">com.avgalex.forge.CombatEngine</code> gets its tests in <code class="font-mono-teq">com.avgalex.forge.CombatEngineTest</code> — same package, different source root. This lets tests access package-private members while staying physically separate from shipped code.</p>
             <div class="callout callout-warn">
               <strong class="text-[var(--voltage-orange)]">Watch out:</strong> if `mvn test` or `gradle test` reports "0 tests run" even though you have test files, it's almost always one of two things — the dependency scope isn't <code class="font-mono-teq">test</code>, or the test class/method naming doesn't match what the build tool's test runner looks for (Maven Surefire expects classes ending in <code class="font-mono-teq">Test</code>, <code class="font-mono-teq">Tests</code>, or <code class="font-mono-teq">TestCase</code> by default).
             </div>
@@ -724,7 +724,7 @@
             </ul>
             <p>For very large projects, JUnit 5's <code class="font-mono-teq text-[var(--voltage-orange)]">@Suite</code> (from the <code class="font-mono-teq">junit-platform-suite</code> artifact) lets you explicitly bundle multiple test classes or whole packages into a named suite that can be run as one unit:</p>
             <pre class="code-block font-mono-teq"><span class="an">@Suite</span>
-<span class="an">@SelectPackages</span>(<span class="str">"com.avgjude.forge.combat"</span>)
+<span class="an">@SelectPackages</span>(<span class="str">"com.avgalex.forge.combat"</span>)
 <span class="an">@IncludeTags</span>(<span class="str">"fast"</span>)
 <span class="kw">class</span> <span class="fn">FastCombatSuite</span> { }</pre>
             <div class="callout callout-tip">
@@ -952,5 +952,6 @@
     initCheckboxes();
     updateProgressBar();
   </script>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>

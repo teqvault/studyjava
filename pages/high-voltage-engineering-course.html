@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>High Voltage Engineering for Beginners | TeqStudy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/course-template.css">
+</head>
+<body>
+
+<header>
+  <div class="header-badge">TeqStudy</div>
+  <h1>High Voltage Engineering for Beginners</h1>
+  <p>Insulation coordination, surge protection, dielectric strength, and clearance/creepage design — the discipline behind everything from substation transformers to transmission lines. Zero assumed knowledge.</p>
+  <div class="header-stars">⚡ 🛡️ 📐 🌩️ 🏁</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Course Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="pbar"></div></div>
+  <span class="progress-pct" id="ppct">0%</span>
+  <button onclick="resetProgress()" style="background:none;border:1px solid var(--border-soft);color:var(--text-muted);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;" title="Clear saved progress for this course">Reset</button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-title">Course Modules</div>
+
+  <div class="nav-item active" onclick="go(0)" id="nav0"><span class="nav-icon">⚡</span> What HV Engineering Is <span class="nav-check" id="chk0"></span></div>
+  <div class="nav-item" onclick="go(1)" id="nav1"><span class="nav-icon">🧲</span> Electric Fields &amp; Dielectrics <span class="nav-check" id="chk1"></span></div>
+  <div class="nav-item" onclick="go(2)" id="nav2"><span class="nav-icon">💥</span> Dielectric Breakdown <span class="nav-check" id="chk2"></span></div>
+  <div class="nav-item" onclick="go(3)" id="nav3"><span class="nav-icon">📐</span> Insulation Coordination <span class="nav-check" id="chk3"></span></div>
+  <div class="nav-item" onclick="go(4)" id="nav4"><span class="nav-icon">📏</span> Clearance &amp; Creepage <span class="nav-check" id="chk4"></span></div>
+  <div class="nav-item" onclick="go(5)" id="nav5"><span class="nav-icon">🌩️</span> Lightning Surges <span class="nav-check" id="chk5"></span></div>
+  <div class="nav-item" onclick="go(6)" id="nav6"><span class="nav-icon">🔀</span> Switching Surges <span class="nav-check" id="chk6"></span></div>
+  <div class="nav-item" onclick="go(7)" id="nav7"><span class="nav-icon">🛡️</span> Surge Arresters <span class="nav-check" id="chk7"></span></div>
+  <div class="nav-item" onclick="go(8)" id="nav8"><span class="nav-icon">🔬</span> HV Testing Methods <span class="nav-check" id="chk8"></span></div>
+  <div class="nav-item" onclick="go(9)" id="nav9"><span class="nav-icon">🌍</span> Grounding &amp; Bonding <span class="nav-check" id="chk9"></span></div>
+  <div class="nav-item" onclick="go(10)" id="nav10"><span class="nav-icon">🦺</span> HV Safety Practices <span class="nav-check" id="chk10"></span></div>
+  <div class="nav-item" onclick="go(11)" id="nav11"><span class="nav-icon">🏁</span> Capstone <span class="nav-check" id="chk11"></span></div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+<!-- ===== LESSON 0: What High Voltage Engineering Is ===== -->
+<section class="lesson active" id="l0">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 01</div>
+    <h2>⚡ What High Voltage Engineering Is</h2>
+    <p class="lesson-intro">Before insulation coordination or surge protection make sense, you need the basic vocabulary: what counts as "high voltage," why it behaves differently from the electrical work you already know, and where this discipline actually shows up.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔌 What Counts as "High Voltage"</div>
+    <p>There's no single universal cutoff, but the widely used IEC/IEEE convention is:</p>
+    <table>
+      <tr><th>Class</th><th>Range</th><th>Typical Use</th></tr>
+      <tr><td>Low Voltage (LV)</td><td>Up to 1,000V AC</td><td>Residential, commercial building wiring — most electrical work you've done so far</td></tr>
+      <tr><td>Medium Voltage (MV)</td><td>1kV – 35kV</td><td>Distribution feeders, substations, industrial plants</td></tr>
+      <tr><td>High Voltage (HV)</td><td>35kV – 230kV</td><td>Sub-transmission and transmission lines</td></tr>
+      <tr><td>Extra High Voltage (EHV)</td><td>230kV – 800kV</td><td>Long-distance bulk power transmission</td></tr>
+      <tr><td>Ultra High Voltage (UHV)</td><td>Above 800kV</td><td>Rare — the most extreme long-haul transmission projects</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This course covers HV/EHV engineering principles, not step-by-step LV wiring</strong>If you've done the PLC or Raspberry Pi courses on this platform, you already know Ohm's Law and basic circuit safety. This course builds on that same foundation but shifts scale — instead of a 24V control circuit, you're now dealing with systems where the air itself can become a conductor if you get too close.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Why HV Behaves Differently</div>
+    <p>At low voltage, insulation is mostly about preventing accidental contact. At high voltage, insulation has to withstand forces that simply don't exist at 120V:</p>
+    <ul>
+      <li><strong>Air itself can break down</strong> and become a conductive path — this is what a lightning strike or an arc-over actually is.</li>
+      <li><strong>Distance becomes a real design variable.</strong> How far apart two conductors need to be to prevent a flashover is a calculated engineering value, not a rule of thumb.</li>
+      <li><strong>Transient events</strong> — a lightning strike or a switching operation — can spike the voltage on a line to many times its normal operating value, for a few millionths of a second, and equipment has to survive it.</li>
+      <li><strong>Failure is rarely "it stops working."</strong> An HV insulation failure is often a violent, visible arc-fault capable of catastrophic equipment damage and genuine danger to anyone nearby.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏭 Where This Discipline Actually Shows Up</div>
+    <div class="dev-grid">
+      <div class="dev-card"><div class="dev-icon">🗼</div><h4>Transmission Lines</h4><p>The high-voltage lines carrying bulk power across long distances between generating stations and substations.</p></div>
+      <div class="dev-card"><div class="dev-icon">🏢</div><h4>Substations</h4><p>Where voltage is stepped up or down — transformers, circuit breakers, disconnect switches, and protective relaying all live here.</p></div>
+      <div class="dev-card"><div class="dev-icon">🏭</div><h4>Industrial Power Systems</h4><p>Large facilities (refineries, mills, military installations) often run their own MV/HV distribution internally.</p></div>
+      <div class="dev-card"><div class="dev-icon">🔋</div><h4>Generation Plants</h4><p>Generators produce power at MV, immediately stepped up to HV/EHV for efficient long-distance transmission.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 The Three Ideas This Entire Course Builds On</div>
+    <p>Nearly everything in HV engineering comes back to three related concepts, each getting its own dedicated module later in this course:</p>
+    <table>
+      <tr><th>Concept</th><th>The Question It Answers</th><th>Covered In</th></tr>
+      <tr><td>Dielectric Strength</td><td>How much electric field can an insulating material withstand before it fails?</td><td>Modules 2–3</td></tr>
+      <tr><td>Insulation Coordination</td><td>How do you size insulation so it reliably survives the worst realistic transient, without being wastefully oversized?</td><td>Module 4</td></tr>
+      <tr><td>Surge Protection</td><td>How do you catch and safely redirect a transient before it reaches — and destroys — expensive equipment?</td><td>Modules 6–8</td></tr>
+    </table>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What is the most fundamental difference between how insulation is treated at low voltage versus high voltage?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Cost is a real factor in HV design, but it's not the fundamental conceptual difference — the physics of what insulation has to withstand is what actually changes.">HV insulation is simply more expensive, but conceptually the same</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="At LV, insulation mainly prevents accidental contact. At HV, insulation must be engineered to withstand real physical stresses — including the risk of air itself breaking down — and to survive transient overvoltages many times the normal operating voltage.">At HV, insulation must be engineered to withstand real physical breakdown stresses and transient overvoltages, not just prevent accidental contact</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="HV systems still absolutely need insulation — the requirements are more demanding, not less.">HV systems don't need insulation because the current is lower</button>
+    </div>
+    <div class="quiz-feedback" id="qfb0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" disabled>← Previous</button>
+    <button class="btn btn-next" onclick="next(0)">Electric Fields &amp; Dielectric Materials →</button>
+  </div>
+</section>
+<!-- ===== LESSON 1: Electric Fields & Dielectric Materials ===== -->
+<section class="lesson" id="l1">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 02</div>
+    <h2>🧲 Electric Fields &amp; Dielectric Materials</h2>
+    <p class="lesson-intro">Every insulation decision in this course comes back to one idea: an electric field stresses whatever material sits inside it, and every material has a limit.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Electric Field Strength</div>
+    <p>An electric field forms between two conductors at different potentials. Its strength — how intensely it stresses the material between them — is measured in <strong>volts per unit distance</strong> (commonly kV/mm or V/mil), not just raw voltage.</p>
+    <div class="net-diagram">E = V / d
+
+E = Electric field strength (kV/mm)
+V = Voltage difference between conductors (kV)
+d = Distance between conductors (mm)</div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is why distance matters as much as voltage</strong>10kV across a 1mm gap produces a field of 10 kV/mm — genuinely severe. The same 10kV spread across a 100mm gap produces only 0.1 kV/mm — comparatively mild. Every clearance and creepage rule in Module 5 exists because of this exact relationship.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 What a Dielectric Actually Is</div>
+    <p>A <strong>dielectric</strong> is an insulating material that, under normal conditions, does not conduct — but which can be <em>polarized</em> by an electric field (its internal charges shift slightly in response). Air, oil, SF6 gas, porcelain, and cross-linked polyethylene are all dielectrics used in HV equipment, each with very different properties.</p>
+    <table>
+      <tr><th>Dielectric</th><th>Typical Dielectric Strength</th><th>Common Use</th></tr>
+      <tr><td>Air (at sea level)</td><td>~3 kV/mm</td><td>Overhead line clearances, open-air substation spacing</td></tr>
+      <tr><td>Transformer oil</td><td>~10–15 kV/mm</td><td>Transformer and circuit breaker insulation</td></tr>
+      <tr><td>SF6 gas</td><td>~8–9 kV/mm (at 1 atm)</td><td>Gas-insulated switchgear (GIS), compact HV breakers</td></tr>
+      <tr><td>Porcelain</td><td>~15–25 kV/mm</td><td>Insulators, bushings</td></tr>
+      <tr><td>Cross-linked polyethylene (XLPE)</td><td>~20–30 kV/mm</td><td>Underground HV cable insulation</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>These numbers are for intact, clean, dry material</strong>Dielectric strength is highly sensitive to contamination, moisture, temperature, and physical damage — a value from a datasheet describes ideal conditions, not a guaranteed field performance number. Module 3 covers exactly how and why real insulation fails below its rated value.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌫️ Why Air Is the Trickiest Dielectric</div>
+    <p>Unlike solid or liquid dielectrics, air's dielectric strength changes constantly with real-world conditions: altitude (thinner air breaks down more easily), humidity, temperature, and even the shape of the conductors involved (sharp points concentrate field strength far more than smooth rounded surfaces — this is why HV hardware uses large rounded corona rings and smooth fittings instead of sharp edges).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✨ Corona Discharge — A Visible Warning Sign</div>
+    <p><strong>Corona</strong> is a partial, localized breakdown of air around a conductor where the local field strength exceeds air's breakdown threshold — without a complete flashover across the whole gap. It shows up as a faint bluish-purple glow, an audible hissing/crackling sound, and a distinctive ozone smell. Corona itself isn't always an immediate failure, but it wastes energy, degrades nearby insulation over time, and is often the visible precursor to a more serious eventual failure.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Two conductors are 10kV apart. Increasing the distance between them from 10mm to 100mm does what to the electric field strength?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Since E = V/d, increasing distance while voltage stays constant DECREASES field strength, not increases it.">Increases it, since the field has more area to cover</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="E = V/d — with voltage constant at 10kV, going from 10mm to 100mm drops the field strength from 1 kV/mm to 0.1 kV/mm, a tenfold decrease.">Decreases it by a factor of 10, since field strength is voltage divided by distance</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Field strength is directly dependent on distance (E=V/d) — it isn't independent of it.">Has no effect — field strength only depends on voltage</button>
+    </div>
+    <div class="quiz-feedback" id="qfb1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(1)">← What High Voltage Engineering Is</button>
+    <button class="btn btn-next" onclick="next(1)">Dielectric Breakdown Mechanisms →</button>
+  </div>
+</section>
+<!-- ===== LESSON 2: Dielectric Breakdown Mechanisms ===== -->
+<section class="lesson" id="l2">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 03</div>
+    <h2>💥 Dielectric Breakdown Mechanisms</h2>
+    <p class="lesson-intro">"Breakdown" isn't one single phenomenon — solid, liquid, and gas dielectrics fail in genuinely different ways, and knowing which mechanism applies tells you what actually needs to be controlled.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💨 Breakdown in Gases (Air, SF6)</div>
+    <p>Gas breakdown follows the <strong>avalanche mechanism</strong>: a few free electrons (always present from background radiation) accelerate in the electric field, collide with gas molecules, and knock loose more electrons. Each new electron accelerates and repeats the process — an exponentially growing avalanche that, past a critical field strength, becomes a fully conductive ionized channel: a spark or arc.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is why gas dielectrics recover almost instantly</strong>Once the field is removed, the ionized gas simply recombines back into neutral molecules within microseconds. This is a major practical advantage of air and SF6 insulation — a flashover doesn't permanently damage the dielectric itself, only whatever equipment the resulting arc happened to pass through.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛢️ Breakdown in Liquids (Transformer Oil)</div>
+    <p>Liquid breakdown is less purely avalanche-driven and far more sensitive to contamination. Common real-world mechanisms include:</p>
+    <ul>
+      <li><strong>Moisture and particle bridging</strong> — water droplets or conductive particles align under the field and form a conductive bridge across the gap, well below the oil's clean-state rating.</li>
+      <li><strong>Bubble formation</strong> — localized heating (from a bad connection, for example) vaporizes a microscopic pocket of oil into a low-strength gas bubble, which then breaks down first and triggers cascading failure.</li>
+    </ul>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This is why transformer oil testing is a real, recurring maintenance task</strong>Dissolved gas analysis (DGA) and dielectric breakdown voltage (BDV) testing exist specifically because oil degrades gradually and often silently — a transformer's insulation can weaken years before any visible symptom appears.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧱 Breakdown in Solids (Porcelain, XLPE, Epoxy)</div>
+    <p>Solid dielectrics don't "recover" the way gases do — a breakdown event usually leaves permanent physical damage (a carbonized track, a puncture channel), meaning the insulation is genuinely destroyed, not just momentarily disrupted. Common failure mechanisms:</p>
+    <table>
+      <tr><th>Mechanism</th><th>What Happens</th></tr>
+      <tr><td>Intrinsic breakdown</td><td>The material's own molecular structure fails under extreme field strength — rare in practice since other mechanisms usually intervene first</td></tr>
+      <tr><td>Thermal breakdown</td><td>Dielectric losses generate heat faster than it can dissipate, raising temperature, which increases losses further — a runaway feedback loop ending in failure</td></tr>
+      <tr><td>Treeing</td><td>Microscopic branching channels grow slowly through the material over months or years (common in aging XLPE cable), eventually bridging enough distance to cause a full breakdown</td></tr>
+      <tr><td>Tracking</td><td>Surface contamination (dirt, moisture) creates a partially conductive path across the material's surface, which can carbonize under repeated small arcing until it becomes a full conductive track</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏱️ Why Timescale Changes Everything</div>
+    <p>A dielectric's effective breakdown strength isn't a single fixed number — it depends heavily on how long the stress is applied:</p>
+    <table>
+      <tr><th>Stress Duration</th><th>Effective Strength</th><th>Why</th></tr>
+      <tr><td>Lightning impulse (microseconds)</td><td>Highest</td><td>Breakdown processes need time to develop — an extremely brief spike can exceed the "normal" rating without causing failure</td></tr>
+      <tr><td>Switching surge (milliseconds)</td><td>Moderate</td><td>Enough time for partial breakdown processes to begin developing</td></tr>
+      <tr><td>Continuous operating voltage</td><td>Lowest</td><td>Sustained stress allows slow degradation mechanisms (treeing, thermal buildup) to fully develop over time</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>This is the entire reason Basic Insulation Level (BIL) exists as a separate rating</strong>Equipment is tested and rated for its ability to withstand a brief standardized lightning-impulse waveform specifically, precisely because that short-duration strength is meaningfully higher than continuous-voltage strength. Module 4 covers BIL in depth.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why does a gas dielectric like air typically recover immediately after a flashover, while a solid dielectric like porcelain or XLPE cable insulation usually does not?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Gas breakdown is an avalanche of ionized molecules that recombine back to neutral within microseconds once the field is removed. Solid breakdown typically leaves permanent physical damage — a carbonized track or puncture channel — that doesn't self-repair.">Ionized gas recombines back to a neutral, insulating state almost instantly, while solid breakdown leaves permanent physical damage</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Gas isn't inherently a stronger dielectric than solids like porcelain or XLPE — those solids actually have higher dielectric strength ratings. The recovery difference is about the physical nature of the failure, not raw strength.">Gas is simply a stronger dielectric overall than any solid material</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Voltage during breakdown itself isn't fundamentally different between gas and solid dielectrics — the difference is in what physically happens to the material during and after the event.">Solids operate at higher voltage than gases, which is why they fail permanently</button>
+    </div>
+    <div class="quiz-feedback" id="qfb2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(2)">← Electric Fields &amp; Dielectric Materials</button>
+    <button class="btn btn-next" onclick="next(2)">Insulation Coordination Fundamentals →</button>
+  </div>
+</section>
+<!-- ===== LESSON 3: Insulation Coordination Fundamentals ===== -->
+<section class="lesson" id="l3">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 04</div>
+    <h2>📐 Insulation Coordination Fundamentals</h2>
+    <p class="lesson-intro">The mockup that inspired this course literally named this concept — here's what it actually means: the discipline of sizing every piece of insulation in a system so it reliably survives the worst realistic transient, without being wastefully overbuilt.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 The Core Balancing Act</div>
+    <p>Insulation coordination sits between two competing pressures:</p>
+    <table>
+      <tr><th>Too Little Insulation</th><th>Too Much Insulation</th></tr>
+      <tr><td>Equipment fails during normal transient events (a nearby lightning strike, routine switching) — unacceptable reliability, potential safety hazard</td><td>Unnecessary material cost, larger/heavier equipment, higher installation cost, no real reliability benefit beyond a certain point</td></tr>
+    </table>
+    <p>The engineering answer is a coordinated system: <strong>protective devices</strong> (surge arresters, Module 8) are deliberately set to activate at a lower voltage than the equipment's insulation rating, so the arrester "takes the hit" and clamps the voltage before it ever reaches a level that could damage the actual equipment.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Basic Insulation Level (BIL)</div>
+    <p><strong>BIL</strong> is a standardized rating describing how well equipment withstands a specific, standardized lightning-impulse voltage waveform (a very fast rise, defined as 1.2 microseconds to crest, decaying to half-value by 50 microseconds — referred to as a "1.2×50 μs" impulse). It's the common language equipment manufacturers, utilities, and standards bodies all use to describe transient withstand capability.</p>
+    <div class="net-diagram">Standard Lightning Impulse Waveform: <span class="label">1.2 × 50 μs</span>
+
+Voltage
+   │      ╭─╮
+   │     ╱   ╲___
+   │    ╱        ‾‾‾───___
+   │   ╱                   ‾‾‾───___
+   │  ╱
+   └──┴────┴──────────────────────────── Time
+      1.2μs           50μs
+    (to crest)    (decay to 50%)</div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>A real example</strong>A 34.5kV-class transformer might carry a BIL rating of 200kV — meaning it's engineered to withstand a standardized lightning-impulse spike nearly 6 times its normal operating voltage, for the brief microsecond duration such a spike actually lasts.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 The Insulation Coordination Margin</div>
+    <p>The whole system is designed around a deliberate voltage margin between the protective device's clamping level and the equipment's actual withstand rating:</p>
+    <div class="net-diagram">Equipment BIL (withstand rating)        ← highest
+         ↑
+      margin  ← must be adequate for reliable protection
+         ↑
+Arrester Protective Level (clamping voltage)
+         ↑
+      margin
+         ↑
+Normal System Operating Voltage          ← lowest</div>
+    <p>If the margin between the arrester's clamping level and the equipment's BIL is too small, normal manufacturing tolerances or aging could let a surge slip through and damage equipment anyway. If it's too large, the equipment is needlessly overbuilt relative to what the arrester is actually protecting it from.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌍 Altitude Correction — A Real, Commonly-Missed Factor</div>
+    <p>Air's dielectric strength drops at higher altitude (thinner air breaks down more easily). Standards like IEEE and IEC require a <strong>correction factor</strong> applied to external (air-gap) insulation ratings for installations above 1,000 meters — equipment rated correctly at sea level may need a higher-rated version, or increased clearances, at a mountain substation.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why is a surge arrester's protective (clamping) level always set deliberately lower than the equipment's BIL rating, rather than equal to it?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="A margin between the arrester's clamping voltage and the equipment's BIL accounts for manufacturing tolerances, aging, and measurement uncertainty — ensuring the arrester reliably activates and protects the equipment before a surge reaches a damaging level.">To leave a reliable safety margin, accounting for manufacturing tolerances and aging, so the arrester reliably protects the equipment</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Cost isn't the primary engineering reason for this margin — reliability of protection is. A margin that's too small for cost reasons would risk equipment damage.">Arresters are always cheaper than equipment, so it doesn't matter</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Setting them equal would leave zero margin for real-world tolerances, meaning the equipment could still be damaged by a surge that's only slightly larger than expected.">Setting them equal would provide the most efficient possible protection</button>
+    </div>
+    <div class="quiz-feedback" id="qfb3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(3)">← Dielectric Breakdown Mechanisms</button>
+    <button class="btn btn-next" onclick="next(3)">Clearance &amp; Creepage Distances →</button>
+  </div>
+</section>
+<!-- ===== LESSON 4: Clearance & Creepage Distances ===== -->
+<section class="lesson" id="l4">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 05</div>
+    <h2>📏 Clearance &amp; Creepage Distances</h2>
+    <p class="lesson-intro">Another concept the reference course description named directly. These are the two most fundamental physical dimensions in any HV design — and they are not the same measurement, even though they're easy to confuse.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 Clearance — The Shortest Path Through Air</div>
+    <p><strong>Clearance</strong> is the shortest distance through open air between two conductive parts at different potentials — a straight line, regardless of any solid insulation shape in between. It governs the risk of a flashover arcing directly through the air.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">〰️ Creepage — The Shortest Path Along a Surface</div>
+    <p><strong>Creepage distance</strong> is the shortest path between two conductive parts measured <em>along the surface</em> of the insulating material between them — following every contour, not a straight line. It governs the risk of surface tracking (Module 3) developing along a contaminated or wet insulator surface.</p>
+    <div class="net-diagram">           Conductor A
+              │
+        ╭─────┴─────╮
+       ╱   INSULATOR  ╲     <span class="dim">Clearance = straight-line distance A→B</span>
+      │    (side view)  │    <span class="dim">Creepage = distance following the surface</span>
+       ╲               ╱     <span class="dim">contour, over every rib and skirt</span>
+        ╰─────┬─────╯
+              │
+           Conductor B</div>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why insulators have those distinctive ribbed "skirts"</strong>Porcelain and polymer HV insulators are shaped with deep ribs specifically to maximize creepage distance without increasing the physical clearance distance or overall size — a long, contoured surface path is much harder for surface tracking to bridge than a short, straight-line air gap would suggest.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌧️ Why Creepage Matters More in Contaminated or Wet Environments</div>
+    <p>Clean, dry insulator surfaces have very high effective resistance along their length. But contamination (salt spray near coastlines, industrial pollution, agricultural dust) combined with moisture (fog, light rain, dew) creates a thin, partially conductive film across the surface — dramatically reducing the EFFECTIVE creepage performance compared to a clean-surface rating.</p>
+    <table>
+      <tr><th>Pollution Level</th><th>Typical Environment</th><th>Required Creepage (relative)</th></tr>
+      <tr><td>Light</td><td>Areas with low pollution density, away from industry/coast</td><td>Baseline</td></tr>
+      <tr><td>Medium</td><td>Areas with moderate pollution or occasional coastal influence</td><td>~1.4× baseline</td></tr>
+      <tr><td>Heavy</td><td>Areas with dense industry or close coastal proximity</td><td>~1.8× baseline</td></tr>
+      <tr><td>Very Heavy</td><td>Desert coastal areas, heavy industrial zones with severe fog</td><td>~2.2×+ baseline</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 A Worked Example</div>
+    <p>A 34.5kV bushing needs a minimum clearance in air of roughly 320mm to safely withstand its rated BIL — a straight-line engineering value driven by dielectric strength math from Module 2. If that same bushing is installed in a heavily polluted coastal environment, its required creepage distance might be specified separately at 25mm/kV of system voltage, or roughly 860mm of surface path — nearly triple the straight-line clearance requirement, entirely because of the surface-tracking risk from Module 3, not the air-gap risk.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Clearance and creepage are sized independently and both must be satisfied</strong>Meeting the clearance requirement does not automatically mean the creepage requirement is met, and vice versa — they protect against genuinely different failure mechanisms (air flashover vs. surface tracking) and both numbers have to be checked separately against the applicable standard.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">An insulator is installed near a coastline with heavy salt contamination. Which distance requirement is most directly affected by this environment, and why?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Salt contamination combined with moisture creates a partially conductive surface film, directly increasing the risk of surface tracking — which is what creepage distance specifically protects against.">Creepage distance, because surface contamination increases the risk of tracking along the insulator's surface</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Clearance (straight-line air distance) is primarily governed by dielectric strength and BIL, not surface contamination — coastal salt exposure specifically drives up creepage requirements, not clearance.">Clearance distance, because salt in the air reduces air's dielectric strength</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Both distances are real, independently-governed requirements — environmental contamination specifically and directly affects creepage, it doesn't make the whole concept irrelevant.">Neither — contamination only matters for indoor equipment</button>
+    </div>
+    <div class="quiz-feedback" id="qfb4"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(4)">← Insulation Coordination Fundamentals</button>
+    <button class="btn btn-next" onclick="next(4)">Lightning Surges →</button>
+  </div>
+</section>
+<!-- ===== LESSON 5: Lightning Surges ===== -->
+<section class="lesson" id="l5">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 06</div>
+    <h2>🌩️ Lightning Surges</h2>
+    <p class="lesson-intro">The first of the two transient types named directly in the reference mockup's session list. Lightning is the most severe, fastest-rising transient an HV system routinely has to survive.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Two Ways Lightning Actually Reaches a System</div>
+    <table>
+      <tr><th>Type</th><th>What Happens</th></tr>
+      <tr><td>Direct strike</td><td>Lightning strikes a conductor, tower, or piece of equipment directly — the full current of the strike (often 10,000–200,000 amps) flows into the system</td></tr>
+      <tr><td>Induced surge</td><td>Lightning strikes near a line (even a considerable distance away) and the rapidly changing electromagnetic field induces a voltage surge onto nearby conductors without direct contact</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Induced surges are actually the more common problem for lower-voltage distribution systems</strong>Direct strikes are dramatic but comparatively rare for any single point. Induced surges from nearby strikes happen far more frequently and are a major reason distribution-level equipment still needs real surge protection, even without ever taking a literal direct hit.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📉 Why the Standard Waveform Looks the Way It Does</div>
+    <p>Module 4 introduced the standardized <strong>1.2×50 μs</strong> lightning-impulse test waveform. That specific shape isn't arbitrary — it was chosen because it reasonably approximates the front-rise and decay characteristics of real recorded lightning strikes, giving equipment manufacturers and utilities a consistent, repeatable way to test and rate equipment against a realistic worst-case shape.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛡️ Shielding — Preventing the Direct Strike in the First Place</div>
+    <p>Before any protective device (Module 8) even gets involved, transmission line design uses physical <strong>shield wires</strong> — one or two grounded conductors strung above the actual phase conductors — specifically to intercept lightning strikes before they can hit an energized phase conductor at all.</p>
+    <div class="net-diagram">        Shield Wire (grounded)
+              ╱‾╲
+             ╱   ╲          <span class="dim">← intercepts the strike, carries it</span>
+            ╱     ╲            to ground via the tower structure
+    ───────●───────●───────
+       Phase A   Phase B    <span class="dim">← protected inside the "shadow"</span>
+                                of the shield wire's angle</div>
+    <p>The angle of protection a shield wire provides is itself an engineering calculation (the "shielding angle") — too shallow an angle leaves phase conductors exposed to direct strikes, and utilities size this deliberately based on line voltage, geography, and local lightning frequency (measured as ground flash density, strikes per square km per year).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⛰️ Backflashover — When Shielding Alone Isn't Enough</div>
+    <p>Even with an effective shield wire intercepting the strike, a <strong>backflashover</strong> can still occur: the massive strike current flowing to ground through the tower and its grounding system raises the tower's own potential so high, so briefly, that it flashes back across the insulator to the phase conductor anyway. This is exactly why <strong>tower grounding resistance</strong> (Module 10) is such a critical, actively-managed design parameter — a poorly grounded tower defeats the shield wire's protection even when the shielding geometry itself is done correctly.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A transmission tower has a well-designed shield wire, but its grounding system has unusually high resistance. What failure mode does this specifically risk?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="High tower grounding resistance means the strike current flowing to ground raises the tower's potential very high, very briefly — which can cause the voltage to flash back across the insulator to the phase conductor, defeating the shield wire's protection.">Backflashover — the tower's potential rises high enough during the strike to arc back to the phase conductor</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Grounding resistance doesn't affect the shielding angle geometry itself — the shield wire's physical position and angle are what determine that, independent of grounding quality.">The shielding angle becomes too narrow to intercept strikes at all</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Corona (Module 2) is related to field strength around conductors under normal conditions, not specifically to tower grounding resistance during a lightning event.">Corona discharge increases along the phase conductors</button>
+    </div>
+    <div class="quiz-feedback" id="qfb5"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(5)">← Clearance &amp; Creepage Distances</button>
+    <button class="btn btn-next" onclick="next(5)">Switching Surges →</button>
+  </div>
+</section>
+<!-- ===== LESSON 6: Switching Surges ===== -->
+<section class="lesson" id="l6">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 07</div>
+    <h2>🔀 Switching Surges</h2>
+    <p class="lesson-intro">The second transient type from the reference mockup's session list. Less dramatic than lightning, but at higher system voltages, switching surges often become the actual dominant design concern.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎚️ What Causes a Switching Surge</div>
+    <p>A switching surge is a transient overvoltage caused by a sudden change in circuit conditions from normal switching operations — not an external event like lightning, but the system's own equipment operating:</p>
+    <ul>
+      <li><strong>Circuit breaker opening/closing</strong> — especially interrupting an inductive or capacitive load</li>
+      <li><strong>Capacitor bank switching</strong> — energizing a capacitor bank can produce a sharp inrush transient</li>
+      <li><strong>Line energization</strong> — connecting a long, unloaded HV line can produce significant surges, since the line's own capacitance and inductance interact with the source</li>
+      <li><strong>Fault clearing</strong> — the sudden circuit change when a protective device clears a fault</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 How Switching Surges Compare to Lightning</div>
+    <table>
+      <tr><th></th><th>Lightning Surge</th><th>Switching Surge</th></tr>
+      <tr><td>Rise time</td><td>Extremely fast — microseconds</td><td>Slower — hundreds of microseconds to a few milliseconds</td></tr>
+      <tr><td>Standard test waveform</td><td>1.2 × 50 μs</td><td>250 × 2500 μs</td></tr>
+      <tr><td>Typical magnitude</td><td>Very high, but brief</td><td>Lower peak, but the slower rise stresses insulation differently</td></tr>
+      <tr><td>Source</td><td>External (atmospheric)</td><td>Internal (the system's own switching operations)</td></tr>
+    </table>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why switching surges matter more as system voltage climbs</strong>Lightning-impulse withstand requirements don't scale up linearly with system voltage the way switching-surge requirements do. At EHV levels (Module 1), switching surges frequently become the governing design factor for external insulation clearances — lightning is still accounted for, but switching transients often set the actual limiting requirement.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔌 Line Energization — A Concrete Example</div>
+    <p>Closing a breaker to energize a long, previously de-energized HV transmission line can create a transient overvoltage at the FAR (open) end of the line significantly higher than the source voltage, due to the interaction between the line's distributed inductance and capacitance (a traveling-wave effect). This is one of the most commonly studied switching-surge scenarios in real HV system design, and utilities often use <strong>controlled closing</strong> (synchronizing the breaker's closing instant to the AC waveform) specifically to minimize it.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧯 Pre-Insertion Resistors — One Practical Mitigation</div>
+    <p>Some HV circuit breakers include <strong>pre-insertion resistors</strong>: a resistor briefly inserted into the circuit a few milliseconds before the main breaker contacts fully close, deliberately damping the initial transient before the full, low-impedance connection is made. This is a direct, physical engineering response to the exact line-energization problem described above.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why do switching surges, rather than lightning surges, often become the governing insulation design factor at extra-high-voltage (EHV) levels?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Lightning-impulse withstand requirements don't scale linearly with system voltage the way switching-surge requirements do, so at EHV levels switching surges frequently become the limiting factor for external insulation design.">Switching-surge requirements scale with system voltage differently than lightning-impulse requirements, making them the limiting factor at very high voltages</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Lightning strikes don't become less frequent at higher-voltage systems — the physics of why switching surges dominate design at EHV is about how insulation requirements scale, not strike frequency.">Lightning strikes become rarer as system voltage increases</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="EHV systems generally have MORE switching operations and complexity, not fewer — this isn't the reason switching surges become the governing factor.">EHV systems have fewer switching operations overall</button>
+    </div>
+    <div class="quiz-feedback" id="qfb6"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(6)">← Lightning Surges</button>
+    <button class="btn btn-next" onclick="next(6)">Surge Arresters &amp; Protective Devices →</button>
+  </div>
+</section>
+<!-- ===== LESSON 7: Surge Arresters & Protective Devices ===== -->
+<section class="lesson" id="l7">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 08</div>
+    <h2>🛡️ Surge Arresters &amp; Protective Devices</h2>
+    <p class="lesson-intro">Modules 6 and 7 covered what causes lightning and switching surges. This is the actual hardware that catches them before they reach protected equipment.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧊 Metal Oxide Varistors (MOVs) — The Modern Standard</div>
+    <p>Nearly all modern HV surge arresters are built around <strong>metal oxide varistor (MOV)</strong> blocks — typically zinc oxide (ZnO) ceramic discs. Their defining property is a highly non-linear voltage-current relationship: at normal system voltage, an MOV behaves almost like an open circuit (leaking only a tiny, harmless current). Once voltage crosses its threshold, its resistance drops dramatically, allowing it to conduct a large surge current to ground while "clamping" the voltage at a controlled, safe level.</p>
+    <div class="net-diagram">Current
+   │                              ╱
+   │                            ╱   <span class="dim">← steep rise: MOV conducts</span>
+   │                          ╱          heavily once threshold
+   │                        ╱            is crossed
+   │                      ╱
+   │____________________╱
+   │  <span class="dim">← flat: near-zero leakage</span>
+   │      at normal voltage
+   └──────────────────────────────── Voltage
+                    ↑
+              Threshold voltage</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏺 Gapped Silicon Carbide — The Older Technology</div>
+    <p>Before MOVs became standard, arresters used <strong>silicon carbide (SiC)</strong> elements combined with a physical spark gap in series. The gap prevented any current flow at normal voltage; once a surge exceeded the gap's sparkover voltage, it would arc across, and the SiC element then limited the follow-on current. Gapless MOV arresters have largely replaced this design because they respond faster and don't depend on a mechanical gap's condition — but SiC-gap arresters are still found on older existing equipment.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Key Arrester Ratings You'll See on a Nameplate</div>
+    <table>
+      <tr><th>Rating</th><th>What It Means</th></tr>
+      <tr><td>MCOV (Maximum Continuous Operating Voltage)</td><td>The highest voltage the arrester can be continuously exposed to without conducting significant current or degrading</td></tr>
+      <tr><td>Rated Voltage</td><td>The maximum RMS voltage the arrester is designed to handle during a temporary overvoltage event, per relevant standards testing</td></tr>
+      <tr><td>Protective Level (Clamping Voltage)</td><td>The voltage the arrester actually holds the surge down to during a discharge — this is the number that gets compared against equipment BIL in the coordination margin from Module 4</td></tr>
+      <tr><td>Nominal Discharge Current</td><td>The standardized surge current magnitude (often 10kA) used for classification and protective-level testing</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📍 Where Arresters Actually Get Installed</div>
+    <p>Placement matters as much as the device itself — an arrester only protects equipment that's electrically close to it, since the connecting leads themselves add inductance that reduces protection effectiveness with distance. Arresters are typically installed as close as physically practical to the equipment they protect: directly at transformer bushings, at the line entrance to a substation, and at the terminals of other critical, expensive equipment.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>Lead length is a real, quantified design factor</strong>Every extra foot of connecting lead between an arrester and the equipment it protects adds inductance, which itself generates an additional voltage drop during the fast current rise of a surge — meaning the equipment can still see a voltage higher than the arrester's rated protective level if the leads are too long. This is a genuine, commonly-cited real-world installation mistake.</div>
+    </div>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why does the physical distance (lead length) between a surge arrester and the equipment it protects actually matter?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Longer leads add inductance, which generates additional voltage drop during a surge's fast current rise — meaning the protected equipment can see a voltage higher than the arrester's rated protective level if leads are too long.">Longer leads add inductance, creating extra voltage drop during a surge that can push the actual voltage at the equipment above the arrester's rated protective level</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Lead length isn't primarily a thermal/resistive heating concern for arrester function — the relevant effect is inductive voltage drop during the surge's fast transient.">Longer leads simply waste more energy as heat, which is only a minor efficiency concern</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="MCOV is a voltage rating describing continuous operating conditions — it isn't directly changed by lead length; the protective-level effect during a surge event is the real concern.">Lead length changes the arrester's MCOV rating</button>
+    </div>
+    <div class="quiz-feedback" id="qfb7"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(7)">← Switching Surges</button>
+    <button class="btn btn-next" onclick="next(7)">HV Testing Methods →</button>
+  </div>
+</section>
+<!-- ===== LESSON 8: HV Testing Methods ===== -->
+<section class="lesson" id="l8">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 09</div>
+    <h2>🔬 HV Testing Methods</h2>
+    <p class="lesson-intro">How do you actually verify that a piece of equipment meets its insulation rating, and how do you catch degradation before it fails in service? Different tests answer different questions.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Withstand Testing — "Does It Survive?"</div>
+    <p>The most direct test: apply a specified test voltage (often well above normal operating voltage) for a specified duration, and confirm the insulation survives without breakdown. This directly verifies BIL-type ratings from Module 4 — a lightning-impulse withstand test applies the standardized 1.2×50 μs waveform at the rated level and confirms no flashover or puncture occurs.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Partial Discharge (PD) Testing — Catching Problems Before Failure</div>
+    <p><strong>Partial discharge</strong> is exactly what it sounds like: a small, localized electrical discharge that only partially bridges the insulation between conductors — not a full breakdown, but a real sign of a weak point (a void, contamination, or developing treeing damage from Module 3). PD testing detects these tiny discharges (often via the high-frequency electrical noise or acoustic signals they generate) long before the defect grows into an actual failure.</p>
+    <div class="callout tip">
+      <span class="callout-emoji">💡</span>
+      <div class="callout-body"><strong>Why PD testing matters so much for cable and transformer maintenance</strong>Treeing (Module 3) in aging XLPE cable insulation is a slow process that generates partial discharge activity for months or years before final failure. Regular PD monitoring can catch this developing damage and allow scheduled replacement, instead of an unplanned failure and outage.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛢️ Dissolved Gas Analysis (DGA) — For Oil-Filled Equipment</div>
+    <p>When insulation inside an oil-filled transformer degrades (from overheating, arcing, or partial discharge), it breaks down chemically and releases specific dissolved gases into the oil — different fault types produce different, recognizable gas signatures. <strong>DGA</strong> is a lab test on an oil sample that identifies these gases and their ratios, letting engineers diagnose the TYPE of developing fault (thermal overheating vs. electrical arcing vs. partial discharge) without ever opening the transformer.</p>
+    <table>
+      <tr><th>Dominant Gas Found</th><th>Likely Fault Type</th></tr>
+      <tr><td>Methane, Ethane</td><td>Low-temperature thermal fault</td></tr>
+      <tr><td>Ethylene, Acetylene</td><td>High-temperature thermal fault or arcing</td></tr>
+      <tr><td>Hydrogen</td><td>Partial discharge (corona-type activity)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Power Factor / Dissipation Factor Testing</div>
+    <p>A healthy dielectric should dissipate very little energy as heat when voltage is applied — nearly all the applied energy should be stored and returned, not lost. <strong>Power factor testing</strong> (also called dissipation factor or tan-delta testing) measures how much energy loss is actually occurring in an insulation system. A rising power-factor value over successive tests is a well-established early warning sign of insulation aging, moisture ingress, or contamination — well before an actual breakdown event.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">A utility wants to diagnose whether a transformer's oil-filled insulation has a developing thermal fault or an electrical arcing problem, without opening the tank. Which test is designed specifically for this?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Withstand testing confirms whether insulation survives a specified test voltage — it doesn't diagnose the TYPE of an already-developing internal fault the way DGA does.">Withstand testing</button>
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Dissolved Gas Analysis identifies specific gases released by different fault types (thermal vs. arcing vs. partial discharge) dissolved in the oil, letting engineers diagnose the fault type from an oil sample alone.">Dissolved Gas Analysis (DGA)</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Partial discharge testing detects small localized discharges, but DGA is specifically the test designed to distinguish thermal-fault gas signatures from arcing-fault signatures in oil-filled equipment.">Partial discharge testing alone</button>
+    </div>
+    <div class="quiz-feedback" id="qfb8"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(8)">← Surge Arresters &amp; Protective Devices</button>
+    <button class="btn btn-next" onclick="next(8)">Grounding &amp; Bonding for HV Systems →</button>
+  </div>
+</section>
+<!-- ===== LESSON 9: Grounding & Bonding for HV Systems ===== -->
+<section class="lesson" id="l9">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 10</div>
+    <h2>🌍 Grounding &amp; Bonding for HV Systems</h2>
+    <p class="lesson-intro">Module 6 already showed why tower grounding resistance directly determines whether shielding actually prevents backflashover. Here's the fuller picture of why HV grounding is a serious, calculated engineering discipline in its own right.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 What HV Grounding Actually Has to Do</div>
+    <ul>
+      <li><strong>Provide a low-impedance path</strong> for fault current to return to source, so protective relaying can detect and clear faults quickly</li>
+      <li><strong>Limit ground potential rise (GPR)</strong> during a fault, so nearby personnel and equipment aren't exposed to dangerous voltage differences</li>
+      <li><strong>Support lightning protection</strong> by giving shield wires and surge arresters an effective, low-resistance path to dissipate strike energy (directly connecting back to Module 6's backflashover discussion)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Ground Potential Rise (GPR) — The Real Safety Hazard</div>
+    <p>During a fault, a large current flows into the earth at the grounding point. Because real earth has resistance (not zero), this current flow creates a genuine voltage gradient in the soil around the grounding point — the earth's potential near the fault is measurably higher than "true" remote earth. This is <strong>ground potential rise</strong>, and it creates two specific, well-documented hazards:</p>
+    <table>
+      <tr><th>Hazard</th><th>What It Is</th></tr>
+      <tr><td>Step potential</td><td>The voltage difference between a person's two feet, standing at different points in the gradient — current can flow through the legs</td></tr>
+      <tr><td>Touch potential</td><td>The voltage difference between a person's hand (touching a grounded structure) and their feet standing on the ground nearby</td></tr>
+    </table>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>This is why substation grounding grids are engineered, not improvised</strong>A substation's grounding system is a carefully designed mesh of buried conductors specifically calculated to keep step and touch potentials within safe limits across the entire site during a worst-case fault — not just "a ground rod driven into the dirt."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🕸️ Grounding Grids — How Substations Actually Do This</div>
+    <p>Rather than relying on a single ground rod (which alone couldn't handle real fault currents safely), substations use a buried <strong>grounding grid</strong>: a mesh of interconnected conductors spread across the entire site area, often supplemented with additional ground rods at key points. The mesh spacing itself is a calculated design variable — tighter mesh spacing produces a more uniform surface potential, directly reducing step-potential hazard across the site.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Bonding — The Companion Concept</div>
+    <p><strong>Bonding</strong> is the practice of electrically connecting all metallic non-current-carrying parts (equipment enclosures, structural steel, fencing) together and to the grounding system, ensuring they all rise to the same potential together during a fault — rather than having dangerous potential differences appear BETWEEN two pieces of equipment or structure that a person could bridge by touching both.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">What is "touch potential," and why does substation grounding design specifically try to minimize it?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="Touch potential is the voltage difference between a grounded structure a person is touching and the ground they're standing on nearby — during a fault's ground potential rise, this difference can drive dangerous current through a person's body.">The voltage difference between a grounded structure someone is touching and the earth they're standing on — a real shock hazard during a fault</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Touch potential is specifically about the hazard to a person contacting equipment during a fault, not a general equipment rating.">A rating describing how much voltage a piece of equipment can be touched at safely under normal conditions</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Touch potential is a real, physical safety hazard from ground potential rise during fault conditions, not a testing methodology.">A test method for checking insulation quality, unrelated to grounding</button>
+    </div>
+    <div class="quiz-feedback" id="qfb9"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(9)">← HV Testing Methods</button>
+    <button class="btn btn-next" onclick="next(9)">HV Safety Practices →</button>
+  </div>
+</section>
+<!-- ===== LESSON 10: HV Safety Practices ===== -->
+<section class="lesson" id="l10">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 11</div>
+    <h2>🦺 HV Safety Practices</h2>
+    <p class="lesson-intro">Everything so far has been about how HV systems are engineered to behave. This module is about how people work around them safely — the discipline, not just the physics.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔒 Lockout/Tagout (LOTO) — Not Optional, Not Informal</div>
+    <p>Before anyone works on de-energized HV equipment, a formal <strong>lockout/tagout</strong> procedure isolates every possible energy source, physically locks each isolation point, and tags it to identify who applied the lock and why. This isn't a paperwork formality — HV equipment often has multiple possible feed paths (including backfeed from the "load" side under some conditions), and a formal, verified procedure is what actually prevents someone from working on something that could still be energized.</p>
+    <div class="callout warn">
+      <span class="callout-emoji">⚠️</span>
+      <div class="callout-body"><strong>The core principle, stated directly</strong>Never trust a switch position alone. LOTO procedures require verified isolation — confirming zero voltage with a properly rated test instrument at the actual work location, every time, regardless of how confident anyone is that the equipment is already off.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧤 Approach Boundaries — Distance Is a Real Protective Measure</div>
+    <p>Standards (like NFPA 70E in the US) define specific <strong>approach boundaries</strong> around energized HV equipment — minimum distances that require increasingly strict PPE and authorization as you get closer. These boundaries scale with system voltage, directly connecting back to Module 2's electric field concepts: higher voltage means a larger minimum safe distance before the field itself becomes hazardous, independent of any direct contact.</p>
+    <table>
+      <tr><th>Boundary</th><th>General Concept</th></tr>
+      <tr><td>Limited Approach Boundary</td><td>Beyond this distance, no special HV-qualified authorization is needed; inside it, only qualified/escorted personnel</td></tr>
+      <tr><td>Restricted Approach Boundary</td><td>Closer distance requiring specific PPE and a documented work plan</td></tr>
+      <tr><td>Arc Flash Boundary</td><td>The distance at which an arc-flash event could still cause a serious burn injury — sized from an actual incident-energy calculation, not a fixed universal number</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💥 Arc Flash — A Distinct, Severe Hazard</div>
+    <p>An <strong>arc flash</strong> is an explosive release of energy from an electrical fault arcing through air — a genuinely different hazard from electric shock, since it involves extreme heat (temperatures can exceed the surface of the sun in the arc itself), a pressure wave, and molten metal spray, even without any direct physical contact with the circuit. Arc-flash risk is why HV work often requires specialized flame-resistant PPE rated for a calculated incident-energy level, not just standard insulated gloves.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧑‍🤝‍🧑 Qualified Persons &amp; the "Two-Person Rule"</div>
+    <p>HV work is generally restricted to personnel specifically trained and authorized for that voltage class and task — a "qualified person" designation with real, defined training/experience requirements behind it, not just general electrical familiarity. Many organizations additionally require a second qualified person present for higher-risk HV tasks, specifically so someone else is immediately available to respond if something goes wrong.</p>
+  </div>
+
+  <div class="quiz-block">
+    <div class="quiz-title">🧠 Quick Check</div>
+    <div class="quiz-q">Why does a proper LOTO procedure require verifying zero voltage with a test instrument at the work location, even after a switch has been visually confirmed open?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="quiz(this,'correct')" data-feedback="HV equipment often has multiple possible feed paths, including potential backfeed conditions — a switch position alone doesn't guarantee the actual work location is de-energized, which is exactly why direct verified testing is required.">A switch position alone doesn't guarantee the actual work point is de-energized — HV systems can have multiple feed paths or backfeed conditions</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="This isn't primarily a documentation/paperwork requirement — it's a genuine physical safety verification step, since switch position alone is not a reliable guarantee of zero energy.">It's purely a documentation requirement with no real safety function</button>
+      <button class="quiz-option" onclick="quiz(this,'wrong')" data-feedback="Switches themselves generally aren't a significant source of stray voltage generation — the real concern is verifying the true state of the circuit, not detecting switch-generated voltage.">Switches generate their own residual voltage that needs to be measured</button>
+    </div>
+    <div class="quiz-feedback" id="qfb10"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(10)">← Grounding &amp; Bonding for HV Systems</button>
+    <button class="btn btn-next" onclick="next(10)">Capstone — Insulation Coordination Study →</button>
+  </div>
+</section>
+<!-- ===== LESSON 11: Capstone — Insulation Coordination Study ===== -->
+<section class="lesson" id="l11">
+  <div class="lesson-header">
+    <div class="lesson-num">MODULE 12 🏁</div>
+    <h2>🏁 Capstone — Insulation Coordination Study</h2>
+    <p class="lesson-intro">Every module in this course, applied to one realistic scenario: sizing insulation and protection for a 34.5kV substation transformer, from the ground up.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏭 The Scenario</div>
+    <p>A utility is installing a new 34.5kV-class transformer at a substation in a moderately polluted inland environment (occasional industrial dust, no coastal salt exposure). Your task: work through the real coordination decisions an engineer would actually make, using the concepts from every module in this course.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">1️⃣ Establish the BIL Requirement (Module 4)</div>
+    <p>Standard tables (IEEE C57.12.00) associate a 34.5kV system class with a standard BIL rating of <strong>200kV</strong>. This becomes your equipment's target withstand rating against the standardized 1.2×50 μs lightning impulse from Module 6.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2️⃣ Select and Size the Surge Arrester (Module 8)</div>
+    <p>An MOV arrester rated for the system's MCOV, with a protective (clamping) level that leaves a genuine safety margin below the transformer's 200kV BIL — a typical coordination target aims for the arrester's protective level to sit meaningfully below the equipment BIL, per the margin principle from Module 4. The arrester gets installed with the shortest practical lead length directly at the transformer bushing, applying the lead-length lesson from Module 8 directly.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3️⃣ Verify Clearance (Module 5)</div>
+    <p>Using the site's altitude (assume below 1,000m, so no correction factor from Module 4 is needed) and the 200kV BIL target, reference standard clearance tables to confirm the physical air-gap spacing around the bushing and bus work meets the minimum required straight-line distance for that BIL class.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4️⃣ Verify Creepage for the Actual Environment (Module 5)</div>
+    <p>Given the "moderately polluted, occasional industrial dust" site condition described in the scenario, apply a Medium pollution-level creepage multiplier (from Module 5's table) rather than the clean-environment baseline — this determines the actual bushing/insulator surface-path length needed, which will be longer than the clean-environment minimum.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5️⃣ Design the Grounding (Modules 6 &amp; 10)</div>
+    <p>Size the substation grounding grid to keep step and touch potentials within safe limits during a worst-case fault, and confirm the grounding resistance is low enough to support effective backflashover protection for any incoming shielded line — directly connecting Module 6's shielding discussion to Module 10's grounding-grid design.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">6️⃣ Plan the Testing &amp; Maintenance Program (Module 9)</div>
+    <p>Specify a factory withstand test at commissioning, and establish an ongoing maintenance program: periodic DGA oil sampling to catch developing thermal or arcing faults early, and periodic power-factor testing to track long-term insulation aging — both chosen specifically because this is oil-filled transformer equipment.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">7️⃣ Establish the Safety Plan (Module 11)</div>
+    <p>Define the approach boundaries for this specific voltage class, confirm arc-flash incident-energy calculations are on file for the site, and establish that any future work follows verified LOTO procedures with qualified personnel — not switch-position assumptions.</p>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-label">🏁 Final Challenge</div>
+    <h4>Write the Coordination Summary</h4>
+    <p>Using everything above, write a one-page coordination summary (as if handing it to a colleague) explaining: the chosen BIL rating and why, the arrester's role and installation requirement, why the creepage distance had to be adjusted for this specific site's pollution level rather than using a clean-environment default, and what ongoing testing this equipment needs and why. The real test of understanding here isn't reciting the numbers — it's being able to explain <em>why</em> each decision follows from the site's actual conditions.</p>
+    <ul>
+      <li>A stated BIL rating with justification tied to the system voltage class</li>
+      <li>An arrester specification with a clearly explained coordination margin</li>
+      <li>Clearance AND creepage distances calculated separately, with creepage correctly adjusted for the site's real pollution level</li>
+      <li>A grounding design rationale connecting fault safety and lightning backflashover protection</li>
+      <li>A testing/maintenance plan matched to this being oil-filled equipment specifically</li>
+    </ul>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn btn-prev" onclick="prev(11)">← HV Safety Practices</button>
+    <button class="btn btn-next" disabled>Course Complete! 🎉</button>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+const TOTAL = 12;
+const done  = new Set();
+let   cur   = 0;
+
+const STORAGE_KEY = 'teqstudy_progress::' + location.pathname.split('/').pop();
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  location.reload();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ done: [...done], cur }));
+  } catch (e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { done.add(0); updateBar(); return; }
+    const data = JSON.parse(raw);
+    (data.done || []).forEach(i => done.add(i));
+    if (typeof data.cur === 'number' && data.cur >= 0 && data.cur < TOTAL && data.cur !== 0) {
+      go(data.cur);
+    } else {
+      done.add(0);
+      updateBar();
+    }
+  } catch (e) {
+    done.add(0);
+    updateBar();
+  }
+}
+
+function go(i) {
+  document.getElementById('l' + cur).classList.remove('active');
+  document.getElementById('nav' + cur).classList.remove('active');
+  cur = i;
+  document.getElementById('l' + i).classList.add('active');
+  document.getElementById('nav' + i).classList.add('active');
+  done.add(i);
+  updateBar();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(i)  { go(Math.min(i + 1, TOTAL - 1)); }
+function prev(i)  { go(Math.max(i - 1, 0)); }
+
+function updateBar() {
+  const pct = Math.round((done.size / TOTAL) * 100);
+  document.getElementById('pbar').style.width  = pct + '%';
+  document.getElementById('ppct').textContent  = pct + '%';
+  done.forEach(i => { document.getElementById('chk' + i).textContent = '✓'; });
+}
+
+function quiz(btn, result) {
+  const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(result);
+  const fb = btn.closest('.quiz-block').querySelector('.quiz-feedback');
+  fb.classList.add('show', result === 'correct' ? 'ok' : 'bad');
+  const msg = btn.dataset.feedback || (result === 'correct' ? 'Correct!' : 'Not quite — review the lesson above.');
+  fb.textContent = (result === 'correct' ? '✅ ' : '❌ ') + msg;
+}
+
+loadProgress();
+</script>
+  <a href="courses.html" onmouseout="this.style.background='#161e2e'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#1c2638'; this.style.transform='translateY(-2px);'" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161e2e; color: #e8eef7; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #243044; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+<script src="../js/activity-tracker.js"></script>
+</body>
+</html>

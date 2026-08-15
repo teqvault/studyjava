@@ -81,11 +81,11 @@ const lessons = [
 <pre><code><span class="kw">import</span> json
 
 <span class="cm"># 1. Python dict → JSON string</span>
-data = {<span class="str">"name"</span>: <span class="str">"Jude"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"java"</span>], <span class="str">"level"</span>: <span class="num">3</span>}
+data = {<span class="str">"name"</span>: <span class="str">"Alex"</span>, <span class="str">"skills"</span>: [<span class="str">"python"</span>, <span class="str">"java"</span>], <span class="str">"level"</span>: <span class="num">3</span>}
 json_string = json.dumps(data, indent=<span class="num">2</span>)
 <span class="fn">print</span>(json_string)
 <span class="cm"># {
-#   "name": "Jude",
+#   "name": "Alex",
 #   "skills": ["python", "java"],
 #   "level": 3
 # }</span>
@@ -254,7 +254,7 @@ root = ET.<span class="fn">fromstring</span>(xml_data)
     <div class="compare-label bad">❌ Old Way (os.path)</div>
     <pre><code><span class="kw">import</span> os
 
-base = <span class="str">"/home/jude/projects"</span>
+base = <span class="str">"/home/alex/projects"</span>
 full = os.path.<span class="fn">join</span>(base, <span class="str">"app"</span>, <span class="str">"config.json"</span>)
 name = os.path.<span class="fn">basename</span>(full)
 ext  = os.path.<span class="fn">splitext</span>(name)[<span class="num">1</span>]
@@ -264,7 +264,7 @@ exists = os.path.<span class="fn">exists</span>(full)</code></pre>
     <div class="compare-label good">✓ Pathlib Way</div>
     <pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
 
-base = Path(<span class="str">"/home/jude/projects"</span>)
+base = Path(<span class="str">"/home/alex/projects"</span>)
 full = base / <span class="str">"app"</span> / <span class="str">"config.json"</span>
 name = full.name       <span class="cm"># "config.json"</span>
 ext  = full.suffix     <span class="cm"># ".json"</span>
@@ -275,14 +275,14 @@ exists = full.<span class="fn">exists</span>()</code></pre>
 <h3>The full Path API you'll actually use</h3>
 <pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
 
-p = Path(<span class="str">"/home/jude/projects/app/config.json"</span>)
+p = Path(<span class="str">"/home/alex/projects/app/config.json"</span>)
 
 <span class="cm"># ── Inspection ────────────────────────────</span>
 p.name        <span class="cm"># "config.json"       — filename + ext</span>
 p.stem        <span class="cm"># "config"            — filename without ext</span>
 p.suffix      <span class="cm"># ".json"             — extension</span>
 p.parent      <span class="cm"># .../projects/app    — parent directory</span>
-p.parts       <span class="cm"># ('/', 'home', 'jude', 'projects', 'app', 'config.json')</span>
+p.parts       <span class="cm"># ('/', 'home', 'alex', 'projects', 'app', 'config.json')</span>
 p.<span class="fn">exists</span>()    <span class="cm"># True/False</span>
 p.<span class="fn">is_file</span>()   <span class="cm"># True</span>
 p.<span class="fn">is_dir</span>()    <span class="cm"># False</span>
@@ -290,7 +290,7 @@ p.<span class="fn">stat</span>().st_size  <span class="cm"># file size in bytes<
 
 <span class="cm"># ── Navigation ────────────────────────────</span>
 p.parent / <span class="str">"settings.toml"</span>  <span class="cm"># sibling file</span>
-p.parents[<span class="num">1</span>]                 <span class="cm"># /home/jude/projects</span>
+p.parents[<span class="num">1</span>]                 <span class="cm"># /home/alex/projects</span>
 
 <span class="cm"># ── Reading and Writing ───────────────────</span>
 text = p.<span class="fn">read_text</span>(encoding=<span class="str">"utf-8"</span>)
@@ -433,8 +433,8 @@ results = <span class="fn">find_large_files</span>(Path(<span class="str">"."</s
 
 <span class="cm"># Back up today's work</span>
 <span class="fn">backup_recent</span>(
-    src=Path(<span class="str">"/home/jude/projects"</span>),
-    dst=Path(<span class="str">"/home/jude/backups"</span>) / datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"%Y-%m-%d"</span>),
+    src=Path(<span class="str">"/home/alex/projects"</span>),
+    dst=Path(<span class="str">"/home/alex/backups"</span>) / datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="str">"%Y-%m-%d"</span>),
     days=<span class="num">1</span>
 )</code></pre>
 `
@@ -548,13 +548,13 @@ PATTERNS = {
     <span class="str">"date_iso"</span>: r<span class="str">"\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])"</span>,
 }
 
-test = <span class="str">"Contact jude@teqvault.study or visit https://teqvault.study — version v2.1.0"</span>
+test = <span class="str">"Contact alex@teqvault.study or visit https://teqvault.study — version v2.1.0"</span>
 
 <span class="kw">for</span> name, pattern <span class="kw">in</span> PATTERNS.<span class="fn">items</span>():
     matches = re.<span class="fn">findall</span>(pattern, test)
     <span class="kw">if</span> matches:
         <span class="fn">print</span>(<span class="fn">f</span><span class="str">"{name}: {matches}"</span>)
-<span class="cm"># email:   ['jude@teqvault.study']
+<span class="cm"># email:   ['alex@teqvault.study']
 # url:     ['https://teqvault.study']
 # version: ['v2.1.0']</span></code></pre>
 `
@@ -777,13 +777,13 @@ scheduler.<span class="fn">start</span>()
 <span class="cm"># Format: minute hour day month weekday command</span>
 <span class="cm"># </span>
 <span class="cm"># Run at 8:00 AM every day</span>
-<span class="cm"># 0 8 * * * /usr/bin/python3 /home/jude/scripts/digest.py</span>
+<span class="cm"># 0 8 * * * /usr/bin/python3 /home/alex/scripts/digest.py</span>
 <span class="cm"># </span>
 <span class="cm"># Run every 30 minutes</span>
-<span class="cm"># */30 * * * * /home/jude/.venv/bin/python /home/jude/scripts/check.py</span>
+<span class="cm"># */30 * * * * /home/alex/.venv/bin/python /home/alex/scripts/check.py</span>
 <span class="cm"># </span>
 <span class="cm"># Run at 9 AM Monday-Friday</span>
-<span class="cm"># 0 9 * * 1-5 /home/jude/.venv/bin/python /home/jude/scripts/work_report.py</span>
+<span class="cm"># 0 9 * * 1-5 /home/alex/.venv/bin/python /home/alex/scripts/work_report.py</span>
 <span class="cm"># </span>
 <span class="cm"># Redirect output to a log file</span>
 <span class="cm"># 0 8 * * * /path/to/python /path/to/script.py >> /var/log/myapp.log 2>&1</span></code></pre>
@@ -1359,13 +1359,14 @@ lessons.forEach((l, i) => {
 
 updateProgress();
 </script>
-      <a href="../index.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+      <a href="courses.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
     Roadmap
 </a>
-    <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
+    <a href="courses.html" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Roadmap
 </a>
+<script src="../js/activity-tracker.js"></script>
 </body>
 </html>
