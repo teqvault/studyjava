@@ -26,7 +26,7 @@
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           Home
         </a>
-        <a href="pages/courses.html" class="nav-item">
+        <a href="pages/courses.html#course-lists" class="nav-item">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           My Learning
         </a>
@@ -34,7 +34,7 @@
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
           Subjects
         </a>
-        <a href="pages/courses.html#books" class="nav-item">
+        <a href="pages/courses.html#resources" class="nav-item">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
           Resources
         </a>
@@ -46,15 +46,13 @@
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           Calendar
         </a>
-        <a href="#" class="nav-item soon" title="Not built yet">
+        <a href="#notes" class="nav-item">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
           Notes
-          <span class="soon-tag">Soon</span>
         </a>
-        <a href="#" class="nav-item soon" title="Not built yet">
+        <a href="#settings" class="nav-item">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           Settings
-          <span class="soon-tag">Soon</span>
         </a>
       </nav>
 
@@ -183,6 +181,29 @@
           <!-- filled on load -->
         </div>
       </section>
+
+      <!-- Notes -->
+      <section class="progress-section" id="notes" style="margin-top:28px;">
+        <h3 class="section-title">Notes</h3>
+        <div class="progress-empty" style="padding:18px 0;">
+          <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">Local notes (coming next)</div>
+          <div style="margin-bottom:8px;line-height:1.55;">A simple notes pad that saves in your browser is planned here. For now, use the course pages and your own editor.</div>
+          <div style="font-size:12px;color:var(--text-muted);">Nothing is lost — this section is reserved so the nav has a real destination.</div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="progress-section" id="settings" style="margin-top:12px;margin-bottom:40px;">
+        <h3 class="section-title">Settings</h3>
+        <div class="progress-empty" style="padding:18px 0;">
+          <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">Dashboard preferences</div>
+          <div style="margin-bottom:10px;line-height:1.55;">Theme, default timer, and data controls will live here.</div>
+          <button type="button" id="clearLocalDataBtn" style="background:transparent;border:1px solid var(--border, #333);color:var(--text-muted);border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;">
+            Clear local progress data
+          </button>
+          <div id="clearLocalDataMsg" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></div>
+        </div>
+      </section>
     </main>
 
     <!-- ========== RIGHT PANEL ========== -->
@@ -237,5 +258,24 @@
   <script src="js/activity-tracker.js"></script>
   <script src="js/course-manifest.js"></script>
   <script src="js/dashboard.js"></script>
+
+<script>
+(function(){
+  var btn = document.getElementById('clearLocalDataBtn');
+  var msg = document.getElementById('clearLocalDataMsg');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    if (!confirm('Clear all TeqStudy progress and session data stored in this browser?')) return;
+    var keys = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && (k.indexOf('teqstudy_') === 0 || k.indexOf('hv-course') === 0)) keys.push(k);
+    }
+    keys.forEach(function(k){ localStorage.removeItem(k); });
+    if (msg) msg.textContent = 'Local data cleared. Reload the page to refresh stats.';
+  });
+})();
+</script>
+
 </body>
 </html>

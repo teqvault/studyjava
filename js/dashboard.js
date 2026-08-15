@@ -210,7 +210,11 @@ function renderProgressList(perCourse) {
   var started = perCourse.filter(function (c) { return c.done > 0; });
 
   if (started.length === 0) {
-    list.innerHTML = '<div class="progress-empty">No courses started yet — progress on the six lesson-tracked courses will show up here.</div>';
+    list.innerHTML = '<div class="progress-empty">' +
+      '<div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">No progress yet</div>' +
+      '<div style="margin-bottom:12px;">Start any tracked course and your lesson completion will appear here.</div>' +
+      '<a href="pages/courses.html#course-lists" class="btn-continue" style="display:inline-flex;width:auto;padding:8px 14px;font-size:13px;">Browse courses</a>' +
+    '</div>';
     return;
   }
 
@@ -319,7 +323,10 @@ function renderSessions() {
 
   var container = document.getElementById('sessionList');
   if (list.length === 0) {
-    container.innerHTML = '<div class="session-empty">No upcoming sessions yet.</div>';
+    container.innerHTML = '<div class="session-empty">' +
+      '<div style="font-weight:600;margin-bottom:4px;">No sessions scheduled</div>' +
+      '<div style="font-size:12px;opacity:0.85;">Use + Add Session to plan your next study block.</div>' +
+    '</div>';
     return;
   }
 
