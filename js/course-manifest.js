@@ -34,6 +34,7 @@ window.TEQ_PAGE_TITLES = {
   'docker-course.html': 'Docker for Beginners',
   'docker-intermediate-course.html': 'Docker Intermediate',
   'kubernetes-beginner-course.html': 'Kubernetes for Beginners',
-  'kubernetes-intermediate-course.html': 'Kubernetes Intermediate'
+  'kubernetes-intermediate-course.html': 'Kubernetes Intermediate',
+  'self-hosted-backend-course.html': 'Self-Hosted Backends'
   /* Falls back to a title-cased filename for anything not listed here. */
 };

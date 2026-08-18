@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Hosted Backends — From Zero to a Real Running Server</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/oop-java-course.css">
+<link href="../css/mobile-fixes.css" rel="stylesheet"/>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7932735753046865"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Beginner Friendly · DevOps</div>
+  <h1>Self-Hosted Backends</h1>
+  <p>A complete, assume-nothing course on turning an ordinary computer into a real server the whole internet can reach — servers, networking, Docker, HTTPS, and a real database with logins. 🖥️</p>
+  <div class="header-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">📚 Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-pct" id="progressPct">0%</span>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-title">Course Lessons</div>
+    <a class="nav-item active" onclick="showLesson(0)" href="#">
+      <span class="nav-icon">🖥️</span> What Is a Server?
+    </a>
+    <a class="nav-item" onclick="showLesson(1)" href="#">
+      <span class="nav-icon">🧩</span> Frontend, Backend &amp; the OS
+    </a>
+    <a class="nav-item" onclick="showLesson(2)" href="#">
+      <span class="nav-icon">⌨️</span> Terminal &amp; Remote Access
+    </a>
+    <a class="nav-item" onclick="showLesson(3)" href="#">
+      <span class="nav-icon">🌐</span> IPs, DNS &amp; Domains
+    </a>
+    <a class="nav-item" onclick="showLesson(4)" href="#">
+      <span class="nav-icon">🚪</span> Routers, Ports &amp; Firewalls
+    </a>
+    <a class="nav-item" onclick="showLesson(5)" href="#">
+      <span class="nav-icon">📦</span> Docker &amp; Compose
+    </a>
+    <a class="nav-item" onclick="showLesson(6)" href="#">
+      <span class="nav-icon">🔒</span> Reverse Proxy &amp; HTTPS
+    </a>
+    <a class="nav-item" onclick="showLesson(7)" href="#">
+      <span class="nav-icon">🛠️</span> APIs &amp; Databases
+    </a>
+    <a class="nav-item" onclick="showLesson(8)" href="#">
+      <span class="nav-icon">🏆</span> Auth, Safety &amp; Final Project
+    </a>
+  </nav>
+
+  <main class="main">
+<!-- Google AdSense -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7932735753046865"
+     data-ad-slot="1368307586"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 1 — WHAT IS A SERVER?
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson active" id="lesson-0">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 of 9</div>
+        <h2>🖥️ What Is a Server, Really?</h2>
+        <p class="lesson-intro">This course assumes you've never touched a server before. Every term gets defined the moment it shows up — nothing is assumed. Let's start at the very beginning.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🤔 A Program Needs Somewhere to Run</div>
+        <p>A <strong>program</strong> is just a set of instructions a computer follows — a calculator, a browser, a game. Normally that's simple: you double-click an icon, and it runs on your own computer.</p>
+        <p>But some programs need to be reachable by lots of people, from lots of devices, at any hour — a shared photo album your whole family adds to, or a game you play against strangers. Nobody's personal laptop can handle that; it might be off, too slow, or on the other side of the planet.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏠 That's Where a Server Comes In</div>
+        <p>A <strong>server</strong> is a computer whose job is to run a program continuously, stay turned on, and be reachable by other computers over a network. "Server" describes a <em>role</em>, not special hardware — literally any computer can be one, including the exact machine you already own.</p>
+        <p>The computer asking for something is called a <strong>client</strong>. When you open a browser and visit a website, your browser is the client, and somewhere a server sends back the page.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Think of a server like a restaurant kitchen that never closes. Customers (clients) walk in anytime and place an order. The kitchen (server) is always staffed, always ready, and sends food back out the same way every time — regardless of who's asking or when.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📡 Client and Server, Talking</div>
+        <p>When your browser wants a webpage, it doesn't teleport there. It sends a message across a chain of connected devices — your router, your provider's equipment, and internet infrastructure — until it reaches the right server, which sends a response back.</p>
+        <p>Two rules ("protocols") matter most here:</p>
+        <ul>
+          <li><strong>IP (Internet Protocol)</strong> — every device gets a numeric address, an <strong>IP address</strong>, like <code>192.168.1.191</code>, so others know where to send messages.</li>
+          <li><strong>HTTP / HTTPS</strong> — the rules browsers and servers use to talk. HTTPS is the encrypted version — nearly every website uses it today.</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🔑</div>
+        <div class="callout-body">
+          <strong>Key Term — Self-Hosting</strong>
+          "Hosting" means running something on a server so others can reach it. "Self-hosting" means running it on a server <em>you</em> own and control, instead of paying a company to run it for you. That's exactly what this course builds toward.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🖥️ Why Ordinary Programs Split Into Two Halves</div>
+        <p>Almost every modern app has a <strong>frontend</strong> (what the user sees and touches, running on their device) and a <strong>backend</strong> (the invisible server-side part that stores data, checks passwords, and coordinates between users). This entire course is about that backend half — how to build, host, and secure it yourself.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">What actually makes a computer "a server"?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It's a special, more expensive type of computer</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It's set up to run a service continuously and be reachable by others</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It has no keyboard or mouse attached</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It only runs Linux</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-0"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" disabled>← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 2 — FRONTEND, BACKEND & THE OS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 of 9</div>
+        <h2>🧩 Frontend, Backend, and the Operating System</h2>
+        <p class="lesson-intro">Before touching any commands, let's get the mental model solid: what each "half" of an app does, and why servers usually run without a screen at all.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📱 Frontend vs. Backend</div>
+        <p>A simple example: a note-taking app. The <strong>frontend</strong> is the screen where you type. But if you want that note to still be there tomorrow, on a different device, something has to <em>save</em> it somewhere permanent and hand it back later — that's the <strong>backend's</strong> job.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-card">
+          <div class="pillar-icon">🎨</div>
+          <h4>Frontend</h4>
+          <p>Runs on the user's own device. Buttons, screens, images — what people see and touch.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚙️</div>
+          <h4>Backend</h4>
+          <p>Runs on a server. Stores data, checks passwords, processes payments, coordinates users.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💻 Operating Systems, Server Style</div>
+        <p>An <strong>operating system (OS)</strong> is the foundational software managing a computer's hardware — Windows, macOS, Linux. Most people use a "desktop" version built around a mouse and windows. Servers usually run <strong>without a screen or mouse at all</strong>, managed entirely through typed commands, because:</p>
+        <ul>
+          <li>Nobody's sitting in front of it most of the time.</li>
+          <li>A graphical interface eats memory and CPU that could run actual services instead.</li>
+          <li>Text commands can be automated and repeated exactly — critical for something running unattended for months.</li>
+        </ul>
+        <p>This is why <strong>Ubuntu Server</strong> exists — the same Linux under the hood as regular Ubuntu, but stripped of the graphical interface and tuned for always-on services. It's what this course uses throughout.</p>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">👀</div>
+        <div class="callout-body">
+          <strong>What Installing It Looks Like</strong>
+          You create a bootable USB from an installer image, boot the target machine from it, and follow a wizard that partitions the disk and sets up a username and password. <strong>Write those down somewhere safe</strong> — losing them means digging through recovery tools, or reinstalling from scratch. Once it's done, you're left with a plain black screen and a blinking cursor. That's completely normal — that's exactly what a server is supposed to look like.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">Why do servers typically run without a graphical desktop?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Graphical interfaces don't work over the internet</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It frees up resources and lets actions be automated/repeated exactly via commands</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Linux doesn't support graphics</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It's a legal requirement for servers</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-1"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(0)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 3 — TERMINAL & REMOTE ACCESS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 3 of 9</div>
+        <h2>⌨️ The Terminal &amp; Remote Access (SSH)</h2>
+        <p class="lesson-intro">From here on, almost everything happens by typing commands. Let's build real comfort with the terminal before anything else.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⌨️ Terminal Ground Rules</div>
+        <p>The <strong>terminal</strong> is a text interface where you type commands and the computer prints results back. A few things that trip up nearly every beginner:</p>
+        <ul>
+          <li><strong>Commands are typed exactly</strong> — one wrong space can silently do the wrong thing.</li>
+          <li><strong>No output usually means success.</strong> Terminals mostly speak up only when something's wrong.</li>
+          <li>The <code>$</code> shown in examples is a <em>prompt</em>, not something you type.</li>
+          <li><strong>Spaces separate words</strong> — the command, then its arguments.</li>
+          <li><strong>Case matters</strong> — <code>File.txt</code> ≠ <code>file.txt</code>, unlike Windows.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Essentials</span>
+        </div>
+        <pre><span class="cm"># Run a command as administrator (asks for your password)</span>
+<span class="kw">sudo</span> <span class="str">apt update</span>
+
+<span class="cm"># Print a file's full contents</span>
+<span class="kw">cat</span> <span class="str">filename</span>
+
+<span class="cm"># Search a file for matching lines, with line numbers</span>
+<span class="kw">grep</span> <span class="str">-n "text to find" filename</span>
+
+<span class="cm"># Precisely replace text in a file, no editor needed</span>
+<span class="kw">sed</span> <span class="str">-i 's|OLD|NEW|' filename</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📝 Editing Files with nano</div>
+        <p><strong>nano</strong> is the simplest terminal text editor. Open a file with <code>nano filename</code>:</p>
+        <ul>
+          <li><code>Ctrl+O</code> then <code>Enter</code> — save</li>
+          <li><code>Ctrl+X</code> — exit</li>
+          <li><code>Ctrl+W</code> — search inside the file</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>The #1 Beginner Trap</strong>
+          Many config files are extremely picky about exact spacing and line breaks. Pasting a big multi-line block into a terminal or nano at once can silently "flatten" it into one line, breaking the file. Type carefully, and always double-check with <code>cat filename</code> after editing.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✍️ Writing a File Precisely: the "Heredoc"</div>
+        <p>A <strong>heredoc</strong>, run directly at the shell prompt (not inside nano), writes exact multi-line content with zero risk of flattening:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — Heredoc</span>
+        </div>
+        <pre><span class="kw">cat</span> <span class="str">&gt; filename &lt;&lt; 'EOF'</span>
+<span class="str">line one
+line two
+line three</span>
+<span class="str">EOF</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 SSH: Managing the Server From Anywhere Else</div>
+        <p>You never want to sit at the server's physical keyboard for daily work. <strong>SSH (Secure Shell)</strong> opens a terminal session on the server from a completely different computer, fully encrypted:</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">From your regular computer</span>
+        </div>
+        <pre><span class="kw">ssh</span> <span class="str">username@server-address</span></pre>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🎯</div>
+        <div class="callout-body">
+          <strong>The Single Most Important Habit</strong>
+          From now on, day-to-day work happens through SSH from your regular computer — never by physically touching the server again.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">If a command runs and prints nothing at all, what does that usually mean?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It failed silently</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It succeeded — terminals mostly stay quiet unless something's wrong</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">The terminal has frozen</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">You need to press Enter again</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-2"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(1)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 4 — IPs, DNS & DOMAINS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 4 of 9</div>
+        <h2>🌐 IP Addresses, DNS &amp; Domain Names</h2>
+        <p class="lesson-intro">Now let's make the server findable — first inside your own home, then to the entire internet.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🏠 Local vs. Public IP Addresses</div>
+        <p>Every device has an <strong>IP address</strong>, but there are two zones:</p>
+        <ul>
+          <li><strong>Local (private) IP</strong> — only meaningful inside your home network, handed out automatically by your router (<strong>DHCP</strong>). Looks like <code>192.168.1.x</code>.</li>
+          <li><strong>Public IP</strong> — the one address your whole home shares with the internet. Your router sorts traffic to the right device inside (<strong>NAT</strong> — more on this next lesson).</li>
+        </ul>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🍎 Real World Analogy</div>
+        <p>Your public IP is like your apartment building's street address. Your local IP is like your specific unit number. The whole internet only sees the street address — your router (the doorman) figures out which unit the mail is actually for.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📌 Why a Static Local IP Matters</div>
+        <p>By default, your router might hand your server a <em>different</em> local IP every time it restarts — a problem if you need to reliably reach it. The fix: either a <strong>DHCP reservation</strong> on the router, or a <strong>static configuration</strong> set on the server itself, via a system called <strong>netplan</strong> on Ubuntu Server.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">/etc/netplan/config.yaml — static IP</span>
+        </div>
+        <pre><span class="kw">network</span><span class="str">:</span>
+  <span class="kw">ethernets</span><span class="str">:</span>
+    <span class="kw">eno1</span><span class="str">:</span>
+      <span class="kw">dhcp4</span><span class="str">: false</span>
+      <span class="kw">addresses</span><span class="str">:</span>
+        <span class="str">- 192.168.1.191/24</span>
+      <span class="kw">routes</span><span class="str">:</span>
+        <span class="str">- to: default
+          via: 192.168.1.1</span>
+      <span class="kw">nameservers</span><span class="str">:</span>
+        <span class="kw">addresses</span><span class="str">:</span>
+          <span class="str">- 1.1.1.1
+          - 8.8.8.8</span>
+  <span class="kw">version</span><span class="str">: 2</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">⚠️</div>
+        <div class="callout-body">
+          <strong>YAML Is Strict</strong>
+          Indentation (the number of spaces before a line) defines structure, like sub-bullets in an outline. Getting it wrong throws confusing errors. Type slowly, match spacing exactly, and apply the change immediately so any typo surfaces while it's fresh.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔤 Domain Names &amp; DNS</div>
+        <p>Nobody wants to type <code>47.210.122.23</code> into a browser. A <strong>domain name</strong> stands in for an IP address. <strong>DNS (Domain Name System)</strong> translates names into addresses — like a phonebook. Domains are bought through <strong>registrars</strong> (Namecheap, GoDaddy, Cloudflare).</p>
+        <p>The key record type is an <strong>A record</strong>, mapping a name (or <strong>subdomain</strong>, like <code>api.example.com</code>) straight to an IP address.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔄 Dynamic DNS: Handling a Changing Home IP</div>
+        <p>Most home connections don't have a fixed public IP — it can change. If your DNS record points to an old IP, your domain silently breaks. <strong>Dynamic DNS (DDNS)</strong> fixes this: a small program (like <strong>ddclient</strong>) runs on your server, checks your current public IP, and automatically updates your DNS record the moment it changes.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">What problem does Dynamic DNS actually solve?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It makes your website load faster</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It keeps your domain pointed at the right IP even when your home's public IP changes</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It encrypts your DNS traffic</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It's required to buy a domain</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-3"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(2)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(4)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 5 — ROUTERS, PORTS & FIREWALLS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 5 of 9</div>
+        <h2>🚪 Routers, Port Forwarding &amp; Firewalls</h2>
+        <p class="lesson-intro">Your domain now points at your home — but two more gates stand between the internet and your server. Let's open them safely.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔀 NAT: Sharing One Address</div>
+        <p>Your router uses <strong>NAT (Network Address Translation)</strong> to let every device in your home share one public IP address, tracking internally who's talking to what. Great for browsing — but when an outsider tries to reach your public IP directly, the router has no idea which device that's for, and drops it by default.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚪 Port Forwarding Opens the Door</div>
+        <p>A <strong>port</strong> is a numbered channel on top of an IP address — the IP is a building's street address, a port is a specific suite number. HTTP conventionally uses port 80, HTTPS uses port 443.</p>
+        <p><strong>Port forwarding</strong> is a router rule: "incoming traffic on port X goes to this specific device, on this specific internal port." Without it, outside visitors simply can't reach anything running on your home server.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛡️ Firewalls: The Checkpoint</div>
+        <p>A <strong>firewall</strong> controls what traffic is allowed in or out, based on rules — only explicitly permitted traffic gets through. Once your server is reachable from the internet, it <em>will</em> be probed constantly by automated bots. A firewall dramatically shrinks what an attacker can even attempt.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Terminal — UFW (Ubuntu's Firewall)</span>
+        </div>
+        <pre><span class="kw">sudo</span> <span class="str">ufw allow 22/tcp</span>    <span class="cm"># SSH</span>
+<span class="kw">sudo</span> <span class="str">ufw allow 80/tcp</span>    <span class="cm"># HTTP</span>
+<span class="kw">sudo</span> <span class="str">ufw allow 443/tcp</span>   <span class="cm"># HTTPS</span>
+<span class="kw">sudo</span> <span class="str">ufw enable</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🚨</div>
+        <div class="callout-body">
+          <strong>Critical Ordering</strong>
+          Always allow SSH <em>before</em> enabling the firewall for the first time. Enable it first, and you can lock yourself out of remote access entirely — the very connection you're using to manage the server gets blocked by the rule you just turned on.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">Before enabling UFW for the first time, what must you do first?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Allow port 22 (SSH) so you don't lock yourself out</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Disable your router's Wi-Fi</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Buy a domain name</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Install Docker</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-4"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(3)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(5)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 6 — DOCKER & COMPOSE
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 6 of 9</div>
+        <h2>📦 Docker &amp; Docker Compose</h2>
+        <p class="lesson-intro">Time to actually run software reliably. This is the tool nearly every modern server relies on.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧨 The Problem Docker Solves</div>
+        <p>Installing software directly onto a server creates a classic headache: different programs often need conflicting versions of the same underlying tools. A server running several services can end up tangled and fragile.</p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-label">🚢 Real World Analogy</div>
+        <p>Before standardized shipping containers, loading cargo was chaos — sacks and barrels thrown into a ship's hold by hand. Then someone invented the identical steel box. Cranes and trucks stopped caring what was <em>inside</em> — they just moved boxes. Docker does the exact same thing for software: it packages a program with everything it needs into one <strong>container</strong> that runs the same way anywhere.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📚 Key Vocabulary</div>
+        <ul>
+          <li><strong>Image</strong> — a reusable template for a container, a blueprint, usually downloaded ("pulled") from a public registry.</li>
+          <li><strong>Container</strong> — a running instance of an image. Start, stop, and remove freely; the image stays intact.</li>
+          <li><strong>Dockerfile</strong> — a text file with step-by-step instructions for building a custom image.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Dockerfile</span>
+        </div>
+        <pre><span class="kw">FROM</span> <span class="str">node:20-alpine</span>
+<span class="kw">WORKDIR</span> <span class="str">/app</span>
+<span class="kw">COPY</span> <span class="str">package.json .</span>
+<span class="kw">RUN</span> <span class="str">npm install</span>
+<span class="kw">COPY</span> <span class="str">. .</span>
+<span class="kw">EXPOSE</span> <span class="str">3000</span>
+<span class="kw">CMD</span> <span class="str">["node", "server.js"]</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎼 Docker Compose: Running Several Together</div>
+        <p>Real apps rarely need just one program. <strong>Docker Compose</strong> defines and runs several related containers together in one <code>docker-compose.yml</code> file.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">docker-compose.yml</span>
+        </div>
+        <pre><span class="kw">services</span><span class="str">:</span>
+  <span class="kw">hello-api</span><span class="str">:</span>
+    <span class="kw">build</span><span class="str">: .</span>
+    <span class="kw">restart</span><span class="str">: unless-stopped</span>
+    <span class="kw">networks</span><span class="str">:</span>
+      <span class="str">- caddy_default</span>
+
+<span class="kw">networks</span><span class="str">:</span>
+  <span class="kw">caddy_default</span><span class="str">:</span>
+    <span class="kw">external</span><span class="str">: true</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎮 Commands You'll Use Constantly</div>
+        <ul>
+          <li><code>docker compose up -d</code> — build and start everything in the background</li>
+          <li><code>docker compose logs -f</code> — watch live output, essential for troubleshooting</li>
+          <li><code>docker compose restart</code> — clean restart, often the right first fix</li>
+          <li><code>docker compose ps</code> — see what's currently running</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">What does connecting two containers to the same Docker network actually enable?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It merges them into one container</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">They can reach each other by name, without needing to track internal IPs</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It doubles their available memory</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It makes them share the same Dockerfile</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-5"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(4)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(6)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 7 — REVERSE PROXY & HTTPS
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 7 of 9</div>
+        <h2>🔒 Reverse Proxies &amp; Automatic HTTPS</h2>
+        <p class="lesson-intro">Running several services on one server means solving a real problem: only one program can own ports 80 and 443 at a time.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚦 The Traffic Director</div>
+        <p>A <strong>reverse proxy</strong> is the one thing actually listening on ports 80/443. It inspects each incoming request — usually by which domain name was requested — and quietly forwards it to the right internal service, relaying the response back. Visitors never see or need to know about internal port numbers.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Free, Automatic HTTPS</div>
+        <p>This is also the natural place to handle <strong>HTTPS certificates</strong> — small files proving a server's identity and enabling encryption. <strong>Caddy</strong> is a modern reverse proxy that automates this entirely: point it at a domain, and it requests, installs, and renews a free certificate through <strong>Let's Encrypt</strong>, with zero manual steps.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">Caddyfile</span>
+        </div>
+        <pre><span class="kw">api.example.com</span> <span class="str">{</span>
+    <span class="kw">reverse_proxy</span> <span class="str">hello-api:3000</span>
+<span class="str">}</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💬 Reading That Block</div>
+        <p>"For any request to <code>api.example.com</code>, forward it to whatever container is named <code>hello-api</code>, on port 3000" — and Caddy silently handles the HTTPS certificate in the background. No manual renewal, ever.</p>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-emoji">🧩</div>
+        <div class="callout-body">
+          <strong>Crucial Detail for Docker Setups</strong>
+          For Caddy to reach another container by name, both containers need to be on the <em>same</em> Docker network. If a service is on a different, unconnected network, you'll see a DNS lookup failure for that container's name in the logs.
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">Why can't you just run several web services directly on ports 80/443 without a reverse proxy?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Only one program can really own those ports at a time</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Ports 80/443 are illegal to use without a license</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">HTTPS certificates require exactly two services</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Browsers block multiple services by default</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-6"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(5)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(7)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 8 — APIs & DATABASES
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 8 of 9</div>
+        <h2>🛠️ Building an API &amp; Understanding Databases</h2>
+        <p class="lesson-intro">Now let's actually build and deploy something — and give it somewhere real to store data.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📡 What's an API?</div>
+        <p>An <strong>API (Application Programming Interface)</strong> is a backend program that responds to requests — typically with data, meant for other software to consume (a mobile app, a game, a frontend).</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-lang">server.js — Node.js + Express</span>
+        </div>
+        <pre><span class="kw">const</span> <span class="str">express = require('express');</span>
+<span class="kw">const</span> <span class="str">app = express();</span>
+
+<span class="str">app.get('/', (req, res) => {</span>
+  <span class="str">res.send('Hello from the API!');</span>
+<span class="str">});</span>
+
+<span class="str">app.listen(3000, () => {</span>
+  <span class="str">console.log('API running on port 3000');</span>
+<span class="str">});</span></pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚀 Deploying It: the Same Pattern, Every Time</div>
+        <p>Wrap it in a Dockerfile, define it in a Compose file connected to the reverse proxy's network, add a matching Caddyfile block, and add a DNS A record for its subdomain. Once connected, it's reachable at a real domain, over real HTTPS, from anywhere. This exact pattern repeats for every new service you ever add.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🗄️ Databases: Where Data Actually Lives</div>
+        <p>Almost any real app needs to remember things permanently — accounts, saved progress, messages. A <strong>database</strong> is specialized software for storing and quickly retrieving structured data, far more capable than plain text files.</p>
+        <p><strong>PostgreSQL</strong> ("Postgres") is one of the most popular open-source databases, organizing data into <strong>tables</strong> — like spreadsheets, with columns and rows. Apps talk to it using <strong>SQL (Structured Query Language)</strong>.</p>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🧠 Quick Check</div>
+        <div class="quiz-q">What's the correct order for deploying a new backend service on this stack?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Buy a new server for every service you build</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Dockerfile → Compose file on the shared network → Caddyfile block → DNS record</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Just email yourself the code and hope it runs somewhere</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Skip Docker entirely and install everything directly on the OS</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-7"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(6)">← Previous</button>
+        <button class="btn btn-next" onclick="showLesson(8)">Next →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LESSON 9 — AUTH, SAFETY & FINAL PROJECT
+    ════════════════════════════════════════════════════════════════ -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 9 of 9</div>
+        <h2>🏆 Authentication, Staying Safe &amp; Your Final Project</h2>
+        <p class="lesson-intro">The last stretch: real logins, a self-hosted backend platform, keeping it secure, and a project to make it all click.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔑 How "Login" Actually Works</div>
+        <p><strong>Authentication</strong> verifies who someone is. <strong>Authorization</strong> decides what they're allowed to do once confirmed.</p>
+        <ul>
+          <li><strong>Passwords are never stored in plain text</strong> — they're run through <strong>hashing</strong>, a one-way scramble that's easy to verify but effectively impossible to reverse.</li>
+          <li><strong>Tokens</strong> (often a <strong>JWT — JSON Web Token</strong>) prove you're already logged in, so the password doesn't need to be resent on every request.</li>
+        </ul>
+        <p>Because getting this right from scratch is genuinely hard, most developers lean on a dedicated, well-tested system instead of rolling their own.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧱 Self-Hosting a Full Backend Platform</div>
+        <p><strong>Supabase</strong> bundles the commonly-needed backend pieces — a Postgres database, authentication, file storage, and a dashboard called <strong>Studio</strong> — pre-integrated. It can be fully self-hosted using its official Docker Compose configuration, following the exact same deployment pattern as any other service on this stack: adjust its <code>.env</code> secrets, start it, connect it to the reverse proxy, add a Caddyfile block and DNS record.</p>
+        <p>The result: a real database, real user accounts, file storage, and an admin dashboard — reachable at your own domain, secured with real HTTPS, entirely under your own control.</p>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🛡️</div>
+        <div class="callout-body">
+          <strong>Baseline Security Habits</strong>
+          Keep the OS and software updated (<code>sudo apt update && sudo apt upgrade -y</code>). Use a firewall. Use strong, unique, generated passwords and secrets — never defaults. Avoid exposing raw admin access like SSH directly to the internet when tools like WireGuard or Tailscale exist. Never share a <code>.env</code> file.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 When Something Breaks</div>
+        <p>A <strong>log</strong> is a running record of what a program has been doing — the single most useful troubleshooting tool, because it shows what actually happened. <code>docker compose logs -f</code> is almost always the right first place to look.</p>
+        <p>Calm troubleshooting order: read the error fully → check the relevant logs → confirm config files actually contain what you meant (<code>cat filename</code>) → change one thing at a time → restart the affected piece and check again.</p>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-label">🎯 Final Project: Stand Up Your Own Self-Hosted Backend</div>
+        <h4>From an Ordinary Computer to a Real, Reachable Server</h4>
+        <p>Bring every lesson together into one real, working stack:</p>
+        <ol>
+          <li>Install Ubuntu Server on any spare machine and confirm you can SSH into it from another computer.</li>
+          <li>Set a static local IP, and register (or reuse) a domain with Dynamic DNS pointed at your home.</li>
+          <li>Forward ports 80 and 443 on your router, and enable UFW — remembering to allow SSH first.</li>
+          <li>Install Docker and Docker Compose.</li>
+          <li>Deploy Caddy as a reverse proxy, and confirm it gets a real HTTPS certificate for your domain.</li>
+          <li>Build a tiny Node/Express "hello world" API, containerize it, and get it live at a subdomain over HTTPS.</li>
+          <li>Self-host Supabase, wire it into the same reverse proxy, and log into its dashboard at your own domain.</li>
+        </ol>
+      </div>
+
+      <div class="callout fun">
+        <div class="callout-emoji">🧩</div>
+        <div class="callout-body">
+          <strong>Cheat Sheet — Commands to Know by Heart</strong><br>
+          <code>ssh user@ip</code> — connect to your server<br>
+          <code>sudo ufw allow 22/tcp && sudo ufw enable</code> — firewall, SSH-safe<br>
+          <code>docker compose up -d</code> — start a stack<br>
+          <code>docker compose logs -f</code> — watch what's happening<br>
+          <code>docker network connect NETWORK CONTAINER</code> — link two stacks together<br>
+          <code>sudo apt update && sudo apt upgrade -y</code> — keep the OS patched
+        </div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz!</div>
+        <div class="quiz-q">Why do most developers avoid building authentication completely from scratch?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">It's against most platforms' terms of service</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">It's easy to get subtly, dangerously wrong — so a dedicated, well-tested system is safer</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Databases can't store passwords</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">JWTs only work with Supabase</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8"></div>
+      </div>
+
+      <div class="quiz-block">
+        <div class="quiz-title">🏆 Final Mastery Quiz!</div>
+        <div class="quiz-q">Your API works locally but a fresh HTTPS subdomain shows a 502 error through Caddy. What's the most likely first thing to check?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Buy a new domain</button>
+          <button class="quiz-option" onclick="checkQuiz(this, true)">Whether the API's container is on the same Docker network as Caddy, then check `docker compose logs -f`</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Reinstall Ubuntu Server from scratch</button>
+          <button class="quiz-option" onclick="checkQuiz(this, false)">Disable HTTPS entirely</button>
+        </div>
+        <div class="quiz-feedback" id="qfeedback-8b"></div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn btn-prev" onclick="showLesson(7)">← Previous</button>
+        <button class="btn btn-next" disabled>🎉 Course Complete!</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const totalLessons = 9;
+const completed = new Set();
+let currentLesson = 0;
+
+function showLesson(idx) {
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('lesson-' + idx).classList.add('active');
+  document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  currentLesson = idx;
+  completed.add(idx);
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.querySelectorAll('.nav-item').forEach((n, i) => {
+    let check = n.querySelector('.nav-check');
+    if (completed.has(i)) {
+      if (!check) {
+        check = document.createElement('span');
+        check.className = 'nav-check';
+        check.textContent = '✓';
+        n.appendChild(check);
+      }
+    }
+  });
+}
+
+function checkQuiz(btn, isCorrect) {
+  const block = btn.closest('.quiz-block');
+  const options = block.querySelectorAll('.quiz-option');
+  const lessonEl = btn.closest('.lesson');
+  const lessonId = lessonEl.id.split('-')[1];
+  const allFeedbacks = block.querySelectorAll('[id^="qfeedback-"]');
+  let feedback = null;
+  block.querySelectorAll('.quiz-feedback').forEach(f => feedback = f);
+
+  options.forEach(o => o.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    if (feedback) { feedback.textContent = '🎉 Correct! Great job!'; feedback.className = 'quiz-feedback show ok'; }
+  } else {
+    btn.classList.add('wrong');
+    if (feedback) { feedback.textContent = '❌ Not quite — check the lesson notes and try again!'; feedback.className = 'quiz-feedback show bad'; }
+    options.forEach(o => {
+      if (o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    completed.add(0);
+    updateProgress();
+});
+</script>
+    <a href="courses.html" onmouseout="this.style.background='#161b22'; this.style.transform='translateY(0)';" onmouseover="this.style.background='#21262d'; this.style.transform='translateY(-2px)';" style="position: fixed; bottom: 24px; left: 24px; z-index: 999999; display: flex; align-items: center; gap: 8px; background: #161b22; color: #e6edf3; text-decoration: none; padding: 10px 18px; border-radius: 50px; font-family: sans-serif; font-size: 13px; font-weight: 600; border: 1px solid #30363d; box-shadow: 0 8px 16px rgba(0,0,0,0.4); transition: all 0.2s;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+    Roadmap
+</a>
+<script src="../js/activity-tracker.js"></script>
+</body>
+</html>
